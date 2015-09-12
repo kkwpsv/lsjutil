@@ -1,0 +1,510 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lsj.Util</name>
+    </assembly>
+    <members>
+        <member name="T:Lsj.Util.Config.AppConfig">
+            <summary>
+            app.config配置文件读取类
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Config.AppConfig.AppSettings">
+            <summary>
+            读取app.config文件的AppSettingsSection数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Lsj.Util.Config.Ini">
+            <summary>
+            Ini配置文件读取类
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Config.Ini.#ctor(System.String)">
+            <summary>
+            用Ini路径初始化一个新实例
+            <param name="path">Ini路径</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Config.Ini.IniWriteValue(System.String,System.String,System.String)">
+            <summary>
+            写INI文件
+            </summary>
+            <param name="Section">Section</param>
+            <param name="Key">Key</param>
+            <param name="Value">值</param>
+        </member>
+        <member name="M:Lsj.Util.Config.Ini.IniReadValue(System.String,System.String)">
+            <summary>
+            读取INI文件
+            </summary>
+            <param name="Section"></param>
+            <param name="Key"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Lsj.Util.CsComplier">
+            <summary>
+            cs编译器类
+            </summary>
+        </member>
+        <member name="F:Lsj.Util.CsComplier.target">
+            <summary>
+            目标dll
+            </summary>
+        </member>
+        <member name="F:Lsj.Util.CsComplier.using">
+            <summary>
+            引用dll
+            </summary>
+        </member>
+        <member name="F:Lsj.Util.CsComplier.path">
+            <summary>
+            源路径
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.CsComplier.Complie">
+            <summary>
+            编译
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.CsComplier.Complie(System.String@)">
+            <summary>
+            <param name="log">日志</param>
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Encrypt.MD5">
+            <summary>
+            MD5加密辅助类
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Encrypt.MD5.GetMD5String(System.String)">
+            <summary>
+            获得MD5
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Sockets.TcpSocket.#ctor">
+            <summary>
+            初始化一个TcpSocket的新实例
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Sockets.TcpSocket.ReceiveTimeout">
+            <summary>
+            接收超时时间
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Sockets.TcpSocket.SendTimeout">
+            <summary>
+            发送超时时间
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Net.Web.eHttpMethod">
+            <summary>
+            Http请求方法
+            </summary>
+        </member>
+        <member name="F:Lsj.Util.Net.Web.eHttpMethod.GET">
+            <summary>
+            GET方法
+            </summary>
+        </member>
+        <member name="F:Lsj.Util.Net.Web.eHttpMethod.POST">
+            <summary>
+            Post方法
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Net.Web.MyCookieContainer">
+            <summary>
+            CookieContainer¸¨ÖúÀà  »ùÓÚCookiesContainerÖØÐÂ·â×°
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyCookieContainer.Instance">
+            <summary>
+            <value>»ñÈ¡»òÉèÖÃµ±Ç°CookieContainerÊµÀý</value>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyCookieContainer.#ctor">
+            <summary>
+            ³õÊ¼»¯Ò»¸öÐÂÊµÀý
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyCookieContainer.#ctor(System.Net.CookieContainer)">
+            <summary>
+            ÓÃCookieContainer³õÊ¼»¯Ò»¸öÐÂÊµÀý
+            <param name="instance"> CookieContainerÊµÀý</param>  
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Net.Web.MyHttpWebRequest">
+            <summary>
+            MyHttpWebRequest辅助类  基于HttpWebRequest重新封装
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.Instance">
+            <summary>
+            <value>获取当前HttpWebRequest实例</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.RequsetUri">
+            <summary>
+            <value>获取请求的URI</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.ResponseUri">
+            <summary>
+            <value>获取响应请求的URI</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.Connection">
+            <summary>
+            <value>获取或设置 Connection HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.Accept">
+            <summary>
+            <value>获取或设置 Accept HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.ContentLength">
+            <summary>
+            <value>获取 Content-length HTTP 标头</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.ContentType">
+            <summary>
+            <value>获取 Content-Type HTTP 标头</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.CookieContainer">
+            <summary>
+            <value>获取或设置关联的 cookie</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.HaveResponse">
+            <summary>
+            <value>获取一个值，该值指示是否收到了来自 Internet 资源的响应</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.Method">
+            <summary>
+            <value>获取或设置请求的方法</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.Timeout">
+            <summary>
+            <value>获取或设置超时值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebRequest.UserAgent">
+            <summary>
+            <value>获取或设置User-agent HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.#ctor(System.Net.HttpWebRequest)">
+            <summary>
+            用HttpWebRequest初始化一个新实例
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.#ctor(System.String)">
+            <summary>
+            用uri地址初始化一个新实例
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.#ctor">
+            <summary>
+            初始化一个新实例
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.SetUri(System.String)">
+            <summary>
+            设置Uri
+            <param name="uri"> Uri地址</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.WritePost(System.Object)">
+            <summary>
+            写POST数据
+            <param name="request"> Post数据 可以为byte[]、string、Stream</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.GetResponse">
+            <summary>
+            获取响应的WebResponse
+            <returns>响应的WebResponse</returns>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.GetResponseStream">
+            <summary>
+            获取响应的Stream
+            <returns>响应的Stream</returns>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebRequest.GetResponseString">
+            <summary>
+            获取响应的String
+            <returns>响应的String</returns>  
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Net.Web.MyHttpWebResponse">
+            <summary>
+            HttpWebResponse¸¨ÖúÀà  »ùÓÚHttpWebResponseÖØÐÂ·â×°
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyHttpWebResponse.Instance">
+            <summary>
+            <value>»ñÈ¡»òÉèÖÃµ±Ç°WebResponseÊµÀý</value>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebResponse.#ctor(System.Net.HttpWebResponse)">
+            <summary>
+            ÓÃHttpWebResponse³õÊ¼»¯Ò»¸öÐÂÊµÀý
+            <param name="instance"> HttpWebResponseÊµÀý</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebResponse.#ctor(System.Net.WebResponse)">
+            <summary>
+            ÓÃWebResponse³õÊ¼»¯Ò»¸öÐÂÊµÀý
+            <param name="instance"> WebResponseÊµÀý</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebResponse.GetResponseStream">
+            <summary>
+            »ñµÃÏìÓ¦Á÷
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyHttpWebResponse.GetResponseString">
+            <summary>
+            »ñµÃ×Ö·û´®
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Net.Web.MyLiteHttpWebRequest">
+            <summary>
+            MyLiteHttpWebRequest  基于socket实现
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.Method">
+            <summary>
+            <value>获取或设置Method 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.UserAgent">
+            <summary>
+            <value>获取或设置User-agent HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.Accept">
+            <summary>
+            <value>获取或设置 Accept HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.Connection">
+            <summary>
+            <value>获取或设置 Connection HTTP 标头的值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.Timeout">
+            <summary>
+            <value>获取或设置超时值</value>
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.Net.Web.MyLiteHttpWebRequest.ContentLength">
+            <summary>
+            <value>获取 Content-length HTTP 标头</value>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyLiteHttpWebRequest.#ctor">
+            <summary>
+            初始化一个新实例
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyLiteHttpWebRequest.#ctor(System.String)">
+            <summary>
+            使用指定uri初始化一个新实例
+            <param name="uri"> Uri地址</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyLiteHttpWebRequest.SetUri(System.String)">
+            <summary>
+            设置uri地址
+            <param name="uri"> Uri地址</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyLiteHttpWebRequest.GetResponseStream">
+            <summary>
+            获取响应的Stream
+            <returns>响应的Stream</returns>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Net.Web.MyLiteHttpWebRequest.GetResponseString">
+            <summary>
+            获取响应的String
+            <returns>响应的String</returns>  
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.Static">
+            <summary>
+            静态方法类
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.Static.CurrentPath">
+            <summary>
+            获取程序的基目录 eg. C:\a\
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.StringHelper">
+            <summary>
+            String辅助类
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.RemoveLastOne(System.String)">
+            <summary>
+            删除最后一个字符
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.RemoveLast(System.String,System.Int32)">
+            <summary>
+            删除最后N个字符
+            <param name="src">源字符串</param>
+            <param name="n">N</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToIntArray(System.String[])">
+            <summary>
+            转换string数组到Int数组
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToByteArray(System.String[])">
+            <summary>
+            转换string数组到Byte数组
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToBytes(System.String)">
+            <summary>
+            转换string到Byte[]
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToBytes(System.String,System.Text.Encoding)">
+            <summary>
+            转换string到Byte[]
+            <param name="src">源字符串</param>
+            <param name="encoding">编码</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertFromBytes(System.Byte[])">
+            <summary>
+            转换Byte数组到string
+            <param name="src">源byte[]</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertFromBytes(System.Byte[],System.Text.Encoding)">
+            <summary>
+            转换Byte数组到string
+            <param name="src">源byte[]</param>
+            <param name="encoding">编码</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToInt(System.String)">
+            <summary>
+            转换string到int,出错返回0
+            <param name="src">源字符串</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToInt(System.String,System.Int32)">
+             <summary>
+             转换string到int,自定义出错返回值
+             <param name="src">源字符串</param>
+            <param name="OnError">出错返回值</param> 
+             </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToInt(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            转换string到int,自定义出错返回值,并设置最大值最小值
+            <param name="src">源字符串</param>
+            <param name="OnError">出错返回值</param>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToByte(System.String)">
+            <summary>
+            转换string到byte,出错返回0
+            <param name="src">源字符串</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToByte(System.String,System.Byte)">
+             <summary>
+             转换string到byte,自定义出错返回值
+             <param name="src">源字符串</param>
+            <param name="OnError">出错返回值</param> 
+             </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToByte(System.String,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            转换string到byte,自定义出错返回值,并设置最大值最小值
+            <param name="src">源字符串</param>
+            <param name="OnError">出错返回值</param>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ConvertToLong(System.String,System.Int64,System.Int64,System.Int64)">
+            <summary>
+            转换string到long,自定义出错返回值,并设置最大值最小值
+            <param name="src">源字符串</param>
+            <param name="OnError">出错返回值</param>
+            <param name="min">最小值</param>
+            <param name="max">最大值</param>
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.StringHelper.ToSafeString(System.String)">
+            <summary>
+            防止src为空
+            </summary>
+            <param name="src">源字符串</param>
+            <returns></returns>
+        </member>
+        <member name="T:Lsj.Util.WebHelper">
+            <summary>
+            WinForm辅助类
+            </summary>
+        </member>
+        <member name="P:Lsj.Util.WebHelper.AppSettings">
+            <summary>
+            读取web.config文件的AppSettingsSection数据
+            </summary>
+        </member>
+        <member name="T:Lsj.Util.WinForm">
+            <summary>
+            WinForm¸¨ÖúÀà
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.WinForm.CatchAll">
+            <summary>
+            ²¶»ñËùÓÐÒì³£
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.WinForm.Notice(System.String)">
+            <summary>
+            MessageBoxÌáÊ¾
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.WinForm.FixedSize(System.Windows.Forms.Form)">
+            <summary>
+            ¹Ì¶¨´óÐ¡
+            <param name="form">´°¿ÚÊµÀý</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.WinForm.Draw(System.Windows.Forms.Form,System.Windows.Forms.PaintEventHandler)">
+            <summary>
+            »æÍ¼
+            <param name="form">´°¿ÚÊµÀý</param>  
+            <param name="d">PaintEventHandlerÎ¯ÍÐ</param>  
+            </summary>
+        </member>
+        <member name="M:Lsj.Util.WinForm.OnClosing(System.Windows.Forms.Form,System.Windows.Forms.FormClosingEventHandler)">
+            <summary>
+            ´°¿Ú¹Ø±ÕÊÂ¼þ
+            <param name="form">´°¿ÚÊµÀý</param>  
+            <param name="d">FormClosingEventHandlerÎ¯ÍÐ</param>  
+            </summary>
+        </member>
+    </members>
+</doc>

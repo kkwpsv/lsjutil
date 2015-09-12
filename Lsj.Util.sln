@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util", "Lsj.Util.csproj", "{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "..\My Work\ConsoleApplication1\ConsoleApplication1.csproj", "{1FFA64B4-281E-4451-BB56-E1F4F932744A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FFA64B4-281E-4451-BB56-E1F4F932744A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FFA64B4-281E-4451-BB56-E1F4F932744A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FFA64B4-281E-4451-BB56-E1F4F932744A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FFA64B4-281E-4451-BB56-E1F4F932744A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
