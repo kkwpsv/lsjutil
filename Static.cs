@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 
 namespace Lsj.Util
 {
     /// <summary>
-    /// 静态方法类
+    /// Static
     /// </summary>
     public static class Static
     {
 
         /// <summary>
-        /// 获取程序的基目录 eg. C:\a\
+        /// CurrentPath eg. C:\a\
         /// </summary>
         public static string CurrentPath()
         {
@@ -17,6 +17,6 @@ namespace Lsj.Util
         }
 
 
-        public static string Version = "1.0";
+        public static readonly string Version = "1.0";
     }
 }

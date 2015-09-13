@@ -1,4 +1,4 @@
-﻿using Microsoft.CSharp;
+using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections;
@@ -6,39 +6,46 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Lsj.Util.IO;
 
 namespace Lsj.Util
 {
     /// <summary>
-    /// cs编译器类
+    /// Cs Complier
     /// </summary>
     public class CsComplier
     {
         /// <summary>
-        /// 目标dll
+        /// Target Dll
         /// </summary>
         public string target = "target.dll";
         /// <summary>
-        /// 引用dll
+        /// Using DLL
         /// </summary>
         public string[] @using = { "" };
         /// <summary>
-        /// 源路径
+        /// Source Path
         /// </summary>
         public string path = Static.CurrentPath();
+        ///<summary> 
+        /// Error
+        /// </summary>    
+        public string Error => temp;
 
-        private string temp;
+        private string temp ="";
 
         /// <summary>
-        /// 编译
+        /// Complie
         /// </summary>
         public bool Complie() => Complie(ref temp);
+        
         /// <summary>
-        /// <param name="log">日志</param>
+        /// Complie
+        /// <param name="log">log</param>
         /// </summary>
         public bool Complie(ref string log)
         {
-            ArrayList files = ParseDirectory(new DirectoryInfo(path), "*.cs");
+            var files = DirectoryHelper.GetAllFiles(new DirectoryInfo(path),"*.cs")
             bool result;
             if (files.Count == 0)
             {
@@ -52,7 +59,6 @@ namespace Lsj.Util
                 }
                 CompilerResults res = null;
                 CodeDomProvider compiler = new CSharpCodeProvider();
-
                 CompilerParameters param = new CompilerParameters(@using, target, false);
                 param.GenerateExecutable = false;
                 param.GenerateInMemory = false;
@@ -69,8 +75,7 @@ namespace Lsj.Util
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (CompilerError err in res.Errors)
-                    {
-                        
+                    {                    
                         if (!err.IsWarning)
                         {
                             StringBuilder builder = new StringBuilder();
@@ -91,27 +96,6 @@ namespace Lsj.Util
                 result = true;
             }
             log = "Success!";
-            return result;
-        }
-        private ArrayList ParseDirectory(DirectoryInfo path, string filter)
-        {
-            ArrayList files = new ArrayList();
-            ArrayList result;
-            if (!path.Exists)
-            {
-                result = files;
-            }
-            else
-            {
-                files.AddRange(path.GetFiles(filter));
-                DirectoryInfo[] directories = path.GetDirectories();
-                for (int i = 0; i < directories.Length; i++)
-                {
-                    DirectoryInfo subdir = directories[i];
-                    files.AddRange(ParseDirectory(subdir, filter));
-                }
-                result = files;
-            }
             return result;
         }
     }
