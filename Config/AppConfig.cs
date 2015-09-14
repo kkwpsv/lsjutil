@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Lsj.Util.Config
 {    /// <summary>
-     /// app.config配置文件读取类
+     /// app.config
      /// </summary>
     public class AppConfig
     {
         /// <summary>
-        /// 读取app.config文件的AppSettingsSection数据
+        /// Read AppSettingsSection
         /// </summary>
         /// <returns></returns>
         public static NameValueCollection AppSettings
