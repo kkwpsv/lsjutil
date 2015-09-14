@@ -32,12 +32,12 @@ namespace Lsj.Util
         /// </summary>    
         public string Error => temp;
 
-        private string temp ="";
+        private string error ="";
 
         /// <summary>
         /// Complie
         /// </summary>
-        public bool Complie() => Complie(ref temp);
+        public bool Complie() => Complie(ref error);
         
         /// <summary>
         /// Complie
@@ -70,7 +70,6 @@ namespace Lsj.Util
                     filepaths[i] = ((FileInfo)files[i]).FullName;
                 }
                 res = compiler.CompileAssemblyFromFile(param, filepaths);
-                GC.Collect();
                 if (res.Errors.HasErrors)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -90,6 +89,7 @@ namespace Lsj.Util
                         }
                     }
                     log = sb.ToString();
+                    error = log;
                     result = false;
                     return result;
                 }
