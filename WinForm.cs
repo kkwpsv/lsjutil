@@ -5,12 +5,12 @@ using System.Windows.Forms;
 namespace Lsj.Util
 {
 	/// <summary>
-	/// WinForm辅助类
+	/// WinForm Helper
 	/// </summary>
 	public static class WinForm
 	{
 		/// <summary>
-		/// 捕获所有异常
+		/// Catch All Exceptions And Notice
 		/// </summary>
 		public static void CatchAll()
 		{
@@ -47,39 +47,23 @@ namespace Lsj.Util
 			stringBuilder.AppendLine("***************************************************************");
 			return stringBuilder.ToString();
 		}
+		
 		/// <summary>
-		/// MessageBox提示
+		/// Notice
 		/// </summary>
 		public static void Notice(string str)
 		{
 			MessageBox.Show(str);
 		}
+		
 		/// <summary>
-		/// 固定大小
-		/// <param name="form">窗口实例</param>  
+		/// Fixed Size
+		/// <param name="form">form</param>  
 		/// </summary>
 		public static void FixedSize(this Form form)
 		{
 			form.MaximizeBox = false;
 			form.FormBorderStyle = FormBorderStyle.Fixed3D;
-		}
-		/// <summary>
-		/// 绘图
-		/// <param name="form">窗口实例</param>  
-		/// <param name="d">PaintEventHandler委托</param>  
-		/// </summary>
-		public static void Draw(this Form form, PaintEventHandler d)
-		{
-			form.Paint += d;
-		}
-		/// <summary>
-		/// 窗口关闭事件
-		/// <param name="form">窗口实例</param>  
-		/// <param name="d">FormClosingEventHandler委托</param>  
-		/// </summary>
-		public static void OnClosing(this Form form, FormClosingEventHandler d)
-		{
-			form.FormClosing += d;
 		}
 	}
 }
