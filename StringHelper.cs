@@ -1,28 +1,28 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 
 namespace Lsj.Util
 {
     /// <summary>
-    /// String辅助类
+    /// StringHelper
     /// </summary>
     public static class StringHelper
     {
         /// <summary>
-        /// 删除最后一个字符
+        /// Remove Last Char
         /// </summary>
         public static string RemoveLastOne(this string src) => RemoveLast(src, 1);
         /// <summary>
-        /// 删除最后N个字符
-        /// <param name="src">源字符串</param>
-        /// <param name="n">N</param>
+        /// Remove Last Chars
+        /// <param name="src">Source String</param>
+        /// <param name="n">Number</param>
         /// </summary>
         public static string RemoveLast(this string src, int n) => src.Length>=n?src.Remove(src.Length - n):"";
 
 
         /// <summary>
-        /// 转换string数组到Int数组
+        /// Convert String Array To Int Array
         /// </summary>
         public static int[] ConvertToIntArray(this string[] src)
         {
@@ -30,7 +30,7 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 转换string数组到Byte数组
+        /// Convert String Array To Byte Array
         /// </summary>
         public static byte[] ConvertToByteArray(this string[] src)
         {
@@ -38,33 +38,33 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 转换string到Byte[]
+        /// Convert String To Byte Array
         /// </summary>
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src,Encoding.Default);
         /// <summary>
-        /// 转换string到Byte[]
-        /// <param name="src">源字符串</param>
-        /// <param name="encoding">编码</param>
+        /// Convert String To Byte Array
+        /// <param name="src">Source String</param>
+        /// <param name="encoding">Encoding</param>
         /// </summary>
         public static byte[] ConvertToBytes(this string src,Encoding encoding) => encoding.GetBytes(src.ToSafeString());
 
 
 
         /// <summary>
-        /// 转换Byte数组到string
-        /// <param name="src">源byte[]</param>
+        /// Convert Byte Array To String
+        /// <param name="src">Source ByteArray</param>
         /// </summary>
         public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.Default);
         /// <summary>
-        /// 转换Byte数组到string
-        /// <param name="src">源byte[]</param>
-        /// <param name="encoding">编码</param>
+        /// Convert Byte Array To String
+        /// <param name="src">Source ByteArray</param>
+        /// <param name="encoding">Encoding</param>
         /// </summary>
         public static string ConvertFromBytes(this byte[] src, Encoding encoding) => encoding.GetString(src);
 
 
         /// <summary>
-        /// 转换string到int,出错返回0
+        /// Convert String To Int
         /// <param name="src">源字符串</param>
         /// </summary>
         public static int ConvertToInt(this string src) => ConvertToInt(src, 0);
