@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +8,12 @@ using Lsj.Util;
 namespace Lsj.Util.Encrypt
 {
     /// <summary>
-    /// MD5加密辅助类
+    /// MD5
     /// </summary>
     public static class MD5
     {
         /// <summary>
-        /// 获得MD5
+        /// Get MD5 String
         /// </summary>
         public static string GetMD5String(string str)
         {
