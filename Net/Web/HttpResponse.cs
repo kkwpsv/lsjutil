@@ -12,6 +12,7 @@ namespace Lsj.Util.Net.Web
         public string server = $"HttpResponse/lsj({Static.Version})";
         public string contenttype = "*/*";
         public bool KeepAlive = true;
+        private int contentlength = 0;
 
 
         public override string ToString()
@@ -19,7 +20,7 @@ namespace Lsj.Util.Net.Web
             var sb = new StringBuilder();
             sb.Append($"HTTP/1.1 {status} {GetErrorStringByCode(status)}\r\n");
             sb.Append($"Server: {server}\r\n");
-            sb.Append($"Content-Length: {content.ToString().ConvertToBytes(Encoding.UTF8).Length}\r\n");
+            sb.Append($"Content-Length: {contentlength}\r\n");
             sb.Append($"Content-Type: {contenttype} \r\n");
             sb.Append($"Transfer-Encoiding: utf-8 \r\n");
             if (KeepAlive)
@@ -41,10 +42,12 @@ namespace Lsj.Util.Net.Web
         public void Write(string content)
         {
             this.content.Append(content);
+            this.contentlength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
         }
         public void Write(StringBuilder content)
         {
             this.content.Append(content);
+            this.contentlength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
         }
 
 
@@ -69,6 +72,7 @@ $@"<!DOCTYPE html>
 </html>
 ");
             this.content = sb;
+            this.contentlength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
             this.status = code;
         }
 
@@ -84,6 +88,10 @@ $@"<!DOCTYPE html>
                     return "Not Found";
                 case 501:
                     return "Not Implemented";
+                case 403:
+                    return "Forbidden";
+                case 500:
+                    return "Internal Server Error";
                 default:
                     return "UnKnown";
             }

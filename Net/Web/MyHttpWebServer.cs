@@ -94,7 +94,7 @@ namespace Lsj.Util.Net.Web
         }
 
 
-        private void SendErrorAndDisconnect(TcpSocket handle, int ErrorCode)
+       protected void SendErrorAndDisconnect(TcpSocket handle, int ErrorCode)
         {
             var response = new HttpResponse();
             response.server = server;
@@ -108,7 +108,7 @@ namespace Lsj.Util.Net.Web
         {
             var state = new MyHttpWebServerSendStateObject();
             state.response = response;
-            Console.WriteLine(response.ToString());
+            //Console.WriteLine(response.ToString());
             Send(handle, response.ToString().ConvertToBytes(Encoding.UTF8),state);
         }
 
