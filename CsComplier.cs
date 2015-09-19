@@ -30,7 +30,7 @@ namespace Lsj.Util
         ///<summary> 
         /// Error
         /// </summary>    
-        public string Error => temp;
+        public string Error => error;
 
         private string error ="";
 
@@ -45,7 +45,7 @@ namespace Lsj.Util
         /// </summary>
         public bool Complie(ref string log)
         {
-            var files = DirectoryHelper.GetAllFiles(new DirectoryInfo(path),"*.cs")
+            var files = DirectoryHelper.GetAllFiles(new DirectoryInfo(path), "*.cs");
             bool result;
             if (files.Count == 0)
             {

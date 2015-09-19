@@ -10,9 +10,9 @@ namespace Lsj.Util.IO
       /// <summary>
       /// Get All Files including child directory
       /// </summary>
-      public static List<string> GetAllFiles(DirectoryInfo path,string filter)
+      public static List<FileInfo> GetAllFiles(DirectoryInfo path,string filter)
       {
-         var result = new List<string>;
+         var result = new List<FileInfo>();
          if(path.Exists)
          {
             result.AddRange(path.GetFiles(filter));

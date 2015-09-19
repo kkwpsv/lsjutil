@@ -33,10 +33,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>lsj.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,10 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="CsComplier.cs" />
     <Compile Include="Encrypt\MD5.cs" />
+    <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="Net\Sockets\ReceiveStateObject.cs" />
     <Compile Include="Net\Sockets\SendStateObject.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
@@ -74,9 +76,6 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinForm.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lsj.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
