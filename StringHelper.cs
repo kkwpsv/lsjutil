@@ -65,22 +65,22 @@ namespace Lsj.Util
 
         /// <summary>
         /// Convert String To Int
-        /// <param name="src">源字符串</param>
+        /// <param name="src">Source String</param>
         /// </summary>
         public static int ConvertToInt(this string src) => ConvertToInt(src, 0);
         /// <summary>
-        /// 转换string到int,自定义出错返回值
-        /// <param name="src">源字符串</param>
-        ///<param name="OnError">出错返回值</param> 
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static int ConvertToInt(this string src,int OnError) => ConvertToInt(src, OnError,int.MinValue,int.MaxValue);
 
         /// <summary>
-        /// 转换string到int,自定义出错返回值,并设置最大值最小值
-        /// <param name="src">源字符串</param>
-        /// <param name="OnError">出错返回值</param>
-        /// <param name="min">最小值</param>
-        /// <param name="max">最大值</param>
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
         /// </summary>
         public static int ConvertToInt(this string src, int OnError,int min,int max)
         {
@@ -90,23 +90,23 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 转换string到byte,出错返回0
-        /// <param name="src">源字符串</param>
+        /// Convert String To Byte
+        /// <param name="src">Source String</param>
         /// </summary>
         public static byte ConvertToByte(this string src) => ConvertToByte(src, 0);
         /// <summary>
-        /// 转换string到byte,自定义出错返回值
-        /// <param name="src">源字符串</param>
-        ///<param name="OnError">出错返回值</param> 
+        /// Convert String To Byte
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return/param> 
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError) => ConvertToByte(src, OnError, byte.MinValue, byte.MaxValue);
 
         /// <summary>
-        /// 转换string到byte,自定义出错返回值,并设置最大值最小值
-        /// <param name="src">源字符串</param>
-        /// <param name="OnError">出错返回值</param>
-        /// <param name="min">最小值</param>
-        /// <param name="max">最大值</param>
+        /// Convert String To Byte
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError, byte min, byte max)
         {
@@ -116,11 +116,11 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 转换string到long,自定义出错返回值,并设置最大值最小值
-        /// <param name="src">源字符串</param>
-        /// <param name="OnError">出错返回值</param>
-        /// <param name="min">最小值</param>
-        /// <param name="max">最大值</param>
+        /// Convert String To Long
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
         /// </summary>
         public static long ConvertToLong(this string src, long OnError, long min, long max)
         {
@@ -131,14 +131,22 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 防止src为空
+        /// Avoid Null String
+        /// <param name="src">Source String</param>
+        /// </summary>        
+        public static string ToSafeString(this string src) => src + "";
+        
+        /// <summary>
+        /// Convert String To StringBuilder
+        /// <param name="src">Source String</param>
         /// </summary>
-        /// <param name="src">源字符串</param>
-        /// <returns></returns>
-        public static string ToSafeString(this string src) => String.IsNullOrEmpty(src) ? "" : src;
-
         public static StringBuilder ToStringBuilder(this string src) => new StringBuilder(src);
 
+        /// <summary>
+        /// Read String From Stream
+        /// <param name="src">Source Stream</param>
+        /// <param name="encoding">Encoding</param>
+        /// </summary>
         public static string ReadFromStream(this Stream stream,Encoding encoding)
         {
             var a = new StreamReader(stream,encoding);
@@ -156,6 +164,11 @@ namespace Lsj.Util
 
             }
         }
+        
+        /// <summary>
+        /// Read String From Stream
+        /// <param name="src">Source Stream</param>
+        /// </summary>
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
 
 
