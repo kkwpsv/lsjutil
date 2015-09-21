@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lsj.Util.Config
 {    /// <summary>
-     /// app.config
+     /// AppConfig Helper
      /// </summary>
     public class AppConfig
     {
