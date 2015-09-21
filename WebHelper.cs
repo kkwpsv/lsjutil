@@ -1,24 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Config;
 
 namespace Lsj.Util
 {
     /// <summary>
-    /// WinForm辅助类
+    /// WebHelper
     /// </summary>
     public class WebHelper
     {
      /// <summary>
-     /// 读取web.config文件的AppSettingsSection数据
+     /// Read AppSettingsSection in Web.config
      /// </summary>
         public static NameValueCollection AppSettings
         {
             get
             {
-                return System.Configuration.ConfigurationManager.AppSettings;
+                return AppConfig.AppSettings;
             }
         }
     }
