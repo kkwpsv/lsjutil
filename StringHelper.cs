@@ -149,20 +149,13 @@ namespace Lsj.Util
         /// </summary>
         public static string ReadFromStream(this Stream stream,Encoding encoding)
         {
-            var a = new StreamReader(stream,encoding);
-            try
-            {
-                return a.ReadToEnd();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                a.Close();
-
-            }
+           if(stream == null)
+           {
+              return "";
+           }
+      
+            using (var a = new StreamReader(stream,encoding))
+            return a.ReadToEnd();
         }
         
         /// <summary>
