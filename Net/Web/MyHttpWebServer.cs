@@ -1,23 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Lsj.Util.Net.Sockets;
 using System.Net;
 using System.IO;
+using Lsj.Util.IO
 
 namespace Lsj.Util.Net.Web
 {
+   //Http Web Server
     public class MyHttpWebServer : TcpSyncServer
     {
         public string server = $"HttpWebServer/lsj({Static.Version})";
         public string[] DefaultPage = { "index.htm", "index.html" };
+        
         string m_Path = "";
         public string Path
         {
             get { return m_Path; }
-            set { this.m_Path = value; }
+            set 
+            {
+               if(value.PathIsExists)
+               {
+                  this.m_Path = value;
+               }               
+                else
+                {
+                   throw new Exception("Path doesn't exist"):
+                }      
+            }
         }
+        
         public MyHttpWebServer(IPAddress ip, int port):base(ip,port)
         {
         }
