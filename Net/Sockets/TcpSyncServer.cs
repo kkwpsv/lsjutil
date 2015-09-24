@@ -5,7 +5,7 @@ namespace Lsj.Util.Net.Sockets
 {
 	public class TcpSyncServer
 	{
-		TcpSocket m_socket;
+		protected TcpSocket m_socket;
 		public TcpSyncServer(IPAddress ip,int port)
 		{
 			this.m_socket = new TcpSocket();
@@ -16,12 +16,12 @@ namespace Lsj.Util.Net.Sockets
 			this.m_socket = new TcpSocket();
 			m_socket.Bind(endpoint);
 		}
-		public void Start()
+		public virtual void Start()
 		{
 			m_socket.Listen();
 			m_socket.BeginAccept(new AsyncCallback(OnAccept), CreateAcceptStateObject());
 		}
-        public void Stop()
+        public virtual void Stop()
         {
             m_socket.Shutdown();
             m_socket.Close();

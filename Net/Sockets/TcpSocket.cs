@@ -22,11 +22,16 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         public TcpSocket()
         {
-            this.m_socket = new System.Net.Sockets.Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.m_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
         private TcpSocket(Socket socket)
         {
             this.m_socket = socket;
+        }
+        public int SendBufferSize
+        {
+            get { return m_socket.SendBufferSize; }
+            set { m_socket.SendBufferSize = value; }
         }
         /// <summary>
         /// 接收超时时间
@@ -99,7 +104,6 @@ namespace Lsj.Util.Net.Sockets
 
         public void Shutdown(SocketShutdown how) => m_socket.Shutdown(how);
         public void Shutdown() => Shutdown(SocketShutdown.Both);
-
 
 
         public void Dispose()

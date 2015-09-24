@@ -26,7 +26,7 @@ namespace Lsj.Util.IO
          return result;
       }
       
-      public static bool PathIsExist(this string path)
+      public static bool PathIsExists(this string path)
       {
          return Directory.Exists(path);
       }

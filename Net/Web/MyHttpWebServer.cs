@@ -5,7 +5,7 @@ using System.Text;
 using Lsj.Util.Net.Sockets;
 using System.Net;
 using System.IO;
-using Lsj.Util.IO
+using Lsj.Util.IO;
 
 namespace Lsj.Util.Net.Web
 {
@@ -21,13 +21,13 @@ namespace Lsj.Util.Net.Web
             get { return m_Path; }
             set 
             {
-               if(value.PathIsExists)
+               if(value.PathIsExists())
                {
                   this.m_Path = value;
                }               
                 else
                 {
-                   throw new Exception("Path doesn't exist"):
+                    throw new Exception("Path doesn't exist");
                 }      
             }
         }
