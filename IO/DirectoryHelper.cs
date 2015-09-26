@@ -30,5 +30,10 @@ namespace Lsj.Util.IO
       {
          return Directory.Exists(path);
       }
-   }
+      public static bool FileIsExists(this string path)
+      {
+         return File.Exists(path);
+      }
+
+    }
 }
