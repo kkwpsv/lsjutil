@@ -51,6 +51,11 @@ namespace Lsj.Util.Net.Sockets
             set { m_socket.SendTimeout = value; }
         }
 
+
+        public EndPoint RemoteEndPoint => m_socket.RemoteEndPoint;
+
+
+
         public bool Connected => m_socket.Connected;
 
 

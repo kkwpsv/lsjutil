@@ -57,6 +57,7 @@
     <Compile Include="CsComplier.cs" />
     <Compile Include="Encrypt\MD5.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
+    <Compile Include="Log\eLogType.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
     <Compile Include="Net\Sockets\ReceiveStateObject.cs" />

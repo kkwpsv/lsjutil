@@ -17,17 +17,12 @@ namespace Lsj.Util.Log
 
 
         public bool UseConsole { get; set; } = true;
-        public ConsoleColor ConsoleDebugColor { get; set; } = ConsoleColor.Gray;
-        public ConsoleColor ConsoleInfoColor { get; set; } = ConsoleColor.Green;
-        public ConsoleColor ConsoleWarnColor { get; set; } = ConsoleColor.Yellow;
-        public ConsoleColor ConsoleErrorColor { get; set; } = ConsoleColor.Red;
 
-
-
+        public ConsoleColor[] ConsoleColors { get; set; } = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Red };
 
 
         public bool UseFile { get; set; } = true;
-        public string FilePath { get; set; } = "/";
+        public string FilePath { get; set; } = "./";
 
 
     }

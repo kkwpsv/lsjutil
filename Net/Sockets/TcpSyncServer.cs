@@ -13,14 +13,34 @@ namespace Lsj.Util.Net.Sockets
 		}
 		public TcpSyncServer(EndPoint endpoint)
 		{
-			this.m_socket = new TcpSocket();
-			m_socket.Bind(endpoint);
+            try
+            {
+                this.m_socket = new TcpSocket();
+                m_socket.Bind(endpoint);
+            }
+            catch(Exception e)
+            {
+                Log.Log.Default.Error("Bind Error"+e.ToString());
+            }
+
 		}
 		public virtual void Start()
 		{
-			m_socket.Listen();
-			m_socket.BeginAccept(new AsyncCallback(OnAccept), CreateAcceptStateObject());
-		}
+            try
+            {
+                m_socket.Listen();
+                m_socket.BeginAccept(new AsyncCallback(OnAccept), CreateAcceptStateObject());
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error("Start Error" + e.ToString());
+                if (m_socket != null)
+                {
+                    m_socket.Close();
+                }
+            }
+
+        }
         public virtual void Stop()
         {
             m_socket.Shutdown();
