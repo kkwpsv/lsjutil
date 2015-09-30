@@ -9,15 +9,64 @@ namespace Lsj.Util.Net.Web
 {
     public class HttpRequest
     {
+        /// <summary>
+        /// Method
+        /// </summary>
         public eHttpMethod method = eHttpMethod.GET;
+        /// <summary>
+        /// Uri
+        /// </summary>
         public string uri = "";
+        /// <summary>
+        /// Host
+        /// </summary>
         public string host = "";
+        /// <summary>
+        /// Referer
+        /// </summary>
         public string referer = "";
+        /// <summary>
+        /// UserAgent
+        /// </summary>
         public string useragent = "";
+        /// <summary>
+        /// Keep-Alive
+        /// </summary>
         public bool keepalive = false;
+        /// <summary>
+        /// ContentLength
+        /// </summary>
         public int contentlength = 0;
-        public string postdata = "";
+        string postdata = "";
+        Dictionary<string, string> form = new Dictionary<string, string>();
+        Dictionary<string, string> querystring = new Dictionary<string, string>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetForm(string key)
+        {
+            return form[key] ?? "";
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetQueryString(string key)
+        {
+            return querystring[key] ?? "";
+        }
 
+
+
+
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public static HttpRequest Parse(string content)
         {
             try
@@ -36,7 +85,7 @@ namespace Lsj.Util.Net.Web
                 }
                 else
                 {
-                    throw new Exception("UnsupportMethod");
+                    result.method = eHttpMethod.Unknown;
                 }
                 for (int i = 1; i < lines.Length; i++)
                 {
@@ -66,11 +115,32 @@ namespace Lsj.Util.Net.Web
                         if (i < lines.Length - 2)
                         {
                             result.postdata = lines[i + 1].Substring(0, result.contentlength).ToSafeString();
+                            break;
                         }
                     }
                 }
+                if (result.postdata != "")
+                {
+                    var a = result.postdata.Split('&');
+                    foreach (var b in a)
+                    {
+                        var c = b.Split('=');
+                        result.form.Add(c[0], c[1]);
+                    }
+                }
+                if (result.uri.IndexOf('?') != -1)
+                {
+                    string querystring = result.uri.Substring(result.uri.IndexOf('?'));
+                    var d = querystring.Split('&');
+                    foreach (var e in d)
+                    {
+                        var f = e.Split('=');
+                        result.querystring.Add(f[0], f[1]);
+                    }
+                }
 
-
+                result.uri = result.uri.Replace(@"/", @"\").Substring(0, result.uri.IndexOf('?'));
+                
                 return result;
             }
             catch

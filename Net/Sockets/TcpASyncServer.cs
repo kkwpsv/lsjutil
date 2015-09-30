@@ -44,12 +44,11 @@ namespace Lsj.Util.Net.Sockets
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(endpoint);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                Log.Log.Default.Error("Bind Error"+e.ToString());
+                Log.Log.Default.Error("Bind Error" + e.ToString());
             }
-
-		}
+        }
         /// <summary>
         /// Start
         /// </summary>
@@ -58,7 +57,7 @@ namespace Lsj.Util.Net.Sockets
             try
             {
                 m_socket.Listen();
-                m_socket.BeginAccept(new AsyncCallback(OnAccept), CreateAcceptStateObject());
+                m_socket.BeginAccept(new AsyncCallback(OnAccept));
             }
             catch (Exception e)
             {
@@ -68,7 +67,6 @@ namespace Lsj.Util.Net.Sockets
                     m_socket.Close();
                 }
             }
-
         }
         /// <summary>
         /// Stop
@@ -123,7 +121,7 @@ namespace Lsj.Util.Net.Sockets
         {
             var state = iar.AsyncState as SendStateObject;
             var handle = state.WorkSocket;
-            if (handle.EndSend(iar)>0)
+            if (handle.EndSend(iar) > 0)
             {
                 OnSent(state);
             }

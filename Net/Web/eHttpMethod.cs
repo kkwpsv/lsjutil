@@ -11,12 +11,16 @@ namespace Lsj.Util.Net.Web
     public enum eHttpMethod
     {
         /// <summary>
-        /// GET方法
+        /// GET
         /// </summary>
         GET,
         /// <summary>
-        /// Post方法
+        /// Post
         /// </summary>
-        POST
+        POST,
+        /// <summary>
+        /// Unknown
+        /// </summary>
+        Unknown,
     }
 }
