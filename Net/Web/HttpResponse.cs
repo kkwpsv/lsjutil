@@ -8,7 +8,7 @@ namespace Lsj.Util.Net.Web
     public class HttpResponse
     {
         public int status = 200;
-        public StringBuilder content = new StringBuilder("");
+        private StringBuilder content = new StringBuilder("");
         public string server = $"HttpResponse/lsj({Static.Version})";
         public string contenttype = "*/*";
         public bool KeepAlive = true;
@@ -48,6 +48,11 @@ namespace Lsj.Util.Net.Web
         {
             this.content.Append(content);
             this.contentlength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
+        }
+        public void Clear()
+        {
+            this.content = new StringBuilder();
+            this.contentlength = 0;
         }
 
 

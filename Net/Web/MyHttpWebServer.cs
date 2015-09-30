@@ -157,7 +157,7 @@ namespace Lsj.Util.Net.Web
             else
             {
                 var response = new HttpResponse();
-                response.content = new StringBuilder(File.ReadAllText(Path + request.uri));
+                response.Write(new StringBuilder(File.ReadAllText(Path + request.uri)));
                 response.contenttype = GetContengTypeByExtension(System.IO.Path.GetExtension(Path + request.uri));
                 Response(handle,response);
             }
