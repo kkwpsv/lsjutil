@@ -50,7 +50,7 @@ namespace Lsj.Util.Log
                 }
                 if (m_config.UseFile)
                 {
-                    if (!m_config.FilePath.PathIsExists())
+                    if (!m_config.FilePath.IsExistsPath())
                     {
                         Directory.CreateDirectory(m_config.FilePath);
                     }
@@ -64,7 +64,7 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
             catch (Exception e)
             {
                 WinForm.Notice(e.ToString());
-                throw e;
+                throw;
             }
             finally
             {
@@ -75,5 +75,11 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
         public void Info(string str) => Add(str, eLogType.Info);
         public void Warn(string str) => Add(str, eLogType.Warn);
         public void Error(string str) => Add(str, eLogType.Error);
+
+
+        public void Debug(Exception e) => Debug(e.ToString());
+        public void Info(Exception e) => Info(e.ToString());
+        public void Warn(Exception e) => Warn(e.ToString());
+        public void Error(Exception e) => Error(e.ToString());
     }
 }

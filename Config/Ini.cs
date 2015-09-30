@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Native.NativeMethods;
 
 namespace Lsj.Util.Config
 {
@@ -13,7 +14,7 @@ namespace Lsj.Util.Config
     {
         string path;
         /// <summary>
-        /// Initiate A New Instance With A Path
+        /// Initiate a New Instance With a Path
         /// <param name="path">Ini Path</param>  
         /// </summary>
         public Ini(string path)
@@ -41,16 +42,14 @@ namespace Lsj.Util.Config
         public string IniReadValue(string Section, string Key)
         {
             StringBuilder temp = new StringBuilder();
-            long i = GetPrivateProfileString(Section, Key, "Null", temp, 512, this.path);
+            GetPrivateProfileString(Section, Key, "Null", temp, uint.MaxValue, this.path);
             return temp.ToString();
         }
 
 
 
 
-        [DllImport("kernel32.dll")]
-        private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
-        [DllImport("kernel32.dll")]
-        private static extern long GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
+
+
     }
 }

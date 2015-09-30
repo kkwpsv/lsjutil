@@ -16,7 +16,9 @@ namespace Lsj.Util
             return AppDomain.CurrentDomain.BaseDirectory;
         }
 
-
-        public static readonly string Version = "1.0";
+        /// <summary>
+        /// Version
+        /// </summary>
+        public static readonly string Version = "1.1";
     }
 }
