@@ -65,10 +65,7 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
     <Compile Include="Native\NativeMethods.cs" />
-    <Compile Include="Net\Sockets\AcceptStateObject.cs" />
-    <Compile Include="Net\Sockets\IAcceptState.cs" />
     <Compile Include="Net\Sockets\ReceiveStateObject.cs" />
-    <Compile Include="Net\Sockets\SendStateObject.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Net\Web\eHttpMethod.cs" />

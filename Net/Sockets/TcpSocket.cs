@@ -210,11 +210,19 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// BeginSend
         /// </summary>
+        /// <param name="content"></param>
+        /// <param name="asyncCallback"></param>
+        /// <returns></returns>
+        public IAsyncResult BeginSend(byte[] content, AsyncCallback asyncCallback) => BeginSend(content, asyncCallback, null);
+        /// <summary>
+        /// BeginSend
+        /// </summary>
         /// <param name="buffer"></param>
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
         public IAsyncResult BeginSend(byte[] buffer, AsyncCallback callback, object state) =>BeginSend(buffer,0,buffer.Length,SocketFlags.None, out m_socketerror,callback,state);
+
         /// <summary>
         /// BeginSend
         /// </summary>

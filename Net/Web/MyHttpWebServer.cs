@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web
     /// <summary>
     /// MyHttpWebServer
     /// </summary>
-    public class MyHttpWebServer : TcpASyncServer
+    public class MyHttpWebServer : DisposableClass, IDisposable
     {
         public string server = $"HttpWebServer/lsj({Static.Version})";
         public string[] DefaultPage = { "index.htm", "index.html" };

@@ -1,1 +1,1 @@
-namespace Lsj.Util.Net.Sockets{	public class ReceiveStateObject	{		public TcpSocket WorkSocket;		public const int BufferSize = 8 * 1024;		public byte[] Buffer = new byte[BufferSize];		public int TryTime = 0;		public int MaxTryTime = 3;	}}
+namespace Lsj.Util.Net.Sockets{	}

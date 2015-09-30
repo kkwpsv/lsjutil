@@ -3,6 +3,9 @@ using System.Net;
 
 namespace Lsj.Util.Net.Sockets
 {
+
+
+
     /// <summary>
     /// TcpASyncServer
     /// </summary>
@@ -86,11 +89,9 @@ namespace Lsj.Util.Net.Sockets
 
         private void OnAccept(IAsyncResult iar)
 		{
-            m_socket.BeginAccept(OnAccept, CreateAcceptStateObject());
+            m_socket.BeginAccept(OnAccept);
 			var handle = m_socket.EndAccept(iar);
-            var acceptstate = iar.AsyncState as IAcceptState;
-			handle = OnAccept(handle);
-			var state = CreateReceiveStateObject(acceptstate);
+			var state = CreateReceiveStateObject();
 			state.WorkSocket = handle;
 			handle.BeginReceive(state.Buffer,new AsyncCallback(OnReceive),state);
 		}
@@ -128,70 +129,118 @@ namespace Lsj.Util.Net.Sockets
             }
         }
 
-
-        public void Send(TcpSocket handle,byte[] content, SendStateObject state = null)
+        /// <summary>
+        /// Send
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="content"></param>
+        /// <param name="state"></param>
+        public void Send(TcpSocket handle,byte[] content)
         {
-            state = state == null ? CreateSendStateObject() : state;
+            var state = CreateSendStateObject();
             state.WorkSocket = handle;
-            state = OnSend(state);
-            handle.BeginSend(content, new AsyncCallback(OnSend), state);
+            handle.BeginSend(content, new AsyncCallback(OnSend),state);
         }
 
-        protected void ContinueReceive(TcpSocket handle)
-        {
-            var state = CreateReceiveStateObject();
-            state.WorkSocket = handle;
-            handle.BeginReceive(state.Buffer, new AsyncCallback(OnReceive), state);
-        }
-        
-		
-		protected virtual IAcceptState CreateAcceptStateObject()
-		{
-			return null;
-		}
-		
-		protected virtual ReceiveStateObject CreateReceiveStateObject(IAcceptState accptstate)
+
+
+        /// <summary>
+        /// CreateReceiveStateObject
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ReceiveStateObject CreateReceiveStateObject()
 		{
 			return new ReceiveStateObject();
 		}
+        /// <summary>
+        /// CreateSendStateObject
+        /// </summary>
+        /// <returns></returns>
         protected virtual SendStateObject CreateSendStateObject()
         {
             return new SendStateObject();
         }
 
 
-
-        protected virtual TcpSocket OnAccept(TcpSocket handle)
-		{
-			return handle;
-		}
+        /// <summary>
+        /// Check If Receive Finished
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
 		protected virtual bool CheckReceive(ReceiveStateObject state)
 		{
 			return true;
 		}
+        /// <summary>
+        /// OnReceiveTimeOut
+        /// </summary>
+        /// <param name="handle"></param>
         protected virtual void OnReceiveTimeOut(TcpSocket handle)
         {
             return;
         }
+        /// <summary>
+        /// OnReceive
+        /// </summary>
+        /// <param name="state"></param>
         protected virtual void OnReceive(ReceiveStateObject state)
         {
             return;
         }
-        protected virtual SendStateObject OnSend(SendStateObject state)
-        {
-            return state;
-        }
+        /// <summary>
+        /// OnSent
+        /// </summary>
+        /// <param name="state"></param>
         protected virtual void OnSent(SendStateObject state)
         {
             return;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void CleanUpManagedResources()
         {
             m_socket.Dispose();
             base.CleanUpManagedResources();
         }
 
-    }	
+    }
+
+    /// <summary>
+    /// ReceiveStateObject
+    /// </summary>
+    public class ReceiveStateObject
+    {
+        /// <summary>
+        /// WorkSocket
+        /// </summary>
+        public TcpSocket WorkSocket;
+        /// <summary>
+        /// BufferSize
+        /// </summary>
+        public const int BufferSize = 8 * 1024;
+        /// <summary>
+        /// Buffer
+        /// </summary>
+        public byte[] Buffer = new byte[BufferSize];
+        /// <summary>
+        /// TryTime
+        /// </summary>
+        public int TryTime = 0;
+        /// <summary>
+        /// MaxTryTime
+        /// </summary>
+        public int MaxTryTime = 3;
+    }
+    /// <summary>
+    /// SendStateObject
+    /// </summary>
+    public class SendStateObject
+    {
+        /// <summary>
+        /// WorkSocket
+        /// </summary>
+        public TcpSocket WorkSocket;
+    }
 }
