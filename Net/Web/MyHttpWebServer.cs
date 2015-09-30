@@ -9,33 +9,35 @@ using Lsj.Util.IO;
 
 namespace Lsj.Util.Net.Web
 {
-   //Http Web Server
-    public class MyHttpWebServer : TcpSyncServer
+    /// <summary>
+    /// MyHttpWebServer
+    /// </summary>
+    public class MyHttpWebServer : TcpASyncServer
     {
         public string server = $"HttpWebServer/lsj({Static.Version})";
         public string[] DefaultPage = { "index.htm", "index.html" };
-        
+
         string m_Path = "";
         public string Path
         {
             get { return m_Path; }
-            set 
+            set
             {
-               if(value.IsExistsPath())
-               {
-                  this.m_Path = value;
-               }               
+                if (value.IsExistsPath())
+                {
+                    this.m_Path = value;
+                }
                 else
                 {
                     throw new Exception("Path doesn't exist");
-                }      
+                }
             }
         }
-        
-        public MyHttpWebServer(IPAddress ip, int port):base(ip,port)
+
+        public MyHttpWebServer(IPAddress ip, int port) : base(ip, port)
         {
         }
-        public MyHttpWebServer(EndPoint endpoint):base(endpoint)
+        public MyHttpWebServer(EndPoint endpoint) : base(endpoint)
         {
         }
 
@@ -78,7 +80,7 @@ namespace Lsj.Util.Net.Web
             HttpRequest request = HttpRequest.Parse((state as MyHttpWebServerReceiveStateObject).sb.ToString());
             if (request != null)
             {
-                Process(request,handle);
+                Process(request, handle);
             }
             else
             {
@@ -103,30 +105,30 @@ namespace Lsj.Util.Net.Web
             else
             {
                 handle.Shutdown();
-                handle.Close();               
+                handle.Close();
             }
         }
 
 
-       protected void SendErrorAndDisconnect(TcpSocket handle, int ErrorCode)
+        protected void SendErrorAndDisconnect(TcpSocket handle, int ErrorCode)
         {
             var response = new HttpResponse();
             response.server = server;
             response.WriteError(ErrorCode);
             response.KeepAlive = false;
-            Response(handle,response);
+            Response(handle, response);
         }
 
 
-        protected void Response(TcpSocket handle,HttpResponse response)
+        protected void Response(TcpSocket handle, HttpResponse response)
         {
             var state = new MyHttpWebServerSendStateObject();
             state.response = response;
             //Console.WriteLine(response.ToString());
-            Send(handle, response.ToString().ConvertToBytes(Encoding.UTF8),state);
+            Send(handle, response.ToString().ConvertToBytes(Encoding.UTF8), state);
         }
 
-        protected virtual void Process(HttpRequest request,TcpSocket handle)
+        protected virtual void Process(HttpRequest request, TcpSocket handle)
         {
             if (request.method != eHttpMethod.GET)
             {
@@ -159,7 +161,7 @@ namespace Lsj.Util.Net.Web
                 var response = new HttpResponse();
                 response.content = new StringBuilder(File.ReadAllText(Path + request.uri));
                 response.contenttype = GetContengTypeByExtension(System.IO.Path.GetExtension(Path + request.uri));
-                Response(handle,response);
+                Response(handle, response);
             }
         }
 

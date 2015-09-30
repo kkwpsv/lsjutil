@@ -43,6 +43,7 @@
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -64,10 +65,12 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
     <Compile Include="Native\NativeMethods.cs" />
+    <Compile Include="Net\Sockets\AcceptStateObject.cs" />
+    <Compile Include="Net\Sockets\IAcceptState.cs" />
     <Compile Include="Net\Sockets\ReceiveStateObject.cs" />
     <Compile Include="Net\Sockets\SendStateObject.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
-    <Compile Include="Net\Sockets\TcpSyncServer.cs" />
+    <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Net\Web\eHttpMethod.cs" />
     <Compile Include="Net\Web\HttpRequest.cs" />
     <Compile Include="Net\Web\HttpResponse.cs" />

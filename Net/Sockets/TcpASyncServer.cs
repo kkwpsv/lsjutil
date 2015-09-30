@@ -3,7 +3,10 @@ using System.Net;
 
 namespace Lsj.Util.Net.Sockets
 {
-	public class TcpSyncServer : DisposableClass,IDisposable
+    /// <summary>
+    /// TcpASyncServer
+    /// </summary>
+	public class TcpASyncServer : DisposableClass,IDisposable
 	{
         /// <summary>
         /// socket
@@ -11,16 +14,27 @@ namespace Lsj.Util.Net.Sockets
 		protected TcpSocket m_socket;
 
         /// <summary>
-        /// New Instance
+        /// Initiate a New Instance
         /// </summary>
         /// <param name="ip">IP</param>
         /// <param name="port">Port</param>
-		public TcpSyncServer(IPAddress ip,int port)
+		public TcpASyncServer(IPAddress ip,int port)
 		{
-			this.m_socket = new TcpSocket();
-			m_socket.Bind(ip,port);
-		}
-		public TcpSyncServer(EndPoint endpoint)
+            try
+            {
+                this.m_socket = new TcpSocket();
+			    m_socket.Bind(ip,port);
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error("Bind Error" + e.ToString());
+            }
+        }
+        /// <summary>
+        /// Initiate a New Instance
+        /// </summary>
+        /// <param name="endpoint"></param>
+		public TcpASyncServer(EndPoint endpoint)
 		{
             try
             {
@@ -33,6 +47,9 @@ namespace Lsj.Util.Net.Sockets
             }
 
 		}
+        /// <summary>
+        /// Start
+        /// </summary>
 		public virtual void Start()
 		{
             try
@@ -50,18 +67,30 @@ namespace Lsj.Util.Net.Sockets
             }
 
         }
+        /// <summary>
+        /// Stop
+        /// </summary>
         public virtual void Stop()
         {
-            m_socket.Shutdown();
-            m_socket.Close();
+            try
+            {
+                m_socket.Shutdown();
+                m_socket.Close();
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error("Stop Error" + e.ToString());
+
+            }
         }
 
         private void OnAccept(IAsyncResult iar)
 		{
             m_socket.BeginAccept(OnAccept, CreateAcceptStateObject());
 			var handle = m_socket.EndAccept(iar);
+            var acceptstate = iar.AsyncState as IAcceptState;
 			handle = OnAccept(handle);
-			var state = CreateReceiveStateObject();
+			var state = CreateReceiveStateObject(acceptstate);
 			state.WorkSocket = handle;
 			handle.BeginReceive(state.Buffer,new AsyncCallback(OnReceive),state);
 		}
@@ -108,7 +137,7 @@ namespace Lsj.Util.Net.Sockets
             handle.BeginSend(content, new AsyncCallback(OnSend), state);
         }
 
-        public void ContinueReceive(TcpSocket handle)
+        protected void ContinueReceive(TcpSocket handle)
         {
             var state = CreateReceiveStateObject();
             state.WorkSocket = handle;
@@ -116,12 +145,12 @@ namespace Lsj.Util.Net.Sockets
         }
         
 		
-		protected virtual object CreateAcceptStateObject()
+		protected virtual IAcceptState CreateAcceptStateObject()
 		{
 			return null;
 		}
 		
-		protected virtual ReceiveStateObject CreateReceiveStateObject()
+		protected virtual ReceiveStateObject CreateReceiveStateObject(IAcceptState accptstate)
 		{
 			return new ReceiveStateObject();
 		}
