@@ -18,7 +18,7 @@ namespace Lsj.Util
         /// <param name="src">Source String</param>
         /// <param name="n">Number</param>
         /// </summary>
-        public static string RemoveLast(this string src, int n) => src.Length>=n?src.Remove(src.Length - n):"";
+        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length - n) : "";
 
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace Lsj.Util
         /// <summary>
         /// Convert String To Byte Array
         /// </summary>
-        public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src,Encoding.Default);
+        public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.Default);
         /// <summary>
         /// Convert String To Byte Array
         /// <param name="src">Source String</param>
         /// <param name="encoding">Encoding</param>
         /// </summary>
-        public static byte[] ConvertToBytes(this string src,Encoding encoding) => encoding.GetBytes(src.ToSafeString());
+        public static byte[] ConvertToBytes(this string src, Encoding encoding) => encoding.GetBytes(src.ToSafeString());
 
 
 
@@ -73,7 +73,7 @@ namespace Lsj.Util
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static int ConvertToInt(this string src,int OnError) => ConvertToInt(src, OnError,int.MinValue,int.MaxValue);
+        public static int ConvertToInt(this string src, int OnError) => ConvertToInt(src, OnError, int.MinValue, int.MaxValue);
 
         /// <summary>
         /// Convert String To Int
@@ -82,7 +82,7 @@ namespace Lsj.Util
         /// <param name="min">Minimum Value</param>
         /// <param name="max">Maximum Value</param>
         /// </summary>
-        public static int ConvertToInt(this string src, int OnError,int min,int max)
+        public static int ConvertToInt(this string src, int OnError, int min, int max)
         {
             int i = OnError;
             int.TryParse(src, out i);
@@ -135,7 +135,7 @@ namespace Lsj.Util
         /// <param name="src">Source String</param>
         /// </summary>        
         public static string ToSafeString(this string src) => src + "";
-        
+
         /// <summary>
         /// Convert String To StringBuilder
         /// <param name="src">Source String</param>
@@ -144,23 +144,24 @@ namespace Lsj.Util
 
         /// <summary>
         /// Read String From Stream
-        /// <param name="src">Source Stream</param>
+        /// <param name="stream">Source Stream</param>
         /// <param name="encoding">Encoding</param>
         /// </summary>
-        public static string ReadFromStream(this Stream stream,Encoding encoding)
+        public static string ReadFromStream(this Stream stream, Encoding encoding)
         {
-           if(stream == null)
-           {
-              return "";
-           }
-      
-            using (var a = new StreamReader(stream,encoding))
-            return a.ReadToEnd();
+            if (stream == null)
+            {
+                return "";
+            }
+            using (var a = new StreamReader(stream, encoding))
+            {
+                return a.ReadToEnd();
+            }
         }
-        
+
         /// <summary>
         /// Read String From Stream
-        /// <param name="src">Source Stream</param>
+        /// <param name="stream">Source Stream</param>
         /// </summary>
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
 

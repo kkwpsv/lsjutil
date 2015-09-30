@@ -3,9 +3,18 @@ using System.Net;
 
 namespace Lsj.Util.Net.Sockets
 {
-	public class TcpSyncServer
+	public class TcpSyncServer : DisposableClass,IDisposable
 	{
+        /// <summary>
+        /// socket
+        /// </summary>
 		protected TcpSocket m_socket;
+
+        /// <summary>
+        /// New Instance
+        /// </summary>
+        /// <param name="ip">IP</param>
+        /// <param name="port">Port</param>
 		public TcpSyncServer(IPAddress ip,int port)
 		{
 			this.m_socket = new TcpSocket();
@@ -146,6 +155,13 @@ namespace Lsj.Util.Net.Sockets
         protected virtual void OnSent(SendStateObject state)
         {
             return;
+        }
+
+
+        protected override void CleanUpManagedResources()
+        {
+            m_socket.Dispose();
+            base.CleanUpManagedResources();
         }
 
     }	

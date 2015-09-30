@@ -21,7 +21,7 @@ namespace Lsj.Util.Net.Web
             get { return m_Path; }
             set 
             {
-               if(value.PathIsExists())
+               if(value.IsExistsPath())
                {
                   this.m_Path = value;
                }               

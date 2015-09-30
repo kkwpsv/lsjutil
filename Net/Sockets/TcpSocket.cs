@@ -8,12 +8,18 @@ using System.Threading;
 
 namespace Lsj.Util.Net.Sockets
 {
-    public class TcpSocket : IDisposable
+    /// <summary>
+    /// Tcp Socket
+    /// </summary>
+    public class TcpSocket : DisposableClass,IDisposable
     {
 
         Socket m_socket;
         SocketError m_socketerror;
 
+        /// <summary>
+        /// Socket Error
+        /// </summary>
         public SocketError socketerror => m_socketerror;
 
 
@@ -111,9 +117,10 @@ namespace Lsj.Util.Net.Sockets
         public void Shutdown() => Shutdown(SocketShutdown.Both);
 
 
-        public void Dispose()
+        protected override void CleanUpManagedResources()
         {
-            this.m_socket = null;
+            this.m_socket.Dispose();
+            base.CleanUpManagedResources();
         }
 
 
