@@ -84,6 +84,21 @@ namespace Lsj.Util.Net.Web
                 }
             }
         }
+        /// <summary>
+        /// Stop
+        /// </summary>
+        public void Stop()
+        {
+            try
+            {
+                m_socket.Close();
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error("Stop Error" + e.ToString());
+
+            }
+        }
         private void OnAccept(IAsyncResult iar)
         {
             m_socket.BeginAccept(OnAccept);
@@ -104,9 +119,8 @@ namespace Lsj.Util.Net.Web
             {
                 if (CheckReceive(client))
                 {
-                    var request = client.request;
-                    request = HttpRequest.Parse(client.sb.ToString());
-                    if (request != null)
+                    client.request = HttpRequest.Parse(client.sb.ToString());
+                    if (client.request != null)
                     {
                         Process(client);
                     }
@@ -133,9 +147,8 @@ namespace Lsj.Util.Net.Web
 
         private bool CheckReceive(HttpClient client)
         {
-            var sb = client.sb;
-            sb.Append(client.Buffer.ConvertFromBytes(Encoding.UTF8));
-            if (sb.ToString().IndexOf("\r\n\r\n") != -1)
+            client.sb.Append(client.Buffer.ConvertFromBytes(Encoding.UTF8));
+            if (client.sb.ToString().IndexOf("\r\n\r\n") != -1)
             {
                 return true;
             }
@@ -150,7 +163,6 @@ namespace Lsj.Util.Net.Web
         /// Process
         /// </summary>
         /// <param name="client"></param>
-        /// <param name="handle"></param>
         protected virtual void Process(HttpClient client)
         {
             var request = client.request;
@@ -177,7 +189,7 @@ namespace Lsj.Util.Net.Web
             else
             {
                 var response = new HttpResponse();
-                response.Write(new StringBuilder(File.ReadAllText(Path + request.uri)));
+                response.Write((File.ReadAllBytes(Path + request.uri)));
                 response.contenttype = GetContengTypeByExtension(System.IO.Path.GetExtension(Path + request.uri));
                 client.response = response;
                 Response(client);
@@ -187,29 +199,20 @@ namespace Lsj.Util.Net.Web
         /// <summary>
         /// Response
         /// </summary>
-        /// <param name="handle"></param>
         /// <param name="client"></param>
         protected void Response(HttpClient client)
         {
-            client.WorkSocket.BeginSend(client.response.ToString().ConvertToBytes(Encoding.UTF8), new AsyncCallback(OnSend), client);
-            //Console.WriteLine(response.ToString());
-        }
-        private void OnSend(IAsyncResult iar)
-        {
-            var client = iar.AsyncState as HttpClient;
-            var handle = client.WorkSocket;
-            if (handle.EndSend(iar) > 0)
+            client.WorkSocket.Send(client.response.GetAll());
+            if (client.response.KeepAlive)
             {
-                if (client.response.KeepAlive)
-                {
-                    handle.BeginReceive(client.Buffer, new AsyncCallback(OnReceive), client);
-                }
-                else
-                {
-                    handle.Shutdown();
-                    handle.Close();
-                }
+                client.Clear();
+                client.WorkSocket.BeginReceive(client.Buffer, new AsyncCallback(OnReceive), client);
             }
+            else
+            {
+                client.WorkSocket.Shutdown();
+                client.WorkSocket.Close();
+            }            
         }
 
 
@@ -221,6 +224,7 @@ namespace Lsj.Util.Net.Web
             response.server = Server;
             response.WriteError(ErrorCode);
             response.KeepAlive = false;
+            client.response = response;
             Response(client);
         }
 
@@ -237,6 +241,10 @@ namespace Lsj.Util.Net.Web
                 case ".html":
                 case ".htm":
                     return "text/html";
+                case ".jpg":
+                    return "image/jpeg";
+                case "*.png":
+                    return "image/png";
                 default:
                     return "*/*";
             }
@@ -281,7 +289,18 @@ namespace Lsj.Util.Net.Web
         /// <summary>
         /// Content
         /// </summary>
-        public StringBuilder sb;
+        public StringBuilder sb = new StringBuilder();
+        /// <summary>
+        /// Clear
+        /// </summary>
+        public void Clear()
+        {
+            this.Buffer = new byte[BufferSize];
+            this.TryTime = 0;
+            this.request = null;
+            this.response = null;
+            this.sb = new StringBuilder();
+        }
 
     }
 }

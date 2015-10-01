@@ -12,52 +12,45 @@ namespace Lsj.Util.Net.Web
         /// <summary>
         /// Method
         /// </summary>
-        public eHttpMethod method = eHttpMethod.GET;
+        public eHttpMethod method { get; set; } = eHttpMethod.Unknown;
         /// <summary>
         /// Uri
         /// </summary>
-        public string uri = "";
+        public string uri { get; set; } = "";
         /// <summary>
         /// Host
         /// </summary>
-        public string host = "";
+        public string host { get; set; } = "";
         /// <summary>
         /// Referer
         /// </summary>
-        public string referer = "";
+        public string referer { get; set; } = "";
         /// <summary>
         /// UserAgent
         /// </summary>
-        public string useragent = "";
+        public string useragent { get; set; } = "";
         /// <summary>
         /// Keep-Alive
         /// </summary>
-        public bool keepalive = false;
+        public bool keepalive { get; set; } = false;
         /// <summary>
         /// ContentLength
         /// </summary>
-        public int contentlength = 0;
-        string postdata = "";
-        Dictionary<string, string> form = new Dictionary<string, string>();
-        Dictionary<string, string> querystring = new Dictionary<string, string>();
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string GetForm(string key)
-        {
-            return form[key] ?? "";
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public string GetQueryString(string key)
-        {
-            return querystring[key] ?? "";
-        }
+        public int contentlength { get; set; } = 0;
+
+
+        public string postdata { get; private set; } = "";
+        public string cookies { get; private set; } = "";
+
+
+        public HttpForm Form { get; set; }
+        public HttpQueryString QueryString { get; set; }
+        public HttpCookies Cookies { get; set; }
+
+        
+        
+
+
 
 
 
@@ -110,9 +103,14 @@ namespace Lsj.Util.Net.Web
                     {
                         result.contentlength = line.Substring(16).ConvertToInt();
                     }
+                    //Cookie: name=value; name2=value2
+                    else if(line.StartsWith("Cookie:"))
+                    {
+                        result.cookies = line.Substring(8);
+                    }
                     else if (line == "")
                     {
-                        if (i < lines.Length - 2)
+                        if (i <= lines.Length - 2)
                         {
                             result.postdata = lines[i + 1].Substring(0, result.contentlength).ToSafeString();
                             break;
@@ -121,30 +119,71 @@ namespace Lsj.Util.Net.Web
                 }
                 if (result.postdata != "")
                 {
+                    Dictionary<string, string> form = new Dictionary<string, string>();
                     var a = result.postdata.Split('&');
                     foreach (var b in a)
                     {
                         var c = b.Split('=');
-                        result.form.Add(c[0], c[1]);
+                        form.Add(c[0], c[1]);
                     }
+                    result.Form = new HttpForm(form);
                 }
+                else
+                {
+                    result.Form = new HttpForm(new Dictionary<string, string>());
+                }
+                if (result.cookies != "")
+                {
+                    Dictionary<string, HttpCookie> cookies = new Dictionary<string, HttpCookie>();
+                    var cookiestrings = (" "+result.cookies).Split(';');
+                    foreach (string cookiestring in cookiestrings)
+                    {
+                        var cookie = cookiestring.Split('=');
+                        var name = cookie[0].Substring(1);
+                        if (!cookies.ContainsKey(name))
+                        {
+                            cookies.Add(name, new HttpCookie { name = name, content = cookie[1] });
+                        }
+                        else
+                        {
+                            cookies[name] = new HttpCookie { name = name, content = cookie[1] };
+                        }
+                    }
+                    result.Cookies = new HttpCookies(cookies);
+                }
+                else
+                {
+                    result.Cookies = new HttpCookies(new Dictionary<string, HttpCookie>());
+                }
+
                 if (result.uri.IndexOf('?') != -1)
                 {
-                    string querystring = result.uri.Substring(result.uri.IndexOf('?'));
-                    var d = querystring.Split('&');
+                    Dictionary<string, string> querystring = new Dictionary<string, string>();
+
+                    string z = result.uri.Substring(result.uri.IndexOf('?')+1);
+                    var d = z.Split('&');
                     foreach (var e in d)
                     {
                         var f = e.Split('=');
-                        result.querystring.Add(f[0], f[1]);
+                        querystring.Add(f[0], f[1]);
                     }
+                    result.QueryString = new HttpQueryString(querystring);
+                    result.uri = result.uri.Replace(@"/", @"\").Substring(0, result.uri.IndexOf('?'));
+                }
+                else
+                {
+                    result.QueryString = new HttpQueryString(new Dictionary<string, string>());
+                    result.uri = result.uri.Replace(@"/", @"\");
+
                 }
 
-                result.uri = result.uri.Replace(@"/", @"\").Substring(0, result.uri.IndexOf('?'));
-                
+
+
                 return result;
             }
-            catch
+            catch(Exception e)
             {
+                Log.Log.Default.Warn(e);
                 return null;
             }
         }

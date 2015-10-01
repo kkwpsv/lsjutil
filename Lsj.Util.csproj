@@ -26,7 +26,7 @@
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>.\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -35,6 +35,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DocumentationFile>Lsj.Util.XML</DocumentationFile>
     <LangVersion>default</LangVersion>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -68,6 +69,10 @@
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Net\Web\eHttpMethod.cs" />
+    <Compile Include="Net\Web\HttpCookie.cs" />
+    <Compile Include="Net\Web\HttpCookies.cs" />
+    <Compile Include="Net\Web\HttpForm.cs" />
+    <Compile Include="Net\Web\HttpQueryString.cs" />
     <Compile Include="Net\Web\HttpRequest.cs" />
     <Compile Include="Net\Web\HttpResponse.cs" />
     <Compile Include="Net\Web\MyCookieContainer.cs" />
