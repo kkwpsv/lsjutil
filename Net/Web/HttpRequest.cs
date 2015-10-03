@@ -184,6 +184,7 @@ namespace Lsj.Util.Net.Web
             catch(Exception e)
             {
                 Log.Log.Default.Warn(e);
+                Log.Log.Default.Warn("Error Request \n"+content);
                 return null;
             }
         }
