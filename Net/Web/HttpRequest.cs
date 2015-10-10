@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Lsj.Util;
+using System.Threading;
 
 namespace Lsj.Util.Net.Web
 {
@@ -59,7 +60,10 @@ namespace Lsj.Util.Net.Web
             return querystring[key] ?? "";
         }
 
+        public static void test()
+        {
 
+        }
 
 
         /// <summary>
@@ -69,6 +73,15 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public static HttpRequest Parse(string content)
         {
+
+            Thread a = new Thread(delegate() { test(); });
+            a.Start();
+
+            ThreadStart c = test;
+            Thread b = new Thread(c);
+            b.Start();
+        
+
             try
             {
                 HttpRequest result = new HttpRequest();
