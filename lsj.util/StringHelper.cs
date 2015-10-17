@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Lsj.Util
 {
@@ -164,6 +165,9 @@ namespace Lsj.Util
         /// <param name="stream">Source Stream</param>
         /// </summary>
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
+
+
+        public static string[] Split (this string str,string sparator) => Regex.Split(str,sparator, RegexOptions.None);
 
 
     }

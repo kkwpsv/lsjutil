@@ -10,7 +10,7 @@ namespace Lsj.Util.Net.Web
 {
     public class HttpRequest
     {
-        public eHttpMethod method { get; set; } = eHttpMethod.UnKnown;
+        public eHttpMethod method { get; set; } = eHttpMethod.UnParsed;
         public int ErrorCode { get; private set; } = 200;
         public bool IsComplete { get; private set; } = false;
         public HttpForm Form { get; set; }
