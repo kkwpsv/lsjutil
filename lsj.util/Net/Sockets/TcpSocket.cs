@@ -174,6 +174,14 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="asyncResult"></param>
         /// <returns></returns>
         public TcpSocket EndAccept(IAsyncResult asyncResult) => new TcpSocket(m_socket.EndAccept(asyncResult));
+
+        /// <summary>
+        /// BeginReceive
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public IAsyncResult BeginReceive(byte[] buffer, AsyncCallback callback) => BeginReceive(buffer, callback, null);
         /// <summary>
         /// BeginReceive
         /// </summary>
