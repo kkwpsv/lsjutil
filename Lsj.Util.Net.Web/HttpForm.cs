@@ -11,6 +11,14 @@ namespace Lsj.Util.Net.Web
         public HttpForm(Dictionary<string, string> form)
         {
             this.form = form;
+            Console.Write(form.ContainsKey("user"));
+            Console.Write(form.ContainsKey("pass"));
+            Console.WriteLine(form.Count);
+            foreach (var a in form)
+            {
+                Console.WriteLine(a.Key+" is " + a.Value);
+            }
+           
         }
         public string this[string key]
         {

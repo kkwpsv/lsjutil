@@ -12,10 +12,10 @@ namespace Lsj.Util.Net.Web
         public int status { get; private set; } = 200;
         private StringBuilder content { get; set; } = new StringBuilder("");
         public string Server { get; set; } = $"MyHttpWebServer/lsj({Static.Version})";
-        public string Contenttype { get; protected set; } = "*/*";
+        public string ContentType { get; set; } = "*/*";
         public long ContentLength { get; protected set; } = 0;
         public string Location { get; protected set; } = "";
-        public eConnectionType Connection { get; set; } = eConnectionType.Close;
+        public eConnectionType Connection { get; set; } = eConnectionType.KeepAlive;
         private byte[] contentbyte { get; set; } = NullBytes;        
         public HttpCookies cookies { get; } = new HttpCookies(new Dictionary<string, HttpCookie>());
         public HttpResponseHeaders headers { get; set; } = new HttpResponseHeaders();
@@ -28,7 +28,7 @@ namespace Lsj.Util.Net.Web
             sb.Append($"HTTP/1.1 {status} {GetErrorStringByCode(status)}\r\n");
             sb.Append($"Server: {Server}\r\n");
             sb.Append($"Content-Length: {ContentLength}\r\n");
-            sb.Append($"Content-Type: {Contenttype} \r\n");
+            sb.Append($"Content-Type: {ContentType} \r\n");
             sb.Append($"Date: {DateTime.Now.ToUniversalTime().ToString("r")} \r\n");
             if (Connection==eConnectionType.KeepAlive)
             {
@@ -42,7 +42,7 @@ namespace Lsj.Util.Net.Web
             {
                 foreach (var cookie in cookies)
                 {
-                    sb.Append($"Set-Cookie: {cookie.name}={cookie.content}; Expires={cookie.Expires.ToUniversalTime().ToString("r")}; domain={cookie.domain}; path=/\r\n");
+                    sb.Append($"Set-Cookie: {cookie.name}={cookie.content}; Expires={cookie.Expires.ToUniversalTime().ToString("r")}; domain={cookie.domain}; path=/ \r\n");
                 }
             }
             if (status == 302)

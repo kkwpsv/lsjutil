@@ -59,7 +59,6 @@ namespace Lsj.Util.Net.Web.Modules
         }
         public static bool CanProcess(HttpRequest request)
         {
-            var b = Path + request.uri;
             bool result = false;
             if (request.Method == eHttpMethod.GET)
             {

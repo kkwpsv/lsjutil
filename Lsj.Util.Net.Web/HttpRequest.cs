@@ -152,10 +152,15 @@ namespace Lsj.Util.Net.Web
                 Dictionary<string, string> form = new Dictionary<string, string>();
                 if (contentlength != 0)
                 {
+                    if (PostBytes == null)
+                    {
+                        PostBytes = new byte[contentlength];
+                    }
                     Buffer.BlockCopy(postBytes, 0, PostBytes, 0, contentlength);
                     if (headers[eHttpRequestHeader.ContentType].IndexOf("application/x-www-form-urlencoded") != -1)
                     {
                         var str = PostBytes.ConvertFromBytes();
+                        Console.WriteLine(str);
                         var a = str.Split('&');
                         {
                             foreach (var b in a)
@@ -165,6 +170,7 @@ namespace Lsj.Util.Net.Web
                                 {
                                     var name = c[0].Trim();
                                     var content = c[1].Trim();
+                                    Console.WriteLine("name" + name + "content" + content);
                                     form.Add(c[0], c[1]);
                                 }
                             }

@@ -19,7 +19,7 @@ namespace Lsj.Util.Net.Web.Response
             file = new FileInfo(path);
             ContentLength =file.Length;
             headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
-            Contenttype = GetContengTypeByExtension(System.IO.Path.GetExtension(path));
+            ContentType = GetContengTypeByExtension(System.IO.Path.GetExtension(path));
         }
         private string GetContengTypeByExtension(string Extension)
         {
