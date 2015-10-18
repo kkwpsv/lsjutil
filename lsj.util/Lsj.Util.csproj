@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Lsj.Util.XML</DocumentationFile>
+    <DocumentationFile>Lsj.Util.XML</DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
