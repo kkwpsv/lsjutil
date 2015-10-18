@@ -63,21 +63,21 @@ namespace Lsj.Util.Net.Web
             IModule module = null;
             for (int i = 0; i < server.modules.Count; i++)
             {
-                var method = server.modules[i].GetMethod("CanProcess", BindingFlags.Static);
-
+                var method = server.modules[i].GetMethod("CanProcess", BindingFlags.Static|BindingFlags.Public);
                 if (method != null)
                 {
-                    if ((method.Invoke(null, new object[] { request }) as bool?) == true)
+                    var result = method.Invoke(null, new object[] { request }) as bool?;
+                    if (result == true)
                     {
                         module = Activator.CreateInstance(server.modules[i]) as IModule;
                         break;
                     }
                 }
             }
-            Console.Write(request.Method);
             if (module != null)
             {
                 response = module.Process(request);
+                Response();
             }
             else if (request.Method == eHttpMethod.GET)
             {

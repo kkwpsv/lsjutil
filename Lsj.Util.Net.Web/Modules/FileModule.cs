@@ -26,7 +26,7 @@ namespace Lsj.Util.Net.Web.Modules
                 }
             }
         }
-        static string m_Path = "";
+        static string m_Path = ".";
         public HttpResponse Process(HttpRequest request)
         {
             var response = new HttpFileResponse();
@@ -59,6 +59,7 @@ namespace Lsj.Util.Net.Web.Modules
         }
         public static bool CanProcess(HttpRequest request)
         {
+            var b = Path + request.uri;
             bool result = false;
             if (request.Method == eHttpMethod.GET)
             {
