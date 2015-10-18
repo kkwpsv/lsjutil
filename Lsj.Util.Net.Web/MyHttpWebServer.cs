@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.IO;
 using Lsj.Util.Net.Sockets;
+using Lsj.Util.Net.Web.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +12,8 @@ namespace Lsj.Util.Net.Web
     public class MyHttpWebServer : DisposableClass, IDisposable
     {
         public string Server { get; set; } = $"MyHttpWebServer/lsj({Static.Version})";
-        public string[] DefaultPage { get; set; } = { "index.htm", "index.html" };       
-        public string Path
-        {
-            get { return m_Path; }
-            set
-            {
-                if (value.IsExistsPath())
-                {
-                    this.m_Path = value;
-                }
-                else
-                {
-                    throw new Exception("Path doesn't exist");
-                }
-            }
-        }
-        string m_Path = "";
+        
+        public List<Type> modules = new List<Type>();
 
         TcpSocket m_socket;
 
@@ -37,11 +23,17 @@ namespace Lsj.Util.Net.Web
             {
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(ip, port);
+                this.InsertModule(typeof(FileModule));
             }
             catch (Exception e)
             {
                 Log.Log.Default.Error("Bind Error" + e.ToString());
             }
+        }
+        public void InsertModule(Type module)
+        {
+            if(module.GetInterfaces().Contains(typeof(IModule)))
+                modules.Insert(0, module);
         }
         public void Start()
         {
@@ -75,7 +67,7 @@ namespace Lsj.Util.Net.Web
         {
             m_socket.BeginAccept(OnAccept);
             var handle = m_socket.EndAccept(iar);
-            var client = new HttpClient(handle);
+            var client = new HttpClient(handle,this);
             client.Receive();
         }
     }

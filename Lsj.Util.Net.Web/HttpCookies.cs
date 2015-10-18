@@ -32,7 +32,14 @@ namespace Lsj.Util.Net.Web
         }
         public void Add(HttpCookie cookie)
         {
-            this.cookies.Add(cookie.name, cookie);
+            if (cookies.ContainsKey(cookie.name))
+            {
+                cookies[cookie.name] = cookie;
+            }
+            else
+            {
+                cookies.Add(cookie.name, cookie);
+            }
         }
 
     }
