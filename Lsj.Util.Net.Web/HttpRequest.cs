@@ -39,7 +39,8 @@ namespace Lsj.Util.Net.Web
 
             if (!StartParsePost)
             {
-                var str = buffer.ConvertFromBytes(Encoding.ASCII);
+                var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0'); 
+                Console.WriteLine(str);
                 var lines = str.Split("\r\n");
                 if (Method == eHttpMethod.UnParsed)
                 {
@@ -59,10 +60,16 @@ namespace Lsj.Util.Net.Web
                         contentlength = headers[eHttpRequestHeader.ContentLength].ConvertToInt(0);
                         if (contentlength!=0)
                         {
-                            postBytes = postBytes.Concat(str.Substring(str.IndexOf("\r\n\r\n")+2).ConvertToBytes()).ToArray();
+                            var a = str.IndexOf("\r\n\r\n") + 4;
+                            if (str.Length > a)
+                            {
+                                var b = str.Substring(a);
+                                postBytes = postBytes.Concat(b.ConvertToBytes()).ToArray();
+                            }
                             StartParsePost = true;
+                            break;
                         }
-                        else if (lines.Length != i + 2)
+                        else if (lines.Length > i + 2)
                         {
                             IsError = true;
                             ErrorCode = 411;
@@ -72,7 +79,7 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                postBytes = postBytes.Concat(buffer).ToArray();
+                postBytes = postBytes.Concat(buffer.ConvertFromBytes().Trim('\0').ConvertToBytes()).ToArray();
             }
             if (postBytes.Length >= contentlength)
             {
@@ -160,7 +167,7 @@ namespace Lsj.Util.Net.Web
                     if (headers[eHttpRequestHeader.ContentType].IndexOf("application/x-www-form-urlencoded") != -1)
                     {
                         var str = PostBytes.ConvertFromBytes();
-                        Console.WriteLine(str);
+                        Console.WriteLine("post"+str);
                         var a = str.Split('&');
                         {
                             foreach (var b in a)
@@ -299,7 +306,6 @@ namespace Lsj.Util.Net.Web
                 else
                 {
                     result = true;
-                    IsComplete = true;
                 }
             }
             catch (Exception e)

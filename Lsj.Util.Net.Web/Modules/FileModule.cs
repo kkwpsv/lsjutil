@@ -29,7 +29,6 @@ namespace Lsj.Util.Net.Web.Modules
         static string m_Path = ".";
         public HttpResponse Process(HttpRequest request)
         {
-            var response = new HttpFileResponse();
             var path = "";
             if (request.uri.EndsWith(@"\"))
             {
@@ -47,15 +46,15 @@ namespace Lsj.Util.Net.Web.Modules
             }
             if (path != "")
             {
-                response.WriteFile(path);
+                var response = new FileResponse(path, request.headers[eHttpRequestHeader.IfModifiedSince]);
+                response.Connection = request.Connection;
+                return response;
             }
             else
             {
-                var x = new HttpResponse();
-                x.WriteError(404);
-                return x;
+                return new ErrorResponse(404);
+               
             }
-            return response;
         }
         public static bool CanProcess(HttpRequest request)
         {

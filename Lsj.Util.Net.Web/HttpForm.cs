@@ -8,15 +8,15 @@ namespace Lsj.Util.Net.Web
     public class HttpForm
     {
         Dictionary<string, string> form = new Dictionary<string, string>();
+        private object @lock = new object();
         public HttpForm(Dictionary<string, string> form)
         {
             this.form = form;
-            Console.Write(form.ContainsKey("user"));
-            Console.Write(form.ContainsKey("pass"));
-            Console.WriteLine(form.Count);
-            foreach (var a in form)
+            foreach (var a in this.form.Keys)
             {
-                Console.WriteLine(a.Key+" is " + a.Value);
+                Console.WriteLine(a);
+                Console.WriteLine(this.form.ContainsKey(a));
+
             }
            
         }
@@ -24,8 +24,13 @@ namespace Lsj.Util.Net.Web
         {
             get
             {
-                return form.ContainsKey(key) ? form[key] : "";
-            }
+                string x;
+                lock (@lock)
+                {
+                    x = this.form.ContainsKey(key) ? this.form[key] : "";
+                }
+                return x;
+                }
         }
     }
 }

@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.Net.Web
+namespace Lsj.Util.Net.Web.Response
 {
     public class HttpResponse
     {
         protected static byte[] NullBytes { get; } = new byte[] { };
-        public int status { get; private set; } = 200;
-        private StringBuilder content { get; set; } = new StringBuilder("");
-        public string Server { get; set; } = $"MyHttpWebServer/lsj({Static.Version})";
+        public int status { get; protected set; } = 200;
+        protected StringBuilder content { get; set; } = new StringBuilder("");
+        public string Server = MyHttpWebServer.ServerVersion;
         public string ContentType { get; set; } = "*/*";
         public long ContentLength { get; protected set; } = 0;
         public string Location { get; protected set; } = "";
@@ -100,31 +100,7 @@ namespace Lsj.Util.Net.Web
 
 
 
-        public void WriteError(int code)
-        {
-            var ErrorString = GetErrorStringByCode(code);
-            var sb = new StringBuilder();
-            sb.Append(
-$@"<!DOCTYPE html>
-<html>
-    <head>
-        <title>{ErrorString}</title>
-    </head>
-    <body bgcolor = ""white"" >
-        <span>
-            <h1> Server Error.<hr width = 100% size = 1 color = silver ></h1>
-            <h2> <i> HTTP Error {code}- {ErrorString}.</i></h2>
-        </span>
-        <hr width = 100% size = 1 color = silver >
-        <b> Server Information:</b> &nbsp; {Server}
-    </body>
-</html>
-");
-            this.content = sb;
-            this.ContentLength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
-            this.status = code;
-            this.Connection = eConnectionType.Close;
-        }
+      
         public void Write302(string uri)
         {
             var sb = new StringBuilder("");
@@ -133,15 +109,9 @@ $@"<!DOCTYPE html>
             this.status = 302;
             this.Location = uri;
         }
-        public void Write304()
-        {
-            var sb = new StringBuilder("");
-            this.content = sb;
-            this.ContentLength = 0;
-            this.status = 304;
-        }
+     
 
-        private string GetErrorStringByCode(int ErrorCode)
+        protected string GetErrorStringByCode(int ErrorCode)
         {
             switch (ErrorCode)
             {
@@ -167,7 +137,6 @@ $@"<!DOCTYPE html>
                     return "Multiple Choices";//    多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择
                 case 301:
                     return "Moved Permanently";// 永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替
-
                 case 302:
                     return "Found";//临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI
                 case 303:

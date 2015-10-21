@@ -11,7 +11,7 @@ namespace Lsj.Util.Net.Web
 {
     public class MyHttpWebServer : DisposableClass, IDisposable
     {
-        public string Server { get; set; } = $"MyHttpWebServer/lsj({Static.Version})";
+        public const string ServerVersion  = "MyHttpWebServer/lsj(2.0)";
         
         public List<Type> modules = new List<Type>();
 

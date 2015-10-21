@@ -19,6 +19,6 @@ namespace Lsj.Util
         /// <summary>
         /// Version
         /// </summary>
-        public static readonly string Version = "1.1";
+        public static readonly string Version = "2.0";
     }
 }

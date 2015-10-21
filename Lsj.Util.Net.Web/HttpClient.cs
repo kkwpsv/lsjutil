@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Modules;
+using Lsj.Util.Net.Web.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,39 +54,46 @@ namespace Lsj.Util.Net.Web
 
         private void SendErrorAndDisconnect(int ErrorCode)
         {
-            response = new HttpResponse();
-            response.WriteError(ErrorCode);
+            response = new ErrorResponse(ErrorCode);
             Response();
         }
 
         private void Process()
         {
-            IModule module = null;
-            for (int i = 0; i < server.modules.Count; i++)
+            try
             {
-                var method = server.modules[i].GetMethod("CanProcess", BindingFlags.Static|BindingFlags.Public);
-                if (method != null)
+                IModule module = null;
+                for (int i = 0; i < server.modules.Count; i++)
                 {
-                    var result = method.Invoke(null, new object[] { request }) as bool?;
-                    if (result == true)
+                    var method = server.modules[i].GetMethod("CanProcess", BindingFlags.Static | BindingFlags.Public);
+                    if (method != null)
                     {
-                        module = Activator.CreateInstance(server.modules[i]) as IModule;
-                        break;
+                        var result = method.Invoke(null, new object[] { request }) as bool?;
+                        if (result == true)
+                        {
+                            module = Activator.CreateInstance(server.modules[i]) as IModule;
+                            break;
+                        }
                     }
                 }
+                if (module != null)
+                {
+                    response = module.Process(request);
+                    Response();
+                }
+                else if (request.Method == eHttpMethod.GET)
+                {
+                    SendErrorAndDisconnect(404);
+                }
+                else
+                {
+                    SendErrorAndDisconnect(501);
+                }
             }
-            if (module != null)
+            catch(Exception e)
             {
-                response = module.Process(request);
-                Response();
-            }
-            else if (request.Method == eHttpMethod.GET)
-            {
-                SendErrorAndDisconnect(404);
-            }
-            else
-            {
-                SendErrorAndDisconnect(501);
+                Log.Log.Default.Warn(e);
+                SendErrorAndDisconnect(400);
             }
             
         }

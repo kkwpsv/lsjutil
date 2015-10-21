@@ -50,12 +50,17 @@
     <Compile Include="HttpQueryString.cs" />
     <Compile Include="HttpRequest.cs" />
     <Compile Include="eHttpRequestHeader.cs" />
-    <Compile Include="HttpResponse.cs" />
+    <Compile Include="Response\HttpResponse.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="MyHttpWebServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\HttpFileResponse.cs" />
+    <Compile Include="Response\ErrorResponse.cs" />
+    <Compile Include="Response\FileResponse.cs" />
+    <Compile Include="eHttpMethod.cs" />
+    <Compile Include="MyCookieContainer.cs" />
+    <Compile Include="MyHttpWebRequest.cs" />
+    <Compile Include="MyHttpWebResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
