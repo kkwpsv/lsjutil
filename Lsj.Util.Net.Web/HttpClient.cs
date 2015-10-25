@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Web
         {
             this.handle = handle;
             this.server = server;
-            this.request = new HttpRequest();
+            this.request = new HttpRequest(server);
         }
         public void Receive()
         {
@@ -112,7 +112,7 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                this.request = new HttpRequest();
+                this.request = new HttpRequest(server);
                 Receive();
             }
         }

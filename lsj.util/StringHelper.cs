@@ -85,8 +85,11 @@ namespace Lsj.Util
         /// </summary>
         public static int ConvertToInt(this string src, int OnError, int min, int max)
         {
-            int i = OnError;
-            int.TryParse(src, out i);
+            int i;
+            if (!int.TryParse(src, out i))
+            {
+                return OnError;
+            }
             return i < min ? min : i > max ? max : i;
         }
 
@@ -98,7 +101,7 @@ namespace Lsj.Util
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
-        /// <param name="OnError">On Error Return/param> 
+        /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError) => ConvertToByte(src, OnError, byte.MinValue, byte.MaxValue);
 
@@ -111,8 +114,11 @@ namespace Lsj.Util
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError, byte min, byte max)
         {
-            byte i = OnError;
-            byte.TryParse(src, out i);
+            byte i;
+            if (!byte.TryParse(src, out i))
+            {
+                return OnError;
+            }
             return i < min ? min : i > max ? max : i;
         }
 
@@ -125,8 +131,11 @@ namespace Lsj.Util
         /// </summary>
         public static long ConvertToLong(this string src, long OnError, long min, long max)
         {
-            long i = OnError;
-            long.TryParse(src, out i);
+            long i;
+            if (!long.TryParse(src, out i))
+            {
+                return OnError;
+            }
             return i < min ? min : i > max ? max : i;
 
         }

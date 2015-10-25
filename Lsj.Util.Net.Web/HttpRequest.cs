@@ -7,6 +7,7 @@ namespace Lsj.Util.Net.Web
 {
     public class HttpRequest
     {
+
         public eHttpMethod Method { get; private set; } = eHttpMethod.UnParsed;
         public eConnectionType Connection { get; private set; } = eConnectionType.Close;
         public string uri { get; private set; } = "";
@@ -23,6 +24,13 @@ namespace Lsj.Util.Net.Web
         public byte[] PostBytes { get; private set; }
         public HttpQueryString QueryString { get; private set; }
         public HttpCookies Cookies { get; private set; }
+        MyHttpWebServer server;
+        public HttpSessions Session {
+            get
+            {
+                return server.Session;
+            }
+        }
 
         public string this[string key]
         {
@@ -31,8 +39,9 @@ namespace Lsj.Util.Net.Web
                 return QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "";
             }
         }
-        public HttpRequest()
+        public HttpRequest(MyHttpWebServer server)
         {
+            this.server = server;
         }
         public void Read(byte[] buffer)
         {
@@ -40,7 +49,6 @@ namespace Lsj.Util.Net.Web
             if (!StartParsePost)
             {
                 var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0'); 
-                Console.WriteLine(str);
                 var lines = str.Split("\r\n");
                 if (Method == eHttpMethod.UnParsed)
                 {
@@ -103,7 +111,14 @@ namespace Lsj.Util.Net.Web
                     {
                         var name = cookie[0].Trim();
                         var content = cookie[1].Trim();
-                        cookies.Add(name, new HttpCookie { name = name, content = content });
+                        if (!cookies.ContainsKey(name))
+                        {
+                            cookies.Add(name, new HttpCookie { name = name, content = content });
+                        }
+                        else
+                        {
+                            cookies[name] = new HttpCookie { name = name, content = content };
+                        }
                     }
                 }
                 Cookies = new HttpCookies(cookies);
@@ -167,7 +182,6 @@ namespace Lsj.Util.Net.Web
                     if (headers[eHttpRequestHeader.ContentType].IndexOf("application/x-www-form-urlencoded") != -1)
                     {
                         var str = PostBytes.ConvertFromBytes();
-                        Console.WriteLine("post"+str);
                         var a = str.Split('&');
                         {
                             foreach (var b in a)
@@ -177,7 +191,6 @@ namespace Lsj.Util.Net.Web
                                 {
                                     var name = c[0].Trim();
                                     var content = c[1].Trim();
-                                    Console.WriteLine("name" + name + "content" + content);
                                     form.Add(c[0], c[1]);
                                 }
                             }
@@ -209,7 +222,7 @@ namespace Lsj.Util.Net.Web
                 if (x.Length >= 2)
                 {
                     var a = x[0].Trim();
-                    var b = x[1].Trim();
+                    var b = v.Substring(x[0].Length+1).Trim();
                     var c = a.Replace("-", "");
 
                     if (a == "Connection")

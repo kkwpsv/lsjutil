@@ -95,7 +95,8 @@ namespace Lsj.Util.Net.Web.Response
 
         public void ReturnAndRedict(string error, string redicturl)
         {
-            this.Write(("<script type='text/javascript'>alert('" + error + "');window.location='" + redicturl + "'</script>;").ConvertToBytes(Encoding.GetEncoding("gb2312")));
+            this.ContentType = "text/html; charset=utf-8";
+            this.Write(("<script type='text/javascript'>alert('" + error + "');window.location='" + redicturl + "'</script>;").ConvertToBytes(Encoding.UTF8));
         }
 
 

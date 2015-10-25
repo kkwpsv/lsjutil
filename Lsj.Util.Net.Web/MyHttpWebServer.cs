@@ -16,6 +16,7 @@ namespace Lsj.Util.Net.Web
         public List<Type> modules = new List<Type>();
 
         TcpSocket m_socket;
+        public HttpSessions Session = new HttpSessions();
 
         public MyHttpWebServer(IPAddress ip, int port)
         {
@@ -23,6 +24,7 @@ namespace Lsj.Util.Net.Web
             {
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(ip, port);
+                GC.KeepAlive(Session);
                 this.InsertModule(typeof(FileModule));
             }
             catch (Exception e)

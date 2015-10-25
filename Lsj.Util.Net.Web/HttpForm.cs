@@ -11,14 +11,7 @@ namespace Lsj.Util.Net.Web
         private object @lock = new object();
         public HttpForm(Dictionary<string, string> form)
         {
-            this.form = form;
-            foreach (var a in this.form.Keys)
-            {
-                Console.WriteLine(a);
-                Console.WriteLine(this.form.ContainsKey(a));
-
-            }
-           
+            this.form = form;           
         }
         public string this[string key]
         {

@@ -132,7 +132,6 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         /// <param name="handle"></param>
         /// <param name="content"></param>
-        /// <param name="state"></param>
         public void Send(TcpSocket handle,byte[] content)
         {
             var state = CreateSendStateObject();

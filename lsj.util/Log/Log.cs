@@ -45,7 +45,7 @@ namespace Lsj.Util.Log
                 {
                     ConsoleColor old = Console.ForegroundColor;
                     Console.ForegroundColor = m_config.ConsoleColors[(int)type];                   
-                    Console.WriteLine(str);
+                    Console.WriteLine($@"[{DateTime.Now.ToString()}] {str}");
                     Console.ForegroundColor = old;
                 }
                 if (m_config.UseFile)
@@ -71,6 +71,10 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
                 Monitor.Exit(@lock);
             }
         }
+
+        public void Add(string str, Exception e, eLogType type) => Add(str + "\n" + e.ToString(),type);
+
+
         public void Debug(string str)=>Add(str, eLogType.Debug);
         public void Info(string str) => Add(str, eLogType.Info);
         public void Warn(string str) => Add(str, eLogType.Warn);
@@ -81,5 +85,8 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
         public void Info(Exception e) => Info(e.ToString());
         public void Warn(Exception e) => Warn(e.ToString());
         public void Error(Exception e) => Error(e.ToString());
+
+        public void Warn(string str, Exception e) => Add(str, e, eLogType.Warn);
+        public void Error(string str,Exception e) => Add(str,e,eLogType.Error);
     }
 }
