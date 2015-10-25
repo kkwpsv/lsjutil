@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +7,8 @@ namespace Lsj.Util.Net.Web
 {
     public class HttpSessions
     {
-        //to do lifetime
-        Dictionary<string,object> sessions = new Dictionary<string, object>();
-        public object this[string key]
+        Dictionary<string, HttpSession> sessions = new Dictionary<string, HttpSession>();
+        public HttpSession this[string key]
         {
             get
             {
@@ -28,5 +26,12 @@ namespace Lsj.Util.Net.Web
                 }
             }
         }
+        public string New()
+        {
+            var session = new HttpSession();
+            this[session.ID] = session;
+            return session.ID;
+        }
+
     }
 }

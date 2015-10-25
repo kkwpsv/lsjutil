@@ -79,6 +79,7 @@ namespace Lsj.Util.Net.Web
                 if (module != null)
                 {
                     response = module.Process(request);
+                    response.cookies.Add(new HttpCookie { name = "SessionID" ,content=request.Session.ID,Expires=DateTime.Now.AddHours(1)});
                     Response();
                 }
                 else if (request.Method == eHttpMethod.GET)

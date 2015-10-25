@@ -25,10 +25,11 @@ namespace Lsj.Util.Net.Web
         public HttpQueryString QueryString { get; private set; }
         public HttpCookies Cookies { get; private set; }
         MyHttpWebServer server;
-        public HttpSessions Session {
+        string SessionID;
+        public HttpSession Session {
             get
             {
-                return server.Session;
+                return server.Session[SessionID];
             }
         }
 
@@ -36,7 +37,7 @@ namespace Lsj.Util.Net.Web
         {
             get
             {
-                return QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "";
+                return System.Web.HttpUtility.UrlDecode(QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "");
             }
         }
         public HttpRequest(MyHttpWebServer server)
@@ -94,8 +95,19 @@ namespace Lsj.Util.Net.Web
                 ParseForm();
                 ParseQueryString();
                 ParseCookies();
+                ParseSession();
                 IsComplete = true;
             }
+        }
+
+        private void ParseSession()
+        {
+            var str = Cookies["SessionID"].content;
+            if(str==""||server.Session[str]==null)
+            {
+                str = server.Session.New();
+            }
+            this.SessionID = str;
         }
 
         private void ParseCookies()

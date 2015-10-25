@@ -19,7 +19,7 @@ namespace Lsj.Util
         /// <param name="src">Source String</param>
         /// <param name="n">Number</param>
         /// </summary>
-        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length - n) : "";
+        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length -1- n) : "";
 
 
         /// <summary>
