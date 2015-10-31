@@ -2,12 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Lsj.Util.Net.Web
 {
     public class HttpSessions
     {
+        public static TimeSpan Timeout = new TimeSpan(0, 15, 0);
         Dictionary<string, HttpSession> sessions = new Dictionary<string, HttpSession>();
+        public HttpSessions()
+        {
+            Thread CheckThread = new Thread(Check);
+            CheckThread.Priority = ThreadPriority.BelowNormal;
+        }
+
+        private void Check()
+        {
+            try
+            {
+                foreach (string key in sessions.Keys.ToList())
+                {
+                    if (sessions[key].LastUseTime <= DateTime.Now - Timeout)
+                    {
+                        sessions.Remove(key);
+                    }
+                }
+            }
+            finally
+            {
+                Thread.Sleep(new TimeSpan(0, 5,0));
+                Check();
+            }
+        }
+
         public HttpSession this[string key]
         {
             get

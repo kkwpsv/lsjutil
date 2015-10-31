@@ -7,6 +7,7 @@ namespace Lsj.Util.Net.Web
 {
     public enum eHttpRequestHeader
     {
+        Unknown,
         Accept,
         AcceptCharset,
         AcceptEncoding,

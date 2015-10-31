@@ -11,7 +11,7 @@ namespace Lsj.Util.Net.Web
     {
         RNGCryptoServiceProvider randgen;
         public string ID { get; private set; }
-        //to do lifetime
+        public DateTime LastUseTime { get; private set; }
         Dictionary<string, object> sessions = new Dictionary<string, object>();
         private static char[] s_encoding;
         private static bool[] s_legalchars;
@@ -20,10 +20,12 @@ namespace Lsj.Util.Net.Web
         {
             get
             {
+                LastUseTime = DateTime.Now;
                 return sessions.ContainsKey(key) ? sessions[key] : null;
             }
             set
             {
+                LastUseTime = DateTime.Now;
                 if (sessions.ContainsKey(key))
                 {
                     if (value == null)
@@ -70,44 +72,45 @@ namespace Lsj.Util.Net.Web
                 array[num++] = s_encoding[num2];
             }
             this.ID = new string(array);
+            this.LastUseTime = DateTime.Now;
         }
         static HttpSession()
         {
             HttpSession.s_encoding = new char[]
-    {
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z',
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5'
-    };
+            {
+                'a',
+                'b',
+                'c',
+                'd',
+                'e',
+                'f',
+                'g',
+                'h',
+                'i',
+                'j',
+                'k',
+                'l',
+                'm',
+                'n',
+                'o',
+                'p',
+                'q',
+                'r',
+                's',
+                't',
+                'u',
+                'v',
+                'w',
+                'x',
+                'y',
+                'z',
+                '0',
+                '1',
+                '2',
+                '3',
+                '4',
+                '5'
+            };
             HttpSession.s_legalchars = new bool[128];
             for (int i = s_encoding.Length - 1; i >= 0; i--)
             {

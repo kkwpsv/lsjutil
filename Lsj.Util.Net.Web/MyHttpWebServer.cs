@@ -23,8 +23,7 @@ namespace Lsj.Util.Net.Web
             try
             {
                 this.m_socket = new TcpSocket();
-                m_socket.Bind(ip, port);
-                GC.KeepAlive(Session);
+                m_socket.Bind(ip, port);               
                 this.InsertModule(typeof(FileModule));
             }
             catch (Exception e)
