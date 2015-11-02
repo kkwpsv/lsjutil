@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using static Lsj.Util.Native.NativeMethods;
+using static Lsj.Util.Native.NativeMethod;
 
 namespace Lsj.Util.Config
 {
@@ -30,7 +30,7 @@ namespace Lsj.Util.Config
         /// <param name="Value">Value</param>
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            WritePrivateProfileString(Section, Key, Value, this.path);
+            WritePrivateProfileStringSafe(Section, Key, Value, this.path);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Lsj.Util.Config
         public string IniReadValue(string Section, string Key)
         {
             StringBuilder temp = new StringBuilder();
-            GetPrivateProfileString(Section, Key, "Null", temp, uint.MaxValue, this.path);
+            GetPrivateProfileStringSafe(Section, Key, "Null", temp, uint.MaxValue, this.path);
             return temp.ToString();
         }
 

@@ -22,7 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Lsj.Util.XML</DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -91,7 +91,6 @@
     <Compile Include="Log\eLogType.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
-    <Compile Include="Native\NativeMethods.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,7 +102,12 @@
   <ItemGroup>
     <None Include="LSJ.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.Native\Lsj.Util.Native.vcxproj">
+      <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
+      <Name>Lsj.Util.Native</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
