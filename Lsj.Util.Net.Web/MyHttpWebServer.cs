@@ -11,30 +11,21 @@ namespace Lsj.Util.Net.Web
 {
     public class MyHttpWebServer : DisposableClass, IDisposable
     {
-        public const string ServerVersion  = "MyHttpWebServer/lsj(2.0)";
-        
-        public List<Type> modules = new List<Type>();
-
+        public const string ServerVersion = "MyHttpWebServer/lsj(2.0)";
         TcpSocket m_socket;
-        public HttpSessions Session = new HttpSessions();
-
+        List<HttpWebsite> sites = new List<HttpWebsite>();
         public MyHttpWebServer(IPAddress ip, int port)
         {
             try
             {
                 this.m_socket = new TcpSocket();
-                m_socket.Bind(ip, port);               
-                this.InsertModule(typeof(FileModule));
+                m_socket.Bind(ip, port);
+                sites.Add(new HttpWebsite());
             }
             catch (Exception e)
             {
                 Log.Log.Default.Error("Bind Error" + e.ToString());
             }
-        }
-        public void InsertModule(Type module)
-        {
-            if(module.GetInterfaces().Contains(typeof(IModule)))
-                modules.Insert(0, module);
         }
         public void Start()
         {
@@ -70,6 +61,18 @@ namespace Lsj.Util.Net.Web
             var handle = m_socket.EndAccept(iar);
             var client = new HttpClient(handle,this);
             client.Receive();
+        }
+        public void AddWebsite(HttpWebsite website)
+        {
+            if (!sites.Contains(website))
+            {
+                sites.Insert(0, website);
+            }
+            else
+            {
+                sites.Remove(website);
+                sites.Insert(0, website);
+            }
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lsj.Util.Net.Web
+﻿namespace Lsj.Util.Net.Web.Protocol
 {
     /// <summary>
     /// Http请求方法
@@ -17,6 +12,8 @@ namespace Lsj.Util.Net.Web
 		HEAD,
 		DEBUG,
 		DELETE,
+        OPTIONS,
+        TRACE,
         UnKnown
     }
 }

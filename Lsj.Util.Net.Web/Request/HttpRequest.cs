@@ -1,22 +1,18 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.Net.Web
+namespace Lsj.Util.Net.Web.Request
 {
-    public class HttpRequest
+    public class HttpRequest:IHttpMessage
     {
-
         public eHttpMethod Method { get; private set; } = eHttpMethod.UnParsed;
-        public eConnectionType Connection { get; private set; } = eConnectionType.Close;
         public string uri { get; private set; } = "";
         public HttpRequestHeaders headers = new HttpRequestHeaders();
-
         bool StartParsePost = false;
-        int contentlength = 0;
         byte[] postBytes = new byte[] { };
-
         public int ErrorCode { get; private set; } = 400;
         public bool IsError { get; private set; } = false;
         public bool IsComplete { get; private set; } = false;
@@ -40,9 +36,8 @@ namespace Lsj.Util.Net.Web
                 return System.Web.HttpUtility.UrlDecode(QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "");
             }
         }
-        public HttpRequest(MyHttpWebServer server)
+        public HttpRequest()
         {
-            this.server = server;
         }
         public void Read(byte[] buffer)
         {

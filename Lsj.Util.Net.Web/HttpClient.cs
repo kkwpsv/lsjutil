@@ -17,8 +17,7 @@ namespace Lsj.Util.Net.Web
         HttpRequest request;
         HttpResponse response;
         MyHttpWebServer server;
-        
-
+        HttpWebsite website;
         public HttpClient(TcpSocket handle,MyHttpWebServer server)
         {
             this.handle = handle;

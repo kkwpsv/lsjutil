@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\SafeDictionary.cs" />
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="CsComplier.cs" />

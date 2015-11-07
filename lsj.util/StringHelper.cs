@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace Lsj.Util
         /// <param name="src">Source String</param>
         /// <param name="n">Number</param>
         /// </summary>
-        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length -1- n) : "";
+        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length- n) : "";
 
 
         /// <summary>
@@ -139,7 +140,16 @@ namespace Lsj.Util
             return i < min ? min : i > max ? max : i;
 
         }
+        public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min =decimal.MinValue , decimal max =decimal.MaxValue)
+        {
+            decimal i;
+            if (!decimal.TryParse(src, out i))
+            {
+                return OnError;
+            }
+            return i < min ? min : i > max ? max : i;
 
+        }
         /// <summary>
         /// Avoid Null String
         /// <param name="src">Source String</param>
@@ -178,6 +188,16 @@ namespace Lsj.Util
 
         public static string[] Split (this string str,string sparator) => Regex.Split(str,sparator, RegexOptions.None);
 
+        public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
 
+        public static DateTime ConvertToDateTime(this string src,string format)
+        {
+            DateTime result;
+            if (DateTime.TryParseExact(src, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+            return DateTime.Now;
+        }
     }
 }
