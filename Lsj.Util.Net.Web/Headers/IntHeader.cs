@@ -16,5 +16,12 @@ namespace Lsj.Util.Net.Web.Headers
         {
             value = content.Trim().ConvertToInt(0);
         }
+        public IntHeader(string name) : this(name, "")
+        {
+        }
+        public static implicit operator int(IntHeader x)
+        {
+            return x.value;
+        }
     }
 }

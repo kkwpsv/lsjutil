@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Request;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,8 +21,11 @@ namespace Lsj.Util.Net.Web.Response
         private byte[] contentbyte { get; set; } = NullBytes;        
         public HttpCookies cookies { get; } = new HttpCookies(new Dictionary<string, HttpCookie>());
         public HttpResponseHeaders headers { get; set; } = new HttpResponseHeaders();
-
-
+        HttpRequest request;
+        public HttpResponse(HttpRequest request)
+        {
+            this.request = request;
+        }
 
         public string GetHeader()
         {

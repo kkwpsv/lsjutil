@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
-using static Lsj.Util.Native.NativeMethod;
+
 
 namespace Lsj.Util.Config
 {
@@ -30,7 +26,7 @@ namespace Lsj.Util.Config
         /// <param name="Value">Value</param>
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            WritePrivateProfileStringSafe(Section, Key, Value, this.path);
+            Native.NativeMethod.WritePrivateProfileStringSafe(Section, Key, Value, this.path);
         }
 
         /// <summary>
@@ -42,7 +38,7 @@ namespace Lsj.Util.Config
         public string IniReadValue(string Section, string Key)
         {
             StringBuilder temp = new StringBuilder();
-            GetPrivateProfileStringSafe(Section, Key, "Null", temp, uint.MaxValue, this.path);
+            Native.NativeMethod.GetPrivateProfileStringSafe(Section, Key, "Null", temp, uint.MaxValue, this.path);
             return temp.ToString();
         }
 

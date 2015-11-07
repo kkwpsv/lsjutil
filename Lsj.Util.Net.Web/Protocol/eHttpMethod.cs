@@ -14,6 +14,7 @@
 		DELETE,
         OPTIONS,
         TRACE,
+        PATCH,
         UnKnown
     }
 }

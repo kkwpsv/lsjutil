@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Protocol;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace Lsj.Util.Net.Web.Response
 {
     public class ErrorResponse : HttpResponse
     {
-        public ErrorResponse(int code)
+        public ErrorResponse(int code):base(null)
         {
             var ErrorString = GetErrorStringByCode(code);
             var sb = new StringBuilder();

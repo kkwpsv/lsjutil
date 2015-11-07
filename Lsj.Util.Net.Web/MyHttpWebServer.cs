@@ -74,5 +74,16 @@ namespace Lsj.Util.Net.Web
                 sites.Insert(0, website);
             }
         }
+        public HttpWebsite GetWebSite(string host)
+        {
+            foreach (var a in sites)
+            {
+                if (a.CanProcess(host))
+                {
+                    return a;
+                }
+            }
+            return new HttpWebsite();
+        }
     }
 }

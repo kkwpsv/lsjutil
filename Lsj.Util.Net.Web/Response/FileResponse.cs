@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Request;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,12 +9,14 @@ namespace Lsj.Util.Net.Web.Response
 {
     public class FileResponse : HttpResponse
     {
-        public FileResponse(string path,string ifmodifiedsince)
+
+
+        public FileResponse(string path, HttpRequest request) : base(request)
         {
             file = new FileInfo(path);
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            ContentType = GetContengTypeByExtension(System.IO.Path.GetExtension(path));
-            if (time==ifmodifiedsince)
+            ContentType = GetContengTypeByExtension(System.IO.Path.GetExtension(path)) + "; charset=utf-8";
+            if (request.headers[eHttpRequestHeader.IfModifiedSince]!=null&&time == request.headers[eHttpRequestHeader.IfModifiedSince].Content)
             {
                 this.Write304();
             }
@@ -23,7 +26,10 @@ namespace Lsj.Util.Net.Web.Response
                 headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
             }
         }
+
         FileInfo file;
+
+
         public override byte[] GetAll()
         {
             if (status == 304)
@@ -51,6 +57,8 @@ namespace Lsj.Util.Net.Web.Response
                     return "image/jpeg";
                 case ".png":
                     return "image/png";
+                case ".log":
+                    return "text/plain";
                 default:
                     return "*/*";
             }

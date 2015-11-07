@@ -23,6 +23,9 @@ namespace Lsj.Util.Net.Web.Headers
             this.Name = name;
             this.Content = content;
         }
+        public RawHeader(string name) : this(name, "")
+        {
+        }
         public static IHeader CreateHeader(eHttpRequestHeader type, string key, string content)
         {
             switch (type)
@@ -32,11 +35,28 @@ namespace Lsj.Util.Net.Web.Headers
                 case eHttpRequestHeader.AcceptEncoding:
                 case eHttpRequestHeader.AcceptLanguage:
                     return new StringArrayHeader(key, content);
+
                 case eHttpRequestHeader.AcceptDatetime:
+                case eHttpRequestHeader.Date:
+                case eHttpRequestHeader.IfModifiedSince:
+                case eHttpRequestHeader.IfUnmodifiedSince:
                     return new DateTimeHeader(key, content);
+
+                case eHttpRequestHeader.Connection:
+                    return new ConnectionHeader(key, content);
+
+                case eHttpRequestHeader.ContentLength:
+                case eHttpRequestHeader.DNT:
+                case eHttpRequestHeader.MaxForwards:
+                    return new IntHeader(key, content);
+
                 default:
                     return new RawHeader(key, content);
             }
+        }
+        public static implicit operator string(RawHeader x)
+        {
+            return x.Content;
         }
     }
 }

@@ -66,24 +66,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Headers\ConnectionHeader.cs" />
     <Compile Include="Headers\DateTimeHeader.cs" />
     <Compile Include="Headers\IHeader.cs" />
     <Compile Include="Headers\IntHeader.cs" />
     <Compile Include="Headers\RawHeader.cs" />
     <Compile Include="Headers\StringArrayHeader.cs" />
+    <Compile Include="Post\FormParser.cs" />
     <Compile Include="Protocol\eConnectionType.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpCookie.cs" />
     <Compile Include="HttpCookies.cs" />
     <Compile Include="HttpForm.cs" />
     <Compile Include="IHttpMessage.cs" />
-    <Compile Include="HttpSession.cs" />
+    <Compile Include="Session\HttpSession.cs" />
     <Compile Include="HttpResponseHeaders.cs" />
     <Compile Include="Request\HttpRequestHeaders.cs" />
     <Compile Include="HttpQueryString.cs" />
     <Compile Include="Request\HttpRequest.cs" />
     <Compile Include="Protocol\eHttpRequestHeader.cs" />
-    <Compile Include="HttpSessions.cs" />
+    <Compile Include="Session\HttpSessions.cs" />
     <Compile Include="HttpWebsite.cs" />
     <Compile Include="Response\HttpResponse.cs" />
     <Compile Include="Modules\FileModule.cs" />
@@ -106,6 +108,7 @@
   <ItemGroup>
     <None Include="LSJ.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

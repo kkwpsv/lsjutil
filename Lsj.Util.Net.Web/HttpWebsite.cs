@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Modules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,9 @@ namespace Lsj.Util.Net.Web
         {
             return host.ToLower().IsMatch(Host);
         }
+        public List<IModule> modules = new List<IModule>()
+        {
+            { new FileModule() },
+        };
     }
 }

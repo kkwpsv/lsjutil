@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.IO;
+using Lsj.Util.Net.Web.Protocol;
 
 namespace Lsj.Util.Net.Web
 {

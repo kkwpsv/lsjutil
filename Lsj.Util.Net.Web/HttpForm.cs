@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,9 @@ namespace Lsj.Util.Net.Web
 {
     public class HttpForm
     {
-        Dictionary<string, string> form = new Dictionary<string, string>();
+        SafeDictionary<string, string> form = new SafeDictionary<string, string>();
         private object @lock = new object();
-        public HttpForm(Dictionary<string, string> form)
+        public HttpForm(SafeDictionary<string, string> form)
         {
             this.form = form;           
         }
@@ -23,7 +24,7 @@ namespace Lsj.Util.Net.Web
                     x = this.form.ContainsKey(key) ? this.form[key] : "";
                 }
                 return x;
-                }
+            }
         }
     }
 }

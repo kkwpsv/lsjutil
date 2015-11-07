@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Modules;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Response;
 using System;
 using System.Collections.Generic;
@@ -22,7 +24,7 @@ namespace Lsj.Util.Net.Web
         {
             this.handle = handle;
             this.server = server;
-            this.request = new HttpRequest(server);
+            this.request = new HttpRequest(this);
         }
         public void Receive()
         {
@@ -61,18 +63,15 @@ namespace Lsj.Util.Net.Web
         {
             try
             {
+                this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host].Content);
                 IModule module = null;
-                for (int i = 0; i < server.modules.Count; i++)
+
+                foreach (var x in website.modules)
                 {
-                    var method = server.modules[i].GetMethod("CanProcess", BindingFlags.Static | BindingFlags.Public);
-                    if (method != null)
+                    if (x.CanProcess(request))
                     {
-                        var result = method.Invoke(null, new object[] { request }) as bool?;
-                        if (result == true)
-                        {
-                            module = Activator.CreateInstance(server.modules[i]) as IModule;
-                            break;
-                        }
+                        module = x;
+                        break;
                     }
                 }
                 if (module != null)
@@ -112,7 +111,8 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                this.request = new HttpRequest(server);
+                this.request = new HttpRequest(this);
+                this.response = null;
                 Receive();
             }
         }

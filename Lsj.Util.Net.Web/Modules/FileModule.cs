@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Net.Web.Request;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Headers;
 
 namespace Lsj.Util.Net.Web.Modules
 {
@@ -46,8 +49,8 @@ namespace Lsj.Util.Net.Web.Modules
             }
             if (path != "")
             {
-                var response = new FileResponse(path, request.headers[eHttpRequestHeader.IfModifiedSince]);
-                response.Connection = request.Connection;
+                var response = new FileResponse(path,request);
+                response.Connection = ((ConnectionHeader)request.headers[eHttpRequestHeader.Connection]).value;
                 return response;
             }
             else
@@ -56,7 +59,7 @@ namespace Lsj.Util.Net.Web.Modules
                
             }
         }
-        public static bool CanProcess(HttpRequest request)
+        public bool CanProcess(HttpRequest request)
         {
             bool result = false;
             if (request.Method == eHttpMethod.GET)
