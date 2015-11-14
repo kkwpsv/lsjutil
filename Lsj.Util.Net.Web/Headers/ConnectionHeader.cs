@@ -12,13 +12,26 @@ namespace Lsj.Util.Net.Web.Headers
         {
             private set;
             get;
-        }
-        public ConnectionHeader(string name, string content) : base(name, content)
+        } = eConnectionType.Close;
+        public ConnectionHeader(string content) : base(content)
         {
             if (content.ToLower() == "keep-alive")
                 value = eConnectionType.KeepAlive;
             else
                 value = eConnectionType.Close;
+        }
+        public ConnectionHeader(eConnectionType value)
+        {
+            this.value = value;
+
+            if (value==eConnectionType.KeepAlive)
+            {
+                Content = "keep-alive";
+            }
+            else
+            {
+                Content = "close";
+            }
         }
     }
 }

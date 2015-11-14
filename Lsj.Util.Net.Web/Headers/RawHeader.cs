@@ -11,22 +11,15 @@ namespace Lsj.Util.Net.Web.Headers
         {
             protected set;
             get;
-        }
-
-        public string Name
+        } = "";
+        public RawHeader(string content)
         {
-            protected set;
-            get;
-        }
-        public RawHeader(string name,string content)
-        {
-            this.Name = name;
             this.Content = content;
         }
-        public RawHeader(string name) : this(name, "")
+        public RawHeader() : this("")
         {
         }
-        public static IHeader CreateHeader(eHttpRequestHeader type, string key, string content)
+        public static IHeader CreateHeader(eHttpRequestHeader type, string content)
         {
             switch (type)
             {
@@ -34,24 +27,39 @@ namespace Lsj.Util.Net.Web.Headers
                 case eHttpRequestHeader.AcceptCharset:
                 case eHttpRequestHeader.AcceptEncoding:
                 case eHttpRequestHeader.AcceptLanguage:
-                    return new StringArrayHeader(key, content);
+                    return new StringArrayHeader(content);
 
                 case eHttpRequestHeader.AcceptDatetime:
                 case eHttpRequestHeader.Date:
                 case eHttpRequestHeader.IfModifiedSince:
                 case eHttpRequestHeader.IfUnmodifiedSince:
-                    return new DateTimeHeader(key, content);
+                    return new DateTimeHeader(content);
 
                 case eHttpRequestHeader.Connection:
-                    return new ConnectionHeader(key, content);
+                    return new ConnectionHeader(content);
 
                 case eHttpRequestHeader.ContentLength:
                 case eHttpRequestHeader.DNT:
                 case eHttpRequestHeader.MaxForwards:
-                    return new IntHeader(key, content);
+                    return new IntHeader(content);
 
                 default:
-                    return new RawHeader(key, content);
+                    return new RawHeader(content);
+            }
+        }
+        public static IHeader CreateHeader(eHttpResponseHeader type,string content)
+        {
+            switch (type)
+            {
+                case eHttpResponseHeader.Age:
+                case eHttpResponseHeader.ContentLength:
+                    return new IntHeader(content);
+                case eHttpResponseHeader.Date:
+                case eHttpResponseHeader.Expires:
+                    return new DateTimeHeader(content);
+
+                default:
+                    return new RawHeader(content);
             }
         }
         public static implicit operator string(RawHeader x)

@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.IO;
 using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Modules;
+using Lsj.Util.Net.Web.Website;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Lsj.Util.Net.Web
 {
     public class MyHttpWebServer : DisposableClass, IDisposable
     {
-        public const string ServerVersion = "MyHttpWebServer/lsj(2.0)";
+        public const string ServerVersion = "MyHttpWebServer/lsj(3.0)";
         TcpSocket m_socket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
         public MyHttpWebServer(IPAddress ip, int port)
@@ -20,7 +21,6 @@ namespace Lsj.Util.Net.Web
             {
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(ip, port);
-                sites.Add(new HttpWebsite());
             }
             catch (Exception e)
             {
@@ -68,22 +68,24 @@ namespace Lsj.Util.Net.Web
             {
                 sites.Insert(0, website);
             }
-            else
+        }
+        public void RemoveWebsite(HttpWebsite website)
+        {
+            if (!sites.Contains(website))
             {
                 sites.Remove(website);
-                sites.Insert(0, website);
             }
         }
         public HttpWebsite GetWebSite(string host)
         {
             foreach (var a in sites)
             {
-                if (a.CanProcess(host))
+                if (host.IsMatchIgnoreCase(a.Config.Host))
                 {
                     return a;
                 }
             }
-            return new HttpWebsite();
+            return null;
         }
     }
 }

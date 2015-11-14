@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web.Headers
             private set;
             get;
         }
-        public StringArrayHeader(string name, string content) : base (name,content)
+        public StringArrayHeader(string content) : base (content)
         {
             List<x> z = new List<x>();
             var a = content.Split(',');

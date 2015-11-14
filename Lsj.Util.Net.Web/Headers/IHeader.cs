@@ -11,9 +11,5 @@ namespace Lsj.Util.Net.Web.Headers
         {
             get;
         }
-        string Name
-        {
-            get;
-        }
     }
 }

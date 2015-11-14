@@ -12,12 +12,10 @@ namespace Lsj.Util.Net.Web.Headers
             private set;
             get;
         }
-        public DateTimeHeader(string name, string content) : base(name, content)
+        public DateTimeHeader(string content) : base(content)
         {
             value = content.ConvertToDateTime("r");
-        }
-        public DateTimeHeader(string name) : this(name, "")
-        {
+            Content = value.ToString("r");
         }
     }
 }

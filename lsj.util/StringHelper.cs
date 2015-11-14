@@ -188,8 +188,8 @@ namespace Lsj.Util
 
         public static string[] Split (this string str,string sparator) => Regex.Split(str,sparator, RegexOptions.None);
 
-        public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
-
+        public static bool IsMatchIgnoreCase(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
+        public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.None);
         public static DateTime ConvertToDateTime(this string src,string format)
         {
             DateTime result;

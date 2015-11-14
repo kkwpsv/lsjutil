@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Lsj.Util.Collections
 {
-    public class SafeDictionary<TKey,TValue> :IEnumerable<TValue>
+    public class SafeDictionary<TKey,TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         Dictionary<TKey, TValue> m_Dictionary;
         public SafeDictionary()
@@ -34,9 +34,9 @@ namespace Lsj.Util.Collections
         {
             return default(TValue);
         }
-        public IEnumerator<TValue> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return m_Dictionary.Values.GetEnumerator();
+            return m_Dictionary.GetEnumerator();
         }
         IEnumerator IEnumerable.GetEnumerator()
         {

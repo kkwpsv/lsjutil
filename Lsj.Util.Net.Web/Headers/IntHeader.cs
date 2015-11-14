@@ -11,13 +11,16 @@ namespace Lsj.Util.Net.Web.Headers
         {
             private set;
             get;
-        }
-        public IntHeader(string name, string content) : base(name, content)
+        } = 0;
+        public IntHeader(string content) : base(content)
         {
             value = content.Trim().ConvertToInt(0);
+            Content = value.ToString();
         }
-        public IntHeader(string name) : this(name, "")
+        public IntHeader(int value)
         {
+            value = value;
+            Content = value.ToString();
         }
         public static implicit operator int(IntHeader x)
         {

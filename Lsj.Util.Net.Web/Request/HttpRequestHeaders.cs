@@ -12,10 +12,10 @@ namespace Lsj.Util.Net.Web.Request
     {
         public static readonly SafeDictionary<eHttpRequestHeader, IHeader> @default = new SafeDictionary<eHttpRequestHeader, IHeader>
         {
-            {eHttpRequestHeader.Connection,new ConnectionHeader("Connection","close") },
-            {eHttpRequestHeader.ContentLength,new IntHeader("ContentLength")},
-            {eHttpRequestHeader.Host,new RawHeader("Host")},
-            {eHttpRequestHeader.Cookie,new RawHeader("Cookie")},
+            {eHttpRequestHeader.Connection,new ConnectionHeader("close") },
+            {eHttpRequestHeader.ContentLength,new IntHeader("0")},
+            {eHttpRequestHeader.Host,new RawHeader()},
+            {eHttpRequestHeader.Cookie,new RawHeader()},
         };
         public static readonly headertype HeaderType = new headertype
         {
@@ -61,11 +61,11 @@ namespace Lsj.Util.Net.Web.Request
             var x = HeaderType[key];
             if (x != eHttpRequestHeader.Unknown)
             {
-                this[x] = RawHeader.CreateHeader(x, key, content);
+                this[x] = RawHeader.CreateHeader(x, content);
             }
             else
             {
-                UnKnownHeaders[key] = RawHeader.CreateHeader(x, key, content);
+                UnKnownHeaders[key] = RawHeader.CreateHeader(x, content);
             }
         }
         public override IHeader GetNullValue(eHttpRequestHeader key)

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Net.Web.Protocol;
+﻿using Lsj.Util.Net.Web.Headers;
+using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
 using System;
 using System.Collections.Generic;
@@ -14,34 +15,31 @@ namespace Lsj.Util.Net.Web.Response
         public int status { get; protected set; } = 200;
         protected StringBuilder content { get; set; } = new StringBuilder("");
         public string Server = MyHttpWebServer.ServerVersion;
-        public string ContentType { get; set; } = "*/*";
-        public long ContentLength { get; protected set; } = 0;
-        public string Location { get; protected set; } = "";
-        public eConnectionType Connection { get; set; } = eConnectionType.KeepAlive;
         private byte[] contentbyte { get; set; } = NullBytes;        
         public HttpCookies cookies { get; } = new HttpCookies(new Dictionary<string, HttpCookie>());
         public HttpResponseHeaders headers { get; set; } = new HttpResponseHeaders();
+
         HttpRequest request;
         public HttpResponse(HttpRequest request)
         {
             this.request = request;
+            if (request != null)
+            {
+                this.headers[eHttpResponseHeader.Connection] = new ConnectionHeader(request.headers[eHttpRequestHeader.Connection].Content);
+            }
         }
 
         public string GetHeader()
         {
             var sb = new StringBuilder();
             sb.Append($"HTTP/1.1 {status} {GetErrorStringByCode(status)}\r\n");
-            sb.Append($"Server: {Server}\r\n");
-            sb.Append($"Content-Length: {ContentLength}\r\n");
-            sb.Append($"Content-Type: {ContentType} \r\n");
-            sb.Append($"Date: {DateTime.Now.ToUniversalTime().ToString("r")} \r\n");
-            if (Connection==eConnectionType.KeepAlive)
+            foreach (var a in headers)
             {
-                sb.Append($"Connection: Keep-Alive\r\n");
+                sb.Append($"{HttpResponseHeaders.HeaderType.GetKeyByValue(a.Key)}: {a.Value.Content} \r\n");
             }
-            else
+            foreach (var a in headers.UnKnownHeaders)
             {
-                sb.Append($"Connection: Close\r\n");
+                sb.Append($"{a.Key}: {a.Value}\r\n");
             }
             if (cookies != null)
             {
@@ -49,14 +47,6 @@ namespace Lsj.Util.Net.Web.Response
                 {
                     sb.Append($"Set-Cookie: {cookie.name}={cookie.content}; Expires={cookie.Expires.ToUniversalTime().ToString("r")}; domain={cookie.domain}; path=/ \r\n");
                 }
-            }
-            if (status == 302)
-            {
-                sb.Append($"location: {Location}\r\n");
-            }
-            foreach (var a in headers)
-            {
-                sb.Append($"{a.Key}: {a.Value}\r\n");
             }
             sb.Append("\r\n");
             return sb.ToString();
@@ -84,23 +74,23 @@ namespace Lsj.Util.Net.Web.Response
         public void Write(string content)
         {
             this.content.Append(content);
-            this.ContentLength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(content.ToString().ConvertToBytes(Encoding.UTF8).Length);
         }
         public void Write(StringBuilder content)
         {
             this.content.Append(content);
-            this.ContentLength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(content.ToString().ConvertToBytes(Encoding.UTF8).Length);
         }
         public void Write(byte[] bytes)
         {
             this.contentbyte = bytes;
-            this.ContentLength = bytes.Length;
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(bytes.Length);
         }
 
 
         public void ReturnAndRedict(string error, string redicturl)
         {
-            this.ContentType = "text/html; charset=utf-8";
+            this.headers[eHttpResponseHeader.ContentType] = new RawHeader("text/html; charset=utf-8");
             this.Write(("<script type='text/javascript'>alert('" + error + "');window.location='" + redicturl + "'</script>;").ConvertToBytes(Encoding.UTF8));
         }
 
@@ -111,9 +101,9 @@ namespace Lsj.Util.Net.Web.Response
         {
             var sb = new StringBuilder("");
             this.content = sb;
-            this.ContentLength = 0;
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(0);
             this.status = 302;
-            this.Location = uri;
+            this.headers[eHttpResponseHeader.Location] = new RawHeader(uri);
         }
      
 

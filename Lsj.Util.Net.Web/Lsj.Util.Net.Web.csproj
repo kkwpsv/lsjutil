@@ -72,6 +72,7 @@
     <Compile Include="Headers\IntHeader.cs" />
     <Compile Include="Headers\RawHeader.cs" />
     <Compile Include="Headers\StringArrayHeader.cs" />
+    <Compile Include="MIME\MIME.cs" />
     <Compile Include="Post\FormParser.cs" />
     <Compile Include="Protocol\eConnectionType.cs" />
     <Compile Include="HttpClient.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="HttpCookies.cs" />
     <Compile Include="HttpForm.cs" />
     <Compile Include="IHttpMessage.cs" />
+    <Compile Include="Protocol\eHttpResponseHeader.cs" />
+    <Compile Include="Response\HttpResponseHeaders.cs" />
     <Compile Include="Session\HttpSession.cs" />
     <Compile Include="HttpResponseHeaders.cs" />
     <Compile Include="Request\HttpRequestHeaders.cs" />
@@ -86,7 +89,7 @@
     <Compile Include="Request\HttpRequest.cs" />
     <Compile Include="Protocol\eHttpRequestHeader.cs" />
     <Compile Include="Session\HttpSessions.cs" />
-    <Compile Include="HttpWebsite.cs" />
+    <Compile Include="Website\HttpWebsite.cs" />
     <Compile Include="Response\HttpResponse.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Modules\IModule.cs" />
@@ -98,8 +101,13 @@
     <Compile Include="MyCookieContainer.cs" />
     <Compile Include="MyHttpWebRequest.cs" />
     <Compile Include="MyHttpWebResponse.cs" />
+    <Compile Include="Website\WebSiteConfig.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj">
+      <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
+      <Name>Lsj.Util.HtmlBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
       <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>

@@ -1,4 +1,8 @@
-﻿using Lsj.Util.Net.Web.Protocol;
+﻿using Lsj.Util.HtmlBuilder;
+using Lsj.Util.HtmlBuilder.Body;
+using Lsj.Util.HtmlBuilder.Header;
+using Lsj.Util.Net.Web.Headers;
+using Lsj.Util.Net.Web.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,30 +12,62 @@ namespace Lsj.Util.Net.Web.Response
 {
     public class ErrorResponse : HttpResponse
     {
-        public ErrorResponse(int code):base(null)
+        public ErrorResponse(int code) : base(null)
         {
             var ErrorString = GetErrorStringByCode(code);
-            var sb = new StringBuilder();
-            sb.Append(
-$@"<!DOCTYPE html>
-<html>
-    <head>
-        <title>{ErrorString}</title>
-    </head>
-    <body bgcolor = ""white"" >
-        <span>
-            <h1> Server Error.<hr width = 100% size = 1 color = silver ></h1>
-            <h2> <i> HTTP Error {code}- {ErrorString}.</i></h2>
-        </span>
-        <hr width = 100% size = 1 color = silver >
-        <b> Server Information:</b> &nbsp; {Server}
-    </body>
-</html>
-");
-            this.content = sb;
-            this.ContentLength = content.ToString().ConvertToBytes(Encoding.UTF8).Length;
+            var ErrorPage = new HtmlPage();
+            ErrorPage.head.Children.Add(new Title
+            {
+                new HtmlRawNode(ErrorString)
+            });
+            ErrorPage.body.Param["bgcolor"] = "white";
+            ErrorPage.body.Children.AddRange(
+                new List<HtmlNode>
+                {
+                    new Span
+                    {
+                        new H1
+                        {
+                            new HtmlRawNode("Server Error."),
+                            new Hr
+                            {
+                                Param = new HtmlParam
+                                {
+                                    { "width","100%" },
+                                    { "size","1" },
+                                    { "color","silver" },
+                                }
+                            }
+                        },
+                        new H2
+                        {
+                            new I
+                            {
+                                new HtmlRawNode($"HTTP Error {code}- {ErrorString}.")
+                            }
+                        }
+                    },
+                    new Hr
+                    {
+                        Param = new HtmlParam
+                                {
+                                    { "width","100%" },
+                                    { "size","1" },
+                                    { "color","silver" },
+                                }
+                    },
+                    new B
+                    {
+                        new HtmlRawNode("Server Information:")
+                    },
+                    new HtmlRawNode($" &nbsp; {Server}")
+                }
+            );
+
+            this.content = ErrorPage.ToString().ToStringBuilder();
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(content.ToString().ConvertToBytes(Encoding.UTF8).Length);
             this.status = code;
-            this.Connection = eConnectionType.Close;
+            this.headers[eHttpResponseHeader.Connection] = new ConnectionHeader(eConnectionType.Close);
         }
     }
 }

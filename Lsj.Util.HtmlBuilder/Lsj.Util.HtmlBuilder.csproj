@@ -46,10 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Body\B.cs" />
+    <Compile Include="Body\I.cs" />
+    <Compile Include="Body\H2.cs" />
+    <Compile Include="Body\H1.cs" />
+    <Compile Include="Body\Hr.cs" />
+    <Compile Include="Body\HtmlBody.cs" />
+    <Compile Include="Body\Span.cs" />
+    <Compile Include="Header\Title.cs" />
+    <Compile Include="HtmlNode.cs" />
+    <Compile Include="HtmlNodeWithoutEnd.cs" />
+    <Compile Include="HtmlPage.cs" />
+    <Compile Include="Header\HtmlHead.cs" />
+    <Compile Include="HtmlParam.cs" />
+    <Compile Include="HtmlRawNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
+      <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
+      <Name>Lsj.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

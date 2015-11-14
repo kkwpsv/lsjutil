@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Net.Web.Request;
+﻿using Lsj.Util.Net.Web.Headers;
+using Lsj.Util.Net.Web.Request;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,16 +17,21 @@ namespace Lsj.Util.Net.Web.Response
         {
             file = new FileInfo(path);
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            ContentType = GetContengTypeByExtension(System.IO.Path.GetExtension(path)) + "; charset=utf-8";
+            this.headers[eHttpResponseHeader.ContentType] = new RawHeader(GetContengTypeByExtension(System.IO.Path.GetExtension(path)) + "; charset=utf-8");
             if (request.headers[eHttpRequestHeader.IfModifiedSince]!=null&&time == request.headers[eHttpRequestHeader.IfModifiedSince].Content)
             {
                 this.Write304();
             }
             else
             {
-                ContentLength = file.Length;
+                this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(file.Length.ToString());
                 headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
             }
+        }
+
+        private string GetContengTypeByExtension(string v)
+        {
+            throw new NotImplementedException();
         }
 
         FileInfo file;
@@ -41,27 +48,8 @@ namespace Lsj.Util.Net.Web.Response
         {
             var sb = new StringBuilder("");
             this.content = sb;
-            this.ContentLength = 0;
+            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(0);
             this.status = 304;
-        }
-        private string GetContengTypeByExtension(string Extension)
-        {
-            switch (Extension)
-            {
-                case ".css":
-                    return "text/css";
-                case ".html":
-                case ".htm":
-                    return "text/html";
-                case ".jpg":
-                    return "image/jpeg";
-                case ".png":
-                    return "image/png";
-                case ".log":
-                    return "text/plain";
-                default:
-                    return "*/*";
-            }
         }
     }
 

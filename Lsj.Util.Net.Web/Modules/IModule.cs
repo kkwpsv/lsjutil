@@ -10,6 +10,6 @@ namespace Lsj.Util.Net.Web.Modules
     public interface IModule
     {
         HttpResponse Process(HttpRequest request);
-        bool CanProcess(HttpRequest request);
+        bool CanProcess(HttpRequest request,ref int code);
     }
 }

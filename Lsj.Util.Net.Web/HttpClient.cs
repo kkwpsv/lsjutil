@@ -1,8 +1,10 @@
 ﻿using Lsj.Util.Net.Sockets;
+using Lsj.Util.Net.Web.Headers;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Response;
+using Lsj.Util.Net.Web.Website;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,32 +63,39 @@ namespace Lsj.Util.Net.Web
 
         private void Process()
         {
+            int code = 501;
             try
             {
                 this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host].Content);
-                IModule module = null;
-
-                foreach (var x in website.modules)
+                if (this.website == null)
                 {
-                    if (x.CanProcess(request))
-                    {
-                        module = x;
-                        break;
-                    }
-                }
-                if (module != null)
-                {
-                    response = module.Process(request);
-                    response.cookies.Add(new HttpCookie { name = "SessionID" ,content=request.Session.ID,Expires=DateTime.Now.AddHours(1)});
-                    Response();
-                }
-                else if (request.Method == eHttpMethod.GET)
-                {
-                    SendErrorAndDisconnect(404);
+                    SendErrorAndDisconnect(403);
+                    return;
                 }
                 else
                 {
-                    SendErrorAndDisconnect(501);
+
+                    IModule module = null;
+
+                    foreach (var x in website.modules)
+                    {
+                        if (x.CanProcess(request,ref code))
+                        {
+                            module = x;
+                            break;
+                        }
+                    }
+                    if (module != null)
+                    {
+                        response = module.Process(request);
+                        response.cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
+                        response.headers.Add(eHttpResponseHeader.Server, MyHttpWebServer.ServerVersion);
+                        Response();
+                    }
+                    else
+                    {
+                        SendErrorAndDisconnect(code);
+                    }
                 }
             }
             catch(Exception e)
@@ -104,7 +113,7 @@ namespace Lsj.Util.Net.Web
         private void OnSent(IAsyncResult ar)
         {
             handle.EndSend(ar);
-            if (response.Connection == eConnectionType.Close)
+            if ((response.headers[eHttpResponseHeader.Connection] as ConnectionHeader).value == eConnectionType.Close)
             {
                 handle.Shutdown();
                 handle.Close();

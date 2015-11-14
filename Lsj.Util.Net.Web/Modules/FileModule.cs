@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Modules
     public class FileModule : IModule
     {
         public static string[] DefaultPage { get; set; } = { "index.htm", "index.html" };
-        public static string Path
+        public string Path
         {
             get { return m_Path; }
             set
@@ -30,6 +30,10 @@ namespace Lsj.Util.Net.Web.Modules
             }
         }
         static string m_Path = ".";
+        public FileModule(string path)
+        {
+            this.Path = path;
+        }
         public HttpResponse Process(HttpRequest request)
         {
             var path = "";
@@ -50,7 +54,6 @@ namespace Lsj.Util.Net.Web.Modules
             if (path != "")
             {
                 var response = new FileResponse(path,request);
-                response.Connection = ((ConnectionHeader)request.headers[eHttpRequestHeader.Connection]).value;
                 return response;
             }
             else
@@ -59,9 +62,13 @@ namespace Lsj.Util.Net.Web.Modules
                
             }
         }
-        public bool CanProcess(HttpRequest request)
+        public bool CanProcess(HttpRequest request,ref int code)
         {
-            bool result = false;
+            if (request.uri == @"\website.config")
+            {
+                code = 403;
+                return false;
+            }
             if (request.Method == eHttpMethod.GET)
             {
                 if (request.uri.EndsWith(@"\"))
@@ -79,7 +86,8 @@ namespace Lsj.Util.Net.Web.Modules
                     return true;
                 }
             }
-            return result;
+            code = 404;
+            return false;
         }
     }
 }
