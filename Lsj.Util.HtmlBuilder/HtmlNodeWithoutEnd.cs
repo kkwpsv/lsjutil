@@ -7,9 +7,12 @@ namespace Lsj.Util.HtmlBuilder
 {
     public class HtmlNodeWithoutEnd : HtmlNode
     {
-        public override string ToString()
+        public override string ToString(int i)
         {
-            return $@"<{Name}{Param.ToString()} />";
+            var sb = new StringBuilder();
+            sb.Append(NULL, i*4);
+            sb.Append($@"<{Name}{Param.ToString()} />");
+            return sb.ToString();
         }
     }
 }

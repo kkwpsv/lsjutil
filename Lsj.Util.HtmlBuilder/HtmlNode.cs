@@ -8,13 +8,33 @@ namespace Lsj.Util.HtmlBuilder
 {
     public abstract class HtmlNode : IEnumerable<HtmlNode>
     {
-        public virtual string Name { get;} = "";
-        public virtual string GetContent()
+        
+        public static char NULL = ' ';
+        public virtual string Name{
+            get
+            {
+                return this.GetType().Name;
+            }
+        }
+        public virtual string GetContent(int i)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var a in Children)
             {
-                sb.Append(a);
+                if (a is HtmlNodeWithoutNewLine)
+                {
+                    sb.Append(a.ToString(i));
+                }
+                else
+                {
+                    if (a == Children.First())
+                    {
+                        sb.AppendLine();
+                    }                    
+                    sb.Append(a.ToString(i));
+                    sb.AppendLine();
+                }
+                
             }
             return sb.ToString();
         }
@@ -28,15 +48,23 @@ namespace Lsj.Util.HtmlBuilder
         {
             Children.Add(node);
         }
-        public override string ToString()
+        public override string ToString() => ToString(0);
+        public virtual string ToString(int i)
         {
-            return 
-                $@"
-<{Name}{Param.ToString()}>
-    {GetContent()}
-</{Name}>
-";
+            var sb = new StringBuilder();
+            sb.Append(NULL, i*4);
+            sb.Append($@"<{Name}{Param.ToString()}>");
+            sb.Append(GetContent(i + 1));
+            if(!(this.Children.Last() is HtmlNodeWithoutNewLine))
+                sb.Append(NULL, i * 4);
+            sb.Append($@"</{Name}>");
+            return sb.ToString();
         }
+
+
+
+
+
 
         public IEnumerator<HtmlNode> GetEnumerator()
         {

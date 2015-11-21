@@ -26,7 +26,7 @@ namespace Lsj.Util.Config
                         if (property.PropertyType.IsAssignableFrom(typeof(ConfigElement)))
                         {
                             var element = config.SelectSingleNode(property.Name);
-                            if(element!=null)
+                            if (element != null)
                             {
                                 property.SetValue(this, new ConfigElement(element.InnerText), null);
                             }

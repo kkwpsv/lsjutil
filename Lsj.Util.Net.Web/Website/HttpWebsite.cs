@@ -4,11 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lsj.Util.IO;
+using System.IO;
 
 namespace Lsj.Util.Net.Web.Website
 {
     public class HttpWebsite : DisposableClass, IDisposable
     {
+
+        public string DefaultConfig = @"<?xml version=""1.0""?>
+<config>
+	<Host>*</Host>
+</config>";
         public WebSiteConfig Config
         {
             get;
@@ -30,7 +37,14 @@ namespace Lsj.Util.Net.Web.Website
         public HttpWebsite(string path)
         {
             this.Path = path;
-            this.Config = new WebSiteConfig(Path+"website.config");
+            var configfile = Path + "website.config";
+            if (!configfile.IsExistsFile())
+            {
+                var x = File.Create(configfile);
+                x.Write(DefaultConfig.ConvertToBytes(),0,DefaultConfig.Length);
+                x.Dispose();
+            }
+            this.Config = new WebSiteConfig(configfile);
             this.Session = new HttpSessions();
             modules.Add(new FileModule(Path));
         }

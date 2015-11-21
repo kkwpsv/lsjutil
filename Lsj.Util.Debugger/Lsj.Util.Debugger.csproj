@@ -4,37 +4,33 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FF55DB4B-9A84-42FD-8DBF-B3FBC4AFF9FF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{DF542C73-854E-4559-8AD6-8B0498AEC8E4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lsj.Util.HtmlBuilder</RootNamespace>
-    <AssemblyName>Lsj.Util.HtmlBuilder</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Lsj.Util.Debugger</RootNamespace>
+    <AssemblyName>Lsj.Util.Debugger</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>Lsj.Util.HtmlBuilder.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,30 +39,29 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Body\b.cs" />
-    <Compile Include="Body\i.cs" />
-    <Compile Include="Body\h2.cs" />
-    <Compile Include="Body\h1.cs" />
-    <Compile Include="Body\Hr.cs" />
-    <Compile Include="Body\HtmlBody.cs" />
-    <Compile Include="Body\span.cs" />
-    <Compile Include="Header\title.cs" />
-    <Compile Include="HtmlNode.cs" />
-    <Compile Include="HtmlNodeWithoutEnd.cs" />
-    <Compile Include="HtmlNodeWithoutNewLine.cs" />
-    <Compile Include="HtmlPage.cs" />
-    <Compile Include="Header\HtmlHead.cs" />
-    <Compile Include="HtmlParam.cs" />
-    <Compile Include="HtmlRawNode.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LSJ.snk" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj">
+      <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
+      <Name>Lsj.Util.HtmlBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.Native\Lsj.Util.Native.vcxproj">
+      <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
+      <Name>Lsj.Util.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj">
+      <Project>{35fa4756-1cfd-40f8-a324-d620ab422590}</Project>
+      <Name>Lsj.Util.Net.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
       <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>

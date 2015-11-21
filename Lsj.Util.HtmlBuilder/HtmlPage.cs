@@ -9,7 +9,7 @@ namespace Lsj.Util.HtmlBuilder
 {
     public class HtmlPage:HtmlNode
     {
-        public const string Version = "HtmlBuilder/lsj(1.0)";
+        public const string Version = "HtmlBuilder/lsj(1.1)";
         public HtmlPage()
         {
             Children.Add(head);
@@ -25,16 +25,20 @@ namespace Lsj.Util.HtmlBuilder
             get;
             set;
         } = new HtmlBody();
-
-        public override string ToString()
+        public override string ToString(int i)
         {
-            return
+            if (i != 0)
+            {
+                throw new Exception("HtmlPage Must Be The Root Node");
+            }
+            else
+            {
+                return
 $@"<!DOCTYPE html>
 <html>
-<!--The Page Is Built By {Version}.-->
-{GetContent()}
-</html>
+<!--The Page Is Built By {Version}.-->{GetContent(i)}</html>
 ";
+            }
         }
     }
 }

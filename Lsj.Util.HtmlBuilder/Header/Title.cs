@@ -6,8 +6,7 @@ using Lsj.Util.HtmlBuilder;
 
 namespace Lsj.Util.HtmlBuilder.Header
 {
-    public class Title:HtmlNode
+    public class title:HtmlNode
     {
-        public override string Name => "title";
     }
 }

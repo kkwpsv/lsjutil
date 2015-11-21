@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
-    public class HtmlRawNode : HtmlNode
+    public class HtmlRawNode : HtmlNodeWithoutNewLine
     {
         public HtmlRawNode(string content)
         {
@@ -16,17 +16,9 @@ namespace Lsj.Util.HtmlBuilder
             get;
             set;
         } = "";
-        public override string ToString()
+        public override string ToString(int i)
         {
             return Content;
-        }
-        public static explicit operator string (HtmlRawNode x)
-        {
-            return x.ToString();
-        }
-        public static explicit operator HtmlRawNode(string x)
-        {
-            return new HtmlRawNode(x);
         }
     }
 }

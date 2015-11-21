@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web.Response
         {
             var ErrorString = GetErrorStringByCode(code);
             var ErrorPage = new HtmlPage();
-            ErrorPage.head.Children.Add(new Title
+            ErrorPage.head.Children.Add(new title
             {
                 new HtmlRawNode(ErrorString)
             });
@@ -24,30 +24,30 @@ namespace Lsj.Util.Net.Web.Response
             ErrorPage.body.Children.AddRange(
                 new List<HtmlNode>
                 {
-                    new Span
+                    new span
                     {
-                        new H1
+                        new h1
                         {
-                            new HtmlRawNode("Server Error."),
-                            new Hr
+                            new HtmlRawNode("Server Error."),    
+                        },
+                        new hr
+                        {
+                            Param = new HtmlParam
                             {
-                                Param = new HtmlParam
-                                {
-                                    { "width","100%" },
-                                    { "size","1" },
-                                    { "color","silver" },
-                                }
+                                { "width","100%" },
+                                { "size","1" },
+                                { "color","silver" },
                             }
                         },
-                        new H2
+                        new h2
                         {
-                            new I
+                            new i
                             {
                                 new HtmlRawNode($"HTTP Error {code}- {ErrorString}.")
                             }
                         }
                     },
-                    new Hr
+                    new hr
                     {
                         Param = new HtmlParam
                                 {
@@ -56,7 +56,7 @@ namespace Lsj.Util.Net.Web.Response
                                     { "color","silver" },
                                 }
                     },
-                    new B
+                    new b
                     {
                         new HtmlRawNode("Server Information:")
                     },

@@ -5,14 +5,7 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder.Body
 {
-    public class Hr : HtmlNodeWithoutEnd
+    public class hr : HtmlNodeWithoutEnd
     {
-        public override string Name
-        {
-            get
-            {
-                return "hr";
-            }
-        }
     }
 }
