@@ -10,10 +10,10 @@ namespace Lsj.Util.Xml
     {
         public XmlFile(string path)
         {
-            this.path = path;
-            this.m_Document = new XmlDocument();
+            this.path = path;            
             try
             {
+                this.m_Document = new XmlDocument();
                 m_Document.Load(path);
             }
             catch(Exception e)

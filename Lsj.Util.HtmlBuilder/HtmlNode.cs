@@ -10,7 +10,8 @@ namespace Lsj.Util.HtmlBuilder
     {
         
         public static char NULL = ' ';
-        public virtual string Name{
+        public virtual string Name
+        {
             get
             {
                 return this.GetType().Name;
@@ -21,32 +22,43 @@ namespace Lsj.Util.HtmlBuilder
             StringBuilder sb = new StringBuilder();
             foreach (var a in Children)
             {
-                if (a is HtmlNodeWithoutNewLine)
+                if (!a.IsWithoutNewLine)
                 {
-                    sb.Append(a.ToString(i));
-                }
-                else
-                {
-                    if (a == Children.First())
-                    {
-                        sb.AppendLine();
-                    }                    
-                    sb.Append(a.ToString(i));
                     sb.AppendLine();
-                }
-                
+                }           
+                sb.Append(a.ToString(i+1));               
+            }
+            if (!IsAllInOneLine)
+            {
+                sb.AppendLine();
+                sb.Append(NULL, 4*i);
             }
             return sb.ToString();
         }
-        public virtual List<HtmlNode> Children
+        protected List<HtmlNode> Children
         {
             get; set;
         } = new List<HtmlNode>();
         public HtmlParam Param = new HtmlParam();
+        public bool IsAllInOneLine = true;
+        public virtual bool IsWithoutNewLine { get; }=false;
+
 
         public void Add(HtmlNode node)
         {
             Children.Add(node);
+            if (IsAllInOneLine)
+            {
+                if (!node.IsWithoutNewLine)
+                    IsAllInOneLine = false;
+            }
+        }
+        public void AddRange(List<HtmlNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                Add(node);
+            }
         }
         public override string ToString() => ToString(0);
         public virtual string ToString(int i)
@@ -54,17 +66,10 @@ namespace Lsj.Util.HtmlBuilder
             var sb = new StringBuilder();
             sb.Append(NULL, i*4);
             sb.Append($@"<{Name}{Param.ToString()}>");
-            sb.Append(GetContent(i + 1));
-            if(!(this.Children.Last() is HtmlNodeWithoutNewLine))
-                sb.Append(NULL, i * 4);
+            sb.Append(GetContent(i));
             sb.Append($@"</{Name}>");
             return sb.ToString();
         }
-
-
-
-
-
 
         public IEnumerator<HtmlNode> GetEnumerator()
         {

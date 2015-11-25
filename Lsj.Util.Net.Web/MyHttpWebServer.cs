@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web
 {
     public class MyHttpWebServer : DisposableClass, IDisposable
     {
-        public const string ServerVersion = "MyHttpWebServer/lsj(3.0)";
+        public const string ServerVersion = "MyHttpWebServer/lsj(3.5)";
         TcpSocket m_socket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
         public MyHttpWebServer(IPAddress ip, int port)

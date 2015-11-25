@@ -80,14 +80,11 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpCookie.cs" />
     <Compile Include="HttpCookies.cs" />
-    <Compile Include="HttpForm.cs" />
     <Compile Include="IHttpMessage.cs" />
     <Compile Include="Protocol\eHttpResponseHeader.cs" />
     <Compile Include="Response\HttpResponseHeaders.cs" />
     <Compile Include="Session\HttpSession.cs" />
-    <Compile Include="HttpResponseHeaders.cs" />
     <Compile Include="Request\HttpRequestHeaders.cs" />
-    <Compile Include="HttpQueryString.cs" />
     <Compile Include="Request\HttpRequest.cs" />
     <Compile Include="Protocol\eHttpRequestHeader.cs" />
     <Compile Include="Session\HttpSessions.cs" />

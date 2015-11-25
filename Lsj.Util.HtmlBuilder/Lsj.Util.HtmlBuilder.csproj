@@ -51,14 +51,15 @@
     <Compile Include="Body\h2.cs" />
     <Compile Include="Body\h1.cs" />
     <Compile Include="Body\Hr.cs" />
-    <Compile Include="Body\HtmlBody.cs" />
+    <Compile Include="Body\body.cs" />
     <Compile Include="Body\span.cs" />
     <Compile Include="Header\title.cs" />
     <Compile Include="HtmlNode.cs" />
+    <Compile Include="HtmlNodeWithChildrenForceNewLine.cs" />
     <Compile Include="HtmlNodeWithoutEnd.cs" />
     <Compile Include="HtmlNodeWithoutNewLine.cs" />
     <Compile Include="HtmlPage.cs" />
-    <Compile Include="Header\HtmlHead.cs" />
+    <Compile Include="Header\head.cs" />
     <Compile Include="HtmlParam.cs" />
     <Compile Include="HtmlRawNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

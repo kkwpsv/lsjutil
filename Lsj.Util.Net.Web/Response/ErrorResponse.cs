@@ -16,12 +16,12 @@ namespace Lsj.Util.Net.Web.Response
         {
             var ErrorString = GetErrorStringByCode(code);
             var ErrorPage = new HtmlPage();
-            ErrorPage.head.Children.Add(new title
+            ErrorPage.head.Add(new title
             {
                 new HtmlRawNode(ErrorString)
             });
             ErrorPage.body.Param["bgcolor"] = "white";
-            ErrorPage.body.Children.AddRange(
+            ErrorPage.body.AddRange(
                 new List<HtmlNode>
                 {
                     new span

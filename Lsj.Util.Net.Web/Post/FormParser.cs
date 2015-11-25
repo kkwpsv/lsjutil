@@ -8,9 +8,9 @@ namespace Lsj.Util.Net.Web.Post
 {
     public class FormParser
     {
-        public static HttpForm Parse(string str)
+        public static SafeStringToStringDirectionary Parse(string str)
         {
-            SafeDictionary<string, string> form = new SafeDictionary<string, string>();
+            var form = new SafeStringToStringDirectionary();
             var a = str.Split('&');
             {
                 foreach (var b in a)
@@ -24,7 +24,7 @@ namespace Lsj.Util.Net.Web.Post
                     }
                 }
             }
-            return new HttpForm(form);
+            return form;
         }
 
     }

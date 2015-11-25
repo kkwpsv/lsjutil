@@ -21,9 +21,15 @@ namespace Lsj.Util.Net.Web.Request
         public int ErrorCode { get; private set; } = 400;
         public bool IsError { get; private set; } = false;
         public bool IsComplete { get; private set; } = false;
-        public HttpForm Form { get; private set; } = new HttpForm(new SafeDictionary<string, string>());
+        public SafeStringToStringDirectionary Form
+        {
+            get;
+        } = new SafeStringToStringDirectionary();
         public byte[] PostBytes { get; private set; }
-        public HttpQueryString QueryString { get; private set; }
+        public SafeStringToStringDirectionary QueryString
+        {
+            get;
+        } = new SafeStringToStringDirectionary();
         public HttpCookies Cookies { get; private set; }
         public HttpSession Session {
             get
@@ -145,8 +151,7 @@ namespace Lsj.Util.Net.Web.Request
         private void ParseQueryString()
         {
             try
-            {
-                Dictionary<string, string> querystring = new Dictionary<string, string>();
+            {         
                 if (uri.IndexOf('?') != -1)
                 {
                     string z = uri.Substring(uri.IndexOf('?') + 1);
@@ -159,18 +164,15 @@ namespace Lsj.Util.Net.Web.Request
                             {
                                 var name = c[0].Trim();
                                 var content = c[1].Trim();
-                                querystring.Add(c[0], c[1]);
+                                QueryString.Add(c[0], c[1]);
                             }
                         }
                     }
                     uri = uri.Substring(0, uri.IndexOf('?'));
                 }
-                QueryString = new HttpQueryString(querystring);
             }
             catch (Exception e)
             {
-                if(QueryString ==null)
-                    QueryString = new HttpQueryString(new Dictionary<string, string>());
                 Log.Log.Default.Warn("Error QueryString \r\n");
                 Log.Log.Default.Warn(e);
             }

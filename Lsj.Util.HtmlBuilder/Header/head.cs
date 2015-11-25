@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder.Header
 {
-    public class HtmlHead:HtmlNode
+    public class head:HtmlNodeWithChildrenForceNewLine
     {
-        public override string Name => "head";
     }
 }

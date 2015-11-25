@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\SafeDictionary.cs" />
+    <Compile Include="Collections\SafeStringToStringDirectionary.cs" />
     <Compile Include="Collections\TwoWayDictionary.cs" />
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\ConfigElement.cs" />

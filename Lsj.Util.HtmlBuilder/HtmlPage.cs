@@ -9,22 +9,22 @@ namespace Lsj.Util.HtmlBuilder
 {
     public class HtmlPage:HtmlNode
     {
-        public const string Version = "HtmlBuilder/lsj(1.1)";
+        public const string Version = "HtmlBuilder/lsj(1.2)";
         public HtmlPage()
         {
             Children.Add(head);
             Children.Add(body);
         }
-        public HtmlHead head
+        public head head
         {
             get;
             set;
-        } = new HtmlHead();
-        public HtmlBody body
+        } = new head();
+        public body body
         {
             get;
             set;
-        } = new HtmlBody();
+        } = new body();
         public override string ToString(int i)
         {
             if (i != 0)
@@ -36,7 +36,8 @@ namespace Lsj.Util.HtmlBuilder
                 return
 $@"<!DOCTYPE html>
 <html>
-<!--The Page Is Built By {Version}.-->{GetContent(i)}</html>
+<!--The Page Is Built By {Version}.-->{GetContent(-1)}
+</html>
 ";
             }
         }
