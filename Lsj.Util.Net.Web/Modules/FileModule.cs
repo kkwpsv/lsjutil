@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Headers;
+
 
 namespace Lsj.Util.Net.Web.Modules
 {

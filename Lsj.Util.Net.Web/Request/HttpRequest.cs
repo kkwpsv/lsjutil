@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Collections;
-using Lsj.Util.Net.Web.Headers;
+
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Website;
 using System;
@@ -15,7 +15,6 @@ namespace Lsj.Util.Net.Web.Request
         public string uri { get; private set; } = "";
         public HttpRequestHeaders headers = new HttpRequestHeaders();
         HttpClient client;
-        HttpWebsite website;
         bool StartParsePost = false;
         byte[] postBytes = new byte[] { };
         public int ErrorCode { get; private set; } = 400;
@@ -35,19 +34,22 @@ namespace Lsj.Util.Net.Web.Request
             get
             {
                 var str = Cookies["SessionID"].content;
-                if (website == null)
+                if (client.website == null)
                 {
                     return new HttpSession();
                 }
-                if (str == ""  || website.Session[str] == null)
+                if (str == ""  || client.website.Session[str] == null)
                 {
-                    str = website.Session.New();
+                    str = client.website.Session.New();
                 }
-                return website.Session[str];
+                return client.website.Session[str];
             }
         }
         public Version HttpVersion = new Version(1,0);
-
+        internal static readonly HttpRequest NullRequest = new HttpRequest { IsComplete = true };
+        private HttpRequest()
+        {
+        }
         public string this[string key]
         {
             get
@@ -81,7 +83,7 @@ namespace Lsj.Util.Net.Web.Request
                     }
                     else
                     {
-                        if ((IntHeader)headers[eHttpRequestHeader.ContentLength]!=0)
+                        if (headers[eHttpRequestHeader.ContentLength]!="0")
                         {
                             var a = str.IndexOf("\r\n\r\n") + 4;
                             if (str.Length > a)
@@ -104,7 +106,7 @@ namespace Lsj.Util.Net.Web.Request
             {
                 postBytes = postBytes.Concat(buffer.ConvertFromBytes().Trim('\0').ConvertToBytes()).ToArray();
             }
-            if (postBytes.Length >= (IntHeader)headers[eHttpRequestHeader.ContentLength])
+            if (postBytes.Length >= headers.ContentLength)
             {
                 ParsePost();
                 ParseQueryString();
@@ -118,7 +120,7 @@ namespace Lsj.Util.Net.Web.Request
             try
             {
                 Dictionary<string, HttpCookie> cookies = new Dictionary<string, HttpCookie>();
-                var cookiestrings = headers[eHttpRequestHeader.Cookie].Content.Split(';');
+                var cookiestrings = headers[eHttpRequestHeader.Cookie].Split(';');
                 foreach (string cookiestring in cookiestrings)
                 {
                     var cookie = cookiestring.Split('=');
@@ -183,7 +185,7 @@ namespace Lsj.Util.Net.Web.Request
             try
             {
                 
-                var i = (IntHeader)headers[eHttpRequestHeader.ContentLength];
+                var i = headers.ContentLength;
                 if (i!= 0)
                 {
                     if (PostBytes == null)
@@ -191,7 +193,7 @@ namespace Lsj.Util.Net.Web.Request
                         PostBytes = new byte[i];
                     }
                     Buffer.BlockCopy(postBytes, 0, PostBytes, 0, i);
-                    if (headers[eHttpRequestHeader.ContentType].Content=="application/x-www-form-urlencoded")
+                    if (headers[eHttpRequestHeader.ContentType]=="application/x-www-form-urlencoded")
                     {
                         var str = PostBytes.ConvertFromBytes();
                         

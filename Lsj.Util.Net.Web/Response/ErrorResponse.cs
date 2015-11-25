@@ -1,8 +1,9 @@
 ﻿using Lsj.Util.HtmlBuilder;
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.HtmlBuilder.Header;
-using Lsj.Util.Net.Web.Headers;
+
 using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Lsj.Util.Net.Web.Response
 {
     public class ErrorResponse : HttpResponse
     {
-        public ErrorResponse(int code) : base(null)
+        public ErrorResponse(int code) : base(HttpRequest.NullRequest)
         {
             var ErrorString = GetErrorStringByCode(code);
             var ErrorPage = new HtmlPage();
@@ -65,9 +66,10 @@ namespace Lsj.Util.Net.Web.Response
             );
 
             this.content = ErrorPage.ToString().ToStringBuilder();
-            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(content.ToString().ConvertToBytes(Encoding.UTF8).Length);
+            this.headers.ContentLength = content.ToString().ConvertToBytes(request.headers.AcceptCharset).Length;
             this.status = code;
-            this.headers[eHttpResponseHeader.Connection] = new ConnectionHeader(eConnectionType.Close);
+            this.headers.Connection= eConnectionType.Close;
+            this.headers.ContentType = "text/html; charset="+request.headers.AcceptCharset.BodyName;
         }
     }
 }

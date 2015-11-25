@@ -67,12 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivePages\ActivePage.cs" />
-    <Compile Include="Headers\ConnectionHeader.cs" />
-    <Compile Include="Headers\DateTimeHeader.cs" />
-    <Compile Include="Headers\IHeader.cs" />
-    <Compile Include="Headers\IntHeader.cs" />
-    <Compile Include="Headers\RawHeader.cs" />
-    <Compile Include="Headers\StringArrayHeader.cs" />
     <Compile Include="MIME\MIME.cs" />
     <Compile Include="Modules\ActivePageModule.cs" />
     <Compile Include="Post\FormParser.cs" />

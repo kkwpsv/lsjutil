@@ -1,8 +1,5 @@
-﻿using Lsj.Util.Net.Web.Headers;
+﻿
 using Lsj.Util.Net.Web.Request;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,21 +14,16 @@ namespace Lsj.Util.Net.Web.Response
         {
             file = new FileInfo(path);
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            this.headers[eHttpResponseHeader.ContentType] = new RawHeader(GetContengTypeByExtension(System.IO.Path.GetExtension(path)) + "; charset=utf-8");
-            if (request.headers[eHttpRequestHeader.IfModifiedSince]!=null&&time == request.headers[eHttpRequestHeader.IfModifiedSince].Content)
+            this.headers.ContentType = MIME.MIME.GetContengTypeByExtension(System.IO.Path.GetExtension(path));
+            if (time == request.headers.IfModifiedSince)
             {
                 this.Write304();
             }
             else
             {
-                this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(file.Length.ToString());
+                this.headers.ContentLength = file.Length.ConvertToInt();
                 headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
             }
-        }
-
-        private string GetContengTypeByExtension(string v)
-        {
-            throw new NotImplementedException();
         }
 
         FileInfo file;
@@ -42,13 +34,13 @@ namespace Lsj.Util.Net.Web.Response
             if (status == 304)
                return base.GetAll();
             var content = file != null ?File.ReadAllBytes(file.FullName):NullBytes;
-            return GetHeader().ToString().ConvertToBytes(Encoding.UTF8).Concat(content).ToArray();
+            return GetHeader().ToString().ConvertToBytes(Encoding.ASCII).Concat(content).ToArray();
         }
         public void Write304()
         {
             var sb = new StringBuilder("");
             this.content = sb;
-            this.headers[eHttpResponseHeader.ContentLength] = new IntHeader(0);
+            this.headers.ContentLength = 0;
             this.status = 304;
         }
     }

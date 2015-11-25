@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Net.Sockets;
-using Lsj.Util.Net.Web.Headers;
+
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
@@ -21,7 +21,7 @@ namespace Lsj.Util.Net.Web
         HttpRequest request;
         HttpResponse response;
         MyHttpWebServer server;
-        HttpWebsite website;
+        internal HttpWebsite website;
         public HttpClient(TcpSocket handle,MyHttpWebServer server)
         {
             this.handle = handle;
@@ -66,7 +66,7 @@ namespace Lsj.Util.Net.Web
             int code = 501;
             try
             {
-                this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host].Content);
+                this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host]);
                 if (this.website == null)
                 {
                     SendErrorAndDisconnect(403);
@@ -113,7 +113,7 @@ namespace Lsj.Util.Net.Web
         private void OnSent(IAsyncResult ar)
         {
             handle.EndSend(ar);
-            if ((response.headers[eHttpResponseHeader.Connection] as ConnectionHeader).value == eConnectionType.Close)
+            if (response.headers.Connection == eConnectionType.Close)
             {
                 handle.Shutdown();
                 handle.Close();

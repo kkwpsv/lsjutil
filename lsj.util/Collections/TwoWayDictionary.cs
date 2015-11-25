@@ -15,17 +15,28 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                return a[key];
+                return GetValueByKey(key);
             }
             set
             {
                 Add(key, value);
             }
         }
+        public TKey this[TValue x]
+        {
+            get
+            {
+                return GetKeyByValue(x);
+            }
+            set
+            {
+                Add(value, x);
+            }
+                
+        }
         public TKey GetKeyByValue(TValue value)
         {
-            if (!b.ContainsKey(value))
-                return GetNullKey(value);
+         
             return b[value];
         }
         public TValue GetValueByKey(TKey key)

@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Collections;
-using Lsj.Util.Net.Web.Headers;
+using Lsj.Util.Net.Web.Protocol;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,15 +8,19 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Request
 {
-    public class HttpRequestHeaders : SafeDictionary<eHttpRequestHeader, IHeader>
+    public class HttpRequestHeaders : SafeStringToStringDirectionary
     {
-        public static readonly SafeDictionary<eHttpRequestHeader, IHeader> @default = new SafeDictionary<eHttpRequestHeader, IHeader>
+        public string this[eHttpRequestHeader x]
         {
-            {eHttpRequestHeader.Connection,new ConnectionHeader("close") },
-            {eHttpRequestHeader.ContentLength,new IntHeader("0")},
-            {eHttpRequestHeader.Host,new RawHeader()},
-            {eHttpRequestHeader.Cookie,new RawHeader()},
-        };
+            get
+            {
+                return this[HeaderType[x]];
+            }
+            internal set
+            {
+                this[HeaderType[x]] = value;
+            }
+        }
         public static readonly headertype HeaderType = new headertype
         {
             {"Accept",eHttpRequestHeader.Accept},
@@ -55,29 +59,21 @@ namespace Lsj.Util.Net.Web.Request
             {"Warning",eHttpRequestHeader.Warning},
             {"X-Requested-With",eHttpRequestHeader.XRequestedWith}
         };
-        SafeDictionary<string, IHeader> UnKnownHeaders = new SafeDictionary<string, IHeader>();
-        public void Add(string key, string content)
+
+        public class headertype : TwoWayDictionary<string,eHttpRequestHeader>
         {
-            var x = HeaderType[key];
-            if (x != eHttpRequestHeader.Unknown)
+            public override string GetNullKey(eHttpRequestHeader value)
             {
-                this[x] = RawHeader.CreateHeader(x, content);
+                return "";
             }
-            else
-            {
-                UnKnownHeaders[key] = RawHeader.CreateHeader(x, content);
-            }
-        }
-        public override IHeader GetNullValue(eHttpRequestHeader key)
-        {
-            return @default[key];
-        }
-        public class headertype : SafeDictionary<string, eHttpRequestHeader>
-        {
             public override eHttpRequestHeader GetNullValue(string key)
             {
                 return eHttpRequestHeader.Unknown;
             }
         }
+        public string IfModifiedSince =>this[eHttpRequestHeader.IfModifiedSince];
+        public eConnectionType Connection => this[eHttpRequestHeader.Connection].ToLower() == "keep-alive" ? eConnectionType.KeepAlive : eConnectionType.Close;
+        public Encoding AcceptCharset => Encoding.UTF8;
+        public int ContentLength => this[eHttpRequestHeader.ContentLength].ConvertToInt(0);
     }
 }
