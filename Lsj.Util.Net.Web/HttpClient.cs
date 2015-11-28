@@ -1,15 +1,10 @@
 ﻿using Lsj.Util.Net.Sockets;
-
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Response;
 using Lsj.Util.Net.Web.Website;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace Lsj.Util.Net.Web
 {
@@ -63,7 +58,6 @@ namespace Lsj.Util.Net.Web
 
         private void Process()
         {
-            int code = 501;
             try
             {
                 this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host]);
@@ -79,7 +73,7 @@ namespace Lsj.Util.Net.Web
 
                     foreach (var x in website.modules)
                     {
-                        if (x.CanProcess(request,ref code))
+                        if (x.CanProcess(request))
                         {
                             module = x;
                             break;
@@ -89,12 +83,16 @@ namespace Lsj.Util.Net.Web
                     {
                         response = module.Process(request);
                         response.cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
-                        response.headers.Add(eHttpResponseHeader.Server, MyHttpWebServer.ServerVersion);
+                        
                         Response();
+                    }
+                    else if (request.Method == eHttpMethod.GET)
+                    {
+                        SendErrorAndDisconnect(404);
                     }
                     else
                     {
-                        SendErrorAndDisconnect(code);
+                        SendErrorAndDisconnect(501);
                     }
                 }
             }
@@ -107,6 +105,7 @@ namespace Lsj.Util.Net.Web
         }
         private void Response()
         {
+            response.headers.Add(eHttpResponseHeader.Server, MyHttpWebServer.ServerVersion);
             handle.BeginSend(response.GetAll(), OnSent);
         }
 

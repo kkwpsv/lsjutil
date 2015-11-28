@@ -67,13 +67,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivePages\ActivePage.cs" />
+    <Compile Include="ActivePages\ForbiddenErrorPage.cs" />
     <Compile Include="MIME\MIME.cs" />
+    <Compile Include="Modules\ErrorModule.cs" />
     <Compile Include="Modules\ActivePageModule.cs" />
     <Compile Include="Post\FormParser.cs" />
     <Compile Include="Protocol\eConnectionType.cs" />
     <Compile Include="HttpClient.cs" />
-    <Compile Include="HttpCookie.cs" />
-    <Compile Include="HttpCookies.cs" />
+    <Compile Include="Cookie\HttpCookie.cs" />
+    <Compile Include="Cookie\HttpCookies.cs" />
     <Compile Include="IHttpMessage.cs" />
     <Compile Include="Protocol\eHttpResponseHeader.cs" />
     <Compile Include="Response\HttpResponseHeaders.cs" />

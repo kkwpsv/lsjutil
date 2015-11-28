@@ -11,10 +11,9 @@ namespace Lsj.Util.Net.Web.Website
         public WebSiteConfig(string path) : base(path)
         {
         }
-        public ConfigElement Host
-        {
-            get;
-            set;
-        }
+        private ConfigElement host;
+        private ConfigElement errorpagepath;
+        public string Host => host.
+
     }
 }

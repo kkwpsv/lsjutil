@@ -62,13 +62,8 @@ namespace Lsj.Util.Net.Web.Modules
                
             }
         }
-        public bool CanProcess(HttpRequest request,ref int code)
+        public bool CanProcess(HttpRequest request)
         {
-            if (request.uri == @"\website.config")
-            {
-                code = 403;
-                return false;
-            }
             if (request.Method == eHttpMethod.GET)
             {
                 if (request.uri.EndsWith(@"\"))
@@ -86,7 +81,6 @@ namespace Lsj.Util.Net.Web.Modules
                     return true;
                 }
             }
-            code = 404;
             return false;
         }
     }

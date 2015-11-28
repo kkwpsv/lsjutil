@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Config
 {
@@ -20,15 +21,23 @@ namespace Lsj.Util.Config
                 var config = m_Document.DocumentElement.SelectSingleNode("/config");
                 if (config != null && config.HasChildNodes)
                 {
-                    var properties = this.GetType().GetProperties();
-                    foreach (var property in properties)
+                    var fields = this.GetType().GetAllNonPublicField();
+                    foreach (var field in fields)
                     {
-                        if (property.PropertyType.IsAssignableFrom(typeof(ConfigElement)))
+                        if (field.FieldType.IsAssignableFrom(typeof(ConfigElement)))
                         {
-                            var element = config.SelectSingleNode(property.Name);
-                            if (element != null)
+                            var attribute = field.GetAttribute<ConfigElement>();
+                            if (attribute != null)
                             {
-                                property.SetValue(this, new ConfigElement(element.InnerText), null);
+                                var name = attribute.Value.ToSafeString();
+                                if (name != "")
+                                {
+                                    var element = config.SelectSingleNode(name);
+                                    if (element != null)
+                                    {
+                                        field.SetValue(this, new ConfigElement(element.InnerText));
+                                    }
+                                }
                             }
                         }
                     }

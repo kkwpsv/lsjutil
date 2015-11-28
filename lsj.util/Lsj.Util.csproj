@@ -87,6 +87,7 @@
     <Compile Include="Collections\TwoWayDictionary.cs" />
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\ConfigElement.cs" />
+    <Compile Include="Config\ConfigElementNameAttribute.cs" />
     <Compile Include="Config\Ini.cs" />
     <Compile Include="CsComplier.cs" />
     <Compile Include="DisposableClass.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="Static.cs" />
     <Compile Include="StringHelper.cs" />
     <Compile Include="WebHelper.cs" />

@@ -11,16 +11,21 @@ namespace Lsj.Util.Net.Web.ActivePages
     {
         public HttpRequest request
         {
-            private set;
+            protected set;
             get;
         }
         public HttpResponse response
         {
-            private set;
+            protected set;
             get;
-        }
-        public void Process()
+        } = new ErrorResponse(500);
+        public virtual void Process()
         {
         }
+        public ActivePage(HttpRequest request)
+        {
+            this.request = request;
+        }
+
     }
 }

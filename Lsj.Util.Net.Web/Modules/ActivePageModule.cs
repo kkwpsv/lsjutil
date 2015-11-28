@@ -11,9 +11,9 @@ namespace Lsj.Util.Net.Web.Modules
 {
     public class ActivePageModule : IModule
     {
-        public delegate ActivePage CreatePage();
+        public delegate ActivePage CreatePage(HttpRequest request);
         public SafeDictionary<string, CreatePage> pages = new SafeDictionary<string, CreatePage>();
-        public bool CanProcess(HttpRequest request, ref int code)
+        public bool CanProcess(HttpRequest request)
         {
             return pages.ContainsKey(request.uri);
         }
@@ -26,7 +26,7 @@ namespace Lsj.Util.Net.Web.Modules
             }
             else
             {
-                var page = pages[request.uri].Invoke();
+                var page = pages[request.uri].Invoke(request);
                 page.Process();
                 return page.response;
             }
