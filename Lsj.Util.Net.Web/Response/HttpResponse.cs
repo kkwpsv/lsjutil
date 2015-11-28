@@ -1,4 +1,5 @@
 ﻿
+using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
 using System;
@@ -13,6 +14,7 @@ namespace Lsj.Util.Net.Web.Response
     {
         protected static byte[] NullBytes { get; } = new byte[] { };
         public int status { get; protected set; } = 200;
+        public bool IsError => status >= 400;
         protected StringBuilder content { get; set; } = new StringBuilder("");
         public string Server = MyHttpWebServer.ServerVersion;
         private byte[] contentbyte { get; set; } = NullBytes;        
@@ -82,6 +84,14 @@ namespace Lsj.Util.Net.Web.Response
             this.contentbyte = bytes;
             this.headers.ContentLength = bytes.Length;
         }
+        public void WriteError(StringBuilder content, int ErrorCode)
+        {
+            this.content = content;
+            this.headers.ContentLength = content.ToString().ConvertToBytes(request.headers.AcceptCharset).Length;
+            this.status = ErrorCode;
+            this.headers.Connection = eConnectionType.Close;
+            this.headers.ContentType = "text/html; charset=" + request.headers.AcceptCharset.BodyName;
+        }
 
 
         public void ReturnAndRedict(string error, string redicturl)
@@ -103,7 +113,7 @@ namespace Lsj.Util.Net.Web.Response
         }
      
 
-        protected string GetErrorStringByCode(int ErrorCode)
+        public static string GetErrorStringByCode(int ErrorCode)
         {
             switch (ErrorCode)
             {

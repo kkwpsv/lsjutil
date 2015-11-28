@@ -7,13 +7,18 @@ using System.Linq;
 using System.Text;
 using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Protocol;
-
+using Lsj.Util.Net.Web.Website;
 
 namespace Lsj.Util.Net.Web.Modules
 {
     public class FileModule : IModule
     {
-        public static string[] DefaultPage { get; set; } = { "index.htm", "index.html" };
+        public string[] DefaultPage { get; set; }
+        public string[] ForbiddenPage
+        {
+            get; set;
+        }
+        public eModuleType ModuleType => eModuleType.File;
         public string Path
         {
             get { return m_Path; }
@@ -29,14 +34,28 @@ namespace Lsj.Util.Net.Web.Modules
                 }
             }
         }
-        static string m_Path = ".";
-        public FileModule(string path)
+        string m_Path = ".";
+        HttpWebsite website;
+        public FileModule(HttpWebsite website)
         {
-            this.Path = path;
+            this.website = website;
+            var config = website.Config;
+            this.Path = website.Path;
+            this.DefaultPage = config.DefaultPage;
+            this.ForbiddenPage = config.ForbiddenPath;
         }
         public HttpResponse Process(HttpRequest request)
         {
             var path = "";
+            var z = request.uri.Substring(1);
+            foreach (var x in ForbiddenPage)
+            {
+                if (z.StartsWith(x))
+                {
+                    request.ErrorCode = 403;
+                    return website.ErrorModule.Process(request);
+                }
+            }
             if (request.uri.EndsWith(@"\"))
             {
                 foreach (var a in DefaultPage)
@@ -58,7 +77,8 @@ namespace Lsj.Util.Net.Web.Modules
             }
             else
             {
-                return new ErrorResponse(404);
+                request.ErrorCode = 404;
+                return website.ErrorModule.Process(request);
                
             }
         }

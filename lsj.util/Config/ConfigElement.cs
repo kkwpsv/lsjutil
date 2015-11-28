@@ -12,6 +12,8 @@ namespace Lsj.Util.Config
         {
             this.value = value;
         }
-        public string Value => value;
+        public string Value => value.ToSafeString();
+        public string[] StringArrayValue => value.ToSafeString().Split(',');
+        public static ConfigElement Null = new ConfigElement("");
     }
 }

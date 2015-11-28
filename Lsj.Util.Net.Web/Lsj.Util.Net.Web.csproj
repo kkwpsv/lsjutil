@@ -67,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivePages\ActivePage.cs" />
-    <Compile Include="ActivePages\ForbiddenErrorPage.cs" />
     <Compile Include="MIME\MIME.cs" />
+    <Compile Include="Modules\eModuleType.cs" />
     <Compile Include="Modules\ErrorModule.cs" />
     <Compile Include="Modules\ActivePageModule.cs" />
     <Compile Include="Post\FormParser.cs" />
@@ -90,12 +90,8 @@
     <Compile Include="Modules\IModule.cs" />
     <Compile Include="MyHttpWebServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\ErrorResponse.cs" />
     <Compile Include="Response\FileResponse.cs" />
     <Compile Include="Protocol\eHttpMethod.cs" />
-    <Compile Include="MyCookieContainer.cs" />
-    <Compile Include="MyHttpWebRequest.cs" />
-    <Compile Include="MyHttpWebResponse.cs" />
     <Compile Include="Website\WebSiteConfig.cs" />
   </ItemGroup>
   <ItemGroup>

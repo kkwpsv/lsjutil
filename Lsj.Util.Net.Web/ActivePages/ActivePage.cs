@@ -18,7 +18,7 @@ namespace Lsj.Util.Net.Web.ActivePages
         {
             protected set;
             get;
-        } = new ErrorResponse(500);
+        }
         public virtual void Process()
         {
         }

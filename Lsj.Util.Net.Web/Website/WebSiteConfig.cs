@@ -11,9 +11,18 @@ namespace Lsj.Util.Net.Web.Website
         public WebSiteConfig(string path) : base(path)
         {
         }
-        private ConfigElement host;
-        private ConfigElement errorpagepath;
-        public string Host => host.
+        [ConfigElementName(Name = "Host")]
+        private ConfigElement host = new ConfigElement("");
+        [ConfigElementName(Name = "ErrorPagePath")]
+        private ConfigElement errorpagepath = new ConfigElement("");
+        [ConfigElementName(Name = "DefaultPage")]
+        private ConfigElement defaultpage = new ConfigElement("");
+        [ConfigElementName(Name = "ForbiddenPath")]
+        private ConfigElement forbiddenpath = new ConfigElement("");
+        public string Host => host.Value;
+        public string ErrorPagePath => errorpagepath.Value;
+        public string[] DefaultPage => defaultpage.StringArrayValue;
+        public string[] ForbiddenPath => forbiddenpath.StringArrayValue;
 
     }
 }

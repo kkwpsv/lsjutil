@@ -15,7 +15,10 @@ namespace Lsj.Util.Net.Web.Website
 
         public string DefaultConfig = @"<?xml version=""1.0""?>
 <config>
-	<Host>*</Host>
+    <Host>*</Host>
+    <DefaultPage>index.htm</DefaultPage>
+    <ForbiddenPath>bin\</ForbiddenPath>
+    <ErrorPagePath>bin\ErrorPage\</ErrorPagePath>
 </config>";
         public WebSiteConfig Config
         {
@@ -32,11 +35,22 @@ namespace Lsj.Util.Net.Web.Website
             get;
             private set;
         }
+        public ErrorModule ErrorModule
+        {
+            get
+            {
+                if (errormodule == null)
+                    this.errormodule = new ErrorModule(this);
+                return errormodule;
+            }
+
+        }
         public HttpWebsite() : this(@".\")
         {
         }
         FileModule filemodule;
         ActivePageModule activepagemodule;
+        ErrorModule errormodule;
         public HttpWebsite(string path)
         {
             this.Path = path;
@@ -49,11 +63,12 @@ namespace Lsj.Util.Net.Web.Website
             }
             this.Config = new WebSiteConfig(configfile);
             this.Session = new HttpSessions();
-            this.filemodule = new FileModule(Path);
-            this.activepagemodule = new ActivePageModule();
+            this.filemodule = new FileModule(this);
+            this.activepagemodule = new ActivePageModule(this);
+            this.errormodule = new ErrorModule(this);
+
             modules.Add(filemodule);
             modules.Insert(0, activepagemodule);
-            activepagemodule.pages.Add("/website.config", (p) => new ForbiddenErrorPage(p));
 
         }
         public List<IModule> modules = new List<IModule>();

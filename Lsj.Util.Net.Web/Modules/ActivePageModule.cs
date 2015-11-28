@@ -6,6 +6,7 @@ using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Response;
 using Lsj.Util.Net.Web.ActivePages;
 using Lsj.Util.Collections;
+using Lsj.Util.Net.Web.Website;
 
 namespace Lsj.Util.Net.Web.Modules
 {
@@ -13,6 +14,14 @@ namespace Lsj.Util.Net.Web.Modules
     {
         public delegate ActivePage CreatePage(HttpRequest request);
         public SafeDictionary<string, CreatePage> pages = new SafeDictionary<string, CreatePage>();
+        private HttpWebsite website;
+
+        public eModuleType ModuleType => eModuleType.ActivePage;
+
+        public ActivePageModule(HttpWebsite website)
+        {
+            this.website = website;
+        }
         public bool CanProcess(HttpRequest request)
         {
             return pages.ContainsKey(request.uri);
@@ -22,7 +31,8 @@ namespace Lsj.Util.Net.Web.Modules
         {
             if (pages[request.uri] == null)
             {
-                return new ErrorResponse(404);
+                request.ErrorCode = 404;
+                return website.ErrorModule.Process(request);
             }
             else
             {

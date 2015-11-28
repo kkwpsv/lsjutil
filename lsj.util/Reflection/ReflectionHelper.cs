@@ -11,7 +11,7 @@ namespace Lsj.Util.Reflection
         public static FieldInfo[] GetAllNonPublicField(this Type type) => type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
         public static T GetAttribute<T>(this MemberInfo type)
         {
-            if (typeof(T).IsAssignableFrom(typeof(Attribute)))
+            if (typeof(T).BaseType==typeof(Attribute))
             {
                 var x = type.GetCustomAttributes(typeof(T), true);
                 return x.Length > 0 ? (T)x[0] : default(T);

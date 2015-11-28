@@ -26,10 +26,10 @@ namespace Lsj.Util.Config
                     {
                         if (field.FieldType.IsAssignableFrom(typeof(ConfigElement)))
                         {
-                            var attribute = field.GetAttribute<ConfigElement>();
+                            var attribute = field.GetAttribute<ConfigElementNameAttribute>();
                             if (attribute != null)
                             {
-                                var name = attribute.Value.ToSafeString();
+                                var name = attribute.Name.ToSafeString();
                                 if (name != "")
                                 {
                                     var element = config.SelectSingleNode(name);

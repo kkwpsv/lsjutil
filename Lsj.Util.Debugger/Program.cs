@@ -13,7 +13,7 @@ namespace Lsj.Util.Debugger
     {
         static void Main(string[] args)
         {
-            MyHttpWebServer server = new MyHttpWebServer(IPAddress.Any, 1234);
+            MyHttpWebServer server = new MyHttpWebServer(IPAddress.Any, 80);
             server.AddWebsite(new HttpWebsite());
             server.Start();
             Console.ReadLine();

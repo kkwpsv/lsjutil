@@ -1,5 +1,5 @@
 ﻿using Lsj.Util.Collections;
-
+using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Website;
 using System;
@@ -17,7 +17,7 @@ namespace Lsj.Util.Net.Web.Request
         HttpClient client;
         bool StartParsePost = false;
         byte[] postBytes = new byte[] { };
-        public int ErrorCode { get; private set; } = 400;
+        public int ErrorCode { get; set; } = 400;
         public bool IsError { get; private set; } = false;
         public bool IsComplete { get; private set; } = false;
         public SafeStringToStringDirectionary Form

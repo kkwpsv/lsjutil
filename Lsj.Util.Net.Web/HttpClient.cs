@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Net.Sockets;
+using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
@@ -52,7 +53,8 @@ namespace Lsj.Util.Net.Web
 
         private void SendErrorAndDisconnect(int ErrorCode)
         {
-            response = new ErrorResponse(ErrorCode);
+            request.ErrorCode = ErrorCode;
+            response = website.ErrorModule.Process(request);
             Response();
         }
 
@@ -82,7 +84,10 @@ namespace Lsj.Util.Net.Web
                     if (module != null)
                     {
                         response = module.Process(request);
-                        response.cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
+                        if (!response.IsError)
+                        {
+                            response.cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
+                        }
                         
                         Response();
                     }
