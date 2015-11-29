@@ -91,10 +91,6 @@ namespace Lsj.Util.Net.Web
                         
                         Response();
                     }
-                    else if (request.Method == eHttpMethod.GET)
-                    {
-                        SendErrorAndDisconnect(404);
-                    }
                     else
                     {
                         SendErrorAndDisconnect(501);
@@ -104,7 +100,7 @@ namespace Lsj.Util.Net.Web
             catch(Exception e)
             {
                 Log.Log.Default.Warn(e);
-                SendErrorAndDisconnect(400);
+                SendErrorAndDisconnect(500);
             }
             
         }

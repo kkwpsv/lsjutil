@@ -1,15 +1,20 @@
 ﻿
 using Lsj.Util.Net.Web.Request;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace Lsj.Util.Net.Web.Response
 {
-    public class FileResponse : HttpResponse
+    public class FileResponse : HttpResponse, IDisposable
     {
 
-
+        protected override void CleanUpManagedResources()
+        {
+            base.CleanUpManagedResources();
+        }
         public FileResponse(string path, HttpRequest request) : base(request)
         {
             file = new FileInfo(path);
@@ -20,27 +25,27 @@ namespace Lsj.Util.Net.Web.Response
                 this.Write304();
             }
             else
-            {
-                this.headers.ContentLength = file.Length.ConvertToInt();
+            {              
                 headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
+                if (request.client.website.Config.IsCompress&&request.headers.AcceptEncoding.Contains("gzip"))
+                {
+                    using (var compress = new GZipStream(content, CompressionMode.Compress,true))
+                    {
+                        compress.Write(file.OpenRead().Read());
+                        compress.Close();
+                    }
+                    headers.Add(eHttpResponseHeader.ContentEncoding, "gzip");
+                }
+                else
+                {
+                     file.OpenRead().CopyTo(content);
+                }
             }
         }
 
         FileInfo file;
-
-
-        public override byte[] GetAll()
-        {
-            if (status == 304)
-               return base.GetAll();
-            var content = file != null ?File.ReadAllBytes(file.FullName):NullBytes;
-            return GetHeader().ToString().ConvertToBytes(Encoding.ASCII).Concat(content).ToArray();
-        }
         public void Write304()
         {
-            var sb = new StringBuilder("");
-            this.content = sb;
-            this.headers.ContentLength = 0;
             this.status = 304;
         }
     }

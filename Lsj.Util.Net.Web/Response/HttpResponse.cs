@@ -10,16 +10,25 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Response
 {
-    public class HttpResponse
+    public class HttpResponse: DisposableClass,IDisposable
     {
+        protected override void CleanUpManagedResources()
+        {
+            content.Close();
+            base.CleanUpManagedResources();
+        }
         protected static byte[] NullBytes { get; } = new byte[] { };
         public int status { get; protected set; } = 200;
         public bool IsError => status >= 400;
-        protected StringBuilder content { get; set; } = new StringBuilder("");
         public string Server = MyHttpWebServer.ServerVersion;
-        private byte[] contentbyte { get; set; } = NullBytes;        
+        protected Stream content = new MemoryStream();
         public HttpCookies cookies { get; } = new HttpCookies(new Dictionary<string, HttpCookie>());
         public HttpResponseHeaders headers { get; set; } = new HttpResponseHeaders();
+        public Encoding encoding
+        {
+            get;
+            private set;
+        } = Encoding.UTF8;
 
         protected HttpRequest request;
         public HttpResponse(HttpRequest request)
@@ -28,11 +37,13 @@ namespace Lsj.Util.Net.Web.Response
             if (request != null)
             {
                 this.headers.Connection = request.headers.Connection;
+                this.encoding = request.headers.AcceptCharset;
             }
         }
 
         public string GetHeader()
         {
+            this.headers.ContentLength = content.Length.ConvertToInt();
             var sb = new StringBuilder();
             sb.Append($"HTTP/1.1 {status} {GetErrorStringByCode(status)}\r\n");
             foreach (var a in headers)
@@ -50,44 +61,20 @@ namespace Lsj.Util.Net.Web.Response
             return sb.ToString();
         }
 
-        public byte[] GetContent()
+        public byte[] GetAll()
         {
-            if (contentbyte != NullBytes)
-            {
-                return contentbyte;
-            }
-            else
-            {
-                return content.ToString().ConvertToBytes(request.headers.AcceptCharset);
-            }
-        }
-
-        public virtual byte[] GetAll()
-        {
-            return GetHeader().ToString().ConvertToBytes(Encoding.ASCII).Concat(GetContent()).ToArray();
+            content.Position = 0;
+            return GetHeader().ConvertToBytes(Encoding.ASCII).Concat(content.Read()).ToArray();
         }
 
 
 
-        public void Write(string content)
-        {
-            this.content.Append(content);
-            this.headers.ContentLength = content.ToString().ConvertToBytes(request.headers.AcceptCharset).Length;
-        }
-        public void Write(StringBuilder content)
-        {
-            this.content.Append(content);
-            this.headers.ContentLength = content.ToString().ConvertToBytes(request.headers.AcceptCharset).Length;
-        }
-        public void Write(byte[] bytes)
-        {
-            this.contentbyte = bytes;
-            this.headers.ContentLength = bytes.Length;
-        }
+        public void Write(string content) => Write(content.ConvertToBytes(encoding));
+        public void Write(StringBuilder content) => Write(content.ToString());
+        public void Write(byte[] bytes) => this.content.Write(bytes);
         public void WriteError(StringBuilder content, int ErrorCode)
         {
-            this.content = content;
-            this.headers.ContentLength = content.ToString().ConvertToBytes(request.headers.AcceptCharset).Length;
+            this.Write(content);
             this.status = ErrorCode;
             this.headers.Connection = eConnectionType.Close;
             this.headers.ContentType = "text/html; charset=" + request.headers.AcceptCharset.BodyName;
@@ -105,9 +92,6 @@ namespace Lsj.Util.Net.Web.Response
       
         public void Write302(string uri)
         {
-            var sb = new StringBuilder("");
-            this.content = sb;
-            this.headers.ContentLength = 0;
             this.status = 302;
             this.headers[eHttpResponseHeader.Location] = uri;
         }

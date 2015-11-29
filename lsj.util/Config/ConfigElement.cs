@@ -14,6 +14,7 @@ namespace Lsj.Util.Config
         }
         public string Value => value.ToSafeString();
         public string[] StringArrayValue => value.ToSafeString().Split(',');
+        public bool BoolValue => value.ToSafeString() == "True";
         public static ConfigElement Null = new ConfigElement("");
     }
 }

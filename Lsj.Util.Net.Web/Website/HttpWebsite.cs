@@ -7,6 +7,8 @@ using System.Text;
 using Lsj.Util.IO;
 using System.IO;
 using Lsj.Util.Net.Web.ActivePages;
+using System.Reflection;
+using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Net.Web.Website
 {
@@ -19,6 +21,7 @@ namespace Lsj.Util.Net.Web.Website
     <DefaultPage>index.htm</DefaultPage>
     <ForbiddenPath>bin\</ForbiddenPath>
     <ErrorPagePath>bin\ErrorPage\</ErrorPagePath>
+    <IsCompress>True</IsCompress>
 </config>";
         public WebSiteConfig Config
         {
@@ -69,9 +72,34 @@ namespace Lsj.Util.Net.Web.Website
 
             modules.Add(filemodule);
             modules.Insert(0, activepagemodule);
-
+            if (!Directory.Exists(Path+@"\bin"))
+                Directory.CreateDirectory(Path+@"\bin");
+            string[] a = Directory.GetFiles(Path+@"\bin\", "*.dll");
+            foreach (var b in a)
+            {
+                try
+                {
+                    Assembly.LoadFile(b);
+                }
+                catch
+                {
+                    Log.Log.Default.Error($"Fail to load {b}");
+                }
+            }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                var pages = assembly.GetTypes().Where((x) => (x.GetAttribute<ActivePageAttribute>()!=null));
+                foreach (var page in pages)
+                {
+                    activepagemodule.pages.Add(page.GetAttribute<ActivePageAttribute>().uri, (x) => (page.CreateInstance<ActivePage>(x)));
+                }
+            }
         }
-        public List<IModule> modules = new List<IModule>();
+        public List<IModule> modules
+        {
+            get; private set;
+        } = new List<IModule>();
 
         public bool CanProcess(string host)
         {

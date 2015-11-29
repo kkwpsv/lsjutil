@@ -84,24 +84,10 @@ namespace Lsj.Util.Net.Web.Modules
         }
         public bool CanProcess(HttpRequest request)
         {
-            if (request.Method == eHttpMethod.GET)
-            {
-                if (request.uri.EndsWith(@"\"))
-                {
-                    foreach (var a in DefaultPage)
-                    {
-                        if (File.Exists(Path + request.uri + a))
-                        {
-                            return true;
-                        }
-                    }
-                }
-                else if (File.Exists(Path + request.uri))
-                {
-                    return true;
-                }
-            }
-            return false;
+            if (request.Method == eHttpMethod.GET || request.Method == eHttpMethod.POST)
+                return true;
+            else
+                return false;
         }
     }
 }

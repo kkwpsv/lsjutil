@@ -150,6 +150,16 @@ namespace Lsj.Util
             return i < min ? min : i > max ? max : i;
 
         }
+        public static float ConvertToFloat(this string src, float OnError, float min = float.MinValue, float max = float.MaxValue)
+        {
+            float i;
+            if (!float.TryParse(src, out i))
+            {
+                return OnError;
+            }
+            return i < min ? min : i > max ? max : i;
+
+        }
         /// <summary>
         /// Avoid Null String
         /// <param name="src">Source String</param>
@@ -198,6 +208,14 @@ namespace Lsj.Util
                 return result;
             }
             return DateTime.Now;
+        }
+        public static string[] Trim(this string[] x)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = x[i].Trim();
+            }
+            return x;
         }
     }
 }

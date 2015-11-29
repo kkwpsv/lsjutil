@@ -19,10 +19,13 @@ namespace Lsj.Util.Net.Web.Website
         private ConfigElement defaultpage = new ConfigElement("");
         [ConfigElementName(Name = "ForbiddenPath")]
         private ConfigElement forbiddenpath = new ConfigElement("");
+        [ConfigElementName(Name = "IsCompress")]
+        private ConfigElement iscompress = new ConfigElement("");
         public string Host => host.Value;
         public string ErrorPagePath => errorpagepath.Value;
         public string[] DefaultPage => defaultpage.StringArrayValue;
         public string[] ForbiddenPath => forbiddenpath.StringArrayValue;
+        public bool IsCompress => iscompress.BoolValue;
 
     }
 }

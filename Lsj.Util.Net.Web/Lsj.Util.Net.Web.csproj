@@ -66,7 +66,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivePages\ActiveTestPage.cs" />
     <Compile Include="ActivePages\ActivePage.cs" />
+    <Compile Include="ActivePages\ActivePageAttribute.cs" />
     <Compile Include="MIME\MIME.cs" />
     <Compile Include="Modules\eModuleType.cs" />
     <Compile Include="Modules\ErrorModule.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Request\HttpRequest.cs" />
     <Compile Include="Protocol\eHttpRequestHeader.cs" />
     <Compile Include="Session\HttpSessions.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="Website\HttpWebsite.cs" />
     <Compile Include="Response\HttpResponse.cs" />
     <Compile Include="Modules\FileModule.cs" />

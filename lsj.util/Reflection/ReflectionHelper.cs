@@ -23,5 +23,17 @@ namespace Lsj.Util.Reflection
                 return default(T);
             }
         }
+        public static T CreateInstance<T>(this Type type,params object[] param)
+        {
+            if (typeof(T).IsAssignableFrom(type))
+            {
+                return (T)Activator.CreateInstance(type, param);
+            }
+            else
+            {
+                Log.Log.Default.Error("Error Type");
+                return default(T);
+            }
+        }
     }
 }

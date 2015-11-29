@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Lsj.Util.Net.Web.Utils;
 
 namespace Lsj.Util.Net.Web.Request
 {
@@ -71,9 +72,39 @@ namespace Lsj.Util.Net.Web.Request
                 return eHttpRequestHeader.Unknown;
             }
         }
+
         public string IfModifiedSince =>this[eHttpRequestHeader.IfModifiedSince];
         public eConnectionType Connection => this[eHttpRequestHeader.Connection].ToLower() == "keep-alive" ? eConnectionType.KeepAlive : eConnectionType.Close;
-        public Encoding AcceptCharset => Encoding.UTF8;
+        public Encoding AcceptCharset => acceptCharset==null?ParseAccepCharset():acceptCharset;
+
+        private Encoding ParseAccepCharset()
+        {
+            var x = ParseStringArray(this[eHttpRequestHeader.AcceptCharset]);
+            var result = Encoding.UTF8;
+            foreach (var a in x)
+            {
+                if (a == "")
+                {
+                    continue;
+                }
+                try
+                {
+                    result = Encoding.GetEncoding(a);
+                    break;
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
+            }
+            acceptCharset = result;
+            return result;
+        }
+
+
+        Encoding acceptCharset;
         public int ContentLength => this[eHttpRequestHeader.ContentLength].ConvertToInt(0);
+        public string[] AcceptEncoding => this[eHttpRequestHeader.AcceptEncoding].Split(',').Trim();
+
     }
 }

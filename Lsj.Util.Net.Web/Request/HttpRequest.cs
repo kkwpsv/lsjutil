@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Request
         public eHttpMethod Method { get; private set; } = eHttpMethod.UnParsed;
         public string uri { get; private set; } = "";
         public HttpRequestHeaders headers = new HttpRequestHeaders();
-        HttpClient client;
+        internal HttpClient client;
         bool StartParsePost = false;
         byte[] postBytes = new byte[] { };
         public int ErrorCode { get; set; } = 400;
