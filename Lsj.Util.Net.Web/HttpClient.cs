@@ -101,6 +101,7 @@ namespace Lsj.Util.Net.Web
             {
                 Log.Log.Default.Warn(e);
                 SendErrorAndDisconnect(500);
+                //throw;
             }
             
         }

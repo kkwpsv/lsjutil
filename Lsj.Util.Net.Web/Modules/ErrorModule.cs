@@ -12,6 +12,7 @@ using Lsj.Util.HtmlBuilder.Header;
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.IO;
 using System.IO;
+using Lsj.Util.RamCache;
 
 namespace Lsj.Util.Net.Web.Modules
 {
@@ -30,19 +31,27 @@ namespace Lsj.Util.Net.Web.Modules
         {
             return false;
         }
-
+        SafeCaches<int, string> errorpages = new SafeCaches<int, string>();
         public HttpResponse Process(HttpRequest request)
         {
             var code = request.ErrorCode;
             string result;
-            var file = $"{ErrorPagePath}{code}.htm";
-            if (file.IsExistsFile())
+            if (errorpages[code] != null)
             {
-                result = File.ReadAllText(file);
+                result = errorpages[code];
             }
             else
             {
-                result = BuildPage(code);
+               var file = $"{ErrorPagePath}{code}.htm";
+                if (file.IsExistsFile())
+                {
+                    result = File.ReadAllText(file);
+                }
+                else
+                {
+                    result = BuildPage(code);
+                }
+                errorpages[code] = result;
             }
 
             var response = new HttpResponse(request);

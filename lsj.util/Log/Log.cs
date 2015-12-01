@@ -46,7 +46,7 @@ namespace Lsj.Util.Log
                     ConsoleColor old = Console.ForegroundColor;
                     Console.ForegroundColor = m_config.ConsoleColors[(int)type];                   
                     Console.WriteLine($@"[{DateTime.Now.ToString()}] {str}");
-                    Console.ForegroundColor = old;
+                    Console.ResetColor();
                 }
                 if (m_config.UseFile)
                 {

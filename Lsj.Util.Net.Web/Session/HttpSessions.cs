@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Lsj.Util.Net.Web
     public class HttpSessions
     {
         public static TimeSpan Timeout = new TimeSpan(0, 15, 0);
-        Dictionary<string, HttpSession> sessions = new Dictionary<string, HttpSession>();
+        SafeDictionary<string, HttpSession> sessions = new SafeDictionary<string, HttpSession>();
         public HttpSessions()
         {
             Thread CheckThread = new Thread(Check);
@@ -49,7 +50,7 @@ namespace Lsj.Util.Net.Web
                 }
                 else
                 {
-                    this.sessions.Add(key, value);
+                    sessions.Add(key, value);
                 }
             }
         }
