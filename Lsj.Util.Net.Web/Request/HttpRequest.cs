@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Collections;
 using Lsj.Util.Net.Web.Cookie;
+using Lsj.Util.Net.Web.Post;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Website;
 using System;
@@ -11,8 +12,8 @@ namespace Lsj.Util.Net.Web.Request
 {
     public class HttpRequest:IHttpMessage
     {
-        public eHttpMethod Method { get; private set; } = eHttpMethod.UnParsed;
-        public string uri { get; private set; } = "";
+        public eHttpMethod Method { get; internal set; } = eHttpMethod.UnParsed;
+        public string uri { get; internal set; } = "";
         public HttpRequestHeaders headers = new HttpRequestHeaders();
         internal HttpClient client;
         bool StartParsePost = false;
@@ -23,13 +24,17 @@ namespace Lsj.Util.Net.Web.Request
         public SafeStringToStringDirectionary Form
         {
             get;
+            private set;
         } = new SafeStringToStringDirectionary();
-        public byte[] PostBytes { get; private set; }
+        public byte[] PostBytes
+        {
+            get; private set;
+        } = new byte[] { };
         public SafeStringToStringDirectionary QueryString
         {
             get;
         } = new SafeStringToStringDirectionary();
-        public HttpCookies Cookies { get; private set; }
+        public HttpCookies Cookies { get; internal set; }
         public HttpSession Session {
             get
             {
@@ -47,7 +52,7 @@ namespace Lsj.Util.Net.Web.Request
         }
         public Version HttpVersion = new Version(1,0);
         internal static readonly HttpRequest NullRequest = new HttpRequest { IsComplete = true };
-        private HttpRequest()
+        internal HttpRequest()
         {
         }
         public string this[string key]
@@ -57,7 +62,7 @@ namespace Lsj.Util.Net.Web.Request
                 return System.Web.HttpUtility.UrlDecode(QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "");
             }
         }
-        public HttpRequest(HttpClient client)
+        internal HttpRequest(HttpClient client)
         {
             this.client = client;
         }
@@ -123,37 +128,7 @@ namespace Lsj.Util.Net.Web.Request
 
         private void ParseCookies()
         {
-            try
-            {
-                Dictionary<string, HttpCookie> cookies = new Dictionary<string, HttpCookie>();
-                var cookiestrings = headers[eHttpRequestHeader.Cookie].Split(';');
-                foreach (string cookiestring in cookiestrings)
-                {
-                    var cookie = cookiestring.Split('=');
-                    if (cookie.Length >= 2)
-                    {
-                        var name = cookie[0].Trim();
-                        var content = cookie[1].Trim();
-                        if (!cookies.ContainsKey(name))
-                        {
-                            cookies.Add(name, new HttpCookie { name = name, content = content });
-                        }
-                        else
-                        {
-                            cookies[name] = new HttpCookie { name = name, content = content };
-                        }
-                    }
-                }
-                Cookies = new HttpCookies(cookies);
-            }
-            catch (Exception e)
-            {
-                if (Cookies == null)
-                    Cookies = new HttpCookies(new Dictionary<string, HttpCookie>());
-                Log.Log.Default.Warn("Error Cookies \r\n");
-                Log.Log.Default.Warn(e);
-            }
-               
+            Cookies = HttpCookies.Parse(headers[eHttpRequestHeader.Cookie]);              
         }
 
         private void ParseQueryString()
@@ -202,7 +177,7 @@ namespace Lsj.Util.Net.Web.Request
                     if (headers[eHttpRequestHeader.ContentType]=="application/x-www-form-urlencoded")
                     {
                         var str = PostBytes.ConvertFromBytes();
-                        
+                        Form = FormParser.Parse(str);
                     }
                 }
                 else
@@ -313,6 +288,38 @@ namespace Lsj.Util.Net.Web.Request
                 IsError = true;
             }
             return result;
+        }
+
+
+        public string GetHeader()
+        {
+            var sb = new StringBuilder();
+            sb.Append($"{Method.ToString()} {uri} HTTP/1.1\r\n");
+            foreach (var a in headers)
+            {
+                sb.Append($"{a.Key}: {a.Value}\r\n");
+            }
+            if (Cookies.Count()!=0)
+            {
+                sb.Append($"Cookie:");
+                foreach (var cookie in Cookies)
+                {
+                    sb.Append($" {cookie.name}={cookie.content};");
+                }
+                sb.Append("\r\n");
+            }
+            sb.Append("\r\n");
+            return sb.ToString();
+        }
+
+
+        public void Write(byte[] bytes)
+        {
+            this.PostBytes = bytes;
+        }
+        public byte[] GetAll()
+        {
+            return GetHeader().ConvertToBytes(Encoding.ASCII).Concat(PostBytes).ToArray();
         }
     }
 }

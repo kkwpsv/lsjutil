@@ -93,6 +93,7 @@
     <Compile Include="Modules\eModuleType.cs" />
     <Compile Include="Modules\ErrorModule.cs" />
     <Compile Include="Modules\ActivePageModule.cs" />
+    <Compile Include="MyHttpWebClient.cs" />
     <Compile Include="Post\FormParser.cs" />
     <Compile Include="Protocol\eConnectionType.cs" />
     <Compile Include="HttpClient.cs" />

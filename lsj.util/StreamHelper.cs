@@ -8,8 +8,9 @@ namespace Lsj.Util
 {
     public static class StreamHelper
     {
-        public static byte[] Read(this Stream stream)
+        public static byte[] ReadAll(this Stream stream)
         {
+            stream.Seek(0, SeekOrigin.Begin);
             byte[] result = new byte[stream.Length];
             if (stream.CanRead)
             {
@@ -20,6 +21,10 @@ namespace Lsj.Util
         public static void Write(this Stream stream, byte[] buffer)
         {
             stream.Write(buffer, 0,buffer.Length);
+        }
+        public static void Write(this Stream stream, byte[] buffer,int offset)
+        {
+            stream.Write(buffer, offset, buffer.Length-offset);
         }
     }
 }

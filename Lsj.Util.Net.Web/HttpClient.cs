@@ -9,10 +9,10 @@ using System;
 
 namespace Lsj.Util.Net.Web
 {
-    public class HttpClient
+    internal class HttpClient
     {
         TcpSocket handle;
-        const int buffersize = 4 * 1024;
+        const int buffersize = 8 * 1024;
         byte[] buffer;
         HttpRequest request;
         HttpResponse response;
@@ -86,7 +86,7 @@ namespace Lsj.Util.Net.Web
                         response = module.Process(request);
                         if (!response.IsError)
                         {
-                            response.cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
+                            response.Cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
                         }
                         
                         Response();

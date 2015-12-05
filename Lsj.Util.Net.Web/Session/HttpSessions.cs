@@ -10,7 +10,7 @@ namespace Lsj.Util.Net.Web
     public class HttpSessions
     {
         public static TimeSpan Timeout = new TimeSpan(0, 15, 0);
-        SafeDictionary<string, HttpSession> sessions = new SafeDictionary<string, HttpSession>();
+        SafeDictionary<string, HttpSession> sessions = new SafeDictionary<string, HttpSession>(true);
         public HttpSessions()
         {
             Thread CheckThread = new Thread(Check);
@@ -57,6 +57,10 @@ namespace Lsj.Util.Net.Web
         public string New()
         {
             var session = new HttpSession();
+            if (this.sessions.ContainsKey(session.ID))
+            {
+                return New();
+            }
             this[session.ID] = session;
             return session.ID;
         }

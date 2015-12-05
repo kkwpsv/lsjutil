@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Collections;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace Lsj.Util.Net.Web.Cookie
 {
     public class HttpCookies : IEnumerable<HttpCookie>
     {
-        Dictionary<string, HttpCookie> cookies = new Dictionary<string, HttpCookie>();
-        public HttpCookies(Dictionary<string, HttpCookie> cookies)
+        SafeDictionary<string, HttpCookie> cookies;
+        public HttpCookies()
         {
-            this.cookies = cookies;
+            this.cookies = new SafeDictionary<string, HttpCookie>();
         }
         public HttpCookie this[string key]
         {
@@ -32,14 +33,33 @@ namespace Lsj.Util.Net.Web.Cookie
         }
         public void Add(HttpCookie cookie)
         {
-            if (cookies.ContainsKey(cookie.name))
-            {
-                cookies[cookie.name] = cookie;
+            cookies[cookie.name] = cookie;
+        }
+        public static HttpCookies Parse(string str)
+        {
+            HttpCookies cookies = new HttpCookies();
+            try
+            {                
+                var cookiestrings = str.Split(';');
+                foreach (string cookiestring in cookiestrings)
+                {
+                    var cookie = cookiestring.Split('=');
+                    if (cookie.Length >= 2)
+                    {
+                        var name = cookie[0].Trim();
+                        var content = cookie[1].Trim();
+                        cookies.Add(new HttpCookie { name = name, content = content });
+                    }
+                }
             }
-            else
+            catch (Exception e)
             {
-                cookies.Add(cookie.name, cookie);
+                if (cookies == null)
+                    cookies = new HttpCookies();
+                Log.Log.Default.Warn("Error Cookies \r\n");
+                Log.Log.Default.Warn(e);
             }
+            return cookies;
         }
 
     }

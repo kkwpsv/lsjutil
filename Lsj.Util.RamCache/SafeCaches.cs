@@ -8,7 +8,7 @@ namespace Lsj.Util.RamCache
 {
     public class SafeCaches<TKey,TValue> where TValue : class
     {
-        SafeDictionary<TKey,TValue> caches = new SafeDictionary<TKey ,TValue>();
+        SafeDictionary<TKey,TValue> caches = new SafeDictionary<TKey ,TValue>(true);
         public TValue this[TKey key]
         {
            get

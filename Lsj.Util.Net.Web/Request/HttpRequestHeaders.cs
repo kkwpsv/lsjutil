@@ -74,7 +74,7 @@ namespace Lsj.Util.Net.Web.Request
         }
 
         public string IfModifiedSince =>this[eHttpRequestHeader.IfModifiedSince];
-        public eConnectionType Connection => this[eHttpRequestHeader.Connection].ToLower() == "keep-alive" ? eConnectionType.KeepAlive : eConnectionType.Close;
+        public eConnectionType Connection=>this[eHttpRequestHeader.Connection].ToLower() == "keep-alive" ? eConnectionType.KeepAlive : eConnectionType.Close;
         public Encoding AcceptCharset => acceptCharset==null?ParseAccepCharset():acceptCharset;
 
         private Encoding ParseAccepCharset()

@@ -9,12 +9,17 @@ namespace Lsj.Util.Collections
     {
         object m_lock = new object();
         Dictionary<TKey, TValue> m_Dictionary;
-
+        bool IsMultiThreadSafety = false;
         public Dictionary<TKey,TValue>.KeyCollection Keys => m_Dictionary.Keys;
+        public Dictionary<TKey, TValue>.ValueCollection Values => m_Dictionary.Values;
 
-        public SafeDictionary()
+        public SafeDictionary():this(false)
+        {
+        }
+        public SafeDictionary(bool IsMultiThreadSafety)
         {
             this.m_Dictionary = new Dictionary<TKey, TValue>();
+            this.IsMultiThreadSafety = IsMultiThreadSafety;
         }
 
         public TValue this[TKey key]
@@ -60,11 +65,25 @@ namespace Lsj.Util.Collections
         {
             return Contain(key);
         }
-        void Set(TKey key,TValue value)
+        void Lock()
         {
-            Monitor.Enter(m_lock);
+            if (IsMultiThreadSafety)
+            {
+                Monitor.Enter(m_lock);
+            }
+        }
+        void Unlock()
+        {
+            if (IsMultiThreadSafety)
+            {
+                Monitor.Exit(m_lock);
+            }
+        }
+        void Set(TKey key,TValue value)
+        {            
             try
             {
+                Lock();
                 m_Dictionary[key] = value;
             }
             catch (Exception e)
@@ -73,15 +92,15 @@ namespace Lsj.Util.Collections
             }
             finally
             {
-                Monitor.Exit(m_lock);
+                Unlock();
             }
         }
         bool Contain(TKey key)
         {
             bool result = false;
-            Monitor.Enter(m_lock);
             try
             {
+                Lock();
                 result = m_Dictionary.ContainsKey(key);
             }
             catch (Exception e)
@@ -90,15 +109,15 @@ namespace Lsj.Util.Collections
             }
             finally
             {
-                Monitor.Exit(m_lock);               
+                Unlock();
             }
-return result;
+            return result;
         }
         void Del(TKey key)
         {
-            Monitor.Enter(m_lock);
             try
             {
+                Lock();
                 m_Dictionary.Remove(key);
             }
             catch (Exception e)
@@ -107,7 +126,7 @@ return result;
             }
             finally
             {
-                Monitor.Exit(m_lock);
+                Unlock();
             }
         }
     }

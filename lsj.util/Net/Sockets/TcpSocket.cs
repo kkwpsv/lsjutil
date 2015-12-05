@@ -59,6 +59,7 @@ namespace Lsj.Util.Net.Sockets
             set { m_socket.ReceiveTimeout = value; }
         }
 
+
         /// <summary>
         /// Send Timeout
         /// </summary>
@@ -287,6 +288,7 @@ namespace Lsj.Util.Net.Sockets
             base.CleanUpManagedResources();
         }
 
+        public bool DataAvailable => m_socket.Available > 0;
 
     }
 }
