@@ -32,7 +32,6 @@ namespace Lsj.Util.Net.Web.Response
                     using (var compress = new GZipStream(content, CompressionMode.Compress,true))
                     {
                         compress.Write(file.OpenRead().Read());
-                        compress.Close();
                     }
                     headers.Add(eHttpResponseHeader.ContentEncoding, "gzip");
                 }

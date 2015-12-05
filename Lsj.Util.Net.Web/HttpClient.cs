@@ -54,7 +54,7 @@ namespace Lsj.Util.Net.Web
         private void SendErrorAndDisconnect(int ErrorCode)
         {
             request.ErrorCode = ErrorCode;
-            response = website.ErrorModule.Process(request);
+            response = website==null?ErrorModule.StaticProcess(request) :website.ErrorModule.Process(request);
             Response();
         }
 

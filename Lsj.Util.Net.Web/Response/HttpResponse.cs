@@ -72,12 +72,12 @@ namespace Lsj.Util.Net.Web.Response
         public void Write(string content) => Write(content.ConvertToBytes(encoding));
         public void Write(StringBuilder content) => Write(content.ToString());
         public void Write(byte[] bytes) => this.content.Write(bytes);
-        public void WriteError(StringBuilder content, int ErrorCode)
+        public void WriteError(byte[] content, int ErrorCode)
         {
             this.Write(content);
             this.status = ErrorCode;
             this.headers.Connection = eConnectionType.Close;
-            this.headers.ContentType = "text/html; charset=" + request.headers.AcceptCharset.BodyName;
+            this.headers.ContentType = "text/html";
         }
 
 

@@ -63,10 +63,11 @@ namespace Lsj.Util.Net.Web.Request
         }
         public void Read(byte[] buffer)
         {
-
+            bool flag = false;
             if (!StartParsePost)
             {
-                var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0'); 
+                var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0');
+                flag = str.Contains("\r\n\r\n");
                 var lines = str.Split("\r\n");
                 if (Method == eHttpMethod.UnParsed)
                 {
@@ -92,6 +93,8 @@ namespace Lsj.Util.Net.Web.Request
                                 postBytes = postBytes.Concat(b.ConvertToBytes()).ToArray();
                             }
                             StartParsePost = true;
+
+
                             break;
                         }
                         else if (lines.Length > i + 2)
@@ -99,14 +102,17 @@ namespace Lsj.Util.Net.Web.Request
                             IsError = true;
                             ErrorCode = 411;
                         }
+                        
                     }
                 }
             }
             else
             {
+                flag = true;
                 postBytes = postBytes.Concat(buffer.ConvertFromBytes().Trim('\0').ConvertToBytes()).ToArray();
             }
-            if (postBytes.Length >= headers.ContentLength)
+            
+            if (flag&&postBytes.Length >= headers.ContentLength)
             {
                 ParsePost();
                 ParseQueryString();

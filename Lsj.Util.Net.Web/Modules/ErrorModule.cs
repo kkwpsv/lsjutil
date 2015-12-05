@@ -31,11 +31,11 @@ namespace Lsj.Util.Net.Web.Modules
         {
             return false;
         }
-        SafeCaches<int, string> errorpages = new SafeCaches<int, string>();
+        SafeCaches<int, byte[]> errorpages = new SafeCaches<int, byte[]>();
         public HttpResponse Process(HttpRequest request)
         {
             var code = request.ErrorCode;
-            string result;
+            byte[] result;
             if (errorpages[code] != null)
             {
                 result = errorpages[code];
@@ -45,21 +45,21 @@ namespace Lsj.Util.Net.Web.Modules
                var file = $"{ErrorPagePath}{code}.htm";
                 if (file.IsExistsFile())
                 {
-                    result = File.ReadAllText(file);
+                    result = File.ReadAllBytes(file);
                 }
                 else
                 {
-                    result = BuildPage(code);
+                    result = BuildPage(code).ConvertToBytes(Encoding.ASCII);
                 }
                 errorpages[code] = result;
             }
 
             var response = new HttpResponse(request);
-            response.WriteError(result.ToStringBuilder(), code);
+            response.WriteError(result, code);
 
             return response;
         }
-        string BuildPage(int code)
+        static string BuildPage(int code)
         {
             var ErrorString = HttpResponse.GetErrorStringByCode(code);
             var ErrorPage = new HtmlPage();
@@ -111,6 +111,17 @@ namespace Lsj.Util.Net.Web.Modules
                 }
             );
             return ErrorPage.ToString();
+        }
+        public static HttpResponse StaticProcess(HttpRequest request)
+        {
+            var code = request.ErrorCode;
+            byte[] result= BuildPage(code).ConvertToBytes(Encoding.ASCII);
+             
+
+            var response = new HttpResponse(request);
+            response.WriteError(result, code);
+
+            return response;
         }
     }
 }
