@@ -125,7 +125,6 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
     <Compile Include="MathHelper.cs" />
-    <Compile Include="MyString.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -217,5 +217,16 @@ namespace Lsj.Util
             }
             return x;
         }
+        public static unsafe string ReadStringFromBytePoint(byte* buffer, int count,Encoding encoding)
+        {
+            byte[] x = new byte[count];
+            for (int i = 0; i < count; i++)
+            {
+                x[i] = *buffer;
+                buffer++;
+            }
+            return encoding.GetString(x);
+        }
+        public static unsafe string ReadStringFromBytePoint(byte* buffer, int count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
     }
 }

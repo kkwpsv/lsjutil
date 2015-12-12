@@ -6,55 +6,72 @@ using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Response;
 using Lsj.Util.Net.Web.Website;
 using System;
+using System.Net.Sockets;
 
 namespace Lsj.Util.Net.Web
 {
-    internal class HttpClient
+    internal struct HttpClient
     {
-        TcpSocket handle;
-        const int buffersize = 8 * 1024;
+        Socket handle;
+        MyHttpWebServer server;
+        public HttpWebsite website;
+        SocketAsyncEventArgs socketevent;
         byte[] buffer;
+        const int buffersize = 8 * 1024;
         HttpRequest request;
         HttpResponse response;
-        MyHttpWebServer server;
-        internal HttpWebsite website;
-        public HttpClient(TcpSocket handle,MyHttpWebServer server)
+        
+
+        internal HttpClient(Socket handle, MyHttpWebServer server)
         {
             this.handle = handle;
             this.server = server;
-            this.request = new HttpRequest(this);
+            this.website = HttpWebsite.InternalWebsite;
+            this.socketevent = new SocketAsyncEventArgs();
+            this.buffer = new byte[buffersize];
+            this.request = new HttpRequest();
+            this.response = new HttpResponse();
         }
-        public void Receive()
+        void Clear()
         {
-            buffer = new byte[buffersize];
-            handle.BeginReceive(buffer, OnRecive);
+            this.request = new HttpRequest();
+            this.response = new HttpResponse();
         }
 
-        private void OnRecive(IAsyncResult ar)
+        internal void Receive()
         {
-            if (handle.EndReceive(ar) > 0)
+            try
             {
-                request.Read(buffer);
-                if (request.IsError)
-                {
-                    SendErrorAndDisconnect(request.ErrorCode);
-                }
-                else if (request.IsComplete)
-                {
-                    Process();
-                }
-                else
-                {
-                    Receive();
-                }
-                
+                socketevent.SetBuffer(buffer, 0, buffer.Length);
+                socketevent.Completed += Reveive_Completed;
+                handle.ReceiveAsync(socketevent);
+            }
+            catch(Exception ex)
+            {
+                Disconnect();
+                Log.Log.Default.Debug(ex);
             }
         }
-
-        private void SendErrorAndDisconnect(int ErrorCode)
+        private void Reveive_Completed(object sender, SocketAsyncEventArgs e)
         {
-            request.ErrorCode = ErrorCode;
-            response = website==null?ErrorModule.StaticProcess(request) :website.ErrorModule.Process(request);
+            int count = e.BytesTransferred;
+            request.Read(e.Buffer, count);
+            if (request.IsError)
+            {
+                SendErrorAndDisconnect();
+            }
+            else if (request.IsComplete)
+            {
+                Process();
+            }
+            else
+            {
+                Receive();
+            }
+        }
+        private void SendErrorAndDisconnect()
+        {
+            response = website == null ? ErrorModule.StaticProcess(request) : website.ErrorModule.Process(request);
             Response();
         }
 
@@ -65,7 +82,7 @@ namespace Lsj.Util.Net.Web
                 this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host]);
                 if (this.website == null)
                 {
-                    SendErrorAndDisconnect(403);
+                    request.ErrorCode = 403;
                     return;
                 }
                 else
@@ -88,43 +105,51 @@ namespace Lsj.Util.Net.Web
                         {
                             response.Cookies.Add(new HttpCookie { name = "SessionID", content = request.Session.ID, Expires = DateTime.Now.AddHours(1) });
                         }
-                        
+
                         Response();
                     }
                     else
                     {
-                        SendErrorAndDisconnect(501);
+                        request.ErrorCode = 501;
+                        SendErrorAndDisconnect();
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Log.Default.Warn(e);
-                SendErrorAndDisconnect(500);
+                request.ErrorCode = 500;
+                SendErrorAndDisconnect();
                 //throw;
             }
-            
+
         }
         private void Response()
         {
             response.headers.Add(eHttpResponseHeader.Server, MyHttpWebServer.ServerVersion);
-            handle.BeginSend(response.GetAll(), OnSent);
-        }
 
-        private void OnSent(IAsyncResult ar)
-        {
-            handle.EndSend(ar);
-            if (response.headers.Connection == eConnectionType.Close)
+            if (response.Response(handle))
             {
-                handle.Shutdown();
-                handle.Close();
+                if (this.request.headers.Connection != eConnectionType.KeepAlive)
+                {
+                    Disconnect();
+                }
+                else
+                {
+                    Receive();
+                }
             }
             else
             {
-                this.request = new HttpRequest(this);
-                this.response = null;
-                Receive();
+                Disconnect();
             }
+        }
+
+        private void Disconnect()
+        {
+            Clear();
+            server.AddNullClient(this);
+
         }
     }
 }

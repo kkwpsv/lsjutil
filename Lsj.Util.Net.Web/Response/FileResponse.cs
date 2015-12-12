@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System;
+using Lsj.Util.Net.Web.Static;
 
 namespace Lsj.Util.Net.Web.Response
 {
@@ -19,7 +20,7 @@ namespace Lsj.Util.Net.Web.Response
         {
             file = new FileInfo(path);
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            this.headers.ContentType = MIME.MIME.GetContengTypeByExtension(System.IO.Path.GetExtension(path));
+            this.headers.ContentType = MIME.GetContengTypeByExtension(System.IO.Path.GetExtension(path));
             if (time == request.headers.IfModifiedSince)
             {
                 this.Write304();

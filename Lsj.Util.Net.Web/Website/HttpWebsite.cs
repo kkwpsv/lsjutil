@@ -51,6 +51,11 @@ namespace Lsj.Util.Net.Web.Website
         public HttpWebsite() : this(@".\")
         {
         }
+        internal HttpWebsite(bool x)
+        {
+        }
+        internal static HttpWebsite InternalWebsite = new HttpWebsite(false);
+
         FileModule filemodule;
         ActivePageModule activepagemodule;
         ErrorModule errormodule;
@@ -96,10 +101,7 @@ namespace Lsj.Util.Net.Web.Website
                 }
             }
         }
-        public List<IModule> modules
-        {
-            get; private set;
-        } = new List<IModule>();
+        public List<IModule> modules{ get; private set; } = new List<IModule>();
 
         public bool CanProcess(string host)
         {

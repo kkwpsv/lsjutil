@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Sockets;
 
 namespace Lsj.Util.Net.Sockets
 {
@@ -172,7 +173,7 @@ namespace Lsj.Util.Net.Sockets
         /// OnReceiveTimeOut
         /// </summary>
         /// <param name="handle"></param>
-        protected virtual void OnReceiveTimeOut(TcpSocket handle)
+        protected virtual void OnReceiveTimeOut(Socket handle)
         {
             return;
         }
@@ -212,7 +213,7 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// WorkSocket
         /// </summary>
-        public TcpSocket WorkSocket;
+        public Socket WorkSocket;
         /// <summary>
         /// BufferSize
         /// </summary>

@@ -73,7 +73,7 @@ namespace Lsj.Util.Net.Web
                 var response = new HttpResponse(Cookies);
                 while (!response.IsComplete)
                 {
-                    while (socket.DataAvailable)
+                    while (socket.IsDataAvailable())
                     {
                         byte[] buffer = new byte[8 * 1024];
                         socket.Receive(buffer);

@@ -13,6 +13,7 @@ using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.IO;
 using System.IO;
 using Lsj.Util.RamCache;
+using Lsj.Util.Net.Web.Static;
 
 namespace Lsj.Util.Net.Web.Modules
 {
@@ -31,37 +32,33 @@ namespace Lsj.Util.Net.Web.Modules
         {
             return false;
         }
-        SafeCaches<int, byte[]> errorpages = new SafeCaches<int, byte[]>();
         public HttpResponse Process(HttpRequest request)
         {
             var code = request.ErrorCode;
+            var extracode = request.ExtraErrorCode;
             byte[] result;
-            if (errorpages[code] != null)
+            var file = $"{ErrorPagePath}{code}.{extracode}.htm";
+            if (file.IsExistsFile())
             {
-                result = errorpages[code];
+                result = File.ReadAllBytes(file);
             }
             else
             {
-               var file = $"{ErrorPagePath}{code}.htm";
+                file = $"{ErrorPagePath}{code}.htm";
                 if (file.IsExistsFile())
                 {
                     result = File.ReadAllBytes(file);
                 }
-                else
-                {
-                    result = BuildPage(code).ConvertToBytes(Encoding.ASCII);
-                }
-                errorpages[code] = result;
+                result = BuildPage(code, extracode).ConvertToBytes(Encoding.ASCII);
             }
-
             var response = new HttpResponse(request);
             response.WriteError(result, code);
 
             return response;
         }
-        static string BuildPage(int code)
+        internal static string BuildPage(int code,int extracode = 0)
         {
-            var ErrorString = HttpResponse.GetErrorStringByCode(code);
+            var ErrorString = ErrorCode.GetErrorStringByCode(code,extracode);
             var ErrorPage = new HtmlPage();
             ErrorPage.head.Add(new title
             {
