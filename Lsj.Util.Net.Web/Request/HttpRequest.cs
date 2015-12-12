@@ -16,6 +16,7 @@ namespace Lsj.Util.Net.Web.Request
         public string uri { get; internal set; } = "";
         public HttpRequestHeaders headers = new HttpRequestHeaders();
         internal HttpClient client;
+        public HttpWebsite website => client.website;
         bool StartParsePost = false;
         byte[] postBytes = new byte[] { };
         public int ErrorCode { get; set; } = 400;

@@ -64,7 +64,7 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
             catch (Exception e)
             {
                 WinForm.Notice(e.ToString());
-                throw;
+                //throw;
             }
             finally
             {
@@ -80,6 +80,7 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
         public void Warn(string str) => Add(str, eLogType.Warn);
         public void Error(string str) => Add(str, eLogType.Error);
 
+        public void Error(object obj) => Add(obj.ToString(), eLogType.Error);
 
         public void Debug(Exception e) => Debug(e.ToString());
         public void Info(Exception e) => Info(e.ToString());
@@ -88,5 +89,12 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
 
         public void Warn(string str, Exception e) => Add(str, e, eLogType.Warn);
         public void Error(string str,Exception e) => Add(str,e,eLogType.Error);
+
+        public void WarnFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Warn);
+        public void ErrorFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Error);
+        public void InfoFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Info);
+        public void DebugFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Debug);
+
+
     }
 }

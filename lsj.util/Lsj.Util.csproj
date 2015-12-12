@@ -55,6 +55,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -69,6 +70,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreGeneratedCode>false</CodeAnalysisIgnoreGeneratedCode>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +116,7 @@
     <Compile Include="Config\ConfigElement.cs" />
     <Compile Include="Config\ConfigElementNameAttribute.cs" />
     <Compile Include="Config\Ini.cs" />
+    <Compile Include="Config\XmlConfigFile.cs" />
     <Compile Include="CsComplier.cs" />
     <Compile Include="DisposableClass.cs" />
     <Compile Include="Encrypt\MD5.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogConfig.cs" />
     <Compile Include="MathHelper.cs" />
+    <Compile Include="MyString.cs" />
     <Compile Include="Net\Sockets\TcpSocket.cs" />
     <Compile Include="Net\Sockets\TcpASyncServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,7 +135,6 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinForm.cs" />
-    <Compile Include="Config\XmlConfigFile.cs" />
     <Compile Include="Xml\XmlFile.cs" />
   </ItemGroup>
   <ItemGroup>
