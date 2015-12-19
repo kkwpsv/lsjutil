@@ -144,12 +144,13 @@ namespace Lsj.Util.Net.Web.Request
                 UnsafeRead(pts, count);
             }
         }
+        bool canfinish = false;
         int contentindex = 0;
         unsafe void UnsafeRead(byte* pts, int count)
         {
             byte* start = pts;
             byte* ptr = pts;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++,ptr++)
             {
                 if (*ptr == 0)
                 {
@@ -157,16 +158,19 @@ namespace Lsj.Util.Net.Web.Request
                 }
                 if (!StartParsePost)
                 {
-                    if (*ptr == 13 && i + 1 < count && *(++ptr) == 14)
+                    if (*ptr == 13 && i + 1 < count && *(++ptr) == 10)
                     {
-                        if (i + 3 < count && *(++ptr) == 13 && *(++ptr) == 14)
+                        if (i + 3 < count && *(++ptr) == 13 && *(++ptr) == 10)
                         {
+                            int length = (int)(ptr - start - 3);
+                            ParseLine(StringHelper.ReadStringFromBytePoint(start, length));
                             var contentlength = headers[eHttpRequestHeader.ContentLength].ConvertToInt(0);
                             if (contentlength != 0)
                             {
                                 this.postBytes = new byte[contentlength];
                                 StartParsePost = true;
-                                i = i + 4;
+                                ptr++;
+                                i++;
                             }
                             else if (i + 4 < count && *(++ptr) != 0)
                             {
@@ -174,10 +178,15 @@ namespace Lsj.Util.Net.Web.Request
                                 ErrorCode = 411;
                                 return;
                             }
+                            else
+                            {
+                                canfinish = true;
+                                break;
+                            }
                         }
                         else
                         {
-                            int length = (int)(ptr - start - 1);
+                            int length = (int)(ptr - start - 2);
                             if (this.Method == eHttpMethod.UnParsed)
                             {
                                 if (!ParseFirstLine(StringHelper.ReadStringFromBytePoint(start, length)))
@@ -189,8 +198,8 @@ namespace Lsj.Util.Net.Web.Request
                             {
                                 ParseLine(StringHelper.ReadStringFromBytePoint(start, length));
                             }
-                            start = ++ptr;
-                            i = i + 2;
+                            start = ptr;
+                            i=i+2;
                         }
                     }
                 }
@@ -202,9 +211,9 @@ namespace Lsj.Util.Net.Web.Request
                         contentindex++;
                     }
                 }
-                ptr++;
+
             }
-            if (contentindex == postBytes.Length)
+            if (canfinish||contentindex == postBytes.Length)
             {
                 ParsePost();
                 ParseQueryString();

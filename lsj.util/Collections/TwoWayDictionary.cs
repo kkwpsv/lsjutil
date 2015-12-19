@@ -1,15 +1,32 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lsj.Util.Collections
 {
+    /// <summary>
+    /// TwoWayDictionary
+    /// </summary>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
     public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        SafeDictionary<TKey, TValue> a = new SafeDictionary<TKey, TValue>();
-        SafeDictionary<TValue, TKey> b = new SafeDictionary<TValue, TKey>();
+        SafeDictionary<TKey, TValue> a;
+        SafeDictionary<TValue, TKey> b;
+        /// <summary>
+        /// Initial a New TwoWayDictionary
+        /// </summary>
+        public TwoWayDictionary():this(false)
+        {
+        }
+        /// <summary>
+        /// Initial a New TwoWayDictionary
+        /// </summary>
+        /// <param name="IsMultiThreadSafety">IsMultiThreadSafety</param>
+        public TwoWayDictionary(bool IsMultiThreadSafety)
+        {
+            this.a = new SafeDictionary<TKey, TValue>(IsMultiThreadSafety);
+            this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
+        }
 
         public TValue this[TKey key]
         {
@@ -34,12 +51,12 @@ namespace Lsj.Util.Collections
             }
                 
         }
-        public TKey GetKeyByValue(TValue value)
+        TKey GetKeyByValue(TValue value)
         {
          
             return b[value];
         }
-        public TValue GetValueByKey(TKey key)
+        TValue GetValueByKey(TKey key)
         {
             if (!a.ContainsKey(key))
                 return GetNullValue(key);

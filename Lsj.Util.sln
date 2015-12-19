@@ -13,8 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lsj.Util.Native", "Lsj.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Debugger", "Lsj.Util.Debugger\Lsj.Util.Debugger.csproj", "{DF542C73-854E-4559-8AD6-8B0498AEC8E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.RamCache", "Lsj.Util.RamCache\Lsj.Util.RamCache.csproj", "{CCB5DD81-2BAD-4965-9AD9-C724DCBB1CB1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,10 +39,6 @@ Global
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Debug|x64.Build.0 = Debug|x64
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Release|x64.ActiveCfg = Release|x64
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Release|x64.Build.0 = Release|x64
-		{CCB5DD81-2BAD-4965-9AD9-C724DCBB1CB1}.Debug|x64.ActiveCfg = Debug|x64
-		{CCB5DD81-2BAD-4965-9AD9-C724DCBB1CB1}.Debug|x64.Build.0 = Debug|x64
-		{CCB5DD81-2BAD-4965-9AD9-C724DCBB1CB1}.Release|x64.ActiveCfg = Release|x64
-		{CCB5DD81-2BAD-4965-9AD9-C724DCBB1CB1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

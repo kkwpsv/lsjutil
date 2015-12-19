@@ -125,10 +125,6 @@
       <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
       <Name>Lsj.Util.HtmlBuilder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.RamCache\Lsj.Util.RamCache.csproj">
-      <Project>{ccb5dd81-2bad-4965-9ad9-c724dcbb1cb1}</Project>
-      <Name>Lsj.Util.RamCache</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
       <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>

@@ -12,9 +12,12 @@ namespace Lsj.Util.Net.Web.Static
         {
             return MIMETypesDictionary[Extension];
         }
-        public override string GetNullValue(string key)
+        public sealed override string NullValue
         {
+            get
+            {
             return "*/*";
+            }
         }
         private static readonly SafeDictionary<string, string> MIMETypesDictionary = new SafeDictionary<string, string>
         {

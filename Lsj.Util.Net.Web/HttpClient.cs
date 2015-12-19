@@ -10,7 +10,7 @@ using System.Net.Sockets;
 
 namespace Lsj.Util.Net.Web
 {
-    internal struct HttpClient
+    internal class HttpClient
     {
         Socket handle;
         MyHttpWebServer server;
@@ -20,7 +20,7 @@ namespace Lsj.Util.Net.Web
         const int buffersize = 8 * 1024;
         HttpRequest request;
         HttpResponse response;
-        
+
 
         internal HttpClient(Socket handle, MyHttpWebServer server)
         {
@@ -32,30 +32,27 @@ namespace Lsj.Util.Net.Web
             this.request = new HttpRequest();
             this.response = new HttpResponse();
         }
-        void Clear()
-        {
-            this.request = new HttpRequest();
-            this.response = new HttpResponse();
-        }
 
         internal void Receive()
         {
             try
             {
-                socketevent.SetBuffer(buffer, 0, buffer.Length);
-                socketevent.Completed += Reveive_Completed;
-                handle.ReceiveAsync(socketevent);
+                handle.BeginReceive(buffer, OnReceive);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Disconnect();
                 Log.Log.Default.Debug(ex);
             }
         }
-        private void Reveive_Completed(object sender, SocketAsyncEventArgs e)
+
+        void OnReceive(IAsyncResult ar)
         {
-            int count = e.BytesTransferred;
-            request.Read(e.Buffer, count);
+            var length = handle.EndReceive(ar);
+            if (length > 0)
+            {
+                request.Read(buffer, length);
+            }
             if (request.IsError)
             {
                 SendErrorAndDisconnect();
@@ -69,6 +66,7 @@ namespace Lsj.Util.Net.Web
                 Receive();
             }
         }
+
         private void SendErrorAndDisconnect()
         {
             response = website == null ? ErrorModule.StaticProcess(request) : website.ErrorModule.Process(request);
@@ -79,15 +77,16 @@ namespace Lsj.Util.Net.Web
         {
             try
             {
+
                 this.website = server.GetWebSite(request.headers[eHttpRequestHeader.Host]);
-                if (this.website == null)
+                if (this.website == HttpWebsite.InternalWebsite)
                 {
                     request.ErrorCode = 403;
                     return;
                 }
                 else
                 {
-
+                    request.client = this;
                     IModule module = null;
 
                     foreach (var x in website.modules)
@@ -126,6 +125,7 @@ namespace Lsj.Util.Net.Web
         }
         private void Response()
         {
+            request = new HttpRequest();
             response.headers.Add(eHttpResponseHeader.Server, MyHttpWebServer.ServerVersion);
 
             if (response.Response(handle))
@@ -145,11 +145,9 @@ namespace Lsj.Util.Net.Web
             }
         }
 
-        private void Disconnect()
+        void Disconnect()
         {
-            Clear();
-            server.AddNullClient(this);
-
+            handle.Close();
         }
     }
 }

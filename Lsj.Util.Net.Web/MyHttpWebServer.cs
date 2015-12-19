@@ -18,7 +18,6 @@ namespace Lsj.Util.Net.Web
         public const int MaxClient = 10000;
         Socket m_socket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
-        Queue<HttpClient> clients = new Queue<HttpClient>(0);
         static byte[] TooMuchUserErrorBytes = ErrorModule.BuildPage(403, 9).ConvertToBytes(Encoding.ASCII);
         public MyHttpWebServer(IPAddress ip, int port)
         {
@@ -37,7 +36,7 @@ namespace Lsj.Util.Net.Web
             try
             {
                 m_socket.Listen();
-                Accept(null);     
+                m_socket.BeginAccept(OnAccept);   
             }
             catch (Exception e)
             {
@@ -48,51 +47,16 @@ namespace Lsj.Util.Net.Web
                 }
             }
         }
-        private void Accept(SocketAsyncEventArgs e)
+
+        private void OnAccept(IAsyncResult ar)
         {
-            if (e == null)
-            {
-                e = new SocketAsyncEventArgs();
-            }
-            else
-            {
-                e.AcceptSocket = null;
-            }
-            m_socket.AcceptAsync(e);
-            e.Completed += AcceptEventArgs_Completed;
-        }
-        private HttpClient GetNewClient()
-        {
-            return clients.Dequeue();
+            m_socket.BeginAccept(OnAccept);
+            var handle = m_socket.EndAccept(ar);
+            var client = new HttpClient(handle, this);
+            client.Receive();
         }
 
-        private void AcceptEventArgs_Completed(object sender, SocketAsyncEventArgs e)
-        {
-            var socket = e.AcceptSocket;
-            try
-            {
-                if (clients.Count == 0)
-                {
-                    Log.Log.Default.Warn("MaxClient");
-                    var response = new HttpResponse();
-                    response.Write(TooMuchUserErrorBytes);
-                    response.Response(socket);
-                    socket.Shutdown();
-                    socket.Close();
-                }
-                else
-                {
-                    var client = GetNewClient();
-                    client.Receive();
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Log.Default.Error("Accept Error" + ex.ToString());
-            }
-            e.AcceptSocket = null;
-            Accept(e);
-        }
+ 
 
         public void Stop()
         {
@@ -131,10 +95,6 @@ namespace Lsj.Util.Net.Web
                 }
             }
             return null;
-        }
-        internal void AddNullClient(HttpClient client)
-        {
-            clients.Enqueue(client);
         }
     }
 }

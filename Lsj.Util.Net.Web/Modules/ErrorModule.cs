@@ -12,7 +12,6 @@ using Lsj.Util.HtmlBuilder.Header;
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.IO;
 using System.IO;
-using Lsj.Util.RamCache;
 using Lsj.Util.Net.Web.Static;
 
 namespace Lsj.Util.Net.Web.Modules
@@ -24,7 +23,7 @@ namespace Lsj.Util.Net.Web.Modules
         public ErrorModule(HttpWebsite website)
         {
             this.website = website;
-            this.ErrorPagePath = website.Config.ErrorPagePath;
+            this.ErrorPagePath = website.Config!=null?website.Config.ErrorPagePath:"";
         }
 
         public eModuleType ModuleType => eModuleType.Error;
@@ -49,7 +48,10 @@ namespace Lsj.Util.Net.Web.Modules
                 {
                     result = File.ReadAllBytes(file);
                 }
-                result = BuildPage(code, extracode).ConvertToBytes(Encoding.ASCII);
+                else
+                {
+                    result = BuildPage(code, extracode).ConvertToBytes(Encoding.ASCII);
+                }
             }
             var response = new HttpResponse(request);
             response.WriteError(result, code);
