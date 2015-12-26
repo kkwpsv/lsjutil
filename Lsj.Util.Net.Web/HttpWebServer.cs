@@ -1,4 +1,5 @@
-﻿using Lsj.Util.IO;
+﻿using Lsj.Util.Collections;
+using Lsj.Util.IO;
 using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Response;
@@ -16,9 +17,10 @@ namespace Lsj.Util.Net.Web
     public class HttpWebServer : DisposableClass, IDisposable
     {
         public const string ServerVersion = "HttpWebServer/lsj(1.0)";
-        ConcurrentBag<HttpClient> clients;
+        MultiThreadSafeList<HttpClient> clients;
+        int maxclient;
         Socket m_socket;
-        Socket manage_socket;
+        Socket m_managesocket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
 
         public HttpWebServer(IPAddress ip, int port,int manageport,int maxclient)
@@ -27,10 +29,9 @@ namespace Lsj.Util.Net.Web
             {
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(ip, port);
-                this.manage_socket = new TcpSocket();
-                manage_socket.Bind(ip, manageport);
-                clients = new ConcurrentBag<HttpClient>();
-               
+                this.m_managesocket = new TcpSocket();
+                m_managesocket.Bind(ip, manageport);
+                clients = new MultiThreadSafeList<HttpClient>();          
             }
             catch (Exception e)
             {
@@ -42,7 +43,9 @@ namespace Lsj.Util.Net.Web
             try
             {
                 m_socket.Listen();
-                m_socket.BeginAccept(OnAccept);   
+                m_socket.BeginAccept(OnAccept);
+                m_managesocket.Accept();
+                m_managesocket.BeginAccept(OnAcceptManage);               
             }
             catch (Exception e)
             {
@@ -61,8 +64,15 @@ namespace Lsj.Util.Net.Web
             var client = new HttpClient(handle, this);
             client.Receive();
         }
+        private void OnAcceptManage(IAsyncResult ar)
+        {
+            m_m.BeginAccept(OnAccept);
+            var handle = m_socket.EndAccept(ar);
+            var client = new HttpClient(handle, this);
+            client.Receive();
+        }
 
- 
+
 
         public void Stop()
         {
