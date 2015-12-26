@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.Net.Web
+namespace Lsj.Util.Net.Web.Message
 {
     public interface IHttpMessage
     {

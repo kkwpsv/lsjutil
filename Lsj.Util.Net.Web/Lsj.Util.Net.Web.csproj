@@ -90,24 +90,23 @@
     <Compile Include="ActivePages\ActiveTestPage.cs" />
     <Compile Include="ActivePages\ActivePage.cs" />
     <Compile Include="ActivePages\ActivePageAttribute.cs" />
-    <Compile Include="Static\ErrorCode.cs" />
+    <Compile Include="Protocol\eHttpHeader.cs" />
+    <Compile Include="Static\Header.cs" />
+    <Compile Include="Static\SatusCode.cs" />
     <Compile Include="Static\MIME.cs" />
     <Compile Include="Modules\eModuleType.cs" />
     <Compile Include="Modules\ErrorModule.cs" />
     <Compile Include="Modules\ActivePageModule.cs" />
-    <Compile Include="MyHttpWebClient.cs" />
     <Compile Include="Post\FormParser.cs" />
     <Compile Include="Protocol\eConnectionType.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Cookie\HttpCookie.cs" />
     <Compile Include="Cookie\HttpCookies.cs" />
-    <Compile Include="IHttpMessage.cs" />
-    <Compile Include="Protocol\eHttpResponseHeader.cs" />
+    <Compile Include="Message\IHttpMessage.cs" />
     <Compile Include="Response\HttpResponseHeaders.cs" />
     <Compile Include="Session\HttpSession.cs" />
-    <Compile Include="Request\HttpRequestHeaders.cs" />
-    <Compile Include="Request\HttpRequest.cs" />
-    <Compile Include="Protocol\eHttpRequestHeader.cs" />
+    <Compile Include="Protocol\HttpRequestHeaders.cs" />
+    <Compile Include="Message\HttpRequest.cs" />
     <Compile Include="Session\HttpSessions.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Website\HttpWebsite.cs" />
@@ -133,7 +132,9 @@
   <ItemGroup>
     <None Include="LSJ.snk" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Request\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

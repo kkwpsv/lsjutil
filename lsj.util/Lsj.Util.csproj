@@ -109,7 +109,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASCIIChar.cs" />
     <Compile Include="Collections\SafeDictionary.cs" />
+    <Compile Include="Collections\MultiThreadSafeList.cs" />
     <Compile Include="Collections\SafeStringToStringDirectionary.cs" />
     <Compile Include="Collections\TwoWayDictionary.cs" />
     <Compile Include="Config\AppConfig.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Static.cs" />
     <Compile Include="StreamHelper.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="Version.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinForm.cs" />
     <Compile Include="Xml\XmlFile.cs" />

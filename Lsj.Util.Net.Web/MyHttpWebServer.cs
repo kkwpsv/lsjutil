@@ -4,6 +4,7 @@ using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Response;
 using Lsj.Util.Net.Web.Website;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,19 +13,24 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web
 {
-    public class MyHttpWebServer : DisposableClass, IDisposable
+    public class HttpWebServer : DisposableClass, IDisposable
     {
-        public const string ServerVersion = "MyHttpWebServer/lsj(5.0)";
-        public const int MaxClient = 10000;
+        public const string ServerVersion = "HttpWebServer/lsj(1.0)";
+        ConcurrentBag<HttpClient> clients;
         Socket m_socket;
+        Socket manage_socket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
-        static byte[] TooMuchUserErrorBytes = ErrorModule.BuildPage(403, 9).ConvertToBytes(Encoding.ASCII);
-        public MyHttpWebServer(IPAddress ip, int port)
+
+        public HttpWebServer(IPAddress ip, int port,int manageport,int maxclient)
         {
             try
             {
                 this.m_socket = new TcpSocket();
                 m_socket.Bind(ip, port);
+                this.manage_socket = new TcpSocket();
+                manage_socket.Bind(ip, manageport);
+                clients = new ConcurrentBag<HttpClient>();
+               
             }
             catch (Exception e)
             {
@@ -95,6 +101,10 @@ namespace Lsj.Util.Net.Web
                 }
             }
             return null;
+        }
+        internal void RemoveClient(HttpClient client)
+        {
+            clients.r
         }
     }
 }

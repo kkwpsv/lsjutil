@@ -59,7 +59,7 @@ namespace Lsj.Util.Net.Web.Response
         {
             this.headers.ContentLength = content.Length.ConvertToInt();
             var sb = new StringBuilder();
-            sb.Append($"HTTP/1.1 {status} {ErrorCode.GetErrorStringByCode(status)}\r\n");
+            sb.Append($"HTTP/1.1 {status} {SatusCode.GetStringByCode(status)}\r\n");
             foreach (var a in headers)
             {
                 sb.Append($"{a.Key}: {a.Value}\r\n");

@@ -32,6 +32,11 @@ namespace Lsj.Util.Net.Web
             this.request = new HttpRequest();
             this.response = new HttpResponse();
         }
+        ~HttpClient()
+        {
+            if(this.server!=null)
+                server.
+        }
 
         internal void Receive()
         {

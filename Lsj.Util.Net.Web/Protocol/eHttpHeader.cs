@@ -1,28 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lsj.Util.Net.Web
+﻿namespace Lsj.Util.Net.Web
 {
-    public enum eHttpRequestHeader
+    public enum eHttpHeader : byte
     {
         Unknown,
         Accept,
         AcceptCharset,
-        AcceptDatetime,
         AcceptEncoding,
         AcceptLanguage,
+        AcceptRanges,
+        Age,
+        Allow,
         Authorization,
         CacheControl,
-        Connection,      
+        Clientip,
+        Connection,
+        ContentEncoding,
+        ContentLanguage,
         ContentLength,
+        ContentLocation,
         ContentMD5,
-        ContentType,
+        ContentRange,
+        ContentType,      
         Cookie,
         Date,
-        DNT,
+        ETag,
         Expect,
+        Expires,
         From,
         Host,
         IfMatch,
@@ -30,17 +33,27 @@ namespace Lsj.Util.Net.Web
         IfNoneMatch,
         IfRange,
         IfUnmodifiedSince,
+        LastModified,
+        Location,
         MaxForwards,
-        Origin,
         Pragma,
+        ProxyAuthenticate,
         ProxyAuthorization,
+        ProxyConnection,
         Range,
         Referer,
+        RetryAfter,
+        Server,
+        SetCookie,
         TE,
+        Trailer,
+        TransferEncoding,      
         Upgrade,
         UserAgent,
         Via,
+        Vary,
         Warning,
-        XRequestedWith,
+        WWWAuthenticate,
+        XCache,
     }
 }

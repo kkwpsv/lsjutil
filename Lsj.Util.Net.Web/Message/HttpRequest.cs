@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using Lsj.Util;
 
-namespace Lsj.Util.Net.Web.Request
+namespace Lsj.Util.Net.Web.Message
 {
     public class HttpRequest:IHttpMessage
     {
