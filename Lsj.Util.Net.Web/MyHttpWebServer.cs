@@ -13,6 +13,9 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web
 {
+    /// <summary>
+    /// HTTPWebServer
+    /// </summary>
     public class HttpWebServer : DisposableClass, IDisposable
     {
         public const string ServerVersion = "HttpWebServer/lsj(1.0)";
