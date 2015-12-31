@@ -90,6 +90,7 @@
     <Compile Include="ActivePages\ActiveTestPage.cs" />
     <Compile Include="ActivePages\ActivePage.cs" />
     <Compile Include="ActivePages\ActivePageAttribute.cs" />
+    <Compile Include="Message\HttpHeaders.cs" />
     <Compile Include="Protocol\eHttpHeader.cs" />
     <Compile Include="Static\Header.cs" />
     <Compile Include="Static\SatusCode.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="Message\IHttpMessage.cs" />
     <Compile Include="Response\HttpResponseHeaders.cs" />
     <Compile Include="Session\HttpSession.cs" />
-    <Compile Include="Protocol\HttpRequestHeaders.cs" />
     <Compile Include="Message\HttpRequest.cs" />
     <Compile Include="Session\HttpSessions.cs" />
     <Compile Include="Utils.cs" />
@@ -132,9 +132,7 @@
   <ItemGroup>
     <None Include="LSJ.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Request\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

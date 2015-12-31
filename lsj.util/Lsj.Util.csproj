@@ -135,6 +135,7 @@
     <Compile Include="Static.cs" />
     <Compile Include="StreamHelper.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="UnsafeHelper.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinForm.cs" />

@@ -14,6 +14,58 @@ namespace Lsj.Util.Collections
         {
             m_list = new List<T>();
         }
+        public int Count
+        {
+            get
+            {
+                try
+                {
+                    Lock();
+                    return m_list.Count;
+                }
+                catch(Exception e)
+                {
+                    Log.Log.Default.Error(e);
+                    return -1;
+                }
+                finally
+                {
+                    Unlock();
+                }
+            }
+        }
+        public void Add(T item)
+        {
+            try
+            {
+                Lock();
+                m_list.Add(item);
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error(e);
+            }
+            finally
+            {
+                Unlock();
+            }
+        }
+        public void Remove(T item)
+        {
+            try
+            {
+                Lock();
+                m_list.Remove(item);
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error(e);
+            }
+            finally
+            {
+                Unlock();
+            }
+        }
         void Lock()
         {
             Monitor.Enter(m_lock);
@@ -22,6 +74,7 @@ namespace Lsj.Util.Collections
         {
             Monitor.Exit(m_lock);
         }
+
     }
     
 }

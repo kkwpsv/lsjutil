@@ -7,7 +7,7 @@ namespace Lsj.Util.Net.Web.Static
 {
     public static class Header
     {
-        public string GetNameByHeader(eHttpHeader header)
+        public static string GetNameByHeader(eHttpHeader header)
         {
 
             switch(header)

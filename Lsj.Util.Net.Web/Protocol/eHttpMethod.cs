@@ -3,7 +3,7 @@
     /// <summary>
     /// Http请求方法
     /// </summary>
-    public enum eHttpMethod
+    public enum eHttpMethod:byte
     {
         UnParsed,
         GET,

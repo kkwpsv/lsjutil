@@ -13,152 +13,189 @@ namespace Lsj.Util.Net.Web.Message
 {
     public class HttpRequest:IHttpMessage
     {
-        internal HttpRequest()
+        public HttpRequest()
         {
-        }
-
-
-        public eHttpMethod Method { get; internal set; } = eHttpMethod.UnParsed;
-        public string uri { get; internal set; } = "";
-        public HttpRequestHeaders headers = new HttpRequestHeaders();
-        internal HttpClient client;
-        public HttpWebsite website => client.website;
-        bool StartParsePost = false;
-        byte[] postBytes = new byte[] { };
-        public int ErrorCode { get; set; } = 400;
-        public int ExtraErrorCode
-        {
-            get; set;
-        } = 0;
-        public bool IsError { get; private set; } = false;
-        public bool IsComplete { get; private set; } = false;
-        public SafeStringToStringDirectionary Form
-        {
-            get;
-            private set;
-        } = new SafeStringToStringDirectionary();
-        public byte[] PostBytes
-        {
-            get; private set;
-        } = new byte[] { };
-        public SafeStringToStringDirectionary QueryString
-        {
-            get;
-        } = new SafeStringToStringDirectionary();
-        public HttpCookies Cookies { get; internal set; }
-        public HttpSession Session {
-            get
-            {
-                var str = Cookies["SessionID"].content;
-                if (client.website == null)
-                {
-                    return new HttpSession();
-                }
-                if (str == ""  || client.website.Session[str] == null)
-                {
-                    str = client.website.Session.New();
-                }
-                return client.website.Session[str];
-            }
-        }
-        public Version HttpVersion = new Version(1,0);
-       
-
-        public string this[string key]
-        {
-            get
-            {
-                return System.Web.HttpUtility.UrlDecode(QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "");
-            }
         }
         internal HttpRequest(HttpClient client)
         {
             this.client = client;
         }
-        public void Read(byte[] buffer) => Read(buffer, buffer.Length);
-        /*  {
-              bool flag = false;
-              if (!StartParsePost)
-              {
-                  var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0');
-                  flag = str.Contains("\r\n\r\n");
-                  var lines = str.Split("\r\n");
-                  if (Method == eHttpMethod.UnParsed)
+
+        internal HttpClient client
+        {
+            get;
+            private set;
+        }
+        internal HttpWebsite website
+        {
+            get;
+            set;
+        } = HttpWebsite.InternalWebsite;
+        public eHttpMethod Method
+        {
+            get;
+            set;
+        } = eHttpMethod.UnParsed;
+        public HttpHeaders Headers
+        {
+            get;
+        } = new HttpHeaders();
+        public int ErrorCode
+        {
+            get;
+            set;
+        } = 200;
+        public int ExtraErrorCode
+        {
+            get;
+            set;
+        } = 0;
+        public bool IsError => ErrorCode >= 400;
+        bool m_IsCompete = false;
+        public bool IsComplete
+        {
+            get
+            {
+                return IsError || m_IsCompete;
+            }
+            private set
+            {
+                m_IsCompete = value;
+            }
+        }
+        public Version HttpVersion
+        {
+            get;
+            set;
+        } = new Version(1, 0);
+        /*
+               public byte[] PostBytes
+               {
+                   get; private set;
+               } = new byte[] { };
+               public SafeStringToStringDirectionary QueryString
+               {
+                   get;
+               } = new SafeStringToStringDirectionary();
+               public HttpCookies Cookies { get; internal set; }
+               public HttpSession Session {
+                   get
+                   {
+                       var str = Cookies["SessionID"].content;
+                       if (client.website == null)
+                       {
+                           return new HttpSession();
+                       }
+                       if (str == ""  || client.website.Session[str] == null)
+                       {
+                           str = client.website.Session.New();
+                       }
+                       return client.website.Session[str];
+                   }
+               }*/
+
+        /*    public string this[string key]
+            {
+                get
+                {
+                    return System.Web.HttpUtility.UrlDecode(QueryString[key] != "" ? QueryString[key] : Form[key] != "" ? Form[key] : this.Cookies[key].content != "" ? this.Cookies[key].content : "");
+                }
+            }
+
+            public void Read(byte[] buffer) => Read(buffer, buffer.Length);
+             {
+                  bool flag = false;
+                  if (!StartParsePost)
                   {
-                      if (!ParseFirstLine(lines[0]))
+                      var str = buffer.ConvertFromBytes(Encoding.ASCII).Trim('\0');
+                      flag = str.Contains("\r\n\r\n");
+                      var lines = str.Split("\r\n");
+                      if (Method == eHttpMethod.UnParsed)
                       {
-                          return;
-                      }
-                  }
-                  for (int i = 1; i < lines.Length; i++)
-                  {
-                      if (lines[i] != "")
-                      {
-                          ParseLine(lines[i]);
-                      }
-                      else
-                      {
-                          if (headers[eHttpRequestHeader.ContentLength]!="0")
+                          if (!ParseFirstLine(lines[0]))
                           {
-                              var a = str.IndexOf("\r\n\r\n") + 4;
-                              if (str.Length > a)
+                              return;
+                          }
+                      }
+                      for (int i = 1; i < lines.Length; i++)
+                      {
+                          if (lines[i] != "")
+                          {
+                              ParseLine(lines[i]);
+                          }
+                          else
+                          {
+                              if (headers[eHttpRequestHeader.ContentLength]!="0")
                               {
-                                  var b = str.Substring(a);
-                                  postBytes = postBytes.Concat(b.ConvertToBytes()).ToArray();
+                                  var a = str.IndexOf("\r\n\r\n") + 4;
+                                  if (str.Length > a)
+                                  {
+                                      var b = str.Substring(a);
+                                      postBytes = postBytes.Concat(b.ConvertToBytes()).ToArray();
+                                  }
+                                  StartParsePost = true;
+
+
+                                  break;
                               }
-                              StartParsePost = true;
+                              else if (lines.Length > i + 2)
+                              {
+                                  IsError = true;
+                                  ErrorCode = 411;
+                              }
 
-
-                              break;
                           }
-                          else if (lines.Length > i + 2)
-                          {
-                              IsError = true;
-                              ErrorCode = 411;
-                          }
-
                       }
                   }
-              }
-              else
-              {
-                  flag = true;
-                  postBytes = postBytes.Concat(buffer.ConvertFromBytes().Trim('\0').ConvertToBytes()).ToArray();
-              }
+                  else
+                  {
+                      flag = true;
+                      postBytes = postBytes.Concat(buffer.ConvertFromBytes().Trim('\0').ConvertToBytes()).ToArray();
+                  }
 
-              if (flag&&postBytes.Length >= headers.ContentLength)
-              {
-                  ParsePost();
-                  ParseQueryString();
-                  ParseCookies();
-                  IsComplete = true;
-              }
-          }*/
+                  if (flag&&postBytes.Length >= headers.ContentLength)
+                  {
+                      ParsePost();
+                      ParseQueryString();
+                      ParseCookies();
+                      IsComplete = true;
+                  }
+              }*/
+        bool startpostcontent = false;
+        byte[] left;
 
 
+        bool canfinish = false;
+        int contentindex = 0;
         public void Read(byte[] buffer, int count) => UnsafeRead(buffer, count);
         unsafe void UnsafeRead(byte[] buffer, int count)
         {
-            fixed (byte* pts = buffer)
+            if (left != null && left.Length > 0)
             {
-                UnsafeRead(pts, count);
+                int length = left.Length + count;
+                byte* pts = stackalloc byte[length];
+                byte* ptr = pts;               
+                UnsafeHelper.Copy(left, ptr, left.Length);
+                UnsafeHelper.Copy(buffer, ptr, count);
+                UnsafeRead(pts, count);              
             }
-        }
-        bool canfinish = false;
-        int contentindex = 0;
+            else
+            {
+                fixed (byte* pts = buffer)
+                {
+                    UnsafeRead(pts, count);
+                }
+            }
+        } 
         unsafe void UnsafeRead(byte* pts, int count)
         {
             byte* start = pts;
             byte* ptr = pts;
             for (int i = 0; i < count; i++,ptr++)
             {
-                if (*ptr == 0)
+                if (!startpostcontent)
                 {
-                    return;
-                }
-                if (!StartParsePost)
-                {
-                    if (*ptr == 13 && i + 1 < count && *(++ptr) == 10)
+                    if (*ptr == (byte)ASCIIChar.CR && i + 1 < count && *(++ptr) == 10)
                     {
                         if (i + 3 < count && *(++ptr) == 13 && *(++ptr) == 10)
                         {

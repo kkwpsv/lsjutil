@@ -1,16 +1,10 @@
 ﻿using Lsj.Util.Collections;
-using Lsj.Util.IO;
 using Lsj.Util.Net.Sockets;
-using Lsj.Util.Net.Web.Modules;
-using Lsj.Util.Net.Web.Response;
 using Lsj.Util.Net.Web.Website;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Lsj.Util.Net.Web
 {
@@ -25,7 +19,9 @@ namespace Lsj.Util.Net.Web
         Socket m_socket;
         Socket m_managesocket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
-
+        public HttpWebServer():this(IPAddress.Any,80,8888,1000)
+        {
+        }
         public HttpWebServer(IPAddress ip, int port,int manageport,int maxclient)
         {
             try
@@ -64,18 +60,26 @@ namespace Lsj.Util.Net.Web
         {
             m_socket.BeginAccept(OnAccept);
             var handle = m_socket.EndAccept(ar);
-            var client = new HttpClient(handle, this);
-            client.Receive();
+            if (clients.Count >= maxclient)
+            {
+            }
+            else
+            {            
+            AddClient(handle);
+            }
         }
         private void OnAcceptManage(IAsyncResult ar)
         {
-            m_m.BeginAccept(OnAccept);
-            var handle = m_socket.EndAccept(ar);
+            m_managesocket.BeginAccept(OnAccept);
+            var handle = m_managesocket.EndAccept(ar);
+            AddClient(handle);
+        }
+        private void AddClient(Socket handle)
+        {
             var client = new HttpClient(handle, this);
+            clients.Add(client);
             client.Receive();
         }
-
-
 
         public void Stop()
         {
@@ -117,7 +121,7 @@ namespace Lsj.Util.Net.Web
         }
         internal void RemoveClient(HttpClient client)
         {
-            clients.r
+            clients.Remove(client);
         }
     }
 }

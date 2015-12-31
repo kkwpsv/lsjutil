@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Cookie;
+using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Request;
@@ -13,62 +14,44 @@ namespace Lsj.Util.Net.Web
     internal class HttpClient
     {
         Socket handle;
-        MyHttpWebServer server;
-        public HttpWebsite website;
-        SocketAsyncEventArgs socketevent;
+        HttpWebServer server;
+        HttpWebsite website;
         byte[] buffer;
         const int buffersize = 8 * 1024;
         HttpRequest request;
         HttpResponse response;
 
 
-        internal HttpClient(Socket handle, MyHttpWebServer server)
+        internal HttpClient(Socket handle, HttpWebServer server)
         {
             this.handle = handle;
             this.server = server;
             this.website = HttpWebsite.InternalWebsite;
-            this.socketevent = new SocketAsyncEventArgs();
             this.buffer = new byte[buffersize];
-            this.request = new HttpRequest();
+            this.request = new HttpRequest(this);
             this.response = new HttpResponse();
         }
-        ~HttpClient()
-        {
-            if(this.server!=null)
-                server.
-        }
+
 
         internal void Receive()
         {
-            try
+            int receivebytes = handle.Receive(buffer);
+            if (receivebytes > 0)
             {
-                handle.BeginReceive(buffer, OnReceive);
-            }
-            catch (Exception ex)
-            {
-                Disconnect();
-                Log.Log.Default.Debug(ex);
-            }
-        }
-
-        void OnReceive(IAsyncResult ar)
-        {
-            var length = handle.EndReceive(ar);
-            if (length > 0)
-            {
-                request.Read(buffer, length);
-            }
-            if (request.IsError)
-            {
-                SendErrorAndDisconnect();
-            }
-            else if (request.IsComplete)
-            {
-                Process();
+                request.Read(buffer, receivebytes);
+                if (request.IsComplete)
+                {
+                    Process();
+                }
+                else
+                {
+                    Receive();
+                }
             }
             else
             {
-                Receive();
+                request.ErrorCode = 400;
+                SendErrorAndDisconnect();
             }
         }
 
@@ -152,7 +135,10 @@ namespace Lsj.Util.Net.Web
 
         void Disconnect()
         {
+            handle.Shutdown();
             handle.Close();
+            if (this.server != null)
+                server.RemoveClient(this);
         }
     }
 }
