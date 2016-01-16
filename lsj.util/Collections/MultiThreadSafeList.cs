@@ -6,14 +6,24 @@ using System.Threading;
 
 namespace Lsj.Util.Collections
 {
+    /// <summary>
+    /// MultiThreadSafeList
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class MultiThreadSafeList<T>
     {
         List<T> m_list;
         object m_lock = new object();
+        /// <summary>
+        /// Inital a new MultiThreadSafeList()
+        /// </summary>
         public MultiThreadSafeList()
         {
             m_list = new List<T>();
         }
+        /// <summary>
+        /// Count
+        /// </summary>
         public int Count
         {
             get
@@ -25,7 +35,7 @@ namespace Lsj.Util.Collections
                 }
                 catch(Exception e)
                 {
-                    Log.Log.Default.Error(e);
+                    Logs.Log.Default.Error(e);
                     return -1;
                 }
                 finally
@@ -34,6 +44,10 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+        /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(T item)
         {
             try
@@ -43,13 +57,17 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error(e);
+                Logs.Log.Default.Error(e);
             }
             finally
             {
                 Unlock();
             }
         }
+        /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="item"></param>
         public void Remove(T item)
         {
             try
@@ -59,7 +77,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error(e);
+                Logs.Log.Default.Error(e);
             }
             finally
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Lsj.Util.Xml
             }
             catch(Exception e)
             {
-                Log.Log.Default.Error("Error to Load XmlFile", e);
+                Log.Default.Error("Error to Load XmlFile", e);
             }
         }
         protected XmlDocument m_Document;
@@ -32,7 +33,7 @@ namespace Lsj.Util.Xml
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error("Error to Load XmlFile", e);
+                Log.Default.Error("Error to Load XmlFile", e);
             }
         }
 

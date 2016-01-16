@@ -217,7 +217,14 @@ namespace Lsj.Util
             }
             return x;
         }
-        public static unsafe string ReadStringFromBytePoint(byte* buffer, int count,Encoding encoding)
+        /// <summary>
+        /// ReadStringFromBytePoint
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="count"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static unsafe string ReadStringFromBytePoint(byte* buffer, long count,Encoding encoding)
         {
             byte[] x = new byte[count];
             for (int i = 0; i < count; i++)
@@ -227,6 +234,12 @@ namespace Lsj.Util
             }
             return encoding.GetString(x);
         }
-        public static unsafe string ReadStringFromBytePoint(byte* buffer, int count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
+        /// <summary>
+        /// ReadStringFromBytePoint
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static unsafe string ReadStringFromBytePoint(byte* buffer, long count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
     }
 }

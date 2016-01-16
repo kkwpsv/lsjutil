@@ -19,9 +19,15 @@ namespace Lsj.Util.Net.Web
         Socket m_socket;
         Socket m_managesocket;
         List<HttpWebsite> sites = new List<HttpWebsite>();
+        /// <summary>
+        /// Inital a new HttpWebServer With Default Config
+        /// </summary>
         public HttpWebServer():this(IPAddress.Any,80,8888,1000)
         {
         }
+        /// <summary>
+        /// Inital a new HttpWebServer
+        /// </summary>
         public HttpWebServer(IPAddress ip, int port,int manageport,int maxclient)
         {
             try
@@ -37,6 +43,9 @@ namespace Lsj.Util.Net.Web
                 Log.Log.Default.Error("Bind Error" + e.ToString());
             }
         }
+        /// <summary>
+        /// Start Server
+        /// </summary>
         public void Start()
         {
             try
@@ -55,13 +64,13 @@ namespace Lsj.Util.Net.Web
                 }
             }
         }
-
         private void OnAccept(IAsyncResult ar)
         {
             m_socket.BeginAccept(OnAccept);
             var handle = m_socket.EndAccept(ar);
             if (clients.Count >= maxclient)
             {
+                //to do
             }
             else
             {            
@@ -80,7 +89,9 @@ namespace Lsj.Util.Net.Web
             clients.Add(client);
             client.Receive();
         }
-
+        /// <summary>
+        /// Stop Server
+        /// </summary>
         public void Stop()
         {
             try
@@ -93,7 +104,10 @@ namespace Lsj.Util.Net.Web
 
             }
         }
-        
+        /// <summary>
+        /// Add a Website
+        /// </summary>
+        /// <param name="website"></param>
         public void AddWebsite(HttpWebsite website)
         {
             if (!sites.Contains(website))
@@ -101,6 +115,10 @@ namespace Lsj.Util.Net.Web
                 sites.Insert(0, website);
             }
         }
+        /// <summary>
+        /// Remove a Website
+        /// </summary>
+        /// <param name="website"></param>
         public void RemoveWebsite(HttpWebsite website)
         {
             if (!sites.Contains(website))
@@ -108,7 +126,7 @@ namespace Lsj.Util.Net.Web
                 sites.Remove(website);
             }
         }
-        public HttpWebsite GetWebSite(string host)
+        internal HttpWebsite GetWebSite(string host)
         {
             foreach (var a in sites)
             {

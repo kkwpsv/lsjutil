@@ -30,28 +30,46 @@ namespace Lsj.Util.Net.Web
             this.buffer = new byte[buffersize];
             this.request = new HttpRequest(this);
             this.response = new HttpResponse();
+            handle.ReceiveTimeout = 30 * 1000;
         }
 
 
         internal void Receive()
         {
-            int receivebytes = handle.Receive(buffer);
-            if (receivebytes > 0)
+            try
             {
-                request.Read(buffer, receivebytes);
-                if (request.IsComplete)
+                int receivebytes = handle.Receive(buffer);
+                if (receivebytes > 0)
                 {
-                    Process();
+                    request.Read(buffer, receivebytes);
+                    if (request.IsComplete)
+                    {
+                        Process();
+                    }
+                    else
+                    {
+                        Receive();
+                    }
                 }
                 else
                 {
-                    Receive();
+                    request.ErrorCode = 400;
+                    SendErrorAndDisconnect();
                 }
             }
-            else
+            catch (SocketException e)
             {
-                request.ErrorCode = 400;
-                SendErrorAndDisconnect();
+                // UnTested 
+                if (e.ErrorCode == 10060)
+                {
+                    request.ErrorCode = 408;
+                    SendErrorAndDisconnect();
+                }
+                throw;
+            }
+            catch (Exception e)
+            {
+                Log.Log.Default.Error(e);
             }
         }
 

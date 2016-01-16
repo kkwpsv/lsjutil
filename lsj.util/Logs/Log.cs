@@ -6,7 +6,7 @@ using System.Threading;
 using Lsj.Util.IO;
 using System.IO;
 
-namespace Lsj.Util.Log
+namespace Lsj.Util.Logs
 {
     public class Log
     {
@@ -64,7 +64,6 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
             catch (Exception e)
             {
                 WinForm.Notice(e.ToString());
-                //throw;
             }
             finally
             {

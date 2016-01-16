@@ -7,15 +7,15 @@ namespace Lsj.Util
 {
     public struct Version
     {
-        int m_Major;
-        int m_Minor;
-        int m_Build;
-        int m_Revision;
+        int m_major;
+        int m_minor;
+        int m_build;
+        int m_revision;
 
-        public int Major => m_Major;
-        public int Minor => m_Minor;
-        public int Build => m_Build;
-        public int Revision => m_Revision;
+        public int Major => m_major;
+        public int Minor => m_minor;
+        public int Build => m_build;
+        public int Revision => m_revision;
         public Version(int major) : this(major, 0)
         {
         }
@@ -27,12 +27,32 @@ namespace Lsj.Util
         }
         public Version(int major, int minor, int build, int revision)
         {
-            m_Major = major;
-            m_Minor = minor;
-            m_Build = build;
-            m_Revision = revision;
+            m_major = major;
+            m_minor = minor;
+            m_build = build;
+            m_revision = revision;
+        }
+        public override string ToString() => ToString(4);
+        public string ToString(int length)
+        {
+            if (length >= 4)
+            {
+                return $"{m_major}.{m_minor}.{m_build}.{m_revision}";
+            }
+            else if(length == 3)
+            {
+                return $"{m_major}.{m_minor}.{m_build}";
+            }
+            else if (length == 2)
+            {
+                return $"{m_major}.{m_minor}";
+            }
+            else
+            {
+                return $"{m_major}";
+            }
         }
 
-       
+
     }
 }

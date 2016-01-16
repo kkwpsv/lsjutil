@@ -7,37 +7,51 @@ namespace Lsj.Util
 {
     public unsafe static class UnsafeHelper
     {
-        public static void Copy(byte[] src, byte[] dst, int length)
+        public static void Copy(byte[] src, byte[] dst, long length)
         {
-            fixed(byte* ptr=src)
+            fixed(byte* pts=src)
             {
+                var ptr = pts;
                 Copy(ptr, dst, length);
             }
         }
-        public static void Copy(byte* src, byte[] dst, int length)
+        public static void Copy(byte* src, byte[] dst, long length)
         {
-            fixed(byte* ptr = dst)
+            fixed(byte* pts = dst)
             {
+                var ptr = pts;
                 Copy(src, ptr, length);
             }
         }
-        public static void Copy(byte[] src, byte* dst, int length)
+        public static void Copy(byte[] src, byte* dst, long length)
         {
-            fixed (byte* ptr = src)
+            fixed (byte* pts = src)
             {
+                var ptr = pts;
                 Copy(ptr, dst, length);
             }
         }
-        public static void Copy(byte* src, byte* dst, int length)
+        public static void Copy(byte* src, byte* dst, long length)
         {
-            while (length >= 4)
+            while (length >= 8)
             {
                 copylong(src, dst);
+                src += 8;
+                dst += 8;
+                length -= 8;
+            }
+            if (length >= 4)
+            {
+                copyint(src, dst);
+                src += 4;
+                dst += 4;
                 length -= 4;
             }
             if (length >= 2)
             {
-                copyint(src, dst);
+                copyshort(src, dst);
+                src += 2;
+                dst += 2;
                 length -= 2;
             }
             if (length == 1)
@@ -45,10 +59,19 @@ namespace Lsj.Util
                 copybyte(src, dst);
             }
         }
+        public static byte[] Contact(byte[] src1, byte[] src2)
+        {
+            var result = new byte[src1.Length + src2.Length];
+            Copy(src1, result, src1.Length);
+            Copy(src2, result, src2.Length);
+            return result;
+        }
         public static void Copy(int* src, int* dst, int length)
         {
             while (length >= 2)
             {
+                src += 2;
+                dst += 2;
                 copylong(src, dst);
                 length -= 2;
             }
@@ -67,11 +90,15 @@ namespace Lsj.Util
         }
         static  void copylong(void* src,void* dst)
         {
-            *((long*)dst) = *(long*)src;
+            *((long*)dst) = *((long*)src);
         }
         static void copyint(void* src, void* dst)
         {
-            *((int*)dst) = *(int*)src;
+            *((int*)dst) = *((int*)src);
+        }
+        static void copyshort(void* src, void* dst)
+        {
+            *((short*)dst) = *((short*)src);
         }
         static void copybyte(void* src, void* dst)
         {

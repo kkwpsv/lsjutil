@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace Lsj.Util.Reflection
             }
             else
             {
-                Log.Log.Default.Error(typeof(T).Name+" is not a Attribute");
+                Log.Default.Error(typeof(T).Name+" is not a Attribute");
                 return default(T);
             }
         }
@@ -31,7 +32,7 @@ namespace Lsj.Util.Reflection
             }
             else
             {
-                Log.Log.Default.Error("Error Type");
+                Log.Default.Error("Error Type");
                 return default(T);
             }
         }

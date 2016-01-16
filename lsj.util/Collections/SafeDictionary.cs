@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -83,7 +84,7 @@ namespace Lsj.Util.Collections
         {
             if (Contain(key))
             {
-                Log.Log.Default.Debug("Add Same Key : " + key.ToString());
+                Logs.Log.Default.Debug("Add Same Key : " + key.ToString());
             }
             Set(key, value);
         }
@@ -99,7 +100,7 @@ namespace Lsj.Util.Collections
             }
             else
             {
-                Log.Log.Default.Debug("The Key doesn't Exist : " + key.ToString());
+                Logs.Log.Default.Debug("The Key doesn't Exist : " + key.ToString());
             }
         }
         /// <summary>
@@ -158,7 +159,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error(e);
+                Log.Default.Error(e);
             }
             finally
             {
@@ -175,7 +176,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error(e);
+                Log.Default.Error(e);
             }
             finally
             {
@@ -192,7 +193,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Log.Default.Error(e);
+                Log.Default.Error(e);
             }
             finally
             {

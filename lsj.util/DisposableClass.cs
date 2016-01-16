@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,7 @@ namespace Lsj.Util
                 }
                 catch(Exception e)
                 {
-                    Log.Log.Default.Error(e);
+                    Log.Default.Error(e);
                 }
             }
             IsDisposed = true;

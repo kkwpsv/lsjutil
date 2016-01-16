@@ -68,7 +68,7 @@ namespace Lsj.Util.Net.Web.Static
                 case 406:
                     return "Not Acceptable";
                 case 407:
-                    return " Proxy Authentication Required";
+                    return "Proxy Authentication Required";
                 case 408:
                     return "Request Timeout";
                 case 409:
