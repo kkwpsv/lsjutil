@@ -36,6 +36,7 @@
     <DocumentationFile>Lsj.Util.XML</DocumentationFile>
     <LangVersion>default</LangVersion>
     <DebugSymbols>true</DebugSymbols>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -148,6 +149,9 @@
       <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
       <Name>Lsj.Util.Native</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

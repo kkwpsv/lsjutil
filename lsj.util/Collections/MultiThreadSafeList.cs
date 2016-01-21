@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Lsj.Util.Collections
@@ -17,9 +15,15 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Inital a new MultiThreadSafeList()
         /// </summary>
-        public MultiThreadSafeList()
+        public MultiThreadSafeList():this(new List<T>())
         {
-            m_list = new List<T>();
+        }
+        /// <summary>
+        /// Inital a new MultiThreadSafeList()
+        /// </summary>
+        public MultiThreadSafeList(List<T> src)
+        {
+            m_list = src;
         }
         /// <summary>
         /// Count
@@ -28,20 +32,7 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                try
-                {
-                    Lock();
-                    return m_list.Count;
-                }
-                catch(Exception e)
-                {
-                    Logs.Log.Default.Error(e);
-                    return -1;
-                }
-                finally
-                {
-                    Unlock();
-                }
+                return m_list.Count;
             }
         }
         /// <summary>
@@ -58,6 +49,7 @@ namespace Lsj.Util.Collections
             catch (Exception e)
             {
                 Logs.Log.Default.Error(e);
+                throw;
             }
             finally
             {
@@ -68,12 +60,13 @@ namespace Lsj.Util.Collections
         /// Remove
         /// </summary>
         /// <param name="item"></param>
-        public void Remove(T item)
+        public bool Remove(T item)
         {
+            var result = false;
             try
             {
                 Lock();
-                m_list.Remove(item);
+                result = m_list.Remove(item);             
             }
             catch (Exception e)
             {
@@ -81,8 +74,9 @@ namespace Lsj.Util.Collections
             }
             finally
             {
-                Unlock();
+                Unlock();             
             }
+            return result;
         }
         void Lock()
         {

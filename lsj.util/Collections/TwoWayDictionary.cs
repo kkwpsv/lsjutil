@@ -27,7 +27,11 @@ namespace Lsj.Util.Collections
             this.a = new SafeDictionary<TKey, TValue>(IsMultiThreadSafety);
             this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
         }
-
+        /// <summary>
+        /// Get Or Set The Value
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public TValue this[TKey key]
         {
             get
@@ -39,6 +43,11 @@ namespace Lsj.Util.Collections
                 Add(key, value);
             }
         }
+        /// <summary>
+        /// Get Or Set The Key
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public TKey this[TValue x]
         {
             get
@@ -52,8 +61,7 @@ namespace Lsj.Util.Collections
                 
         }
         TKey GetKeyByValue(TValue value)
-        {
-         
+        {    
             return b[value];
         }
         TValue GetValueByKey(TKey key)

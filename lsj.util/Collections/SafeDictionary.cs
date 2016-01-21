@@ -16,6 +16,7 @@ namespace Lsj.Util.Collections
         object m_lock = new object();
         Dictionary<TKey, TValue> m_Dictionary;
         bool IsMultiThreadSafety = false;
+
         /// <summary>
         /// Keys
         /// </summary>
@@ -45,6 +46,8 @@ namespace Lsj.Util.Collections
         /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
         public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
         {
+            if (src == null)
+                throw new ArgumentNullException();
             this.m_Dictionary = src;
             this.IsMultiThreadSafety = IsMultiThreadSafety;
         }
@@ -84,7 +87,7 @@ namespace Lsj.Util.Collections
         {
             if (Contain(key))
             {
-                Logs.Log.Default.Debug("Add Same Key : " + key.ToString());
+                Log.Default.Debug("Add Same Key : " + key.ToString());
             }
             Set(key, value);
         }
@@ -100,7 +103,7 @@ namespace Lsj.Util.Collections
             }
             else
             {
-                Logs.Log.Default.Debug("The Key doesn't Exist : " + key.ToString());
+                Log.Default.Debug("The Key doesn't Exist : " + key.ToString());
             }
         }
         /// <summary>
@@ -160,6 +163,7 @@ namespace Lsj.Util.Collections
             catch (Exception e)
             {
                 Log.Default.Error(e);
+                throw;
             }
             finally
             {
@@ -168,6 +172,11 @@ namespace Lsj.Util.Collections
         }
         bool Contain(TKey key)
         {
+            if (key == null)
+            {
+                Log.Default.Warn("Check if contain null key");
+                return false;
+            }
             bool result = false;
             try
             {
@@ -177,6 +186,7 @@ namespace Lsj.Util.Collections
             catch (Exception e)
             {
                 Log.Default.Error(e);
+                throw;
             }
             finally
             {
@@ -194,6 +204,7 @@ namespace Lsj.Util.Collections
             catch (Exception e)
             {
                 Log.Default.Error(e);
+                throw;
             }
             finally
             {
