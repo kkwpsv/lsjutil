@@ -5,15 +5,23 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
+    /// <summary>
+    /// HtmlNodeWithoutNewLine
+    /// </summary>
     public class HtmlNodeWithoutNewLine : HtmlNode
     {
-        public override bool IsWithoutNewLine
+        internal override bool IsWithoutNewLine
         {
             get
             {
                 return true;
             }
         }
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public override string ToString(int i)
         {
             var sb = new StringBuilder();

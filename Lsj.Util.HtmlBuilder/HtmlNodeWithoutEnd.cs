@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
+    /// <summary>
+    /// HtmlNodeWithoutEnd
+    /// </summary>
     public class HtmlNodeWithoutEnd : HtmlNode
     {
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public override string ToString(int i)
         {
             var sb = new StringBuilder();

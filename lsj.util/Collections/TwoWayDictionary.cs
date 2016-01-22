@@ -61,21 +61,33 @@ namespace Lsj.Util.Collections
                 
         }
         TKey GetKeyByValue(TValue value)
-        {    
+        {
+            if (ContainsValue(value))
+                return NullKey(value);
             return b[value];
         }
         TValue GetValueByKey(TKey key)
         {
-            if (!a.ContainsKey(key))
-                return GetNullValue(key);
+            if (ContainsKey(key))
+                return NullValue(key);
             return a[key];
         }
 
+
+        /// <summary>
+        /// Add a new KeyValuePair into the TwoWayDictionary
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Add(TKey key, TValue value)
         {
             a[key] = value;
             b[value] = key;
         }
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return a.GetEnumerator();
@@ -84,22 +96,37 @@ namespace Lsj.Util.Collections
         {
             return GetEnumerator();
         }
+        /// <summary>
+        /// Is Contain the Key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool ContainsKey(TKey key)
         {
             return a.ContainsKey(key);
         }
+        /// <summary>
+        /// Is Contain the Value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public bool ContainsValue(TValue value)
         {
             return b.ContainsKey(value);
         }
-        public virtual TValue GetNullValue(TKey key)
-        {
-            return default(TValue);
-        }
-        public virtual TKey GetNullKey(TValue value)
-        {
-            return default(TKey);
-        }
+        /// <summary>
+        /// NullValue
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual TValue NullValue(TKey key)=> default(TValue);
+        /// <summary>
+        /// NullKey
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected virtual TKey NullKey(TValue value) =>default(TKey);
+        
     }
 
 }

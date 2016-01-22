@@ -5,12 +5,29 @@ using System.Text;
 
 namespace Lsj.Util
 {
+    /// <summary>
+    /// HexHelper
+    /// </summary>
     public static class HexHelper
     {
+        /// <summary>
+        /// ToHexDump
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="dump"></param>
+        /// <returns></returns>
         public static string ToHexDump(string description, byte[] dump)
         {
             return ToHexDump(description, dump, 0, dump.Length);
         }
+        /// <summary>
+        /// ToHexDump
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="dump"></param>
+        /// <param name="start"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public static string ToHexDump(string description, byte[] dump, int start, int count)
         {
             StringBuilder hexDump = new StringBuilder();

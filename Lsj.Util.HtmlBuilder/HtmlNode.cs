@@ -6,10 +6,16 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
+    /// <summary>
+    /// HtmlNode
+    /// </summary>
     public abstract class HtmlNode : IEnumerable<HtmlNode>
     {
-        
-        public static char NULL = ' ';
+        internal static char NULL = ' ';
+
+        /// <summary>
+        /// Name
+        /// </summary>
         public virtual string Name
         {
             get
@@ -17,6 +23,11 @@ namespace Lsj.Util.HtmlBuilder
                 return this.GetType().Name;
             }
         }
+        /// <summary>
+        /// GetContent
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public virtual string GetContent(int i)
         {
             StringBuilder sb = new StringBuilder();
@@ -35,15 +46,25 @@ namespace Lsj.Util.HtmlBuilder
             }
             return sb.ToString();
         }
+        /// <summary>
+        /// Children
+        /// </summary>
         protected List<HtmlNode> Children
         {
             get; set;
         } = new List<HtmlNode>();
+        /// <summary>
+        /// Param
+        /// </summary>
         public HtmlParam Param = new HtmlParam();
-        public bool IsAllInOneLine = true;
-        public virtual bool IsWithoutNewLine { get; }=false;
 
+        bool IsAllInOneLine = true;
+        internal virtual bool IsWithoutNewLine { get; }=false;
 
+        /// <summary>
+        /// Add Child
+        /// </summary>
+        /// <param name="node"></param>
         public void Add(HtmlNode node)
         {
             Children.Add(node);
@@ -53,6 +74,10 @@ namespace Lsj.Util.HtmlBuilder
                     IsAllInOneLine = false;
             }
         }
+        /// <summary>
+        /// Add Children
+        /// </summary>
+        /// <param name="nodes"></param>
         public void AddRange(List<HtmlNode> nodes)
         {
             foreach (var node in nodes)
@@ -60,7 +85,16 @@ namespace Lsj.Util.HtmlBuilder
                 Add(node);
             }
         }
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => ToString(0);
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public virtual string ToString(int i)
         {
             var sb = new StringBuilder();
@@ -70,7 +104,10 @@ namespace Lsj.Util.HtmlBuilder
             sb.Append($@"</{Name}>");
             return sb.ToString();
         }
-
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<HtmlNode> GetEnumerator()
         {
             return Children.GetEnumerator();

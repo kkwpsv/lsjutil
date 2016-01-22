@@ -8,12 +8,6 @@
         /// <summary>
         /// NullValue
         /// </summary>
-        public sealed override string NullValue
-        {
-            get
-            {
-                return string.Empty;
-            }
-        }
+        public sealed override string NullValue => string.Empty;
     }
 }

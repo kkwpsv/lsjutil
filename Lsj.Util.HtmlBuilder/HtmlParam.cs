@@ -6,8 +6,15 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
-    public class HtmlParam : SafeDictionary<string,string>
+    /// <summary>
+    /// HtmlParam
+    /// </summary>
+    public class HtmlParam : SafeStringToStringDirectionary
     {
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

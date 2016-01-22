@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder.Body
 {
-
-    public class body:HtmlNodeWithChildrenForceNewLine
+    /// <summary>
+    /// body
+    /// </summary>
+    public class body : HtmlNodeWithChildrenForceNewLine
     {
     }
 }

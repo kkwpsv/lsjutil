@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder
 {
+    /// <summary>
+    /// HtmlNodeWithChildrenForceNewLine
+    /// </summary>
     public class HtmlNodeWithChildrenForceNewLine :HtmlNode
     {
+        /// <summary>
+        /// GetContent
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public override string GetContent(int i)
         {
             var sb = new StringBuilder();

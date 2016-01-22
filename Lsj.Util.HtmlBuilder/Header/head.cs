@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Lsj.Util.HtmlBuilder.Header
 {
+    /// <summary>
+    /// head
+    /// </summary>
     public class head:HtmlNodeWithChildrenForceNewLine
     {
     }

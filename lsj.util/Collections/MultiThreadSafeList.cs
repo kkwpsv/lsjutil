@@ -71,6 +71,7 @@ namespace Lsj.Util.Collections
             catch (Exception e)
             {
                 Logs.Log.Default.Error(e);
+                throw;
             }
             finally
             {

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Lsj.Util
 {
+    /// <summary>
+    /// ASCIIChar
+    /// </summary>
     public static class ASCIIChar
     {
         /// <summary>
@@ -283,6 +286,11 @@ namespace Lsj.Util
         /// z
         /// </summary>
         public const byte z = 122;
+
+
+
+
+
         /// <summary>
         /// IsNumber
         /// </summary>

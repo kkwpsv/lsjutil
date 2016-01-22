@@ -78,7 +78,7 @@ namespace Lsj.Util.Net.Web.Static
                     return "Location";
                 case eHttpHeader.MaxForwards:
                     return "Max-Forwards";
-                case eHttpHeader.Pragma:$
+                case eHttpHeader.Pragma:
                     return "Pragma";
                 case eHttpHeader.ProxyAuthenticate:
                     return "Proxy-Authenciate";
