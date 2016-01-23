@@ -140,6 +140,14 @@ namespace Lsj.Util
             return i < min ? min : i > max ? max : i;
 
         }
+        /// <summary>
+        /// Convert String To Decimal
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="OnError"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min =decimal.MinValue , decimal max =decimal.MaxValue)
         {
             decimal i;
@@ -150,6 +158,14 @@ namespace Lsj.Util
             return i < min ? min : i > max ? max : i;
 
         }
+        /// <summary>
+        /// Convert String To Float
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="OnError"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
         public static float ConvertToFloat(this string src, float OnError, float min = float.MinValue, float max = float.MaxValue)
         {
             float i;
@@ -195,11 +211,33 @@ namespace Lsj.Util
         /// </summary>
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
 
-
+        /// <summary>
+        /// Split
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="sparator"></param>
+        /// <returns></returns>
         public static string[] Split (this string str,string sparator) => Regex.Split(str,sparator, RegexOptions.None);
-
+        /// <summary>
+        /// Is Match Ignore Case
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsMatchIgnoreCase(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
+        /// <summary>
+        /// Is Ma
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.None);
+        /// <summary>
+        /// Convert To Datetime
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public static DateTime ConvertToDateTime(this string src,string format)
         {
             DateTime result;
@@ -209,6 +247,11 @@ namespace Lsj.Util
             }
             return DateTime.Now;
         }
+        /// <summary>
+        /// Trim String Array
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public static string[] Trim(this string[] x)
         {
             for (int i = 0; i < x.Length; i++)

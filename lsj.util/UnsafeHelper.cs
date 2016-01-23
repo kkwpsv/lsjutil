@@ -5,8 +5,17 @@ using System.Text;
 
 namespace Lsj.Util
 {
+    /// <summary>
+    /// UnsafeHelper
+    /// </summary>
     public unsafe static class UnsafeHelper
     {
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(byte[] src, byte[] dst, long length)
         {
             fixed(byte* pts=src)
@@ -15,6 +24,12 @@ namespace Lsj.Util
                 Copy(ptr, dst, length);
             }
         }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(byte* src, byte[] dst, long length)
         {
             fixed(byte* pts = dst)
@@ -22,7 +37,14 @@ namespace Lsj.Util
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
+
         }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(byte[] src, byte* dst, long length)
         {
             fixed (byte* pts = src)
@@ -31,6 +53,12 @@ namespace Lsj.Util
                 Copy(ptr, dst, length);
             }
         }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(byte* src, byte* dst, long length)
         {
             while (length >= 8)
@@ -58,7 +86,14 @@ namespace Lsj.Util
             {
                 copybyte(src, dst);
             }
+
         }
+        /// <summary>
+        /// Contact
+        /// </summary>
+        /// <param name="src1"></param>
+        /// <param name="src2"></param>
+        /// <returns></returns>
         public static byte[] Contact(byte[] src1, byte[] src2)
         {
             var result = new byte[src1.Length + src2.Length];
@@ -66,6 +101,12 @@ namespace Lsj.Util
             Copy(src2, result, src2.Length);
             return result;
         }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(int* src, int* dst, int length)
         {
             while (length >= 2)
@@ -80,6 +121,12 @@ namespace Lsj.Util
                 copyint(src, dst);
             }
         }
+       /// <summary>
+       /// Copy
+       /// </summary>
+       /// <param name="src"></param>
+       /// <param name="dst"></param>
+       /// <param name="length"></param>
         public static void Copy(long* src, long* dst, int length)
         {
             while (length >= 1)

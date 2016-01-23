@@ -7,13 +7,23 @@ using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Config
 {
+    /// <summary>
+    /// XML Confg File
+    /// </summary>
     public class XmlConfigFile : XmlFile
     {
+        /// <summary>
+        /// Initial a new instance with a path
+        /// </summary>
+        /// <param name="path"></param>
         public XmlConfigFile(string path) : base(path)
         {
             Refresh();
         }
-        public override void Refresh()
+        /// <summary>
+        /// Refresh
+        /// </summary>
+        public sealed override void Refresh()
         {
             base.Refresh();
             if (m_Document.HasChildNodes)

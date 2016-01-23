@@ -12,6 +12,10 @@ namespace Lsj.Util.Xml
     /// </summary>
     public class XmlFile
     {
+        /// <summary>
+        /// Initial a new instance with a path
+        /// </summary>
+        /// <param name="path"></param>
         public XmlFile(string path)
         {
             this.path = path;            
@@ -25,9 +29,14 @@ namespace Lsj.Util.Xml
                 Log.Default.Error("Error to Load XmlFile", e);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
         protected XmlDocument m_Document;
         private string path;
-
+        /// <summary>
+        /// Refresh file
+        /// </summary>
         public virtual void Refresh()
         {
             try
