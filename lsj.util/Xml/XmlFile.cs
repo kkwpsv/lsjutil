@@ -7,6 +7,9 @@ using System.Xml;
 
 namespace Lsj.Util.Xml
 {
+    /// <summary>
+    /// XML File
+    /// </summary>
     public class XmlFile
     {
         public XmlFile(string path)
