@@ -127,7 +127,7 @@
     <Compile Include="HexHelper.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="Logs\eLogType.cs" />
-    <Compile Include="Logs\Log.cs" />
+    <Compile Include="Logs\LogProvider.cs" />
     <Compile Include="Logs\LogConfig.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

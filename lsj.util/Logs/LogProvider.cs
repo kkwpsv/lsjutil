@@ -11,18 +11,18 @@ namespace Lsj.Util.Logs
     /// <summary>
     /// Log
     /// </summary>
-    public class Log
+    public class LogProvider
     {
         /// <summary>
         /// Default
         /// </summary>
-        public static Log Default
+        public static LogProvider Default
         {
             get
             {
                 if (m_default == null)
                 {
-                    m_default = new Log(LogConfig.Default);
+                    m_default = new LogProvider(LogConfig.Default);
                 }
                 return m_default;
             }
@@ -31,7 +31,7 @@ namespace Lsj.Util.Logs
                 m_default = value;
             }
         }
-        private static Log m_default;
+        private static LogProvider m_default;
 
 
 
@@ -42,7 +42,7 @@ namespace Lsj.Util.Logs
         /// Initial a new Log
         /// </summary>
         /// <param name="config"></param>
-        public Log(LogConfig config)
+        public LogProvider(LogConfig config)
         {
             this.m_config = config;
         }

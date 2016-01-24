@@ -26,7 +26,7 @@ namespace Lsj.Util.Xml
             }
             catch(Exception e)
             {
-                Log.Default.Error("Error to Load XmlFile", e);
+                LogProvider.Default.Error("Error to Load XmlFile", e);
             }
         }
         /// <summary>
@@ -45,7 +45,7 @@ namespace Lsj.Util.Xml
             }
             catch (Exception e)
             {
-                Log.Default.Error("Error to Load XmlFile", e);
+                LogProvider.Default.Error("Error to Load XmlFile", e);
             }
         }
 

@@ -33,7 +33,7 @@ namespace Lsj.Util.Reflection
             }
             else
             {
-                Log.Default.Error(typeof(T).Name+" is not a Attribute");
+                LogProvider.Default.Error(typeof(T).Name+" is not a Attribute");
                 return default(T);
             }
         }
@@ -52,7 +52,7 @@ namespace Lsj.Util.Reflection
             }
             else
             {
-                Log.Default.Error("Error Type");
+                LogProvider.Default.Error("Error Type");
                 return default(T);
             }
         }

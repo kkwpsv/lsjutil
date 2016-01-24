@@ -48,7 +48,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Logs.Log.Default.Error(e);
+                Logs.LogProvider.Default.Error(e);
                 throw;
             }
             finally
@@ -70,7 +70,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Logs.Log.Default.Error(e);
+                Logs.LogProvider.Default.Error(e);
                 throw;
             }
             finally

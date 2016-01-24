@@ -87,7 +87,7 @@ namespace Lsj.Util.Collections
         {
             if (Contain(key))
             {
-                Log.Default.Debug("Add Same Key : " + key.ToString());
+                LogProvider.Default.Debug("Add Same Key : " + key.ToString());
             }
             Set(key, value);
         }
@@ -103,7 +103,7 @@ namespace Lsj.Util.Collections
             }
             else
             {
-                Log.Default.Debug("The Key doesn't Exist : " + key.ToString());
+                LogProvider.Default.Debug("The Key doesn't Exist : " + key.ToString());
             }
         }
         /// <summary>
@@ -162,7 +162,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Default.Error(e);
+                LogProvider.Default.Error(e);
                 throw;
             }
             finally
@@ -174,7 +174,7 @@ namespace Lsj.Util.Collections
         {
             if (key == null)
             {
-                Log.Default.Warn("Check if contain null key");
+                LogProvider.Default.Warn("Check if contain null key");
                 return false;
             }
             bool result = false;
@@ -185,7 +185,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Default.Error(e);
+                LogProvider.Default.Error(e);
                 throw;
             }
             finally
@@ -203,7 +203,7 @@ namespace Lsj.Util.Collections
             }
             catch (Exception e)
             {
-                Log.Default.Error(e);
+                LogProvider.Default.Error(e);
                 throw;
             }
             finally

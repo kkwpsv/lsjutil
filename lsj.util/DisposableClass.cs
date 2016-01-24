@@ -41,7 +41,7 @@ namespace Lsj.Util
                 }
                 catch(Exception e)
                 {
-                    Log.Default.Error(e);
+                    LogProvider.Default.Error(e);
                 }
             }
             IsDisposed = true;
