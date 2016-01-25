@@ -13,7 +13,7 @@ namespace Lsj.Util.Xml
     public class XmlFile
     {
         /// <summary>
-        /// Initial a new instance with a path
+        /// Initialize a new instance with a path
         /// </summary>
         /// <param name="path"></param>
         public XmlFile(string path)

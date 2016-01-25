@@ -26,7 +26,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         public Dictionary<TKey, TValue>.ValueCollection Values => m_Dictionary.Values;
         /// <summary>
-        /// Initial a new SafeDictionary Without MultiThreadSafety
+        /// Initialize a new SafeDictionary Without MultiThreadSafety
         /// </summary>
         public SafeDictionary() : this(false)
         {

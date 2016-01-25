@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Logs;
 using Lsj.Util.Net.Sockets;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Exceptions;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -64,17 +66,81 @@ namespace Lsj.Util.Net.Web.Listener
         {
             get;
             private set;
-        }
+        } = false;
+        /// <summary>
+        /// SocketReceived
+        /// </summary>
+        public event EventHandler<SocketReceivedArgs> SocketReceved;
 
         Socket socket;
 
 
         /// <summary>
-        /// Initial a new instance
+        /// Initialize a new instance
         /// </summary>
         public HttpListener()
         {
             this.socket = new TcpSocket();
+        }
+        /// <summary>
+        /// Start
+        /// </summary>
+        public void Start()
+        {
+            if (IsStarted)
+            {
+                return;
+            }
+            try
+            {
+                socket.Bind(IP, Port);
+                socket.Listen();
+                socket.BeginAccept(OnAccepted);
+                IsStarted = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                throw new ListenerException("Start Error", e);
+            }
+        }
+        /// <summary>
+        /// Stop
+        /// </summary>
+        public void Stop()
+        {
+            if (!IsStarted)
+                return;
+            try
+            {
+                socket.Close();
+                Log = LogProvider.Default;
+                SocketReceved = null;
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                throw new ListenerException("Start Error", e);
+            }
+            finally
+            {
+                IsStarted = false;
+            }
+        }
+
+        private void OnAccepted(IAsyncResult ar)
+        {
+            try
+            {
+                var handle = socket.EndAccept(ar);
+                if (SocketReceved != null)
+                    SocketReceved(this, new SocketReceivedArgs(handle));
+
+            }
+            catch(Exception e)
+            {
+
+            }
         }
     }
 }
