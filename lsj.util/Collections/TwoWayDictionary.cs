@@ -13,13 +13,13 @@ namespace Lsj.Util.Collections
         SafeDictionary<TKey, TValue> a;
         SafeDictionary<TValue, TKey> b;
         /// <summary>
-        /// Initial a New TwoWayDictionary
+        /// Initialize a New TwoWayDictionary
         /// </summary>
         public TwoWayDictionary():this(false)
         {
         }
         /// <summary>
-        /// Initial a New TwoWayDictionary
+        /// Initialize a New TwoWayDictionary
         /// </summary>
         /// <param name="IsMultiThreadSafety">IsMultiThreadSafety</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)

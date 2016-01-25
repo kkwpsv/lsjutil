@@ -13,7 +13,7 @@ namespace Lsj.Util.Config
     public class XmlConfigFile : XmlFile
     {
         /// <summary>
-        /// Initial a new instance with a path
+        /// Initialize a new instance with a path
         /// </summary>
         /// <param name="path"></param>
         public XmlConfigFile(string path) : base(path)

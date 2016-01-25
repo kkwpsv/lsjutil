@@ -32,7 +32,7 @@ namespace Lsj.Util
         /// </summary>
         public int Revision => m_revision;
         /// <summary>
-        /// Initial a instance
+        /// Initialize a instance
         /// </summary>
         /// <param name="major"></param>
         public Version(int major) : this(major, 0)

@@ -39,7 +39,7 @@ namespace Lsj.Util.Logs
 
         private LogConfig m_config;
         /// <summary>
-        /// Initial a new Log
+        /// Initialize a new Log
         /// </summary>
         /// <param name="config"></param>
         public LogProvider(LogConfig config)

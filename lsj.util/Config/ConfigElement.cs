@@ -13,13 +13,13 @@ namespace Lsj.Util.Config
         string value;
 
         /// <summary>
-        /// Initial a new ConfigElemnt
+        /// Initialize a new ConfigElemnt
         /// </summary>
         public ConfigElement()
         {
         }
         /// <summary>
-        /// Initial a new ConfigElemnt with value
+        /// Initialize a new ConfigElemnt with value
         /// </summary>
         /// <param name="value"></param>
         public ConfigElement(string value)
