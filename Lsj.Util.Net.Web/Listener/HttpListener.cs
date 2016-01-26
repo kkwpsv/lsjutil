@@ -135,7 +135,6 @@ namespace Lsj.Util.Net.Web.Listener
                 var handle = socket.EndAccept(ar);
                 if (SocketReceved != null)
                     SocketReceved(this, new SocketReceivedArgs(handle));
-
             }
             catch(Exception e)
             {
