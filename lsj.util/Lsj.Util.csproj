@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="ASCIIChar.cs" />
     <Compile Include="Collections\MultiThreadSafeDictionary.cs" />
+    <Compile Include="Collections\ObjectPool.cs" />
     <Compile Include="Collections\SafeDictionary.cs" />
     <Compile Include="Collections\MultiThreadSafeList.cs" />
     <Compile Include="Collections\SafeStringToStringDirectionary.cs" />

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.Net.Web.Listener
+namespace Lsj.Util.Net.Web.Interfaces
 {
     /// <summary>
     /// Listener
@@ -31,6 +31,6 @@ namespace Lsj.Util.Net.Web.Listener
         /// <summary>
         /// SocketReceived
         /// </summary>
-        event EventHandler<SocketReceivedArgs> SocketReceved;
+        event EventHandler<SocketAcceptedArgs> SocketAccepted;
     }
 }

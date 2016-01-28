@@ -9,14 +9,29 @@ namespace Lsj.Util.Net.Web.Event
     /// <summary>
     /// SocketReceivedArgs
     /// </summary>
-    public class SocketReceivedArgs:EventArgs
+    public class SocketAcceptedArgs:EventArgs
     {
+        /// <summary>
+        /// socket
+        /// </summary>
         public Socket socket
         {
             get;
             private set;
         }
-        public SocketReceivedArgs(Socket socket)
+        /// <summary>
+        /// IsReject
+        /// </summary>
+        public bool IsReject
+        {
+            get;
+            set;
+        } = false;
+        /// <summary>
+        /// SocketAcceptedArgs
+        /// </summary>
+        /// <param name="socket"></param>
+        public SocketAcceptedArgs(Socket socket)
         {
             this.socket = socket;
         }

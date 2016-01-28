@@ -2,6 +2,7 @@
 using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Exceptions;
+using Lsj.Util.Net.Web.Interfaces;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -11,7 +12,7 @@ namespace Lsj.Util.Net.Web.Listener
     /// <summary>
     /// HttpListener
     /// </summary>
-    public class HttpListener
+    public class HttpListener : IListener
     {
         IPAddress m_ip = IPAddress.Any;
         int m_port = 80;
@@ -70,7 +71,7 @@ namespace Lsj.Util.Net.Web.Listener
         /// <summary>
         /// SocketReceived
         /// </summary>
-        public event EventHandler<SocketReceivedArgs> SocketReceved;
+        public event EventHandler<SocketAcceptedArgs> SocketAccepted;
 
         Socket socket;
 
@@ -115,7 +116,7 @@ namespace Lsj.Util.Net.Web.Listener
             {
                 socket.Close();
                 Log = LogProvider.Default;
-                SocketReceved = null;
+                SocketAccepted = null;
             }
             catch (Exception e)
             {
@@ -133,8 +134,20 @@ namespace Lsj.Util.Net.Web.Listener
             try
             {
                 var handle = socket.EndAccept(ar);
-                if (SocketReceved != null)
-                    SocketReceved(this, new SocketReceivedArgs(handle));
+                if (SocketAccepted != null)
+                {
+                    var args = new SocketAcceptedArgs(handle);
+                    SocketAccepted(this, args);
+                    if (!args.IsReject)
+                    {
+                        
+                        HttpContext.Create(handle).Start();
+                    }
+                    else
+                    {
+                        Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint)?" from "+((IPEndPoint)args.socket.RemoteEndPoint).ToString():"")+" .");
+                    }
+                }
             }
             catch(Exception e)
             {

@@ -3,6 +3,7 @@ using Lsj.Util.Net.Web.Listener;
 using System.Collections.Generic;
 using Lsj.Util.Net.Web.Event;
 using System;
+using Lsj.Util.Net.Web.Interfaces;
 
 namespace Lsj.Util.Net.Web
 {
@@ -78,18 +79,15 @@ namespace Lsj.Util.Net.Web
         void StartListener(IListener listener)
         {
             listener.Log = this.Log;
-            listener.SocketReceved += OnSocketReceived;
             listener.Start();
 
         }
 
-        private void OnSocketReceived(object sender, SocketReceivedArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         void StopListener(IListener listener)
         {
+            listener.Log = LogProvider.Default;
             listener.Stop();
         }
     }
