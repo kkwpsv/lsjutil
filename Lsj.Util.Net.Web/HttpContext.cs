@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Collections;
 using System.IO;
 using System.Net.Sockets;
-using Lsj.Util.Net.Streams;
 using System;
 
 namespace Lsj.Util.Net.Web
@@ -51,6 +50,7 @@ namespace Lsj.Util.Net.Web
 
         void OnReceived(IAsyncResult ar)
         {
+
         }
 
 
