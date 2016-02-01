@@ -148,7 +148,7 @@ namespace Lsj.Util
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min =decimal.MinValue , decimal max =decimal.MaxValue)
+        public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min, decimal max)
         {
             decimal i;
             if (!decimal.TryParse(src, out i))
