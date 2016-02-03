@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Static
 {
-    public static class Header
+    internal static class Header
     {
         public static string GetNameByHeader(eHttpHeader header)
         {

@@ -18,10 +18,27 @@ namespace Lsj.Util
         /// <param name="length"></param>
         public static void Copy(byte[] src, byte[] dst, long length)
         {
-            fixed(byte* pts=src)
+            fixed (byte* pts = src)
             {
                 var ptr = pts;
                 Copy(ptr, dst, length);
+            }
+        }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="srcoffset"></param>
+        /// <param name="dst"></param>
+        /// <param name="dstoffset"></param>
+        /// <param name="length"></param>
+        public static void Copy(byte[] src, long srcoffset, byte[] dst, long dstoffset, long length)
+        {
+            fixed (byte* pts = src, pts2 = dst)
+            {
+                var ptr = pts + srcoffset;
+                var ptr2 = pts2 + dstoffset;
+                Copy(ptr, ptr2, length);
             }
         }
         /// <summary>
@@ -32,7 +49,7 @@ namespace Lsj.Util
         /// <param name="length"></param>
         public static void Copy(byte* src, byte[] dst, long length)
         {
-            fixed(byte* pts = dst)
+            fixed (byte* pts = dst)
             {
                 var ptr = pts;
                 Copy(src, ptr, length);
@@ -86,7 +103,6 @@ namespace Lsj.Util
             {
                 copybyte(src, dst);
             }
-
         }
         /// <summary>
         /// Contact
@@ -121,12 +137,12 @@ namespace Lsj.Util
                 copyint(src, dst);
             }
         }
-       /// <summary>
-       /// Copy
-       /// </summary>
-       /// <param name="src"></param>
-       /// <param name="dst"></param>
-       /// <param name="length"></param>
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(long* src, long* dst, int length)
         {
             while (length >= 1)
@@ -135,7 +151,7 @@ namespace Lsj.Util
                 length -= 1;
             }
         }
-        static  void copylong(void* src,void* dst)
+        static void copylong(void* src, void* dst)
         {
             *((long*)dst) = *((long*)src);
         }
@@ -155,5 +171,6 @@ namespace Lsj.Util
         {
             *((bool*)dst) = *((bool*)src);
         }
+
     }
 }

@@ -115,7 +115,6 @@ namespace Lsj.Util.Net.Web.Listener
             try
             {
                 socket.Close();
-                Log = LogProvider.Default;
                 SocketAccepted = null;
             }
             catch (Exception e)
@@ -134,20 +133,20 @@ namespace Lsj.Util.Net.Web.Listener
             try
             {
                 var handle = socket.EndAccept(ar);
+                socket.BeginAccept(OnAccepted);
                 if (SocketAccepted != null)
                 {
                     var args = new SocketAcceptedArgs(handle);
                     SocketAccepted(this, args);
-                    if (!args.IsReject)
+                    if (args.IsReject)
                     {
-                        
-                        HttpContext.Create(handle).Start();
+                        Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
+                        return;
                     }
-                    else
-                    {
-                        Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint)?" from "+((IPEndPoint)args.socket.RemoteEndPoint).ToString():"")+" .");
-                    }
+
                 }
+                HttpContext.Create(handle, Log).Start();
+
             }
             catch(Exception e)
             {

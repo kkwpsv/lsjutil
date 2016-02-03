@@ -53,5 +53,14 @@ namespace Lsj.Util
         /// <param name="callback"></param>
         /// <returns></returns>
         public static IAsyncResult BeginRead(this Stream stream, byte[] buffer, AsyncCallback callback) => stream.BeginRead(buffer, 0, buffer.Length, callback, null);
+        /// <summary>
+        /// BeginRead
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public static IAsyncResult BeginRead(this Stream stream, byte[] buffer,int offset, AsyncCallback callback) => stream.BeginRead(buffer, offset, buffer.Length-offset, callback, null);
     }
 }

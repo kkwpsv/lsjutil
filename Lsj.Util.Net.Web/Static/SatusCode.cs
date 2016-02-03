@@ -5,8 +5,17 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Static
 {
+    /// <summary>
+    /// StatusCode
+    /// </summary>
     public static class SatusCode
     {
+        /// <summary>
+        /// GetStringByCode
+        /// </summary>
+        /// <param name="StatusCode"></param>
+        /// <param name="ExtraCode"></param>
+        /// <returns></returns>
         public static string GetStringByCode(int StatusCode,int ExtraCode = 0)
         {
             switch (StatusCode)
@@ -103,7 +112,7 @@ namespace Lsj.Util.Net.Web.Static
                 case 505:
                     return "HTTP Version not supported";
                 default:
-                    Log.Log.Default.Warn($"Try Get Unknown StatusCode {StatusCode}{(ExtraCode == 0 ? "" : ExtraCode.ToString())}");
+                    Logs.LogProvider.Default.Warn($"Try Get Unknown StatusCode {StatusCode}{(ExtraCode == 0 ? "" : ExtraCode.ToString())}");
                     return "UnKnown";
             }
         }

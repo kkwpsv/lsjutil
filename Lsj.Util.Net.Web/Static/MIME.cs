@@ -6,20 +6,31 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Static
 {
+    /// <summary>
+    /// Mime
+    /// </summary>
     public class MIME : SafeDictionary<string, string>
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Extension"></param>
+        /// <returns></returns>
         public static string GetContengTypeByExtension(string Extension)
         {
             return MIMETypesDictionary[Extension];
         }
+        /// <summary>
+        /// NullValue
+        /// </summary>
         public sealed override string NullValue
         {
             get
             {
-            return "*/*";
+                return "*/*";
             }
         }
-        private static readonly SafeDictionary<string, string> MIMETypesDictionary = new SafeDictionary<string, string>
+        private static readonly MIME MIMETypesDictionary = new MIME
         {
             {".ai", "application/postscript"},
             {".aif", "audio/x-aiff"},

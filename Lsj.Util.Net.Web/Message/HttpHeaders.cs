@@ -8,20 +8,28 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
+    /// <summary>
+    /// HttpHeaders
+    /// </summary>
     public class HttpHeaders : SafeStringToStringDirectionary
     {
+        /// <summary>
+        /// GetHttpHeader
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public string this[eHttpHeader x]
         {
             get
             {
                 return this[Header.GetNameByHeader(x)];
             }
-            set
+            internal set
             {
                 this[Header.GetNameByHeader(x)] = value;
             }
         }   
-        public void Add(eHttpHeader x, string content)
+        internal void Add(eHttpHeader x, string content)
         {
             this.Add(Header.GetNameByHeader(x), content);
         }
