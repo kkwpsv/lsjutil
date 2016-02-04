@@ -61,12 +61,19 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
+        public IHttpResponse Response
+        {
+            get;
+            private set;
+        }
         public int ContentLength
         {
             get;
             private set;
         } = 0;
         MemoryStream content;
+
+        public event EventHandler<RequestParsedEventArgs> RequestParsed;
 
 
 
@@ -152,6 +159,7 @@ namespace Lsj.Util.Net.Web
         void OnReceivedContent(IAsyncResult ar)
         {
             //ToDo ReadContent
+
         }
 
         void Move(int offset,int length)
