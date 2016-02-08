@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Net;
 
 namespace Lsj.Util.Net.Web.Interfaces
 {

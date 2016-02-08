@@ -73,7 +73,7 @@ namespace Lsj.Util.Net.Web
         } = 0;
         MemoryStream content;
 
-        public event EventHandler<RequestParsedEventArgs> RequestParsed;
+       // public event EventHandler<RequestParsedEventArgs> RequestParsed;
 
 
 

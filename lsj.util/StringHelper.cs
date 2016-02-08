@@ -87,7 +87,7 @@ namespace Lsj.Util
         public static int ConvertToInt(this string src, int OnError, int min, int max)
         {
             int i;
-            if (!int.TryParse(src, out i))
+            if (!int.TryParse(src.ToSafeString(), out i))
             {
                 return OnError;
             }
