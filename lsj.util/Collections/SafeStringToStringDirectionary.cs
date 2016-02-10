@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Collections
+﻿using System.Collections.Generic;
+
+namespace Lsj.Util.Collections
 {
     /// <summary>
     /// SafeStringToStringDirectionary
@@ -6,8 +8,22 @@
     public class SafeStringToStringDirectionary : SafeDictionary<string,string>
     {
         /// <summary>
-        /// NullValue
+        /// 
         /// </summary>
+        public SafeStringToStringDirectionary() : base()
+        {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="src"></param>
+        public SafeStringToStringDirectionary(Dictionary<string,string> src):base(src)
+        {
+        }
+        
+        /// <summary>
+         /// NullValue
+         /// </summary>
         public sealed override string NullValue => string.Empty;
     }
 }

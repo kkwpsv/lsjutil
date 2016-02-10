@@ -44,6 +44,14 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="src">Source Dicitionay</param>
         /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
+        public SafeDictionary(Dictionary<TKey, TValue> src) : this(src, false)
+        {
+        }
+        /// <summary>
+        /// Inital a new SafeDictionary From a Dictionary
+        /// </summary>
+        /// <param name="src">Source Dicitionay</param>
+        /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
         public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
         {
             if (src == null)
@@ -132,6 +140,11 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <returns></returns>
         public Dictionary<TKey, TValue> GetInternalDictionary() => this.m_Dictionary;
+        /// <summary>
+        /// To Dictionary
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<TKey, TValue> ToDictionary() => GetInternalDictionary();
 
 
 
