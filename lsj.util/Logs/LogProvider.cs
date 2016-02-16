@@ -177,5 +177,7 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
         public void DebugFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Debug);
 
 
+
+
     }
 }

@@ -43,7 +43,6 @@ namespace Lsj.Util.Collections
         /// Inital a new SafeDictionary From a Dictionary
         /// </summary>
         /// <param name="src">Source Dicitionay</param>
-        /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
         public SafeDictionary(Dictionary<TKey, TValue> src) : this(src, false)
         {
         }

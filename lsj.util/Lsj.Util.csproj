@@ -129,6 +129,7 @@
     <Compile Include="Encrypt\MD5.cs" />
     <Compile Include="HexHelper.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
+    <Compile Include="LinqHelper.cs" />
     <Compile Include="Logs\eLogType.cs" />
     <Compile Include="Logs\LogProvider.cs" />
     <Compile Include="Logs\LogConfig.cs" />

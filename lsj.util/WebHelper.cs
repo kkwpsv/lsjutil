@@ -29,6 +29,12 @@ namespace Lsj.Util
         /// <param name="cookie"></param>
         /// <returns></returns>
         public static string GetSafeValue(this HttpCookie cookie) => cookie!=null?cookie.Value.ToSafeString():"";
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         public static HttpCookie CreateCookie(string name, string content) => CreateCookie(name, content, DateTime.Now.AddYears(1));
         /// <summary>
         /// CreateCookie
@@ -42,6 +48,22 @@ namespace Lsj.Util
             var a = new HttpCookie(name);
             a.Value = content;
             a.Expires = expires;
+            return a;
+        }
+        /// <summary>
+        /// CreateCookie
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <param name="expires"></param>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static HttpCookie CreateCookie(string name, string content, DateTime expires,string domain)
+        {
+            var a = new HttpCookie(name);
+            a.Value = content;
+            a.Expires = expires;
+            a.Domain = domain;
             return a;
         }
         /// <summary>
