@@ -72,6 +72,7 @@ namespace Lsj.Util.Net.Web
             private set;
         } = 0;
         MemoryStream content;
+        int contentread;
 
        // public event EventHandler<RequestParsedEventArgs> RequestParsed;
 
@@ -80,9 +81,10 @@ namespace Lsj.Util.Net.Web
 
         internal void Start()
         {
+            Request = new HttpRequest();
             Stream = CreateStream(socket);           
             Stream.BeginRead(buffer, OnReceived);
-            Request = new HttpRequest();
+            
         }
         void Close()
         {
@@ -138,15 +140,16 @@ namespace Lsj.Util.Net.Web
                 {
                     this.ContentLength = x;
                     this.content = new MemoryStream(ContentLength);
-                    Move(read, byteleft);
-                    Stream.BeginRead(buffer, byteleft, OnReceivedContent);
+                    this.contentread = byteleft;
+                    content.Write(buffer, read, byteleft);
+                    Stream.BeginRead(buffer, OnReceivedContent);
                 }
                 Process();
             }
             else
             {
                 Move(read, byteleft);
-                Stream.BeginRead(buffer, OnReceived);
+                Stream.BeginRead(buffer,byteleft, OnReceived);
             }
 
         }
@@ -158,7 +161,22 @@ namespace Lsj.Util.Net.Web
 
         void OnReceivedContent(IAsyncResult ar)
         {
-            //ToDo ReadContent
+            var read = Stream.EndRead(ar);
+            if (read == 0)
+            {
+                return;
+            }   
+            if (contentread+read > ContentLength)
+            {
+                read = ContentLength - contentread;
+            }
+            contentread += read;
+            content.Write(buffer,read);
+                
+            if (contentread < ContentLength)
+            {
+                Stream.BeginRead(buffer, OnReceivedContent);
+            }
 
         }
 

@@ -65,11 +65,18 @@ namespace Lsj.Util.Net.Web.Message
             {
                 if (*ptr == ASCIIChar.CR && (++i) < count && *(++ptr) == ASCIIChar.LF)
                 {
-                    #region When End Header
-                    if (++i < count && *(++ptr) == ASCIIChar.CR && ++i < count && *(++ptr) == ASCIIChar.LF)
+                    if (ptr - start == 2)
                     {
-                        int length = (int)(ptr - start - 4);
-                        ParseLine(start, length);
+                        read += 2;
+                        return true;
+                    }
+                    #region When End Header
+                    if (i+1 < count && *(ptr+1) == ASCIIChar.CR && i+2< count && *(ptr+2) == ASCIIChar.LF)
+                    {
+                        ptr = ptr + 2;
+                        i = i + 2;
+                        int length = (int)(ptr - start)+1;
+                        ParseLine(start, length - 2);
                         read += length;
                         return true;
                     }
@@ -77,10 +84,10 @@ namespace Lsj.Util.Net.Web.Message
                     else
                     {
                         #region ParseHeader
-                        var length = (int)(ptr - start - 2);
+                        var length = (int)(ptr - start)+1;
                         if (this.Method == eHttpMethod.UnParsed)
                         {
-                            if (!ParseFirstLine(start, length))
+                            if (!ParseFirstLine(start, length-2))
                             {
                                 this.ErrorCode = 400;
                                 return true;
@@ -89,7 +96,7 @@ namespace Lsj.Util.Net.Web.Message
                         }
                         else
                         {
-                            if (!ParseLine(start, length))
+                            if (!ParseLine(start, length-2))
                             {
                                 this.ErrorCode = 400;
                                 return true;
@@ -97,8 +104,7 @@ namespace Lsj.Util.Net.Web.Message
                             read += length;
                         }
                         #endregion ParseHeader
-                        start = ++ptr;
-                        i++;
+                        start = ptr + 1;
                     }
                 }
             }
@@ -183,10 +189,10 @@ namespace Lsj.Util.Net.Web.Message
             #endregion
             if (this.Method != eHttpMethod.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
             {
+                left--;
                 var uriptr = ++ptr;
-                for (int i = 0; left > 0; i++, ptr++)
+                for (int i = 0; left > 0; i++, ptr++,left--)
                 {
-                    left--;
                     if (*ptr == ASCIIChar.SPACE)
                     {
                         this.Uri = new URI(StringHelper.ReadStringFromBytePoint(uriptr, i));

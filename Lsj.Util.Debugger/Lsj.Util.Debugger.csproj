@@ -104,6 +104,14 @@
       <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
       <Name>Lsj.Util.Native</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj">
+      <Project>{35fa4756-1cfd-40f8-a324-d620ab422590}</Project>
+      <Name>Lsj.Util.Net.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.Net\Lsj.Util.Net.csproj">
+      <Project>{3089c6c9-7687-4cb1-b86e-5045ceef17f9}</Project>
+      <Name>Lsj.Util.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
       <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>
