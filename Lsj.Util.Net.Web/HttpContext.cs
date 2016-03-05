@@ -57,7 +57,7 @@ namespace Lsj.Util.Net.Web
         LogProvider log;
         byte[] buffer;
         Timer keepalive;
-        int keepalivetimeout = 100000; // 100 seconds.
+       // int keepalivetimeout = 100000; // 100 seconds.
         public IHttpRequest Request
         {
             get;

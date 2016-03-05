@@ -122,7 +122,6 @@
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\ConfigElement.cs" />
     <Compile Include="Config\ConfigElementNameAttribute.cs" />
-    <Compile Include="Config\Ini.cs" />
     <Compile Include="Config\XmlConfigFile.cs" />
     <Compile Include="CsComplier.cs" />
     <Compile Include="DisposableClass.cs" />
@@ -147,12 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lsj.Util.Native\Lsj.Util.Native.vcxproj">
-      <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
-      <Name>Lsj.Util.Native</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
