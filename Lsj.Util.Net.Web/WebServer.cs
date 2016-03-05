@@ -79,16 +79,28 @@ namespace Lsj.Util.Net.Web
         void StartListener(IListener listener)
         {
             listener.Log = this.Log;
-            listener.Start();
+            listener.Start(this);
 
         }
-
-
-
         void StopListener(IListener listener)
         {
             listener.Log = LogProvider.Default;
             listener.Stop();
+        }
+
+        /// <summary>
+        /// RequestParsed
+        /// </summary>
+        public event EventHandler<RequestParsedEventArgs> RequestParsed;
+
+        internal void OnParsed(HttpContext x)
+        {
+            if (this.RequestParsed != null)
+            {
+                var args = new RequestParsedEventArgs();
+                args.Request = x.Request;
+                this.RequestParsed(this, args);
+            }
         }
     }
 }

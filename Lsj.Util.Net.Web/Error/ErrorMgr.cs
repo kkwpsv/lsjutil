@@ -17,12 +17,15 @@ namespace Lsj.Util.Net.Web.Error
         internal static IHttpResponse Build(int code, int extracode)
         {
             var response = new HttpResponse();
+            response.ErrorCode = code;
+            response.Write(BuildPage(code));
+            response.Headers[eHttpHeader.ContentType] = "text/html;charset=utf8";
             return response;
         }
 
 
 
-
+        internal static string BuildPage(int code) => BuildPage(code, 0);
         internal static string BuildPage(int code, int extracode)
         {
             var ErrorString = SatusCode.GetStringByCode(code, extracode);

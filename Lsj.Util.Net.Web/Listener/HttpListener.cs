@@ -69,6 +69,16 @@ namespace Lsj.Util.Net.Web.Listener
             private set;
         } = false;
         /// <summary>
+        /// Server
+        /// </summary>
+        public WebServer Server
+        {
+            get;
+            private set;
+        }
+
+
+        /// <summary>
         /// SocketReceived
         /// </summary>
         public event EventHandler<SocketAcceptedArgs> SocketAccepted;
@@ -86,7 +96,7 @@ namespace Lsj.Util.Net.Web.Listener
         /// <summary>
         /// Start
         /// </summary>
-        public void Start()
+        public void Start(WebServer server)
         {
             if (IsStarted)
             {
@@ -94,6 +104,7 @@ namespace Lsj.Util.Net.Web.Listener
             }
             try
             {
+                this.Server = server;
                 socket.Bind(IP, Port);
                 socket.Listen();
                 socket.BeginAccept(OnAccepted);
@@ -145,7 +156,7 @@ namespace Lsj.Util.Net.Web.Listener
                     }
 
                 }
-                HttpContext.Create(handle, Log).Start();
+                HttpContext.Create(handle, Log).Start(Server);
 
             }
             catch(Exception e)

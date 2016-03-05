@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Collections;
 using Lsj.Util.Logs;
+using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
@@ -74,17 +75,19 @@ namespace Lsj.Util.Net.Web
         } = 0;
         MemoryStream content;
         int contentread;
-
-        public event EventHandler<RequestParsedEventArgs> RequestParsed;
-
+        private WebServer server;
 
 
 
-        internal void Start()
+
+
+
+        internal void Start(WebServer server)
         {
-            Request = new HttpRequest();
-            Stream = CreateStream(socket);           
-            Stream.BeginRead(buffer, OnReceived);
+            this.server = server;
+            this.Request = new HttpRequest();
+            this.Stream = CreateStream(socket);           
+            this.Stream.BeginRead(buffer, OnReceived);
             
         }
         void Close()
@@ -155,19 +158,16 @@ namespace Lsj.Util.Net.Web
 
         }
 
-        private void Process()
+        void Process()
         {
-            var args = new RequestParsedEventArgs();
-            args.Request = this.Request;
-            if (this.RequestParsed != null)
-            {
-                this.RequestParsed(this,args);
-            }
+            server.OnParsed(this);
             if (Request.IsError)
             {
+                this.Response = ErrorMgr.Build(Request.ErrorCode, Request.ExtraErrorCode);
             }
             else
             {
+                this.Response = ErrorMgr.Build(503, 0);
             }
         }
 

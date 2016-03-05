@@ -42,5 +42,16 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+        /// <summary>
+        /// Write
+        /// </summary>
+        /// <param name="buffer"></param>
+        void Write(byte[] buffer);
+        /// <summary>
+        /// str
+        /// </summary>
+        /// <param name="str"></param>
+        void Write(string str);
+
     }
 }

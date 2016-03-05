@@ -15,7 +15,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <summary>
         /// Start
         /// </summary>
-        void Start();
+        void Start(WebServer server);
         /// <summary>
         /// Stop
         /// </summary>
@@ -27,6 +27,13 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
             set;
+        }
+        /// <summary>
+        /// Server
+        /// </summary>
+        WebServer Server
+        {
+            get;
         }
         /// <summary>
         /// SocketReceived

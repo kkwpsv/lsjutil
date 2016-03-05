@@ -231,6 +231,15 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
+        public void Write(byte[] buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(string str)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
