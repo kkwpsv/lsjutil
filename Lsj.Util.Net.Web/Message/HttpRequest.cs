@@ -43,7 +43,7 @@ namespace Lsj.Util.Net.Web.Message
 
         public int ContentLength => Headers[eHttpHeader.ContentLength].ConvertToInt();
 
-        public bool Read(byte[] buffer,ref int read) => Read(buffer, 0, ref read);
+        public bool Read(byte[] buffer, ref int read) => Read(buffer, 0, ref read);
 
         public bool Read(byte[] buffer, int offset, ref int read) => InternalRead(buffer, offset, buffer.Length - offset, ref read);
         public bool Read(byte[] buffer, int offset, int length, ref int read) => InternalRead(buffer, offset, length, ref read);
@@ -54,8 +54,8 @@ namespace Lsj.Util.Net.Web.Message
                 return InternalRead(pts, offset, length, ref read);
             }
         }
-        //Never Read Again
-        //Pointer.....
+
+        //Fucking Pointer.....
         unsafe bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
             byte* start = pts;
@@ -71,11 +71,11 @@ namespace Lsj.Util.Net.Web.Message
                         return true;
                     }
                     #region When End Header
-                    if (i+1 < count && *(ptr+1) == ASCIIChar.CR && i+2< count && *(ptr+2) == ASCIIChar.LF)
+                    if (i + 1 < count && *(ptr + 1) == ASCIIChar.CR && i + 2 < count && *(ptr + 2) == ASCIIChar.LF)
                     {
                         ptr = ptr + 2;
                         i = i + 2;
-                        int length = (int)(ptr - start)+1;
+                        int length = (int)(ptr - start) + 1;
                         ParseLine(start, length - 2);
                         read += length;
                         return true;
@@ -84,10 +84,10 @@ namespace Lsj.Util.Net.Web.Message
                     else
                     {
                         #region ParseHeader
-                        var length = (int)(ptr - start)+1;
+                        var length = (int)(ptr - start) + 1;
                         if (this.Method == eHttpMethod.UnParsed)
                         {
-                            if (!ParseFirstLine(start, length-2))
+                            if (!ParseFirstLine(start, length - 2))
                             {
                                 this.ErrorCode = 400;
                                 return true;
@@ -96,7 +96,7 @@ namespace Lsj.Util.Net.Web.Message
                         }
                         else
                         {
-                            if (!ParseLine(start, length-2))
+                            if (!ParseLine(start, length - 2))
                             {
                                 this.ErrorCode = 400;
                                 return true;
@@ -191,7 +191,7 @@ namespace Lsj.Util.Net.Web.Message
             {
                 left--;
                 var uriptr = ++ptr;
-                for (int i = 0; left > 0; i++, ptr++,left--)
+                for (int i = 0; left > 0; i++, ptr++, left--)
                 {
                     if (*ptr == ASCIIChar.SPACE)
                     {

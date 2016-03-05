@@ -20,15 +20,15 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
-
-        
         /// <summary>
-        /// ErrorCode
+        /// Uri
         /// </summary>
-        int ErrorCode
+        URI Uri
         {
             get;
         }
+
+
         /// <summary>
         /// ExtraErrorCode
         /// </summary>

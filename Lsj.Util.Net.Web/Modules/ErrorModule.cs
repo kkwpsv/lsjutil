@@ -58,9 +58,9 @@ namespace Lsj.Util.Net.Web.Modules
 
             return response;
         }
-        internal static string BuildPage(int code,int extracode = 0)
+        internal static string BuildPage(int code, int extracode = 0)
         {
-            var ErrorString = SatusCode.GetStringByCode(code,extracode);
+            var ErrorString = SatusCode.GetStringByCode(code, extracode);
             var ErrorPage = new HtmlPage();
             ErrorPage.head.Add(new title
             {

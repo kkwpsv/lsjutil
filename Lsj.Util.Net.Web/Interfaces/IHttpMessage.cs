@@ -19,13 +19,15 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
         /// <summary>
-        /// Uri
+        /// ErrorCode
         /// </summary>
-        URI Uri
+        int ErrorCode
         {
             get;
         }
+
         /// <summary>
         /// Read
         /// </summary>

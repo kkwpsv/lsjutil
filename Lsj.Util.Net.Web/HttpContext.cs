@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Collections;
 using Lsj.Util.Logs;
+using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using System;
@@ -74,7 +75,7 @@ namespace Lsj.Util.Net.Web
         MemoryStream content;
         int contentread;
 
-       // public event EventHandler<RequestParsedEventArgs> RequestParsed;
+        public event EventHandler<RequestParsedEventArgs> RequestParsed;
 
 
 
@@ -156,7 +157,18 @@ namespace Lsj.Util.Net.Web
 
         private void Process()
         {
-            
+            var args = new RequestParsedEventArgs();
+            args.Request = this.Request;
+            if (this.RequestParsed != null)
+            {
+                this.RequestParsed(this,args);
+            }
+            if (Request.IsError)
+            {
+            }
+            else
+            {
+            }
         }
 
         void OnReceivedContent(IAsyncResult ar)
