@@ -7,6 +7,7 @@ using Lsj.Util.Net.Web.Message;
 using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace Lsj.Util.Net.Web
@@ -68,11 +69,6 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-        public int ContentLength
-        {
-            get;
-            private set;
-        } = 0;
         MemoryStream content;
         int contentread;
         private WebServer server;
@@ -142,8 +138,7 @@ namespace Lsj.Util.Net.Web
                 var x = Request.ContentLength;
                 if (x > 0)
                 {
-                    this.ContentLength = x;
-                    this.content = new MemoryStream(ContentLength);
+                    this.content = Request.Content as MemoryStream;
                     this.contentread = byteleft;
                     content.Write(buffer, read, byteleft);
                     Stream.BeginRead(buffer, OnReceivedContent);
@@ -167,8 +162,22 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                this.Response = ErrorMgr.Build(503, 0);
+                this.Response = ErrorMgr.Build(501, 0);
             }
+            DoResponse();
+        }
+
+        void DoResponse()
+        {
+            this.Stream.BeginWrite(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII), (x) =>
+            {
+                this.Stream.EndWrite(x);
+                this.Response.Content.CopyTo(this.Stream);
+                this.Stream.WriteByte(ASCIIChar.CR);
+                this.Stream.WriteByte(ASCIIChar.LF);
+                this.Dispose();
+            });
+
         }
 
         void OnReceivedContent(IAsyncResult ar)
@@ -177,15 +186,16 @@ namespace Lsj.Util.Net.Web
             if (read == 0)
             {
                 return;
-            }   
-            if (contentread+read > ContentLength)
+            }
+            var len = Request.ContentLength;
+            if (contentread+read > len)
             {
-                read = ContentLength - contentread;
+                read = len - contentread;
             }
             contentread += read;
             content.Write(buffer,read);
                 
-            if (contentread < ContentLength)
+            if (contentread < len)
             {
                 Stream.BeginRead(buffer, OnReceivedContent);
             }

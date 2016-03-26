@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Lsj.Util.Net;
+using System.IO;
 
 namespace Lsj.Util.Net.Web.Interfaces
 {
@@ -27,6 +28,15 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
+        /// <summary>
+        /// Content
+        /// </summary>
+        Stream Content
+        {
+            get;
+        }
+
 
         /// <summary>
         /// Read
@@ -53,5 +63,16 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="str"></param>
         void Write(string str);
 
+        /// <summary>
+        /// GetHttpHeader
+        /// </summary>
+        /// <returns></returns>
+        string GetHttpHeader();
+
+        /// <summary>
+        /// GetContent
+        /// </summary>
+        /// <returns></returns>
+        string GetContent();
     }
 }

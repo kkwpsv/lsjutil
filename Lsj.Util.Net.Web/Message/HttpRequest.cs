@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -42,6 +43,18 @@ namespace Lsj.Util.Net.Web.Message
         public bool IsError => ErrorCode >= 400;
 
         public int ContentLength => Headers[eHttpHeader.ContentLength].ConvertToInt();
+        MemoryStream m_content;
+        public Stream Content
+        {
+            get
+            {
+                if (m_content == null)
+                {
+                    m_content = new MemoryStream(ContentLength);
+                }
+                return m_content;
+            }
+        }
 
         public bool Read(byte[] buffer, ref int read) => Read(buffer, 0, ref read);
 
@@ -237,6 +250,16 @@ namespace Lsj.Util.Net.Web.Message
         }
 
         public void Write(string str)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetHttpHeader()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetContent()
         {
             throw new NotImplementedException();
         }

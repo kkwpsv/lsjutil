@@ -100,10 +100,6 @@
       <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
       <Name>Lsj.Util.HtmlBuilder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Native\Lsj.Util.Native.vcxproj">
-      <Project>{9c7a6205-33d6-4a0a-85fe-459556aff800}</Project>
-      <Name>Lsj.Util.Native</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj">
       <Project>{35fa4756-1cfd-40f8-a324-d620ab422590}</Project>
       <Name>Lsj.Util.Net.Web</Name>

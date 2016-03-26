@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Net.Web", "Lsj.Uti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.HtmlBuilder", "Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj", "{FF55DB4B-9A84-42FD-8DBF-B3FBC4AFF9FF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lsj.Util.Native", "Lsj.Util.Native\Lsj.Util.Native.vcxproj", "{9C7A6205-33D6-4A0A-85FE-459556AFF800}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Debugger", "Lsj.Util.Debugger\Lsj.Util.Debugger.csproj", "{DF542C73-854E-4559-8AD6-8B0498AEC8E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Net", "Lsj.Util.Net\Lsj.Util.Net.csproj", "{3089C6C9-7687-4CB1-B86E-5045CEEF17F9}"
@@ -47,14 +45,6 @@ Global
 		{FF55DB4B-9A84-42FD-8DBF-B3FBC4AFF9FF}.Release|x64.Build.0 = Release|x64
 		{FF55DB4B-9A84-42FD-8DBF-B3FBC4AFF9FF}.Release|x86.ActiveCfg = Release|x86
 		{FF55DB4B-9A84-42FD-8DBF-B3FBC4AFF9FF}.Release|x86.Build.0 = Release|x86
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Debug|x64.ActiveCfg = Debug|x64
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Debug|x64.Build.0 = Debug|x64
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Debug|x86.ActiveCfg = Debug|Win32
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Debug|x86.Build.0 = Debug|Win32
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Release|x64.ActiveCfg = Release|x64
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Release|x64.Build.0 = Release|x64
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Release|x86.ActiveCfg = Release|Win32
-		{9C7A6205-33D6-4A0A-85FE-459556AFF800}.Release|x86.Build.0 = Release|Win32
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Debug|x64.ActiveCfg = Debug|x64
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Debug|x64.Build.0 = Debug|x64
 		{DF542C73-854E-4559-8AD6-8B0498AEC8E4}.Debug|x86.ActiveCfg = Debug|x86
