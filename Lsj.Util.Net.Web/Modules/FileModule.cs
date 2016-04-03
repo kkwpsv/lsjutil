@@ -1,93 +1,64 @@
 ﻿using Lsj.Util.IO;
-using Lsj.Util.Net.Web.Response;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Lsj.Util.Net.Web.Request;
 using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Website;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Error;
+using Lsj.Util.Net.Web.Message;
 
 namespace Lsj.Util.Net.Web.Modules
 {
     public class FileModule : IModule
     {
-        public string[] DefaultPage { get; set; }
-        public string[] ForbiddenPage
+        public string[] DefaultPage
         {
             get; set;
-        }
-        public eModuleType ModuleType => eModuleType.File;
-        public string Path
+        } =
         {
-            get { return m_Path; }
-            set
-            {
-                if (value.IsExistsPath())
-                {
-                    m_Path = value;
-                }
-                else
-                {
-                    throw new Exception("Path doesn't exist");
-                }
-            }
-        }
-        string m_Path = ".";
-        HttpWebsite website;
-        public FileModule(HttpWebsite website)
+            "index.htm"
+        };
+
+
+
+        public void Process(object o, ProcessEventArgs args)
         {
-            this.website = website;
-            var config = website.Config;
-            this.Path = website.Path;
-            this.DefaultPage = config.DefaultPage;
-            this.ForbiddenPage = config.ForbiddenPath;
-        }
-        public HttpResponse Process(HttpRequest request)
-        {
+            args.IsParsed = true;
             var path = "";
-            var z = request.uri.Substring(1);
-            foreach (var x in ForbiddenPage)
-            {
-                if (z.StartsWith(x))
-                {
-                    request.ErrorCode = 403;
-                    return website.ErrorModule.Process(request);
-                }
-            }
-            if (request.uri.EndsWith(@"\"))
+            var website = o as Website;
+            var rootpath = website.Path;
+            var request = args.Request;
+
+            var uri = request.Uri.ToString();
+
+            var z = uri.Substring(1);
+            if (uri.EndsWith(@"\"))
             {
                 foreach (var a in DefaultPage)
                 {
-                    if (File.Exists(Path + request.uri + a))
+                    if (File.Exists(rootpath + uri + a))
                     {
-                        path = Path + request.uri + a;
+                        path = rootpath + uri + a;
                     }
                 }
             }
-            else if (File.Exists(Path + request.uri))
+            else if (File.Exists(rootpath + uri))
             {
-                path = Path + request.uri;
+                path = rootpath + uri;
             }
             if (path != "")
             {
-                var response = new FileResponse(path,request);
-                return response;
+                args.Response = new FileResponse(path,request);
             }
             else
             {
-                request.ErrorCode = 404;
-                return website.ErrorModule.Process(request);
-               
+                args.Response = ErrorMgr.Build(404, 0, args.ServerName);               
             }
         }
-        public bool CanProcess(HttpRequest request)
-        {
-            if (request.Method == eHttpMethod.GET || request.Method == eHttpMethod.POST)
-                return true;
-            else
-                return false;
-        }
+
+        
     }
 }

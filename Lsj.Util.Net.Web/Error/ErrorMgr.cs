@@ -14,19 +14,20 @@ namespace Lsj.Util.Net.Web.Error
     internal static class ErrorMgr
     {
 
-        internal static IHttpResponse Build(int code, int extracode)
+        internal static IHttpResponse Build(int code, int extracode ,string server)
         {
             var response = new HttpResponse();
             response.ErrorCode = code;
-            response.Write(BuildPage(code));
+            response.Write(BuildPage(code,server));
             response.Headers[eHttpHeader.ContentType] = "text/html;charset=utf8";
+            response.Headers[eHttpHeader.Connection] = "close";
             return response;
         }
 
 
 
-        internal static string BuildPage(int code) => BuildPage(code, 0);
-        internal static string BuildPage(int code, int extracode)
+        internal static string BuildPage(int code,string server) => BuildPage(code, 0, server );
+        internal static string BuildPage(int code, int extracode, string server)
         {
             var ErrorString = SatusCode.GetStringByCode(code, extracode);
             var ErrorPage = new HtmlPage();
@@ -74,7 +75,7 @@ namespace Lsj.Util.Net.Web.Error
                     {
                         new HtmlRawNode("Server Information:")
                     },
-                    new HtmlRawNode($" &nbsp; WebServer(1.0)")
+                    new HtmlRawNode($" &nbsp; {server}")
                 }
             );
             return ErrorPage.ToString();

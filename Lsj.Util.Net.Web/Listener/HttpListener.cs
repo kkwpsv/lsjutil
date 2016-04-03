@@ -4,8 +4,11 @@ using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Exceptions;
 using Lsj.Util.Net.Web.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Linq;
+using System.Threading;
 
 namespace Lsj.Util.Net.Web.Listener
 {
@@ -78,6 +81,17 @@ namespace Lsj.Util.Net.Web.Listener
         }
 
 
+        internal List<HttpContext> Contexts
+        {
+            get;
+            private set;
+        } = new List<HttpContext>();
+
+        Timer disposingtimer;
+
+
+
+
         /// <summary>
         /// SocketReceived
         /// </summary>
@@ -108,6 +122,13 @@ namespace Lsj.Util.Net.Web.Listener
                 socket.Bind(IP, Port);
                 socket.Listen();
                 socket.BeginAccept(OnAccepted);
+                this.disposingtimer = new Timer((state) =>
+                {
+                    Contexts.FindAll((x) => (x.Status == eContentStatus.Disposing)).ForEach((a) =>
+                    {
+                        a.Dispose();
+                    });
+                }, null, 0, 1000 * 10);
                 IsStarted = true;
             }
             catch (Exception e)
@@ -154,10 +175,8 @@ namespace Lsj.Util.Net.Web.Listener
                         Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
                         return;
                     }
-
                 }
-                HttpContext.Create(handle, Log).Start(Server);
-
+                this.Contexts.Add(HttpContext.Create(handle, Log,this.Server));
             }
             catch(Exception e)
             {

@@ -60,6 +60,11 @@ namespace Lsj.Util.Net.Web.Message
             this.Write(str.ConvertToBytes(Encoding.UTF8));
         }
 
+        public void Write304()
+        {
+            this.ErrorCode = 304;
+        }
+
         public string GetHttpHeader()
         {
             this.Headers[eHttpHeader.ContentLength] = this.ContentLength.ToString();
