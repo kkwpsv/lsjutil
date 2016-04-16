@@ -130,6 +130,47 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
+        /// Remove
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            if (Contain(item.Key) && this[item.Key].Equals(item.Value))
+            {
+                Del(item.Key);
+                return true;
+            }
+            else
+            {
+                LogProvider.Default.Debug("The Key doesn't Exist : " + item.Key.ToString());
+                return false;
+            }
+        }
+        /// <summary>
+        /// Clear
+        /// </summary>
+        public void Clear()
+        {
+            Clr();
+        }
+
+
+        /// <summary>
+        /// CopyTo
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+
+            ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
+        }
+
+
+
+
+        /// <summary>
         /// Is Contain the Key 
         /// </summary>
         /// <param name="key"></param>
@@ -138,6 +179,26 @@ namespace Lsj.Util.Collections
         {
             return Contain(key);
         }
+        /// <summary>
+        /// Contains
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Contains(KeyValuePair<TKey, TValue> item) => this.Contain(item.Key) && this[item.Key].Equals(item.Value);
+        /// <summary>
+        /// TryGetValue
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            var flag = Contain(key);
+            value = flag ? m_Dictionary[key] : NullValue;
+            return flag;
+        }
+
+
         /// <summary>
         /// Get the Enumerator
         /// </summary>
@@ -151,15 +212,18 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// Get Internal Dictionary
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<TKey, TValue> GetInternalDictionary() => this.m_Dictionary;
-        /// <summary>
         /// To Dictionary
         /// </summary>
         /// <returns></returns>
-        public Dictionary<TKey, TValue> ToDictionary() => GetInternalDictionary();
+        public Dictionary<TKey, TValue> ToDictionary()
+        {
+            var x = new Dictionary<TKey, TValue>();
+            foreach (var a in this)
+            {
+                x.Add(a.Key,a.Value);
+            }
+            return x;
+        }
 
 
 
@@ -222,6 +286,23 @@ namespace Lsj.Util.Collections
             }
             return result;
         }
+        void Clr()
+        {
+            try
+            {
+                Lock();
+                m_Dictionary.Clear();
+            }
+            catch (Exception e)
+            {
+                LogProvider.Default.Error(e);
+                throw;
+            }
+            finally
+            {
+                Unlock();
+            }
+        }
         void Del(TKey key)
         {
             try
@@ -239,54 +320,6 @@ namespace Lsj.Util.Collections
                 Unlock();
             }
         }
-        /// <summary>
-        /// TryGetValue
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public bool TryGetValue(TKey key, out TValue value)
-        {
-            var flag = Contain(key);
-            value = flag ? m_Dictionary[key] : NullValue;
-            return flag;
-        }
 
-
-        //Todo
-        /// <summary>
-        /// 
-        /// </summary>
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// CopyTo
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="arrayIndex"></param>
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public bool Contains(KeyValuePair<TKey, TValue> item)
-        {
-            return ((IDictionary<TKey, TValue>)this.m_Dictionary).Contains(item);
-        }
     }
 }
