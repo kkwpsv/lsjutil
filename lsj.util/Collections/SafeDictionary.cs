@@ -11,7 +11,7 @@ namespace Lsj.Util.Collections
     /// </summary>
     /// <typeparam name="TKey">Key Type</typeparam>
     /// <typeparam name="TValue">Value Type</typeparam>
-    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> ,IDictionary<TKey,TValue>
     {
         object m_lock = new object();
         Dictionary<TKey, TValue> m_Dictionary;
@@ -20,11 +20,11 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Keys
         /// </summary>
-        public Dictionary<TKey, TValue>.KeyCollection Keys => m_Dictionary.Keys;
+        public ICollection<TKey> Keys => m_Dictionary.Keys;
         /// <summary>
         /// Values
         /// </summary>
-        public Dictionary<TKey, TValue>.ValueCollection Values => m_Dictionary.Values;
+        public ICollection<TValue> Values => m_Dictionary.Values;
         /// <summary>
         /// Initialize a new SafeDictionary Without MultiThreadSafety
         /// </summary>
@@ -70,6 +70,15 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
+        /// Count
+        /// </summary>
+        public int Count => this.m_Dictionary.Count;
+        /// <summary>
+        /// IsReadOnly
+        /// </summary>
+        public bool IsReadOnly => false;
+
+        /// <summary>
         /// Get Or Set The Value
         /// </summary>
         /// <param name="key"></param>
@@ -99,18 +108,25 @@ namespace Lsj.Util.Collections
             Set(key, value);
         }
         /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="item"></param>
+        public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
+        /// <summary>
         /// Remove a KeyValuePair from the Dictionary
         /// </summary>
         /// <param name="key"></param>
-        public void Remove(TKey key)
+        public bool Remove(TKey key)
         {
             if (Contain(key))
             {
                 Del(key);
+                return true;
             }
             else
             {
                 LogProvider.Default.Debug("The Key doesn't Exist : " + key.ToString());
+                return false;
             }
         }
         /// <summary>
@@ -222,6 +238,55 @@ namespace Lsj.Util.Collections
             {
                 Unlock();
             }
+        }
+        /// <summary>
+        /// TryGetValue
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            var flag = Contain(key);
+            value = flag ? m_Dictionary[key] : NullValue;
+            return flag;
+        }
+
+
+        //Todo
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// CopyTo
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="arrayIndex"></param>
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+        {
+            ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool Contains(KeyValuePair<TKey, TValue> item)
+        {
+            return ((IDictionary<TKey, TValue>)this.m_Dictionary).Contains(item);
         }
     }
 }
