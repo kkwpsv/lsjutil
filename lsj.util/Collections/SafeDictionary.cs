@@ -7,7 +7,8 @@ using System.Threading;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// SafeDictionary
+    /// 安全字典
+    /// 访问不存在值不会抛出异常
     /// </summary>
     /// <typeparam name="TKey">Key Type</typeparam>
     /// <typeparam name="TValue">Value Type</typeparam>
