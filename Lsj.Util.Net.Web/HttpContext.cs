@@ -45,7 +45,7 @@ namespace Lsj.Util.Net.Web
     /// HttpContext
     /// </summary>
     /// 
-    internal class HttpContext : DisposableClass, IDisposable
+    internal class HttpContext : DisposableClass, IContext,IDisposable
     {
 
 
@@ -77,13 +77,12 @@ namespace Lsj.Util.Net.Web
 
 
 
-        private HttpContext(Socket socket, LogProvider log , WebServer server)
+        protected HttpContext(Socket socket, LogProvider log , WebServer server)
         {
             this.socket = socket;
             this.log = log;
             this.buffer = buffers.Dequeue();
             this.server = server;
-            this.Start();
         }
 
         Socket socket;
@@ -112,7 +111,7 @@ namespace Lsj.Util.Net.Web
         } = eContentStatus.Created;
 
 
-        void Start() => Read();
+        public void Start() => Read();
         void Read()
         {
             this.Request = new HttpRequest();
@@ -121,7 +120,7 @@ namespace Lsj.Util.Net.Web
             this.Stream.BeginRead(buffer, OnReceived);
         }
 
-        protected Stream CreateStream(Socket socket) => new NetworkStream(socket, true);
+        protected virtual Stream CreateStream(Socket socket) => new NetworkStream(socket, true);
         /// <summary>
         /// NetWorkStream
         /// </summary>
@@ -133,35 +132,42 @@ namespace Lsj.Util.Net.Web
 
         void OnReceived(IAsyncResult ar)
         {
-            var byteleft = Stream.EndRead(ar);
-            if (byteleft == 0)
+            try
             {
-                this.socket.Disconnect();
-                this.Status = eContentStatus.Disposing;
-                return;
-            }
-            int read = 0;
-            bool IsEnd = Parse(byteleft, ref read);
-            byteleft -= read;
-            if (IsEnd)
-            {
-                var x = Request.ContentLength;
-                if (x > 0)
+                var byteleft = Stream.EndRead(ar);
+                if (byteleft == 0)
                 {
-                    this.content = Request.Content as MemoryStream;
-                    this.contentread = byteleft;
-                    content.Write(buffer, read, byteleft);
-                    Stream.BeginRead(buffer, OnReceivedContent);
+                    this.socket.Disconnect();
+                    this.Status = eContentStatus.Disposing;
+                    return;
+                }
+                int read = 0;
+                bool IsEnd = Parse(byteleft, ref read);
+                byteleft -= read;
+                if (IsEnd)
+                {
+                    var x = Request.ContentLength;
+                    if (x > 0)
+                    {
+                        this.content = Request.Content as MemoryStream;
+                        this.contentread = byteleft;
+                        content.Write(buffer, read, byteleft);
+                        Stream.BeginRead(buffer, OnReceivedContent);
+                    }
+                    else
+                    {
+                        Process();
+                    }
                 }
                 else
                 {
-                    Process();
+                    Move(read, byteleft);
+                    Stream.BeginRead(buffer, byteleft, OnReceived);
                 }
             }
-            else
+            catch (IOException e)
             {
-                Move(read, byteleft);
-                Stream.BeginRead(buffer, byteleft, OnReceived);
+
             }
 
         }

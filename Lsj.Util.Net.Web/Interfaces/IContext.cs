@@ -8,7 +8,14 @@ namespace Lsj.Util.Net.Web.Interfaces
     /// <summary>
     /// HttpContext
     /// </summary>
-    public class IHttpContext
+    internal interface IContext
     {
+        eContentStatus Status
+        {
+            get;
+        }
+
+        void Dispose();
+        void Start();
     }
 }

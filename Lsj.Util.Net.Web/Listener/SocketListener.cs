@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Linq;
 using System.Threading;
 
 namespace Lsj.Util.Net.Web.Listener
@@ -15,8 +14,11 @@ namespace Lsj.Util.Net.Web.Listener
     /// <summary>
     /// HttpListener
     /// </summary>
-    public class HttpListener : IListener
+    public class SocketListener : IListener
     {
+        bool IsSSL = false;
+
+
         IPAddress m_ip = IPAddress.Any;
         int m_port = 80;
         /// <summary>
@@ -81,11 +83,11 @@ namespace Lsj.Util.Net.Web.Listener
         }
 
 
-        internal List<HttpContext> Contexts
+        internal List<IContext> Contexts
         {
             get;
             private set;
-        } = new List<HttpContext>();
+        } = new List<IContext>();
 
         Timer disposingtimer;
 
@@ -98,14 +100,24 @@ namespace Lsj.Util.Net.Web.Listener
         public event EventHandler<SocketAcceptedArgs> SocketAccepted;
 
         Socket socket;
-
+        private string file;
+        private string password;
 
         /// <summary>
         /// Initialize a new instance
         /// </summary>
-        public HttpListener()
+        public SocketListener() : this(false,"","")
+        {
+        }
+        /// <summary>
+        /// Initialize a new instance
+        /// </summary>
+        public SocketListener(bool IsSSL,string file,string password)
         {
             this.socket = new TcpSocket();
+            this.IsSSL = IsSSL;
+            this.file = file;
+            this.password = password;
         }
         /// <summary>
         /// Start
@@ -176,9 +188,19 @@ namespace Lsj.Util.Net.Web.Listener
                         return;
                     }
                 }
-                this.Contexts.Add(HttpContext.Create(handle, Log,this.Server));
+                IContext x;
+                if (IsSSL)
+                {
+                    x=HttpsContext.Create(handle, Log, this.Server,file,password);
+                }
+                else
+                {
+                    x=HttpContext.Create(handle, Log, this.Server);
+                }
+                this.Contexts.Add(x);
+                x.Start();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(e);
                 throw new ListenerException("Accept Error", e);

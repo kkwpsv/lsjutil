@@ -39,12 +39,16 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-
+        /// <summary>
+        /// Websites
+        /// </summary>
         public SafeDictionary<string,Website> Websites
         {
             get;
         } = new SafeDictionary<string, Website>();
-
+        /// <summary>
+        /// Modules
+        /// </summary>
         public List<IModule> Modules
         {
             get;
