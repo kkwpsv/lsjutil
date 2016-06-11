@@ -56,8 +56,8 @@ namespace Lsj.Util.Net.Web.Cookie
             {
                 if (cookies == null)
                     cookies = new HttpCookies();
-                Log.Log.Default.Warn("Error Cookies \r\n");
-                Log.Log.Default.Warn(e);
+                //Log.Log.Default.Warn("Error Cookies \r\n");
+               // Log.Log.Default.Warn(e);
             }
             return cookies;
         }

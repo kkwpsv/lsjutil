@@ -19,16 +19,14 @@ namespace Lsj.Util.Debugger
             try
             {
                 var x = new WebServer();
-                var a = new SocketListener(true, @"c:\a.pfx", "@a@552144#A#");
+                var a = new SocketListener(true, @"ssl.pfx", "@a@552144#A#");
                 a.Port = 443;
-                var b = new SocketListener();
-                b.Port = 80;
                 x.AddListener(a);
-                x.AddListener(b);
                 x.Start();
             }
-            catch(ListenerException e)
+            catch(Exception e)
             {
+                Console.Write(e);
             }
             Console.ReadLine();
         }

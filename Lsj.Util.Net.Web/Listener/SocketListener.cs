@@ -203,7 +203,7 @@ namespace Lsj.Util.Net.Web.Listener
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Accept Error", e);
+                //throw new ListenerException("Accept Error", e);
             }
         }
     }
