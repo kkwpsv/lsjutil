@@ -4,16 +4,28 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Logs;
 
 namespace Lsj.Util.Net.Web.Cookie
 {
+    /// <summary>
+    /// HttpCookies
+    /// </summary>
     public class HttpCookies : IEnumerable<HttpCookie>
     {
         SafeDictionary<string, HttpCookie> cookies;
+        /// <summary>
+        /// Initial a new instance of HttpCookies
+        /// </summary>
         public HttpCookies()
         {
             this.cookies = new SafeDictionary<string, HttpCookie>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public HttpCookie this[string key]
         {
             get
@@ -21,7 +33,10 @@ namespace Lsj.Util.Net.Web.Cookie
                 return cookies.ContainsKey(key) ? cookies[key] : new HttpCookie { name = key};
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<HttpCookie> GetEnumerator()
         {
             return cookies.Values.GetEnumerator();
@@ -31,10 +46,19 @@ namespace Lsj.Util.Net.Web.Cookie
         {
             return GetEnumerator();
         }
+        /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="cookie"></param>
         public void Add(HttpCookie cookie)
         {
             cookies[cookie.name] = cookie;
         }
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static HttpCookies Parse(string str)
         {
             HttpCookies cookies = new HttpCookies();
@@ -56,8 +80,8 @@ namespace Lsj.Util.Net.Web.Cookie
             {
                 if (cookies == null)
                     cookies = new HttpCookies();
-                //Log.Log.Default.Warn("Error Cookies \r\n");
-               // Log.Log.Default.Warn(e);
+                LogProvider.Default.Warn("Error Cookies \r\n");
+                LogProvider.Default.Warn(e);
             }
             return cookies;
         }

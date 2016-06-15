@@ -7,28 +7,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Lsj.Util.LDB;
 
 namespace Lsj.Util.Debugger
 {
     class Program
     {
-        public static void Main()
+        /*   public static void Main()
 
+           {
+               try
+               {
+                   var x = new WebServer();
+                   var a = new SocketListener(true, @"ssl.pfx", "@a@552144#A#");
+                   a.Port = 443;
+                   x.AddListener(a);
+                   x.Start();
+               }
+               catch(Exception e)
+               {
+                   Console.Write(e);
+               }
+               Console.ReadLine();
+           }*/
+
+        public static void Main()
         {
-            try
-            {
-                var x = new WebServer();
-                var a = new SocketListener(true, @"ssl.pfx", "@a@552144#A#");
-                a.Port = 443;
-                x.AddListener(a);
-                x.Start();
-            }
-            catch(Exception e)
-            {
-                Console.Write(e);
-            }
+            var a = new LDBFile("test.ldb",false);
+            a.Config.DBName = "test";
+            a.Save();
             Console.ReadLine();
         }
+
     }
+
 }

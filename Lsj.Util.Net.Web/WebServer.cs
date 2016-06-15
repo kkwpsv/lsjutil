@@ -15,6 +15,9 @@ namespace Lsj.Util.Net.Web
     /// </summary>
     public class WebServer
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name
         {
             get;

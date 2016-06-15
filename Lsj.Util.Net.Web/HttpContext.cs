@@ -165,7 +165,7 @@ namespace Lsj.Util.Net.Web
                     Stream.BeginRead(buffer, byteleft, OnReceived);
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
 
             }

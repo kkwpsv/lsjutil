@@ -2,6 +2,8 @@ using System;
 
 namespace Lsj.Util
 {
+
+
     /// <summary>
     /// Static
     /// </summary>

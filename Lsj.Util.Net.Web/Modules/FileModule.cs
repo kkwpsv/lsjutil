@@ -12,8 +12,14 @@ using Lsj.Util.Net.Web.Message;
 
 namespace Lsj.Util.Net.Web.Modules
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileModule : IModule
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public string[] DefaultPage
         {
             get; set;
@@ -23,7 +29,11 @@ namespace Lsj.Util.Net.Web.Modules
         };
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="args"></param>
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsParsed = true;

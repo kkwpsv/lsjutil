@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Event
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ProcessEventArgs : EventArgs
     {
         /// <summary>
@@ -16,6 +19,9 @@ namespace Lsj.Util.Net.Web.Event
             get;
             set;
         } = false;
+        /// <summary>
+        /// 
+        /// </summary>
         public string ServerName
         {
             get;

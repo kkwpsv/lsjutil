@@ -11,9 +11,15 @@ using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Net.Web
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Website 
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
 
         public string Path
         {
