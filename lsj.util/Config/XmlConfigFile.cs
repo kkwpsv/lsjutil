@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Lsj.Util.Reflection;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Config
 {

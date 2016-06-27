@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Lsj.Util
+namespace Lsj.Util.Text
 {
     /// <summary>
     /// StringHelper
@@ -217,7 +219,20 @@ namespace Lsj.Util
         /// <param name="str"></param>
         /// <param name="sparator"></param>
         /// <returns></returns>
-        public static string[] Split (this string str,string sparator) => Regex.Split(str,sparator, RegexOptions.None);
+        public static string[] Split (this string str,string sparator)
+        {
+            var result = new List<string>();
+            var src = str;
+            var i = src.IndexOf(sparator);
+            while (i != -1)
+            {
+                result.Add(src.Substring(0, i));
+                src = src.Substring(i + sparator.Length);
+                i = src.IndexOf(sparator);
+            }
+            result.Add(src);
+            return result.ToArray();
+        }
         /// <summary>
         /// Is Match Ignore Case
         /// </summary>
@@ -284,5 +299,22 @@ namespace Lsj.Util
         /// <param name="count"></param>
         /// <returns></returns>
         public static unsafe string ReadStringFromBytePoint(byte* buffer, long count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
+
+
+        /// <summary>
+        /// ConvertToIPAddress
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static IPAddress ConvertToIPAddress(this string src)
+        {
+            IPAddress i;
+            if (!IPAddress.TryParse(src, out i))
+            {
+                return IPAddress.Any;
+            }
+            return i;
+
+        }
     }
 }

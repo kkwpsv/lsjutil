@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Lsj.Util.IO;
 using System.IO;
+using System.Drawing;
 
 namespace Lsj.Util.Logs
 {
@@ -38,6 +39,11 @@ namespace Lsj.Util.Logs
         private object @lock = new object();
 
         private LogConfig m_config;
+
+        /// <summary>
+        /// Config
+        /// </summary>
+        public LogConfig Config => m_config;
         /// <summary>
         /// Initialize a new Log
         /// </summary>
@@ -61,7 +67,7 @@ namespace Lsj.Util.Logs
                     ConsoleColor old = Console.ForegroundColor;
                     Console.ForegroundColor = m_config.ConsoleColors[(int)type];                   
                     Console.WriteLine($@"[{DateTime.Now.ToString()}] {str}");
-                    Console.ResetColor();
+                    Console.ForegroundColor = old;
                 }
                 if (m_config.UseFile)
                 {
@@ -69,16 +75,37 @@ namespace Lsj.Util.Logs
                     {
                         Directory.CreateDirectory(m_config.FilePath);
                     }
-                    var name = m_config.FilePath + DateTime.Now.ToString("yyyy-MM-dd") + ".log";
+                    var name = m_config.FilePath + DateTime.Now.ToString("yyyy-MM-dd");
+                    var num = 0;
+
+                    while (FileHelper.GetLength(name + (num == 0 ? "" : $"-{num}") + ".log") > 100*1024*1024)//100k
+                    {
+                        num++;
+                    }
+                    name = name+( num == 0 ? "" : $"-{num}") +".log";
                     File.AppendAllText(name, 
 $@"[{type.ToString()}] {DateTime.Now.ToString()} 
 {str}
 ");
                 }
+                if(m_config.UseLogView)
+                {
+                    var a = this.m_config.LogView;
+                    a.Select(a.TextLength, 1);  //WTF!!!!!!!
+                    a.SelectionColor = m_config.LogViewColors[(int)type];
+                    a.IsNewAdd = true;
+                    a.AppendLine($@"[{DateTime.Now.ToString()}] {str}");
+
+
+                }
+
             }
             catch (Exception e)
             {
-                WinForm.Notice(e.ToString());
+                if (this.m_config.UseMessageBox)
+                {
+                    WinForm.Notice(e.ToString());
+                }                
             }
             finally
             {

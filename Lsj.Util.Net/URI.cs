@@ -27,5 +27,17 @@ namespace Lsj.Util.Net
         {
             return raw;
         }
+        public string FileName
+        {
+            get
+            {
+                var x = raw.Substring(raw.LastIndexOf('/'));
+                var a = x.IndexOf('?');
+                if (a > 0)
+                    return x.Substring(0, a);
+                else
+                    return x;
+            }
+        }
     }
 }

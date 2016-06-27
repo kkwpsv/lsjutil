@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Lsj.Util.Config;
 using System.Web;
+using Lsj.Util.Text;
 
 namespace Lsj.Util
 {

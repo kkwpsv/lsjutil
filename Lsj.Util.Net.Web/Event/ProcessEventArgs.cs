@@ -25,7 +25,7 @@ namespace Lsj.Util.Net.Web.Event
         public string ServerName
         {
             get;
-            set;
+            internal set;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Lsj.Util.Net.Web.Event
         public IHttpRequest Request
         {
             get;
-            set;
+            internal set;
         }
         /// <summary>
         /// Response

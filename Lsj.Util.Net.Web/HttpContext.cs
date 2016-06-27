@@ -9,7 +9,8 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading;
+using Lsj.Util.Text;
+using System.Timers;
 
 namespace Lsj.Util.Net.Web
 {
@@ -88,8 +89,8 @@ namespace Lsj.Util.Net.Web
         Socket socket;
         LogProvider log;
         byte[] buffer;
-        Timer keepalive;
-        int keepalivetimeout = 100000; // 100 seconds.
+
+       // int keepalivetimeout = 100000; // 100 seconds.
         MemoryStream content;
 
         WebServer server;
@@ -118,6 +119,19 @@ namespace Lsj.Util.Net.Web
             this.Stream = CreateStream(socket);
             this.Status = eContentStatus.Listening;
             this.Stream.BeginRead(buffer, OnReceived);
+            this.ReceiveTimer = new Timer(60 * 1000);
+            ReceiveTimer.AutoReset = false;
+            ReceiveTimer.Elapsed += (o,e) => 
+            {
+                if(!Request.IsReadFinish)
+                {
+                    this.Status = eContentStatus.Processing;
+                    this.Response = ErrorHelper.Build(408, 0, this.server.Name);
+                    this.DoResponse();
+
+                }
+            };
+
         }
 
         protected virtual Stream CreateStream(Socket socket) => new NetworkStream(socket, true);
@@ -132,6 +146,7 @@ namespace Lsj.Util.Net.Web
 
         void OnReceived(IAsyncResult ar)
         {
+            this.KeepaliveTimer = null;
             try
             {
                 var byteleft = Stream.EndRead(ar);
@@ -172,6 +187,9 @@ namespace Lsj.Util.Net.Web
 
         }
         int contentread;
+        Timer ReceiveTimer;
+        Timer KeepaliveTimer;
+
         void OnReceivedContent(IAsyncResult ar)
         {
             var read = Stream.EndRead(ar);
@@ -213,7 +231,7 @@ namespace Lsj.Util.Net.Web
             server.OnParsed(this);
             if (Request.IsError)
             {
-                this.Response = ErrorMgr.Build(Request.ErrorCode, Request.ExtraErrorCode,this.server.Name);
+                this.Response = ErrorHelper.Build(Request.ErrorCode, Request.ExtraErrorCode,this.server.Name);
             }
             else
             {
@@ -226,6 +244,8 @@ namespace Lsj.Util.Net.Web
 
         void DoResponse()
         {
+            this.ReceiveTimer.Dispose();
+            this.ReceiveTimer = null;
             this.Status = eContentStatus.Sending;
             Response.Headers.Add(eHttpHeader.Server, this.server.Name);
             this.Stream.BeginWrite(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII), (x) =>
@@ -236,6 +256,13 @@ namespace Lsj.Util.Net.Web
                 this.Stream.WriteByte(ASCIIChar.LF);
                 if (Response.Headers[eHttpHeader.Connection].ToLower() == "keep-alive")
                 {
+                    this.KeepaliveTimer = new Timer(120 * 1000);
+                    KeepaliveTimer.AutoReset = false;
+                    KeepaliveTimer.Elapsed += (o, e) =>
+                    {
+                        this.socket.Disconnect();
+                        this.Status = eContentStatus.Disposing;
+                    };
                     this.Read();
                 }
                 else
@@ -262,10 +289,15 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                if (keepalive != null)
+                if (KeepaliveTimer != null)
                 {
-                    keepalive.Dispose();
-                    keepalive = null;
+                    KeepaliveTimer.Dispose();
+                    KeepaliveTimer = null;
+                }
+                if (ReceiveTimer != null)
+                {
+                    ReceiveTimer.Dispose();
+                    ReceiveTimer = null;
                 }
                 try
                 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using Lsj.Util;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Encrypt
 {

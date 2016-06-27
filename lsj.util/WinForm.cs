@@ -65,5 +65,19 @@ namespace Lsj.Util
 			form.MaximizeBox = false;
 			form.FormBorderStyle = FormBorderStyle.Fixed3D;
 		}
+
+        /// <summary>
+        /// AppendLine
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="str"></param>
+        public static void AppendLine(this RichTextBox a , string str)
+        {
+            a.AppendText(str);
+            a.AppendText("\r\n");
+        }
+
+
+
 	}
 }

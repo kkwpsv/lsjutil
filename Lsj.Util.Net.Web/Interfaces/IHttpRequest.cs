@@ -43,5 +43,12 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+        /// <summary>
+        /// IsReadFinish
+        /// </summary>
+        bool IsReadFinish
+        {
+            get;
+        }
     }
 }

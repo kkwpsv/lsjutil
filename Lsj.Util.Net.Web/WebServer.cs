@@ -170,12 +170,12 @@ namespace Lsj.Util.Net.Web
                         return args.Response;
                     }
                 }
-                return ErrorMgr.Build(501, 0,Name);
+                return ErrorHelper.Build(501, 0,Name);
             }
             catch(Exception e)
             {
                 Log.Error(e);
-                return ErrorMgr.Build(500, 0, Name);
+                return ErrorHelper.Build(500, 0, Name);
             }
         }
     }

@@ -11,10 +11,19 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Error
 {
-    internal static class ErrorMgr
+    /// <summary>
+/// 
+/// </summary>
+    public static class ErrorHelper
     {
-
-        internal static IHttpResponse Build(int code, int extracode ,string server)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="extracode"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public static IHttpResponse Build(int code, int extracode ,string server)
         {
             var response = new HttpResponse();
             response.ErrorCode = code;
@@ -24,10 +33,21 @@ namespace Lsj.Util.Net.Web.Error
             return response;
         }
 
-
-
-        internal static string BuildPage(int code,string server) => BuildPage(code, 0, server );
-        internal static string BuildPage(int code, int extracode, string server)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public static string BuildPage(int code,string server) => BuildPage(code, 0, server );
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="extracode"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
+        public static string BuildPage(int code, int extracode, string server)
         {
             var ErrorString = SatusCode.GetStringByCode(code, extracode);
             var ErrorPage = new HtmlPage();

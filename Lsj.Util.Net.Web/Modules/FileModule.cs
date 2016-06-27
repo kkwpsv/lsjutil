@@ -65,7 +65,7 @@ namespace Lsj.Util.Net.Web.Modules
             }
             else
             {
-                args.Response = ErrorMgr.Build(404, 0, args.ServerName);               
+                args.Response = ErrorHelper.Build(404, 0, args.ServerName);               
             }
         }
 

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -263,6 +264,8 @@ namespace Lsj.Util.Net.Web.Message
         {
             throw new NotImplementedException();
         }
+
+        public bool IsReadFinish => this.Content.Length >= this.ContentLength;
     }
 }
 

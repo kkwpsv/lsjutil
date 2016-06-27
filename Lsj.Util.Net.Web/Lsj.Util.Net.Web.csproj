@@ -90,7 +90,7 @@
   <ItemGroup>
     <Compile Include="Cookie\HttpCookie.cs" />
     <Compile Include="Cookie\HttpCookies.cs" />
-    <Compile Include="Error\ErrorMgr.cs" />
+    <Compile Include="Error\ErrorHelper.cs" />
     <Compile Include="Event\ProcessEventArgs.cs" />
     <Compile Include="Event\RequestParsedEventArgs.cs" />
     <Compile Include="Event\SocketReceivedArgs.cs" />
@@ -108,6 +108,7 @@
     <Compile Include="Message\HttpResponse.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Interfaces\IModule.cs" />
+    <Compile Include="Post\FormParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Message\HttpRequest.cs" />
     <Compile Include="Static\Header.cs" />
