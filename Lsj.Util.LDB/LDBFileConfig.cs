@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Lsj.Util.Text;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -10,14 +12,30 @@ namespace Lsj.Util.LDB
     /// </summary>
     public class LDBFileConfig
     {
+
+        bool IsChange = false;
+
+
         /// <summary>
         /// Version
         /// </summary>
         public Version Version
         {
-            get;
-            internal set;
-        } = new Version(1, 0);
+            get
+            {
+                return version;
+            }
+            internal set
+            {
+                if(version != value)
+                {
+                    version = value;
+                    IsChange = true;
+                }
+            }
+        } 
+
+        Version version = new Version(1, 0);
         /// <summary>
         /// DBName
         /// </summary>
@@ -37,9 +55,23 @@ namespace Lsj.Util.LDB
                 else
                 {
                     dbname = value;
+                    IsChange = true;
                 }
             }
         }
         string dbname;
+
+
+
+        internal void Save(FileStream file)
+        {
+            if (IsChange)
+            {
+                file.Seek(10, SeekOrigin.Begin);
+                file.WriteByte((byte)Version.Major);
+                file.WriteByte((byte)Version.Minor);
+                file.Write(DBName.ConvertToBytes(Encoding.UTF8));
+            }
+        }
     }
 }

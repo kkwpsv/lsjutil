@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Lsj.Util.Net;
 using System.IO;
+using Lsj.Util.Net.Web.Cookie;
 
 namespace Lsj.Util.Net.Web.Interfaces
 {
@@ -36,6 +37,13 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+        /// <summary>
+        /// Cookies
+        /// </summary>
+        HttpCookies Cookies
+        {
+            get;
+        }
 
 
         /// <summary>
@@ -45,6 +53,25 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="read"></param>
         /// <returns></returns>
         bool Read(byte[] buffer, ref int read);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="read"></param>
+        /// <returns></returns>
+        bool Read(byte[] buffer, int offset, ref int read);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        /// <param name="read"></param>
+        /// <returns></returns>
+        bool Read(byte[] buffer, int offset, int length, ref int read);
+
+
         /// <summary>
         /// ContentLength
         /// </summary>
@@ -68,11 +95,14 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// </summary>
         /// <returns></returns>
         string GetHttpHeader();
-
         /// <summary>
-        /// GetContent
+        /// IsError
         /// </summary>
-        /// <returns></returns>
-        string GetContent();
+        bool IsError
+        {
+            get;
+        }
+
+
     }
 }

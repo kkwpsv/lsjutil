@@ -7,45 +7,31 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Lsj.Util.Text;
+using Lsj.Util.Net.Web.Cookie;
 
 namespace Lsj.Util.Net.Web.Message
 {
-    class HttpRequest : IHttpRequest
+    class HttpRequest : HttpMessageBase,IHttpRequest
     {
         public eHttpMethod Method
         {
             get;
-            private set;
+            protected set;
         } = eHttpMethod.UnParsed;
-        public HttpHeaders Headers
-        {
-            get;
-        } = new HttpHeaders();
-        public Version HttpVersion
-        {
-            get;
-            private set;
-        }
         public URI Uri
         {
             get;
-            private set;
+            protected set;
         }
-        public int ErrorCode
-        {
-            get;
-            set;
-        } = 200;
         public int ExtraErrorCode
         {
             get;
             set;
         } = 0;
-        public bool IsError => ErrorCode >= 400;
 
-        public int ContentLength => Headers[eHttpHeader.ContentLength].ConvertToInt();
-        MemoryStream m_content;
-        public Stream Content
+        
+        protected MemoryStream m_content;
+        public override Stream Content
         {
             get
             {
@@ -56,21 +42,11 @@ namespace Lsj.Util.Net.Web.Message
                 return m_content;
             }
         }
+        
 
-        public bool Read(byte[] buffer, ref int read) => Read(buffer, 0, ref read);
-
-        public bool Read(byte[] buffer, int offset, ref int read) => InternalRead(buffer, offset, buffer.Length - offset, ref read);
-        public bool Read(byte[] buffer, int offset, int length, ref int read) => InternalRead(buffer, offset, length, ref read);
-        unsafe bool InternalRead(byte[] buffer, int offset, int length, ref int read)
-        {
-            fixed (byte* pts = buffer)
-            {
-                return InternalRead(pts, offset, length, ref read);
-            }
-        }
 
         //Fucking Pointer.....
-        unsafe bool InternalRead(byte* pts, int offset, int count, ref int read)
+        unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
             byte* start = pts;
             byte* ptr = pts;
@@ -124,36 +100,7 @@ namespace Lsj.Util.Net.Web.Message
             }
             return false;
         }
-        private unsafe bool ParseLine(byte* start, int length)
-        {
-            byte* ptr = start;
-            for (int i = 0; i < length; i++, ptr++)
-            {
-                if (*ptr == ASCIIChar.Colon)
-                {
-                    var name = StringHelper.ReadStringFromBytePoint(start, i);
-                    if (*(++ptr) == ASCIIChar.SPACE)
-                    {
-                        var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
-                        if (name != Header.GetNameByHeader(eHttpHeader.Cookie))
-                        {
-                            Headers.Add(name, content);
-                        }
-                        else
-                        {
-                            //todo Cookie
-                        }
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-            return false;
-        }
+        
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {
             var left = length;
@@ -245,27 +192,24 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
-        public void Write(byte[] buffer)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Write(string str)
-        {
-            throw new NotImplementedException();
-        }
 
-        public string GetHttpHeader()
+        public override string GetHttpHeader()
         {
-            throw new NotImplementedException();
-        }
-
-        public string GetContent()
-        {
-            throw new NotImplementedException();
+            var sb = new StringBuilder();
+            sb.Append($"{Method} {Uri.LocalPath} HTTP/{this.HttpVersion.ToString(2)}\r\n");
+            foreach (var header in Headers)
+            {
+                sb.Append($"{header.Key}: {header.Value}\r\n");
+            }
+            sb.Append("\r\n");
+            Console.WriteLine(sb.ToString());
+            return sb.ToString();
         }
 
         public bool IsReadFinish => this.Content.Length >= this.ContentLength;
+
+        
     }
 }
 

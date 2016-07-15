@@ -55,15 +55,13 @@ namespace Lsj.Util.Net.Web.Cookie
             cookies[cookie.name] = cookie;
         }
         /// <summary>
-        /// Parse
+        /// Add
         /// </summary>
         /// <param name="str"></param>
-        /// <returns></returns>
-        public static HttpCookies Parse(string str)
+        public void Add(string str)
         {
-            HttpCookies cookies = new HttpCookies();
             try
-            {                
+            {
                 var cookiestrings = str.Split(';');
                 foreach (string cookiestring in cookiestrings)
                 {
@@ -72,19 +70,15 @@ namespace Lsj.Util.Net.Web.Cookie
                     {
                         var name = cookie[0].Trim();
                         var content = cookie[1].Trim();
-                        cookies.Add(new HttpCookie { name = name, content = content });
+                        this.Add(new HttpCookie { name = name, content = content });
                     }
                 }
             }
             catch (Exception e)
             {
-                if (cookies == null)
-                    cookies = new HttpCookies();
                 LogProvider.Default.Warn("Error Cookies \r\n");
                 LogProvider.Default.Warn(e);
             }
-            return cookies;
         }
-
     }
 }

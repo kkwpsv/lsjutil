@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lsj.Util.LDB;
+using Lsj.Util.Net;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Debugger
 {
@@ -31,11 +33,17 @@ namespace Lsj.Util.Debugger
                Console.ReadLine();
            }*/
 
-        public static void Main()
+     /*   public static void Main()
         {
             var a = new LDBFile("test.ldb",false);
             a.Config.DBName = "test";
             a.Save();
+            Console.ReadLine();
+        }*/
+        public static void Main()
+        {
+            var client = new WebClient();
+            Console.Write(client.Get(new URI("http://www.sina.com.cn")).ConvertFromBytes(Encoding.UTF8));
             Console.ReadLine();
         }
 

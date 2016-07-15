@@ -49,13 +49,7 @@ namespace Lsj.Util.Net.Web
         {
             get;
         } = new SafeDictionary<string, Website>();
-        /// <summary>
-        /// Modules
-        /// </summary>
-        public List<IModule> Modules
-        {
-            get;
-        } = new List<IModule>();
+        
 
 
 
@@ -70,21 +64,17 @@ namespace Lsj.Util.Net.Web
                 return;
             if (Websites.Keys.Count == 0)
             {
-                Websites.Add("", new Website());
+                Websites.Add("", new Website(""));
             }
-            if (Modules.Count == 0)
+            foreach(var x in Websites)
             {
-                Modules.Insert(0, new FileModule());
+                x.Value.Start(this);
             }
-            Modules.ForEach((x) =>
-            {
-                Process += x.Process;
-            });
-            IsStarted = true;
             foreach (var listener in listeners)
             {
                 StartListener(listener);
             }
+            IsStarted = true;
         }
 
 
@@ -147,30 +137,19 @@ namespace Lsj.Util.Net.Web
                 this.RequestParsed(this, args);
             }
         }
-        /// <summary>
-        /// Process
-        /// </summary>
-        public event EventHandler<ProcessEventArgs> Process;
+
 
         internal IHttpResponse OnProcess(HttpContext x)
         {
             try
             {
                 var host = x.Request.Headers[eHttpHeader.Host];
-                var server = Websites[host] ?? Websites[""];
-
-                if (this.Process != null)
+                var website = Websites[host] ?? Websites[""];
+                if(website==null)
                 {
-                    var args = new ProcessEventArgs();
-                    args.Request = x.Request;
-                    args.ServerName = this.Name;
-                    this.Process(server, args);
-                    if (args.IsParsed)
-                    {
-                        return args.Response;
-                    }
+                    return ErrorHelper.Build(400, 0, Name,"Invaild Hostname");
                 }
-                return ErrorHelper.Build(501, 0,Name);
+                return website.OnProcess(x);
             }
             catch(Exception e)
             {

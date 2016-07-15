@@ -36,7 +36,7 @@ namespace Lsj.Util.Net.Web.Modules
         /// <param name="args"></param>
         public void Process(object o, ProcessEventArgs args)
         {
-            args.IsParsed = true;
+            args.IsProcessed = true;
             var path = "";
             var website = o as Website;
             var rootpath = website.Path;

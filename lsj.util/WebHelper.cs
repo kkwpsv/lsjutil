@@ -74,6 +74,16 @@ namespace Lsj.Util
         /// <param name="str"></param>
         /// <param name="uri"></param>
         public static void ReturnAndRedirect(this HttpResponse response, string str, string uri) => response.Write(@"<script language=""javascript""> alert("""+ str +@""");document.location.href="""+uri+@""";</script>");
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="response"></param>
+        /// <param name="uri"></param>
+        public static void RedirectWithPost(this HttpResponse response, string uri)
+        {
+            response.RedirectLocation = uri;
+            response.StatusCode = 307;
+        }
 
     }
 }

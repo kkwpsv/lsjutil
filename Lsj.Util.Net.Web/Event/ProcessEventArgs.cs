@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Event
         /// <summary>
         /// IsParsed
         /// </summary>
-        public bool IsParsed
+        public bool IsProcessed
         {
             get;
             set;

@@ -63,6 +63,8 @@
   <ItemGroup>
     <Compile Include="LDBFile.cs" />
     <Compile Include="LDBFileConfig.cs" />
+    <Compile Include="LDBTable.cs" />
+    <Compile Include="LDBTables.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

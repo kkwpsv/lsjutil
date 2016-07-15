@@ -94,6 +94,15 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="socket"></param>
         /// <returns></returns>
         public static bool IsDataAvailable(this Socket socket) => socket.Available > 0;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public static int Receive(this Socket socket, byte[] buffer, int offset, int size) => socket.Receive(buffer, offset, size, SocketFlags.None);
 
     } 
 }

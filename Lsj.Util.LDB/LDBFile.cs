@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Text;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,6 +109,23 @@ namespace Lsj.Util.LDB
             }
             else
             {
+                if(file.Length==100)
+                {
+                    this.Tables = new LDBTables(this);//Null Table
+                }
+                else
+                {
+                    if(file.Length<300)
+                    {
+                        throw new InvalidDataException("Error LDB File");
+                    }
+                    else
+                    {
+                        buffer = new byte[200];
+                        file.Read(buffer, 0, 100);
+                        this.Tables = new LDBTables(this,buffer);
+                    }
+                }
             }
 
         }
@@ -134,14 +152,8 @@ namespace Lsj.Util.LDB
             {
                 throw new IOException ("file cannot be written");
             }
-            this.file.Seek(10, SeekOrigin.Begin);
-            this.file.WriteByte((byte)Config.Version.Major);
-            this.file.WriteByte((byte)Config.Version.Minor);
-            this.file.Write(Config.DBName.ConvertToBytes(Encoding.UTF8));
-            this.file.Seek(25, SeekOrigin.Begin);
-            
-
-
+            this.Config.Save(file);
+            this.Tables.Save(file);     
         }
 
 
@@ -176,6 +188,15 @@ namespace Lsj.Util.LDB
                 }
             }
         }
+        /// <summary>
+        /// Tables
+        /// </summary>
+        public LDBTables Tables
+        {
+            get;
+            private set;
+        }
+
         private string filename;
         FileStream file;
 

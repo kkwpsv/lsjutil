@@ -94,6 +94,7 @@
     <Compile Include="Event\ProcessEventArgs.cs" />
     <Compile Include="Event\RequestParsedEventArgs.cs" />
     <Compile Include="Event\SocketReceivedArgs.cs" />
+    <Compile Include="Exceptions\HttpClientException.cs" />
     <Compile Include="Exceptions\ListenerException.cs" />
     <Compile Include="HttpsContext.cs" />
     <Compile Include="HttpContext.cs" />
@@ -105,7 +106,10 @@
     <Compile Include="Interfaces\IListener.cs" />
     <Compile Include="Message\FileResponse.cs" />
     <Compile Include="Message\HttpHeaders.cs" />
+    <Compile Include="Message\HttpMessageBase.cs" />
+    <Compile Include="Message\HttpRequestForClient.cs" />
     <Compile Include="Message\HttpResponse.cs" />
+    <Compile Include="Message\HttpResponseForClient.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Post\FormParser.cs" />
@@ -114,8 +118,9 @@
     <Compile Include="Static\Header.cs" />
     <Compile Include="Static\MIME.cs" />
     <Compile Include="Static\SatusCode.cs" />
+    <Compile Include="WebClient.cs" />
     <Compile Include="WebServer.cs" />
-    <Compile Include="HttpWebsite.cs" />
+    <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj">

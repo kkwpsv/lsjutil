@@ -167,7 +167,14 @@ namespace Lsj.Util.Net.Web
                         this.content = Request.Content as MemoryStream;
                         this.contentread = byteleft;
                         content.Write(buffer, read, byteleft);
-                        Stream.BeginRead(buffer, OnReceivedContent);
+                        if (contentread < x)
+                        {
+                            Stream.BeginRead(buffer, OnReceivedContent);
+                        }
+                        else
+                        {
+                            Process();
+                        }
                     }
                     else
                     {
@@ -221,7 +228,7 @@ namespace Lsj.Util.Net.Web
         }
         bool Parse(int length, ref int read)
         {
-            return Request.Read(buffer, ref read);
+            return Request.Read(buffer, 0 ,length,ref read);
         }
 
 
@@ -244,8 +251,11 @@ namespace Lsj.Util.Net.Web
 
         void DoResponse()
         {
-            this.ReceiveTimer.Dispose();
-            this.ReceiveTimer = null;
+            if(ReceiveTimer!=null)
+            {
+                this.ReceiveTimer.Dispose();
+                this.ReceiveTimer = null;
+            }
             this.Status = eContentStatus.Sending;
             Response.Headers.Add(eHttpHeader.Server, this.server.Name);
             this.Stream.BeginWrite(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII), (x) =>
