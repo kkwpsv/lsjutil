@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Lsj.Util.Logs;
 
 namespace Lsj.Util.Net.Web.Event
 {
@@ -44,6 +45,13 @@ namespace Lsj.Util.Net.Web.Event
             get;
             set;
         }
-
+        /// <summary>
+        /// Log
+        /// </summary>
+        public LogProvider Log
+        {
+            get;
+            set;
+        }
     }
 }

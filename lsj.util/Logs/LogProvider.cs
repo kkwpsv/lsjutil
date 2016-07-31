@@ -127,6 +127,11 @@ $@"[{type.ToString()}] {DateTime.Now.ToString()}
         /// <param name="str"></param>
         public void Debug(string str)=>Add(str, eLogType.Debug);
         /// <summary>
+        /// Debug
+        /// </summary>
+        /// <param name="o"></param>
+        public void Debug(object o) => Debug(o.ToString());
+        /// <summary>
         /// Info
         /// </summary>
         /// <param name="str"></param>

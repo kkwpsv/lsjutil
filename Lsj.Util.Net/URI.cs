@@ -134,6 +134,18 @@ namespace Lsj.Util.Net
                 {
                     Solve();
                 }
+                if (port == 0)
+                {
+                    switch (Scheme.ToLower())
+                    {
+                        case "http":
+                            return 80;
+                        case "https":
+                            return 443;
+                        default:
+                            return port.Value;
+                    }
+                }
                 return port.Value;
             }
         }
@@ -162,7 +174,7 @@ namespace Lsj.Util.Net
                 i = x.IndexOf('/');
                 if (i > 0)
                 {
-                    localpath = x.Substring(i + 1);
+                    localpath = x.Substring(i);
                     x = x.Substring(0, i);
                     i = x.IndexOf(':');
                     if (i >0)

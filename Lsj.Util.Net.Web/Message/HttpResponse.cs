@@ -38,9 +38,9 @@ namespace Lsj.Util.Net.Web.Message
         /// 
         /// </summary>
         public HttpResponse()
-
         {
             this.content = new MemoryStream();
+            this.HttpVersion = new Version(1, 1);
         }
         /// <summary>
         /// 

@@ -5,56 +5,46 @@ namespace Lsj.Util.Collections
 {
 
     /// <summary>
-    /// ObjectPool
+    /// 对象池
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <remarks>基于队列</remarks>
     public class ObjectPool<T> where T : class
     {
-        private readonly CreateHandler<T> _createMethod;
-        private readonly Queue<T> _items = new Queue<T>();
+        private readonly Func<T> m_createMethod;
+        private readonly Queue<T> m_items = new Queue<T>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectPool{T}"/> class.
+        /// 初始化一个<see cref="ObjectPool{T}"/>实例
         /// </summary>
-        /// <param name="createHandler">How large buffers to allocate.</param>
-        public ObjectPool(CreateHandler<T> createHandler)
+        /// <param name="createHandler">创建方法</param>
+        public ObjectPool(Func<T> createHandler)
         {
-            _createMethod = createHandler;
+            m_createMethod = createHandler;
         }
 
         /// <summary>
-        /// Get an object.
+        /// 取得一个对象
         /// </summary>
-        /// <returns>Created object.</returns>
-        /// <remarks>Will create one if queue is empty.</remarks>
         public T Dequeue()
         {
-            lock (_items)
+            lock (m_items)
             {
-                if (_items.Count > 0)
-                    return _items.Dequeue();
+                if (m_items.Count > 0)
+                    return m_items.Dequeue();
             }
 
-            return _createMethod();
+            return m_createMethod();
         }
 
         /// <summary>
-        /// Enqueues the specified buffer.
+        /// 存入一个对象
         /// </summary>
-        /// <param name="value">Object to enqueue.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Buffer is is less than the minimum requirement.</exception>
+        /// <param name="value">存入的对象</param>
         public void Enqueue(T value)
         {
-            lock (_items)
-                _items.Enqueue(value);
+            lock (m_items)
+                m_items.Enqueue(value);
         }
     }
-
-    /// <summary>
-    /// Used to create new objects.
-    /// </summary>
-    /// <typeparam name="T">Type of objects to create.</typeparam>
-    /// <returns>Newly created object.</returns>
-    /// <seealso cref="ObjectPool{T}"/>.
-    public delegate T CreateHandler<T>() where T : class;
 }

@@ -203,7 +203,6 @@ namespace Lsj.Util.Net.Web.Message
                 sb.Append($"{header.Key}: {header.Value}\r\n");
             }
             sb.Append("\r\n");
-            Console.WriteLine(sb.ToString());
             return sb.ToString();
         }
 

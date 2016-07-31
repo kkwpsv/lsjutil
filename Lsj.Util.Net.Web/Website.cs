@@ -83,6 +83,7 @@ namespace Lsj.Util.Net.Web
                     var args = new ProcessEventArgs();
                     args.Request = x.Request;
                     args.ServerName = server.Name;
+                    args.Log = x.Log;
                     this.Process(this, args);
                     if (args.IsProcessed)
                     {

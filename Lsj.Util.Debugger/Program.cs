@@ -42,8 +42,8 @@ namespace Lsj.Util.Debugger
         }*/
         public static void Main()
         {
-            var client = new WebClient();
-            Console.Write(client.Get(new URI("http://www.sina.com.cn")).ConvertFromBytes(Encoding.UTF8));
+            var client = new WebHttpClient();
+            Console.Write(client.Get(new URI("http://127.0.0.1")).ConvertFromBytes(Encoding.UTF8));
             Console.ReadLine();
         }
 

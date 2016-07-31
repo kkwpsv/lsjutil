@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Lsj.Util.Text
 {
@@ -316,5 +317,18 @@ namespace Lsj.Util.Text
             return i;
 
         }
+        /// <summary>
+        /// URIEncode
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static string UrlEncode(this string src)=>HttpUtility.UrlEncode(src);
+        /// <summary>
+        /// URIEncode
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static string UrlDecode(this string src) => HttpUtility.UrlDecode(src);
+
     }
 }

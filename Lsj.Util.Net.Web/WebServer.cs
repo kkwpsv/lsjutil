@@ -76,7 +76,19 @@ namespace Lsj.Util.Net.Web
             }
             IsStarted = true;
         }
-
+        /// <summary>
+        /// Start
+        /// </summary>
+        public void Stop()
+        {
+            if (!IsStarted)
+                return;
+            foreach (var listener in listeners)
+            {
+                StopListener(listener);
+            }
+            IsStarted = true;
+        }
 
 
         /// <summary>
