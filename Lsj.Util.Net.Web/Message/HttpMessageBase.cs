@@ -13,7 +13,7 @@ namespace Lsj.Util.Net.Web.Message
     /// <summary>
     /// 
     /// </summary>
-    public class HttpMessageBase : IHttpMessage
+    public abstract class HttpMessageBase : IHttpMessage
     {
         /// <summary>
         /// Headers
@@ -126,7 +126,6 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         protected unsafe bool ParseLine(byte* start, int length)
         {
-            var debug = StringHelper.ReadStringFromBytePoint(start, length);
             byte* ptr = start;
             for (int i = 0; i < length; i++, ptr++)
             {

@@ -11,13 +11,15 @@ using Lsj.Util.Net.Web.Cookie;
 
 namespace Lsj.Util.Net.Web.Message
 {
-    class HttpRequest : HttpMessageBase,IHttpRequest
+    internal class HttpRequest : HttpMessageBase, IHttpRequest
     {
+        //HTTP方法
         public eHttpMethod Method
         {
             get;
             protected set;
         } = eHttpMethod.UnParsed;
+        //URI
         public URI Uri
         {
             get;
@@ -29,7 +31,7 @@ namespace Lsj.Util.Net.Web.Message
             set;
         } = 0;
 
-        
+
         protected MemoryStream m_content;
         public override Stream Content
         {
@@ -42,47 +44,42 @@ namespace Lsj.Util.Net.Web.Message
                 return m_content;
             }
         }
-        
+
 
 
         //Fucking Pointer.....
         unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
-            byte* start = pts;
-            byte* ptr = pts;
-            read = 0;
-            for (int i = offset; i < count; i++, ptr++)
+            byte* start = pts;                  //开始位置
+            byte* end = pts + offset + count;   //结束位置
+            byte* ptr = pts + offset;           //当前位置
+            read = 0;                           //读取字节数
+
+            for (; ptr <= end; ptr++)//循环
             {
-                if (*ptr == ASCIIChar.CR && (++i) < count && *(++ptr) == ASCIIChar.LF)
+                if (*ptr == ASCIIChar.CR && (++ptr) <= end && *ptr == ASCIIChar.LF)//判断是否为行尾
                 {
-                    if (ptr - start == 2)
-                    {
-                        read += 2;
-                        return true;
-                    }
                     #region When End Header
-                    if (i + 1 < count && *(ptr + 1) == ASCIIChar.CR && i + 2 < count && *(ptr + 2) == ASCIIChar.LF)
+                    if ((ptr + 2) >= end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
                     {
-                        ptr = ptr + 2;
-                        i = i + 2;
-                        int length = (int)(ptr - start) + 1;
+                        var length = (int)(ptr - start) + 1;//读取长度
                         ParseLine(start, length - 2);
                         read += length;
+                        read += 2;
                         return true;
                     }
                     #endregion When End Header
                     else
                     {
-                        #region ParseHeader
-                        var length = (int)(ptr - start) + 1;
-                        if (this.Method == eHttpMethod.UnParsed)
+                        var length = (int)(ptr - start) + 1;//读取长度
+                        if (this.Method == eHttpMethod.UnParsed)//判断是否Parse首行
                         {
-                            if (!ParseFirstLine(start, length - 2))
+                            if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
                             {
                                 this.ErrorCode = 400;
                                 return true;
                             }
-                            read += length;
+                            read += length;//读取字节数增加
                         }
                         else
                         {
@@ -93,14 +90,13 @@ namespace Lsj.Util.Net.Web.Message
                             }
                             read += length;
                         }
-                        #endregion ParseHeader
-                        start = ptr + 1;
+                        start = ++ptr;//开始位置和当前位置后移
                     }
                 }
             }
             return false;
         }
-        
+
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {
             var left = length;
@@ -208,7 +204,7 @@ namespace Lsj.Util.Net.Web.Message
 
         public bool IsReadFinish => this.Content.Length >= this.ContentLength;
 
-        
+
     }
 }
 

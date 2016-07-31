@@ -223,6 +223,9 @@ namespace Lsj.Util.Collections
             return m_list.GetEnumerator();
         }
 
+
+
+
         void Lock()
         {
             Monitor.Enter(m_lock);

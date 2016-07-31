@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web
     public class WebServer
     {
         /// <summary>
-        /// 
+        ///名称
         /// </summary>
         public string Name
         {
@@ -27,7 +27,7 @@ namespace Lsj.Util.Net.Web
 
         List<IListener> listeners = new List<IListener>();
         /// <summary>
-        /// LogProvider
+        /// 日志
         /// </summary>
         public LogProvider Log
         {
@@ -35,7 +35,7 @@ namespace Lsj.Util.Net.Web
             set;
         } = LogProvider.Default;
         /// <summary>
-        /// IsStarted
+        /// 是否启动
         /// </summary>
         public bool IsStarted
         {
@@ -43,7 +43,7 @@ namespace Lsj.Util.Net.Web
             private set;
         }
         /// <summary>
-        /// Websites
+        /// 网站
         /// </summary>
         public SafeDictionary<string,Website> Websites
         {
@@ -56,7 +56,7 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// Start
+        /// 启动服务器
         /// </summary>
         public void Start()
         {
@@ -77,7 +77,7 @@ namespace Lsj.Util.Net.Web
             IsStarted = true;
         }
         /// <summary>
-        /// Start
+        /// 停止服务器
         /// </summary>
         public void Stop()
         {
@@ -92,7 +92,7 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// Add a Listener
+        /// 添加Listener
         /// </summary>
         /// <param name="listener"></param>
         public void AddListener(IListener listener)
@@ -104,7 +104,7 @@ namespace Lsj.Util.Net.Web
             listeners.Add(listener);
         }
         /// <summary>
-        /// RemoveListener
+        /// 移除Listener
         /// </summary>
         /// <param name="listener"></param>
         public void RemoveListener(IListener listener)
@@ -134,6 +134,8 @@ namespace Lsj.Util.Net.Web
             listener.Log = LogProvider.Default;
             listener.Stop();
         }
+
+
 
         /// <summary>
         /// RequestParsed
