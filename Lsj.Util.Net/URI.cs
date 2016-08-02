@@ -37,7 +37,7 @@ namespace Lsj.Util.Net
         {
             get
             {
-                if(filename==null)
+                if (filename == null)
                 {
                     var x = raw.LastIndexOf('/');
                     x++;
@@ -59,7 +59,7 @@ namespace Lsj.Util.Net
         {
             get
             {
-                if(querystring==null)
+                if (querystring == null)
                 {
                     querystring = new SafeStringToStringDirectionary();
                     if (raw.IndexOf('?') != -1)
@@ -72,9 +72,9 @@ namespace Lsj.Util.Net
                                 var c = b.Split('=');
                                 if (c.Length >= 2)
                                 {
-                                    var name = c[0].Trim();
-                                    var content = c[1].Trim();
-                                    querystring.Add(c[0], c[1]);
+                                    var name = c[0].Trim().UrlDecode();
+                                    var content = c[1].Trim().UrlDecode();
+                                    querystring.Add(name,content);
                                 }
                             }
                         }
@@ -91,10 +91,10 @@ namespace Lsj.Util.Net
         {
             get
             {
-                if(scheme == null)
+                if (scheme == null)
                 {
                     int i = raw.IndexOf(':');
-                    if(i>0)
+                    if (i > 0)
                     {
                         scheme = raw.Substring(0, i);
                     }
@@ -177,7 +177,7 @@ namespace Lsj.Util.Net
                     localpath = x.Substring(i);
                     x = x.Substring(0, i);
                     i = x.IndexOf(':');
-                    if (i >0)
+                    if (i > 0)
                     {
                         host = x.Substring(0, i);
                         port = x.Substring(i + 1).ConvertToInt(0);

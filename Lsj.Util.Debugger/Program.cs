@@ -15,14 +15,15 @@ namespace Lsj.Util.Debugger
 {
     class Program
     {
-        /*   public static void Main()
+           public static void Main()
 
            {
+            Logs.LogProvider.Default.Config.UseConsole = true;
                try
                {
                    var x = new WebServer();
-                   var a = new SocketListener(true, @"ssl.pfx", "@a@552144#A#");
-                   a.Port = 443;
+                   var a = new SocketListener();
+                   a.Port = 85;
                    x.AddListener(a);
                    x.Start();
                }
@@ -31,7 +32,7 @@ namespace Lsj.Util.Debugger
                    Console.Write(e);
                }
                Console.ReadLine();
-           }*/
+           }
 
      /*   public static void Main()
         {
@@ -40,12 +41,12 @@ namespace Lsj.Util.Debugger
             a.Save();
             Console.ReadLine();
         }*/
-        public static void Main()
+        /*public static void Main()
         {
             var client = new WebHttpClient();
             Console.Write(client.Get(new URI("http://127.0.0.1")).ConvertFromBytes(Encoding.UTF8));
             Console.ReadLine();
-        }
+        }*/
 
     }
 

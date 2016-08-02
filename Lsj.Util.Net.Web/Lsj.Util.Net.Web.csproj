@@ -119,6 +119,7 @@
     <Compile Include="Static\MIME.cs" />
     <Compile Include="Static\SatusCode.cs" />
     <Compile Include="WebHttpClient.cs" />
+    <Compile Include="WebHttpClient2.cs" />
     <Compile Include="WebServer.cs" />
     <Compile Include="Website.cs" />
   </ItemGroup>

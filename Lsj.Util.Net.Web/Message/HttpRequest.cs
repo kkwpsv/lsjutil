@@ -50,17 +50,17 @@ namespace Lsj.Util.Net.Web.Message
         //Fucking Pointer.....
         unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
-            byte* start = pts;                  //开始位置
-            byte* end = pts + offset + count;   //结束位置
-            byte* ptr = pts + offset;           //当前位置
-            read = 0;                           //读取字节数
+            byte* start = pts;                      //开始位置
+            byte* end = pts + offset + count - 1;   //结束位置
+            byte* ptr = pts + offset;               //当前位置
+            read = 0;                               //读取字节数
 
             for (; ptr <= end; ptr++)//循环
             {
-                if (*ptr == ASCIIChar.CR && (++ptr) <= end && *ptr == ASCIIChar.LF)//判断是否为行尾
+                if (*ptr == ASCIIChar.CR && (long)(++ptr) <= (long)end && *ptr == ASCIIChar.LF)//判断是否为行尾
                 {
                     #region When End Header
-                    if ((ptr + 2) >= end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
+                    if ((long)(ptr + 2) <= (long)end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
                     {
                         var length = (int)(ptr - start) + 1;//读取长度
                         ParseLine(start, length - 2);
@@ -204,7 +204,11 @@ namespace Lsj.Util.Net.Web.Message
 
         public bool IsReadFinish => this.Content.Length >= this.ContentLength;
 
-
+        public string UserHostAddress
+        {
+            get;
+            internal set;
+        }
     }
 }
 

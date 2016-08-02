@@ -324,7 +324,7 @@ namespace Lsj.Util.Text
         /// <returns></returns>
         public static string UrlEncode(this string src)=>HttpUtility.UrlEncode(src);
         /// <summary>
-        /// URIEncode
+        /// URIDecode
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>

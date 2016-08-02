@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Text;
 using Lsj.Util.Text;
 using System.Timers;
+using System.Net;
 
 namespace Lsj.Util.Net.Web
 {
@@ -120,6 +121,7 @@ namespace Lsj.Util.Net.Web
         void Read()
         {
             this.Request = new HttpRequest();
+            ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
             this.Stream = CreateStream(socket);
             this.Status = eContentStatus.Listening;
             this.Stream.BeginRead(buffer, OnReceived);
@@ -163,24 +165,15 @@ namespace Lsj.Util.Net.Web
                 }
                 int read = 0;
 
-                //调试打印Buffer
-                LogProvider.Default.Debug(buffer.ConvertFromBytes());
 
 
                 bool IsEnd = Parse(byteleft, ref read);//尝试Parse
 
 
-                //调试打印read
-                LogProvider.Default.Debug(read);
-
-
                 byteleft -= read;//减掉处理过的
-
-                LogProvider.Default.Debug(byteleft);
 
                 if (IsEnd)
                 {
-                    
                     //收完Header
                     var x = Request.ContentLength;//获取ContentLength
                     if (x > 0)
@@ -194,13 +187,11 @@ namespace Lsj.Util.Net.Web
 
                         if (contentread < x)
                         {
-                            LogProvider.Default.Debug("1");
                             //如果未读取完继续读取
                             Stream.BeginRead(buffer, OnReceivedContent);
                         }
                         else
                         {
-                            LogProvider.Default.Debug("2");
                             //读取完处理
                             Process();
                         }
