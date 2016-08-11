@@ -9,6 +9,8 @@ using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Message;
+using Lsj.Util.Text;
+using Lsj.Util.Logs;
 
 namespace Lsj.Util.Net.Web.Modules
 {
@@ -36,6 +38,7 @@ namespace Lsj.Util.Net.Web.Modules
         /// <param name="args"></param>
         public void Process(object o, ProcessEventArgs args)
         {
+            LogProvider.Default.Error(args.Request.Content.ReadAll().ConvertFromBytes().Trim());
             args.IsProcessed = true;
             var path = "";
             var website = o as Website;
@@ -45,7 +48,7 @@ namespace Lsj.Util.Net.Web.Modules
             var uri = request.Uri.ToString();
 
             var z = uri.Substring(1);
-            if (uri.EndsWith(@"\"))
+            if (uri.EndsWith(@"/"))
             {
                 foreach (var a in DefaultPage)
                 {

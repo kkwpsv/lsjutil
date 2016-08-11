@@ -10,7 +10,7 @@ namespace Lsj.Util.Net.Web.Interfaces
     /// </summary>
     internal interface IContext
     {
-        eContentStatus Status
+        eContextStatus Status
         {
             get;
         }

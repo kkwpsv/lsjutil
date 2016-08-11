@@ -40,7 +40,7 @@ namespace Lsj.Util.Net.Web.Listener
             }
         }
         /// <summary>
-        /// Port
+        /// 端口
         /// </summary>
         public int Port
         {
@@ -58,7 +58,7 @@ namespace Lsj.Util.Net.Web.Listener
             }
         }
         /// <summary>
-        /// LogProvider
+        /// 日志
         /// </summary>
         public LogProvider Log
         {
@@ -66,7 +66,7 @@ namespace Lsj.Util.Net.Web.Listener
             set;
         } = LogProvider.Default;
         /// <summary>
-        /// IsStarted
+        /// 是否启动
         /// </summary>
         public bool IsStarted
         {
@@ -74,7 +74,7 @@ namespace Lsj.Util.Net.Web.Listener
             private set;
         } = false;
         /// <summary>
-        /// Server
+        /// WebServer
         /// </summary>
         public WebServer Server
         {
@@ -106,13 +106,13 @@ namespace Lsj.Util.Net.Web.Listener
         /// <summary>
         /// Initialize a new instance
         /// </summary>
-        public SocketListener() : this(false,"","")
+        public SocketListener() : this(false, "", "")
         {
         }
         /// <summary>
         /// Initialize a new instance
         /// </summary>
-        public SocketListener(bool IsSSL,string file,string password)
+        public SocketListener(bool IsSSL, string file, string password)
         {
             this.socket = new TcpSocket();
             this.IsSSL = IsSSL;
@@ -120,7 +120,7 @@ namespace Lsj.Util.Net.Web.Listener
             this.password = password;
         }
         /// <summary>
-        /// Start
+        /// 启动
         /// </summary>
         public void Start(WebServer server)
         {
@@ -134,13 +134,23 @@ namespace Lsj.Util.Net.Web.Listener
                 socket.Bind(IP, Port);
                 socket.Listen();
                 socket.BeginAccept(OnAccepted);
+
+                //定期清理无用的对象
                 this.disposingtimer = new Timer((state) =>
                 {
-                    Contexts.FindAll((x) => (x.Status == eContentStatus.Disposing)).ForEach((a) =>
+                    try
                     {
-                        a.Dispose();
-                    });
+                        Contexts.FindAll((x) => (x.Status == eContextStatus.Disposing)).ForEach((a) =>
+                        {
+                            a.Dispose();
+                            Contexts.Remove(a);
+                        });
+                    }
+                    catch
+                    {
+                    }
                 }, null, 0, 1000 * 10);
+
                 IsStarted = true;
             }
             catch (Exception e)
@@ -150,7 +160,7 @@ namespace Lsj.Util.Net.Web.Listener
             }
         }
         /// <summary>
-        /// Stop
+        /// 停止
         /// </summary>
         public void Stop()
         {
@@ -164,7 +174,7 @@ namespace Lsj.Util.Net.Web.Listener
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Start Error", e);
+                throw new ListenerException("Stop Error", e);
             }
             finally
             {
@@ -191,11 +201,11 @@ namespace Lsj.Util.Net.Web.Listener
                 IContext x;
                 if (IsSSL)
                 {
-                    x=HttpsContext.Create(handle, Log, this.Server,file,password);
+                    x = HttpsContext.Create(handle, Log, this.Server, file, password);
                 }
                 else
                 {
-                    x=HttpContext.Create(handle, Log, this.Server);
+                    x = HttpContext.Create(handle, Log, this.Server);
                 }
                 this.Contexts.Add(x);
                 x.Start();

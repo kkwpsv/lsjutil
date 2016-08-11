@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Web.Post
                     {
                         var name = c[0].Trim().UrlDecode();
                         var content = c[1].Trim().UrlDecode();
-                        form.Add(c[0], c[1]);
+                        form.Add(name,content);
                     }
                 }
             }

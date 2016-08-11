@@ -44,7 +44,13 @@ namespace Lsj.Util.Net
                     filename = raw.Substring(x);
                     var a = filename.IndexOf('?');
                     if (a > 0)
+                    {
                         filename = filename.Substring(0, a);
+                    }
+                    else if (a == 0)
+                    {
+                        filename = "";
+                    }
                 }
                 return filename;
 
@@ -74,7 +80,7 @@ namespace Lsj.Util.Net
                                 {
                                     var name = c[0].Trim().UrlDecode();
                                     var content = c[1].Trim().UrlDecode();
-                                    querystring.Add(name,content);
+                                    querystring.Add(name, content);
                                 }
                             }
                         }

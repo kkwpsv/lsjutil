@@ -206,9 +206,16 @@ namespace Lsj.Util.Net.Web.Message
 
         public string UserHostAddress
         {
-            get;
-            internal set;
+            get
+            {
+                return userhostaddress;
+            }
+            internal set
+            {
+                userhostaddress = value;
+            }
         }
+        string userhostaddress;
     }
 }
 
