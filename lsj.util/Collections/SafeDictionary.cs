@@ -27,31 +27,30 @@ namespace Lsj.Util.Collections
         /// </summary>
         public ICollection<TValue> Values => m_Dictionary.Values;
         /// <summary>
-        /// Initialize a new SafeDictionary Without MultiThreadSafety
+        /// 初始化一个非多线程安全的<see cref="SafeDictionary{TKey, TValue}"/>实例
         /// </summary>
         public SafeDictionary() : this(false)
         {
         }
         /// <summary>
-        /// Inital a new SafeDictionary
+        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
         /// </summary>
-        /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
+        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
         public SafeDictionary(bool IsMultiThreadSafety) : this(new Dictionary<TKey, TValue>(), IsMultiThreadSafety)
         {
-
         }
         /// <summary>
-        /// Inital a new SafeDictionary From a Dictionary
+        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
         /// </summary>
         /// <param name="src">Source Dicitionay</param>
         public SafeDictionary(Dictionary<TKey, TValue> src) : this(src, false)
         {
         }
         /// <summary>
-        /// Inital a new SafeDictionary From a Dictionary
+        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
         /// </summary>
-        /// <param name="src">Source Dicitionay</param>
-        /// <param name="IsMultiThreadSafety">Is Muiltthread Safety</param>
+        /// <param name="src">源<see cref="Dictionary{TKey, TValue}"/></param>
+        /// <param name="IsMultiThreadSafety">是否多线程安全/param>
         public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
         {
             if (src == null)

@@ -10,43 +10,58 @@ using System.Threading.Tasks;
 using Lsj.Util.LDB;
 using Lsj.Util.Net;
 using Lsj.Util.Text;
+using Lsj.Util.Simulate.CPUs;
 
 namespace Lsj.Util.Debugger
 {
     class Program
     {
-           public static void Main()
+        /*     public static void Main()
 
+             {
+              Logs.LogProvider.Default.Config.UseConsole = true;
+                 try
+                 {
+                     var x = new WebServer();
+                     var a = new SocketListener();
+                     a.Port = 85;
+                     x.AddListener(a);
+                     x.Start();
+                 }
+                 catch(Exception e)
+                 {
+                     Console.Write(e);
+                 }
+                 Console.ReadLine();
+             }*/
+
+        /*   public static void Main()
            {
-            Logs.LogProvider.Default.Config.UseConsole = true;
-               try
-               {
-                   var x = new WebServer();
-                   var a = new SocketListener();
-                   a.Port = 85;
-                   x.AddListener(a);
-                   x.Start();
-               }
-               catch(Exception e)
-               {
-                   Console.Write(e);
-               }
+               var a = new LDBFile("test.ldb",false);
+               a.Config.DBName = "test";
+               a.Save();
                Console.ReadLine();
-           }
-
-     /*   public static void Main()
-        {
-            var a = new LDBFile("test.ldb",false);
-            a.Config.DBName = "test";
-            a.Save();
-            Console.ReadLine();
-        }*/
+           }*/
         /*public static void Main()
         {
             var client = new WebHttpClient();
             Console.Write(client.Get(new URI("http://127.0.0.1")).ConvertFromBytes(Encoding.UTF8));
             Console.ReadLine();
         }*/
+
+
+
+
+
+        public static void Main()
+        {
+            var cpu = new Intel8086();
+
+
+
+
+            Console.ReadLine();
+        }
 
     }
 

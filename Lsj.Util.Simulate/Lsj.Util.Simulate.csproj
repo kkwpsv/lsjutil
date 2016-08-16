@@ -4,18 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF542C73-854E-4559-8AD6-8B0498AEC8E4}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{9ADE4A4F-E4B8-4AFF-8963-A49C2EBCE30C}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lsj.Util.Debugger</RootNamespace>
-    <AssemblyName>Lsj.Util.Debugger</AssemblyName>
+    <RootNamespace>Lsj.Util.Simulate</RootNamespace>
+    <AssemblyName>Lsj.Util.Simulate</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,15 +22,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -43,9 +37,6 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <Optimize>false</Optimize>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -55,33 +46,10 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,38 +57,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="CPUs\Intel8086.cs" />
+    <Compile Include="Interfaces\ICPU.cs" />
+    <Compile Include="Interfaces\IRAM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RAM.cs" />
+    <Compile Include="VirtualMachine.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj">
-      <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
-      <Name>Lsj.Util.HtmlBuilder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.LDB\Lsj.Util.LDB.csproj">
-      <Project>{10c9d239-5889-40c6-b5e1-7d1c974c7198}</Project>
-      <Name>Lsj.Util.LDB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj">
-      <Project>{35fa4756-1cfd-40f8-a324-d620ab422590}</Project>
-      <Name>Lsj.Util.Net.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Net\Lsj.Util.Net.csproj">
-      <Project>{3089c6c9-7687-4cb1-b86e-5045ceef17f9}</Project>
-      <Name>Lsj.Util.Net</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Simulate\Lsj.Util.Simulate.csproj">
-      <Project>{9ade4a4f-e4b8-4aff-8963-a49c2ebce30c}</Project>
-      <Name>Lsj.Util.Simulate</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
-      <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
-      <Name>Lsj.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
