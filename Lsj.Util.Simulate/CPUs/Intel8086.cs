@@ -9,11 +9,11 @@ namespace Lsj.Util.Simulate.CPUs
     public class Intel8086 : ICPU
     {
 
-        public enum eRegister16
+        public enum eRegister16 : byte
         {
             AX, BX, CX, DX, SI, DI, BP, SP, CS, DS, ES, SS, IP, FLAG
         }
-        public enum eRegister8
+        public enum eRegister8 : byte
         {
             AH, AL, BH, BL, CH, CL, DH, DL
         }
@@ -296,9 +296,9 @@ namespace Lsj.Util.Simulate.CPUs
 
 
 
-        int GetRamOffset(eRegister16 a, eRegister16 b) => GetRamOffset(a, b, 0);
-        int GetRamOffset(eRegister16 a, eRegister16 b, byte c) => GetRamOffset(a, b, c);
-        int GetRamOffset(eRegister16 a, eRegister16 b, ushort c)
+        MemoryAddress GetRamAddress(eRegister16 a, eRegister16 b) => GetRamAddress(a, b, 0);
+        MemoryAddress GetRamAddress(eRegister16 a, eRegister16 b, byte c) => GetRamAddress(a, b, c);
+        MemoryAddress GetRamAddress(eRegister16 a, eRegister16 b, ushort c)
         {
             switch (a)
             {
@@ -306,9 +306,9 @@ namespace Lsj.Util.Simulate.CPUs
                     switch (b)
                     {
                         case eRegister16.SI:
-                            return BX + SI + c;
+                            return GetRamAddress(BX + SI + c);
                         case eRegister16.DI:
-                            return BX << 4 + DI + c;
+                            return GetRamAddress(BX + DI + c);
                         default:
                             throw new InvalidOperationException();
                     }
@@ -316,9 +316,9 @@ namespace Lsj.Util.Simulate.CPUs
                     switch (b)
                     {
                         case eRegister16.SI:
-                            return BP << 4 + SI + c;
+                            return GetRamAddress(BP + SI + c);
                         case eRegister16.DI:
-                            return BP << 4 + DI + c;
+                            return GetRamAddress(BP + DI + c);
                         default:
                             throw new InvalidOperationException();
                     }
@@ -326,6 +326,25 @@ namespace Lsj.Util.Simulate.CPUs
                     throw new InvalidOperationException();
             }
         }
+        MemoryAddress GetRamAddress(eRegister16 a) => GetRamAddress(a, 0);
+        MemoryAddress GetRamAddress(eRegister16 a, int b)
+        {
+            switch (a)
+            {
+                case eRegister16.SI:
+                    return GetRamAddress(SI + b);
+                case eRegister16.DI:
+                    return GetRamAddress(DI + b);
+                case eRegister16.BP:
+                    return GetRamAddress(BP + b);
+                case eRegister16.BX:
+                    return GetRamAddress(SI + b);
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+        MemoryAddress GetRamAddress(int x)=> new MemoryAddress(BX << 4 + x);
+
 
 
 
@@ -359,6 +378,15 @@ namespace Lsj.Util.Simulate.CPUs
                     break;
                 case eRegister16.SP:
                     SP = b;
+                    break;
+                case eRegister16.DS:
+                    DS = b;
+                    break;
+                case eRegister16.ES:
+                    ES = b;
+                    break;
+                case eRegister16.SS:
+                    SS = b;
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -396,9 +424,146 @@ namespace Lsj.Util.Simulate.CPUs
                     throw new InvalidOperationException();
             }
         }
-        void MOV()
+        void MOV(eRegister16 x, eRegister16 y)
         {
+            switch (y)
+            {
+                case eRegister16.AX:
+                    MOV(x, AX);
+                    break;
+                case eRegister16.BX:
+                    MOV(x, BX);
+                    break;
+                case eRegister16.CX:
+                    MOV(x, CX);
+                    break;
+                case eRegister16.DX:
+                    MOV(x, DX);
+                    break;
+                case eRegister16.DI:
+                    MOV(x, DI);
+                    break;
+                case eRegister16.SI:
+                    MOV(x, SI);
+                    break;
+                case eRegister16.BP:
+                    MOV(x, BP);
+                    break;
+                case eRegister16.SP:
+                    MOV(x, SP);
+                    break;
+                case eRegister16.DS:
+                    MOV(x, DS);
+                    break;
+                case eRegister16.SS:
+                    MOV(x, SS);
+                    break;
+                case eRegister16.ES:
+                    MOV(x, ES);
+                    break;
+                case eRegister16.CS:
+                    MOV(x, CS);
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
         }
+        void MOV(eRegister8 x, eRegister8 y)
+        {
+            switch (y)
+            {
+                case eRegister8.AH:
+                    MOV(x, AH);
+                    break;
+                case eRegister8.AL:
+                    MOV(x, AL);
+                    break;
+                case eRegister8.BH:
+                    MOV(x, BH);
+                    break;
+                case eRegister8.BL:
+                    MOV(x, BL);
+                    break;
+                case eRegister8.CH:
+                    MOV(x, CH);
+                    break;
+                case eRegister8.CL:
+                    MOV(x, CL);
+                    break;
+                case eRegister8.DH:
+                    MOV(x, DH);
+                    break;
+                case eRegister8.DL:
+                    MOV(x, DL);
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+        void MOV(MemoryAddress address, eRegister16 x)
+        {
+            switch (x)
+            {
+                case eRegister16.AX:
+                    MOV(address, AX);
+                    break;
+                case eRegister16.BX:
+                    MOV(address, BX);
+                    break;
+                case eRegister16.CX:
+                    MOV(address, CX);
+                    break;
+                case eRegister16.DX:
+                    MOV(address, DX);
+                    break;
+                case eRegister16.DI:
+                    MOV(address, DI);
+                    break;
+                case eRegister16.SI:
+                    MOV(address, SI);
+                    break;
+                case eRegister16.BP:
+                    MOV(address, BP);
+                    break;
+                case eRegister16.SP:
+                    MOV(address, SP);
+                    break;
+                case eRegister16.DS:
+                    MOV(address, DS);
+                    break;
+                case eRegister16.SS:
+                    MOV(address, SS);
+                    break;
+                case eRegister16.ES:
+                    MOV(address, ES);
+                    break;
+                case eRegister16.CS:
+                    MOV(address, CS);
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+        void MOV(MemoryAddress address, ushort x)
+        {
+            this.machine.RAM.SetWord(address,x);
+        }
+        void MOV(MemoryAddress address, byte x)
+        {
+            this.machine.RAM.SetByte(address, x);
+        }
+        void MOV(eRegister16 a ,MemoryAddress address)
+        {
+            MOV(a, this.machine.RAM.GetWord(address));
+        }
+        void MOV(eRegister8 a, MemoryAddress address)
+        {
+            MOV(a, this.machine.RAM.GetByte(address));
+        }
+
 
     }
 }

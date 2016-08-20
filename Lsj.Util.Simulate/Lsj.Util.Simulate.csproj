@@ -60,6 +60,7 @@
     <Compile Include="CPUs\Intel8086.cs" />
     <Compile Include="Interfaces\ICPU.cs" />
     <Compile Include="Interfaces\IRAM.cs" />
+    <Compile Include="MemoryAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RAM.cs" />
     <Compile Include="VirtualMachine.cs" />

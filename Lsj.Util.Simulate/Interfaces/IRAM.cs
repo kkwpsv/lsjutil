@@ -12,5 +12,12 @@ namespace Lsj.Util.Simulate.Interfaces
             get;
             set;
         }
+        byte GetByte(MemoryAddress address);
+        ushort GetWord(MemoryAddress address);
+        void SetByte(MemoryAddress address, byte x);
+        void SetWord(MemoryAddress address, ushort x);
+
+
+
     }
 }

@@ -18,6 +18,8 @@ namespace Lsj.Util.Simulate
             cpu.machine = this;
             ram.machine = this;
         }
+        public ICPU CPU=>cpu;
+        public IRAM RAM => ram;
 
 
     }
