@@ -59,7 +59,7 @@ namespace Lsj.Util.Collections
             this.IsMultiThreadSafety = IsMultiThreadSafety;
         }
         /// <summary>
-        /// NullValue
+        /// 空值
         /// </summary>
         /// <returns></returns>
         public virtual TValue NullValue
@@ -70,18 +70,18 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Count
+        /// 包含的键值对数目
         /// </summary>
         public int Count => this.m_Dictionary.Count;
         /// <summary>
-        /// IsReadOnly
+        /// 是否只读
         /// </summary>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// Get Or Set The Value
+        /// 获取或设置与指定的键相关联的值
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">键</param>
         /// <returns></returns>
         public TValue this[TKey key]
         {
@@ -95,7 +95,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Add a new KeyValuePair into the Dictionary
+        /// 将指定的键值对添加到字典中
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -108,7 +108,7 @@ namespace Lsj.Util.Collections
             Set(key, value);
         }
         /// <summary>
-        /// Add
+        /// 将指定的键和值添加到字典中
         /// </summary>
         /// <param name="item"></param>
         public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
@@ -130,7 +130,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Remove
+        /// 移除所指定的键值对
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
@@ -148,7 +148,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Clear
+        /// 移除所有的键和值
         /// </summary>
         public void Clear()
         {
@@ -157,7 +157,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// CopyTo
+        /// 将所有元素复制到一个<see cref="Array"/>中
         /// </summary>
         /// <param name="array"></param>
         /// <param name="arrayIndex"></param>
@@ -171,7 +171,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// Is Contain the Key 
+        /// 是否包含指定的键
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -180,13 +180,13 @@ namespace Lsj.Util.Collections
             return Contain(key);
         }
         /// <summary>
-        /// Contains
+        /// 是否包含指定的键值对
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
         public bool Contains(KeyValuePair<TKey, TValue> item) => this.Contain(item.Key) && this[item.Key].Equals(item.Value);
         /// <summary>
-        /// TryGetValue
+        /// 获取与指定的键相关联的值
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -200,7 +200,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// Get the Enumerator
+        /// 返回枚举器
         /// </summary>
         /// <returns></returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -212,7 +212,7 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// To Dictionary
+        /// 转换成<see cref="Dictionary{TKey, TValue}"/>
         /// </summary>
         /// <returns></returns>
         public Dictionary<TKey, TValue> ToDictionary()
@@ -224,8 +224,6 @@ namespace Lsj.Util.Collections
             }
             return x;
         }
-
-
 
 
         internal TValue GetWithoutCheck(TKey key) => m_Dictionary[key];

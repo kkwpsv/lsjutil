@@ -91,6 +91,8 @@
     <Compile Include="Body\h1.cs" />
     <Compile Include="Body\Hr.cs" />
     <Compile Include="Body\body.cs" />
+    <Compile Include="Body\a.cs" />
+    <Compile Include="Body\li.cs" />
     <Compile Include="Body\span.cs" />
     <Compile Include="Header\title.cs" />
     <Compile Include="HtmlNode.cs" />

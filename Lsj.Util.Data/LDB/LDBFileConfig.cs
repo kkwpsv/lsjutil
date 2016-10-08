@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.LDB
+namespace Lsj.Util.Data.LDB
 {
     /// <summary>
     /// LDBFileConfig
