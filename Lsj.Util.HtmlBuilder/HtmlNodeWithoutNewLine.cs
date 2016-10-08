@@ -25,7 +25,7 @@ namespace Lsj.Util.HtmlBuilder
         public override string ToString(int i)
         {
             var sb = new StringBuilder();
-            sb.Append($@"<{Name}{Param.ToString()}>");
+            sb.Append($@"<{Name}{Params.ToString()}>");
             sb.Append(GetContent(i));
             sb.Append($@"</{Name}>");
             return sb.ToString();

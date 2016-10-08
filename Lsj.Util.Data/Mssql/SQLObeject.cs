@@ -8,8 +8,14 @@ using Lsj.Util.Logs;
 
 namespace Lsj.Util.Data.Mssql
 {
+    /// <summary>
+    /// SQL对象
+    /// </summary>
     public class SQLObeject : DisposableClass, IDisposable
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void CleanUpManagedResources()
         {
             base.CleanUpManagedResources();
@@ -22,6 +28,10 @@ namespace Lsj.Util.Data.Mssql
 
 
         SqlConnection connection;
+        /// <summary>
+        /// 通过<see cref="SqlConnection"/>来初始化一个SQL对象
+        /// </summary>
+        /// <param name="conn"></param>
         public SQLObeject(SqlConnection conn)
         {
             this.connection = conn;
@@ -30,11 +40,29 @@ namespace Lsj.Util.Data.Mssql
                 this.connection.Open();
             }
         }
+        /// <summary>
+        /// 通过SQL连接字符串来初始化一个SQL对象
+        /// </summary>
+        /// <param name="conn"></param>
         public SQLObeject(string conn)
         {
             this.connection = new SqlConnection(conn);
             this.connection.Open();
         }
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>返回第一行第一列</returns>
+        public object ExecProcedure(string name) => ExecProcedure(name, null);
+
+
+        /// <summary>
+        /// 执行存储过程
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="para"></param>
+        /// <returns>返回第一行第一列</returns>
         public object ExecProcedure(string name, params SQLParam[] para)
         {
             try
@@ -56,7 +84,7 @@ namespace Lsj.Util.Data.Mssql
             catch (Exception e)
             {
                 LogProvider.Default.Error(e);
-                return null;
+                throw;
             }
         }
     }

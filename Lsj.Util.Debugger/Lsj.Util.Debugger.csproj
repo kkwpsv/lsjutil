@@ -96,6 +96,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.Data\Lsj.Util.Data.csproj">
+      <Project>{d86d21f1-e187-4ae4-bb97-6cc2c00a7e01}</Project>
+      <Name>Lsj.Util.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj">
       <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
       <Name>Lsj.Util.HtmlBuilder</Name>

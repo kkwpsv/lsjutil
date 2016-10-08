@@ -102,6 +102,7 @@
     <Compile Include="HtmlPage.cs" />
     <Compile Include="Header\head.cs" />
     <Compile Include="HtmlParam.cs" />
+    <Compile Include="HtmlParams.cs" />
     <Compile Include="HtmlRawNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

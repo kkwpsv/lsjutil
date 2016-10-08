@@ -57,7 +57,12 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Param
         /// </summary>
-        public HtmlParam Param = new HtmlParam();
+        public HtmlParams Params
+        {
+            get;
+            set;
+        } = new HtmlParams();
+
 
         bool IsAllInOneLine = true;
         internal virtual bool IsWithoutNewLine { get; }=false;
@@ -74,6 +79,14 @@ namespace Lsj.Util.HtmlBuilder
                 if (!node.IsWithoutNewLine)
                     IsAllInOneLine = false;
             }
+        }
+        /// <summary>
+        /// Add Param
+        /// </summary>
+        /// <param name="param"></param>
+        public void Add(HtmlParam param)
+        {
+            Params.Add(param.name, param.value);
         }
         /// <summary>
         /// Add Children
@@ -100,7 +113,7 @@ namespace Lsj.Util.HtmlBuilder
         {
             var sb = new StringBuilder();
             sb.Append(NULL, i*4);
-            sb.Append($@"<{Name}{Param.ToString()}>");
+            sb.Append($@"<{Name}{Params.ToString()}>");
             sb.Append(GetContent(i));
             sb.Append($@"</{Name}>");
             return sb.ToString();

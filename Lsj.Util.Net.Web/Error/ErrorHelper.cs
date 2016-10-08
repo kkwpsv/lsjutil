@@ -12,8 +12,8 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Error
 {
     /// <summary>
-/// 
-/// </summary>
+    /// 
+    /// </summary>
     public static class ErrorHelper
     {
         /// <summary>
@@ -23,11 +23,11 @@ namespace Lsj.Util.Net.Web.Error
         /// <param name="extracode"></param>
         /// <param name="server"></param>
         /// <returns></returns>
-        public static IHttpResponse Build(int code, int extracode ,string server)
+        public static IHttpResponse Build(int code, int extracode, string server)
         {
             var response = new HttpResponse();
             response.ErrorCode = code;
-            response.Write(BuildPage(code,extracode,server));
+            response.Write(BuildPage(code, extracode, server));
             response.Headers[eHttpHeader.ContentType] = "text/html;charset=utf8";
             response.Headers[eHttpHeader.Connection] = "close";
             return response;
@@ -40,11 +40,11 @@ namespace Lsj.Util.Net.Web.Error
         /// <param name="server"></param>
         /// <param name="errorstring"></param>
         /// <returns></returns>
-        public static IHttpResponse Build(int code, int extracode, string server,string errorstring)
+        public static IHttpResponse Build(int code, int extracode, string server, string errorstring)
         {
             var response = new HttpResponse();
             response.ErrorCode = code;
-            response.Write(BuildPage(code, extracode,server,errorstring));
+            response.Write(BuildPage(code, extracode, server, errorstring));
             response.Headers[eHttpHeader.ContentType] = "text/html;charset=utf8";
             response.Headers[eHttpHeader.Connection] = "close";
             return response;
@@ -56,7 +56,7 @@ namespace Lsj.Util.Net.Web.Error
         /// <param name="code"></param>
         /// <param name="server"></param>
         /// <returns></returns>
-        public static string BuildPage(int code,string server) => BuildPage(code, 0, server );
+        public static string BuildPage(int code, string server) => BuildPage(code, 0, server);
         /// <summary>
         /// 
         /// </summary>
@@ -72,7 +72,9 @@ namespace Lsj.Util.Net.Web.Error
             {
                 new HtmlRawNode(ErrorString)
             });
-            ErrorPage.body.Param["bgcolor"] = "white";
+            ErrorPage.body.Add(
+                new HtmlParam { name = "bgcolor", value = "white" }
+                );
             ErrorPage.body.AddRange(
                 new List<HtmlNode>
                 {
@@ -84,12 +86,9 @@ namespace Lsj.Util.Net.Web.Error
                         },
                         new hr
                         {
-                            Param = new HtmlParam
-                            {
-                                { "width","100%" },
-                                { "size","1" },
-                                { "color","silver" },
-                            }
+                            new HtmlParam { name = "width", value = "100%" },
+                            new HtmlParam { name = "size", value = "1" },
+                            new HtmlParam { name = "color", value = "silver" }
                         },
                         new h2
                         {
@@ -101,12 +100,9 @@ namespace Lsj.Util.Net.Web.Error
                     },
                     new hr
                     {
-                        Param = new HtmlParam
-                                {
-                                    { "width","100%" },
-                                    { "size","1" },
-                                    { "color","silver" },
-                                }
+                            new HtmlParam { name = "width", value = "100%" },
+                            new HtmlParam { name = "size", value = "1" },
+                            new HtmlParam { name = "color", value = "silver" }
                     },
                     new b
                     {
@@ -127,14 +123,16 @@ namespace Lsj.Util.Net.Web.Error
         /// <param name="server"></param>
         /// <param name="ErrorString"></param>
         /// <returns></returns>
-        public static string BuildPage(int code, int extracode, string server,string ErrorString)
+        public static string BuildPage(int code, int extracode, string server, string ErrorString)
         {
             var ErrorPage = new HtmlPage();
             ErrorPage.head.Add(new title
             {
                 new HtmlRawNode(ErrorString)
             });
-            ErrorPage.body.Param["bgcolor"] = "white";
+            ErrorPage.body.Add(
+                new HtmlParam { name = "bgcolor", value = "white" }
+             );
             ErrorPage.body.AddRange(
                 new List<HtmlNode>
                 {
@@ -146,12 +144,9 @@ namespace Lsj.Util.Net.Web.Error
                         },
                         new hr
                         {
-                            Param = new HtmlParam
-                            {
-                                { "width","100%" },
-                                { "size","1" },
-                                { "color","silver" },
-                            }
+                            new HtmlParam { name = "width", value = "100%" },
+                            new HtmlParam { name = "size", value = "1" },
+                            new HtmlParam { name = "color", value = "silver" }
                         },
                         new h2
                         {
@@ -163,12 +158,9 @@ namespace Lsj.Util.Net.Web.Error
                     },
                     new hr
                     {
-                        Param = new HtmlParam
-                                {
-                                    { "width","100%" },
-                                    { "size","1" },
-                                    { "color","silver" },
-                                }
+                            new HtmlParam { name = "width", value = "100%" },
+                            new HtmlParam { name = "size", value = "1" },
+                            new HtmlParam { name = "color", value = "silver" }
                     },
                     new b
                     {

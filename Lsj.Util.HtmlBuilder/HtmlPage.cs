@@ -10,12 +10,12 @@ namespace Lsj.Util.HtmlBuilder
     /// <summary>
     /// HtmlPage
     /// </summary>
-    public class HtmlPage:HtmlNode
+    public class HtmlPage : HtmlNode
     {
         /// <summary>
         /// Version
         /// </summary>
-        public const string Version = "HtmlBuilder/lsj(1.2)";
+        public const string Version = "HtmlBuilder/lsj(2.0)";
         /// <summary>
         /// HtmlPage
         /// </summary>

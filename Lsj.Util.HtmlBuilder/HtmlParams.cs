@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,20 +7,21 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder
 {
     /// <summary>
-    /// HtmlNodeWithoutEnd
+    /// HtmlParam
     /// </summary>
-    public class HtmlNodeWithoutEnd : HtmlNode
+    public class HtmlParams : SafeStringToStringDirectionary
     {
         /// <summary>
         /// ToString
         /// </summary>
-        /// <param name="i"></param>
         /// <returns></returns>
-        public override string ToString(int i)
+        public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append(NULL, i*4);
-            sb.Append($@"<{Name}{Params.ToString()} />");
+            foreach (var a in this)
+            {
+                sb.Append($@" {a.Key}=""{a.Value}""");
+            }
             return sb.ToString();
         }
     }

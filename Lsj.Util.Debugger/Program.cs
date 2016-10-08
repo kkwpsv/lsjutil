@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lsj.Util.LDB;
+using Lsj.Util.Data.LDB;
 using Lsj.Util.Net;
 using Lsj.Util.Text;
 using Lsj.Util.Simulate.CPUs;
