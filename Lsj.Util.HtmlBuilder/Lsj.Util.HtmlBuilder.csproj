@@ -85,6 +85,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Body\ul.cs" />
+    <Compile Include="Body\nav.cs" />
+    <Compile Include="Body\div.cs" />
+    <Compile Include="Body\header.cs" />
     <Compile Include="Body\b.cs" />
     <Compile Include="Body\i.cs" />
     <Compile Include="Body\h2.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="HtmlParams.cs" />
     <Compile Include="HtmlRawNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HtmlNote.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />

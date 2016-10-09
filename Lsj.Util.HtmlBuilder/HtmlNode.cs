@@ -131,5 +131,22 @@ namespace Lsj.Util.HtmlBuilder
         {
             return GetEnumerator();
         }
+
+        public HtmlNode Append(HtmlNode node)
+        {
+            if (node != null)
+            {
+                this.Add(node);
+            }
+            return this;
+        }
+        public HtmlNode Append(HtmlParam? param)
+        {
+            if (param != null)
+            {
+                this.Add(param.Value);
+            }
+            return this;
+        }
     }
 }
