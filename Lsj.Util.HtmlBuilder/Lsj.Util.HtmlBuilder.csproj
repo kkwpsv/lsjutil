@@ -85,6 +85,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Body\img.cs" />
+    <Compile Include="Body\p.cs" />
     <Compile Include="Body\ul.cs" />
     <Compile Include="Body\nav.cs" />
     <Compile Include="Body\div.cs" />

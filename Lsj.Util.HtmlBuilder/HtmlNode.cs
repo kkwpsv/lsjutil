@@ -148,5 +148,25 @@ namespace Lsj.Util.HtmlBuilder
             }
             return this;
         }
+        public HtmlNode AppendRange(List<HtmlNode> nodes)
+        {
+            foreach (var node in nodes)
+            {
+                this.Add(node);
+            }
+            return this;
+        }
+        public HtmlNode AppendRange(List<HtmlParam?> param)
+        {
+            foreach (var a in param)
+            {
+                if (a != null)
+                {
+                    this.Add(a.Value);
+                }
+
+            }
+            return this;
+        }
     }
 }
