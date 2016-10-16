@@ -300,6 +300,22 @@ namespace Lsj.Util.Text
         /// <param name="count"></param>
         /// <returns></returns>
         public static unsafe string ReadStringFromBytePoint(byte* buffer, long count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
+        /// <summary>
+        /// ReadStringFromBytePoint
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static unsafe string ReadStringFromCharPoint(char* buffer, long count)
+        {
+            char[] x = new char[count];
+            for (int i = 0; i < count; i++)
+            {
+                x[i] = *buffer;
+                buffer++;
+            }
+            return new string(x);
+        }
 
 
         /// <summary>

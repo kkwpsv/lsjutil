@@ -11,6 +11,8 @@ using Lsj.Util.Data.LDB;
 using Lsj.Util.Net;
 using Lsj.Util.Text;
 using Lsj.Util.Simulate.CPUs;
+using Lsj.Util.HtmlBuilder;
+using System.IO;
 
 namespace Lsj.Util.Debugger
 {
@@ -53,16 +55,24 @@ namespace Lsj.Util.Debugger
 
 
 
+        //public static void Main()
+        //{
+        //    var cpu = new Intel8086();
+
+
+
+
+        //    Console.ReadLine();
+        //}
         public static void Main()
         {
-            var cpu = new Intel8086();
-
+            var page = HtmlParser.ParsePage(File.ReadAllText(@"c:\test.html"));
+            Console.Write(page.ToString());
 
 
 
             Console.ReadLine();
         }
-
     }
 
 }

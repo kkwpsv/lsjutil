@@ -71,7 +71,7 @@ namespace Lsj.Util.HtmlBuilder
         /// Add Child
         /// </summary>
         /// <param name="node"></param>
-        public void Add(HtmlNode node)
+        public virtual void Add(HtmlNode node)
         {
             Children.Add(node);
             if (IsAllInOneLine)

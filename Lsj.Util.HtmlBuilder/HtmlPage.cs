@@ -61,5 +61,21 @@ $@"<!DOCTYPE html>
 ";
             }
         }
+        public override void Add(HtmlNode node)
+        {
+            if (node is head)
+            {
+                this.head = node as head;
+            }
+            else if (node is body)
+            {
+                this.body = node as body;
+            }
+            else
+            {
+                base.Add(node);
+            }
+
+        }
     }
 }
