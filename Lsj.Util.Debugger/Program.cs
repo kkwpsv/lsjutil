@@ -13,6 +13,7 @@ using Lsj.Util.Text;
 using Lsj.Util.Simulate.CPUs;
 using Lsj.Util.HtmlBuilder;
 using System.IO;
+using Lsj.Util.Logs;
 
 namespace Lsj.Util.Debugger
 {
@@ -67,6 +68,7 @@ namespace Lsj.Util.Debugger
         public static void Main()
         {
             var page = HtmlParser.ParsePage(File.ReadAllText(@"c:\test.html"));
+            LogProvider.Default.Config.UseConsole = true;
             Console.Write(page.ToString());
 
 

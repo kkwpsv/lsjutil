@@ -41,7 +41,12 @@ namespace Lsj.Util.HtmlBuilder
             }
             return root;
         }
-
+        /// <summary>
+        /// TotallyShit
+        /// </summary>
+        /// <param name="current"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         unsafe static HtmlNode ParseNode(ref char* current, char* end)
         {
             HtmlNode node = null;
@@ -57,9 +62,10 @@ namespace Lsj.Util.HtmlBuilder
             {
                 if (isnote)
                 {
-                    if (*current == '-' && *(current + 1) == '-' && *(current + 1) == '>')
+                    if (*current == '-' && *(current + 1) == '-' && *(current + 2) == '>')
                     {
-                        return new HtmlNote(StringHelper.ReadStringFromCharPoint(start + 3, current - start - 3));
+                        current = current +2;
+                        return new HtmlNote(StringHelper.ReadStringFromCharPoint(start + 3, current - start - 5));
                     }
                 }
                 else
@@ -79,7 +85,7 @@ namespace Lsj.Util.HtmlBuilder
                             {
                                 start = current + 1;
                             }
-                            else if (*current == '!' && current == start && *(current + 1) == '-' && *(current + 1) == '-')
+                            else if (*current == '!' && current == start && *(current + 1) == '-' && *(current + 2) == '-')
                             {
                                 isnote = true;
                                 current = current + 2;
@@ -92,9 +98,9 @@ namespace Lsj.Util.HtmlBuilder
                                     node = GetObject(key);
                                     iswithoutend = node is HtmlNodeWithoutEnd;
                                     start = current+1;
-                                    if (*current == ' ')
+                                    if (*current == '>')
                                     {
-                                        isparam = true;
+                                        isinchildren = true;
                                     }
                                 }
                                 else
@@ -112,20 +118,24 @@ namespace Lsj.Util.HtmlBuilder
                         {
                             if (*current == '<')
                             {
+                                var str = StringHelper.ReadStringFromCharPoint(start, current - start);
+                                str = str.Replace("\r", "").Replace("\n", "").Replace("\t", "");
+                                if (str.Replace(" ", "").Length > 0)
+                                {
+                                    node.Add(new HtmlRawNode(str));
+                                }
+
+
                                 if (*(current + 1) == '/')
                                 {
                                     ischeckend = true;
                                     start = current + 2;
+                                    current++;
                                 }
                                 else
                                 {
-                                    var str = StringHelper.ReadStringFromCharPoint(start, current - start);
-                                    str = str.Replace("\r", "").Replace("\n", "");
-                                    if (str.Length > 0)
-                                    {
-                                        node.Add(new HtmlRawNode(str));
-                                    }
                                     node.Add(ParseNode(ref current, end));
+                                    start = current + 1;
                                 }
                             }
                             else if (*current == '>' && ischeckend)
@@ -170,7 +180,7 @@ namespace Lsj.Util.HtmlBuilder
                                         start = current + 1;
                                     }
                                 }
-                                else if (*current == '=' && (*current + 1) == '"')
+                                else if (*current == '=' && *(current + 1) == '"')
                                 {
                                     key = StringHelper.ReadStringFromCharPoint(start, current - start);
                                     isparam = true;
@@ -192,6 +202,8 @@ namespace Lsj.Util.HtmlBuilder
             {
                 case "html":
                     return new HtmlPage();
+                case "body":
+                    return new body();
                 case "head":
                     return new head();
                 case "meta":

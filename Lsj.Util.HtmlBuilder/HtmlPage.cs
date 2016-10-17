@@ -55,8 +55,8 @@ namespace Lsj.Util.HtmlBuilder
             {
                 return
 $@"<!DOCTYPE html>
-<html>
-<!--The Page Is Built By {Version}.-->{GetContent(-1)}
+<html{Params.ToString()}>
+<!--The Page Is Built By {Version}.-->{GetContent(0)}
 </html>
 ";
             }
@@ -65,11 +65,15 @@ $@"<!DOCTYPE html>
         {
             if (node is head)
             {
+                this.Children.Remove(this.head);
                 this.head = node as head;
+                this.Children.Add(this.head);
             }
             else if (node is body)
             {
+                this.Children.Remove(this.body);
                 this.body = node as body;
+                this.Children.Add(this.body);
             }
             else
             {

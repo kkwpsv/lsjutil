@@ -33,7 +33,10 @@ namespace Lsj.Util.HtmlBuilder.Body
         /// <returns></returns>
         public override string ToString(int i)
         {
-            return $@"<!-- {Content} -->";
+            var sb = new StringBuilder();
+            sb.Append(NULL, i * 4);
+            sb.Append($@"<!-- {Content} -->");
+            return sb.ToString();
         }
     }
 }

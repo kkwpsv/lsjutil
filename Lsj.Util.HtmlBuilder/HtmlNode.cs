@@ -36,13 +36,13 @@ namespace Lsj.Util.HtmlBuilder
                 if (!a.IsWithoutNewLine)
                 {
                     sb.AppendLine();
-                }           
-                sb.Append(a.ToString(i+1));               
+                }
+                sb.Append(a.ToString(i + 1));
             }
             if (!IsAllInOneLine)
             {
                 sb.AppendLine();
-                sb.Append(NULL, 4*i);
+                sb.Append(NULL, 4 * i);
             }
             return sb.ToString();
         }
@@ -65,7 +65,7 @@ namespace Lsj.Util.HtmlBuilder
 
 
         bool IsAllInOneLine = true;
-        internal virtual bool IsWithoutNewLine { get; }=false;
+        internal virtual bool IsWithoutNewLine { get; } = false;
 
         /// <summary>
         /// Add Child
@@ -76,7 +76,7 @@ namespace Lsj.Util.HtmlBuilder
             Children.Add(node);
             if (IsAllInOneLine)
             {
-                if (!node.IsWithoutNewLine)
+                if (node != null && !node.IsWithoutNewLine)
                     IsAllInOneLine = false;
             }
         }
@@ -112,7 +112,7 @@ namespace Lsj.Util.HtmlBuilder
         public virtual string ToString(int i)
         {
             var sb = new StringBuilder();
-            sb.Append(NULL, i*4);
+            sb.Append(NULL, i * 4);
             sb.Append($@"<{Name}{Params.ToString()}>");
             sb.Append(GetContent(i));
             sb.Append($@"</{Name}>");

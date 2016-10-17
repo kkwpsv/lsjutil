@@ -8,7 +8,7 @@ namespace Lsj.Util.HtmlBuilder
     /// <summary>
     /// HtmlNodeWithChildrenForceNewLine
     /// </summary>
-    public class HtmlNodeWithChildrenForceNewLine :HtmlNode
+    public class HtmlNodeWithChildrenForceNewLine : HtmlNode
     {
         /// <summary>
         /// GetContent
@@ -18,11 +18,11 @@ namespace Lsj.Util.HtmlBuilder
         public override string GetContent(int i)
         {
             var sb = new StringBuilder();
-            if (Children.First().IsWithoutNewLine)
+            if (Children.Count != 0 && Children.First().IsWithoutNewLine)
             {
                 sb.AppendLine();
                 sb.Append(NULL, i * 4 + 4);
-            }               
+            }
             foreach (var a in Children)
             {
                 if (!a.IsWithoutNewLine)
