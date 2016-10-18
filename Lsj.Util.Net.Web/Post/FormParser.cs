@@ -38,6 +38,11 @@ namespace Lsj.Util.Net.Web.Post
             }
             return form;
         }
+        /// <summary>
+        /// ToBytes
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <returns></returns>
         public static byte[] ToBytes(IDictionary<string,string> dic)
         {
             if (dic == null || dic.Count == 0)

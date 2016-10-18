@@ -37,13 +37,6 @@ namespace Lsj.Util.Net.Web.Interfaces
             get;
         }
         /// <summary>
-        /// IsError
-        /// </summary>
-        bool IsError
-        {
-            get;
-        }
-        /// <summary>
         /// IsReadFinish
         /// </summary>
         bool IsReadFinish

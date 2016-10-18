@@ -196,7 +196,7 @@ namespace Lsj.Util.HtmlBuilder
             return node;
         }
 
-        public static HtmlNode GetObject(string type)
+        private static HtmlNode GetObject(string type)
         {
             switch (type)
             {

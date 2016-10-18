@@ -61,6 +61,10 @@ $@"<!DOCTYPE html>
 ";
             }
         }
+        /// <summary>
+        /// Add
+        /// </summary>
+        /// <param name="node"></param>
         public override void Add(HtmlNode node)
         {
             if (node is head)

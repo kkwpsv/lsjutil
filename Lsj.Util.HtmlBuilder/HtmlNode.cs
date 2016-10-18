@@ -131,7 +131,11 @@ namespace Lsj.Util.HtmlBuilder
         {
             return GetEnumerator();
         }
-
+        /// <summary>
+        /// Append
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public HtmlNode Append(HtmlNode node)
         {
             if (node != null)
@@ -140,6 +144,11 @@ namespace Lsj.Util.HtmlBuilder
             }
             return this;
         }
+        /// <summary>
+        /// Append
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public HtmlNode Append(HtmlParam? param)
         {
             if (param != null)
@@ -148,6 +157,11 @@ namespace Lsj.Util.HtmlBuilder
             }
             return this;
         }
+        /// <summary>
+        /// AppendRange
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <returns></returns>
         public HtmlNode AppendRange(List<HtmlNode> nodes)
         {
             foreach (var node in nodes)
@@ -156,6 +170,11 @@ namespace Lsj.Util.HtmlBuilder
             }
             return this;
         }
+        /// <summary>
+        /// AppendRange
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         public HtmlNode AppendRange(List<HtmlParam?> param)
         {
             foreach (var a in param)
