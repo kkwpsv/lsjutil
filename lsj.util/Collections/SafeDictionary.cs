@@ -19,11 +19,11 @@ namespace Lsj.Util.Collections
         bool IsMultiThreadSafety = false;
 
         /// <summary>
-        /// Keys
+        /// 键
         /// </summary>
         public ICollection<TKey> Keys => m_Dictionary.Keys;
         /// <summary>
-        /// Values
+        /// 值
         /// </summary>
         public ICollection<TValue> Values => m_Dictionary.Values;
         /// <summary>
@@ -113,7 +113,7 @@ namespace Lsj.Util.Collections
         /// <param name="item"></param>
         public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
         /// <summary>
-        /// Remove a KeyValuePair from the Dictionary
+        /// 从字典中删除指定键值
         /// </summary>
         /// <param name="key"></param>
         public bool Remove(TKey key)
@@ -157,7 +157,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 将所有元素复制到一个<see cref="Array"/>中
+        /// 将所有元素复制到一个<see cref="KeyValuePair<TKey, TValue>[]"/>中
         /// </summary>
         /// <param name="array"></param>
         /// <param name="arrayIndex"></param>

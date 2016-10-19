@@ -2,12 +2,12 @@ using System.Collections.Specialized;
 
 namespace Lsj.Util.Config
 {    /// <summary>
-     /// AppConfig Helper
+     /// AppConfig辅助类
      /// </summary>
     public class AppConfig
     {
         /// <summary>
-        /// Read AppSettingsSection
+        /// 读取App.config中的AppSettingsSection
         /// </summary>
         /// <returns></returns>
         public static NameValueCollection AppSettings

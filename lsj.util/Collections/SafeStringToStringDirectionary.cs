@@ -3,7 +3,7 @@
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 安全string字典
+    /// 安全<see cref="string"/> 字典
     /// </summary>
     public class SafeStringToStringDirectionary : SafeDictionary<string,string>
     {

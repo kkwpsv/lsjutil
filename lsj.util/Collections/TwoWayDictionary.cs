@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// TwoWayDictionary
+    /// 双向字典
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
@@ -13,22 +13,22 @@ namespace Lsj.Util.Collections
         SafeDictionary<TKey, TValue> a;
         SafeDictionary<TValue, TKey> b;
         /// <summary>
-        /// Initialize a New TwoWayDictionary
+        /// 初始化一个<see cref="TwoWayDictionary{TKey, TValue}"/> 实例
         /// </summary>
         public TwoWayDictionary():this(false)
         {
         }
         /// <summary>
-        /// Initialize a New TwoWayDictionary
+        /// 初始化一个<see cref="TwoWayDictionary{TKey, TValue}"/> 实例
         /// </summary>
-        /// <param name="IsMultiThreadSafety">IsMultiThreadSafety</param>
+        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)
         {
             this.a = new SafeDictionary<TKey, TValue>(IsMultiThreadSafety);
             this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
         }
         /// <summary>
-        /// Get Or Set The Value
+        /// 获取或者设置值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -44,7 +44,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Get Or Set The Key
+        /// 获取或者设置键
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
@@ -75,7 +75,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// Add a new KeyValuePair into the TwoWayDictionary
+        /// 添加一个新的键值对
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -85,7 +85,7 @@ namespace Lsj.Util.Collections
             b[value] = key;
         }
         /// <summary>
-        /// GetEnumerator
+        /// 返回枚举器
         /// </summary>
         /// <returns></returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
@@ -97,7 +97,7 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// Is Contain the Key
+        /// 是否包含一个值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -106,7 +106,7 @@ namespace Lsj.Util.Collections
             return a.ContainsKey(key);
         }
         /// <summary>
-        /// Is Contain the Value
+        /// 是否包含一个键
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -115,13 +115,13 @@ namespace Lsj.Util.Collections
             return b.ContainsKey(value);
         }
         /// <summary>
-        /// NullValue
+        /// 空值
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         protected virtual TValue NullValue(TKey key)=> default(TValue);
         /// <summary>
-        /// NullKey
+        /// 空键
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
