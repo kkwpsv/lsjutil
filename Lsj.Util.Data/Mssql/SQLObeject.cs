@@ -87,5 +87,45 @@ namespace Lsj.Util.Data.Mssql
                 throw;
             }
         }
+
+        /// <summary>
+        /// GetSqlDataReader
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public SqlDataReader GetSqlDataReader(string name) => GetSqlDataReader(name, null);
+
+        /// <summary>
+        /// GetSqlDataReader
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        public SqlDataReader GetSqlDataReader(string name, params SQLParam[] para)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = name;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = this.connection;
+                if (para != null)
+                {
+                    foreach (var a in para)
+                    {
+                        cmd.Parameters.Add(a.name, a.type);
+                        cmd.Parameters[a.name].Value = a.value;
+                    }
+                }
+                return cmd.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                LogProvider.Default.Error(e);
+                throw;
+            }
+        }
+
     }
 }

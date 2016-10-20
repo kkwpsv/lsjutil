@@ -49,10 +49,10 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Children
         /// </summary>
-        protected List<HtmlNode> Children
+        public List<HtmlNode> Children
         {
             get;
-            set;
+            protected set;
         } = new List<HtmlNode>();
         /// <summary>
         /// Param
