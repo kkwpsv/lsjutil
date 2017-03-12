@@ -112,10 +112,6 @@
       <Project>{3089c6c9-7687-4cb1-b86e-5045ceef17f9}</Project>
       <Name>Lsj.Util.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Simulate\Lsj.Util.Simulate.csproj">
-      <Project>{9ade4a4f-e4b8-4aff-8963-a49c2ebce30c}</Project>
-      <Name>Lsj.Util.Simulate</Name>
-    </ProjectReference>
     <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
       <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>

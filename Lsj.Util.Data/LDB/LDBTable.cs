@@ -18,6 +18,7 @@ namespace Lsj.Util.Data.LDB
         /// </summary>
         /// <param name="position"></param>
         /// <param name="length"></param>
+        /// <param name="ldb"></param>
         public LDBTable(long position, int length, LDBFile ldb)
         {
             this.position = position;

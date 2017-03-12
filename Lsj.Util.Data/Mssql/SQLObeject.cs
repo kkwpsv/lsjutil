@@ -67,10 +67,12 @@ namespace Lsj.Util.Data.Mssql
         {
             try
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = name;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = this.connection;
+                SqlCommand cmd = new SqlCommand()
+                {
+                    CommandText = name,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = this.connection
+                };
                 if (para != null)
                 {
                     foreach (var a in para)
@@ -92,7 +94,6 @@ namespace Lsj.Util.Data.Mssql
         /// GetSqlDataReader
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="para"></param>
         /// <returns></returns>
         public SqlDataReader GetSqlDataReader(string name) => GetSqlDataReader(name, null);
 
@@ -106,10 +107,12 @@ namespace Lsj.Util.Data.Mssql
         {
             try
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = name;
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = this.connection;
+                SqlCommand cmd = new SqlCommand()
+                {
+                    CommandText = name,
+                    CommandType = CommandType.StoredProcedure,
+                    Connection = this.connection
+                };
                 if (para != null)
                 {
                     foreach (var a in para)

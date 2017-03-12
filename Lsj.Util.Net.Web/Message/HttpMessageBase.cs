@@ -33,13 +33,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// Content
         /// </summary>
-        public virtual Stream Content
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public virtual Stream Content => Stream.Null;
         /// <summary>
         /// Cookies
         /// </summary>

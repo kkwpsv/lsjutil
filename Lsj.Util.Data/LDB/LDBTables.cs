@@ -28,12 +28,13 @@ namespace Lsj.Util.Data.LDB
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="ldb"></param>
         /// <param name="buffer"></param>
-        public LDBTables(LDBFile ldb,byte[] buffer)
+        public LDBTables(LDBFile ldb, byte[] buffer)
         {
             this.dic = new SafeDictionary<string, LDBTable>();
             this.ldb = ldb;
-            this.Init(buffer);         
+            this.Init(buffer);
         }
 
         private void Init(byte[] buffer)
@@ -46,7 +47,7 @@ namespace Lsj.Util.Data.LDB
             }
             else
             {
-                while(ReadOne(stream))
+                while (ReadOne(stream))
                 {
                     continue;
                 }
@@ -87,7 +88,7 @@ namespace Lsj.Util.Data.LDB
             }
         }
 
-        SafeDictionary<string,LDBTable> dic;
+        SafeDictionary<string, LDBTable> dic;
         LDBFile ldb;
 
 

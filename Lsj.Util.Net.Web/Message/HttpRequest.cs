@@ -202,6 +202,7 @@ namespace Lsj.Util.Net.Web.Message
             return sb.ToString();
         }
 
+
         public bool IsReadFinish => this.Content.Length >= this.ContentLength;
 
         public string UserHostAddress

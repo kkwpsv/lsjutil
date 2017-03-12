@@ -10,6 +10,9 @@ using Lsj.Util.Text;
 
 namespace Lsj.Util.Logs.WinForms
 {
+    /// <summary>
+    /// LogView
+    /// </summary>
     public partial class LogView : RichTextBox
     {
         /// <summary>
@@ -20,7 +23,7 @@ namespace Lsj.Util.Logs.WinForms
             InitializeComponent();
             this.Init();
         }
-        public bool IsNewAdd;
+        internal bool IsNewAdd;
         private void Init()
         {
             this.ReadOnly = true;
@@ -49,12 +52,12 @@ namespace Lsj.Util.Logs.WinForms
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
-           if(!IsNewAdd)
+            if (!IsNewAdd)
             {
                 return;
             }
             IsNewAdd = false;
-          //  MessageBox.Show(a);
+            //  MessageBox.Show(a);
             if (this.Lines.Length > 1000)
             {
                 var a = this.Rtf;
@@ -65,11 +68,11 @@ namespace Lsj.Util.Logs.WinForms
                 var lines = left.Split(@"\cf");
                 var last = lines.Skip(lines.Length - 500);
 
-                foreach(var line in last)
+                foreach (var line in last)
                 {
                     head.Append(@"\cf");
                     head.Append(line);
-                    
+
                 }
                 this.Rtf = head.ToString();
             }

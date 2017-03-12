@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web.Message
     /// </summary>
     public class HttpResponse : HttpMessageBase, IHttpResponse
     {
-        bool parsefirst =false;
+        bool parsefirst = false;
         /// <summary>
         /// ContentLength
         /// </summary>
@@ -190,14 +190,14 @@ namespace Lsj.Util.Net.Web.Message
             foreach (var header in Headers)
             {
                 sb.Append($"{header.Key}: {header.Value}\r\n");
-            }           
+            }
             if (Cookies != null)
             {
                 foreach (var cookie in Cookies)
                 {
                     sb.Append($"Set-Cookie: {cookie.name}={cookie.content}; Expires={cookie.expires.ToUniversalTime().ToString("r")}; domain={cookie.domain}; path=/ \r\n");
                 }
-            }           
+            }
             sb.Append("\r\n");
             return sb.ToString();
         }

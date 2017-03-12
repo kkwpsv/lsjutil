@@ -8,7 +8,7 @@ namespace Lsj.Util.Net.Web.Exceptions
     /// <summary>
     /// ListenerException
     /// </summary>
-    public class HttpClientException:Exception
+    public class HttpClientException : Exception
     {
         /// <summary>
         /// Initialise a new ListenerException
@@ -22,7 +22,7 @@ namespace Lsj.Util.Net.Web.Exceptions
         /// </summary>
         /// <param name="message"></param>
         /// <param name="e"></param>
-        public HttpClientException(string message,Exception e) : base(message,e)
+        public HttpClientException(string message, Exception e) : base(message, e)
         {
         }
     }

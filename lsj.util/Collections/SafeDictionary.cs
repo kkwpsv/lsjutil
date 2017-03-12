@@ -50,7 +50,7 @@ namespace Lsj.Util.Collections
         /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
         /// </summary>
         /// <param name="src">源<see cref="Dictionary{TKey, TValue}"/></param>
-        /// <param name="IsMultiThreadSafety">是否多线程安全/param>
+        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
         public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
         {
             if (src == null)
@@ -157,7 +157,7 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 将所有元素复制到一个<see cref="KeyValuePair<TKey, TValue>[]"/>中
+        /// 将所有元素复制到一个<see cref="KeyValuePair{TKey, TValue}"/>中
         /// </summary>
         /// <param name="array"></param>
         /// <param name="arrayIndex"></param>
