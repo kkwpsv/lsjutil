@@ -25,11 +25,18 @@ namespace Lsj.Util
             }
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cookiecollection"></param>
+        /// <param name="name">cookiename</param>
+        /// <returns></returns>
+        public static bool ContainsCookie(this HttpCookieCollection cookiecollection, string name) => cookiecollection.AllKeys.Contains(name.ToSafeString());
+        /// <summary>
         /// GetSafeValue
         /// </summary>
         /// <param name="cookie"></param>
         /// <returns></returns>
-        public static string GetSafeValue(this HttpCookie cookie) => cookie!=null?cookie.Value.ToSafeString():"";
+        public static string GetSafeValue(this HttpCookie cookie) => cookie != null ? cookie.Value.ToSafeString() : "";
         /// <summary>
         /// 
         /// </summary>
@@ -46,9 +53,11 @@ namespace Lsj.Util
         /// <returns></returns>
         public static HttpCookie CreateCookie(string name, string content, DateTime expires)
         {
-            var a = new HttpCookie(name);
-            a.Value = content;
-            a.Expires = expires;
+            var a = new HttpCookie(name)
+            {
+                Value = content,
+                Expires = expires
+            };
             return a;
         }
         /// <summary>
@@ -59,12 +68,14 @@ namespace Lsj.Util
         /// <param name="expires"></param>
         /// <param name="domain"></param>
         /// <returns></returns>
-        public static HttpCookie CreateCookie(string name, string content, DateTime expires,string domain)
+        public static HttpCookie CreateCookie(string name, string content, DateTime expires, string domain)
         {
-            var a = new HttpCookie(name);
-            a.Value = content;
-            a.Expires = expires;
-            a.Domain = domain;
+            var a = new HttpCookie(name)
+            {
+                Value = content,
+                Expires = expires,
+                Domain = domain
+            };
             return a;
         }
         /// <summary>
@@ -73,7 +84,7 @@ namespace Lsj.Util
         /// <param name="response"></param>
         /// <param name="str"></param>
         /// <param name="uri"></param>
-        public static void ReturnAndRedirect(this HttpResponse response, string str, string uri) => response.Write(@"<script language=""javascript""> alert("""+ str +@""");document.location.href="""+uri+@""";</script>");
+        public static void ReturnAndRedirect(this HttpResponse response, string str, string uri) => response.Write(@"<script language=""javascript""> alert(""" + str + @""");document.location.href=""" + uri + @""";</script>");
         /// <summary>
         /// 
         /// </summary>

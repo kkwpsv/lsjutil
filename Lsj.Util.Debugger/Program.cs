@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using Lsj.Util.Data.LDB;
 using Lsj.Util.Net;
 using Lsj.Util.Text;
-using Lsj.Util.Simulate.CPUs;
 using Lsj.Util.HtmlBuilder;
 using System.IO;
 using Lsj.Util.Logs;
