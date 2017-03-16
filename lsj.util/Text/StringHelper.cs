@@ -254,6 +254,19 @@ namespace Lsj.Util.Text
         /// Convert To Datetime
         /// </summary>
         /// <param name="src"></param>
+        /// <returns></returns>
+        public static DateTime ConvertToDateTime(this string src)
+        {
+            if (DateTime.TryParse(src, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result))
+            {
+                return result;
+            }
+            return new DateTime();
+        }
+        /// <summary>
+        /// Convert To Datetime
+        /// </summary>
+        /// <param name="src"></param>
         /// <param name="format"></param>
         /// <returns></returns>
         public static DateTime ConvertToDateTime(this string src, string format)
@@ -262,7 +275,7 @@ namespace Lsj.Util.Text
             {
                 return result;
             }
-            return DateTime.Now;
+            return new DateTime();
         }
         /// <summary>
         /// Trim String Array
