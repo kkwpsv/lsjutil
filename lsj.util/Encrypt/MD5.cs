@@ -14,13 +14,22 @@ namespace Lsj.Util.Encrypt
     public static class MD5
     {
         /// <summary>
-        /// Get MD5 String
+        /// Get MD5 String (Upper)
         /// </summary>
         public static string GetMD5String(string str)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
             return BitConverter.ToString(md5.ComputeHash(str.ConvertToBytes())).Replace("-", "");
 
+        }
+
+        /// <summary>
+        /// Get Dual MD5 String (Upper)
+        /// </summary>
+        public static string GetDualMD5String(string str)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            return BitConverter.ToString((md5.ComputeHash(md5.ComputeHash(str.ConvertToBytes())))).Replace("-", "");
         }
     }
 }
