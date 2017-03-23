@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Lsj.Util.Net.Web.Event
+namespace Lsj.Util.Net.Sockets.Event
 {
     /// <summary>
     /// SocketReceivedArgs
     /// </summary>
-    public class SocketAcceptedArgs:EventArgs
+    public class SocketAcceptedArgs : EventArgs
     {
         /// <summary>
         /// socket

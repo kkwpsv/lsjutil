@@ -87,6 +87,9 @@
   <ItemGroup>
     <Compile Include="DNSHelper..cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sockets\Event\SocketReceivedArgs.cs" />
+    <Compile Include="Sockets\Exceptions\ListenerException.cs" />
+    <Compile Include="Sockets\TcpAsyncListener.cs" />
     <Compile Include="Sockets\TcpSocket.cs" />
     <Compile Include="URI.cs" />
     <Compile Include="Web\Protocol\eConnectionType.cs" />

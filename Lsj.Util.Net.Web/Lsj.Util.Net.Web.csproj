@@ -69,6 +69,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -95,7 +96,6 @@
     <Compile Include="Error\ErrorHelper.cs" />
     <Compile Include="Event\ProcessEventArgs.cs" />
     <Compile Include="Event\RequestParsedEventArgs.cs" />
-    <Compile Include="Event\SocketReceivedArgs.cs" />
     <Compile Include="Exceptions\HttpClientException.cs" />
     <Compile Include="Exceptions\ListenerException.cs" />
     <Compile Include="HttpsContext.cs" />

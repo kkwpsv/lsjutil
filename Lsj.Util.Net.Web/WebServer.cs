@@ -126,7 +126,7 @@ namespace Lsj.Util.Net.Web
         void StartListener(IListener listener)
         {
             listener.Log = this.Log;
-            listener.Start(this);
+            listener.Start();
 
         }
         void StopListener(IListener listener)

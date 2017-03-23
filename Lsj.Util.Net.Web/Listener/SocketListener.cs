@@ -12,67 +12,14 @@ using System.Threading;
 namespace Lsj.Util.Net.Web.Listener
 {
     /// <summary>
-    /// HttpListener
+    /// SocketListener
     /// </summary>
-    public class SocketListener : IListener
+    public class SocketListener : TcpAsyncListener, IListener
     {
         bool IsSSL = false;
 
 
-        IPAddress m_ip = IPAddress.Any;
-        int m_port = 80;
-        /// <summary>
-        /// /IP
-        /// </summary>
-        public IPAddress IP
-        {
-            get
-            {
-                return m_ip;
-            }
-            set
-            {
-                if (IsStarted)
-                {
-                    throw new InvalidOperationException("Cannot set ip when listener is running");
-                }
-                m_ip = value;
-            }
-        }
-        /// <summary>
-        /// 端口
-        /// </summary>
-        public int Port
-        {
-            get
-            {
-                return m_port;
-            }
-            set
-            {
-                if (IsStarted)
-                {
-                    throw new InvalidOperationException("Cannot set port when listener is running");
-                }
-                m_port = value;
-            }
-        }
-        /// <summary>
-        /// 日志
-        /// </summary>
-        public LogProvider Log
-        {
-            get;
-            set;
-        } = LogProvider.Default;
-        /// <summary>
-        /// 是否启动
-        /// </summary>
-        public bool IsStarted
-        {
-            get;
-            private set;
-        } = false;
+
         /// <summary>
         /// WebServer
         /// </summary>
@@ -81,7 +28,6 @@ namespace Lsj.Util.Net.Web.Listener
             get;
             private set;
         }
-
 
         internal List<IContext> Contexts
         {
@@ -94,127 +40,66 @@ namespace Lsj.Util.Net.Web.Listener
 
 
 
-        /// <summary>
-        /// SocketReceived
-        /// </summary>
-        public event EventHandler<SocketAcceptedArgs> SocketAccepted;
 
-        Socket socket;
+
         private string file;
         private string password;
 
         /// <summary>
         /// Initialize a new instance
         /// </summary>
-        public SocketListener() : this(false, "", "")
+        public SocketListener(WebServer server) : this(false, "", "", server)
         {
         }
         /// <summary>
         /// Initialize a new instance
         /// </summary>
-        public SocketListener(bool IsSSL, string file, string password)
+        public SocketListener(bool IsSSL, string file, string password, WebServer server) : base()
         {
-            this.socket = new TcpSocket();
             this.IsSSL = IsSSL;
             this.file = file;
             this.password = password;
+            this.Server = server;
         }
         /// <summary>
         /// 启动
         /// </summary>
-        public void Start(WebServer server)
+        public override void Start()
         {
-            if (IsStarted)
+            base.Start();
+            //定期清理无用的对象
+            this.disposingtimer = new Timer((state) =>
             {
-                return;
-            }
-            try
-            {
-                this.Server = server;
-                socket.Bind(IP, Port);
-                socket.Listen();
-                socket.BeginAccept(OnAccepted);
-
-                //定期清理无用的对象
-                this.disposingtimer = new Timer((state) =>
+                try
                 {
-                    try
+                    Contexts.FindAll((x) => (x.Status == eContextStatus.Disposing)).ForEach((a) =>
                     {
-                        Contexts.FindAll((x) => (x.Status == eContextStatus.Disposing)).ForEach((a) =>
-                        {
-                            a.Dispose();
-                            Contexts.Remove(a);
-                        });
-                    }
-                    catch
-                    {
-                    }
-                }, null, 0, 1000 * 10);
-
-                IsStarted = true;
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                throw new ListenerException("Start Error", e);
-            }
+                        a.Dispose();
+                        Contexts.Remove(a);
+                    });
+                }
+                catch
+                {
+                }
+            }, null, 0, 1000 * 10);
         }
         /// <summary>
-        /// 停止
+        /// 
         /// </summary>
-        public void Stop()
+        /// <param name="handle"></param>
+        protected override void AfterOnAccepted(Socket handle)
         {
-            if (!IsStarted)
-                return;
-            try
+            IContext x;
+            if (IsSSL)
             {
-                socket.Close();
-                SocketAccepted = null;
+                x = HttpsContext.Create(handle, Log, this.Server, file, password);
             }
-            catch (Exception e)
+            else
             {
-                Log.Error(e);
-                throw new ListenerException("Stop Error", e);
+                x = HttpContext.Create(handle, Log, this.Server);
             }
-            finally
-            {
-                IsStarted = false;
-            }
-        }
-
-        private void OnAccepted(IAsyncResult ar)
-        {
-            try
-            {
-                var handle = socket.EndAccept(ar);
-                socket.BeginAccept(OnAccepted);
-                if (SocketAccepted != null)
-                {
-                    var args = new SocketAcceptedArgs(handle);
-                    SocketAccepted(this, args);
-                    if (args.IsReject)
-                    {
-                        Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
-                        return;
-                    }
-                }
-                IContext x;
-                if (IsSSL)
-                {
-                    x = HttpsContext.Create(handle, Log, this.Server, file, password);
-                }
-                else
-                {
-                    x = HttpContext.Create(handle, Log, this.Server);
-                }
-                this.Contexts.Add(x);
-                x.Start();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                //throw new ListenerException("Accept Error", e);
-            }
+            this.Contexts.Add(x);
+            x.Start();
         }
     }
 }

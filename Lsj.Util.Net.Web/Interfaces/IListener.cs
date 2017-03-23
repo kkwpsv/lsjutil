@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Logs;
+using Lsj.Util.Net.Sockets.Event;
 using Lsj.Util.Net.Web.Event;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <summary>
         /// Start
         /// </summary>
-        void Start(WebServer server);
+        void Start();
         /// <summary>
         /// Stop
         /// </summary>
