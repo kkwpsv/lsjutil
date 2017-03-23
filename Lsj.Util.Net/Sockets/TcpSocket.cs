@@ -16,9 +16,9 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// TcpSocket
         /// </summary>
-        public TcpSocket():base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-        {           
-        }      
+        public TcpSocket() : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+        {
+        }
     }
     /// <summary>
     /// Extend Tcp Socket Methods
@@ -39,6 +39,15 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="callback"></param>
         /// <returns></returns>
         public static IAsyncResult BeginAccept(this Socket socket, AsyncCallback callback) => socket.BeginAccept(callback, null);
+        /// <summary>
+        /// BeginConnect
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="ip"></param>
+        /// <param name="port"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
+        public static IAsyncResult BeginConnect(this Socket socket, IPAddress ip, int port, AsyncCallback callback) => socket.BeginConnect(ip, port, callback, null);
         /// <summary>
         /// BeginReceive
         /// </summary>
@@ -104,5 +113,5 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static int Receive(this Socket socket, byte[] buffer, int offset, int size) => socket.Receive(buffer, offset, size, SocketFlags.None);
 
-    } 
+    }
 }

@@ -13,7 +13,7 @@ namespace Lsj.Util.Net.Sockets
     /// <summary>
     /// 
     /// </summary>
-    public class TcpAsyncListener
+    public class TcpAsyncClient
     {
         Socket socket;
         IPAddress m_ip = IPAddress.Any;
@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// 
         /// </summary>
-        public TcpAsyncListener() : this(IPAddress.Any, 0)
+        public TcpAsyncClient() : this(IPAddress.Any, 0)
         {
 
         }
@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         /// <param name="address"></param>
         /// <param name="port"></param>
-        public TcpAsyncListener(IPAddress address, int port)
+        public TcpAsyncClient(IPAddress address, int port)
         {
             this.socket = new TcpSocket();
             this.IP = address;
@@ -97,27 +97,10 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// SocketReceived
         /// </summary>
-        public event EventHandler<SocketAcceptedArgs> SocketAccepted;
+        public event EventHandler<SocketConnectedArgs> SocketConnected;
 
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="address"></param>
-        /// <param name="port"></param>
-        public virtual void Bind(IPAddress address, int port)
-        {
-            try
-            {
-                socket.Bind(address, port);
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-                throw new ListenerException("Bind Error", e);
-            }
-        }
 
         /// <summary>
         /// 启动
@@ -130,15 +113,13 @@ namespace Lsj.Util.Net.Sockets
             }
             try
             {
-                socket.Bind(IP, Port);
-                socket.Listen();
-                socket.BeginAccept(OnAccepted);
+                socket.BeginConnect(IP, Port, OnConnected);
                 IsStarted = true;
             }
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Start Error", e);
+                throw new ClientException("Start Error", e);
             }
         }
         /// <summary>
@@ -151,7 +132,7 @@ namespace Lsj.Util.Net.Sockets
             try
             {
                 socket.Close();
-                SocketAccepted = null;
+                SocketConnected = null;
             }
             catch (Exception e)
             {
@@ -168,35 +149,33 @@ namespace Lsj.Util.Net.Sockets
         /// 
         /// </summary>
         /// <param name="ar"></param>
-        private void OnAccepted(IAsyncResult ar)
+        private void OnConnected(IAsyncResult ar)
         {
             try
             {
-                var handle = socket.EndAccept(ar);
-                socket.BeginAccept(OnAccepted);
-                if (SocketAccepted != null)
+                socket.EndConnect(ar);
+                if (SocketConnected != null)
                 {
-                    var args = new SocketAcceptedArgs(handle);
-                    SocketAccepted(this, args);
+                    var args = new SocketConnectedArgs(socket);
+                    SocketConnected(this, args);
                     if (args.IsReject)
                     {
                         Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
                         return;
                     }
                 }
-                AfterOnAccepted(handle);
+                AfterOnConnected();
             }
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Accept Error", e);
+                throw new ClientException("Connect Error", e);
             }
         }
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="handle"></param>
-        protected virtual void AfterOnAccepted(Socket handle)
+        protected virtual void AfterOnConnected()
         {
 
         }
