@@ -45,7 +45,7 @@ namespace Lsj.Util.Collections
                 }
                 else
                 {
-                    if(current.Next!=null)
+                    if (current.Next != null)
                     {
                         current = current.Next;
                         return true;
@@ -363,12 +363,12 @@ namespace Lsj.Util.Collections
         public void RemoveAt(int index)
         {
             var i = 0;
-            if (index == 0)
-            {
-                this.child = this.child.Next;
-            }
             if (this.child != null)
             {
+                if (index == 0)
+                {
+                    this.child = this.child.Next;
+                }
                 var current = this.child;
                 while (current != null)
                 {
