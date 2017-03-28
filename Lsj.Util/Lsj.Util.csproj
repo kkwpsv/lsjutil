@@ -118,6 +118,7 @@
     <Compile Include="ASCIIChar.cs" />
     <Compile Include="Collections\LinkList.cs" />
     <Compile Include="Collections\MyQueue.cs" />
+    <Compile Include="Collections\MyStack.cs" />
     <Compile Include="Collections\ObjectPool.cs" />
     <Compile Include="Collections\SafeDictionary.cs" />
     <Compile Include="Collections\MultiThreadSafeList.cs" />
