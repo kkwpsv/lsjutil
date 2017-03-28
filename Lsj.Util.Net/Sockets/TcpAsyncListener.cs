@@ -93,11 +93,6 @@ namespace Lsj.Util.Net.Sockets
             get;
             private set;
         } = false;
-
-
-
-
-
         /// <summary>
         /// SocketAccepted
         /// </summary>
