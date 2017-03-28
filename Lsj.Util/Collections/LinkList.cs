@@ -18,12 +18,11 @@ namespace Lsj.Util.Collections
         public class LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
             LinkList<T> linklist;
-            int position;
+            LinkListNode<T> current;
             int last;
             internal LinkListEnumerator(LinkList<T> linklist)
             {
                 this.linklist = linklist;
-                this.position = -1;
                 this.last = linklist.Count - 1;
             }
             /// <summary>
@@ -39,33 +38,44 @@ namespace Lsj.Util.Collections
             /// <returns></returns>
             public bool MoveNext()
             {
-                if (position < last)
+                if (current == null)
                 {
-                    position++;
+                    current = linklist;
                     return true;
                 }
-                return false;
+                else
+                {
+                    if(current.Next!=null)
+                    {
+                        current = current.Next;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
             }
             /// <summary>
             /// 
             /// </summary>
             public void Reset()
             {
-                position = -1;
+                current = null;
             }
 
             T IEnumerator<T>.Current
             {
                 get
                 {
-                    return linklist[position];
+                    return current.Value;
                 }
             }
             Object IEnumerator.Current
             {
                 get
                 {
-                    return linklist[position];
+                    return current.Value;
                 }
             }
 
