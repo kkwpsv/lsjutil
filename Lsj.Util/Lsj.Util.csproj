@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ASCIIChar.cs" />
+    <Compile Include="Collections\DoubleLinkList.cs" />
     <Compile Include="Collections\LinkList.cs" />
     <Compile Include="Collections\MyQueue.cs" />
     <Compile Include="Collections\MyStack.cs" />
