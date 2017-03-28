@@ -13,7 +13,7 @@ namespace Lsj.Util.Collections
     public class LinkList<T> : LinkListNode<T>, IList<T>
     {
         /// <summary>
-        /// 顺序表Enumerator
+        /// 链表Enumerator
         /// </summary>
         public class LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
@@ -153,6 +153,7 @@ namespace Lsj.Util.Collections
                     while (current.Next != null)
                     {
                         result++;
+                        current = current.Next;
                     }
                 }
                 return result;
@@ -284,7 +285,7 @@ namespace Lsj.Util.Collections
             var i = 0;
             if (index == 0)
             {
-                this.child = new LinkListNode<T>
+                this.child = new LinkListNode<T>(this)
                 {
                     Value = item,
                     Next = this.child
@@ -383,7 +384,6 @@ namespace Lsj.Util.Collections
     {
         internal LinkListNode()
         {
-            throw new InvalidOperationException();
         }
         /// <summary>
         /// 初始化一个<see cref="LinkListNode{T}"/>实例
