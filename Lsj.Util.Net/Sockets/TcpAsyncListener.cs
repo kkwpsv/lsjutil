@@ -205,6 +205,13 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="obj"></param>
         protected virtual void AfterOnAccepted(StateObject obj)
         {
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        protected void BeginReceive(StateObject obj)
+        {
             var handle = obj.handle;
             var buffer = GetReadBuffer();
             obj.buffer = buffer;
