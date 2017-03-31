@@ -61,5 +61,9 @@ namespace Lsj.Util.Collections
                 return value;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Count => m_list.Count;
     }
 }

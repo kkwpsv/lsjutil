@@ -9,12 +9,12 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// 顺序表
     /// </summary>
-    public class SeqList<T> : IList<T>
+    public class SeqList<T> :IList<T>
     {
         /// <summary>
         /// 顺序表Enumerator
         /// </summary>
-        public class SeqListEnumerator : IEnumerator<T>, IEnumerator
+        public class SeqListEnumerator :IEnumerator<T>, IEnumerator
         {
             SeqList<T> seqlist;
             int position;
@@ -199,7 +199,11 @@ namespace Lsj.Util.Collections
             {
                 throw new ArgumentOutOfRangeException();
             }
-            Buffer.BlockCopy(elem, i + 1, elem, i, last - i);
+            
+            for (i=i+1; i <= last; i++)
+            {
+                elem[i - 1] = elem[i];
+            }
             last--;
         }
         /// <summary>

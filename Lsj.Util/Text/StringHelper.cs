@@ -148,6 +148,18 @@ namespace Lsj.Util.Text
 
         }
         /// <summary>
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// </summary>
+        public static decimal ConvertToDecimal(this string src) => ConvertToDecimal(src, 0);
+        /// <summary>
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param> 
+        /// </summary>
+        public static decimal ConvertToDecimal(this string src, int OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
+
+        /// <summary>
         /// Convert String To Decimal
         /// </summary>
         /// <param name="src"></param>

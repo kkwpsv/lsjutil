@@ -223,7 +223,7 @@ namespace Lsj.Util.Net.Sockets
             var obj = ar.AsyncState as StateObject;
             var handle = obj.handle;
             var buffer = obj.buffer;
-            handle.EndReceive(ar);
+            var received = handle.EndReceive(ar);
             var newbuffer = GetReadBuffer();
             handle.BeginReceive(newbuffer, OnReceived, GetStateObject(handle, newbuffer));
             if (SocketReceived != null)
@@ -236,14 +236,15 @@ namespace Lsj.Util.Net.Sockets
                     return;
                 }
             }
-            AfterOnReceived(obj);
+            AfterOnReceived(obj, received);
 
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="obj"></param>
-        protected virtual void AfterOnReceived(StateObject obj)
+        /// <param name="received"></param>
+        protected virtual void AfterOnReceived(StateObject obj, int received)
         {
 
         }
