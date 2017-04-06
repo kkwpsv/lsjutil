@@ -1,4 +1,4 @@
-﻿namespace Lsj.Util.Logs.WinForms
+﻿namespace Lsj.Util.Logs.Logger
 {
     partial class LogView
     {

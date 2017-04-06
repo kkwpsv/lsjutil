@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Lsj.Util.Text;
 
-namespace Lsj.Util.Logs.WinForms
+namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
     /// LogView

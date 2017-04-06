@@ -138,12 +138,15 @@
     <Compile Include="IO\FileHelper.cs" />
     <Compile Include="LinqHelper.cs" />
     <Compile Include="Logs\eLogType.cs" />
+    <Compile Include="Logs\Interfaces\ILogger.cs" />
+    <Compile Include="Logs\Logger\LogViewLogger.cs" />
+    <Compile Include="Logs\Logger\FileLogger.cs" />
+    <Compile Include="Logs\Logger\ConsoleLogger.cs" />
     <Compile Include="Logs\LogProvider.cs" />
-    <Compile Include="Logs\LogConfig.cs" />
-    <Compile Include="Logs\WinForms\LogView.cs">
+    <Compile Include="Logs\Logger\LogView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Logs\WinForms\LogView.Designer.cs">
+    <Compile Include="Logs\Logger\LogView.Designer.cs">
       <DependentUpon>LogView.cs</DependentUpon>
     </Compile>
     <Compile Include="MathHelper.cs" />
@@ -163,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="Logs\WinForms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
