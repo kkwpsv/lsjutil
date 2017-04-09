@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Listener
     /// <summary>
     /// SocketListener
     /// </summary>
-    public class SocketListener : TcpAsyncListener, IListener
+    public class SocketListener :TcpAsyncListener, IListener
     {
         bool IsSSL = false;
 
@@ -86,10 +86,11 @@ namespace Lsj.Util.Net.Web.Listener
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="handle"></param>
-        protected override void AfterOnAccepted(Socket handle)
+        /// <param name="obj"></param>
+        protected override void AfterOnAccepted(StateObject obj)
         {
             IContext x;
+            var handle = obj.handle;
             if (IsSSL)
             {
                 x = HttpsContext.Create(handle, Log, this.Server, file, password);
