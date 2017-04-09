@@ -401,7 +401,11 @@ namespace Lsj.Util.Collections
         /// <param name="list"></param>
         public LinkListNode(LinkList<T> list)
         {
-            this.List = list ?? throw new ArgumentNullException();
+			if (list == null)
+			{
+				 throw new ArgumentNullException();
+			}
+			this.List = list;
         }
         /// <summary>
         /// 该节点所在的链表

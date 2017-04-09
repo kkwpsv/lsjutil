@@ -114,8 +114,35 @@ namespace Lsj.Util
         {
             var result = new byte[src1.Length + src2.Length];
             Copy(src1, result, src1.Length);
-            Copy(src2, result, src2.Length);
+            Copy(src2, 0, result, src1.Length, src2.Length);
             return result;
+        }
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
+        public static void Copy(char* src, char* dst, int length)
+        {
+            while (length >= 4)
+            {
+                copylong(src, dst);
+                src += 4;
+                dst += 4;
+                length -= 4;
+            }
+            if (length >= 2)
+            {
+                src += 2;
+                dst += 2;
+                copyint(src, dst);
+                length -= 2;
+            }
+            if (length == 1)
+            {
+                copyshort(src, dst);
+            }
         }
         /// <summary>
         /// Copy

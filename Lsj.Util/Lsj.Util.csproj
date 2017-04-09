@@ -154,6 +154,7 @@
     <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="Static.cs" />
     <Compile Include="StreamHelper.cs" />
+    <Compile Include="Text\VariableString.cs" />
     <Compile Include="Text\StringHelper.cs" />
     <Compile Include="UnsafeHelper.cs" />
     <Compile Include="Version.cs" />

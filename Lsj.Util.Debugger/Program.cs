@@ -63,12 +63,31 @@ namespace Lsj.Util.Debugger
 
 
         //    Console.ReadLine();
+        ////}
+        //public static void Main()
+        //{
+        //    var page = HtmlParser.ParsePage(File.ReadAllText(@"c:\test.html"));
+        //    LogProvider.Default.Config.UseConsole = true;
+        //    Console.Write(page.ToString());
+
+
+
+        //    Console.ReadLine();
+        //}
+        //public static void Main()
+        //{
+        //    var page = HtmlParser.ParsePage(File.ReadAllText(@"c:\test.html"));
+        //    LogProvider.Default.Config.UseConsole = true;
+        //    Console.Write(page.ToString());
+
+
+
+        //    Console.ReadLine();
         //}
         public static void Main()
         {
-            var page = HtmlParser.ParsePage(File.ReadAllText(@"c:\test.html"));
-            LogProvider.Default.Config.UseConsole = true;
-            Console.Write(page.ToString());
+            var test = new VariableString("test");
+            Console.Write(test);
 
 
 

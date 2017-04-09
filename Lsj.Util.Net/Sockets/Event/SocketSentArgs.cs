@@ -6,43 +6,44 @@ using System.Text;
 
 namespace Lsj.Util.Net.Sockets.Event
 {
-    /// <summary>
-    /// SocketReceivedArgs
-    /// </summary>
-    public class SocketSentArgs : EventArgs
-    {
-        /// <summary>
-        /// socket
-        /// </summary>
-        public Socket socket
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// buffer
-        /// </summary>
-        public byte[] buffer
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        /// IsReject
-        /// </summary>
-        public bool IsReject
-        {
-            get;
-            set;
-        } = false;
-        /// <summary>
-        /// SocketAcceptedArgs
-        /// </summary>
-        /// <param name="socket"></param>
-        public SocketSentArgs(Socket socket, byte[] buffer)
-        {
-            this.socket = socket;
-            this.buffer = buffer;
-        }
-    }
+	/// <summary>
+	/// SocketReceivedArgs
+	/// </summary>
+	public class SocketSentArgs : EventArgs
+	{
+		/// <summary>
+		/// socket
+		/// </summary>
+		public Socket socket
+		{
+			get;
+			private set;
+		}
+		/// <summary>
+		/// buffer
+		/// </summary>
+		public byte[] buffer
+		{
+			get;
+			private set;
+		}
+		/// <summary>
+		/// IsReject
+		/// </summary>
+		public bool IsReject
+		{
+			get;
+			set;
+		} = false;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.Event.SocketSentArgs"/> class.
+		/// </summary>
+		/// <param name="socket">Socket.</param>
+		/// <param name="buffer">Buffer.</param>
+		public SocketSentArgs(Socket socket, byte[] buffer)
+		{
+			this.socket = socket;
+			this.buffer = buffer;
+		}
+	}
 }
