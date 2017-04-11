@@ -58,12 +58,23 @@ namespace Lsj.Util.Text
 		int stringlength;
 
 		/// <summary>
-		/// 
+		/// Initializes a new instance of the <see cref="T:Lsj.Util.Text.VariableString"/> class.
 		/// </summary>
 		public VariableString()
 		{
 			this.stringlength = 0;
 			this.bufferlength = 10;
+			Alloc();
+		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:Lsj.Util.Text.VariableString"/> class.
+		/// </summary>
+		/// <param name="bufferlength">Bufferlength.</param>
+		public VariableString(int bufferlength)
+		{
+			this.stringlength = 0;
+			this.bufferlength = bufferlength;
+			Alloc();
 		}
 		/// <summary>
 		/// 
@@ -96,17 +107,25 @@ namespace Lsj.Util.Text
 		{
 			this.handle = (char*)Marshal.AllocHGlobal(bufferlength).ToPointer();
 		}
+		private void ReAlloc(int newbufferlength)
+		{
+			var oldhandle = this.handle;
+			this.bufferlength = newbufferlength;
+			this.handle = (char*)Marshal.AllocHGlobal(newbufferlength).ToPointer();
+			UnsafeHelper.Copy(oldhandle, handle, stringlength > newbufferlength ? newbufferlength : stringlength);
+			Marshal.FreeHGlobal((IntPtr)oldhandle);
+		}
 		/// <summary>
-		/// 
+		/// Cleans up unmanaged resources.
 		/// </summary>
 		protected override void CleanUpUnmanagedResources()
 		{
 			Marshal.FreeHGlobal((IntPtr)handle);
 		}
 		/// <summary>
-		/// 
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Text.VariableString"/>.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Text.VariableString"/>.</returns>
 		public override string ToString()
 		{
 			var chars = new char[this.stringlength];
@@ -117,22 +136,22 @@ namespace Lsj.Util.Text
 			return new string(chars);
 		}
 		/// <summary>
-		/// 
+		/// Clone this instance.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The clone.</returns>
 		public object Clone() => new VariableString(this);
 
 		/// <summary>
-		/// 
+		/// Gets the length.
 		/// </summary>
+		/// <value>The length.</value>
 		public int Length => stringlength;
 
 
 		/// <summary>
-		/// 
+		/// Gets the char with the specified index.
 		/// </summary>
-		/// <param name="i"></param>
-		/// <returns></returns>
+		/// <param name="i">The index.</param>
 		public char this[int i]
 		{
 			get
@@ -168,10 +187,10 @@ namespace Lsj.Util.Text
 			}
 		}
 		/// <summary>
-		/// 
+		/// Compares to.
 		/// </summary>
-		/// <param name="other"></param>
 		/// <returns></returns>
+		/// <param name="other">Other.</param>
 		public int CompareTo(VariableString other)
 		{
 			if (other == null)
@@ -199,16 +218,37 @@ namespace Lsj.Util.Text
 			}
 		}
 		/// <summary>
-		/// 
+		/// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:Lsj.Util.Text.VariableString"/>.
 		/// </summary>
-		/// <returns></returns>
+		/// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:Lsj.Util.Text.VariableString"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current
+		/// <see cref="T:Lsj.Util.Text.VariableString"/>; otherwise, <c>false</c>.</returns>
+		public override bool Equals(object obj)
+		{
+			return ((IComparable)(this)).CompareTo(obj) == 0;
+		}
+		/// <summary>
+		/// Determines whether the specified <see cref="Lsj.Util.Text.VariableString"/> is equal to the current <see cref="T:Lsj.Util.Text.VariableString"/>.
+		/// </summary>
+		/// <param name="str">The <see cref="Lsj.Util.Text.VariableString"/> to compare with the current <see cref="T:Lsj.Util.Text.VariableString"/>.</param>
+		/// <returns><c>true</c> if the specified <see cref="Lsj.Util.Text.VariableString"/> is equal to the current
+		/// <see cref="T:Lsj.Util.Text.VariableString"/>; otherwise, <c>false</c>.</returns>
+		public bool Equals(VariableString str)
+		{
+			return CompareTo(str) == 0;
+		}
+
+		/// <summary>
+		/// Gets the enumerator.
+		/// </summary>
+		/// <returns>The enumerator.</returns>
 		public IEnumerator<char> GetEnumerator() => new VariableStringEnumerator(this);
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 		/// <summary>
-		/// 
+		/// Contains the specified char.
 		/// </summary>
-		/// <param name="x"></param>
 		/// <returns></returns>
+		/// <param name="x">The char.</param>
 		public bool Contains(char x) => IndexOf(x) >= 0;
 		private int IndexOf(char x)
 		{
@@ -223,14 +263,102 @@ namespace Lsj.Util.Text
 		}
 
 		/// <summary>
-		/// 
+		/// Contains the specified VariableString.
 		/// </summary>
-		/// <param name="x"></param>
 		/// <returns></returns>
+		/// <param name="x">The VariableString.</param>
 		public bool Contains(VariableString x) => IndexOf(x) >= 0;
 		private int IndexOf(VariableString x)
 		{
-			throw new NotImplementedException();
+			int xlength = x.Length;
+			bool flag = true;
+			for (int i = 0; i < stringlength - xlength; i++)
+			{
+				flag = true;
+				for (int j = 0; j < xlength; j++)
+				{
+					if (x[i + j] != this[i + j])
+					{
+						flag = false;
+						break;
+					}
+				}
+				if (flag)
+				{
+					return i;
+				}
+			}
+			return -1;
+		}
+		/// <summary>
+		/// Substring from startIndex.
+		/// </summary>
+		/// <returns></returns>
+		/// <param name="startIndex">Start index.</param>
+		public VariableString Substring(int startIndex) => Substring(startIndex, stringlength - startIndex);
+		/// <summary>
+		/// Substring the specified startIndex and length.
+		/// </summary>
+		/// <returns>The substring.</returns>
+		/// <param name="startIndex">Start index.</param>
+		/// <param name="length">Length.</param>
+		public VariableString Substring(int startIndex, int length)
+		{
+			if (startIndex + length > stringlength)
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+			var result = new VariableString(length);
+			result.stringlength = length;
+			UnsafeHelper.Copy(handle, startIndex, result.handle, 0, length);
+			return result;
+		}
+		/// <summary>
+		/// Adds a <see cref="Lsj.Util.Text.VariableString"/> to a <see cref="Lsj.Util.Text.VariableString"/>
+		/// </summary>
+		/// <param name="a">The <see cref="Lsj.Util.Text.VariableString"/> to be added.</param>
+		/// <param name="b">The <see cref="Lsj.Util.Text.VariableString"/> to add.</param>
+		public static VariableString operator +(VariableString a, VariableString b)
+		{
+			var total = a.Length + b.Length;
+			if (a.bufferlength < total)
+			{
+				a.ReAlloc(total);
+			}
+			UnsafeHelper.Copy(b.handle, 0, a.handle, a.stringlength, b.Length);
+			a.stringlength = total;
+			return a;
+		}
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="Lsj.Util.Text.VariableString"/> is equal to another
+		/// specified <see cref="Lsj.Util.Text.VariableString"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="Lsj.Util.Text.VariableString"/> to compare.</param>
+		/// <param name="b">The second <see cref="Lsj.Util.Text.VariableString"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
+		public static bool operator ==(VariableString a, VariableString b)
+		{
+			return a.Equals(b);
+		}
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="Lsj.Util.Text.VariableString"/> is not equal to another
+		/// specified <see cref="Lsj.Util.Text.VariableString"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="Lsj.Util.Text.VariableString"/> to compare.</param>
+		/// <param name="b">The second <see cref="Lsj.Util.Text.VariableString"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
+		public static bool operator !=(VariableString a, VariableString b)
+		{
+			return !(a == b);
+		}
+		/// <summary>
+		/// Serves as a hash function for a <see cref="T:Lsj.Util.Text.VariableString"/> object.
+		/// </summary>
+		/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
+		public override int GetHashCode()
+		{
+			//TODO: hashcode
+			return base.GetHashCode();
 		}
 	}
 }
