@@ -13,6 +13,10 @@ using Lsj.Util.Text;
 using Lsj.Util.HtmlBuilder;
 using System.IO;
 using Lsj.Util.Logs;
+using System.Runtime.InteropServices;
+using Lsj.Util.Office;
+using Microsoft.Office.Interop.Word;
+using System.Drawing;
 
 namespace Lsj.Util.Debugger
 {
@@ -86,12 +90,31 @@ namespace Lsj.Util.Debugger
         //}
         public static void Main()
         {
-            var test = new VariableString("test");
-            Console.Write(test);
+            //	IntPtr a = Marshal.AllocHGlobal(1000000000);
+            //	Console.ReadLine();
+            using (var doc = new WordDocumnet())
+            {
+                doc.SetDocPaper(WdPaperSize.wdPaperA4);
+                doc.SetDocMargin(doc.MillimetersToPoints(38.1), doc.MillimetersToPoints(31.9), doc.MillimetersToPoints(27), doc.MillimetersToPoints(19.4));
+                doc.AppendLine("", size: 28, alignment: eParagraphAlignment.Center);
+                doc.AppendLine("", size: 28, alignment: eParagraphAlignment.Center);
+                doc.AppendLine("中小学生学业诊断分析系统", size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
+                doc.AppendLine("学业支持子系统个体测评报告", size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
+                for (int i = 0; i < 9; i++)
+                {
+                    doc.AppendLine("", 16, null, eParagraphAlignment.Center);
+                }
 
+                doc.AppendLine("学校： 	远东仁民", size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.AppendLine("", 16, null, eParagraphAlignment.Center);
+                doc.AppendLine("姓名： 	  李端沐", size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.AppendPage();
+                doc.SaveAs(@"R:\temp.docx");
+                Console.ReadLine();
+                doc.Close();
 
+            }
 
-            Console.ReadLine();
         }
     }
 
