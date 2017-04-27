@@ -60,7 +60,22 @@ namespace Lsj.Util.Office
         {
             doc.Close(true);
         }
-        public void AppendLine(string str, int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? color = null, bool? bold = null, bool? italic = null, eUnderline? underline = null) => Append(str + "\n", size, fontname, alignment, color, bold, italic, underline);
+
+        public void AppendBlankLine(int?num)
+        {
+            int i = 0;
+            if (num == null)
+            {
+                num = 1;
+            }
+            while(i<num)
+            {
+                AppendLine();
+                i++;
+            }
+        }
+
+        public void AppendLine(string str=null, int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? color = null, bool? bold = null, bool? italic = null, eUnderline? underline = null) => Append(str + "\n", size, fontname, alignment, color, bold, italic, underline);
 
         public void Append(string str, int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? color = null, bool? bold = null, bool? italic = null, eUnderline? underline = null)
         {
