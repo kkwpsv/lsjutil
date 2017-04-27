@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.Office
+namespace Lsj.Util.Office.Word
 {
     public enum eParagraphAlignment
     {

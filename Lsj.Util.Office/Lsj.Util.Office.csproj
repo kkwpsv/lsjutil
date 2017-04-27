@@ -58,10 +58,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="eUnderline.cs" />
-    <Compile Include="eParagraphAlignment.cs" />
+    <Compile Include="Word\eBuiltinStyle.cs" />
+    <Compile Include="Word\eUnderline.cs" />
+    <Compile Include="Word\eParagraphAlignment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WordDocumnet.cs" />
+    <Compile Include="Word\Section.cs" />
+    <Compile Include="Word\Sections.cs" />
+    <Compile Include="Word\TableOfContents.cs" />
+    <Compile Include="Word\TablesOfContents.cs" />
+    <Compile Include="Word\WordDocument.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">

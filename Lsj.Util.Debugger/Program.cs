@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using Lsj.Util.Office;
 using Microsoft.Office.Interop.Word;
 using System.Drawing;
+using Lsj.Util.Office.Word;
 
 namespace Lsj.Util.Debugger
 {
@@ -92,23 +93,52 @@ namespace Lsj.Util.Debugger
         {
             //	IntPtr a = Marshal.AllocHGlobal(1000000000);
             //	Console.ReadLine();
-            using (var doc = new WordDocumnet())
+            using (var doc = new WordDocument())
             {
                 doc.SetDocPaper(WdPaperSize.wdPaperA4);
                 doc.SetDocMargin(doc.MillimetersToPoints(38.1), doc.MillimetersToPoints(31.9), doc.MillimetersToPoints(27), doc.MillimetersToPoints(19.4));
-                doc.AppendLine("", size: 28, alignment: eParagraphAlignment.Center);
-                doc.AppendLine("", size: 28, alignment: eParagraphAlignment.Center);
-                doc.AppendLine("中小学生学业诊断分析系统", size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
-                doc.AppendLine("学业支持子系统个体测评报告", size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
-                for (int i = 0; i < 9; i++)
-                {
-                    doc.AppendLine("", 16, null, eParagraphAlignment.Center);
-                }
+                doc.SetAppendStyle(size: 28, alignment: eParagraphAlignment.Center);
+                doc.AppendLine();
+                doc.AppendLine();
 
-                doc.AppendLine("学校： 	远东仁民", size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
-                doc.AppendLine("", 16, null, eParagraphAlignment.Center);
-                doc.AppendLine("姓名： 	  李端沐", size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
+                doc.AppendLine("中小学生学业诊断分析系统");
+                doc.AppendLine("学业支持子系统个体测评报告");
+
+                doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Center);
+                doc.AppendBlankLine(9);
+
+                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.AppendLine("学校： 	远东仁民");
+
+                doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Center);
+                doc.AppendLine();
+
+                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.AppendLine("姓名： 	  李端沐");
                 doc.AppendPage();
+
+                doc.SetAppendStyle(size: 24, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.FromArgb(46, 116, 181));
+                doc.AppendLine("目    录");
+
+                doc.SetAppendStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, color: Color.Black);
+                doc.AppendTableOfContents();
+
+                doc.AppendSection();
+                var section = doc.Sections[1];
+                section.AddPageNumberAtFooter();
+
+                doc.SetAppendStyle(style: eBuiltinStyle.Heading1);
+                doc.AppendLine("a");
+                doc.SetAppendStyle(style: eBuiltinStyle.Heading2);
+                doc.AppendLine("a");
+
+
+
+                doc.TablesOfContents[0].Update();
+                doc.TablesOfContents[0].Select();
+                doc.SetSelectionStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, color: Color.Black);
+
                 doc.SaveAs(@"R:\temp.docx");
                 Console.ReadLine();
                 doc.Close();
