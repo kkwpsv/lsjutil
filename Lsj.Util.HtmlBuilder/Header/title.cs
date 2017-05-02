@@ -9,7 +9,7 @@ namespace Lsj.Util.HtmlBuilder.Header
     /// <summary>
     /// title
     /// </summary>
-    public class title:HtmlNode
+    public class title : HtmlNode
     {
     }
 }

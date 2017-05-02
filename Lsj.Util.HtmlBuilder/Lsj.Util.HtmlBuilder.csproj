@@ -127,8 +127,8 @@
     <None Include="LSJ.snk" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
-      <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
+    <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj">
+      <Project>{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}</Project>
       <Name>Lsj.Util</Name>
     </ProjectReference>
   </ItemGroup>
