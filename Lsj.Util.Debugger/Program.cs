@@ -139,7 +139,18 @@ namespace Lsj.Util.Debugger
                 doc.TablesOfContents[0].Select();
                 doc.SetSelectionStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, color: Color.Black);
 
-                doc.SaveAs(@"R:\temp.docx");
+
+                doc.SetAppendStyle(style: eBuiltinStyle.BodyText);
+                doc.AddTable(3, 3);
+                doc.Tables[0].AddTableBorder();
+
+                doc.AddTable(3, 4);
+                Console.WriteLine( doc.Tables.Count());
+                doc.Tables[1].MergeCell(1, 1, 1, 2);
+                doc.Tables[1].AddTableBorder();
+                
+
+                doc.SaveAs(@"D:\temp.docx");
                 Console.ReadLine();
                 doc.Close();
 

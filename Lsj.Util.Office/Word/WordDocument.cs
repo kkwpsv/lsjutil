@@ -13,6 +13,8 @@ namespace Lsj.Util.Office.Word
     {
         Application app;
         Document doc;
+       
+
         public WordDocument()
         {
             app = new Application();
@@ -20,6 +22,7 @@ namespace Lsj.Util.Office.Word
             app.Visible = true;
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
+            this.Tables = new Tables(doc);
         }
         protected override void CleanUpUnmanagedResources()
         {
@@ -36,7 +39,10 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
-
+        public Tables Tables
+        {
+            get;
+        }
 
         public void SetDocPaper(WdPaperSize size)
         {
@@ -81,7 +87,14 @@ namespace Lsj.Util.Office.Word
             this.Sections[0].AddPageNumberAtFooter();
         }
 
-
+        public void AddTable(int rows,int columns)
+        {
+            app.Options.ReplaceSelection = false;
+            GoToEnd();
+            var selection = app.Selection;
+            selection.InsertBreak(WdBreakType.wdLineBreak);
+            selection.Tables.Add(selection.Range, rows, columns);
+        }
 
         public void AppendBlankLine(int count)
         {
