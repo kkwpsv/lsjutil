@@ -133,17 +133,20 @@ namespace Lsj.Util.Office.Word
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
 
-        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? color = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
         {
             GoToEnd();
-            SetSelectionStyle(size, fontname, alignment, color, bold, italic, underline, style);
+            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style);
         }
 
 
-        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? color = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null,Color? backgroundcolor=null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
         {
             var selection = app.Selection;
-
+            if (style != null)
+            {
+                selection.set_Style(style);
+            }
             if (size != null)
             {
                 selection.Font.Size = size.Value;
@@ -156,9 +159,17 @@ namespace Lsj.Util.Office.Word
             {
                 selection.ParagraphFormat.Alignment = (WdParagraphAlignment)alignment.Value;
             }
-            if (color != null)
+            if (fontcolor != null)
             {
-                selection.Font.Color = (WdColor)(color.Value.R + color.Value.G * 0x100 + color.Value.B * 0x10000);
+                selection.Font.Color = (WdColor)(fontcolor.Value.R + fontcolor.Value.G * 0x100 + fontcolor.Value.B * 0x10000);
+            }
+            if (backgroundcolor != null)
+            {
+                selection.ParagraphFormat.Shading.BackgroundPatternColor = (WdColor)(backgroundcolor.Value.R + backgroundcolor.Value.G * 0x100 + backgroundcolor.Value.B * 0x10000);
+            }
+            if(foregroundcolor!=null)
+            {
+                selection.ParagraphFormat.Shading.ForegroundPatternColor = (WdColor)(foregroundcolor.Value.R + foregroundcolor.Value.G * 0x100 + foregroundcolor.Value.B * 0x10000); 
             }
             if (bold != null)
             {
@@ -186,10 +197,7 @@ namespace Lsj.Util.Office.Word
             {
                 selection.Font.Underline = (WdUnderline)underline;
             }
-            if (style != null)
-            {
-                selection.set_Style(style);
-            }
+            
         }
 
         public void UpdateAllTableOfContents()

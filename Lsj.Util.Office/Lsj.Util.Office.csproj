@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Word\eBuiltinStyle.cs" />
+    <Compile Include="Word\eLineStyle.cs" />
     <Compile Include="Word\eUnderline.cs" />
     <Compile Include="Word\eParagraphAlignment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

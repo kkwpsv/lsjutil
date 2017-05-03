@@ -101,27 +101,27 @@ namespace Lsj.Util.Debugger
                 doc.AppendLine();
                 doc.AppendLine();
 
-                doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, color: Color.FromArgb(68, 84, 106));
+                doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(68, 84, 106));
                 doc.AppendLine("中小学生学业诊断分析系统");
                 doc.AppendLine("学业支持子系统个体测评报告");
 
                 doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Center);
                 doc.AppendBlankLine(9);
 
-                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, fontcolor: Color.Black, underline: eUnderline.Single);
                 doc.AppendLine("学校： 	远东仁民");
 
                 doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Center);
                 doc.AppendLine();
 
-                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.Black, underline: eUnderline.Single);
+                doc.SetAppendStyle(size: 16, fontname: "宋体", alignment: eParagraphAlignment.Center, fontcolor: Color.Black, underline: eUnderline.Single);
                 doc.AppendLine("姓名： 	  李端沐");
                 doc.AppendPage();
 
-                doc.SetAppendStyle(size: 24, fontname: "宋体", alignment: eParagraphAlignment.Center, color: Color.FromArgb(46, 116, 181));
+                doc.SetAppendStyle(size: 24, fontname: "宋体", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(46, 116, 181));
                 doc.AppendLine("目    录");
 
-                doc.SetAppendStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, color: Color.Black);
+                doc.SetAppendStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, fontcolor: Color.Black);
                 doc.AppendTableOfContents();
 
                 doc.AppendSection();
@@ -134,20 +134,25 @@ namespace Lsj.Util.Debugger
                 doc.AppendLine("a");
 
 
-
                 doc.TablesOfContents[0].Update();
                 doc.TablesOfContents[0].Select();
-                doc.SetSelectionStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, color: Color.Black);
+                doc.SetSelectionStyle(size: 14, fontname: "宋体", alignment: eParagraphAlignment.Left, fontcolor: Color.Black);
 
+                doc.SetAppendStyle(size: 24, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.Black, backgroundcolor: Color.AliceBlue, bold: true,style:eBuiltinStyle.Heading1);
+                doc.AppendLine("心理测评知识普及");
 
                 doc.SetAppendStyle(style: eBuiltinStyle.BodyText);
                 doc.AddTable(3, 3);
-                doc.Tables[0].AddTableBorder();
+                doc.Tables[0].AddTableBorder(Color.Red,Color.Red);
+                doc.Tables[0].SetTitle("table1");
+                doc.Tables[0].SetRowStyle(1, Color.AliceBlue);
 
                 doc.AddTable(3, 4);
                 Console.WriteLine( doc.Tables.Count());
                 doc.Tables[1].MergeCell(1, 1, 1, 2);
                 doc.Tables[1].AddTableBorder();
+                doc.Tables[1].CellText(1, 1, "test");
+                doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
                 
 
                 doc.SaveAs(@"D:\temp.docx");
