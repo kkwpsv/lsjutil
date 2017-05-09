@@ -91,8 +91,6 @@
     <Compile Include="Sockets\Event\SocketReceivedArgs.cs" />
     <Compile Include="Sockets\Event\SocketConnectedArgs.cs" />
     <Compile Include="Sockets\Event\SocketAcceptedArgs.cs" />
-    <Compile Include="Sockets\Exceptions\ClientException.cs" />
-    <Compile Include="Sockets\Exceptions\ListenerException.cs" />
     <Compile Include="Sockets\StateObject.cs" />
     <Compile Include="Sockets\TcpAsyncClient.cs" />
     <Compile Include="Sockets\TcpAsyncListener.cs" />
@@ -107,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj">
-      <Project>{B0EBCB56-0AE1-4E59-B5E6-7CD17D4764C2}</Project>
+      <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
       <Name>Lsj.Util</Name>
     </ProjectReference>
   </ItemGroup>

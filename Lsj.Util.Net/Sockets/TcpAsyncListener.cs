@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Logs;
 using Lsj.Util.Net.Sockets.Event;
-using Lsj.Util.Net.Sockets.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,7 +121,6 @@ namespace Lsj.Util.Net.Sockets
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Bind Error", e);
             }
         }
 
@@ -145,7 +143,6 @@ namespace Lsj.Util.Net.Sockets
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Start Error", e);
             }
         }
         /// <summary>
@@ -163,7 +160,6 @@ namespace Lsj.Util.Net.Sockets
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Stop Error", e);
             }
             finally
             {
@@ -196,7 +192,6 @@ namespace Lsj.Util.Net.Sockets
             catch (Exception e)
             {
                 Log.Error(e);
-                throw new ListenerException("Accept Error", e);
             }
         }
         /// <summary>
