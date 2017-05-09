@@ -6,7 +6,7 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
-    /// span
+    /// Nav.
     /// </summary>
     public class nav : HtmlNode
     {

@@ -11,17 +11,17 @@ namespace Lsj.Util.Net.Web.Exceptions
     public class ListenerException : Exception
     {
         /// <summary>
-        /// Initialise a new ListenerException
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Exceptions.ListenerException"/> class.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">Message.</param>
         public ListenerException(string message) : base(message)
         {
         }
         /// <summary>
-        /// Initialise a new ListenerException
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Exceptions.ListenerException"/> class.
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="e"></param>
+        /// <param name="message">Message.</param>
+        /// <param name="e">E.</param>
         public ListenerException(string message, Exception e) : base(message, e)
         {
         }

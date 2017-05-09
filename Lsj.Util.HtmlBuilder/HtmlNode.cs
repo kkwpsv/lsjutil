@@ -24,7 +24,7 @@ namespace Lsj.Util.HtmlBuilder
             }
         }
         /// <summary>
-        /// GetContent
+        /// Get Content
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>

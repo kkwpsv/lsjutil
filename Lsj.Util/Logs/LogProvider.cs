@@ -11,7 +11,7 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs
 {
     /// <summary>
-    /// Log
+    /// Log provider.
     /// </summary>
     public class LogProvider
     {
@@ -51,8 +51,9 @@ namespace Lsj.Util.Logs
         }
 
         /// <summary>
-        /// 
+        /// Gets or sets the log level.
         /// </summary>
+        /// <value>The log level.</value>
         public eLogType LogLevel
         {
             get;

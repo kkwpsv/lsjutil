@@ -39,29 +39,29 @@ namespace Lsj.Util
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Version"/> struct.
         /// </summary>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-        public Version(int major, int minor) : this(major,minor,0)
+        /// <param name="major">Major.</param>
+        /// <param name="minor">Minor.</param>
+        public Version(int major, int minor) : this(major, minor, 0)
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Version"/> struct.
         /// </summary>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-        /// <param name="build"></param>
-        public Version(int major, int minor,int build) : this(major, minor, build,0)
+        /// <param name="major">Major.</param>
+        /// <param name="minor">Minor.</param>
+        /// <param name="build">Build.</param>
+        public Version(int major, int minor, int build) : this(major, minor, build, 0)
         {
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Version"/> struct.
         /// </summary>
-        /// <param name="major"></param>
-        /// <param name="minor"></param>
-        /// <param name="build"></param>
-        /// <param name="revision"></param>
+        /// <param name="major">Major.</param>
+        /// <param name="minor">Minor.</param>
+        /// <param name="build">Build.</param>
+        /// <param name="revision">Revision.</param>
         public Version(int major, int minor, int build, int revision)
         {
             m_major = major;
@@ -70,22 +70,22 @@ namespace Lsj.Util
             m_revision = revision;
         }
         /// <summary>
-        /// 
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Version"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Version"/>.</returns>
         public override string ToString() => ToString(4);
         /// <summary>
-        /// 
+        /// Tos the string.
         /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
+        /// <returns>The string.</returns>
+        /// <param name="length">Length.</param>
         public string ToString(int length)
         {
             if (length >= 4)
             {
                 return $"{m_major}.{m_minor}.{m_build}.{m_revision}";
             }
-            else if(length == 3)
+            else if (length == 3)
             {
                 return $"{m_major}.{m_minor}.{m_build}";
             }
@@ -100,10 +100,11 @@ namespace Lsj.Util
         }
 
         /// <summary>
-        /// 
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:Lsj.Util.Version"/>.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:Lsj.Util.Version"/>.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to the current <see cref="T:Lsj.Util.Version"/>;
+        /// otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             if (obj is Version)
@@ -115,23 +116,24 @@ namespace Lsj.Util
                 return false;
         }
         /// <summary>
-        /// 
+        /// Determines whether a specified instance of <see cref="Lsj.Util.Version"/> is equal to another specified <see cref="Lsj.Util.Version"/>.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator == (Version a,Version b)=>(a.Major == b.Major) && (a.Minor == b.Minor) && (a.Build == b.Build) && (a.Revision == b.Revision);
+        /// <param name="a">The first <see cref="Lsj.Util.Version"/> to compare.</param>
+        /// <param name="b">The second <see cref="Lsj.Util.Version"/> to compare.</param>
+        /// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
+        public static bool operator ==(Version a, Version b) => (a.Major == b.Major) && (a.Minor == b.Minor) && (a.Build == b.Build) && (a.Revision == b.Revision);
         /// <summary>
-        /// 
+        /// Determines whether a specified instance of <see cref="Lsj.Util.Version"/> is not equal to another specified <see cref="Lsj.Util.Version"/>.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator !=(Version a, Version b) =>!(a==b);
+        /// <param name="a">The first <see cref="Lsj.Util.Version"/> to compare.</param>
+        /// <param name="b">The second <see cref="Lsj.Util.Version"/> to compare.</param>
+        /// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
+        public static bool operator !=(Version a, Version b) => !(a == b);
         /// <summary>
-        /// 
+        /// Serves as a hash function for a <see cref="T:Lsj.Util.Version"/> object.
         /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()=> 0 | (this.Major & 15) << 28 | (this.Minor & 255) << 20 | (this.Build & 255) << 12 | (this.Revision & 4095);
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
+        /// hash table.</returns>
+        public override int GetHashCode() => 0 | (this.Major & 15) << 28 | (this.Minor & 255) << 20 | (this.Build & 255) << 12 | (this.Revision & 4095);
     }
 }

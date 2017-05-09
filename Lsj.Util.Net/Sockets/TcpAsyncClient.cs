@@ -10,7 +10,7 @@ using System.Text;
 namespace Lsj.Util.Net.Sockets
 {
     /// <summary>
-    /// 
+    /// Tcp async client.
     /// </summary>
     public class TcpAsyncClient
     {
@@ -20,17 +20,17 @@ namespace Lsj.Util.Net.Sockets
 
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncClient"/> class.
         /// </summary>
         public TcpAsyncClient() : this(IPAddress.Any, 0)
         {
 
         }
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncClient"/> class.
         /// </summary>
-        /// <param name="address"></param>
-        /// <param name="port"></param>
+        /// <param name="address">Address.</param>
+        /// <param name="port">Port.</param>
         public TcpAsyncClient(IPAddress address, int port)
         {
             this.socket = new TcpSocket();
@@ -39,15 +39,16 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// 日志
+        /// Gets or sets the log.
         /// </summary>
+        /// <value>The log.</value>
         public LogProvider Log
         {
             get;
             set;
         } = LogProvider.Default;
         /// <summary>
-        /// /IP
+        /// IP
         /// </summary>
         public IPAddress IP
         {
@@ -65,8 +66,9 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// 端口
+        /// Gets or sets the port.
         /// </summary>
+        /// <value>The port.</value>
         public int Port
         {
             get
@@ -83,8 +85,9 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// 是否启动
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncClient"/> is started.
         /// </summary>
+        /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
         public bool IsStarted
         {
             get;
@@ -110,7 +113,7 @@ namespace Lsj.Util.Net.Sockets
 
 
         /// <summary>
-        /// 启动
+        /// Start this instance.
         /// </summary>
         public virtual void Start()
         {
@@ -129,7 +132,7 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// 停止
+        /// Stop this instance.
         /// </summary>
         public void Stop()
         {
@@ -151,9 +154,9 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// 
+        /// OnConnected.
         /// </summary>
-        /// <param name="ar"></param>
+        /// <param name="ar">Ar.</param>
         private void OnConnected(IAsyncResult ar)
         {
             try
@@ -177,16 +180,17 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// 
+        /// AfterOnConnected.
         /// </summary>
+        /// <param name="obj">Object.</param>
         protected virtual void AfterOnConnected(StateObject obj)
         {
 
         }
         /// <summary>
-        /// 
+        /// BeginReceive.
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">Object.</param>
         protected void BeginReceive(StateObject obj)
         {
             var handle = obj.handle;
@@ -217,7 +221,7 @@ namespace Lsj.Util.Net.Sockets
 
         }
         /// <summary>
-        /// 
+        /// AfterOnReceived
         /// </summary>
         /// <param name="obj"></param>
         protected virtual void AfterOnReceived(StateObject obj)
@@ -225,7 +229,7 @@ namespace Lsj.Util.Net.Sockets
 
         }
         /// <summary>
-        /// 
+        /// BeginSend
         /// </summary>
         /// <param name="obj"></param>
         protected void BeginSend(StateObject obj)
@@ -249,7 +253,7 @@ namespace Lsj.Util.Net.Sockets
             AfterSent(handle, buffer);
         }
         /// <summary>
-        /// 
+        /// AfterSent
         /// </summary>
         /// <param name="handle"></param>
         /// <param name="buffer"></param>
@@ -258,7 +262,7 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// 
+        /// GetReadBuffer
         /// </summary>
         /// <returns></returns>
         protected virtual byte[] GetReadBuffer()
@@ -266,7 +270,7 @@ namespace Lsj.Util.Net.Sockets
             return new byte[1024];
         }
         /// <summary>
-        /// 
+        /// GetStateObject
         /// </summary>
         /// <returns></returns>
         protected virtual StateObject GetStateObject(Socket handle, byte[] buffer)

@@ -15,28 +15,27 @@ namespace Lsj.Util.Net.Web.Cookie
     {
         SafeDictionary<string, HttpCookie> cookies;
         /// <summary>
-        /// Initial a new instance of HttpCookies
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Cookie.HttpCookies"/> class.
         /// </summary>
         public HttpCookies()
         {
             this.cookies = new SafeDictionary<string, HttpCookie>();
         }
         /// <summary>
-        /// 
+        /// Gets the <see cref="T:Lsj.Util.Net.Web.Cookie.HttpCookies"/> with the specified key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">Key.</param>
         public HttpCookie this[string key]
         {
             get
             {
-                return cookies.ContainsKey(key) ? cookies[key] : new HttpCookie { name = key};
+                return cookies.ContainsKey(key) ? cookies[key] : new HttpCookie { name = key };
             }
         }
         /// <summary>
-        /// 
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<HttpCookie> GetEnumerator()
         {
             return cookies.Values.GetEnumerator();

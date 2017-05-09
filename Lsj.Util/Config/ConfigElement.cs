@@ -7,42 +7,46 @@ using System.Text;
 namespace Lsj.Util.Config
 {
     /// <summary>
-    /// 配置元素
+    /// Config element.
     /// </summary>
     public class ConfigElement
     {
         string value;
 
         /// <summary>
-        /// 初始化一个<see cref="ConfigElement"/> 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Config.ConfigElement"/> class.
         /// </summary>
         public ConfigElement()
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="ConfigElement"/> 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Config.ConfigElement"/> class.
         /// </summary>
-        /// <param name="value">值</param>
+        /// <param name="value">Value.</param>
         public ConfigElement(string value)
         {
             this.value = value;
         }
 
         /// <summary>
-        /// 值
+        /// Gets the value.
         /// </summary>
+        /// <value>The value.</value>
         public string Value => value.ToSafeString();
         /// <summary>
-        /// 返回<see cref="string"/>数组
+        /// Gets the string array value.
         /// </summary>
+        /// <value>The string array value.</value>
         public string[] StringArrayValue => Value.Split(',');
         /// <summary>
-        /// 返回<see cref="bool"/>值
+        /// Gets the bool value.
         /// </summary>
+        /// <value><c>true</c> if bool value; otherwise, <c>false</c>.</value>
         public bool BoolValue => Value == "True";
         /// <summary>
-        /// 返回<see cref="int"/>值
+        /// Gets the int value.
         /// </summary>
+        /// <value>The int value.</value>
         public int IntValue => Value.ConvertToInt(0);
 
 

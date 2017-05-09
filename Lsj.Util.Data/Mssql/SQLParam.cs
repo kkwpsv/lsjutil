@@ -7,20 +7,20 @@ using System.Text;
 namespace Lsj.Util.Data.Mssql
 {
     /// <summary>
-    /// SQL参数
+    /// SQL Param.
     /// </summary>
     public struct SQLParam
     {
         /// <summary>
-        /// 名称
+        /// The name.
         /// </summary>
         public string name;
         /// <summary>
-        /// 类型
+        /// The type.
         /// </summary>
         public SqlDbType type;
         /// <summary>
-        /// 值
+        /// The value.
         /// </summary>
         public object value;
     }

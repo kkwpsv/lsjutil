@@ -3,27 +3,28 @@
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 安全<see cref="string"/> 字典
+    /// Safe string to string directionary.
     /// </summary>
-    public class SafeStringToStringDirectionary : SafeDictionary<string,string>
+    public class SafeStringToStringDirectionary : SafeDictionary<string, string>
     {
         /// <summary>
-        /// 初始化一个<see cref="SafeStringToStringDirectionary"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeStringToStringDirectionary"/> class.
         /// </summary>
         public SafeStringToStringDirectionary() : base()
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="SafeStringToStringDirectionary"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeStringToStringDirectionary"/> class.
         /// </summary>
-        /// <param name="src">源<see cref="Dictionary{TKey, TValue}"/> </param>
-        public SafeStringToStringDirectionary(Dictionary<string,string> src):base(src)
+        /// <param name="src">Source.</param>
+        public SafeStringToStringDirectionary(Dictionary<string, string> src) : base(src)
         {
         }
-        
+
         /// <summary>
-         /// 空值
-         /// </summary>
+        /// Gets the null value.
+        /// </summary>
+        /// <value>The null value.</value>
         public sealed override string NullValue => string.Empty;
     }
 }

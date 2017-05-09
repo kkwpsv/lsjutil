@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Web.Cookie
         /// </summary>
         public DateTime expires { get; set; } = DateTime.Now;
         /// <summary>
-        /// domain
+        /// Domain
         /// </summary>
         public string domain { get; set; } = "";
     }

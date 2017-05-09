@@ -10,7 +10,7 @@ namespace Lsj.Util.Net.Web.Message
 {
     class FileResponse : HttpResponse
     {
-        FileInfo file;
+        readonly FileInfo file;
 
         public FileResponse(string path, IHttpRequest request) : base()
         {
@@ -22,11 +22,11 @@ namespace Lsj.Util.Net.Web.Message
                 this.Write304();
             }
             else
-            {              
+            {
                 Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
                 if (request.Headers[eHttpHeader.AcceptEncoding].Contains("gzip"))
                 {
-                    using (var compress = new GZipStream(content, CompressionMode.Compress,true))
+                    using (var compress = new GZipStream(content, CompressionMode.Compress, true))
                     {
                         compress.Write(file.OpenRead().ReadAll());
                     }
@@ -34,12 +34,12 @@ namespace Lsj.Util.Net.Web.Message
                 }
                 else
                 {
-                     file.OpenRead().CopyTo(content);
+                    file.OpenRead().CopyTo(content);
                 }
             }
         }
 
-        
+
 
     }
 

@@ -6,33 +6,31 @@ using System.Threading;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 多线程安全List
+    /// Multi thread safe list.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class MultiThreadSafeList<T>:IList<T>
+    public class MultiThreadSafeList<T> : IList<T>
     {
         List<T> m_list;
         object m_lock = new object();
         /// <summary>
-        /// 初始化一个<see cref="MultiThreadSafeList{T}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> class.
         /// </summary>
         public MultiThreadSafeList()
         {
             m_list = new List<T>();
         }
         /// <summary>
-        /// 初始化一个<see cref="MultiThreadSafeList{T}"/>实例
-        /// <param name="src">源List</param>
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> class.
         /// </summary>
+        /// <param name="src">Source.</param>
         public MultiThreadSafeList(List<T> src)
         {
             m_list = src;
         }
         /// <summary>
-        /// 
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> at the specified index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Index.</param>
         public T this[int index]
         {
             get
@@ -60,8 +58,9 @@ namespace Lsj.Util.Collections
         }
 
         /// <summary>
-        /// 包含的元素数
+        /// Gets the count.
         /// </summary>
+        /// <value>The count.</value>
         public int Count
         {
             get
@@ -70,14 +69,16 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 是否只读
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> is read only.
         /// </summary>
+        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// 添加
+        /// Add the specified item.
         /// </summary>
-        /// <param name="item"></param>
+        /// <returns>The add.</returns>
+        /// <param name="item">Item.</param>
         public void Add(T item)
         {
             try
@@ -96,7 +97,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 清空
+        /// Clear this instance.
         /// </summary>
         public void Clear()
         {
@@ -116,45 +117,46 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 是否包含特定值
+        /// Contains the specified item.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The contains.</returns>
+        /// <param name="item">Item.</param>
         public bool Contains(T item)
         {
             return m_list.Contains(item);
         }
         /// <summary>
-        ///  复制到一维数组中，从目标数组的指定索引位置开始放置。
+        /// Copies to.
         /// </summary>
-        /// <param name="array">目标数组</param>
-        /// <param name="arrayIndex">开始索引</param>
+        /// <param name="array">Array.</param>
+        /// <param name="arrayIndex">Array index.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             m_list.CopyTo(array, arrayIndex);
         }
         /// <summary>
-        /// 
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator()
         {
             return m_list.GetEnumerator();
         }
         /// <summary>
-        /// 搜索指定的对象的索引
+        /// Indexs the of.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The of.</returns>
+        /// <param name="item">Item.</param>
         public int IndexOf(T item)
         {
             return m_list.IndexOf(item);
         }
         /// <summary>
-        /// 插入
+        /// Insert the specified index and item.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="item"></param>
+        /// <returns>The insert.</returns>
+        /// <param name="index">Index.</param>
+        /// <param name="item">Item.</param>
         public void Insert(int index, T item)
         {
             try
@@ -170,20 +172,21 @@ namespace Lsj.Util.Collections
             finally
             {
                 Unlock();
-            }           
+            }
         }
 
         /// <summary>
-        /// 删除
+        /// Remove the specified item.
         /// </summary>
-        /// <param name="item"></param>
+        /// <returns>The remove.</returns>
+        /// <param name="item">Item.</param>
         public bool Remove(T item)
         {
             var result = false;
             try
             {
                 Lock();
-                result = m_list.Remove(item);             
+                result = m_list.Remove(item);
             }
             catch (Exception e)
             {
@@ -192,14 +195,14 @@ namespace Lsj.Util.Collections
             }
             finally
             {
-                Unlock();             
+                Unlock();
             }
             return result;
         }
         /// <summary>
-        /// 删除指定索引的元素
+        /// Removes at index.
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">Index.</param>
         public void RemoveAt(int index)
         {
             try
@@ -215,7 +218,7 @@ namespace Lsj.Util.Collections
             finally
             {
                 Unlock();
-            }           
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -236,5 +239,5 @@ namespace Lsj.Util.Collections
         }
 
     }
-    
+
 }

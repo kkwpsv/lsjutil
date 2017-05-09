@@ -12,17 +12,17 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Error
 {
     /// <summary>
-    /// 
+    /// Error helper.
     /// </summary>
     public static class ErrorHelper
     {
         /// <summary>
-        /// 
+        /// Build.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="extracode"></param>
-        /// <param name="server"></param>
-        /// <returns></returns>
+        /// <returns>The build.</returns>
+        /// <param name="code">Code.</param>
+        /// <param name="extracode">Extracode.</param>
+        /// <param name="server">Server.</param>
         public static IHttpResponse Build(int code, int extracode, string server)
         {
             var response = new HttpResponse();
@@ -33,13 +33,13 @@ namespace Lsj.Util.Net.Web.Error
             return response;
         }
         /// <summary>
-        /// 
+        /// Build.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="extracode"></param>
-        /// <param name="server"></param>
-        /// <param name="errorstring"></param>
-        /// <returns></returns>
+        /// <returns>The build.</returns>
+        /// <param name="code">Code.</param>
+        /// <param name="extracode">Extracode.</param>
+        /// <param name="server">Server.</param>
+        /// <param name="errorstring">Errorstring.</param>
         public static IHttpResponse Build(int code, int extracode, string server, string errorstring)
         {
             var response = new HttpResponse();
@@ -51,19 +51,19 @@ namespace Lsj.Util.Net.Web.Error
         }
 
         /// <summary>
-        /// 
+        /// Builds the page.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="server"></param>
-        /// <returns></returns>
+        /// <returns>The page.</returns>
+        /// <param name="code">Code.</param>
+        /// <param name="server">Server.</param>
         public static string BuildPage(int code, string server) => BuildPage(code, 0, server);
         /// <summary>
-        /// 
+        /// Builds the page.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="extracode"></param>
-        /// <param name="server"></param>
-        /// <returns></returns>
+        /// <returns>The page.</returns>
+        /// <param name="code">Code.</param>
+        /// <param name="extracode">Extracode.</param>
+        /// <param name="server">Server.</param>
         public static string BuildPage(int code, int extracode, string server)
         {
             var ErrorString = SatusCode.GetStringByCode(code, extracode);
@@ -116,13 +116,13 @@ namespace Lsj.Util.Net.Web.Error
 
 
         /// <summary>
-        /// 
+        /// Builds the page.
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="extracode"></param>
-        /// <param name="server"></param>
-        /// <param name="ErrorString"></param>
-        /// <returns></returns>
+        /// <returns>The page.</returns>
+        /// <param name="code">Code.</param>
+        /// <param name="extracode">Extracode.</param>
+        /// <param name="server">Server.</param>
+        /// <param name="ErrorString">Error string.</param>
         public static string BuildPage(int code, int extracode, string server, string ErrorString)
         {
             var ErrorPage = new HtmlPage();

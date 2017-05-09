@@ -2,8 +2,6 @@ using System;
 
 namespace Lsj.Util
 {
-
-
     /// <summary>
     /// Static
     /// </summary>
@@ -21,6 +19,6 @@ namespace Lsj.Util
         /// <summary>
         /// Version
         /// </summary>
-        public static readonly string Version = "2.0";
+        public static readonly string Version = "3.0";
     }
 }

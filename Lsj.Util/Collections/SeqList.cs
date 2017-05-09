@@ -7,14 +7,14 @@ using System.Text;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 顺序表
+    /// Seq list.
     /// </summary>
-    public class SeqList<T> :IList<T>
+    public class SeqList<T> : IList<T>
     {
         /// <summary>
-        /// 顺序表Enumerator
+        /// Seq list enumerator.
         /// </summary>
-        public class SeqListEnumerator :IEnumerator<T>, IEnumerator
+        public class SeqListEnumerator : IEnumerator<T>, IEnumerator
         {
             SeqList<T> seqlist;
             int position;
@@ -24,16 +24,22 @@ namespace Lsj.Util.Collections
                 this.position = -1;
             }
             /// <summary>
-            /// 
+            /// Releases all resource used by the <see cref="T:Lsj.Util.Collections.SeqList`1.SeqListEnumerator"/> object.
             /// </summary>
+            /// <remarks>Call <see cref="Dispose"/> when you are finished using the
+            /// <see cref="T:Lsj.Util.Collections.SeqList`1.SeqListEnumerator"/>. The <see cref="Dispose"/> method
+            /// leaves the <see cref="T:Lsj.Util.Collections.SeqList`1.SeqListEnumerator"/> in an unusable state. After
+            /// calling <see cref="Dispose"/>, you must release all references to the
+            /// <see cref="T:Lsj.Util.Collections.SeqList`1.SeqListEnumerator"/> so the garbage collector can reclaim
+            /// the memory that the <see cref="T:Lsj.Util.Collections.SeqList`1.SeqListEnumerator"/> was occupying.</remarks>
             public void Dispose()
             {
 
             }
             /// <summary>
-            /// 
+            /// Moves the next.
             /// </summary>
-            /// <returns></returns>
+            /// <returns><c>true</c>, if next was moved, <c>false</c> otherwise.</returns>
             public bool MoveNext()
             {
                 if (position < seqlist.last)
@@ -44,7 +50,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
             /// <summary>
-            /// 
+            /// Reset this instance.
             /// </summary>
             public void Reset()
             {
@@ -76,7 +82,7 @@ namespace Lsj.Util.Collections
         int last;
         int maxsize = 10;
         /// <summary>
-        /// 初始化一个<see cref="SeqList{T}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SeqList`1"/> class.
         /// </summary>
         public SeqList()
         {
@@ -84,16 +90,17 @@ namespace Lsj.Util.Collections
             last = -1;
         }
         /// <summary>
-        /// 添加元素到顺序表中
+        /// Add the specified value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <returns>The add.</returns>
+        /// <param name="value">Value.</param>
         public void Add(T value)
         {
             ChekIfNeedEnlargeAndDoEnlarge();
             elem[++last] = value;
         }
         /// <summary>
-        /// 清空顺序表
+        /// Clear this instance.
         /// </summary>
         public void Clear()
         {
@@ -101,10 +108,10 @@ namespace Lsj.Util.Collections
             last = -1;
         }
         /// <summary>
-        /// 返回顺序表是否包含该元素
+        /// Contains the specified value.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>The contains.</returns>
+        /// <param name="value">Value.</param>
         public bool Contains(T value)
         {
             for (int i = 0; i <= last; i++)
@@ -117,26 +124,26 @@ namespace Lsj.Util.Collections
             return false;
         }
         /// <summary>
-        /// 将顺序表中的元素复制到数组中
+        /// Copies to.
         /// </summary>
-        /// <param name="value">目标数组</param>
-        /// <param name="offset">偏移量</param>
-        /// <returns></returns>
+        /// <param name="value">Value.</param>
+        /// <param name="offset">Offset.</param>
         public void CopyTo(T[] value, int offset) => Buffer.BlockCopy(elem, 0, value, offset, last + 1);
         /// <summary>
-        /// 顺序表中的元素数
+        /// Gets the count.
         /// </summary>
-        /// <returns></returns>
+        /// <value>The count.</value>
         public int Count => last + 1;
         /// <summary>
-        /// 是否只读
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.SeqList`1"/> is read only.
         /// </summary>
+        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
         /// <summary>
-        /// 从顺序表中删除指定元素的第一个匹配项
+        /// Remove the specified value.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>The remove.</returns>
+        /// <param name="value">Value.</param>
         public bool Remove(T value)
         {
             for (int i = 0; i <= last; i++)
@@ -153,10 +160,10 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 返回指定元素的索引
+        /// Indexs the of.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns>The of.</returns>
+        /// <param name="value">Value.</param>
         public int IndexOf(T value)
         {
             for (int i = 0; i <= last; i++)
@@ -169,10 +176,11 @@ namespace Lsj.Util.Collections
             return -1;
         }
         /// <summary>
-        /// 在指定位置插入元素
+        /// Insert the specified index and value.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
+        /// <returns>The insert.</returns>
+        /// <param name="index">Index.</param>
+        /// <param name="value">Value.</param>
         public void Insert(int index, T value)
         {
             if (index == last + 1)
@@ -190,27 +198,26 @@ namespace Lsj.Util.Collections
             last++;
         }
         /// <summary>
-        /// 删除指定位置的元素
+        /// Removes at i.
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">The index.</param>
         public void RemoveAt(int i)
         {
             if (i < 0 || i > last)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            
-            for (i=i+1; i <= last; i++)
+
+            for (i = i + 1; i <= last; i++)
             {
                 elem[i - 1] = elem[i];
             }
             last--;
         }
         /// <summary>
-        /// 获取或指定索引处的元素
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.SeqList`1"/> at the specified index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Index.</param>
         public T this[int index]
         {
             get
@@ -235,15 +242,15 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 返回枚举器
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator() => new SeqListEnumerator(this);
 
         IEnumerator IEnumerable.GetEnumerator() => new SeqListEnumerator(this);
 
         /// <summary>
-        /// 收缩内存占用至实际内容大小
+        /// Trims the excess.
         /// </summary>
         public void TrimExcess()
         {

@@ -7,50 +7,49 @@ using System.Threading;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 安全字典
-    /// 访问不存在值不会抛出异常
+    /// Safe dictionary.
     /// </summary>
-    /// <typeparam name="TKey">Key Type</typeparam>
-    /// <typeparam name="TValue">Value Type</typeparam>
-    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> ,IDictionary<TKey,TValue>
+    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
         object m_lock = new object();
         Dictionary<TKey, TValue> m_Dictionary;
         bool IsMultiThreadSafety = false;
 
         /// <summary>
-        /// 键
+        /// Gets the keys.
         /// </summary>
+        /// <value>The keys.</value>
         public ICollection<TKey> Keys => m_Dictionary.Keys;
         /// <summary>
-        /// 值
+        /// Gets the values.
         /// </summary>
+        /// <value>The values.</value>
         public ICollection<TValue> Values => m_Dictionary.Values;
         /// <summary>
-        /// 初始化一个非多线程安全的<see cref="SafeDictionary{TKey, TValue}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> class.
         /// </summary>
         public SafeDictionary() : this(false)
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> class.
         /// </summary>
-        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
+        /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public SafeDictionary(bool IsMultiThreadSafety) : this(new Dictionary<TKey, TValue>(), IsMultiThreadSafety)
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> class.
         /// </summary>
-        /// <param name="src">Source Dicitionay</param>
+        /// <param name="src">Source.</param>
         public SafeDictionary(Dictionary<TKey, TValue> src) : this(src, false)
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="SafeDictionary{TKey, TValue}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> class.
         /// </summary>
-        /// <param name="src">源<see cref="Dictionary{TKey, TValue}"/></param>
-        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
+        /// <param name="src">Source.</param>
+        /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
         {
             if (src == null)
@@ -59,9 +58,9 @@ namespace Lsj.Util.Collections
             this.IsMultiThreadSafety = IsMultiThreadSafety;
         }
         /// <summary>
-        /// 空值
+        /// Gets the null value.
         /// </summary>
-        /// <returns></returns>
+        /// <value>The null value.</value>
         public virtual TValue NullValue
         {
             get
@@ -70,19 +69,20 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 包含的键值对数目
+        /// Gets the count.
         /// </summary>
+        /// <value>The count.</value>
         public int Count => this.m_Dictionary.Count;
         /// <summary>
-        /// 是否只读
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> is read only.
         /// </summary>
+        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// 获取或设置与指定的键相关联的值
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.SafeDictionary`2"/> with the specified key.
         /// </summary>
-        /// <param name="key">键</param>
-        /// <returns></returns>
+        /// <param name="key">Key.</param>
         public TValue this[TKey key]
         {
             get
@@ -95,10 +95,11 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 将指定的键值对添加到字典中
+        /// Add the specified key and value.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <returns>The add.</returns>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
         public void Add(TKey key, TValue value)
         {
             if (Contain(key))
@@ -108,14 +109,16 @@ namespace Lsj.Util.Collections
             Set(key, value);
         }
         /// <summary>
-        /// 将指定的键和值添加到字典中
+        /// Add the specified item.
         /// </summary>
-        /// <param name="item"></param>
+        /// <returns>The add.</returns>
+        /// <param name="item">Item.</param>
         public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
         /// <summary>
-        /// 从字典中删除指定键值
+        /// Remove the specified key.
         /// </summary>
-        /// <param name="key"></param>
+        /// <returns>The remove.</returns>
+        /// <param name="key">Key.</param>
         public bool Remove(TKey key)
         {
             if (Contain(key))
@@ -130,10 +133,10 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 移除所指定的键值对
+        /// Remove the specified item.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The remove.</returns>
+        /// <param name="item">Item.</param>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             if (Contain(item.Key) && this[item.Key].Equals(item.Value))
@@ -148,7 +151,7 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 移除所有的键和值
+        /// Clear this instance.
         /// </summary>
         public void Clear()
         {
@@ -157,10 +160,10 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 将所有元素复制到一个<see cref="KeyValuePair{TKey, TValue}"/>中
+        /// Copies to.
         /// </summary>
-        /// <param name="array"></param>
-        /// <param name="arrayIndex"></param>
+        /// <param name="array">Array.</param>
+        /// <param name="arrayIndex">Array index.</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
 
@@ -171,26 +174,26 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 是否包含指定的键
+        /// Containses the key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c>, if key was containsed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
         public bool ContainsKey(TKey key)
         {
             return Contain(key);
         }
         /// <summary>
-        /// 是否包含指定的键值对
+        /// Contains the specified item.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The contains.</returns>
+        /// <param name="item">Item.</param>
         public bool Contains(KeyValuePair<TKey, TValue> item) => this.Contain(item.Key) && this[item.Key].Equals(item.Value);
         /// <summary>
-        /// 获取与指定的键相关联的值
+        /// Tries the get value.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c>, if get value was tryed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
         public bool TryGetValue(TKey key, out TValue value)
         {
             var flag = Contain(key);
@@ -200,9 +203,9 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 返回枚举器
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return m_Dictionary.GetEnumerator();
@@ -212,15 +215,15 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// 转换成<see cref="Dictionary{TKey, TValue}"/>
+        /// Tos the dictionary.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The dictionary.</returns>
         public Dictionary<TKey, TValue> ToDictionary()
         {
             var x = new Dictionary<TKey, TValue>();
             foreach (var a in this)
             {
-                x.Add(a.Key,a.Value);
+                x.Add(a.Key, a.Value);
             }
             return x;
         }

@@ -8,9 +8,9 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
-    /// 
+    /// Console logger.
     /// </summary>
-    public class ConsoleLogger :ILogger
+    public class ConsoleLogger : ILogger
     {
         ConsoleColor[] ConsoleColors { get; } = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Red };
         /// <summary>
@@ -70,12 +70,13 @@ namespace Lsj.Util.Logs.Logger
             }
         }
 
-        private object lockobj = new object();
+        private readonly object lockobj = new object();
         /// <summary>
-        /// 
+        /// Add the specified str and type.
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
+        /// <returns>The add.</returns>
+        /// <param name="str">String.</param>
+        /// <param name="type">Type.</param>
         public void Add(string str, eLogType type)
         {
             Monitor.Enter(lockobj);
@@ -85,10 +86,6 @@ namespace Lsj.Util.Logs.Logger
                 Console.ForegroundColor = ConsoleColors[(int)type];
                 Console.WriteLine($@"[{DateTime.Now.ToString()}] {str}");
                 Console.ForegroundColor = old;
-            }
-            catch
-            {
-
             }
             finally
             {

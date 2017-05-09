@@ -11,10 +11,11 @@ namespace Lsj.Util.Logs.Interfaces
     public interface ILogger
     {
         /// <summary>
-        /// 
+        /// Add the specified str and type.
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
+        /// <returns>The add.</returns>
+        /// <param name="str">String.</param>
+        /// <param name="type">Type.</param>
         void Add(string str, eLogType type);
     }
 }

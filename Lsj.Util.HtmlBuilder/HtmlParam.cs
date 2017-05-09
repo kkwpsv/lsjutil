@@ -11,11 +11,11 @@ namespace Lsj.Util.HtmlBuilder
     public struct HtmlParam
     {
         /// <summary>
-        /// 名称
+        /// The name.
         /// </summary>
         public string name;
         /// <summary>
-        /// 值
+        /// The value.
         /// </summary>
         public string value;
     }

@@ -136,7 +136,6 @@
     <Compile Include="HexHelper.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="IO\FileHelper.cs" />
-    <Compile Include="LinqHelper.cs" />
     <Compile Include="Logs\eLogType.cs" />
     <Compile Include="Logs\Interfaces\ILogger.cs" />
     <Compile Include="Logs\Logger\LogViewLogger.cs" />
@@ -164,9 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

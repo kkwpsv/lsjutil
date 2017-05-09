@@ -7,13 +7,13 @@ using System.Text;
 
 namespace Lsj.Util.Data.LDB
 {
-    
+
 
 
     /// <summary>
     /// LDB File
     /// </summary>
-    public class LDBFile :DisposableClass, IDisposable
+    public class LDBFile : DisposableClass, IDisposable
     {
         /// <summary>
         /// NEW FILE
@@ -52,7 +52,7 @@ namespace Lsj.Util.Data.LDB
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="CanWrite"></param>
-        public LDBFile(string filename,bool CanWrite)
+        public LDBFile(string filename, bool CanWrite)
         {
             this.FileName = filename;
             if (!File.Exists(filename))
@@ -69,7 +69,7 @@ namespace Lsj.Util.Data.LDB
             }
             this.IsOpenFile = true;
             this.file.Seek(0, SeekOrigin.Begin);
-            if (file.ReadByte() == ASCIIChar.L && file.ReadByte() == ASCIIChar.D&&file.ReadByte()==ASCIIChar.B)
+            if (file.ReadByte() == ASCIIChar.L && file.ReadByte() == ASCIIChar.D && file.ReadByte() == ASCIIChar.B)
             {
                 this.InitialFromFile();
             }
@@ -109,13 +109,13 @@ namespace Lsj.Util.Data.LDB
             }
             else
             {
-                if(file.Length==100)
+                if (file.Length == 100)
                 {
                     this.Tables = new LDBTables(this);//Null Table
                 }
                 else
                 {
-                    if(file.Length<300)
+                    if (file.Length < 300)
                     {
                         throw new InvalidDataException("Error LDB File");
                     }
@@ -123,7 +123,7 @@ namespace Lsj.Util.Data.LDB
                     {
                         buffer = new byte[200];
                         file.Read(buffer, 0, 100);
-                        this.Tables = new LDBTables(this,buffer);
+                        this.Tables = new LDBTables(this, buffer);
                     }
                 }
             }
@@ -150,10 +150,10 @@ namespace Lsj.Util.Data.LDB
             }
             if (!IsOpenFile || !file.CanWrite)
             {
-                throw new IOException ("file cannot be written");
+                throw new IOException("file cannot be written");
             }
             this.Config.Save(file);
-            this.Tables.Save(file);     
+            this.Tables.Save(file);
         }
 
 
@@ -208,7 +208,7 @@ namespace Lsj.Util.Data.LDB
 
 
         /// <summary>
-        /// 
+        /// Cleans up managed resources.
         /// </summary>
         protected override void CleanUpManagedResources()
         {

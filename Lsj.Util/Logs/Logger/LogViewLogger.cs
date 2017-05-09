@@ -11,22 +11,22 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
-    /// 
+    /// Log view logger.
     /// </summary>
-    public class LogViewLogger :ILogger
+    public class LogViewLogger : ILogger
     {
         /// <summary>
         /// LogView
         /// </summary>
         public LogView LogView { get; set; } = new LogView();
         /// <summary>
-        /// ConsoleColors
+        /// LogViewColors
         /// </summary>
         public Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
         /// <summary>
-        /// ConsoleDebugColor
+        /// LogViewDebugColor
         /// </summary>
-        public Color LogViewColor
+        public Color LogViewDebugColor
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Lsj.Util.Logs.Logger
             }
         }
         /// <summary>
-        /// ConsoleInfoColor
+        /// LogViewInfoColor
         /// </summary>
         public Color LogViewInfoColor
         {
@@ -52,7 +52,7 @@ namespace Lsj.Util.Logs.Logger
             }
         }
         /// <summary>
-        /// ConsoleWarnColor
+        /// LogViewWarnColor
         /// </summary>
         public Color LogViewWarnColor
         {
@@ -66,7 +66,7 @@ namespace Lsj.Util.Logs.Logger
             }
         }
         /// <summary>
-        /// ConsoleErrorColor
+        /// LogViewErrorColor
         /// </summary>
         public Color LogViewErrorColor
         {
@@ -81,12 +81,13 @@ namespace Lsj.Util.Logs.Logger
         }
 
 
-        private object lockobj = new object();
+        private readonly object lockobj = new object();
         /// <summary>
-        /// 
+        /// Add the specified str and type.
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
+        /// <returns>The add.</returns>
+        /// <param name="str">String.</param>
+        /// <param name="type">Type.</param>
         public void Add(string str, eLogType type)
         {
             Monitor.Enter(lockobj);

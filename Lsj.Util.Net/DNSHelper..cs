@@ -13,19 +13,19 @@ namespace Lsj.Util.Net
     public static class DNSHelper
     {
         /// <summary>
-        /// 
+        /// Gets the host IPV4 address.
         /// </summary>
-        /// <param name="domain"></param>
-        /// <returns></returns>
+        /// <returns>The host IPV 4 address.</returns>
+        /// <param name="domain">Domain.</param>
         public static IPAddress GetHostIPV4Address(string domain)
         {
             return GetHostIPV4Addresses(domain).First();
         }
         /// <summary>
-        /// 
+        /// Gets the host IPV4 addresses.
         /// </summary>
-        /// <param name="domain"></param>
-        /// <returns></returns>
+        /// <returns>The host IPV 4 addresses.</returns>
+        /// <param name="domain">Domain.</param>
         public static IPAddress[] GetHostIPV4Addresses(string domain)
         {
             return Dns.GetHostAddresses(domain).Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();

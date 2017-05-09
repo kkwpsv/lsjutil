@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Listener
     /// <summary>
     /// SocketListener
     /// </summary>
-    public class SocketListener :TcpAsyncListener, IListener
+    public class SocketListener : TcpAsyncListener, IListener
     {
         bool IsSSL = false;
 
@@ -46,14 +46,19 @@ namespace Lsj.Util.Net.Web.Listener
         private string password;
 
         /// <summary>
-        /// Initialize a new instance
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Listener.SocketListener"/> class.
         /// </summary>
+        /// <param name="server">Server.</param>
         public SocketListener(WebServer server) : this(false, "", "", server)
         {
         }
         /// <summary>
-        /// Initialize a new instance
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Listener.SocketListener"/> class.
         /// </summary>
+        /// <param name="IsSSL">If set to <c>true</c> is ssl.</param>
+        /// <param name="file">File.</param>
+        /// <param name="password">Password.</param>
+        /// <param name="server">Server.</param>
         public SocketListener(bool IsSSL, string file, string password, WebServer server) : base()
         {
             this.IsSSL = IsSSL;
@@ -62,7 +67,7 @@ namespace Lsj.Util.Net.Web.Listener
             this.Server = server;
         }
         /// <summary>
-        /// 启动
+        /// Start this instance.
         /// </summary>
         public override void Start()
         {
@@ -84,7 +89,7 @@ namespace Lsj.Util.Net.Web.Listener
             }, null, 0, 1000 * 10);
         }
         /// <summary>
-        /// 
+        /// AfterOnAccepted
         /// </summary>
         /// <param name="obj"></param>
         protected override void AfterOnAccepted(StateObject obj)

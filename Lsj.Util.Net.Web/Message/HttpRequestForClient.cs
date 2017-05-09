@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
-    class HttpRequestForClient : HttpRequest,IHttpRequest
+    class HttpRequestForClient : HttpRequest, IHttpRequest
     {
         public HttpRequestForClient()
         {
@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Web.Message
             this.Headers[eHttpHeader.Connection] = "close";
             this.Headers[eHttpHeader.ContentLength] = this.Content.Length.ToString();
             this.Headers[eHttpHeader.AcceptEncoding] = "identity";
-            this.Headers[eHttpHeader.Host] = this.Uri.Host+(Uri.Port==80?"":":"+Uri.Port.ToString());
+            this.Headers[eHttpHeader.Host] = this.Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
             this.Headers[eHttpHeader.UserAgent] = "LsjWebClient/1.0 (compatible)";
             return base.GetHttpHeader();
         }

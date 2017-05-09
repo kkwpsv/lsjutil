@@ -16,8 +16,9 @@ namespace Lsj.Util.Net.Web
     public class WebServer
     {
         /// <summary>
-        ///名称
+        /// Gets or sets the name.
         /// </summary>
+        /// <value>The name.</value>
         public string Name
         {
             get;
@@ -27,24 +28,27 @@ namespace Lsj.Util.Net.Web
 
         List<IListener> listeners = new List<IListener>();
         /// <summary>
-        /// 日志
+        /// Gets or sets the log.
         /// </summary>
+        /// <value>The log.</value>
         public LogProvider Log
         {
             get;
             set;
         } = LogProvider.Default;
         /// <summary>
-        /// 是否启动
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Net.Web.WebServer"/> is started.
         /// </summary>
+        /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
         public bool IsStarted
         {
             get;
             private set;
         }
         /// <summary>
-        /// 网站
+        /// Gets the websites.
         /// </summary>
+        /// <value>The websites.</value>
         public SafeDictionary<string, Website> Websites
         {
             get;
@@ -56,7 +60,7 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// 启动服务器
+        /// Start this instance.
         /// </summary>
         public void Start()
         {
@@ -77,7 +81,7 @@ namespace Lsj.Util.Net.Web
             IsStarted = true;
         }
         /// <summary>
-        /// 停止服务器
+        /// Stop this instance.
         /// </summary>
         public void Stop()
         {
@@ -92,9 +96,9 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// 添加Listener
+        /// Adds the listener.
         /// </summary>
-        /// <param name="listener"></param>
+        /// <param name="listener">Listener.</param>
         public void AddListener(IListener listener)
         {
             if (IsStarted)
@@ -104,9 +108,9 @@ namespace Lsj.Util.Net.Web
             listeners.Add(listener);
         }
         /// <summary>
-        /// 移除Listener
+        /// Removes the listener.
         /// </summary>
-        /// <param name="listener"></param>
+        /// <param name="listener">Listener.</param>
         public void RemoveListener(IListener listener)
         {
             if (!listeners.Contains(listener))

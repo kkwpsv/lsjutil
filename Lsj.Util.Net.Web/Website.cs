@@ -15,23 +15,24 @@ using Lsj.Util.Net.Web.Error;
 namespace Lsj.Util.Net.Web
 {
     /// <summary>
-    /// 
+    /// Website.
     /// </summary>
-    public class Website 
+    public class Website
     {
         private WebServer server;
         private string hostname;
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Website"/> class.
         /// </summary>
-        /// <param name="hostname"></param>
+        /// <param name="hostname">Hostname.</param>
         public Website(string hostname)
         {
             this.hostname = hostname;
         }
         /// <summary>
-        /// 
+        /// Gets or sets the path.
         /// </summary>
+        /// <value>The path.</value>
         public string Path
         {
             get;

@@ -4,34 +4,31 @@ using System.Collections.Generic;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 双向字典
+    /// Two way dictionary.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
     public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         SafeDictionary<TKey, TValue> a;
         SafeDictionary<TValue, TKey> b;
         /// <summary>
-        /// 初始化一个<see cref="TwoWayDictionary{TKey, TValue}"/> 实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> class.
         /// </summary>
-        public TwoWayDictionary():this(false)
+        public TwoWayDictionary() : this(false)
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="TwoWayDictionary{TKey, TValue}"/> 实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> class.
         /// </summary>
-        /// <param name="IsMultiThreadSafety">是否多线程安全</param>
+        /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)
         {
             this.a = new SafeDictionary<TKey, TValue>(IsMultiThreadSafety);
             this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
         }
         /// <summary>
-        /// 获取或者设置值
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> with the specified key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">Key.</param>
         public TValue this[TKey key]
         {
             get
@@ -44,10 +41,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 获取或者设置键
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> with the specified x.
         /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
+        /// <param name="x">The x coordinate.</param>
         public TKey this[TValue x]
         {
             get
@@ -58,7 +54,7 @@ namespace Lsj.Util.Collections
             {
                 Add(value, x);
             }
-                
+
         }
         TKey GetKeyByValue(TValue value)
         {
@@ -75,19 +71,20 @@ namespace Lsj.Util.Collections
 
 
         /// <summary>
-        /// 添加一个新的键值对
+        /// Add the specified key and value.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <returns>The add.</returns>
+        /// <param name="key">Key.</param>
+        /// <param name="value">Value.</param>
         public void Add(TKey key, TValue value)
         {
             a[key] = value;
             b[value] = key;
         }
         /// <summary>
-        /// 返回枚举器
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return a.GetEnumerator();
@@ -97,36 +94,36 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// 是否包含一个值
+        /// Containses the key.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c>, if key was containsed, <c>false</c> otherwise.</returns>
+        /// <param name="key">Key.</param>
         public bool ContainsKey(TKey key)
         {
             return a.ContainsKey(key);
         }
         /// <summary>
-        /// 是否包含一个键
+        /// Containses the value.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <returns><c>true</c>, if value was containsed, <c>false</c> otherwise.</returns>
+        /// <param name="value">Value.</param>
         public bool ContainsValue(TValue value)
         {
             return b.ContainsKey(value);
         }
         /// <summary>
-        /// 空值
+        /// Nulls the value.
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        protected virtual TValue NullValue(TKey key)=> default(TValue);
+        /// <returns>The value.</returns>
+        /// <param name="key">Key.</param>
+        protected virtual TValue NullValue(TKey key) => default(TValue);
         /// <summary>
-        /// 空键
+        /// Nulls the key.
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        protected virtual TKey NullKey(TValue value) =>default(TKey);
-        
+        /// <returns>The key.</returns>
+        /// <param name="value">Value.</param>
+        protected virtual TKey NullKey(TValue value) => default(TKey);
+
     }
 
 }

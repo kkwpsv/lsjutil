@@ -10,9 +10,9 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
-    /// 
+    /// File logger.
     /// </summary>
-    public class FileLogger :ILogger
+    public class FileLogger : ILogger
     {
         /// <summary>
         /// FilePath
@@ -20,12 +20,13 @@ namespace Lsj.Util.Logs.Logger
         public string FilePath { get; set; } = "./";
 
 
-        private object lockobj = new object();
+        private readonly object lockobj = new object();
         /// <summary>
-        /// 
+        /// Add the specified str and type.
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
+        /// <returns>The add.</returns>
+        /// <param name="str">String.</param>
+        /// <param name="type">Type.</param>
         public void Add(string str, eLogType type)
         {
             Monitor.Enter(lockobj);

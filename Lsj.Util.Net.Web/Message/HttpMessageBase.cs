@@ -11,7 +11,7 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Message
 {
     /// <summary>
-    /// 
+    /// Http message base.
     /// </summary>
     public abstract class HttpMessageBase : IHttpMessage
     {

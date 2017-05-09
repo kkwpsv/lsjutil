@@ -13,13 +13,11 @@ namespace Lsj.Util.Net.Web.Message
 {
     internal class HttpRequest : HttpMessageBase, IHttpRequest
     {
-        //HTTP方法
         public eHttpMethod Method
         {
             get;
             protected set;
         } = eHttpMethod.UnParsed;
-        //URI
         public URI Uri
         {
             get;

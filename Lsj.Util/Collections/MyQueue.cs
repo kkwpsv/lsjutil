@@ -7,31 +7,31 @@ using System.Text;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 
+    /// My queue.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class MyQueue<T>
     {
         SeqList<T> m_list;
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MyQueue`1"/> class.
         /// </summary>
         public MyQueue()
         {
             this.m_list = new SeqList<T>();
         }
         /// <summary>
-        /// 
+        /// Enqueue the specified value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <returns>The enqueue.</returns>
+        /// <param name="value">Value.</param>
         public void Enqueue(T value)
         {
             m_list.Add(value);
         }
         /// <summary>
-        /// 
+        /// Dequeue this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The dequeue.</returns>
         public T Dequeue()
         {
             if (m_list.Count == 0)
@@ -46,9 +46,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 
+        /// Peek this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The peek.</returns>
         public T Peek()
         {
             if (m_list.Count == 0)

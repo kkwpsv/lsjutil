@@ -1,15 +1,16 @@
 using System.Collections.Specialized;
 
 namespace Lsj.Util.Config
-{    /// <summary>
-     /// AppConfig辅助类
-     /// </summary>
+{
+    /// <summary>
+    /// App config.
+    /// </summary>
     public class AppConfig
     {
         /// <summary>
-        /// 读取App.config中的AppSettingsSection
+        /// Gets the app settings.
         /// </summary>
-        /// <returns></returns>
+        /// <value>The app settings.</value>
         public static NameValueCollection AppSettings
         {
             get

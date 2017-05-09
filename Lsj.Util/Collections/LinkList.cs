@@ -7,13 +7,12 @@ using System.Text;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// 链表
+    /// Link list.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class LinkList<T> : LinkListNode<T>, IList<T>
     {
         /// <summary>
-        /// 链表Enumerator
+        /// Link list enumerator.
         /// </summary>
         public class LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
@@ -26,16 +25,22 @@ namespace Lsj.Util.Collections
                 this.last = linklist.Count - 1;
             }
             /// <summary>
-            /// 
+            /// Releases all resource used by the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> object.
             /// </summary>
+            /// <remarks>Call <see cref="Dispose"/> when you are finished using the
+            /// <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/>. The <see cref="Dispose"/> method
+            /// leaves the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> in an unusable state.
+            /// After calling <see cref="Dispose"/>, you must release all references to the
+            /// <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> so the garbage collector can reclaim
+            /// the memory that the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> was occupying.</remarks>
             public void Dispose()
             {
 
             }
             /// <summary>
-            /// 
+            /// Moves the next.
             /// </summary>
-            /// <returns></returns>
+            /// <returns><c>true</c>, if next was moved, <c>false</c> otherwise.</returns>
             public bool MoveNext()
             {
                 if (current == null)
@@ -57,7 +62,7 @@ namespace Lsj.Util.Collections
                 }
             }
             /// <summary>
-            /// 
+            /// Reset this instance.
             /// </summary>
             public void Reset()
             {
@@ -84,17 +89,16 @@ namespace Lsj.Util.Collections
         }
         private LinkListNode<T> child;
         /// <summary>
-        /// 初始化一个<see cref="LinkList{T}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.LinkList`1"/> class.
         /// </summary>
         public LinkList()
         {
             this.child = null;
         }
         /// <summary>
-        /// 获取或设定指定索引处的元素
+        /// Gets or sets the <see cref="T:Lsj.Util.Collections.LinkList`1"/> at the specified index.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">Index.</param>
         public T this[int index]
         {
             get
@@ -149,8 +153,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 链表中的元素数
+        /// Gets the count.
         /// </summary>
+        /// <value>The count.</value>
         public int Count
         {
             get
@@ -170,13 +175,15 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 是否只读
+        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.LinkList`1"/> is read only.
         /// </summary>
+        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
         /// <summary>
-        /// 向链表最后添加一个元素
+        /// Add the specified item.
         /// </summary>
-        /// <param name="item"></param>
+        /// <returns>The add.</returns>
+        /// <param name="item">Item.</param>
         public void Add(T item)
         {
             if (this.child != null)
@@ -200,17 +207,17 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 清空链表
+        /// Clear this instance.
         /// </summary>
         public void Clear()
         {
             this.child = null;
         }
         /// <summary>
-        /// 返回链表中是否包含该元素
+        /// Contains the specified item.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The contains.</returns>
+        /// <param name="item">Item.</param>
         public bool Contains(T item)
         {
             if (this.child != null)
@@ -232,10 +239,10 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 将链表中的元素复制到一个数组中
+        /// Copies to.
         /// </summary>
-        /// <param name="array"></param>
-        /// <param name="arrayIndex"></param>
+        /// <param name="array">Array.</param>
+        /// <param name="arrayIndex">Array index.</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             var index = arrayIndex;
@@ -254,15 +261,15 @@ namespace Lsj.Util.Collections
 
         }
         /// <summary>
-        /// 返回枚举器
+        /// Gets the enumerator.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator() => new LinkListEnumerator(this);
         /// <summary>
-        /// 返回指定元素的索引
+        /// Indexs the of.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The of.</returns>
+        /// <param name="item">Item.</param>
         public int IndexOf(T item)
         {
             var i = 0;
@@ -286,10 +293,11 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 在指定位置插入一个元素
+        /// Insert the specified index and item.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="item"></param>
+        /// <returns>The insert.</returns>
+        /// <param name="index">Index.</param>
+        /// <param name="item">Item.</param>
         public void Insert(int index, T item)
         {
             var i = 0;
@@ -324,10 +332,10 @@ namespace Lsj.Util.Collections
             throw new ArgumentOutOfRangeException();
         }
         /// <summary>
-        /// 删除指定元素的第一个匹配
+        /// Remove the specified item.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <returns>The remove.</returns>
+        /// <param name="item">Item.</param>
         public bool Remove(T item)
         {
             if (this.child != null)
@@ -357,9 +365,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// 删除指定位置的元素
+        /// Removes at index.
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">Index.</param>
         public void RemoveAt(int index)
         {
             var i = 0;
@@ -387,45 +395,47 @@ namespace Lsj.Util.Collections
         IEnumerator IEnumerable.GetEnumerator() => new LinkListEnumerator(this);
     }
     /// <summary>
-    /// 链表节点
+    /// Link list node.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class LinkListNode<T>
     {
         internal LinkListNode()
         {
         }
         /// <summary>
-        /// 初始化一个<see cref="LinkListNode{T}"/>实例
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.LinkListNode`1"/> class.
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="list">List.</param>
         public LinkListNode(LinkList<T> list)
         {
-			if (list == null)
-			{
-				 throw new ArgumentNullException();
-			}
-			this.List = list;
+            if (list == null)
+            {
+                throw new ArgumentNullException();
+            }
+            this.List = list;
         }
         /// <summary>
-        /// 该节点所在的链表
+        /// Gets the list.
         /// </summary>
+        /// <value>The list.</value>
         public LinkList<T> List
         {
             get;
             private set;
         }
         /// <summary>
-        /// 值
+        /// Gets or sets the value.
         /// </summary>
+        /// <value>The value.</value>
         public T Value
         {
             get;
             set;
         }
         /// <summary>
-        /// 下一个节点
+        /// Gets or sets the next.
         /// </summary>
+        /// <value>The next.</value>
         public LinkListNode<T> Next
         {
             get;

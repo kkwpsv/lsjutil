@@ -15,13 +15,14 @@ using Lsj.Util.Logs;
 namespace Lsj.Util.Net.Web.Modules
 {
     /// <summary>
-    /// 
+    /// File module.
     /// </summary>
-    public class FileModule :IModule
+    public class FileModule : IModule
     {
         /// <summary>
-        /// 
+        /// Gets or sets the default page.
         /// </summary>
+        /// <value>The default page.</value>
         public string[] DefaultPage
         {
             get; set;
@@ -32,10 +33,11 @@ namespace Lsj.Util.Net.Web.Modules
 
 
         /// <summary>
-        /// 
+        /// Process.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="args"></param>
+        /// <returns>The process.</returns>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsProcessed = true;

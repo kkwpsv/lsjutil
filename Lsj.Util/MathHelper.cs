@@ -17,7 +17,7 @@ namespace Lsj.Util
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public static int ConvertToInt(this long x,int min,int max)
+        public static int ConvertToInt(this long x, int min, int max)
         {
             if (x > max)
                 return max;

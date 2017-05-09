@@ -8,23 +8,18 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Event
 {
     /// <summary>
-    /// SocketReceivedArgs
+    /// Request parsed event arguments.
     /// </summary>
     public class RequestParsedEventArgs : EventArgs
     {
         /// <summary>
-        /// Request
+        /// Gets or sets the request.
         /// </summary>
+        /// <value>The request.</value>
         public IHttpRequest Request
         {
             get;
             set;
-        }
-        /// <summary>
-        /// RequestParsedEventArgs
-        /// </summary>
-        public RequestParsedEventArgs()
-        {
         }
     }
 }

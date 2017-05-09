@@ -7,7 +7,7 @@ using Lsj.Util.HtmlBuilder;
 namespace Lsj.Util.HtmlBuilder.Header
 {
     /// <summary>
-    /// title
+    /// Title.
     /// </summary>
     public class title : HtmlNode
     {

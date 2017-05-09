@@ -15,9 +15,9 @@ using Lsj.Util.Logs;
 namespace Lsj.Util.Net.Web.Modules
 {
     /// <summary>
-    /// 
+    /// Proxy with cache module.
     /// </summary>
-    public class ProxyWithCacheModule :IModule
+    public class ProxyWithCacheModule : IModule
     {
         /// <summary>
         /// Src Uri like http://www.example.com
@@ -29,8 +29,9 @@ namespace Lsj.Util.Net.Web.Modules
         } = "http://www.example.com";
 
         /// <summary>
-        /// 
+        /// Gets or sets the default page.
         /// </summary>
+        /// <value>The default page.</value>
         public string[] DefaultPage
         {
             get; set;
@@ -41,10 +42,11 @@ namespace Lsj.Util.Net.Web.Modules
 
 
         /// <summary>
-        /// 
+        /// Process.
         /// </summary>
-        /// <param name="o"></param>
-        /// <param name="args"></param>
+        /// <returns>The process.</returns>
+        /// <param name="o">O.</param>
+        /// <param name="args">Arguments.</param>
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsProcessed = true;

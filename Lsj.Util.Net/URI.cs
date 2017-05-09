@@ -14,17 +14,17 @@ namespace Lsj.Util.Net
     {
         private string raw;
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.URI"/> class.
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uri">URI.</param>
         public URI(string uri)
         {
             this.raw = uri;
         }
         /// <summary>
-        /// 
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Net.URI"/>.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Net.URI"/>.</returns>
         public override string ToString()
         {
             return raw;
