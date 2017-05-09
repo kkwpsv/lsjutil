@@ -18,7 +18,7 @@ namespace Lsj.Util.Logs.Logger
         /// <summary>
         /// LogView
         /// </summary>
-        public LogView LogView { get; } = new LogView();
+        public LogView LogView { get; set; } = new LogView();
         /// <summary>
         /// ConsoleColors
         /// </summary>
