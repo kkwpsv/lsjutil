@@ -191,6 +191,7 @@ namespace Lsj.Util.Net
                     else
                     {
                         host = x;
+                        port = 0;
                     }
                 }
                 else
