@@ -17,7 +17,7 @@ namespace Lsj.Util.Net.Web
     /// <summary>
     /// WebClient
     /// </summary>
-    public class WebHttpClient2 : DisposableClass, IDisposable
+    public class WebHttpClient2 :DisposableClass, IDisposable
     {
         /* 
          * 采用Connection:Close
@@ -39,31 +39,31 @@ namespace Lsj.Util.Net.Web
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public byte[] Get(string uri) => Get(new URI(uri));
+        public IHttpResponse Get(string uri) => Get(new URI(uri));
         /// <summary>
         /// Get
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public byte[] Get(URI uri)
+        public IHttpResponse Get(URI uri)
         {
             Build(uri, null, eHttpMethod.GET);
             return Do();
-         }
+        }
         /// <summary>
         /// Post
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="postdata"></param>
         /// <returns></returns>
-        public byte[] Post(string uri, byte[] postdata) => Post(new URI(uri),postdata);
+        public IHttpResponse Post(string uri, byte[] postdata) => Post(new URI(uri), postdata);
         /// <summary>
         /// Post
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="postdata"></param>
         /// <returns></returns>
-        public byte[] Post(URI uri,byte[] postdata)
+        public IHttpResponse Post(URI uri, byte[] postdata)
         {
             Build(uri, postdata, eHttpMethod.POST);
             return Do();
@@ -84,14 +84,14 @@ namespace Lsj.Util.Net.Web
         /// <param name="method"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public void Build(URI uri,byte[] content,eHttpMethod method,IDictionary<string,string> headers)
+        public void Build(URI uri, byte[] content, eHttpMethod method, IDictionary<string, string> headers)
         {
             //确保HTTP
-            if (uri.Scheme=="https")
+            if (uri.Scheme == "https")
             {
                 throw new NotImplementedException("Not Implemented Https");
             }
-            else if (uri.Scheme!="http")
+            else if (uri.Scheme != "http")
             {
                 throw new ArgumentException("Error Scheme");
             }
@@ -136,13 +136,13 @@ namespace Lsj.Util.Net.Web
                     request.Headers.Add(header.Key, header.Value);
                 }
             }
-            if(content!=null)
+            if (content != null)
             {
                 request.Write(content);
             }
-            
+
         }
-        private byte[] Do()
+        private IHttpResponse Do()
         {
             //发送请求头
             stream.Write(request.GetHttpHeader().ConvertToBytes(Encoding.UTF8));
@@ -198,7 +198,7 @@ namespace Lsj.Util.Net.Web
                 if (response.ContentLength == 0)
                 {
                     //响应长度为0
-                    return new byte[0];
+                    return response;
                 }
 
                 var resultbuffer = new byte[response.ContentLength];
@@ -218,7 +218,8 @@ namespace Lsj.Util.Net.Web
                     read += stream.Read(resultbuffer, read, byteleft);//读取
                 }
                 this.stream.Close();
-                return resultbuffer;
+                response.Write(resultbuffer);
+                return response;
 
             }
             //如果接受字节为0。。断开，抛出异常

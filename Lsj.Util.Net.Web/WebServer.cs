@@ -45,11 +45,11 @@ namespace Lsj.Util.Net.Web
         /// <summary>
         /// 网站
         /// </summary>
-        public SafeDictionary<string,Website> Websites
+        public SafeDictionary<string, Website> Websites
         {
             get;
         } = new SafeDictionary<string, Website>();
-        
+
 
 
 
@@ -66,7 +66,7 @@ namespace Lsj.Util.Net.Web
             {
                 Websites.Add("", new Website(""));
             }
-            foreach(var x in Websites)
+            foreach (var x in Websites)
             {
                 x.Value.Start(this);
             }
@@ -159,13 +159,13 @@ namespace Lsj.Util.Net.Web
             {
                 var host = x.Request.Headers[eHttpHeader.Host];
                 var website = Websites[host] ?? Websites[""];
-                if(website==null)
+                if (website == null)
                 {
-                    return ErrorHelper.Build(400, 0, Name,"Invaild Hostname");
+                    return ErrorHelper.Build(400, 0, Name, "Invaild Hostname");
                 }
                 return website.OnProcess(x);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error(e);
                 return ErrorHelper.Build(500, 0, Name);

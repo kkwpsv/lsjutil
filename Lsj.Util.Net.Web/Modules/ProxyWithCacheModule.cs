@@ -17,8 +17,17 @@ namespace Lsj.Util.Net.Web.Modules
     /// <summary>
     /// 
     /// </summary>
-    public class FileModule :IModule
+    public class ProxyWithCacheModule :IModule
     {
+        /// <summary>
+        /// Src Uri like http://www.example.com
+        /// </summary>
+        public string SrcUri
+        {
+            get;
+            set;
+        } = "http://www.example.com";
+
         /// <summary>
         /// 
         /// </summary>
@@ -56,12 +65,39 @@ namespace Lsj.Util.Net.Web.Modules
                         path = rootpath + uri + a;
                         break;
                     }
+                    else
+                    {
+                        try
+                        {
+                            var result = new WebHttpClient().Get(SrcUri + uri + a);
+                            File.WriteAllBytes(rootpath + uri + a, result);
+                            path = rootpath + uri + a;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
                 }
             }
             else if (File.Exists(rootpath + uri))
             {
                 path = rootpath + uri;
             }
+            else
+            {
+                try
+                {
+                    var result = new WebHttpClient().Get(SrcUri + uri);
+                    File.WriteAllBytes(rootpath + uri, result);
+                    path = rootpath + uri;
+                }
+                catch
+                {
+
+                }
+            }
+
             if (path != "")
             {
                 args.Response = new FileResponse(path, request);

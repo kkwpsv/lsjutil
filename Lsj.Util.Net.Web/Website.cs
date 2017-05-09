@@ -35,7 +35,7 @@ namespace Lsj.Util.Net.Web
         public string Path
         {
             get;
-            private set;
+            set;
         } = "./";
 
 

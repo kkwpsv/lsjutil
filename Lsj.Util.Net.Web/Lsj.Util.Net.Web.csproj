@@ -112,6 +112,7 @@
     <Compile Include="Message\HttpRequestForClient.cs" />
     <Compile Include="Message\HttpResponse.cs" />
     <Compile Include="Message\HttpResponseForClient.cs" />
+    <Compile Include="Modules\ProxyWithCacheModule.cs" />
     <Compile Include="Modules\FileModule.cs" />
     <Compile Include="Interfaces\IModule.cs" />
     <Compile Include="Post\FormParser.cs" />
