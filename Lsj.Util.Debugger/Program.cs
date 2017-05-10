@@ -18,6 +18,7 @@ using Lsj.Util.Office;
 using Microsoft.Office.Interop.Word;
 using System.Drawing;
 using Lsj.Util.Office.Word;
+using Microsoft.Office.Core;
 
 namespace Lsj.Util.Debugger
 {
@@ -140,6 +141,7 @@ namespace Lsj.Util.Debugger
 
                 doc.SetAppendStyle(size: 24, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.Black, backgroundcolor: Color.AliceBlue, bold: true,style:eBuiltinStyle.Heading1);
                 doc.AppendLine("心理测评知识普及");
+                doc.TablesOfContents[0].Update();
 
                 doc.SetAppendStyle(style: eBuiltinStyle.BodyText);
                 doc.AddTable(3, 3);
@@ -153,7 +155,8 @@ namespace Lsj.Util.Debugger
                 doc.Tables[1].AddTableBorder();
                 doc.Tables[1].CellText(1, 1, "test");
                 doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
-                
+
+                doc.AddChart(XlChartType.xlBarStacked);
 
                 doc.SaveAs(@"D:\temp.docx");
                 Console.ReadLine();
