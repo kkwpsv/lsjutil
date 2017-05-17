@@ -6,6 +6,7 @@ using Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop;
 using Lsj.Util;
 using System.Drawing;
+using Microsoft.Office.Core;
 
 namespace Lsj.Util.Office.Word
 {
@@ -23,6 +24,7 @@ namespace Lsj.Util.Office.Word
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
             this.Tables = new Tables(doc);
+            this.Charts = new Charts(doc);
         }
         protected override void CleanUpUnmanagedResources()
         {
@@ -43,6 +45,7 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
+        public Charts Charts { get;}
 
         public void SetDocPaper(WdPaperSize size)
         {
@@ -94,6 +97,37 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             selection.InsertBreak(WdBreakType.wdLineBreak);
             selection.Tables.Add(selection.Range, rows, columns);
+        }
+
+        public void AddChart(XlChartType type,string title=null)
+        {
+            app.Options.ReplaceSelection = false;
+            GoToEnd();
+            var selection = app.Selection;
+
+          //  string title = "市场份额-饼图";
+            string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
+            double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+            int count = names.Length;
+
+            var chart = selection.InlineShapes.AddChart2(Type: type).Chart;
+            // var chartdate=chart.ChartData;
+            //Microsoft.Office.Interop.Excel.Worksheet workbook = chart.ChartData.Workbook.Worksheets["Sheet1"];
+            //// workbook.Rows.Clear();
+            //// workbook.Columns.Clear();
+            //// workbook.ListObjects.Item[1].Resize(workbook.get_Range("A1", "B2"));
+
+
+            //string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
+            //double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+            //int count = names.Length;
+            //var data = new object[count, 2];
+            //title = "得分";
+            //Enumerable.Range(0, count).ToList().ForEach(i => { data[i, 0] = names[i]; data[i, 1] = values[i]; });
+            //workbook.get_Range("A2", "B" + (count + 1)).Value = data;
+            //workbook.get_Range("B1").Value = title;
+
+
         }
 
         public void AppendBlankLine(int count)
