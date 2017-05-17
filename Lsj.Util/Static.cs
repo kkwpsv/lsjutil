@@ -1,13 +1,17 @@
 using System;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core
+#else
 namespace Lsj.Util
+#endif
 {
     /// <summary>
     /// Static
     /// </summary>
     public static class Static
     {
-
+#if !NETCOREAPP1_1
         /// <summary>
         /// CurrentPath eg. C:\a\
         /// </summary>
@@ -15,6 +19,7 @@ namespace Lsj.Util
         {
             return AppDomain.CurrentDomain.BaseDirectory;
         }
+#endif
 
         /// <summary>
         /// Version

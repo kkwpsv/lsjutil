@@ -4,7 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core
+#else
 namespace Lsj.Util
+#endif
 {
     /// <summary>
     /// StreamHelper
@@ -61,6 +65,9 @@ namespace Lsj.Util
         {
             stream.Write(buffer, offset, buffer.Length - offset);
         }
+
+
+#if !NETCOREAPP1_1
         /// <summary>
         /// BeginRead
         /// </summary>
@@ -68,7 +75,7 @@ namespace Lsj.Util
         /// <param name="buffer"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginRead(this Stream stream, byte[] buffer, AsyncCallback callback) => stream.BeginRead(buffer, 0, buffer.Length, callback, null);
+        public static IAsyncResult BeginRead(this Stream stream, byte[] buffer, AsyncCallback callback) => stream.BeginRead(buffer, 0, callback);
         /// <summary>
         /// BeginRead
         /// </summary>
@@ -86,5 +93,6 @@ namespace Lsj.Util
         /// <param name="callback"></param>
         /// <returns></returns>
         public static IAsyncResult BeginWrite(this Stream stream, byte[] buffer, AsyncCallback callback) => stream.BeginWrite(buffer, 0, buffer.Length, callback, null);
+#endif
     }
 }

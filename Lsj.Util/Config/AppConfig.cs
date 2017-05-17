@@ -1,5 +1,7 @@
 using System.Collections.Specialized;
 
+#if NETCOREAPP1_1
+#else
 namespace Lsj.Util.Config
 {
     /// <summary>
@@ -20,3 +22,4 @@ namespace Lsj.Util.Config
         }
     }
 }
+#endif

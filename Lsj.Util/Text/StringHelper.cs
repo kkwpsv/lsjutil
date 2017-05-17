@@ -5,9 +5,19 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+#else
+using System.Web;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Text
+#else
 namespace Lsj.Util.Text
+#endif
 {
     /// <summary>
     /// StringHelper
@@ -38,7 +48,12 @@ namespace Lsj.Util.Text
         /// </summary>
         public static int[] ConvertToIntArray(this string[] src)
         {
+#if NETCOREAPP1_1
+            return ArrayHelper.ConvertAll(src, s => s.ConvertToInt());
+#else
             return Array.ConvertAll(src, s => s.ConvertToInt());
+#endif
+
         }
 
         /// <summary>
@@ -46,13 +61,21 @@ namespace Lsj.Util.Text
         /// </summary>
         public static byte[] ConvertToByteArray(this string[] src)
         {
+#if NETCOREAPP1_1
+            return ArrayHelper.ConvertAll(src, s => s.ConvertToByte());
+#else
             return Array.ConvertAll(src, s => s.ConvertToByte());
+#endif
         }
 
         /// <summary>
         /// Convert String To Byte Array
         /// </summary>
+#if NETCOREAPP1_1
+        public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.UTF8);
+#else
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.Default);
+#endif
         /// <summary>
         /// Convert String To Byte Array
         /// <param name="src">Source String</param>
@@ -66,7 +89,12 @@ namespace Lsj.Util.Text
         /// Convert Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// </summary>
+#if NETCOREAPP1_1
+        public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.UTF8);
+#else
         public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.Default);
+#endif
+
         /// <summary>
         /// Convert Byte Array To String
         /// <param name="src">Source ByteArray</param>
@@ -292,7 +320,12 @@ namespace Lsj.Util.Text
         /// Read String From Stream
         /// <param name="stream">Source Stream</param>
         /// </summary>
+#if NETCOREAPP1_1
+        public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.UTF8);
+#else
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
+#endif
+
 
         /// <summary>
         /// Split
@@ -437,13 +470,22 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
+#if NETCOREAPP1_1
+        public static string UrlEncode(this string src) => WebUtility.UrlEncode(src);
+#else
         public static string UrlEncode(this string src) => HttpUtility.UrlEncode(src);
+#endif
+
         /// <summary>
         /// URIDecode
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
+#if NETCOREAPP1_1
+        public static string UrlDecode(this string src) => WebUtility.UrlDecode(src);
+#else
         public static string UrlDecode(this string src) => HttpUtility.UrlDecode(src);
+#endif
 
     }
 }

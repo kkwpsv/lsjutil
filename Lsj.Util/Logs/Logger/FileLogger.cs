@@ -4,10 +4,21 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using Lsj.Util.IO;
-using Lsj.Util.Logs.Interfaces;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Logs.Interfaces;
+using Lsj.Util.Core.IO;
+#else
+using Lsj.Util.Logs.Interfaces;
+using Lsj.Util.IO;
+#endif
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Logs.Logger
+#else
 namespace Lsj.Util.Logs.Logger
+#endif
 {
     /// <summary>
     /// File logger.

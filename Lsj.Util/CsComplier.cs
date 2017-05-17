@@ -1,3 +1,4 @@
+#if !NETCOREAPP1_1
 using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
@@ -7,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Lsj.Util.IO;
+
+
 
 namespace Lsj.Util
 {
@@ -32,13 +35,13 @@ namespace Lsj.Util
         /// </summary>    
         public string Error => error;
 
-        private string error ="";
+        private string error = "";
 
         /// <summary>
         /// Complie
         /// </summary>
         public bool Complie() => Complie(ref error);
-        
+
         /// <summary>
         /// Complie
         /// <param name="log">log</param>
@@ -74,7 +77,7 @@ namespace Lsj.Util
                 {
                     StringBuilder sb = new StringBuilder();
                     foreach (CompilerError err in res.Errors)
-                    {                    
+                    {
                         if (!err.IsWarning)
                         {
                             StringBuilder builder = new StringBuilder();
@@ -84,7 +87,7 @@ namespace Lsj.Util
                             builder.Append(err.Line);
                             builder.Append(" Col:");
                             builder.Append(err.Column);
-                            sb.Append("Script compilation failed because: "+err.ErrorText+builder.ToString());
+                            sb.Append("Script compilation failed because: " + err.ErrorText + builder.ToString());
                             sb.Append("\r\n");
                         }
                     }
@@ -100,3 +103,4 @@ namespace Lsj.Util
         }
     }
 }
+#endif

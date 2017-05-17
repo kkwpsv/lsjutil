@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !NETCOREAPP1_1
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -109,3 +110,4 @@ namespace Lsj.Util.Logs.Logger
         }
     }
 }
+#endif

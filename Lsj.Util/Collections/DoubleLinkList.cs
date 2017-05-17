@@ -4,17 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Collections
+#else
 namespace Lsj.Util.Collections
+#endif
+
 {
     /// <summary>
     /// Double link list.
     /// </summary>
-    public class DoubleLinkList<T> : DoubleLinkListNode<T>, IList<T>
+    public class DoubleLinkList<T> :DoubleLinkListNode<T>, IList<T>
     {
         /// <summary>
         /// Double link list enumerator.
         /// </summary>
-        public class DoubleLinkListEnumerator : IEnumerator<T>, IEnumerator
+        public class DoubleLinkListEnumerator :IEnumerator<T>, IEnumerator
         {
             DoubleLinkList<T> linklist;
             DoubleLinkListNode<T> current;

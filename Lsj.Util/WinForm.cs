@@ -1,3 +1,4 @@
+#if !NETCOREAPP1_1
 using System;
 using System.Text;
 using System.Threading;
@@ -81,3 +82,4 @@ namespace Lsj.Util
 
 	}
 }
+#endif

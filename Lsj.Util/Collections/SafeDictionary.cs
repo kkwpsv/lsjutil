@@ -1,15 +1,25 @@
-﻿using Lsj.Util.Logs;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Logs;
+#else
+using Lsj.Util.Logs;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Collections
+#else
 namespace Lsj.Util.Collections
+#endif
 {
     /// <summary>
     /// Safe dictionary.
     /// </summary>
-    public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
+    public class SafeDictionary<TKey, TValue> :IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
         object m_lock = new object();
         Dictionary<TKey, TValue> m_Dictionary;

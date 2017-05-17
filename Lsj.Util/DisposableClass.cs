@@ -1,10 +1,19 @@
-﻿using Lsj.Util.Logs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Logs;
+#else
+using Lsj.Util.Logs;
+#endif
 
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core
+#else
 namespace Lsj.Util
+#endif
 {
     /// <summary>
     /// Disposable Class

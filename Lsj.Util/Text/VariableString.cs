@@ -5,15 +5,19 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Text
+#else
 namespace Lsj.Util.Text
+#endif
 {
     /// <summary>
     /// Variable string.
     /// </summary>
-    public unsafe sealed class VariableString : DisposableClass, IDisposable, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
+    public unsafe sealed class VariableString :DisposableClass, IDisposable, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
     {
 
-        internal class VariableStringEnumerator : IEnumerator<char>
+        internal class VariableStringEnumerator :IEnumerator<char>
         {
             VariableString str;
             int length;

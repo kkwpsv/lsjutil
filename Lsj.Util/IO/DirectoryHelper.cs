@@ -3,7 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.IO
+#else
 namespace Lsj.Util.IO
+#endif
 {
     /// <summary>
     /// Directory Helper

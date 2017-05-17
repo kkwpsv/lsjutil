@@ -1,17 +1,33 @@
-﻿using Lsj.Util.Xml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Xml;
+using Lsj.Util.Core.Reflection;
+using Lsj.Util.Core.Text;
+#else
+using Lsj.Util.Xml;
 using Lsj.Util.Reflection;
 using Lsj.Util.Text;
+#endif
 
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Config
+#else
 namespace Lsj.Util.Config
+#endif
 {
     /// <summary>
     /// XML Confg File
     /// </summary>
-    public class XmlConfigFile : XmlFile
+    public class XmlConfigFile :XmlFile
     {
         /// <summary>
         /// Initialize a new instance with a path
@@ -27,6 +43,35 @@ namespace Lsj.Util.Config
         public sealed override void Refresh()
         {
             base.Refresh();
+#if NETCOREAPP1_1
+            if (m_Document.Elements().Count() > 0)
+            {
+                var config = m_Document.Elements().Where(x => x.Name == "config").FirstOrDefault();
+                if (config != null && config.Elements().Count() > 0)
+                {
+                    var fields = this.GetType().GetAllNonPublicField();
+                    foreach (var field in fields)
+                    {
+                        if (field.FieldType.IsAssignableFrom(typeof(ConfigElement)))
+                        {
+                            var attribute = field.GetAttribute<ConfigElementNameAttribute>();
+                            if (attribute != null)
+                            {
+                                var name = attribute.Name.ToSafeString();
+                                if (name != "")
+                                {
+                                    var element = config.Elements().Where(x => x.Name == name).FirstOrDefault();
+                                    if (element != null)
+                                    {
+                                        field.SetValue(this, new ConfigElement(element.Value));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+#else
             if (m_Document.HasChildNodes)
             {
                 var config = m_Document.DocumentElement.SelectSingleNode("/config");
@@ -54,7 +99,7 @@ namespace Lsj.Util.Config
                     }
                 }
             }
+#endif
         }
-
     }
 }

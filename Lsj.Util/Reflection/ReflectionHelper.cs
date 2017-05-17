@@ -1,11 +1,21 @@
-﻿using Lsj.Util.Logs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Logs;
+#else
+using Lsj.Util.Logs;
+#endif
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Reflection
+#else
 namespace Lsj.Util.Reflection
+#endif
 {
     /// <summary>
     /// Reflection Helper
@@ -24,18 +34,11 @@ namespace Lsj.Util.Reflection
         /// <typeparam name="T"></typeparam>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static T GetAttribute<T>(this MemberInfo type)
+        public static T GetAttribute<T>(this MemberInfo type) where T : Attribute
         {
-            if (typeof(T).BaseType==typeof(Attribute))
-            {
-                var x = type.GetCustomAttributes(typeof(T), true);
-                return x.Length > 0 ? (T)x[0] : default(T);
-            }
-            else
-            {
-                LogProvider.Default.Error(typeof(T).Name+" is not a Attribute");
-                return default(T);
-            }
+            var x = type.GetCustomAttributes(typeof(T), true);
+            return (T)x.FirstOrDefault();
+
         }
         /// <summary>
         /// Create Instance
@@ -44,7 +47,7 @@ namespace Lsj.Util.Reflection
         /// <param name="type"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static T CreateInstance<T>(this Type type,params object[] param)
+        public static T CreateInstance<T>(this Type type, params object[] param)
         {
             if (typeof(T).IsAssignableFrom(type))
             {

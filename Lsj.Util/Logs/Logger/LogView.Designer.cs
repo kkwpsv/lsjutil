@@ -1,4 +1,5 @@
-﻿namespace Lsj.Util.Logs.Logger
+﻿#if !NETCOREAPP1_1
+namespace Lsj.Util.Logs.Logger
 {
     partial class LogView
     {
@@ -20,7 +21,7 @@
             base.Dispose(disposing);
         }
 
-        #region 组件设计器生成的代码
+#region 组件设计器生成的代码
 
         /// <summary>
         /// 设计器支持所需的方法 - 不要修改
@@ -31,6 +32,7 @@
             components = new System.ComponentModel.Container();
         }
 
-        #endregion
+#endregion
     }
 }
+#endif
