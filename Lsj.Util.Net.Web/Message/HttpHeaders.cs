@@ -24,7 +24,7 @@ namespace Lsj.Util.Net.Web.Message
             {
                 return this[Header.GetNameByHeader(x)];
             }
-            internal set
+            set
             {
                 this[Header.GetNameByHeader(x)] = value;
             }

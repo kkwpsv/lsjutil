@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Web
             var request = HttpWebRequest.Create(uri);
             request.Method = "Post";
             request.GetRequestStream().Write(data);
-            return request.GetResponse().GetResponseStream().ReadFromStream().ConvertToBytes();
+            return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
             
         }
         /// <summary>
@@ -35,7 +35,7 @@ namespace Lsj.Util.Net.Web
         {
             var request = HttpWebRequest.Create(uri);
             request.Method = "Get";
-            return request.GetResponse().GetResponseStream().ReadFromStream().ConvertToBytes();
+            return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
 
         }
     }

@@ -17,7 +17,7 @@ namespace Lsj.Util.Net.Web.Modules
     /// <summary>
     /// Proxy with cache module.
     /// </summary>
-    public class ProxyWithCacheModule : IModule
+    public class ProxyWithCacheModule :IModule
     {
         /// <summary>
         /// Src Uri like http://www.example.com
@@ -72,31 +72,35 @@ namespace Lsj.Util.Net.Web.Modules
                         try
                         {
                             var result = new WebHttpClient().Get(SrcUri + uri + a);
+                            uri = uri.Substring(0, uri.IndexOf("?"));
                             File.WriteAllBytes(rootpath + uri + a, result);
                             path = rootpath + uri + a;
                         }
-                        catch
+                        catch (Exception e)
                         {
-
+                            LogProvider.Default.Warn(e);
                         }
                     }
                 }
             }
-            else if (File.Exists(rootpath + uri))
+            else if (File.Exists(rootpath + uri.Substring(0, uri.IndexOf("?"))))
             {
-                path = rootpath + uri;
+                path = rootpath + uri.Substring(0, uri.IndexOf("?"));
             }
             else
             {
                 try
                 {
+
                     var result = new WebHttpClient().Get(SrcUri + uri);
+
+                    uri = uri.Substring(0, uri.IndexOf("?"));
                     File.WriteAllBytes(rootpath + uri, result);
                     path = rootpath + uri;
                 }
-                catch
+                catch (Exception e)
                 {
-
+                    LogProvider.Default.Warn(e);
                 }
             }
 

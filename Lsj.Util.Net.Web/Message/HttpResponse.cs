@@ -162,7 +162,10 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="str">String.</param>
         public override void Write(string str)
         {
-            this.Headers[eHttpHeader.ContentType] = "text/html;charset=utf-8";
+            if(this.Headers[eHttpHeader.ContentType]=="")
+            {
+                this.Headers[eHttpHeader.ContentType] = "text/html;charset=utf-8";
+            }
             this.Write(str.ConvertToBytes(Encoding.UTF8));
         }
         /// <summary>
