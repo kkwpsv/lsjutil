@@ -157,7 +157,7 @@ namespace Lsj.Util.Debugger
                 //doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
 
                 doc.AddChart(XlChartType.xl3DColumnClustered);
-
+                doc.Charts[0].Resize();
                 doc.SaveAs(@"D:\temp.docx");
                 Console.ReadLine();
                 doc.Close();
