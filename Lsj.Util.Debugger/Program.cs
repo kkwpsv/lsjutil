@@ -157,7 +157,12 @@ namespace Lsj.Util.Debugger
                 //doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
 
                 doc.AddChart(XlChartType.xl3DColumnClustered);
-                doc.Charts[0].Resize();
+
+
+                string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
+                double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+                doc.Charts[0].SetDate(names, "123", values);
+               // doc.Charts[0].Resize("A1", "B"+values.Count());
                 doc.SaveAs(@"D:\temp.docx");
                 Console.ReadLine();
                 doc.Close();
