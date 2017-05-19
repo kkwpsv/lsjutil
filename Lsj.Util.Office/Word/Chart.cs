@@ -37,6 +37,7 @@ namespace Lsj.Util.Office.Word
                 j++;
             }
             this.Resize("A1", "B" + (data.Count()+1));
+            chart.Chart.ChartData.Workbook.Application.Quit();
 
         }
 
