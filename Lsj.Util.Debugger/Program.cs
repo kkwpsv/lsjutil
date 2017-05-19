@@ -102,7 +102,7 @@ namespace Lsj.Util.Debugger
                 doc.AppendLine();
                 doc.AppendLine();
 
-                doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(68, 84, 106));
+                /*doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(68, 84, 106));
                 doc.AppendLine("中小学生学业诊断分析系统");
                 doc.AppendLine("学业支持子系统个体测评报告");
 
@@ -154,14 +154,17 @@ namespace Lsj.Util.Debugger
                 doc.Tables[1].MergeCell(1, 1, 1, 2);
                 doc.Tables[1].AddTableBorder();
                 doc.Tables[1].CellText(1, 1, "test");
-                doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
+                doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);*/
 
-                doc.AddChart(XlChartType.xl3DAreaStacked);
+                doc.AddChart(XlChartType.xlColumnClustered);
 
 
                 string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
                 double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+                double[] values1 = { 5, 5, 5, 5, 5 }; // 对应数据
+
                 doc.Charts[0].SetDate(names, "123", values);
+                doc.Charts[0].AddNewSeries(XlChartType.xlLine, "456", values1);
                // doc.Charts[0].Resize("A1", "B"+values.Count());
                 doc.SaveAs(@"D:\temp.docx");
                 Console.ReadLine();
