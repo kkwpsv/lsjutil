@@ -1,11 +1,24 @@
-﻿using Lsj.Util.Net.Web.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Lsj.Util.Logs;
 
+
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Logs;
+#else
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Logs;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Event
+#else
 namespace Lsj.Util.Net.Web.Event
+#endif
 {
     /// <summary>
     /// Process event arguments.

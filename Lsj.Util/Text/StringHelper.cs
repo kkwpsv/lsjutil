@@ -486,6 +486,14 @@ namespace Lsj.Util.Text
 #else
         public static string UrlDecode(this string src) => HttpUtility.UrlDecode(src);
 #endif
+        /// <summary>
+        /// Is Null or Empty
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty(this string src) => string.IsNullOrEmpty(src);
+
+
 
     }
 }

@@ -1,15 +1,33 @@
-﻿using Lsj.Util.HtmlBuilder;
-using Lsj.Util.HtmlBuilder.Body;
-using Lsj.Util.HtmlBuilder.Header;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Net.Web.Static;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.HtmlBuilder;
+using Lsj.Util.Core.HtmlBuilder.Body;
+using Lsj.Util.Core.HtmlBuilder.Header;
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Message;
+using Lsj.Util.Core.Net.Web.Protocol;
+using Lsj.Util.Core.Net.Web.Static;
+#else
+using Lsj.Util.HtmlBuilder;
+using Lsj.Util.HtmlBuilder.Body;
+using Lsj.Util.HtmlBuilder.Header;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Message;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Static;
+#endif
+
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Error
+#else
 namespace Lsj.Util.Net.Web.Error
+#endif
 {
     /// <summary>
     /// Error helper.

@@ -1,23 +1,32 @@
-﻿using Lsj.Util.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Lsj.Util.Net.Web.Protocol;
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Event;
+using Lsj.Util.Core.Net.Web.Error;
+using Lsj.Util.Core.Net.Web.Message;
+#else
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Event;
-using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Text;
-using Lsj.Util.Logs;
+using Lsj.Util.Net.Web.Error;
+#endif
 
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Modules
+#else
 namespace Lsj.Util.Net.Web.Modules
+#endif
 {
     /// <summary>
     /// File module.
     /// </summary>
-    public class FileModule : IModule
+    public class FileModule :IModule
     {
         /// <summary>
         /// Gets or sets the default page.

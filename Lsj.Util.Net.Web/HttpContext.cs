@@ -1,21 +1,39 @@
-﻿using Lsj.Util.Collections;
+﻿using System;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
+using System.Net;
+using System.Linq;
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Text;
+using Lsj.Util.Core.Collections;
+using Lsj.Util.Core.Logs;
+using Lsj.Util.Core.Net.Web.Error;
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Message;
+using Lsj.Util.Core.Net.Web.Protocol;
+using Lsj.Util.Core.Net.Sockets;
+using System.Threading;
+#else
+using Lsj.Util.Text;
+using Lsj.Util.Collections;
 using Lsj.Util.Logs;
 using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Sockets;
-using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using Lsj.Util.Text;
 using System.Timers;
-using System.Net;
-using System.Linq;
-using Lsj.Util;
+using Lsj.Util.Net.Web.Protocol;
+#endif
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web
+#else
 namespace Lsj.Util.Net.Web
+#endif
 {
 
     /// <summary>
@@ -49,7 +67,7 @@ namespace Lsj.Util.Net.Web
     /// HttpContext
     /// </summary>
     /// 
-    internal class HttpContext : DisposableClass, IContext, IDisposable
+    internal class HttpContext :DisposableClass, IContext, IDisposable
     {
 
 
@@ -124,6 +142,27 @@ namespace Lsj.Util.Net.Web
             ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
             this.Stream = CreateStream(socket);
             this.Status = eContextStatus.Listening;
+
+
+
+
+#if NETCOREAPP1_1
+            new Thread(() =>
+            {
+                var read = this.Stream.Read(buffer, 0, buffer.Length);
+                OnReceived(read);
+            }).Start();
+            this.ReceiveTimer = new Timer((o) =>
+            {
+                if (!Request.IsReadFinish)
+                {
+                    this.IsTimeOut = true;
+                    this.Status = eContextStatus.Processing;
+                    this.Response = ErrorHelper.Build(408, 0, this.server.Name);
+                    this.DoResponse();
+                }
+            }, null, 60 * 1000, Timeout.Infinite);
+#else
             this.Stream.BeginRead(buffer, OnReceived);
             this.ReceiveTimer = new Timer(60 * 1000);
             ReceiveTimer.AutoReset = false;
@@ -137,6 +176,7 @@ namespace Lsj.Util.Net.Web
                     this.DoResponse();
                 }
             };
+#endif
 
         }
 
@@ -149,8 +189,11 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-
+#if NETCOREAPP1_1
+        void OnReceived(int byteleft)
+#else
         void OnReceived(IAsyncResult ar)
+#endif
         {
             if (IsTimeOut)
             {
@@ -159,13 +202,20 @@ namespace Lsj.Util.Net.Web
             this.KeepaliveTimer = null;
             try
             {
-
+#if NETCOREAPP1_1
+#else
                 var byteleft = Stream.EndRead(ar);//剩余字节数  =  读取的字节数
+#endif
+
 
 
                 if (byteleft == 0)//如果未读取到。。断开连接
                 {
+#if NETCOREAPP1_1
+                    this.socket.Shutdown();
+#else
                     this.socket.Disconnect();
+#endif
                     this.Status = eContextStatus.Disposing;
                     return;
                 }
@@ -196,8 +246,16 @@ namespace Lsj.Util.Net.Web
 
                         if (contentread < x)
                         {
+#if NETCOREAPP1_1
+                            new Thread(() =>
+                            {
+                                var aa = this.Stream.Read(buffer, 0, buffer.Length);
+                                OnReceivedContent(aa);
+                            }).Start();
+#else
                             //如果未读取完继续读取
                             Stream.BeginRead(buffer, OnReceivedContent);
+#endif
                         }
                         else
                         {
@@ -214,10 +272,18 @@ namespace Lsj.Util.Net.Web
                 {
                     //如果未收完Header
                     Move(read, byteleft);//移动
+#if NETCOREAPP1_1
+                    new Thread(() =>
+                    {
+                        var aa = this.Stream.Read(buffer, byteleft, buffer.Length);
+                        OnReceived(aa);
+                    }).Start();
+#else
                     Stream.BeginRead(buffer, byteleft, OnReceived);//继续读取
+#endif
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 this.Log.Error(e);
             }
@@ -226,14 +292,20 @@ namespace Lsj.Util.Net.Web
         int contentread;
         Timer ReceiveTimer;
         Timer KeepaliveTimer;
-
+#if NETCOREAPP1_1
+        void OnReceivedContent(int read)
+#else
         void OnReceivedContent(IAsyncResult ar)
+#endif
         {
             if (IsTimeOut)
             {
                 return;
             }
+#if NETCOREAPP1_1
+#else
             var read = Stream.EndRead(ar);//读取字节数
+#endif
             if (read == 0)
             {
                 //如果未读取到。。返回。。等待超时处理
@@ -252,7 +324,15 @@ namespace Lsj.Util.Net.Web
             if (contentread < len)
             {
                 //不足继续读取
+#if NETCOREAPP1_1
+                new Thread(() =>
+                {
+                    var aa = this.Stream.Read(buffer, 0, buffer.Length);
+                    OnReceivedContent(aa);
+                }).Start();
+#else
                 Stream.BeginRead(buffer, OnReceivedContent);
+#endif
             }
             else
             {
@@ -299,7 +379,37 @@ namespace Lsj.Util.Net.Web
             Response.Headers.Add(eHttpHeader.Server, this.server.Name);
             var a = Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII).ToList().Concat(this.Response.Content.ReadAll()).Concat(new byte[] { ASCIIChar.CR, ASCIIChar.LF }).ToArray();
 
+#if NETCOREAPP1_1
 
+            new Thread(() =>
+            {
+                try
+                {
+                    this.Stream.Write(a);
+                    if (Response.Headers[eHttpHeader.Connection].ToLower() == "keep-alive")
+                    {
+                        this.KeepaliveTimer = new Timer((o) =>
+                        {
+                            this.socket.Shutdown();
+                            this.Status = eContextStatus.Disposing;
+                        }, null, 120 * 1000, Timeout.Infinite);
+                        this.Read();
+                    }
+                    else
+                    {
+                        this.socket.Shutdown();
+                        this.Status = eContextStatus.Disposing;
+                    }
+                }
+                catch (IOException)
+                {
+
+                }
+                catch (SocketException)
+                {
+                }
+            }).Start();
+#else
             this.Stream.BeginWrite(a, (x) =>
             {
                 try
@@ -330,6 +440,7 @@ namespace Lsj.Util.Net.Web
                 {
                 }
             });
+#endif
 
         }
 
@@ -360,7 +471,7 @@ namespace Lsj.Util.Net.Web
                 }
                 try
                 {
-                    socket.Close();
+                    socket.Dispose();
                     socket = null;
                 }
                 catch (SocketException se)

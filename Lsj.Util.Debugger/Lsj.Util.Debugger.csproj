@@ -49,6 +49,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>true</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -72,6 +74,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +96,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
@@ -116,8 +126,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="LSJ.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.CsBuilder\Lsj.Util.CsBuilder.csproj">
+      <Project>{d3a62a78-3161-4080-987c-79bb09303109}</Project>
+      <Name>Lsj.Util.CsBuilder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lsj.Util.Data\Lsj.Util.Data.csproj">
       <Project>{d86d21f1-e187-4ae4-bb97-6cc2c00a7e01}</Project>
       <Name>Lsj.Util.Data</Name>
@@ -138,8 +153,16 @@
       <Project>{66070437-A20C-4978-A802-213E55A63008}</Project>
       <Name>Lsj.Util.Office</Name>
     </ProjectReference>
-    <ProjectReference Include="..\lsj.util\Lsj.Util.csproj">
-      <Project>{b0ebcb56-0ae1-4e59-b5e6-7cd17d4764c2}</Project>
+    <ProjectReference Include="..\Lsj.Util.Protobuf\Lsj.Util.Protobuf.csproj">
+      <Project>{7afb2c14-b12d-4919-b54a-c701d80d251e}</Project>
+      <Name>Lsj.Util.Protobuf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.SQLBuilder\Lsj.Util.SQLBuilder.csproj">
+      <Project>{89a0125e-dd26-476a-84f7-194c5e358d12}</Project>
+      <Name>Lsj.Util.SQLBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj">
+      <Project>{d829fc34-5bfa-4ab1-8804-f35918f72ea8}</Project>
       <Name>Lsj.Util</Name>
     </ProjectReference>
   </ItemGroup>

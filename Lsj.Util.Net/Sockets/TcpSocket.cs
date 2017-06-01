@@ -6,12 +6,16 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Sockets
+#else
 namespace Lsj.Util.Net.Sockets
+#endif
 {
     /// <summary>
     /// Tcp Socket
     /// </summary>
-    public class TcpSocket : Socket
+    public class TcpSocket :Socket
     {
         /// <summary>
         /// TcpSocket
@@ -32,6 +36,7 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="ip"></param>
         /// <param name="port"></param>
         public static void Bind(this Socket socket, IPAddress ip, int port) => socket.Bind(new IPEndPoint(ip, port));
+#if !NETCOREAPP1_1
         /// <summary>
         /// BeginAccept
         /// </summary>
@@ -87,6 +92,7 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         /// <param name="socket"></param>
         public static void Disconnect(this Socket socket) => socket.Disconnect(false);
+#endif
         /// <summary>
         /// Listen
         /// </summary>

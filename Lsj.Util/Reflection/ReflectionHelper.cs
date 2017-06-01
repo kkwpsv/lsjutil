@@ -55,9 +55,37 @@ namespace Lsj.Util.Reflection
             }
             else
             {
-                LogProvider.Default.Error("Error Type");
-                return default(T);
+                throw new InvalidCastException("Error Type");
             }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string GetTypeName(this Type type)
+        {
+            if (type == typeof(int))
+            {
+                return "int";
+            }
+            else if (type == typeof(string))
+            {
+                return "string";
+            }
+            else
+            {
+                return type.Name;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static object CreateListOfInstance(this Type type)
+        {
+            return Activator.CreateInstance(typeof(List<object>).GetGenericTypeDefinition().MakeGenericType(type));
         }
     }
 }

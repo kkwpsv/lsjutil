@@ -1,15 +1,31 @@
-﻿using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Static;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Text;
+using Lsj.Util.Core.Net.Web.Cookie;
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Protocol;
+using Lsj.Util.Core.Net.Web.Static;
+#else
 using Lsj.Util.Text;
 using Lsj.Util.Net.Web.Cookie;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Static;
+#endif
 
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Message
+#else
 namespace Lsj.Util.Net.Web.Message
+#endif
 {
     internal class HttpRequest : HttpMessageBase, IHttpRequest
     {

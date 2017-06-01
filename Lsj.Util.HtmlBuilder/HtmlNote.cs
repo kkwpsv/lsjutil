@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lsj.Util.HtmlBuilder.Body
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.HtmlBuilder
+#else
+namespace Lsj.Util.HtmlBuilder
+#endif
 {
     /// <summary>
     /// Html note.
     /// </summary>
-    public class HtmlNote : HtmlNode
+    public class HtmlNote :HtmlNode
     {
         /// <summary>
         /// HtmlNote

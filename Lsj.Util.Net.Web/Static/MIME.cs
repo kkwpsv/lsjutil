@@ -1,10 +1,20 @@
-﻿using Lsj.Util.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+#else
+using Lsj.Util.Collections;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Static
+#else
 namespace Lsj.Util.Net.Web.Static
+#endif
 {
     /// <summary>
     /// Mime

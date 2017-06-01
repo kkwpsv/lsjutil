@@ -1,10 +1,4 @@
-﻿using Lsj.Util.Collections;
-using Lsj.Util.Logs;
-using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Net.Web.Event;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Net.Sockets;
+﻿
 using System;
 using System.IO;
 using System.Net.Sockets;
@@ -15,14 +9,36 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security;
 using System.Security.Authentication;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+using Lsj.Util.Core.Logs;
+using Lsj.Util.Core.Net.Web.Error;
+using Lsj.Util.Core.Net.Web.Event;
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Message;
+using Lsj.Util.Core.Net.Sockets;
+#else
+using Lsj.Util.Collections;
+using Lsj.Util.Logs;
+using Lsj.Util.Net.Web.Error;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Message;
+using Lsj.Util.Net.Sockets;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web
+#else
 namespace Lsj.Util.Net.Web
+#endif
 {
 
     /// <summary>
     /// ContentStatus
     /// </summary>
-    
-    internal class HttpsContext : HttpContext, IContext,IDisposable
+
+    internal class HttpsContext :HttpContext, IContext, IDisposable
     {
 
         /*
@@ -39,9 +55,9 @@ namespace Lsj.Util.Net.Web
         /// <param name="file"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static HttpsContext Create(Socket socket, LogProvider log ,WebServer server,string file,string password)
+        public static HttpsContext Create(Socket socket, LogProvider log, WebServer server, string file, string password)
         {
-            return new HttpsContext(socket, log, server, file ,password);
+            return new HttpsContext(socket, log, server, file, password);
         }
 
 
@@ -50,7 +66,7 @@ namespace Lsj.Util.Net.Web
 
 
 
-        public HttpsContext(Socket socket, LogProvider log, WebServer server,string file ,string password):base(socket,log,server)
+        public HttpsContext(Socket socket, LogProvider log, WebServer server, string file, string password) : base(socket, log, server)
         {
             this.file = file;
             this.password = password;
@@ -59,7 +75,12 @@ namespace Lsj.Util.Net.Web
         protected override Stream CreateStream(Socket socket)
         {
             var x = new SslStream(new NetworkStream(socket, true), true);
+#if NETCOREAPP1_1
+            x.AuthenticateAsServerAsync(new X509Certificate(file, password), false, SslProtocols.Tls, true).Wait();
+#else
             x.AuthenticateAsServer(new X509Certificate(file, password), false, SslProtocols.Tls, true);
+#endif
+
             return x;
         }
 

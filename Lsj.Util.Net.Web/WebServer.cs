@@ -1,14 +1,29 @@
-﻿using Lsj.Util.Logs;
-using Lsj.Util.Net.Web.Listener;
-using System.Collections.Generic;
-using Lsj.Util.Net.Web.Event;
+﻿using System.Collections.Generic;
 using System;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Collections;
-using Lsj.Util.Net.Web.Modules;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+using Lsj.Util.Core.Logs;
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Error;
+using Lsj.Util.Core.Net.Web.Event;
+using Lsj.Util.Core.Net.Web.Protocol;
+#else
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Error;
+using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Logs;
+using Lsj.Util.Collections;
+#endif
+
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web
+#else
 namespace Lsj.Util.Net.Web
+#endif
 {
     /// <summary>
     /// WebServer

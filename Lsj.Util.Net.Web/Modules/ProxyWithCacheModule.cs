@@ -1,18 +1,30 @@
-﻿using Lsj.Util.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Event;
-using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Text;
-using Lsj.Util.Logs;
 
+
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Net.Web.Message;
+using Lsj.Util.Core.Net.Web.Error;
+using Lsj.Util.Core.Net.Web.Event;
+#else
+using Lsj.Util.Net.Web.Error;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Message;
+#endif
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Modules
+#else
 namespace Lsj.Util.Net.Web.Modules
+#endif
 {
     /// <summary>
     /// Proxy with cache module.
@@ -69,39 +81,34 @@ namespace Lsj.Util.Net.Web.Modules
                     }
                     else
                     {
-                        try
+                        var result = new WebHttpClient().Get(SrcUri + uri + a);
+                        uri = uri.Substring(0, uri.IndexOf("?"));
+                        var file = new FileInfo(rootpath + uri + a);
+                        if (!file.Directory.Exists)
                         {
-                            var result = new WebHttpClient().Get(SrcUri + uri + a);
-                            uri = uri.Substring(0, uri.IndexOf("?"));
-                            File.WriteAllBytes(rootpath + uri + a, result);
-                            path = rootpath + uri + a;
+                            file.Directory.Create();
                         }
-                        catch (Exception e)
-                        {
-                            LogProvider.Default.Warn(e);
-                        }
+                        File.WriteAllBytes(rootpath + uri + a, result);
+                        path = rootpath + uri + a;
                     }
                 }
             }
-            else if (File.Exists(rootpath + uri.Substring(0, uri.IndexOf("?"))))
+            else if (File.Exists(rootpath + uri.Substring(0, uri.IndexOf("?") == -1 ? uri.Length : uri.IndexOf("?"))))
             {
-                path = rootpath + uri.Substring(0, uri.IndexOf("?"));
+                path = rootpath + uri.Substring(0, uri.IndexOf("?") == -1 ? uri.Length : uri.IndexOf("?"));
             }
             else
             {
-                try
+                var result = new WebHttpClient().Get(SrcUri + uri);
+                uri = uri.Substring(0, uri.IndexOf("?") == -1 ? uri.Length : uri.IndexOf("?"));
+                var file = new FileInfo(rootpath + uri);
+                if (!file.Directory.Exists)
                 {
-
-                    var result = new WebHttpClient().Get(SrcUri + uri);
-
-                    uri = uri.Substring(0, uri.IndexOf("?"));
-                    File.WriteAllBytes(rootpath + uri, result);
-                    path = rootpath + uri;
+                    file.Directory.Create();
                 }
-                catch (Exception e)
-                {
-                    LogProvider.Default.Warn(e);
-                }
+                File.WriteAllBytes(rootpath + uri, result);
+                path = rootpath + uri;
+
             }
 
             if (path != "")

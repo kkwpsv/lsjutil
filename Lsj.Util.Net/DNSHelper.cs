@@ -5,7 +5,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core;
+#else
+#endif
+
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net
+#else
 namespace Lsj.Util.Net
+#endif
 {
     /// <summary>
     /// DNSHelper
@@ -28,7 +38,12 @@ namespace Lsj.Util.Net
         /// <param name="domain">Domain.</param>
         public static IPAddress[] GetHostIPV4Addresses(string domain)
         {
+#if NETCOREAPP1_1
+            return Dns.GetHostAddressesAsync(domain).WaitAndGetResult().Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
+#else
             return Dns.GetHostAddresses(domain).Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
+#endif
+
         }
     }
 }

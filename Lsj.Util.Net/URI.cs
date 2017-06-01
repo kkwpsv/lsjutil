@@ -1,11 +1,21 @@
-﻿using Lsj.Util.Collections;
-using Lsj.Util.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+using Lsj.Util.Core.Text;
+#else
+using Lsj.Util.Collections;
+using Lsj.Util.Text;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net
+#else
 namespace Lsj.Util.Net
+#endif
 {
     /// <summary>
     /// URI

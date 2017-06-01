@@ -71,5 +71,10 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <value>The count.</value>
         public int Count => m_list.Count;
+
+        /// <summary>
+        /// Is Empty
+        /// </summary>
+        public bool IsEmpty => Count == 0;
     }
 }

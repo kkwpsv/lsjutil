@@ -5,13 +5,31 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Lsj.Util.Net.Web
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Session
+#else
+namespace Lsj.Util.Net.Web.Session
+#endif
+
 {
     public class HttpSession
     {
+
+#if NETCOREAPP1_1
+        RandomNumberGenerator randgen;
+#else
         RNGCryptoServiceProvider randgen;
-        public string ID { get; private set; }
-        public DateTime LastUseTime { get; private set; }
+#endif
+        public string ID
+        {
+            get;
+            private set;
+        }
+        public DateTime LastUseTime
+        {
+            get;
+            private set;
+        }
         Dictionary<string, object> sessions = new Dictionary<string, object>();
         private static char[] s_encoding;
         private static bool[] s_legalchars;
@@ -45,7 +63,11 @@ namespace Lsj.Util.Net.Web
         }
         public HttpSession()
         {
+#if NETCOREAPP1_1
+            randgen = RandomNumberGenerator.Create();
+#else
             randgen = new RNGCryptoServiceProvider();
+#endif
             byte[] buffer = new byte[15];
             randgen.GetBytes(buffer);
             char[] array = new char[24];

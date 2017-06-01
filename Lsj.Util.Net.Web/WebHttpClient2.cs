@@ -1,18 +1,39 @@
-﻿using Lsj.Util.Net.Sockets;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using System.Net;
+
+using System.Net.Sockets;
+
+
+
+
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Net.Web.Interfaces;
+using Lsj.Util.Core.Text;
+using Lsj.Util.Core.Net.Web.Exceptions;
+using Lsj.Util.Core.Net;
+using Lsj.Util.Core.Net.Web.Message;
+using Lsj.Util.Core.Net.Web.Protocol;
+using Lsj.Util.Core.Net.Sockets;
+#else
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Text;
+using Lsj.Util.Net.Web.Exceptions;
 using Lsj.Util.Net;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Web.Protocol;
-using System.Net;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Text;
-using System.Net.Sockets;
-using Lsj.Util.Net.Web.Exceptions;
+using Lsj.Util.Net.Sockets;
+#endif
 
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web
+#else
 namespace Lsj.Util.Net.Web
+#endif
 {
     /// <summary>
     /// WebClient
@@ -217,13 +238,13 @@ namespace Lsj.Util.Net.Web
                 {
                     read += stream.Read(resultbuffer, read, byteleft);//读取
                 }
-                this.stream.Close();
+                this.stream.Dispose();
                 response.Write(resultbuffer);
                 return response;
 
             }
             //如果接受字节为0。。断开，抛出异常
-            this.stream.Close();
+            this.stream.Dispose();
             throw new HttpClientException("Error When Receive Data");
         }
 

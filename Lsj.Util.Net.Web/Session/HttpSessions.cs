@@ -1,11 +1,20 @@
-﻿using Lsj.Util.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace Lsj.Util.Net.Web
+#if NETCOREAPP1_1
+using Lsj.Util.Core.Collections;
+#else
+using Lsj.Util.Collections;
+#endif
+
+#if NETCOREAPP1_1
+namespace Lsj.Util.Core.Net.Web.Session
+#else
+namespace Lsj.Util.Net.Web.Session
+#endif
 {
     public class HttpSessions
     {
@@ -14,7 +23,11 @@ namespace Lsj.Util.Net.Web
         public HttpSessions()
         {
             Thread CheckThread = new Thread(Check);
+#if NETCOREAPP1_1
+            CheckThread.IsBackground = true;
+#else
             CheckThread.Priority = ThreadPriority.BelowNormal;
+#endif
         }
 
         private void Check()
@@ -31,7 +44,7 @@ namespace Lsj.Util.Net.Web
             }
             finally
             {
-                Thread.Sleep(new TimeSpan(0, 5,0));
+                Thread.Sleep(new TimeSpan(0, 5, 0));
                 Check();
             }
         }
