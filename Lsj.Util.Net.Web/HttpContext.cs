@@ -4,19 +4,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Net;
 using System.Linq;
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Text;
-using Lsj.Util.Core.Collections;
-using Lsj.Util.Core.Logs;
-using Lsj.Util.Core.Net.Web.Error;
-using Lsj.Util.Core.Net.Web.Interfaces;
-using Lsj.Util.Core.Net.Web.Message;
-using Lsj.Util.Core.Net.Web.Protocol;
-using Lsj.Util.Core.Net.Sockets;
-using System.Threading;
-#else
 using Lsj.Util.Text;
 using Lsj.Util.Collections;
 using Lsj.Util.Logs;
@@ -25,15 +12,14 @@ using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Sockets;
-using System.Timers;
 using Lsj.Util.Net.Web.Protocol;
+#if NETCOREAPP1_1
+using System.Threading;
+#else
+using System.Timers;
 #endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web
-#else
 namespace Lsj.Util.Net.Web
-#endif
 {
 
     /// <summary>

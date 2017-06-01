@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
@@ -8,16 +7,6 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Security;
 using System.Security.Authentication;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Collections;
-using Lsj.Util.Core.Logs;
-using Lsj.Util.Core.Net.Web.Error;
-using Lsj.Util.Core.Net.Web.Event;
-using Lsj.Util.Core.Net.Web.Interfaces;
-using Lsj.Util.Core.Net.Web.Message;
-using Lsj.Util.Core.Net.Sockets;
-#else
 using Lsj.Util.Collections;
 using Lsj.Util.Logs;
 using Lsj.Util.Net.Web.Error;
@@ -25,13 +14,8 @@ using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Sockets;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web
-#else
 namespace Lsj.Util.Net.Web
-#endif
 {
 
     /// <summary>

@@ -3,20 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Net.Sockets;
-using Lsj.Util.Core.Net.Web.Interfaces;
-#else
 using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Interfaces;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web.Listener
-#else
 namespace Lsj.Util.Net.Web.Listener
-#endif
 {
     /// <summary>
     /// SocketListener

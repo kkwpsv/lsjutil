@@ -3,26 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Xml;
-using Lsj.Util.Core.Reflection;
-using Lsj.Util.Core.Text;
-#else
 using Lsj.Util.Xml;
 using Lsj.Util.Reflection;
 using Lsj.Util.Text;
-#endif
 
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Config
-#else
+
+
 namespace Lsj.Util.Config
-#endif
+
 {
     /// <summary>
     /// XML Confg File

@@ -5,7 +5,7 @@
     <SignAssembly>True</SignAssembly>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
-    <PostBuildEvent>rd /q /s ..\..\..\..\obj\</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -40,8 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.Core.HtmlBuilder.csproj" />
-    <ProjectReference Include="..\Lsj.Util.Net\Lsj.Util.Core.Net.csproj" />
+    <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.Core.csproj" />
+    <ProjectReference Include="..\Lsj.Util.Net\Lsj.Util.Net.Core.csproj" />
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.Core.csproj" />
   </ItemGroup>
 

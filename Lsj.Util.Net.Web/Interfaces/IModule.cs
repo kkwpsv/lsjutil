@@ -1,14 +1,6 @@
-﻿#if NETCOREAPP1_1
-using Lsj.Util.Core.Net.Web.Event;
-#else
-using Lsj.Util.Net.Web.Event;
-#endif
+﻿using Lsj.Util.Net.Web.Event;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web.Interfaces
-#else
 namespace Lsj.Util.Net.Web.Interfaces
-#endif
 {
     /// <summary>
     /// 

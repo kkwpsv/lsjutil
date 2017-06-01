@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Logs.Interfaces;
-#else
 using Lsj.Util.Logs.Interfaces;
-#endif
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Logs
-#else
+
 namespace Lsj.Util.Logs
-#endif
 {
     /// <summary>
     /// Log provider.

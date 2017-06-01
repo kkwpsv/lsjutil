@@ -5,12 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web.Session
-#else
 namespace Lsj.Util.Net.Web.Session
-#endif
-
 {
     public class HttpSession
     {

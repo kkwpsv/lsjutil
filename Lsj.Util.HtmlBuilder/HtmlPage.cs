@@ -3,22 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.HtmlBuilder.Body;
-using Lsj.Util.Core.HtmlBuilder.Header;
-#else
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.HtmlBuilder.Header;
-#endif
 
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.HtmlBuilder
-#else
 namespace Lsj.Util.HtmlBuilder
-#endif
 {
     /// <summary>
     /// HtmlPage

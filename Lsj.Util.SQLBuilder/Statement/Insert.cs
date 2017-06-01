@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Collections;
-#else
 using Lsj.Util.Collections;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.SQLBuilder.Statement
-#else
 namespace Lsj.Util.SQLBuilder.Statement
-#endif
 {
     public class Insert :SQLStatement
     {

@@ -2,19 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Logs;
-#else
 using Lsj.Util.Logs;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Collections
-#else
+
+
 namespace Lsj.Util.Collections
-#endif
 {
     /// <summary>
     /// Safe dictionary.

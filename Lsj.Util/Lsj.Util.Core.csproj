@@ -5,8 +5,12 @@
     <SignAssembly>True</SignAssembly>
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
-    <PostBuildEvent>rd /q /s ..\..\..\..\obj\</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
     <PreBuildEvent></PreBuildEvent>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Version>0.0.1</Version>
+    <Description>My Utility for dotnet core</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -39,5 +43,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-preview1-final" />
   </ItemGroup>
-
 </Project>

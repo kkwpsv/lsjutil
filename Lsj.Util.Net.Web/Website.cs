@@ -1,24 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Net.Web.Interfaces;
-using Lsj.Util.Core.Net.Web.Event;
-using Lsj.Util.Core.Net.Web.Error;
-using Lsj.Util.Core.Net.Web.Modules;
-#else
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Error;
-#endif
 
-
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web
-#else
 namespace Lsj.Util.Net.Web
-#endif
 {
     /// <summary>
     /// Website.

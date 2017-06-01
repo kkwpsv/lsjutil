@@ -5,17 +5,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-#if NETCOREAPP1_1
-using Lsj.Util.Core;
-#else
-#endif
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net
-#else
 namespace Lsj.Util.Net
-#endif
 {
     /// <summary>
     /// DNSHelper

@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.CsBuilder.Statements
-#else
 namespace Lsj.Util.CsBuilder.Statements
-#endif
 {
     public class RawStatement :Statement
     {

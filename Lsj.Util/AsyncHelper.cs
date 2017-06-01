@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core
-#else
 namespace Lsj.Util
-#endif
 {
 #if NETCOREAPP1_1
     public static class AsyncHelper

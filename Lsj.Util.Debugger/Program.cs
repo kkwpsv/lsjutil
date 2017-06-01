@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Lsj.Util.Office.Word;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
 
 namespace Lsj.Util.Debugger
 {

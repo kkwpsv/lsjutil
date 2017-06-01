@@ -3,28 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
-
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Net.Web.Interfaces;
-using Lsj.Util.Core.Net.Web.Message;
-using Lsj.Util.Core.Net.Web.Error;
-using Lsj.Util.Core.Net.Web.Event;
-#else
 using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
-#endif
 
-
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web.Modules
-#else
 namespace Lsj.Util.Net.Web.Modules
-#endif
 {
     /// <summary>
     /// Proxy with cache module.

@@ -1,10 +1,7 @@
 using System;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core
-#else
+
 namespace Lsj.Util
-#endif
 {
     /// <summary>
     /// Static
@@ -24,6 +21,6 @@ namespace Lsj.Util
         /// <summary>
         /// Version
         /// </summary>
-        public static readonly string Version = "3.0";
+        public static readonly string Version = "1.0";
     }
 }

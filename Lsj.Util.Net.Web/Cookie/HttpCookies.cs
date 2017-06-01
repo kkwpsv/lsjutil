@@ -3,21 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Logs;
-using Lsj.Util.Core.Collections;
-#else
 using Lsj.Util.Logs;
 using Lsj.Util.Collections;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Web.Cookie
-#else
 namespace Lsj.Util.Net.Web.Cookie
-#endif
 {
     /// <summary>
     /// HttpCookies

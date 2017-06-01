@@ -5,18 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Reflection;
-#else
 using Lsj.Util.Reflection;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Protobuf
-#else
 namespace Lsj.Util.Protobuf
-#endif
 {
     public abstract class Message
     {

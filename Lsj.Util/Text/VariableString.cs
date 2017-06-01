@@ -5,11 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Text
-#else
+
 namespace Lsj.Util.Text
-#endif
 {
     /// <summary>
     /// Variable string.

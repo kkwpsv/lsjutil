@@ -5,7 +5,7 @@
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <PostBuildEvent>rd /q /s ..\..\..\..\obj\</PostBuildEvent>
+    <PostBuildEvent></PostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

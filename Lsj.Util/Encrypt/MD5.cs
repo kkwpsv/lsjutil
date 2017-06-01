@@ -4,19 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using Lsj.Util;
-
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Text;
-#else
 using Lsj.Util.Text;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Encrypt
-#else
+
+
 namespace Lsj.Util.Encrypt
-#endif
 {
     /// <summary>
     /// MD5

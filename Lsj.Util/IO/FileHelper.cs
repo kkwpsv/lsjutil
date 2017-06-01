@@ -4,11 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.IO
-#else
+
 namespace Lsj.Util.IO
-#endif
 {
     /// <summary>
     /// FileHelper

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 #if NETCOREAPP1_1
-namespace Lsj.Util.Core.Collections
+namespace Lsj.Util.Collections
 {
     public static class ArrayHelper
     {

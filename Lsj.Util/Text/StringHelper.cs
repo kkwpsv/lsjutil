@@ -6,18 +6,14 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-
 #if NETCOREAPP1_1
-using Lsj.Util.Core.Collections;
+using Lsj.Util.Collections;
 #else
 using System.Web;
 #endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Text
-#else
+
 namespace Lsj.Util.Text
-#endif
 {
     /// <summary>
     /// StringHelper

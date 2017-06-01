@@ -5,22 +5,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Logs;
-using Lsj.Util.Core.Net.Sockets.Event;
-#else
 using Lsj.Util.Logs;
 using Lsj.Util.Net.Sockets.Event;
-#endif
 
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Sockets
-#else
 namespace Lsj.Util.Net.Sockets
-#endif
 {
     /// <summary>
     /// Tcp Async listener.

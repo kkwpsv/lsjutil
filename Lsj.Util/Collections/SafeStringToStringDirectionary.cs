@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Collections
-#else
+
 namespace Lsj.Util.Collections
-#endif
+
 {
     /// <summary>
     /// Safe string to string directionary.

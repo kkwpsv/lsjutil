@@ -6,11 +6,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Sockets
-#else
 namespace Lsj.Util.Net.Sockets
-#endif
 {
     /// <summary>
     /// Tcp Socket

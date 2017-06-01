@@ -4,18 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-
-#if NETCOREAPP1_1
-using Lsj.Util.Core.Logs;
-#else
 using Lsj.Util.Logs;
-#endif
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Xml
-#else
+
+
 namespace Lsj.Util.Xml
-#endif
 {
     /// <summary>
     /// XML File

@@ -5,11 +5,8 @@ using System.Net.Sockets;
 using System.Text;
 
 
-#if NETCOREAPP1_1
-namespace Lsj.Util.Core.Net.Sockets.Event
-#else
+
 namespace Lsj.Util.Net.Sockets.Event
-#endif
 {
     /// <summary>
     /// SocketReceivedArgs
