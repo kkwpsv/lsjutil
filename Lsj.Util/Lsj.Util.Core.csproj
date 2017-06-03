@@ -10,7 +10,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <Version>1.0.0</Version>
-    <Description>Package Description</Description>
+    <Description>My Utility</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,7 +27,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp1.1\Lsj.Util.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">

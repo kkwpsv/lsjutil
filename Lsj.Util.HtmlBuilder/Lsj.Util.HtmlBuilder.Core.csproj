@@ -6,6 +6,9 @@
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <PostBuildEvent></PostBuildEvent>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Description>My Utility To Build html File</Description>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +25,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp1.1\Lsj.Util.HtmlBuilder.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">

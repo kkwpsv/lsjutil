@@ -6,6 +6,7 @@
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
     <PostBuildEvent></PostBuildEvent>
+    <Description>My Utility For Protobuf</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +23,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp1.1\Lsj.Util.Protobuf.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">

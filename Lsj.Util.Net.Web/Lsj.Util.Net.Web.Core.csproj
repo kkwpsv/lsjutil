@@ -6,6 +6,7 @@
     <DelaySign>False</DelaySign>
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <PostBuildEvent></PostBuildEvent>
+    <Description>My Utility For Web</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,7 +27,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp1.1\Lsj.Util.Net.Web.Core.xml</DocumentationFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 

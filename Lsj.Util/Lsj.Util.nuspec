@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Lsj.Util</id>
+    <version>1.0.0</version>
+    <authors>lsj</authors>
+    <owners>lsj</owners>
+    <projectUrl>https://github.com/sdzxwxlsj/lsjutil</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>My Utility</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags></tags>
+  </metadata>
+</package>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Lsj.Util.Net.Web</id>
+    <version>1.0.0</version>
+    <authors>lsj</authors>
+    <owners>lsj</owners>
+    <projectUrl>https://github.com/sdzxwxlsj/lsjutil</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>My Utility For Web</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Lsj.Util" version="1.0" />
+	  <dependency id="Lsj.Util.Net" version="1.0" />
+	  <dependency id="Lsj.Util.HtmlBuilder" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>
