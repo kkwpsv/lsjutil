@@ -21,7 +21,7 @@ namespace Lsj.Util.Debugger
                 doc.AppendLine();
                 doc.AppendLine();
 
-                /*doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(68, 84, 106));
+                doc.SetAppendStyle(size: 22, fontname: "华文中宋", alignment: eParagraphAlignment.Center, fontcolor: Color.FromArgb(68, 84, 106));
                 doc.AppendLine("中小学生学业诊断分析系统");
                 doc.AppendLine("学业支持子系统个体测评报告");
 
@@ -73,7 +73,7 @@ namespace Lsj.Util.Debugger
                 doc.Tables[1].MergeCell(1, 1, 1, 2);
                 doc.Tables[1].AddTableBorder();
                 doc.Tables[1].CellText(1, 1, "test");
-                doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);*/
+                doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
 
                 doc.AddChart(XlChartType.xlColumnClustered);
 
