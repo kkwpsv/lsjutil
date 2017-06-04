@@ -4,10 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Office.Core;
 
 namespace Lsj.Util.Office.Word
 {
-    public class Charts : IEnumerable<Chart>
+    public class Charts :IEnumerable<Chart>
     {
         private Document doc;
         internal Charts(Document doc)
@@ -18,14 +19,26 @@ namespace Lsj.Util.Office.Word
         {
             get
             {
-                return new Chart(doc.InlineShapes[index+1]);
+                return this.Skip(index - 1)?.First() ?? throw new IndexOutOfRangeException();
             }
         }
         public IEnumerator<Chart> GetEnumerator()
         {
+            for (int i = 0; i < doc.Shapes.Count; i++)
+            {
+                var result = doc.Shapes[i + 1];
+                if (result.HasChart == MsoTriState.msoTrue)
+                {
+                    yield return new Chart(result.Chart);
+                }
+            }
             for (int i = 0; i < doc.InlineShapes.Count; i++)
             {
-                yield return new Chart(doc.InlineShapes[i + 1]);
+                var result = doc.InlineShapes[i + 1];
+                if (result.HasChart == MsoTriState.msoTrue)
+                {
+                    yield return new Chart(result.Chart);
+                }
             }
         }
 

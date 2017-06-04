@@ -3,61 +3,87 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Office.Interop.Excel;
 
 namespace Lsj.Util.Office.Word
 {
-    public class Chart
+    public class Chart :DisposableClass
     {
-        private Microsoft.Office.Interop.Word.InlineShape chart;
+        private Microsoft.Office.Interop.Word.Chart chart;
+        private Workbook workbook;
+        private Worksheet worksheet;
+        private Application application;
+        private System.Data.DataTable data;
 
-        public Chart(Microsoft.Office.Interop.Word.InlineShape chart)
+        public Chart(Microsoft.Office.Interop.Word.Chart chart)
         {
             this.chart = chart;
+            this.workbook = chart.ChartData.Workbook;
+            this.application = workbook.Application;
+            this.worksheet = workbook.Worksheets["Sheet1"];
         }
 
-        public void Resize(string cell1, string cell2)
+        public void SetData(string[] catagory, string datatitle, double[] data)
         {
-            Microsoft.Office.Interop.Excel.Worksheet worksheet = chart.Chart.ChartData.Workbook.Worksheets["Sheet1"];
-            worksheet.ListObjects.Item[1].Resize(worksheet.get_Range(cell1, cell2));
+            if (this.data != null)
+            {
+                throw new InvalidOperationException("Already Set Data");
+            }
+            else
+            {
+                this.data = new System.Data.DataTable();
+                var column = this.data.Columns.Add();
+                column.DataType = typeof(string);
+                var column2 = this.data.Columns.Add();
+                column2.ColumnName = datatitle;
+                column2.DataType = typeof(double);
+                int i = 0;
+                foreach (var x in catagory)
+                {
+                    var row = this.data.NewRow();
+                    row[0] = catagory[i];
+                    row[1] = data[i];
+                    this.data.Rows.Add(row);
+                    i++;
+                }
+            }
+            WriteToWorkSheet();
         }
 
-        public void SetDate(string[] catagory,string datatitle,double[] data)
+        public void AddNewSeries(Microsoft.Office.Core.XlChartType type, string datatitle, double[] data)
         {
-            Microsoft.Office.Interop.Excel.Worksheet worksheet=chart.Chart.ChartData.Workbook.Worksheets["Sheet1"];
-            int j = 0;
-            foreach (var i in catagory)
+            var x = this.data.Columns.Count;
+            var column = this.data.Columns.Add();
+            column.ColumnName = datatitle;
+            int l = Math.Min(this.data.Rows.Count, data.Length);
+            for (int i = 0; i < l; i++)
             {
-                worksheet.Range["A" + (2 + j)].FormulaR1C1 = i;
-                j++;
+                this.data.Rows[i][x] = data[i];
             }
-            worksheet.Range["B1"].FormulaR1C1 = datatitle;
-            j = 0;
-            foreach (var i in data)
-            {
-                worksheet.Range["B" + (2 + j)].FormulaR1C1 = i;
-                j++;
-            }
-            this.Resize("A1", "B" + (data.Count()+1));
-            chart.Chart.ChartData.Workbook.Application.Quit();
-
+            WriteToWorkSheet();
+            chart.SeriesCollection(this.data.Columns.Count - 1).Type = type;
         }
 
-        public void AddNewSeries(XlChartType type, string datatitle,double[] data)
+        private void WriteToWorkSheet()
         {
-            Microsoft.Office.Interop.Excel.Worksheet worksheet=chart.Chart.ChartData.Workbook.Worksheets["Sheet1"];
-            this.Resize("A1", "C" + (data.Count() + 1));
-           // worksheet.Range["Table1[[#Headers],[Series 2]]"].FormulaR1C1 = "Forecast";
-            worksheet.Range["C1"].FormulaR1C1 = datatitle;
-            int j = 0;
-            foreach (var i in data)
+            for (int i = 1; i < data.Columns.Count; i++)
             {
-                worksheet.Range["C" + (2 + j)].FormulaR1C1 = i;
-                j++;
+                worksheet.Range[$"{(char)(ASCIIChar.A + i)}{1}"].FormulaR1C1 = data.Columns[i].ColumnName;
             }
-            chart.Chart.SeriesCollection(2).Type = type;
-            chart.Chart.ChartData.Workbook.Application.Quit();
-           
+
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                for (int j = 0; j < data.Columns.Count; j++)
+                {
+                    worksheet.Range[$"{(char)(ASCIIChar.A + j)}{i + 2}"].FormulaR1C1 = this.data.Rows[i][j];
+                }
+            }
+            chart.SetSourceData($@"='Sheet1'!$A$1:${(char)(ASCIIChar.A + data.Columns.Count - 1)}${data.Rows.Count + 1}");
         }
 
+        protected override void CleanUpUnmanagedResources()
+        {
+            this.application.Quit();
+        }
     }
 }

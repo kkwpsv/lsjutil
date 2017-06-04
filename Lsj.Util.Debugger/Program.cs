@@ -9,7 +9,7 @@ namespace Lsj.Util.Debugger
 {
     class Program
     {
-       public static void Main()
+        public static void Main()
         {
             //	IntPtr a = Marshal.AllocHGlobal(1000000000);
             //	Console.ReadLine();
@@ -75,17 +75,21 @@ namespace Lsj.Util.Debugger
                 doc.Tables[1].CellText(1, 1, "test");
                 doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
 
-                doc.AddChart(XlChartType.xlColumnClustered);
-
-
-                string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
-                double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
-                double[] values1 = { 5, 5, 5, 5, 5 }; // 对应数据
-
-                doc.Charts[0].SetDate(names, "123", values);
-                doc.Charts[0].AddNewSeries(XlChartType.xlLine, "456", values1);
-               // doc.Charts[0].Resize("A1", "B"+values.Count());
-                doc.SaveAs(@"D:\temp.docx");
+                using (var chart = doc.AddChart(XlChartType.xlColumnClustered))
+                {
+                    string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
+                    double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+                    double[] values1 = { 5, 5, 5, 5, 5 }; // 对应数据
+                    double[] values2 = { 5, 5, 3, 5, 5 }; // 对应数据
+                    double[] values3 = { 5, 4, 5, 2, 5 }; // 对应数据
+                    double[] values4 = { 0, 1, 1, 2, 2 }; // 对应数据
+                    chart.SetData(names, "123", values);
+                    chart.AddNewSeries(XlChartType.xlLine, "456111", values1);
+                    chart.AddNewSeries(XlChartType.xlLine, "45611", values2);
+                    chart.AddNewSeries(XlChartType.xlLine, "45611111", values3);
+                    chart.AddNewSeries(XlChartType.xlLine, "4561111", values4);
+                }
+                doc.SaveAs(@"R:\temp.docx");
                 Console.ReadLine();
                 doc.Close();
 
