@@ -167,7 +167,7 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static long ConvertToLong(this string src, int OnError) => ConvertToLong(src, OnError, long.MinValue, long.MaxValue);
+        public static long ConvertToLong(this string src, long OnError) => ConvertToLong(src, OnError, long.MinValue, long.MaxValue);
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
@@ -198,7 +198,7 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static decimal ConvertToDecimal(this string src, int OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
+        public static decimal ConvertToDecimal(this string src, decimal OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
 
         /// <summary>
         /// Convert String To Decimal
@@ -232,7 +232,7 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static float ConvertToFloat(this string src, int OnError) => ConvertToFloat(src, OnError, float.MinValue, float.MaxValue);
+        public static float ConvertToFloat(this string src, float OnError) => ConvertToFloat(src, OnError, float.MinValue, float.MaxValue);
         /// <summary>
         /// Convert String To Float
         /// </summary>
@@ -261,7 +261,7 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static double ConvertToDouble(this string src, int OnError) => ConvertToDouble(src, OnError, float.MinValue, float.MaxValue);
+        public static double ConvertToDouble(this string src, double OnError) => ConvertToDouble(src, OnError, float.MinValue, float.MaxValue);
         /// <summary>
         /// Convert String To Double
         /// </summary>
