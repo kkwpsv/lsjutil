@@ -19,11 +19,24 @@ namespace Lsj.Util.Office.Word
         Document doc;
 
 
-        public WordDocument()
+        public WordDocument() : this(new Application())
         {
-            app = new Application();
-            doc = app.Documents.Add();
-            app.Visible = true;
+        }
+        public WordDocument(string filename) : this(new Application(), filename)
+        {
+        }
+        private WordDocument(Application app) : this(app, app.Documents.Add())
+        {
+
+        }
+        private WordDocument(Application app, string filename) : this(app, app.Documents.Open(filename))
+        {
+        }
+        private WordDocument(Application app, Document doc)
+        {
+            this.app = app;
+            this.doc = doc;
+            this.app.Visible = true;
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
             this.Tables = new Tables(doc);
@@ -95,7 +108,6 @@ namespace Lsj.Util.Office.Word
         {
             this.Sections[0].AddPageNumberAtFooter();
         }
-
         public void AddTable(int rows, int columns)
         {
             app.Options.ReplaceSelection = false;
@@ -104,7 +116,6 @@ namespace Lsj.Util.Office.Word
             selection.InsertBreak(WdBreakType.wdLineBreak);
             selection.Tables.Add(selection.Range, rows, columns);
         }
-
         public Chart AddChart(XlChartType type, bool isinline = true)
         {
             app.Options.ReplaceSelection = false;
@@ -122,7 +133,6 @@ namespace Lsj.Util.Office.Word
 
             return new Chart(chart);
         }
-
         public void AppendBlankLine(int count)
         {
             for (int i = 0; i < count; i++)
@@ -159,14 +169,11 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
-
         public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
         {
             GoToEnd();
             SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style);
         }
-
-
         public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
         {
             var selection = app.Selection;
@@ -227,6 +234,18 @@ namespace Lsj.Util.Office.Word
 
         }
 
+        public void CopyAllContent()
+        {
+            doc.Content.Copy();
+        }
+        public void Paste()
+        {
+            GoToEnd();
+            var selection = app.Selection;
+            selection.Paste();
+        }
+
+
         public void UpdateAllTableOfContents()
         {
             foreach (var a in this.TablesOfContents)
@@ -234,6 +253,10 @@ namespace Lsj.Util.Office.Word
                 a.Update();
             }
         }
+
+
+
+
 
 
 
@@ -248,6 +271,12 @@ namespace Lsj.Util.Office.Word
             }
 
         }
+
+
+#if DEBUG
+        public Document fuck => doc;
+
+#endif
 
     }
 }
