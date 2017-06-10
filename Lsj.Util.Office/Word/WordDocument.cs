@@ -169,12 +169,12 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
-        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
         {
             GoToEnd();
-            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style);
+            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style, characterUnitFirstLineIndent);
         }
-        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
         {
             var selection = app.Selection;
             if (style != null)
@@ -230,6 +230,10 @@ namespace Lsj.Util.Office.Word
             if (underline != null)
             {
                 selection.Font.Underline = (WdUnderline)underline;
+            }
+            if(characterUnitFirstLineIndent != null)
+            {
+                selection.ParagraphFormat.CharacterUnitFirstLineIndent = characterUnitFirstLineIndent.Value;
             }
 
         }
