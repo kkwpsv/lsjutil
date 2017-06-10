@@ -36,7 +36,7 @@ namespace Lsj.Util.Office.Word
         {
             this.app = app;
             this.doc = doc;
-            this.app.Visible = true;
+            this.app.Visible = true;            
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
             this.Tables = new Tables(doc);
@@ -65,6 +65,21 @@ namespace Lsj.Util.Office.Word
             get;
         }
         public Charts Charts { get; }
+
+        public void SetSpellCheck(bool isOpen)
+        {
+            if(!isOpen)
+            {
+                doc.SpellingChecked = false;
+                doc.ShowSpellingErrors = false;
+            }
+            else
+            {
+                doc.SpellingChecked = true;
+                doc.ShowSpellingErrors = true;
+            }
+            
+        }
 
         public void SetDocPaper(WdPaperSize size)
         {
