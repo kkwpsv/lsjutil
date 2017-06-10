@@ -97,16 +97,16 @@ namespace Lsj.Util.Debugger
             //}
 
 
-            using (var doc1 = new WordDocument())
-            {
-                doc1.AppendLine("test");
+            //using (var doc1 = new WordDocument())
+            //{
+            //    doc1.AppendLine("test");
 
-                using (var doc2 = new WordDocument())
-                {
-                    doc1.fuck.Content.Copy();
-                    doc2.fuck.Application.Selection.Paste();
-                }
-            }
+            //    using (var doc2 = new WordDocument())
+            //    {
+            //        doc1.fuck.Content.Copy();
+            //        doc2.fuck.Application.Selection.Paste();
+            //    }
+            //}
 
         }
 
