@@ -13,7 +13,10 @@ namespace Lsj.Util.Office.Word
         private Workbook workbook;
         private Worksheet worksheet;
         private Application application;
-        private System.Data.DataTable data;
+
+
+        private int rowcount = 0;
+        private int columncount = 0;
 
         public Chart(Microsoft.Office.Interop.Word.Chart chart)
         {
@@ -25,61 +28,34 @@ namespace Lsj.Util.Office.Word
 
         public void SetData(string[] catagory, string datatitle, double[] data)
         {
-            if (this.data != null)
+            rowcount = catagory.Length + 1;
+            for (int i = 1; i <= catagory.Length; i++)
             {
-                throw new InvalidOperationException("Already Set Data");
+                worksheet.Cells[i + 1, 1] = catagory[i - 1];
             }
-            else
+            worksheet.Cells[1, 2] = datatitle;
+            for (int i = 1; i <= data.Length && i < rowcount; i++)
             {
-                this.data = new System.Data.DataTable();
-                var column = this.data.Columns.Add();
-                column.DataType = typeof(string);
-                var column2 = this.data.Columns.Add();
-                column2.ColumnName = datatitle;
-                column2.DataType = typeof(double);
-                int i = 0;
-                foreach (var x in catagory)
-                {
-                    var row = this.data.NewRow();
-                    row[0] = catagory[i];
-                    row[1] = data[i];
-                    this.data.Rows.Add(row);
-                    i++;
-                }
+                worksheet.Cells[i + 1, 2] = data[i - 1];
             }
-            WriteToWorkSheet();
+            chart.SetSourceData($@"=Sheet1!$A$1:$B${rowcount}");
+            columncount = 2;
         }
 
         public void AddNewSeries(eChartType type, string datatitle, double[] data)
         {
-            var x = this.data.Columns.Count;
-            var column = this.data.Columns.Add();
-            column.ColumnName = datatitle;
-            int l = Math.Min(this.data.Rows.Count, data.Length);
-            for (int i = 0; i < l; i++)
+            columncount++;
+            worksheet.Cells[1, columncount] = datatitle;
+            for (int i = 1; i <= data.Length && i < rowcount; i++)
             {
-                this.data.Rows[i][x] = data[i];
-            }
-            WriteToWorkSheet();
-            chart.SeriesCollection(this.data.Columns.Count - 1).Type = type;
-        }
-
-        private void WriteToWorkSheet()
-        {
-            for (int i = 1; i < data.Columns.Count; i++)
-            {
-                worksheet.Range[$"{(char)(ASCIIChar.A + i)}{1}"].FormulaR1C1 = data.Columns[i].ColumnName;
+                worksheet.Cells[i + 1, columncount] = data[i - 1];
             }
 
-            for (int i = 0; i < data.Rows.Count; i++)
-            {
-                for (int j = 0; j < data.Columns.Count; j++)
-                {
-                    worksheet.Range[$"{(char)(ASCIIChar.A + j)}{i + 2}"].FormulaR1C1 = this.data.Rows[i][j];
-                }
-            }
-            chart.SetSourceData($@"='Sheet1'!$A$1:${(char)(ASCIIChar.A + data.Columns.Count - 1)}${data.Rows.Count + 1}");
+
+            var x = chart.SeriesCollection().Add($@"=Sheet1!${(char)(ASCIIChar.A + columncount - 1)}$1:${(char)(ASCIIChar.A + columncount - 1)}${rowcount}");
+            x.Type = type;
         }
+
 
         protected override void CleanUpUnmanagedResources()
         {

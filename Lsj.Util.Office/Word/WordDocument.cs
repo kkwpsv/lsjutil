@@ -36,7 +36,7 @@ namespace Lsj.Util.Office.Word
         {
             this.app = app;
             this.doc = doc;
-            this.app.Visible = true;            
+            this.app.Visible = true;
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
             this.Tables = new Tables(doc);
@@ -68,7 +68,7 @@ namespace Lsj.Util.Office.Word
 
         public void SetSpellCheck(bool isOpen)
         {
-            if(!isOpen)
+            if (!isOpen)
             {
                 doc.SpellingChecked = false;
                 doc.ShowSpellingErrors = false;
@@ -77,7 +77,7 @@ namespace Lsj.Util.Office.Word
             {
                 doc.SpellingChecked = true;
                 doc.ShowSpellingErrors = true;
-            }          
+            }
         }
 
         public void SetDocPaper(ePaperSize size)
@@ -122,13 +122,13 @@ namespace Lsj.Util.Office.Word
         {
             this.Sections[0].AddPageNumberAtFooter();
         }
-        public void AddTable(int rows, int columns)
+        public Table AddTable(int rows, int columns)
         {
             app.Options.ReplaceSelection = false;
             GoToEnd();
             var selection = app.Selection;
             selection.InsertBreak(WdBreakType.wdLineBreak);
-            selection.Tables.Add(selection.Range, rows, columns);
+            return new Table(selection.Tables.Add(selection.Range, rows, columns));
         }
         public Chart AddChart(eChartType type, bool isinline = true)
         {
@@ -182,12 +182,12 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
-        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? firstlineindentcharacter = null)
+        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null, float? firstlineindentcharacter = null)
         {
             GoToEnd();
             SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style, firstlineindentcharacter);
         }
-        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? firstlineindentcharacter = null)
+        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null, float? firstlineindentcharacter = null)
         {
             var selection = app.Selection;
             if (style != null)
@@ -244,7 +244,7 @@ namespace Lsj.Util.Office.Word
             {
                 selection.Font.Underline = (WdUnderline)underline;
             }
-            if(firstlineindentcharacter != null)
+            if (firstlineindentcharacter != null)
             {
                 selection.ParagraphFormat.CharacterUnitFirstLineIndent = firstlineindentcharacter.Value;
             }
@@ -260,6 +260,18 @@ namespace Lsj.Util.Office.Word
             GoToEnd();
             var selection = app.Selection;
             selection.Paste();
+        }
+        public void PasteWithOriginalFormat()
+        {
+            GoToEnd();
+            var selection = app.Selection;
+            selection.PasteAndFormat(WdRecoveryType.wdFormatOriginalFormatting);
+        }
+        public void PasteWithStyle()
+        {
+            GoToEnd();
+            var selection = app.Selection;
+            selection.PasteAndFormat(WdRecoveryType.wdUseDestinationStylesRecovery);
         }
 
 

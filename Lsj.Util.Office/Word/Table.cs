@@ -138,6 +138,10 @@ namespace Lsj.Util.Office.Word
             }
         }
 
+        public void AutoFitWidth()
+        {
+            table.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitContent);
+        }
 
     }
 }
