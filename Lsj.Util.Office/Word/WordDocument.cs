@@ -36,7 +36,7 @@ namespace Lsj.Util.Office.Word
         {
             this.app = app;
             this.doc = doc;
-            this.app.Visible = true;
+            this.app.Visible = true;            
             this.Sections = new Sections(doc);
             this.TablesOfContents = new TablesOfContents(doc);
             this.Tables = new Tables(doc);
@@ -65,6 +65,20 @@ namespace Lsj.Util.Office.Word
             get;
         }
         public Charts Charts { get; }
+
+        public void SetSpellCheck(bool isOpen)
+        {
+            if(!isOpen)
+            {
+                doc.SpellingChecked = false;
+                doc.ShowSpellingErrors = false;
+            }
+            else
+            {
+                doc.SpellingChecked = true;
+                doc.ShowSpellingErrors = true;
+            }          
+        }
 
         public void SetDocPaper(ePaperSize size)
         {
@@ -169,12 +183,12 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
-        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
         {
             GoToEnd();
-            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style);
+            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style, characterUnitFirstLineIndent);
         }
-        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
         {
             var selection = app.Selection;
             if (style != null)
@@ -230,6 +244,10 @@ namespace Lsj.Util.Office.Word
             if (underline != null)
             {
                 selection.Font.Underline = (WdUnderline)underline;
+            }
+            if(characterUnitFirstLineIndent != null)
+            {
+                selection.ParagraphFormat.CharacterUnitFirstLineIndent = characterUnitFirstLineIndent.Value;
             }
 
         }
