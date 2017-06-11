@@ -104,7 +104,7 @@ namespace Lsj.Util.Debugger
             }
             using (var doc = new WordDocument())
             {
-                doc.SetDocPaper(WdPaperSize.wdPaperA4);
+                doc.SetDocPaper(ePaperSize.PaperA4);
                 doc.SetDocMargin(doc.MillimetersToPoints(38.1), doc.MillimetersToPoints(31.9), doc.MillimetersToPoints(27), doc.MillimetersToPoints(19.4));
                 doc.SetAppendStyle(size: 28, alignment: eParagraphAlignment.Center);
                 doc.AppendLine();
@@ -163,43 +163,43 @@ namespace Lsj.Util.Debugger
                 doc.Tables[1].AddTableBorder();
                 doc.Tables[1].CellText(1, 1, "test");
                 doc.Tables[1].SetCellStyle(1, 1, backgroundcolor: Color.AliceBlue, bold: true);
-                doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Left, characterUnitFirstLineIndent: 2);
+                doc.SetAppendStyle(size: 16, alignment: eParagraphAlignment.Left, firstlineindentcharacter: 2);
                 doc.AppendLine("该学生学业支持系统的整体情况为");
                 doc.SetAppendStyle(size: 12, alignment: eParagraphAlignment.Left);
                 doc.AppendLine("该生的师生关系类型是平淡顺应型，属于普通型师生关系。该生对教师有一定程度的敬重和信任，平时可以与教师进行较好的沟通与互动，遇到问题时也能接受教师的帮助，极少与教师发生思想和行为上冲突。但是该生对师生关系的进一步发展与提高没有积极的期待，师生关系较为平稳。 ");
-                using (var chart = doc.AddChart(XlChartType.xlColumnClustered))
-            {
-                string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
-                double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
-                double[] values1 = { 5, 5, 5, 5, 5 }; // 对应数据
-                double[] values2 = { 5, 5, 3, 5, 5 }; // 对应数据
-                double[] values3 = { 5, 4, 5, 2, 5 }; // 对应数据
-                double[] values4 = { 0, 1, 1, 2, 2 }; // 对应数据
-                chart.SetData(names, "123", values);
-                chart.AddNewSeries(XlChartType.xlLine, "456111", values1);
-                chart.AddNewSeries(XlChartType.xlLine, "45611", values2);
-                chart.AddNewSeries(XlChartType.xlLine, "45611111", values3);
-                chart.AddNewSeries(XlChartType.xlLine, "4561111", values4);
+                using (var chart = doc.AddChart(eChartType.xlColumnClustered))
+                {
+                    string[] names = { "公司A", "公司B", "公司C", "公司D", "公司E" }; // 数据名称
+                    double[] values = { 10.0, 32.5, 22.4, 34.1, 15.9 }; // 对应数据
+                    double[] values1 = { 5, 5, 5, 5, 5 }; // 对应数据
+                    double[] values2 = { 5, 5, 3, 5, 5 }; // 对应数据
+                    double[] values3 = { 5, 4, 5, 2, 5 }; // 对应数据
+                    double[] values4 = { 0, 1, 1, 2, 2 }; // 对应数据
+                    chart.SetData(names, "123", values);
+                    chart.AddNewSeries(eChartType.xlLine, "456111", values1);
+                    chart.AddNewSeries(eChartType.xlLine, "45611", values2);
+                    chart.AddNewSeries(eChartType.xlLine, "45611111", values3);
+                    chart.AddNewSeries(eChartType.xlLine, "4561111", values4);
+                }
+                doc.SaveAs(@"R:\temp.docx");
+                Console.ReadLine();
+                doc.Close();
+
             }
-            doc.SaveAs(@"R:\temp.docx");
-            Console.ReadLine();
-            doc.Close();
+
+
+            //using (var doc1 = new WordDocument())
+            //{
+            //    doc1.AppendLine("test");
+
+            //    using (var doc2 = new WordDocument())
+            //    {
+            //        doc1.fuck.Content.Copy();
+            //        doc2.fuck.Application.Selection.Paste();
+            //    }
+            //}
 
         }
-
-
-        //using (var doc1 = new WordDocument())
-        //{
-        //    doc1.AppendLine("test");
-
-        //    using (var doc2 = new WordDocument())
-        //    {
-        //        doc1.fuck.Content.Copy();
-        //        doc2.fuck.Application.Selection.Paste();
-        //    }
-        //}
-
-    }
 
     }
 }

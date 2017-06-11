@@ -168,7 +168,6 @@ namespace Lsj.Util.Office.Word
             GoToEnd();
             var selection = app.Selection;
             selection.InsertBreak(WdBreakType.wdPageBreak);
-            selection.Delete(WdUnits.wdCharacter, -1);
         }
         public void AppendSection()
         {
@@ -183,12 +182,12 @@ namespace Lsj.Util.Office.Word
             var selection = app.Selection;
             doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
-        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
+        public void SetAppendStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? firstlineindentcharacter = null)
         {
             GoToEnd();
-            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style, characterUnitFirstLineIndent);
+            SetSelectionStyle(size, fontname, alignment, fontcolor, backgroundcolor, foregroundcolor, bold, italic, underline, style, firstlineindentcharacter);
         }
-        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? characterUnitFirstLineIndent=null)
+        public void SetSelectionStyle(int? size = null, string fontname = null, eParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundcolor = null, Color? foregroundcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null,float? firstlineindentcharacter = null)
         {
             var selection = app.Selection;
             if (style != null)
@@ -245,9 +244,9 @@ namespace Lsj.Util.Office.Word
             {
                 selection.Font.Underline = (WdUnderline)underline;
             }
-            if(characterUnitFirstLineIndent != null)
+            if(firstlineindentcharacter != null)
             {
-                selection.ParagraphFormat.CharacterUnitFirstLineIndent = characterUnitFirstLineIndent.Value;
+                selection.ParagraphFormat.CharacterUnitFirstLineIndent = firstlineindentcharacter.Value;
             }
 
         }
