@@ -50,7 +50,7 @@ namespace Lsj.Util.Office.Word
             WriteToWorkSheet();
         }
 
-        public void AddNewSeries(Microsoft.Office.Core.XlChartType type, string datatitle, double[] data)
+        public void AddNewSeries(eChartType type, string datatitle, double[] data)
         {
             var x = this.data.Columns.Count;
             var column = this.data.Columns.Add();

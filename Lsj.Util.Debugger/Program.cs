@@ -16,7 +16,7 @@ namespace Lsj.Util.Debugger
             //	Console.ReadLine();
             //using (var doc = new WordDocument())
             //{
-            //    doc.SetDocPaper(WdPaperSize.wdPaperA4);
+            //   doc.SetDocPaper(WdPaperSize.wdPaperA4);
             //    doc.SetDocMargin(doc.MillimetersToPoints(38.1), doc.MillimetersToPoints(31.9), doc.MillimetersToPoints(27), doc.MillimetersToPoints(19.4));
             //    doc.SetAppendStyle(size: 28, alignment: eParagraphAlignment.Center);
             //    doc.AppendLine();
@@ -97,16 +97,11 @@ namespace Lsj.Util.Debugger
             //}
 
 
-            //using (var doc1 = new WordDocument())
-            //{
-            //    doc1.AppendLine("test");
-
-            //    using (var doc2 = new WordDocument())
-            //    {
-            //        doc1.fuck.Content.Copy();
-            //        doc2.fuck.Application.Selection.Paste();
-            //    }
-            //}
+            using (var doc1 = new WordDocument())
+            {
+                doc1.AppendLine("test");
+                doc1.SaveAs(@"R:\temp.doc");
+            }
 
         }
 

@@ -66,9 +66,9 @@ namespace Lsj.Util.Office.Word
         }
         public Charts Charts { get; }
 
-        public void SetDocPaper(WdPaperSize size)
+        public void SetDocPaper(ePaperSize size)
         {
-            doc.PageSetup.PaperSize = size;
+            doc.PageSetup.PaperSize = (WdPaperSize)size;
         }
         public void SetDocMargin(float? left, float? right, float? top, float? bottom)
         {
@@ -116,7 +116,7 @@ namespace Lsj.Util.Office.Word
             selection.InsertBreak(WdBreakType.wdLineBreak);
             selection.Tables.Add(selection.Range, rows, columns);
         }
-        public Chart AddChart(XlChartType type, bool isinline = true)
+        public Chart AddChart(eChartType type, bool isinline = true)
         {
             app.Options.ReplaceSelection = false;
             GoToEnd();
@@ -124,11 +124,11 @@ namespace Lsj.Util.Office.Word
             Microsoft.Office.Interop.Word.Chart chart;
             if (isinline)
             {
-                chart = selection.InlineShapes.AddChart2(Type: type).Chart;
+                chart = selection.InlineShapes.AddChart2(Type: (XlChartType)type).Chart;
             }
             else
             {
-                chart = doc.Shapes.AddChart2(Type: type).Chart;
+                chart = doc.Shapes.AddChart2(Type: (XlChartType)type).Chart;
             }
 
             return new Chart(chart);

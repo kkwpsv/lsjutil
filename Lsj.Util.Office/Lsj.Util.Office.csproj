@@ -88,7 +88,9 @@
     <Compile Include="Word\Chart.cs" />
     <Compile Include="Word\Charts.cs" />
     <Compile Include="Word\eBuiltinStyle.cs" />
+    <Compile Include="Word\eChartType.cs" />
     <Compile Include="Word\eLineStyle.cs" />
+    <Compile Include="Word\ePaperSize.cs" />
     <Compile Include="Word\eUnderline.cs" />
     <Compile Include="Word\eParagraphAlignment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
