@@ -47,7 +47,12 @@ namespace Lsj.Util.Office.Word
         /// </summary>
         protected override void CleanUpUnmanagedResources()
         {
-            app.Quit(true);
+            doc.Close(false);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
+            doc = null;
+            app.Quit(false);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
+            app = null;
             base.CleanUpUnmanagedResources();
         }
 
@@ -66,6 +71,10 @@ namespace Lsj.Util.Office.Word
         }
         public Charts Charts { get; }
 
+        public void SetVisible(bool isVisible)
+        {
+            app.Visible = isVisible;
+        }
         public void SetSpellCheck(bool isOpen)
         {
             if (!isOpen)

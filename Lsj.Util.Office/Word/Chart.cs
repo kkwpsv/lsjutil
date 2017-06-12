@@ -52,14 +52,25 @@ namespace Lsj.Util.Office.Word
             }
 
 
-            var x = chart.SeriesCollection().Add($@"=Sheet1!${(char)(ASCIIChar.A + columncount - 1)}$1:${(char)(ASCIIChar.A + columncount - 1)}${rowcount}");
+            var x = chart.SeriesCollection().Add($@"=Sheet1!${(char)(ASCIIChar.A + columncount - 1)}$2:${(char)(ASCIIChar.A + columncount - 1)}${rowcount}");
             x.Type = type;
+            x.Name = datatitle;
         }
 
 
         protected override void CleanUpUnmanagedResources()
         {
-            this.application.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+            worksheet = null;
+
+            workbook.Close(false);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+            workbook = null;
+
+            application.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(application);
+            application = null;
+            base.CleanUpUnmanagedResources();
         }
     }
 }

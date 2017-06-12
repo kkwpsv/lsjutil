@@ -12,6 +12,26 @@ namespace Lsj.Util.Debugger
     {
         public static void Main()
         {
+
+            try
+            {
+
+            }
+            finally
+            {
+                try
+                {
+
+                }
+                finally
+                {
+                    Console.WriteLine(1);
+                    throw new Exception();
+                    Console.WriteLine(2);
+                }
+
+            }
+
             //	IntPtr a = Marshal.AllocHGlobal(1000000000);
             //	Console.ReadLine();
             //using (var doc = new WordDocument())
@@ -96,37 +116,37 @@ namespace Lsj.Util.Debugger
 
             //}
 
-            using (var doc = new WordDocument())
-            {
+            //using (var doc = new WordDocument())
+            //{
 
-                using (var chart = doc.AddChart(eChartType.xlColumnClustered))
-                {
-                    var random = new Random();
-                    List<string> fuck1 = new List<string>();
-                    List<double> fuck2 = new List<double>();
-                    List<double> fuck3 = new List<double>();
-                    for (int i = 0; i < 50; i++)
-                    {
-                        fuck1.Add("Fuck" + i);
-                        fuck2.Add(random.NextDouble());
-                        fuck3.Add(random.NextDouble());
-                    }
-
-
-
-
-                    chart.SetData(fuck1.ToArray(), "123", fuck2.ToArray());
-                    chart.AddNewSeries(eChartType.xlLine, "456111", fuck3.ToArray());
-                }
+            //    using (var chart = doc.AddChart(eChartType.xlColumnClustered))
+            //    {
+            //        var random = new Random();
+            //        List<string> fuck1 = new List<string>();
+            //        List<double> fuck2 = new List<double>();
+            //        List<double> fuck3 = new List<double>();
+            //        for (int i = 0; i < 5; i++)
+            //        {
+            //            fuck1.Add("Fuck" + i);
+            //            fuck2.Add(random.NextDouble());
+            //            fuck3.Add(random.NextDouble());
+            //        }
 
 
 
 
-                doc.SaveAs(@"R:\temp.docx");
-                Console.ReadLine();
-                doc.Close();
+            //        chart.SetData(fuck1.ToArray(), "123", fuck2.ToArray());
+            //        chart.AddNewSeries(eChartType.xlLine, "456111", fuck3.ToArray());
+            //    }
 
-            }
+            //    throw new Exception();
+
+
+            //    doc.SaveAs(@"R:\temp.docx");
+            //    Console.ReadLine();
+            //    doc.Close();
+
+            //}
 
 
             //using (var doc1 = new WordDocument())
