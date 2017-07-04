@@ -85,6 +85,9 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -107,6 +110,7 @@
     <Compile Include="Collections\SafeDictionary.cs" />
     <Compile Include="Collections\SafeStringToStringDirectionary.cs" />
     <Compile Include="Collections\SeqList.cs" />
+    <Compile Include="Collections\SortHelper.cs" />
     <Compile Include="Collections\TwoWayDictionary.cs" />
     <Compile Include="Config\AppConfig.cs" />
     <Compile Include="Config\ConfigElement.cs" />
@@ -149,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
