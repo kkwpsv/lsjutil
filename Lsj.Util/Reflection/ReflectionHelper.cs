@@ -38,6 +38,13 @@ namespace Lsj.Util.Reflection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="type"></param>
+        /// <returns></returns>
+        public static T CreateInstance<T>(params object[] param) => CreateInstance<T>(typeof(T), param);
+        /// <summary>
+        /// Create Instance
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
         /// <param name="param"></param>
         /// <returns></returns>
         public static T CreateInstance<T>(this Type type, params object[] param)
