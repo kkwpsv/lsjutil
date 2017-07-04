@@ -374,8 +374,16 @@ namespace Lsj.Util.Protobuf
             var result = x.CreateListOfInstance();
             while (offset < end)
             {
-                var v = GetData(eFieldType.Varint, x);
-                result.GetType().GetMethod("Add").Invoke(result, new object[] { v });
+                if (typeof(Message).IsAssignableFrom(x))
+                {
+                    var v = GetData(eFieldType.LengthDelimited, x);
+                    result.GetType().GetMethod("Add").Invoke(result, new object[] { v });
+                }
+                else
+                {
+                    var v = GetData(eFieldType.Varint, x);
+                    result.GetType().GetMethod("Add").Invoke(result, new object[] { v });
+                }
             }
             return result.GetType().GetMethod("ToArray").Invoke(result, null);
             throw new InvalidOperationException("Buffer is too short");
