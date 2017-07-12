@@ -16,3 +16,4 @@ nuget push Lsj.Util.Net/bin/Release/Lsj.Util.Net.Core.1.0.0.nupkg -Source https:
 nuget push Lsj.Util.Net.Web/bin/Release/Lsj.Util.Net.Web.Core.1.0.0.nupkg -Source https://nuget.o0o0o0o.cn
 nuget push Lsj.Util.Protobuf/bin/Release/Lsj.Util.Protobuf.Core.1.0.0.nupkg -Source https://nuget.o0o0o0o.cn
 nuget push Lsj.Util.SQLBuilder/bin/Release/Lsj.Util.SQLBuilder.Core.1.0.0.nupkg -Source https://nuget.o0o0o0o.cn
+nuget push Lsj.Util.AspNet/bin/Release/Lsj.Util.AspNet.Core.1.0.0.nupkg -Source https://nuget.o0o0o0o.cn
