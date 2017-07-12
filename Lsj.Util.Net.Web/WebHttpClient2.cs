@@ -17,7 +17,7 @@ namespace Lsj.Util.Net.Web
     /// <summary>
     /// WebClient
     /// </summary>
-    public class WebHttpClient2 :DisposableClass, IDisposable
+    public class WebHttpClient2 : DisposableClass, IDisposable
     {
         /* 
          * 采用Connection:Close
@@ -142,7 +142,7 @@ namespace Lsj.Util.Net.Web
             }
 
         }
-        private IHttpResponse Do()
+        public IHttpResponse Do()
         {
             //发送请求头
             stream.Write(request.GetHttpHeader().ConvertToBytes(Encoding.UTF8));
