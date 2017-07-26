@@ -9,8 +9,10 @@ namespace Lsj.Util.Net.Sockets.Event
     /// <summary>
     /// SocketReceivedArgs
     /// </summary>
-    public class SocketReceivedArgs :EventArgs
+    public class SocketReceivedArgs : EventArgs
     {
+
+
         /// <summary>
         /// socket
         /// </summary>
@@ -27,6 +29,16 @@ namespace Lsj.Util.Net.Sockets.Event
             get;
             private set;
         }
+        public int offset
+        {
+            get;
+            private set;
+        }
+        public int count
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// IsReject
         /// </summary>
@@ -35,15 +47,14 @@ namespace Lsj.Util.Net.Sockets.Event
             get;
             set;
         } = false;
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.Event.SocketReceivedArgs"/> class.
-        /// </summary>
-        /// <param name="socket">Socket.</param>
-        /// <param name="buffer">Buffer.</param>
-        public SocketReceivedArgs(Socket socket, byte[] buffer)
+
+
+        public SocketReceivedArgs(Socket socket, byte[] buffer, int offset, int count)
         {
             this.socket = socket;
             this.buffer = buffer;
+            this.offset = offset;
+            this.count = count;
         }
     }
 }

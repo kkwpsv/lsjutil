@@ -16,6 +16,10 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         public byte[] buffer;
         /// <summary>
+        /// 
+        /// </summary>
+        public int offset;
+        /// <summary>
         /// The handle.
         /// </summary>
         public Socket handle;

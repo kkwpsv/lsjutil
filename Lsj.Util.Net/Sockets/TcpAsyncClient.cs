@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -127,14 +126,7 @@ namespace Lsj.Util.Net.Sockets
             }
             try
             {
-#if NETCOREAPP1_1
-                var args = new SocketAsyncEventArgs();
-                args.Completed += this.Connect_Completed;
-                args.RemoteEndPoint = new IPEndPoint(IP, Port);
-                Connect(args);
-#else
-                socket.BeginConnect(IP, Port, OnConnected);
-#endif
+                Connect();
                 IsStarted = true;
             }
             catch (Exception e)
@@ -169,9 +161,11 @@ namespace Lsj.Util.Net.Sockets
         }
 
 
-#if NETCOREAPP1_1
-        private void Connect(SocketAsyncEventArgs args)
+        private void Connect()
         {
+            var args = new SocketAsyncEventArgs();
+            args.Completed += this.Connect_Completed;
+            args.RemoteEndPoint = new IPEndPoint(IP, Port);
             if (!socket.ConnectAsync(args))
             {
                 OnConnected();
@@ -181,23 +175,11 @@ namespace Lsj.Util.Net.Sockets
         {
             OnConnected();
         }
-#endif
-        /// <summary>
-        /// OnConnected.
-        /// </summary>
-        /// <param name="ar">Ar.</param>
-#if NETCOREAPP1_1
+
         private void OnConnected()
-#else
-        private void OnConnected(IAsyncResult ar)
-#endif
         {
             try
             {
-#if NETCOREAPP1_1
-#else
-                socket.EndConnect(ar);
-#endif
                 if (SocketConnected != null)
                 {
                     var args = new SocketConnectedArgs(socket);
@@ -223,31 +205,12 @@ namespace Lsj.Util.Net.Sockets
         {
 
         }
-        /// <summary>
-        /// BeginReceive.
-        /// </summary>
-        /// <param name="obj">Object.</param>
-        protected void BeginReceive(StateObject obj)
+        public void Receive(StateObject obj)
         {
-            var handle = obj.handle;
-            var buffer = GetReadBuffer();
-            obj.buffer = buffer;
-#if NETCOREAPP1_1
-            Receive(null, obj);
-#else
-            handle.BeginReceive(buffer, OnReceived, obj);
-#endif
-        }
-#if NETCOREAPP1_1
-        private void Receive(SocketAsyncEventArgs args, StateObject obj)
-        {
-            if (args == null)
-            {
-                args = new SocketAsyncEventArgs();
-                args.Completed += this.Received_Completed;
-            }
+            var args = new SocketAsyncEventArgs();
+            args.Completed += this.Received_Completed;
             args.UserToken = obj;
-            args.SetBuffer(obj.buffer, 0, obj.buffer.Length);
+            args.SetBuffer(obj.buffer, obj.offset, obj.buffer.Length - obj.offset);
             var handle = obj.handle;
             if (handle.ReceiveAsync(args))
             {
@@ -258,34 +221,14 @@ namespace Lsj.Util.Net.Sockets
         {
             OnReceived(args);
         }
-#endif
-#if NETCOREAPP1_1
+
         private void OnReceived(SocketAsyncEventArgs e)
-#else
-        private void OnReceived(IAsyncResult ar)
-#endif
         {
-#if NETCOREAPP1_1
             var obj = e.UserToken as StateObject;
-#else
-            var obj = ar.AsyncState as StateObject;
-#endif
-            var handle = obj.handle;
-            var buffer = obj.buffer;
-#if NETCOREAPP1_1
             var received = e.BytesTransferred;
-#else
-            var received = handle.EndReceive(ar);
-#endif
-            var newbuffer = GetReadBuffer();
-#if NETCOREAPP1_1
-            Receive(e, GetStateObject(handle, newbuffer));
-#else
-            handle.BeginReceive(newbuffer, OnReceived, GetStateObject(handle, newbuffer));
-#endif
             if (SocketReceived != null)
             {
-                var args = new SocketReceivedArgs(handle, buffer);
+                var args = new SocketReceivedArgs(e.ConnectSocket, e.Buffer, e.Offset, e.BytesTransferred);
                 SocketReceived(this, args);
                 if (args.IsReject)
                 {
@@ -293,41 +236,23 @@ namespace Lsj.Util.Net.Sockets
                     return;
                 }
             }
-            AfterOnReceived(obj);
-
+            AfterOnReceived(obj, received);
         }
         /// <summary>
         /// AfterOnReceived
         /// </summary>
         /// <param name="obj"></param>
-        protected virtual void AfterOnReceived(StateObject obj)
+        protected virtual void AfterOnReceived(StateObject obj, int received)
         {
 
         }
-        /// <summary>
-        /// BeginSend
-        /// </summary>
-        /// <param name="obj"></param>
-        protected void BeginSend(StateObject obj)
+
+        public void Send(StateObject obj, byte[] tosend, int offet, int count)
         {
-            var handle = obj.handle;
-            var buffer = obj.buffer;
-#if NETCOREAPP1_1
-            Send(null, obj);
-#else
-            handle.BeginSend(buffer, OnSent, obj);
-#endif
-        }
-#if NETCOREAPP1_1
-        private void Send(SocketAsyncEventArgs args, StateObject obj)
-        {
-            if (args == null)
-            {
-                args = new SocketAsyncEventArgs();
-                args.Completed += this.Send_Completed;
-            }
+            var args = new SocketAsyncEventArgs();
+            args.Completed += this.Send_Completed;
             args.UserToken = obj;
-            args.SetBuffer(obj.buffer, 0, obj.buffer.Length);
+            args.SetBuffer(tosend, offet, count);
             var handle = obj.handle;
             if (handle.SendAsync(args))
             {
@@ -338,48 +263,21 @@ namespace Lsj.Util.Net.Sockets
         {
             OnSent(args);
         }
-#endif
-#if NETCOREAPP1_1
         private void OnSent(SocketAsyncEventArgs e)
-#else
-        private void OnSent(IAsyncResult ar)
-#endif
         {
-#if NETCOREAPP1_1
             var obj = e.UserToken as StateObject;
-#else
-            var obj = ar.AsyncState as StateObject;
-#endif
-            var handle = obj.handle;
-            var buffer = obj.buffer;
-#if NETCOREAPP1_1
-#else
-            handle.EndSend(ar);
-#endif
             if (SocketSent != null)
             {
-                var args = new SocketSentArgs(handle, buffer);
+                var args = new SocketSentArgs(e.ConnectSocket, e.Buffer, e.Offset, e.BytesTransferred);
                 SocketSent(this, args);
             }
-            AfterSent(handle, buffer);
+            AfterSent(obj, e.Buffer, e.Offset, e.BytesTransferred);
         }
-        /// <summary>
-        /// AfterSent
-        /// </summary>
-        /// <param name="handle"></param>
-        /// <param name="buffer"></param>
-        protected virtual void AfterSent(Socket handle, byte[] buffer)
+        protected virtual void AfterSent(StateObject handle, byte[] buffer, int offset, int count)
         {
+
         }
 
-        /// <summary>
-        /// GetReadBuffer
-        /// </summary>
-        /// <returns></returns>
-        protected virtual byte[] GetReadBuffer()
-        {
-            return new byte[1024];
-        }
         /// <summary>
         /// GetStateObject
         /// </summary>
