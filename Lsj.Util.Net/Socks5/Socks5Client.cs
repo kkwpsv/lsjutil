@@ -10,8 +10,6 @@ namespace Lsj.Util.Net.Socks5
     {
         protected override void AfterOnConnected(StateObject obj)
         {
-            byte ver = 0x05;
-            byte[] methods = { 0 };
 
         }
     }
