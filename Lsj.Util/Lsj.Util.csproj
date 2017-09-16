@@ -99,6 +99,9 @@
   <ItemGroup>
     <Compile Include="ASCIIChar.cs" />
     <Compile Include="AsyncHelper.cs" />
+    <Compile Include="Binary\BaseBinaryFile.cs" />
+    <Compile Include="Binary\DosExeFile.cs" />
+    <Compile Include="Binary\PEFile.cs" />
     <Compile Include="Collections\ArrayHelper.cs" />
     <Compile Include="Collections\BinaryTree.cs" />
     <Compile Include="Collections\DoubleLinkList.cs" />
@@ -137,6 +140,7 @@
     <Compile Include="Logs\LogProvider.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickBitConverter.cs" />
     <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="Static.cs" />
     <Compile Include="StreamHelper.cs" />
