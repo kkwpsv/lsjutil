@@ -8,6 +8,7 @@
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility For Net</Description>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

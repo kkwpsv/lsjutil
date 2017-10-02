@@ -77,11 +77,19 @@ namespace Lsj.Util.Net.Socks5
                                             var x = new byte[client.buffer[4]];
                                             UnsafeHelper.Copy(client.buffer, 5, x, 0, client.buffer[4]);
                                             var y = x.ConvertFromBytes(Encoding.ASCII);
+#if NETCOREAPP1_1
+                                            remoteip = Dns.GetHostAddressesAsync(y).WaitAndGetResult().FirstOrDefault();
+#else
                                             remoteip = Dns.GetHostAddresses(y).FirstOrDefault();
+#endif
                                             if (remoteip == null)
                                             {
                                                 LogProvider.Default.Debug("Disconnected with Error Domain Name, EndPoint: " + client.handle.RemoteEndPoint);
+#if NETCOREAPP1_1
+                                                client.handle.Dispose();
+#else
                                                 client.handle.Disconnect(false);
+#endif
                                                 this.Clients.Remove(client);
                                                 return;
                                             }
@@ -101,7 +109,11 @@ namespace Lsj.Util.Net.Socks5
                                     else
                                     {
                                         LogProvider.Default.Debug("Disconnected with Error ATYP, EndPoint: " + client.handle.RemoteEndPoint);
-                                        client.handle.Disconnect(false);
+#if NETCOREAPP1_1
+                                        client.handle.Dispose();
+#else
+                                                client.handle.Disconnect(false);
+#endif
                                         this.Clients.Remove(client);
                                         return;
                                     }
@@ -120,7 +132,11 @@ namespace Lsj.Util.Net.Socks5
                                                 return;
                                             default:
                                                 LogProvider.Default.Debug("Disconnected with Error CMD, EndPoint: " + client.handle.RemoteEndPoint);
+#if NETCOREAPP1_1
+                                                client.handle.Dispose();
+#else
                                                 client.handle.Disconnect(false);
+#endif
                                                 this.Clients.Remove(client);
                                                 return;
                                         }
@@ -130,7 +146,11 @@ namespace Lsj.Util.Net.Socks5
                             else
                             {
                                 LogProvider.Default.Debug("Disconnected with Error Version, EndPoint: " + client.handle.RemoteEndPoint);
-                                client.handle.Disconnect(false);
+#if NETCOREAPP1_1
+                                client.handle.Dispose();
+#else
+                                                client.handle.Disconnect(false);
+#endif
                                 this.Clients.Remove(client);
                                 return;
                             }
@@ -183,7 +203,11 @@ namespace Lsj.Util.Net.Socks5
                     this.Receive(client);
                     return;
                 }
-                client.handle.Disconnect(false);
+#if NETCOREAPP1_1
+                client.handle.Dispose();
+#else
+                                                client.handle.Disconnect(false);
+#endif
                 this.Clients.Remove(client);
             }
 
@@ -255,7 +279,11 @@ namespace Lsj.Util.Net.Socks5
         }
         public void DisconnectClient(Socks5ServerClient client)
         {
-            client.handle.Disconnect(false);
+#if NETCOREAPP1_1
+            client.handle.Dispose();
+#else
+                                                client.handle.Disconnect(false);
+#endif
             this.Clients.Remove(client);
         }
     }
