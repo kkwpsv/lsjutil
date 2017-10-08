@@ -5,8 +5,13 @@ using System.Text;
 
 namespace Lsj.Util.Office.Word
 {
-    public enum eLineStyle
+
+    /// <summary>
+    /// LineStyle
+    /// </summary>
+    public enum LineStyle
     {
+#pragma warning disable CS1591
         wdLineStyleNone = 0,
         wdLineStyleSingle = 1,
         wdLineStyleDot = 2,
@@ -32,5 +37,6 @@ namespace Lsj.Util.Office.Word
         wdLineStyleEngrave3D = 22,
         wdLineStyleOutset = 23,
         wdLineStyleInset = 24
+#pragma warning restore CS1591
     }
 }

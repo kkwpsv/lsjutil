@@ -6,26 +6,25 @@ namespace Lsj.Util.Collections
 {
 
     /// <summary>
-    /// Object pool.
+    /// Object Pool
     /// </summary>
     public class ObjectPool<T> where T : class
     {
-        private readonly Func<T> m_createMethod;
-        private readonly Queue<T> m_items = new Queue<T>();
+        private Func<T> m_createMethod;
+        private MyQueue<T> m_items = new MyQueue<T>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.ObjectPool`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.ObjectPool{T}"/> class.
         /// </summary>
-        /// <param name="createHandler">Create handler.</param>
-        public ObjectPool(Func<T> createHandler)
+        /// <param name="createMethod">Create Method</param>
+        public ObjectPool(Func<T> createMethod)
         {
-            m_createMethod = createHandler;
+            m_createMethod = createMethod;
         }
 
         /// <summary>
-        /// Dequeue this instance.
+        /// Dequeue
         /// </summary>
-        /// <returns>The dequeue.</returns>
         public T Dequeue()
         {
             lock (m_items)
@@ -38,10 +37,8 @@ namespace Lsj.Util.Collections
         }
 
         /// <summary>
-        /// Enqueue the specified value.
+        /// Enqueue
         /// </summary>
-        /// <returns>The enqueue.</returns>
-        /// <param name="value">Value.</param>
         public void Enqueue(T value)
         {
             lock (m_items)

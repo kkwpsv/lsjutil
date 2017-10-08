@@ -7,45 +7,92 @@ using System.Drawing;
 
 namespace Lsj.Util.Office.Word
 {
+    /// <summary>
+    /// Table
+    /// </summary>
     public class Table
     {
         private Microsoft.Office.Interop.Word.Table table;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Office.Word.Table"/> class
+        /// </summary>
+        /// <param name="table"></param>
         public Table(Microsoft.Office.Interop.Word.Table table)
         {
             this.table = table;
         }
-
-        public void AddTableBorder(Color? insidecolor = null, Color? outsidecolor = null, eLineStyle? outsidelinestyle = eLineStyle.wdLineStyleSingle, eLineStyle? insidelinestyle = eLineStyle.wdLineStyleSingle)
+        /// <summary>
+        /// Add Table Border
+        /// </summary>
+        /// <param name="insideColor"></param>
+        /// <param name="outsideColor"></param>
+        /// <param name="outsideLineStyle"></param>
+        /// <param name="insideLineStyle"></param>
+        public void AddTableBorder(Color? insideColor = null, Color? outsideColor = null, LineStyle? outsideLineStyle = LineStyle.wdLineStyleSingle, LineStyle? insideLineStyle = LineStyle.wdLineStyleSingle)
         {
             var border = table.Borders;
-            if (outsidelinestyle != null)
+            if (outsideLineStyle != null)
             {
-                border.OutsideLineStyle = (WdLineStyle)outsidelinestyle;
+                border.OutsideLineStyle = (WdLineStyle)outsideLineStyle;
             }
-            if (insidelinestyle != null)
+            if (insideLineStyle != null)
             {
-                border.InsideLineStyle = (WdLineStyle)insidelinestyle;
+                border.InsideLineStyle = (WdLineStyle)insideLineStyle;
             }
-            if (insidecolor != null)
+            if (insideColor != null)
             {
-                border.InsideColor = (WdColor)(insidecolor.Value.R + insidecolor.Value.G * 0x100 + insidecolor.Value.B * 0x10000);
+                border.InsideColor = (WdColor)(insideColor.Value.R + insideColor.Value.G * 0x100 + insideColor.Value.B * 0x10000);
             }
-            if (outsidecolor != null)
+            if (outsideColor != null)
             {
-                border.OutsideColor = (WdColor)(outsidecolor.Value.R + outsidecolor.Value.G * 0x100 + outsidecolor.Value.B * 0x10000);
+                border.OutsideColor = (WdColor)(outsideColor.Value.R + outsideColor.Value.G * 0x100 + outsideColor.Value.B * 0x10000);
             }
 
         }
-        public void SetRowStyle(int row, Color? backgroundcolor = null, Color? foregroundcolor = null, float? height = null, float? width = null, int? size = null, string fontname = null, eHorizontalAlignment? horizontalalignment = null, eVerticalAlignment? verticalalignment = null, Color? fontcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        /// <summary>
+        /// Set Row Style
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="backgroundColor"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
+        /// <param name="size"></param>
+        /// <param name="fontName"></param>
+        /// <param name="horizontalAlignment"></param>
+        /// <param name="verticalAlignment"></param>
+        /// <param name="fontColor"></param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="style"></param>
+        public void SetRowStyle(int row, Color? backgroundColor = null, Color? foregroundColor = null, float? height = null, float? width = null, int? size = null, string fontName = null, HorizontalAlignment? horizontalAlignment = null, VerticalAlignment? verticalAlignment = null, Color? fontColor = null, bool? bold = null, bool? italic = null, Underline? underline = null, BuiltinStyle? style = null)
         {
             foreach (var cell in table.Rows[row].Cells)
             {
-                SetCellStyle((Cell)cell, backgroundcolor, foregroundcolor, height, width, size, fontname, horizontalalignment, verticalalignment, fontcolor, bold, italic, underline, style);
+                SetCellStyle((Cell)cell, backgroundColor, foregroundColor, height, width, size, fontName, horizontalAlignment, verticalAlignment, fontColor, bold, italic, underline, style);
             }
         }
-        public void SetCellStyle(int row, int column, Color? backgroundcolor = null, Color? foregroundcolor = null, float? height = null, float? width = null, int? size = null, string fontname = null, eHorizontalAlignment? horizontalalignment = null, eVerticalAlignment? verticalalignment = null, Color? fontcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null) => SetCellStyle(table.Cell(row, column), backgroundcolor, foregroundcolor, height, width, size, fontname, horizontalalignment, verticalalignment, fontcolor, bold, italic, underline, style);
-        private void SetCellStyle(Cell cell, Color? backgroundcolor = null, Color? foregroundcolor = null, float? height = null, float? width = null, int? size = null, string fontname = null, eHorizontalAlignment? horizontalalignment = null, eVerticalAlignment? verticalalignment = null, Color? fontcolor = null, bool? bold = null, bool? italic = null, eUnderline? underline = null, eBuiltinStyle? style = null)
+        /// <summary>
+        /// Set Cell Style
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="backgroundColor"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="height"></param>
+        /// <param name="width"></param>
+        /// <param name="size"></param>
+        /// <param name="fontname"></param>
+        /// <param name="horizontalAlignment"></param>
+        /// <param name="verticalAlignment"></param>
+        /// <param name="fontColor"></param>
+        /// <param name="bold"></param>
+        /// <param name="italic"></param>
+        /// <param name="underline"></param>
+        /// <param name="style"></param>
+        public void SetCellStyle(int row, int column, Color? backgroundColor = null, Color? foregroundColor = null, float? height = null, float? width = null, int? size = null, string fontname = null, HorizontalAlignment? horizontalAlignment = null, VerticalAlignment? verticalAlignment = null, Color? fontColor = null, bool? bold = null, bool? italic = null, Underline? underline = null, BuiltinStyle? style = null) => SetCellStyle(table.Cell(row, column), backgroundColor, foregroundColor, height, width, size, fontname, horizontalAlignment, verticalAlignment, fontColor, bold, italic, underline, style);
+        private void SetCellStyle(Cell cell, Color? backgroundcolor = null, Color? foregroundcolor = null, float? height = null, float? width = null, int? size = null, string fontname = null, HorizontalAlignment? horizontalalignment = null, VerticalAlignment? verticalalignment = null, Color? fontcolor = null, bool? bold = null, bool? italic = null, Underline? underline = null, BuiltinStyle? style = null)
         {
 
             if (backgroundcolor != null)
@@ -117,19 +164,34 @@ namespace Lsj.Util.Office.Word
 
 
         }
-
-        public void MergeCell(int row, int column, int mergerow, int mergecolumn)
+        /// <summary>
+        /// Merge Cell
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="mergeRow"></param>
+        /// <param name="mergeColumn"></param>
+        public void MergeCell(int row, int column, int mergeRow, int mergeColumn)
         {
             var cell = table.Cell(row, column);
-            cell.Merge(table.Cell(mergerow, mergecolumn));
+            cell.Merge(table.Cell(mergeRow, mergeColumn));
         }
-
+        /// <summary>
+        /// Set Title
+        /// </summary>
+        /// <param name="title"></param>
         public void SetTitle(string title)
         {
             table.Title = title;
         }
-
-        public void CellText(int row, int column, string text, eParagraphAlignment? alignment = null)
+        /// <summary>
+        /// Cell Text
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="text"></param>
+        /// <param name="alignment"></param>
+        public void CellText(int row, int column, string text, ParagraphAlignment? alignment = null)
         {
             table.Cell(row, column).Range.Text = text;
             if (alignment != null)
@@ -137,7 +199,9 @@ namespace Lsj.Util.Office.Word
                 table.Cell(row, column).Range.ParagraphFormat.Alignment = (WdParagraphAlignment)alignment.Value;
             }
         }
-
+        /// <summary>
+        /// Auto Fit Wieth
+        /// </summary>
         public void AutoFitWidth()
         {
             table.AutoFitBehavior(WdAutoFitBehavior.wdAutoFitContent);

@@ -12,7 +12,7 @@ using Lsj.Util.Text;
 namespace Lsj.Util.Net.Web.Message
 {
     /// <summary>
-    /// Http message base.
+    /// HttpMessage Base
     /// </summary>
     public abstract class HttpMessageBase : IHttpMessage
     {
@@ -55,7 +55,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// ContentLength
         /// </summary>
-        public virtual int ContentLength => Headers[eHttpHeader.ContentLength].ConvertToInt(0);
+        public virtual int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
         /// <summary>
         /// IsError
         /// </summary>
@@ -87,7 +87,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         public bool Read(byte[] buffer, int offset, int length, ref int read) => InternalRead(buffer, offset, length, ref read);
         /// <summary>
-        /// 
+        /// InternalRead
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
@@ -102,7 +102,7 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
         /// <summary>
-        /// 
+        /// InternalRead
         /// </summary>
         /// <param name="pts"></param>
         /// <param name="offset"></param>
@@ -130,7 +130,7 @@ namespace Lsj.Util.Net.Web.Message
                     if (*(++ptr) == ASCIIChar.SPACE)
                     {
                         var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
-                        if (name != Header.GetNameByHeader(eHttpHeader.Cookie))
+                        if (name != Header.GetNameByHeader(HttpHeader.Cookie))
                         {
                             Headers.Add(name, content);
                         }

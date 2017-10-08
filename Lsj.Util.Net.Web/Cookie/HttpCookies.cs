@@ -15,25 +15,25 @@ namespace Lsj.Util.Net.Web.Cookie
     {
         SafeDictionary<string, HttpCookie> cookies;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Cookie.HttpCookies"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Web.Cookie.HttpCookies"/> class.
         /// </summary>
         public HttpCookies()
         {
             this.cookies = new SafeDictionary<string, HttpCookie>();
         }
         /// <summary>
-        /// Gets the <see cref="T:Lsj.Util.Net.Web.Cookie.HttpCookies"/> with the specified key.
+        /// Get the cookie with the specified key.
         /// </summary>
-        /// <param name="key">Key.</param>
+        /// <param name="key">Key</param>
         public HttpCookie this[string key]
         {
             get
             {
-                return cookies.ContainsKey(key) ? cookies[key] : new HttpCookie { name = key };
+                return cookies.ContainsKey(key) ? cookies[key] : new HttpCookie { Name = key };
             }
         }
         /// <summary>
-        /// Gets the enumerator.
+        /// Get enumerator
         /// </summary>
         /// <returns>The enumerator.</returns>
         public IEnumerator<HttpCookie> GetEnumerator()
@@ -51,7 +51,7 @@ namespace Lsj.Util.Net.Web.Cookie
         /// <param name="cookie"></param>
         public void Add(HttpCookie cookie)
         {
-            cookies[cookie.name] = cookie;
+            cookies[cookie.Name] = cookie;
         }
         /// <summary>
         /// Add
@@ -69,7 +69,7 @@ namespace Lsj.Util.Net.Web.Cookie
                     {
                         var name = cookie[0].Trim();
                         var content = cookie[1].Trim();
-                        this.Add(new HttpCookie { name = name, content = content });
+                        this.Add(new HttpCookie { Name = name, Content = content });
                     }
                 }
             }

@@ -8,12 +8,12 @@ using Lsj.Util.Net.Web.Interfaces;
 namespace Lsj.Util.Net.Web.Event
 {
     /// <summary>
-    /// Request parsed event arguments.
+    /// RequestParsedEventArgs
     /// </summary>
     public class RequestParsedEventArgs :EventArgs
     {
         /// <summary>
-        /// Gets or sets the request.
+        /// Request
         /// </summary>
         /// <value>The request.</value>
         public IHttpRequest Request

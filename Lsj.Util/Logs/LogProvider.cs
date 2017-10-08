@@ -7,7 +7,7 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs
 {
     /// <summary>
-    /// Log provider.
+    /// Log Provider
     /// </summary>
     public class LogProvider
     {
@@ -31,36 +31,34 @@ namespace Lsj.Util.Logs
         }
         private static LogProvider m_default;
         /// <summary>
-        /// Gets the loggers.
+        /// Get Loggers
         /// </summary>
-        /// <value>The loggers.</value>
         public List<ILogger> Loggers
         {
             get;
         } = new List<ILogger>();
 
         /// <summary>
-        /// Initialize a new Log
+        /// Initialize a new instance of the <see cref="Lsj.Util.Logs.LogProvider"/> class
         /// </summary>
         public LogProvider()
         {
         }
 
         /// <summary>
-        /// Gets or sets the log level.
+        /// Log Level
         /// </summary>
-        /// <value>The log level.</value>
-        public eLogType LogLevel
+        public LogType LogLevel
         {
             get;
             set;
-        } = eLogType.None;
+        } = LogType.None;
         /// <summary>
-        /// Add
+        /// Add Log
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="type"></param>
-        public void Add(string str, eLogType type)
+        /// <param name="str">content</param>
+        /// <param name="type">type</param>
+        public void Add(string str, LogType type)
         {
             if (type >= LogLevel)
             {
@@ -72,99 +70,99 @@ namespace Lsj.Util.Logs
         }
 
         /// <summary>
-        /// Add
+        /// Add Log
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="e"></param>
-        /// <param name="type"></param>
-        public void Add(string str, Exception e, eLogType type) => Add(str + "\n" + e.ToString(), type);
+        /// <param name="str">content</param>
+        /// <param name="e">exception</param>
+        /// <param name="type">type</param>
+        public void Add(string str, Exception e, LogType type) => Add(str + "\n" + e.ToString(), type);
 
         /// <summary>
         /// Debug
         /// </summary>
-        /// <param name="str"></param>
-        public void Debug(string str) => Add(str, eLogType.Debug);
+        /// <param name="str">content</param>
+        public void Debug(string str) => Add(str, LogType.Debug);
         /// <summary>
         /// Debug
         /// </summary>
-        /// <param name="o"></param>
+        /// <param name="o">content</param>
         public void Debug(object o) => Debug(o.ToString());
         /// <summary>
         /// Info
         /// </summary>
-        /// <param name="str"></param>
-        public void Info(string str) => Add(str, eLogType.Info);
+        /// <param name="str">content</param>
+        public void Info(string str) => Add(str, LogType.Info);
         /// <summary>
         /// Warn
         /// </summary>
-        /// <param name="str"></param>
-        public void Warn(string str) => Add(str, eLogType.Warn);
+        /// <param name="str">content</param>
+        public void Warn(string str) => Add(str, LogType.Warn);
         /// <summary>
         /// Error
         /// </summary>
-        /// <param name="str"></param>
-        public void Error(string str) => Add(str, eLogType.Error);
+        /// <param name="str">content</param>
+        public void Error(string str) => Add(str, LogType.Error);
         /// <summary>
         /// Error
         /// </summary>
-        /// <param name="obj"></param>
-        public void Error(object obj) => Add(obj.ToString(), eLogType.Error);
+        /// <param name="obj">content</param>
+        public void Error(object obj) => Add(obj.ToString(), LogType.Error);
         /// <summary>
         /// Debug
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">exception</param>
         public void Debug(Exception e) => Debug(e.ToString());
         /// <summary>
         /// Info
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">exception</param>
         public void Info(Exception e) => Info(e.ToString());
         /// <summary>
         /// Warn
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">exception</param>
         public void Warn(Exception e) => Warn(e.ToString());
         /// <summary>
         /// Error
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">exception</param>
         public void Error(Exception e) => Error(e.ToString());
         /// <summary>
         /// Warn
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="e"></param>
-        public void Warn(string str, Exception e) => Add(str, e, eLogType.Warn);
+        /// <param name="str">content</param>
+        /// <param name="e">exception</param>
+        public void Warn(string str, Exception e) => Add(str, e, LogType.Warn);
         /// <summary>
         /// Error
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="e"></param>
-        public void Error(string str, Exception e) => Add(str, e, eLogType.Error);
+        /// <param name="str">content</param>
+        /// <param name="e">exception</param>
+        public void Error(string str, Exception e) => Add(str, e, LogType.Error);
         /// <summary>
         /// WarnFormat
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="obj"></param>
-        public void WarnFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Warn);
+        /// <param name="str">format</param>
+        /// <param name="obj">args</param>
+        public void WarnFormat(string str, params object[] obj) => Add(string.Format(str, obj), LogType.Warn);
         /// <summary>
         /// ErrorFormat
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="obj"></param>
-        public void ErrorFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Error);
+        /// <param name="str">format</param>
+        /// <param name="obj">args</param>
+        public void ErrorFormat(string str, params object[] obj) => Add(string.Format(str, obj), LogType.Error);
         /// <summary>
         /// InfoFormat
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="obj"></param>
-        public void InfoFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Info);
+        /// <param name="str">format</param>
+        /// <param name="obj">args</param>
+        public void InfoFormat(string str, params object[] obj) => Add(string.Format(str, obj), LogType.Info);
         /// <summary>
         /// DebugFormat
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="obj"></param>
-        public void DebugFormat(string str, params object[] obj) => Add(string.Format(str, obj), eLogType.Debug);
+        /// <param name="str">format</param>
+        /// <param name="obj">args</param>
+        public void DebugFormat(string str, params object[] obj) => Add(string.Format(str, obj), LogType.Debug);
 
 
 

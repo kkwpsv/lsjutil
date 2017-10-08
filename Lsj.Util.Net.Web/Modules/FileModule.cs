@@ -11,14 +11,14 @@ using Lsj.Util.Net.Web.Error;
 namespace Lsj.Util.Net.Web.Modules
 {
     /// <summary>
-    /// File module.
+    /// File Module
     /// </summary>
-    public class FileModule :IModule
+    public class FileModule : IModule
     {
         /// <summary>
-        /// Gets or sets the default page.
+        /// DefaultPage
         /// </summary>
-        /// <value>The default page.</value>
+        /// <value></value>
         public string[] DefaultPage
         {
             get; set;
@@ -29,11 +29,11 @@ namespace Lsj.Util.Net.Web.Modules
 
 
         /// <summary>
-        /// Process.
+        /// Process
         /// </summary>
-        /// <returns>The process.</returns>
-        /// <param name="o">O.</param>
-        /// <param name="args">Arguments.</param>
+        /// <returns></returns>
+        /// <param name="o">website</param>
+        /// <param name="args">args</param>
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsProcessed = true;

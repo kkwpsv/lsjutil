@@ -8,12 +8,12 @@ using Lsj.Util.Collections;
 namespace Lsj.Util.HtmlBuilder
 {
     /// <summary>
-    /// HtmlParam
+    /// Html Params
     /// </summary>
     public class HtmlParams : SafeStringToStringDirectionary
     {
         /// <summary>
-        /// ToString
+        /// To String
         /// </summary>
         /// <returns></returns>
         public override string ToString()

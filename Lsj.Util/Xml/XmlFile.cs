@@ -16,7 +16,7 @@ namespace Lsj.Util.Xml
     public class XmlFile
     {
         /// <summary>
-        /// Initialize a new instance with a path
+        /// Initialize a new instance of <see cref="Lsj.Util.Xml.XmlFile"/> class with a path
         /// </summary>
         /// <param name="path"></param>
         public XmlFile(string path)
@@ -38,7 +38,7 @@ namespace Lsj.Util.Xml
         }
 
         /// <summary>
-        /// The document.
+        /// The Document
         /// </summary>
 #if NETCOREAPP1_1
         protected XDocument m_Document;
@@ -49,7 +49,7 @@ namespace Lsj.Util.Xml
 
         private readonly string path;
         /// <summary>
-        /// Refresh file
+        /// Refresh
         /// </summary>
         public virtual void Refresh()
         {

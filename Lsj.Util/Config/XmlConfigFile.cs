@@ -17,10 +17,10 @@ namespace Lsj.Util.Config
     /// <summary>
     /// XML Confg File
     /// </summary>
-    public class XmlConfigFile :XmlFile
+    public class XmlConfigFile : XmlFile
     {
         /// <summary>
-        /// Initialize a new instance with a path
+        /// Initialize a new instance of the <see cref="Lsj.Util.Config.XmlConfigFile"/> class with a path
         /// </summary>
         /// <param name="path"></param>
         public XmlConfigFile(string path) : base(path)

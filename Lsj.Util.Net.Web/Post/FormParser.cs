@@ -19,7 +19,7 @@ namespace Lsj.Util.Net.Web.Post
         /// <returns></returns>
         public static SafeStringToStringDirectionary Parse(string str)
         {
-            
+
             var form = new SafeStringToStringDirectionary();
             var a = str.Split('&');
             {
@@ -30,7 +30,7 @@ namespace Lsj.Util.Net.Web.Post
                     {
                         var name = c[0].Trim().UrlDecode();
                         var content = c[1].Trim().UrlDecode();
-                        form.Add(name,content);
+                        form.Add(name, content);
                     }
                 }
             }
@@ -41,7 +41,7 @@ namespace Lsj.Util.Net.Web.Post
         /// </summary>
         /// <param name="dic"></param>
         /// <returns></returns>
-        public static byte[] ToBytes(IDictionary<string,string> dic)
+        public static byte[] ToBytes(IDictionary<string, string> dic)
         {
             if (dic == null || dic.Count == 0)
             {

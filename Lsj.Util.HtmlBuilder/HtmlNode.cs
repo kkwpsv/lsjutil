@@ -20,13 +20,13 @@ namespace Lsj.Util.HtmlBuilder
         {
             get
             {
-                return this.GetType().Name;
+                return this.GetType().Name.ToLower();
             }
         }
         /// <summary>
         /// Get Content
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">Count of blank</param>
         /// <returns></returns>
         public virtual string GetContent(int i)
         {
@@ -86,7 +86,7 @@ namespace Lsj.Util.HtmlBuilder
         /// <param name="param"></param>
         public void Add(HtmlParam param)
         {
-            Params.Add(param.name, param.value);
+            Params.Add(param.Name, param.Value);
         }
         /// <summary>
         /// Add Children

@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
-    /// Span.
+    /// span
     /// </summary>
-    public class span : HtmlNode
+    public class Span : HtmlNode
     {
     }
 }

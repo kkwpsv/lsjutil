@@ -15,28 +15,27 @@ namespace Lsj.Util.Net.Web
     public class WebServer
     {
         /// <summary>
-        /// Gets or sets the name.
+        /// Name
         /// </summary>
-        /// <value>The name.</value>
+        /// <value></value>
         public string Name
         {
             get;
             internal set;
-        } = "LsjWebServer(1.0)";
+        } = $"LsjWebServer({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
 
 
         List<IListener> listeners = new List<IListener>();
         /// <summary>
-        /// Gets or sets the log.
+        /// Log
         /// </summary>
-        /// <value>The log.</value>
         public LogProvider Log
         {
             get;
             set;
         } = LogProvider.Default;
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Net.Web.WebServer"/> is started.
+        /// IsStarted
         /// </summary>
         /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
         public bool IsStarted
@@ -45,9 +44,8 @@ namespace Lsj.Util.Net.Web
             private set;
         }
         /// <summary>
-        /// Gets the websites.
+        /// Websites
         /// </summary>
-        /// <value>The websites.</value>
         public SafeDictionary<string, Website> Websites
         {
             get;
@@ -59,7 +57,7 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// Start this instance.
+        /// Start
         /// </summary>
         public void Start()
         {
@@ -80,7 +78,7 @@ namespace Lsj.Util.Net.Web
             IsStarted = true;
         }
         /// <summary>
-        /// Stop this instance.
+        /// Stop
         /// </summary>
         public void Stop()
         {
@@ -95,9 +93,9 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// Adds the listener.
+        /// Add listener
         /// </summary>
-        /// <param name="listener">Listener.</param>
+        /// <param name="listener">Listener</param>
         public void AddListener(IListener listener)
         {
             if (IsStarted)
@@ -107,9 +105,9 @@ namespace Lsj.Util.Net.Web
             listeners.Add(listener);
         }
         /// <summary>
-        /// Removes the listener.
+        /// Removes listener
         /// </summary>
-        /// <param name="listener">Listener.</param>
+        /// <param name="listener">Listener</param>
         public void RemoveListener(IListener listener)
         {
             if (!listeners.Contains(listener))
@@ -141,7 +139,7 @@ namespace Lsj.Util.Net.Web
 
 
         /// <summary>
-        /// RequestParsed
+        /// RequestParsed EventHandler
         /// </summary>
         public event EventHandler<RequestParsedEventArgs> RequestParsed;
 
@@ -149,8 +147,10 @@ namespace Lsj.Util.Net.Web
         {
             if (this.RequestParsed != null)
             {
-                var args = new RequestParsedEventArgs();
-                args.Request = x.Request;
+                var args = new RequestParsedEventArgs
+                {
+                    Request = x.Request
+                };
                 this.RequestParsed(this, args);
             }
         }
@@ -160,7 +160,7 @@ namespace Lsj.Util.Net.Web
         {
             try
             {
-                var host = x.Request.Headers[eHttpHeader.Host];
+                var host = x.Request.Headers[HttpHeader.Host];
                 var website = Websites[host] ?? Websites[""];
                 if (website == null)
                 {

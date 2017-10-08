@@ -8,7 +8,7 @@ using Lsj.Util.Text;
 namespace Lsj.Util.Net.Web.Message
 {
     /// <summary>
-    /// Http response for client.
+    /// HttpResponse for client
     /// </summary>
     public class HttpResponseForClient : HttpResponse
     {
@@ -16,6 +16,6 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// ContentLength
         /// </summary>
-        public override int ContentLength => Headers[eHttpHeader.ContentLength].ConvertToInt(0);
+        public override int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
     }
 }

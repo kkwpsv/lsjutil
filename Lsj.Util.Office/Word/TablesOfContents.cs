@@ -7,6 +7,9 @@ using Microsoft.Office.Interop.Word;
 
 namespace Lsj.Util.Office.Word
 {
+    /// <summary>
+    /// TablesOfContents
+    /// </summary>
     public class TablesOfContents :IEnumerable<TableOfContents>
     {
         private Document doc;
@@ -15,6 +18,11 @@ namespace Lsj.Util.Office.Word
         {
             this.doc = doc;
         }
+        /// <summary>
+        /// Get TableOfContents by specified index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public TableOfContents this[int index]
         {
             get
@@ -22,7 +30,10 @@ namespace Lsj.Util.Office.Word
                 return new TableOfContents(doc.TablesOfContents[index + 1]);
             }
         }
-
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<TableOfContents> GetEnumerator()
         {
             for (int i = 0; i < doc.Sections.Count; i++)

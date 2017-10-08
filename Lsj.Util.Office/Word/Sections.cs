@@ -7,7 +7,10 @@ using Microsoft.Office.Interop.Word;
 
 namespace Lsj.Util.Office.Word
 {
-    public class Sections :IEnumerable<Section>
+    /// <summary>
+    /// Sections
+    /// </summary>
+    public class Sections : IEnumerable<Section>
     {
         private Document doc;
 
@@ -15,6 +18,11 @@ namespace Lsj.Util.Office.Word
         {
             this.doc = doc;
         }
+        /// <summary>
+        /// Get Section with specified index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Section this[int index]
         {
             get
@@ -22,7 +30,10 @@ namespace Lsj.Util.Office.Word
                 return new Section(doc.Sections[index + 1]);
             }
         }
-
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Section> GetEnumerator()
         {
             for (int i = 0; i < doc.Sections.Count; i++)

@@ -13,7 +13,7 @@ using Lsj.Util.IO;
 namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
-    /// File logger.
+    /// File Logger
     /// </summary>
     public class FileLogger : ILogger
     {
@@ -25,12 +25,11 @@ namespace Lsj.Util.Logs.Logger
 
         private readonly object lockobj = new object();
         /// <summary>
-        /// Add the specified str and type.
+        /// Add Log
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="str">String.</param>
-        /// <param name="type">Type.</param>
-        public void Add(string str, eLogType type)
+        /// <param name="str">content</param>
+        /// <param name="type">type</param>
+        public void Add(string str, LogType type)
         {
             Monitor.Enter(lockobj);
             try
@@ -42,7 +41,7 @@ namespace Lsj.Util.Logs.Logger
                 var name = FilePath + DateTime.Now.ToString("yyyy-MM-dd");
                 var num = 0;
 
-                while (FileHelper.GetLength(name + (num == 0 ? "" : $"-{num}") + ".log") > 100 * 1024 * 1024)//100k
+                while (FileHelper.GetFileLength(name + (num == 0 ? "" : $"-{num}") + ".log") > 100 * 1024 * 1024)//100k
                 {
                     num++;
                 }

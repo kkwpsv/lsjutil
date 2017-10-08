@@ -42,7 +42,7 @@ namespace Lsj.Util
                     }
                     CleanUpUnmanagedResources();
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     LogProvider.Default.Error(e);
                 }

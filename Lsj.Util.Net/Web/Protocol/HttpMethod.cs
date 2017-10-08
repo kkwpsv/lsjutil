@@ -2,9 +2,9 @@
 namespace Lsj.Util.Net.Web.Protocol
 {
     /// <summary>
-    /// Http请求方法
+    /// Http Method
     /// </summary>
-    public enum eHttpMethod : byte
+    public enum HttpMethod : byte
     {
         /// <summary>
         /// UnParsed
@@ -38,6 +38,6 @@ namespace Lsj.Util.Net.Web.Protocol
         /// DELETE
         /// </summary>
         DELETE,
-        
+
     }
 }

@@ -20,7 +20,7 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// ToString
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">Count of blank</param>
         /// <returns></returns>
         public override string ToString(int i)
         {

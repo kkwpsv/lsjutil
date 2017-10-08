@@ -9,24 +9,38 @@ using System.Text;
 
 namespace Lsj.Util.Net.Socks5.Proxyer
 {
+    /// <summary>
+    /// Connect Proxyer (TCP)
+    /// </summary>
     public class ConnectProxyer : TcpAsyncClient, IProxyer
     {
         private Socks5Server server;
         private Socks5ServerClient client;
         private Socket handle;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Socks5.Proxyer.ConnectProxyer"/> class.
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="client"></param>
         public ConnectProxyer(Socks5Server server, Socks5ServerClient client)
         {
             this.server = server;
             this.client = client;
         }
-
-        public void Handle(byte[] buffer, int offset, int count)
+        /// <summary>
+        /// Send
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        public void Send(byte[] buffer, int offset, int count)
         {
-            var temp = buffer.ConvertFromBytes();
             this.Send(GetStateObject(handle, null), buffer, offset, count);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         protected override void AfterOnConnected(StateObject obj)
         {
             this.handle = obj.handle;
@@ -35,6 +49,11 @@ namespace Lsj.Util.Net.Socks5.Proxyer
             this.Receive(obj);
             server.SendReply(client, ReplyType.Succeeded, handle.LocalEndPoint as IPEndPoint);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="received"></param>
         protected override void AfterOnReceived(StateObject obj, int received)
         {
             if (received != 0)

@@ -14,27 +14,33 @@ namespace Lsj.Util.Net.Sockets.Event
 
 
         /// <summary>
-        /// socket
+        /// Socket
         /// </summary>
-        public Socket socket
+        public Socket Socket
         {
             get;
             private set;
         }
         /// <summary>
-        /// buffer
+        /// Buffer
         /// </summary>
-        public byte[] buffer
+        public byte[] Buffer
         {
             get;
             private set;
         }
-        public int offset
+        /// <summary>
+        /// Offset
+        /// </summary>
+        public int Offset
         {
             get;
             private set;
         }
-        public int count
+        /// <summary>
+        /// Count
+        /// </summary>
+        public int Count
         {
             get;
             private set;
@@ -48,13 +54,19 @@ namespace Lsj.Util.Net.Sockets.Event
             set;
         } = false;
 
-
+        /// <summary>
+        /// Initialize a new instance of <see cref="Lsj.Util.Net.Sockets.Event.SocketReceivedArgs"/> class
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
         public SocketReceivedArgs(Socket socket, byte[] buffer, int offset, int count)
         {
-            this.socket = socket;
-            this.buffer = buffer;
-            this.offset = offset;
-            this.count = count;
+            this.Socket = socket;
+            this.Buffer = buffer;
+            this.Offset = offset;
+            this.Count = count;
         }
     }
 }

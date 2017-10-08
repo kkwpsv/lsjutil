@@ -3,8 +3,16 @@ using System.Collections.Generic;
 
 namespace Lsj.Util
 {
+    /// <summary>
+    /// Sort Helper
+    /// </summary>
     public static class SortHelper
     {
+        /// <summary>
+        /// Bubble Sort
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">List to sort</param>
         public static void BubbleSort<T>(this IList<T> list) where T : IComparable
         {
             var length = list.Count;
@@ -19,6 +27,11 @@ namespace Lsj.Util
                 }
             }
         }
+        /// <summary>
+        /// Single Selection Sort
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">List to sort</param>
         public static void SingleSelectionSort<T>(this IList<T> list) where T : IComparable
         {
             var length = list.Count;
@@ -42,6 +55,11 @@ namespace Lsj.Util
                 }
             }
         }
+        /// <summary>
+        /// Direct Insertion Sort
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">List to sort</param>
         public static void DirectInsertionSort<T>(this IList<T> list) where T : IComparable
         {
             var length = list.Count;
@@ -57,8 +75,6 @@ namespace Lsj.Util
                 {
                     list[j + 1] = currentvalue;
                 }
-
-
             }
         }
     }

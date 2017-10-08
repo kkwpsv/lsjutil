@@ -159,8 +159,8 @@ namespace Lsj.Util.HtmlBuilder
                                     var value = StringHelper.ReadStringFromCharPoint(start, current - start);
                                     node.Add(new HtmlParam
                                     {
-                                        name = key,
-                                        value = value
+                                        Name = key,
+                                        Value = value
                                     });
                                     isparam = false;
                                 }
@@ -206,32 +206,32 @@ namespace Lsj.Util.HtmlBuilder
                 case "html":
                     return new HtmlPage();
                 case "body":
-                    return new body();
+                    return new Body.Body();
                 case "head":
-                    return new head();
+                    return new Head();
                 case "meta":
-                    return new meta();
+                    return new Meta();
                 case "link":
-                    return new link();
+                    return new Link();
                 case "title":
-                    return new title();
+                    return new Title();
                 case "div":
-                    return new div();
+                    return new Div();
                 case "section":
-                    return new section();
+                    return new Section();
                 case "h1":
-                    return new h1();
+                    return new H1();
                 case "h2":
-                    return new h2();
+                    return new H2();
                 case "p":
-                    return new p();
+                    return new P();
                 case "a":
-                    return new a();
+                    return new A();
 
 
                 default:
                     LogProvider.Default.Warn("Unknown type: " + type);
-                    return new unknown(type);
+                    return new Unknown(type);
             }
         }
 

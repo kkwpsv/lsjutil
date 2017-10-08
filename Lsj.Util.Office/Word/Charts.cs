@@ -8,13 +8,21 @@ using Microsoft.Office.Core;
 
 namespace Lsj.Util.Office.Word
 {
-    public class Charts :IEnumerable<Chart>
+    /// <summary>
+    /// Charts
+    /// </summary>
+    public class Charts : IEnumerable<Chart>
     {
         private Document doc;
         internal Charts(Document doc)
         {
             this.doc = doc;
         }
+        /// <summary>
+        /// Get Chart with specified index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Chart this[int index]
         {
             get
@@ -22,6 +30,10 @@ namespace Lsj.Util.Office.Word
                 return this.Skip(index - 1)?.First() ?? throw new IndexOutOfRangeException();
             }
         }
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Chart> GetEnumerator()
         {
             for (int i = 0; i < doc.Shapes.Count; i++)

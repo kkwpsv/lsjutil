@@ -16,7 +16,7 @@ namespace Lsj.Util
     public static class WebHelper
     {
         /// <summary>
-        /// Gets the app settings.
+        /// AppSetting
         /// </summary>
         /// <value>The app settings.</value>
         public static NameValueCollection AppSettings
@@ -27,32 +27,32 @@ namespace Lsj.Util
             }
         }
         /// <summary>
-        /// Containses the cookie.
+        /// If contain the cookie with specified name
         /// </summary>
-        /// <returns><c>true</c>, if cookie was containsed, <c>false</c> otherwise.</returns>
-        /// <param name="cookiecollection">Cookiecollection.</param>
-        /// <param name="name">Name.</param>
+        /// <returns></returns>
+        /// <param name="cookiecollection"></param>
+        /// <param name="name"></param>
         public static bool ContainsCookie(this HttpCookieCollection cookiecollection, string name) => cookiecollection.AllKeys.Contains(name.ToSafeString());
         /// <summary>
-        /// Gets the safe value.
+        /// Avoid Null
         /// </summary>
-        /// <returns>The safe value.</returns>
-        /// <param name="cookie">Cookie.</param>
+        /// <returns></returns>
+        /// <param name="cookie">Cookie</param>
         public static string GetSafeValue(this HttpCookie cookie) => cookie != null ? cookie.Value.ToSafeString() : "";
         /// <summary>
-        /// Creates the cookie.
+        /// Create cookie
         /// </summary>
-        /// <returns>The cookie.</returns>
-        /// <param name="name">Name.</param>
-        /// <param name="content">Content.</param>
+        /// <returns></returns>
+        /// <param name="name">Name</param>
+        /// <param name="content">Content</param>
         public static HttpCookie CreateCookie(string name, string content) => CreateCookie(name, content, DateTime.Now.AddYears(1));
         /// <summary>
-        /// Creates the cookie.
+        /// Create cookie
         /// </summary>
         /// <returns>The cookie.</returns>
-        /// <param name="name">Name.</param>
-        /// <param name="content">Content.</param>
-        /// <param name="expires">Expires.</param>
+        /// <param name="name">Name</param>
+        /// <param name="content">Content</param>
+        /// <param name="expires">Expires</param>
         public static HttpCookie CreateCookie(string name, string content, DateTime expires)
         {
             var a = new HttpCookie(name)
@@ -63,13 +63,13 @@ namespace Lsj.Util
             return a;
         }
         /// <summary>
-        /// Creates the cookie.
+        /// Create cookie
         /// </summary>
-        /// <returns>The cookie.</returns>
-        /// <param name="name">Name.</param>
-        /// <param name="content">Content.</param>
-        /// <param name="expires">Expires.</param>
-        /// <param name="domain">Domain.</param>
+        /// <returns></returns>
+        /// <param name="name">Name</param>
+        /// <param name="content">Content</param>
+        /// <param name="expires">Expires</param>
+        /// <param name="domain">Domain</param>
         public static HttpCookie CreateCookie(string name, string content, DateTime expires, string domain)
         {
             var a = new HttpCookie(name)
@@ -81,20 +81,20 @@ namespace Lsj.Util
             return a;
         }
         /// <summary>
-        /// Returns the and redirect.
+        /// Returns and redirect
         /// </summary>
-        /// <param name="response">Response.</param>
-        /// <param name="str">String.</param>
-        /// <param name="uri">URI.</param>
-        public static void ReturnAndRedirect(this HttpResponse response, string str, string uri) => response.Write(@"<script language=""javascript""> alert(""" + str + @""");document.location.href=""" + uri + @""";</script>");
+        /// <param name="response"></param>
+        /// <param name="str">content</param>
+        /// <param name="url">url</param>
+        public static void ReturnAndRedirect(this HttpResponse response, string str, string url) => response.Write(@"<script language=""javascript""> alert(""" + str + @""");document.location.href=""" + url + @""";</script>");
         /// <summary>
-        /// Redirects the with post.
+        /// Redirect with post
         /// </summary>
-        /// <param name="response">Response.</param>
-        /// <param name="uri">URI.</param>
-        public static void RedirectWithPost(this HttpResponse response, string uri)
+        /// <param name="response"></param>
+        /// <param name="url">url</param>
+        public static void RedirectWithPost(this HttpResponse response, string url)
         {
-            response.RedirectLocation = uri;
+            response.RedirectLocation = url;
             response.StatusCode = 307;
         }
 

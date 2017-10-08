@@ -8,7 +8,7 @@ namespace Lsj.Util.Net.Web.Protocol
     /// <summary>
     /// ConnectionType
     /// </summary>
-    public enum eConnectionType
+    public enum ConnectionType
     {
         /// <summary>
         /// Close

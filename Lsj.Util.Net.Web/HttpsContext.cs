@@ -19,16 +19,11 @@ namespace Lsj.Util.Net.Web
 {
 
     /// <summary>
-    /// ContentStatus
+    /// HttpsContext
     /// </summary>
 
-    internal class HttpsContext :HttpContext, IContext, IDisposable
+    internal class HttpsContext : HttpContext, IContext, IDisposable
     {
-
-        /*
-           Static Method
-            
-        */
 
         /// <summary>
         /// Create a Context

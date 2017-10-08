@@ -27,13 +27,13 @@ namespace Lsj.Util.Data.LDB
             }
             internal set
             {
-                if(version != value)
+                if (version != value)
                 {
                     version = value;
                     IsChange = true;
                 }
             }
-        } 
+        }
 
         Version version = new Version(1, 0);
         /// <summary>

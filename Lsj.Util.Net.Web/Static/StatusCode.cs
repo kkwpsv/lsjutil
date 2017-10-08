@@ -8,7 +8,7 @@ namespace Lsj.Util.Net.Web.Static
     /// <summary>
     /// StatusCode
     /// </summary>
-    public static class SatusCode
+    public static class StatusCode
     {
         /// <summary>
         /// GetStringByCode
@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web.Static
         /// <param name="StatusCode"></param>
         /// <param name="ExtraCode"></param>
         /// <returns></returns>
-        public static string GetStringByCode(int StatusCode,int ExtraCode = 0)
+        public static string GetStringByCode(int StatusCode, int ExtraCode = 0)
         {
             switch (StatusCode)
             {

@@ -8,14 +8,14 @@ using System.Text;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// Double link list.
+    /// DoubleLinkList
     /// </summary>
-    public class DoubleLinkList<T> :DoubleLinkListNode<T>, IList<T>
+    public class DoubleLinkList<T> : DoubleLinkListNode<T>, IList<T>
     {
         /// <summary>
-        /// Double link list enumerator.
+        /// DoubleLinkList Enumerator
         /// </summary>
-        public class DoubleLinkListEnumerator :IEnumerator<T>, IEnumerator
+        public class DoubleLinkListEnumerator : IEnumerator<T>, IEnumerator
         {
             DoubleLinkList<T> linklist;
             DoubleLinkListNode<T> current;
@@ -26,22 +26,15 @@ namespace Lsj.Util.Collections
                 this.last = linklist.Count - 1;
             }
             /// <summary>
-            /// Releases all resource used by the <see cref="T:Lsj.Util.Collections.DoubleLinkList`1.DoubleLinkListEnumerator"/> object.
+            /// Dispose
             /// </summary>
-            /// <remarks>Call <see cref="Dispose"/> when you are finished using the
-            /// <see cref="T:Lsj.Util.Collections.DoubleLinkList`1.DoubleLinkListEnumerator"/>. The <see cref="Dispose"/> method
-            /// leaves the <see cref="T:Lsj.Util.Collections.DoubleLinkList`1.DoubleLinkListEnumerator"/> in an unusable state.
-            /// After calling <see cref="Dispose"/>, you must release all references to the
-            /// <see cref="T:Lsj.Util.Collections.DoubleLinkList`1.DoubleLinkListEnumerator"/> so the garbage collector can
-            /// reclaim the memory that the <see cref="T:Lsj.Util.Collections.DoubleLinkList`1.DoubleLinkListEnumerator"/> was occupying.</remarks>
             public void Dispose()
             {
 
             }
             /// <summary>
-            /// Moves the next.
+            /// Move To Next
             /// </summary>
-            /// <returns><c>true</c>, if next was moved, <c>false</c> otherwise.</returns>
             public bool MoveNext()
             {
                 if (current == null)
@@ -63,7 +56,7 @@ namespace Lsj.Util.Collections
                 }
             }
             /// <summary>
-            /// Reset this instance.
+            /// Reset
             /// </summary>
             public void Reset()
             {
@@ -90,14 +83,15 @@ namespace Lsj.Util.Collections
         }
         private DoubleLinkListNode<T> child;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.DoubleLinkList`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.DoubleLinkList{T}"/> class.
         /// </summary>
         public DoubleLinkList()
         {
             this.child = null;
         }
         /// <summary>
-        /// Gets or sets the <see cref="T:Lsj.Util.Collections.DoubleLinkList`1"/> at the specified index.
+        /// Get or Set the item at the specified index
+        /// Random Access will be SLOW
         /// </summary>
         /// <param name="index">Index.</param>
         public T this[int index]
@@ -154,9 +148,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Gets the count.
+        /// Count
+        /// May be SLOW
         /// </summary>
-        /// <value>The count.</value>
         public int Count
         {
             get
@@ -176,15 +170,14 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.DoubleLinkList`1"/> is read only.
+        /// Is Readonly
         /// </summary>
-        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
         /// <summary>
-        /// Add the specified item.
+        /// Add a item
+        /// May be SLOW
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public void Add(T item)
         {
             if (this.child != null)
@@ -210,17 +203,16 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Clear this instance.
+        /// Clear the list
         /// </summary>
         public void Clear()
         {
             this.child = null;
         }
         /// <summary>
-        /// Contains the specified item.
+        /// If contain the specified item
         /// </summary>
-        /// <returns>The contains.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Contains(T item)
         {
             if (this.child != null)
@@ -242,10 +234,10 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Copies to.
+        /// Copy to
         /// </summary>
-        /// <param name="array">Array.</param>
-        /// <param name="arrayIndex">Array index.</param>
+        /// <param name="array">Destination Array</param>
+        /// <param name="arrayIndex">Destination Array index</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             var index = arrayIndex;
@@ -264,15 +256,13 @@ namespace Lsj.Util.Collections
 
         }
         /// <summary>
-        /// Gets the enumerator.
+        /// Get the enumerator
         /// </summary>
-        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator() => new DoubleLinkListEnumerator(this);
         /// <summary>
-        /// Get the index of the item.
+        /// Get the index of the item
         /// </summary>
-        /// <returns>The index</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public int IndexOf(T item)
         {
             var i = 0;
@@ -296,10 +286,11 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Insert the specified item.
+        /// Insert the specified item
+        /// May be slow
         /// </summary>
-        /// <param name="index">Index.</param>
-        /// <param name="item">Item.</param>
+        /// <param name="index">index.</param>
+        /// <param name="item">item</param>
         public void Insert(int index, T item)
         {
             var i = 0;
@@ -341,8 +332,7 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Remove first of the specified item.
         /// </summary>
-        /// <returns>is remove.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Remove(T item)
         {
             if (this.child != null)
@@ -374,7 +364,7 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Removes the item at specified index.
         /// </summary>
-        /// <param name="index">Index.</param>
+        /// <param name="index">index</param>
         public void RemoveAt(int index)
         {
             var i = 0;
@@ -407,7 +397,7 @@ namespace Lsj.Util.Collections
         IEnumerator IEnumerable.GetEnumerator() => new DoubleLinkListEnumerator(this);
     }
     /// <summary>
-    /// Double link list node.
+    /// DoubleLinkList node.
     /// </summary>
     public class DoubleLinkListNode<T>
     {
@@ -415,48 +405,40 @@ namespace Lsj.Util.Collections
         {
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.DoubleLinkListNode`1"/> class.
+        /// Initializes a new instance of the <see cref="DoubleLinkListNode{T}"/> class.
         /// </summary>
-        /// <param name="list">List.</param>
+        /// <param name="list">list</param>
         public DoubleLinkListNode(DoubleLinkList<T> list)
         {
-            if (list == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.List = list;
+            this.List = list ?? throw new ArgumentNullException();
         }
         /// <summary>
-        /// Gets the list.
+        /// The DoubleLinkList
         /// </summary>
-        /// <value>The list.</value>
         public DoubleLinkList<T> List
         {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the value.
+        /// The Value
         /// </summary>
-        /// <value>The value.</value>
         public T Value
         {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the next node.
+        /// Next Node
         /// </summary>
-        /// <value>The next.</value>
         public DoubleLinkListNode<T> Next
         {
             get;
             internal set;
         }
         /// <summary>
-        /// Gets or sets the previous node.
+        /// Previous Node
         /// </summary>
-        /// <value>The previous.</value>
         public DoubleLinkListNode<T> Prev
         {
             get;

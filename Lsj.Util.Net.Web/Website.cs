@@ -8,24 +8,23 @@ using Lsj.Util.Net.Web.Error;
 namespace Lsj.Util.Net.Web
 {
     /// <summary>
-    /// Website.
+    /// Website
     /// </summary>
     public class Website
     {
         private WebServer server;
         private string hostname;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Website"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Web.Website"/> class.
         /// </summary>
-        /// <param name="hostname">Hostname.</param>
+        /// <param name="hostname"></param>
         public Website(string hostname)
         {
             this.hostname = hostname;
         }
         /// <summary>
-        /// Gets or sets the path.
+        /// Path
         /// </summary>
-        /// <value>The path.</value>
         public string Path
         {
             get;
@@ -74,10 +73,12 @@ namespace Lsj.Util.Net.Web
             {
                 if (this.Process != null)
                 {
-                    var args = new ProcessEventArgs();
-                    args.Request = x.Request;
-                    args.ServerName = server.Name;
-                    args.Log = x.Log;
+                    var args = new ProcessEventArgs
+                    {
+                        Request = x.Request,
+                        ServerName = server.Name,
+                        Log = x.Log
+                    };
                     this.Process(this, args);
                     if (args.IsProcessed)
                     {

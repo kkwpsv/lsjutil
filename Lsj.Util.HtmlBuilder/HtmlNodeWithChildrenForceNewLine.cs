@@ -13,7 +13,7 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// GetContent
         /// </summary>
-        /// <param name="i"></param>
+        /// <param name="i">Count of blank</param>
         /// <returns></returns>
         public override string GetContent(int i)
         {

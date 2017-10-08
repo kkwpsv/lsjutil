@@ -7,7 +7,7 @@ using System.Text;
 namespace Lsj.Util.Net.Sockets
 {
     /// <summary>
-    /// State object.
+    /// State
     /// </summary>
     public class StateObject
     {

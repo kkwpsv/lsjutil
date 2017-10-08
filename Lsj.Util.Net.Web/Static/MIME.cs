@@ -12,11 +12,11 @@ namespace Lsj.Util.Net.Web.Static
     public class MIME : SafeDictionary<string, string>
     {
         /// <summary>
-        /// Gets the conteng type by extension.
+        /// Get ContentType by Extension
         /// </summary>
-        /// <returns>The conteng type by extension.</returns>
-        /// <param name="Extension">Extension.</param>
-        public static string GetContengTypeByExtension(string Extension)
+        /// <returns></returns>
+        /// <param name="Extension">Extension</param>
+        public static string GetContentTypeByExtension(string Extension)
         {
             return MIMETypesDictionary[Extension];
         }

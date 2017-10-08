@@ -19,6 +19,10 @@ namespace Lsj.Util.Net.Socks5
     public class Socks5Server : TcpAsyncListener
     {
         MultiThreadSafeList<Socks5ServerClient> Clients = new MultiThreadSafeList<Socks5ServerClient>();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
         protected override void AfterOnAccepted(StateObject obj)
         {
             var client = obj as Socks5ServerClient;
@@ -27,6 +31,11 @@ namespace Lsj.Util.Net.Socks5
             client.offset = 0;
             this.Receive(client);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="received"></param>
         protected override void AfterOnReceived(StateObject obj, int received)
         {
             var client = obj as Socks5ServerClient;
@@ -41,7 +50,7 @@ namespace Lsj.Util.Net.Socks5
             {
                 if (client.proxyer != null)
                 {
-                    client.proxyer.Handle(client.buffer, client.offset, received);
+                    client.proxyer.Send(client.buffer, client.offset, received);
                     client.buffer = new byte[2048];
                     client.offset = 0;
                     this.Receive(client);
@@ -112,7 +121,7 @@ namespace Lsj.Util.Net.Socks5
 #if NETCOREAPP1_1
                                         client.handle.Dispose();
 #else
-                                                client.handle.Disconnect(false);
+                                        client.handle.Disconnect(false);
 #endif
                                         this.Clients.Remove(client);
                                         return;
@@ -149,7 +158,7 @@ namespace Lsj.Util.Net.Socks5
 #if NETCOREAPP1_1
                                 client.handle.Dispose();
 #else
-                                                client.handle.Disconnect(false);
+                                client.handle.Disconnect(false);
 #endif
                                 this.Clients.Remove(client);
                                 return;
@@ -206,7 +215,7 @@ namespace Lsj.Util.Net.Socks5
 #if NETCOREAPP1_1
                 client.handle.Dispose();
 #else
-                                                client.handle.Disconnect(false);
+                client.handle.Disconnect(false);
 #endif
                 this.Clients.Remove(client);
             }
@@ -227,6 +236,12 @@ namespace Lsj.Util.Net.Socks5
             proxy.Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
         protected override StateObject GetStateObject(Socket handle, byte[] buffer)
         {
             return new Socks5ServerClient
@@ -237,7 +252,12 @@ namespace Lsj.Util.Net.Socks5
             };
         }
 
-
+        /// <summary>
+        /// Send Reply
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="type"></param>
+        /// <param name="endpoint"></param>
         public void SendReply(Socks5ServerClient client, ReplyType type, IPEndPoint endpoint)
         {
             byte[] data = null;
@@ -272,24 +292,43 @@ namespace Lsj.Util.Net.Socks5
             this.Send(client, data);
             this.Receive(client);
         }
-
+        /// <summary>
+        /// Send Data
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
         public void SendData(Socks5ServerClient client, byte[] buffer, int offset, int length)
         {
             this.Send(client, buffer, offset, length);
         }
+        /// <summary>
+        /// DisconnectClient
+        /// </summary>
+        /// <param name="client"></param>
         public void DisconnectClient(Socks5ServerClient client)
         {
 #if NETCOREAPP1_1
             client.handle.Dispose();
 #else
-                                                client.handle.Disconnect(false);
+            client.handle.Disconnect(false);
 #endif
             this.Clients.Remove(client);
         }
     }
+    /// <summary>
+    /// Socks5ServerClient
+    /// </summary>
     public class Socks5ServerClient : StateObject
     {
+        /// <summary>
+        /// negotiated
+        /// </summary>
         public bool negotiated;
+        /// <summary>
+        /// proxyer
+        /// </summary>
         public IProxyer proxyer;
     }
 }

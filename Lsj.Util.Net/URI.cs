@@ -16,17 +16,17 @@ namespace Lsj.Util.Net
     {
         private string raw;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.URI"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.URI"/> class.
         /// </summary>
-        /// <param name="uri">URI.</param>
+        /// <param name="uri">URI</param>
         public URI(string uri)
         {
             this.raw = uri;
         }
         /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Net.URI"/>.
+        /// ToString
         /// </summary>
-        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:Lsj.Util.Net.URI"/>.</returns>
+        /// <returns></returns>
         public override string ToString()
         {
             return raw;
@@ -59,7 +59,7 @@ namespace Lsj.Util.Net
             }
         }
 
-        SafeStringToStringDirectionary querystring;
+        SafeStringToStringDirectionary queryString;
         /// <summary>
         /// QueryString
         /// </summary>
@@ -67,9 +67,9 @@ namespace Lsj.Util.Net
         {
             get
             {
-                if (querystring == null)
+                if (queryString == null)
                 {
-                    querystring = new SafeStringToStringDirectionary();
+                    queryString = new SafeStringToStringDirectionary();
                     if (raw.IndexOf('?') != -1)
                     {
                         string z = raw.Substring(raw.IndexOf('?') + 1);
@@ -82,13 +82,13 @@ namespace Lsj.Util.Net
                                 {
                                     var name = c[0].Trim().UrlDecode();
                                     var content = c[1].Trim().UrlDecode();
-                                    querystring.Add(name, content);
+                                    queryString.Add(name, content);
                                 }
                             }
                         }
                     }
                 }
-                return querystring;
+                return queryString;
             }
         }
         string scheme;

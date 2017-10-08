@@ -9,114 +9,114 @@ namespace Lsj.Util.Net.Web.Static
 {
     internal static class Header
     {
-        public static string GetNameByHeader(eHttpHeader header)
+        public static string GetNameByHeader(HttpHeader header)
         {
 
-            switch(header)
+            switch (header)
             {
-                case eHttpHeader.Accept:
+                case HttpHeader.Accept:
                     return "Accept";
-                case eHttpHeader.AcceptCharset:
+                case HttpHeader.AcceptCharset:
                     return "Accept-Charset";
-                case eHttpHeader.AcceptEncoding:
+                case HttpHeader.AcceptEncoding:
                     return "Accept-Encoding";
-                case eHttpHeader.AcceptLanguage:
+                case HttpHeader.AcceptLanguage:
                     return "Accept-Language";
-                case eHttpHeader.AcceptRanges:
+                case HttpHeader.AcceptRanges:
                     return "Accept-Ranges";
-                case eHttpHeader.Age:
+                case HttpHeader.Age:
                     return "Age";
-                case eHttpHeader.Allow:
+                case HttpHeader.Allow:
                     return "Allow";
-                case eHttpHeader.Authorization:
+                case HttpHeader.Authorization:
                     return "Authorization";
-                case eHttpHeader.CacheControl:
+                case HttpHeader.CacheControl:
                     return "Cache-Control";
-                case eHttpHeader.Clientip:
+                case HttpHeader.Clientip:
                     return "Client-ip";
-                case eHttpHeader.Connection:
+                case HttpHeader.Connection:
                     return "Connection";
-                case eHttpHeader.ContentEncoding:
+                case HttpHeader.ContentEncoding:
                     return "Content-Encoding";
-                case eHttpHeader.ContentLanguage:
+                case HttpHeader.ContentLanguage:
                     return "Content-Language";
-                case eHttpHeader.ContentLength:
+                case HttpHeader.ContentLength:
                     return "Content-Length";
-                case eHttpHeader.ContentLocation:
+                case HttpHeader.ContentLocation:
                     return "Content-Location";
-                case eHttpHeader.ContentMD5:
+                case HttpHeader.ContentMD5:
                     return "Content-MD5";
-                case eHttpHeader.ContentRange:
+                case HttpHeader.ContentRange:
                     return "Content-Range";
-                case eHttpHeader.ContentType:
+                case HttpHeader.ContentType:
                     return "Content-Type";
-                case eHttpHeader.Cookie:
+                case HttpHeader.Cookie:
                     return "Cookie";
-                case eHttpHeader.Date:
+                case HttpHeader.Date:
                     return "Date";
-                case eHttpHeader.ETag:
+                case HttpHeader.ETag:
                     return "ETag";
-                case eHttpHeader.Expect:
+                case HttpHeader.Expect:
                     return "Expect";
-                case eHttpHeader.Expires:
+                case HttpHeader.Expires:
                     return "Expires";
-                case eHttpHeader.From:
+                case HttpHeader.From:
                     return "From";
-                case eHttpHeader.Host:
+                case HttpHeader.Host:
                     return "Host";
-                case eHttpHeader.IfMatch:
+                case HttpHeader.IfMatch:
                     return "If-Match";
-                case eHttpHeader.IfModifiedSince:
+                case HttpHeader.IfModifiedSince:
                     return "If-Modified-Since";
-                case eHttpHeader.IfNoneMatch:
+                case HttpHeader.IfNoneMatch:
                     return "If-None-Match";
-                case eHttpHeader.IfRange:
+                case HttpHeader.IfRange:
                     return "If-Range";
-                case eHttpHeader.IfUnmodifiedSince:
+                case HttpHeader.IfUnmodifiedSince:
                     return "If-Unmodified-Since";
-                case eHttpHeader.LastModified:
+                case HttpHeader.LastModified:
                     return "Last-Modified";
-                case eHttpHeader.Location:
+                case HttpHeader.Location:
                     return "Location";
-                case eHttpHeader.MaxForwards:
+                case HttpHeader.MaxForwards:
                     return "Max-Forwards";
-                case eHttpHeader.Pragma:
+                case HttpHeader.Pragma:
                     return "Pragma";
-                case eHttpHeader.ProxyAuthenticate:
+                case HttpHeader.ProxyAuthenticate:
                     return "Proxy-Authenciate";
-                case eHttpHeader.ProxyAuthorization:
+                case HttpHeader.ProxyAuthorization:
                     return "Proxy-Authorization";
-                case eHttpHeader.ProxyConnection:
+                case HttpHeader.ProxyConnection:
                     return "Proxy-Connection";
-                case eHttpHeader.Range:
+                case HttpHeader.Range:
                     return "Range";
-                case eHttpHeader.Referer:
+                case HttpHeader.Referer:
                     return "Referer";
-                case eHttpHeader.RetryAfter:
+                case HttpHeader.RetryAfter:
                     return "Retry-After";
-                case eHttpHeader.Server:
+                case HttpHeader.Server:
                     return "Server";
-                case eHttpHeader.SetCookie:
+                case HttpHeader.SetCookie:
                     return "Set-Cookie";
-                case eHttpHeader.TE:
+                case HttpHeader.TE:
                     return "TE";
-                case eHttpHeader.Trailer:
+                case HttpHeader.Trailer:
                     return "Trailer";
-                case eHttpHeader.TransferEncoding:
+                case HttpHeader.TransferEncoding:
                     return "Transfer-Encoding";
-                case eHttpHeader.Upgrade:
+                case HttpHeader.Upgrade:
                     return "Upgrade";
-                case eHttpHeader.UserAgent:
+                case HttpHeader.UserAgent:
                     return "User-Agent";
-                case eHttpHeader.Vary:
+                case HttpHeader.Vary:
                     return "Vary";
-                case eHttpHeader.Via:
+                case HttpHeader.Via:
                     return "Via";
-                case eHttpHeader.Warning:
+                case HttpHeader.Warning:
                     return "Warning";
-                case eHttpHeader.WWWAuthenticate:
+                case HttpHeader.WWWAuthenticate:
                     return "WWWAuthenicate";
-                case eHttpHeader.XCache:
+                case HttpHeader.XCache:
                     return "X-Cache";
                 default:
                     return "Unknown";

@@ -11,7 +11,7 @@ namespace Lsj.Util.Net.Sockets
     /// <summary>
     /// Tcp Socket
     /// </summary>
-    public class TcpSocket :Socket
+    public class TcpSocket : Socket
     {
         /// <summary>
         /// TcpSocket

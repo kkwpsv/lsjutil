@@ -1,24 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 
 
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// Two way dictionary.
+    /// Two way dictionary
     /// </summary>
     public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         SafeDictionary<TKey, TValue> a;
         SafeDictionary<TValue, TKey> b;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
         /// </summary>
         public TwoWayDictionary() : this(false)
         {
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)
@@ -27,9 +28,9 @@ namespace Lsj.Util.Collections
             this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
         }
         /// <summary>
-        /// Gets or sets the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> with the specified key.
+        /// Get or Set the value with specified key
         /// </summary>
-        /// <param name="key">Key.</param>
+        /// <param name="key">Key</param>
         public TValue this[TKey key]
         {
             get
@@ -42,9 +43,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Gets or sets the <see cref="T:Lsj.Util.Collections.TwoWayDictionary`2"/> with the specified x.
+        /// Get or Set the key with specified value
         /// </summary>
-        /// <param name="x">The x coordinate.</param>
+        /// <param name="x">value</param>
         public TKey this[TValue x]
         {
             get
@@ -74,18 +75,23 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Add the specified key and value.
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="key">Key.</param>
-        /// <param name="value">Value.</param>
+        /// <param name="key">key</param>
+        /// <param name="value">value</param>
         public void Add(TKey key, TValue value)
         {
-            a[key] = value;
-            b[value] = key;
+            if (ContainsValue(value) && !a[key].Equals(value))
+            {
+                throw new InvalidOperationException("Duplicate value");
+            }
+            else
+            {
+                a[key] = value;
+                b[value] = key;
+            }
         }
         /// <summary>
-        /// Gets the enumerator.
+        /// Gets the enumerator
         /// </summary>
-        /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return a.GetEnumerator();
@@ -95,34 +101,28 @@ namespace Lsj.Util.Collections
             return GetEnumerator();
         }
         /// <summary>
-        /// Containses the key.
+        /// If contain specific key
         /// </summary>
-        /// <returns><c>true</c>, if key was containsed, <c>false</c> otherwise.</returns>
-        /// <param name="key">Key.</param>
+        /// <param name="key">Key</param>
         public bool ContainsKey(TKey key)
         {
             return a.ContainsKey(key);
         }
         /// <summary>
-        /// Containses the value.
+        /// If contain specific value
         /// </summary>
-        /// <returns><c>true</c>, if value was containsed, <c>false</c> otherwise.</returns>
-        /// <param name="value">Value.</param>
+        /// <param name="value">Value</param>
         public bool ContainsValue(TValue value)
         {
             return b.ContainsKey(value);
         }
         /// <summary>
-        /// Nulls the value.
+        /// NullValue
         /// </summary>
-        /// <returns>The value.</returns>
-        /// <param name="key">Key.</param>
         protected virtual TValue NullValue(TKey key) => default(TValue);
         /// <summary>
-        /// Nulls the key.
+        /// NullKey
         /// </summary>
-        /// <returns>The key.</returns>
-        /// <param name="value">Value.</param>
         protected virtual TKey NullKey(TValue value) => default(TKey);
 
     }

@@ -1,7 +1,4 @@
 ﻿#if !NETCOREAPP1_1
-
-
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +14,7 @@ namespace Lsj.Util.Logs.Logger
     /// <summary>
     /// LogView
     /// </summary>
-    public partial class LogView : RichTextBox
+    public sealed partial class LogView : RichTextBox
     {
         /// <summary>
         /// LogView
@@ -61,7 +58,6 @@ namespace Lsj.Util.Logs.Logger
                 return;
             }
             IsNewAdd = false;
-            //  MessageBox.Show(a);
             if (this.Lines.Length > 1000)
             {
                 var a = this.Rtf;

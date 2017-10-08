@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Lsj.Util.Office.Word
 {
-    public enum eChartType
+    /// <summary>
+    /// ChartType
+    /// </summary>
+    public enum ChartType
     {
+#pragma warning disable CS1591
         xlXYScatter = -4169,
         xlCombo = -4152,
         xlRadar = -4151,
@@ -86,5 +90,6 @@ namespace Lsj.Util.Office.Word
         xlComboColumnClusteredLineSecondaryAxis = 114,
         xlComboAreaStackedColumnClustered = 115,
         xlOtherCombinations = 116
+#pragma warning restore CS1591
     }
 }

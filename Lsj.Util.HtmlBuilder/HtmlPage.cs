@@ -18,31 +18,31 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Version
         /// </summary>
-        public const string Version = "HtmlBuilder/lsj(2.0)";
+        public static readonly string Version = $"HtmlBuilder/lsj({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
         /// <summary>
         /// HtmlPage
         /// </summary>
         public HtmlPage()
         {
-            Children.Add(head);
-            Children.Add(body);
+            Children.Add(Head);
+            Children.Add((HtmlNode)this.Body);
         }
         /// <summary>
         /// head
         /// </summary>
-        public head head
+        public Head Head
         {
             get;
             set;
-        } = new head();
+        } = new Head();
         /// <summary>
         /// body
         /// </summary>
-        public body body
+        public Body.Body Body
         {
             get;
             set;
-        } = new body();
+        } = new Body.Body();
         /// <summary>
         /// ToString
         /// </summary>
@@ -70,17 +70,17 @@ $@"<!DOCTYPE html>
         /// <param name="node"></param>
         public override void Add(HtmlNode node)
         {
-            if (node is head)
+            if (node is Head)
             {
-                this.Children.Remove(this.head);
-                this.head = node as head;
-                this.Children.Add(this.head);
+                this.Children.Remove(this.Head);
+                this.Head = node as Head;
+                this.Children.Add(this.Head);
             }
-            else if (node is body)
+            else if (node is Body.Body)
             {
-                this.Children.Remove(this.body);
-                this.body = node as body;
-                this.Children.Add(this.body);
+                this.Children.Remove((HtmlNode)this.Body);
+                this.Body = node as Body.Body;
+                this.Children.Add((HtmlNode)this.Body);
             }
             else
             {

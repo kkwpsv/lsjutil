@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Threading;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -7,198 +8,159 @@ using System.Threading;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// Multi thread safe list.
+    /// Multi thread safe List
     /// </summary>
     public class MultiThreadSafeList<T> : IList<T>
     {
         List<T> m_list;
-        object m_lock = new object();
+        ReadWriteLock m_lock = new ReadWriteLock();
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeList{T}"/> class.
         /// </summary>
         public MultiThreadSafeList()
         {
             m_list = new List<T>();
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeList{T}"/> class.
         /// </summary>
-        /// <param name="src">Source.</param>
+        /// <param name="src">source</param>
         public MultiThreadSafeList(List<T> src)
         {
             m_list = src;
         }
         /// <summary>
-        /// Gets or sets the <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> at the specified index.
+        /// Get or Set the item at the specified index
         /// </summary>
-        /// <param name="index">Index.</param>
+        /// <param name="index">index</param>
         public T this[int index]
         {
             get
             {
-                return m_list[index];
+                using (m_lock.EnterRead())
+                {
+                    return m_list[index];
+                }
             }
-
             set
             {
-                try
+                using (m_lock.EnterWrite())
                 {
-                    Lock();
                     m_list[index] = value;
-                }
-                catch (Exception e)
-                {
-                    Logs.LogProvider.Default.Error(e);
-                    throw;
-                }
-                finally
-                {
-                    Unlock();
                 }
             }
         }
 
         /// <summary>
-        /// Gets the count.
+        /// Count
         /// </summary>
         /// <value>The count.</value>
         public int Count
         {
             get
             {
-                return m_list.Count;
+                using (m_lock.EnterRead())
+                {
+                    return m_list.Count;
+                }
             }
         }
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.MultiThreadSafeList`1"/> is read only.
+        /// Is Readonly
         /// </summary>
-        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// Add the specified item.
+        /// Add a item
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public void Add(T item)
         {
-            try
+            using (m_lock.EnterWrite())
             {
-                Lock();
                 m_list.Add(item);
-            }
-            catch (Exception e)
-            {
-                Logs.LogProvider.Default.Error(e);
-                throw;
-            }
-            finally
-            {
-                Unlock();
             }
         }
         /// <summary>
-        /// Clear this instance.
+        /// Clear the list
         /// </summary>
         public void Clear()
         {
-            try
+            using (m_lock.EnterWrite())
             {
-                Lock();
                 m_list.Clear();
             }
-            catch (Exception e)
-            {
-                Logs.LogProvider.Default.Error(e);
-                throw;
-            }
-            finally
-            {
-                Unlock();
-            }
         }
         /// <summary>
-        /// Contains the specified item.
+        /// If contain the specified item
         /// </summary>
-        /// <returns>The contains.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Contains(T item)
         {
-            return m_list.Contains(item);
+            using (m_lock.EnterRead())
+            {
+                return m_list.Contains(item);
+            }
+
         }
         /// <summary>
-        /// Copies to.
+        /// Copy to
         /// </summary>
-        /// <param name="array">Array.</param>
-        /// <param name="arrayIndex">Array index.</param>
+        /// <param name="array">Destination Array</param>
+        /// <param name="arrayIndex">Destination Array Index</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
-            m_list.CopyTo(array, arrayIndex);
+            using (m_lock.EnterRead())
+            {
+                m_list.CopyTo(array, arrayIndex);
+            }
         }
         /// <summary>
-        /// Gets the enumerator.
+        /// Get the enumerator
         /// </summary>
-        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return m_list.GetEnumerator();
+            using (m_lock.EnterRead())
+            {
+                foreach (var i in m_list)
+                {
+                    yield return i;
+                }
+            }
         }
         /// <summary>
-        /// Indexs the of.
+        /// Get the index of the item
         /// </summary>
-        /// <returns>The of.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public int IndexOf(T item)
         {
-            return m_list.IndexOf(item);
+            using (m_lock.EnterRead())
+            {
+                return m_list.IndexOf(item);
+            }
         }
         /// <summary>
-        /// Insert the specified index and item.
+        /// Insert the specified item at specified index
         /// </summary>
-        /// <returns>The insert.</returns>
-        /// <param name="index">Index.</param>
-        /// <param name="item">Item.</param>
+        /// <param name="index">index</param>
+        /// <param name="item">item</param>
         public void Insert(int index, T item)
         {
-            try
+            using (m_lock.EnterWrite())
             {
-                Lock();
                 m_list.Insert(index, item);
             }
-            catch (Exception e)
-            {
-                Logs.LogProvider.Default.Error(e);
-                throw;
-            }
-            finally
-            {
-                Unlock();
-            }
         }
-
         /// <summary>
-        /// Remove the specified item.
+        /// Remove first of the specified item.
         /// </summary>
-        /// <returns>The remove.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Remove(T item)
         {
-            var result = false;
-            try
+            using (m_lock.EnterWrite())
             {
-                Lock();
-                result = m_list.Remove(item);
+                return m_list.Remove(item);
             }
-            catch (Exception e)
-            {
-                Logs.LogProvider.Default.Error(e);
-                throw;
-            }
-            finally
-            {
-                Unlock();
-            }
-            return result;
         }
         /// <summary>
         /// Removes at index.
@@ -206,38 +168,26 @@ namespace Lsj.Util.Collections
         /// <param name="index">Index.</param>
         public void RemoveAt(int index)
         {
-            try
+            using (m_lock.EnterWrite())
             {
-                Lock();
                 m_list.RemoveAt(index);
-            }
-            catch (Exception e)
-            {
-                Logs.LogProvider.Default.Error(e);
-                throw;
-            }
-            finally
-            {
-                Unlock();
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return m_list.GetEnumerator();
+            using (m_lock.EnterRead())
+            {
+                foreach (var i in m_list)
+                {
+                    yield return i;
+                }
+            }
         }
 
 
 
 
-        void Lock()
-        {
-            Monitor.Enter(m_lock);
-        }
-        void Unlock()
-        {
-            Monitor.Exit(m_lock);
-        }
 
     }
 

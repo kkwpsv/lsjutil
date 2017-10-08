@@ -9,12 +9,12 @@ namespace Lsj.Util.Collections
 
 {
     /// <summary>
-    /// Link list.
+    /// LinkList
     /// </summary>
     public class LinkList<T> : LinkListNode<T>, IList<T>
     {
         /// <summary>
-        /// Link list enumerator.
+        /// LinkList Enumerator
         /// </summary>
         public class LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
@@ -27,22 +27,15 @@ namespace Lsj.Util.Collections
                 this.last = linklist.Count - 1;
             }
             /// <summary>
-            /// Releases all resource used by the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> object.
+            /// Dispose
             /// </summary>
-            /// <remarks>Call <see cref="Dispose"/> when you are finished using the
-            /// <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/>. The <see cref="Dispose"/> method
-            /// leaves the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> in an unusable state.
-            /// After calling <see cref="Dispose"/>, you must release all references to the
-            /// <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> so the garbage collector can reclaim
-            /// the memory that the <see cref="T:Lsj.Util.Collections.LinkList`1.LinkListEnumerator"/> was occupying.</remarks>
             public void Dispose()
             {
 
             }
             /// <summary>
-            /// Moves the next.
+            /// Move To Next
             /// </summary>
-            /// <returns><c>true</c>, if next was moved, <c>false</c> otherwise.</returns>
             public bool MoveNext()
             {
                 if (current == null)
@@ -64,7 +57,7 @@ namespace Lsj.Util.Collections
                 }
             }
             /// <summary>
-            /// Reset this instance.
+            /// Reset
             /// </summary>
             public void Reset()
             {
@@ -91,14 +84,15 @@ namespace Lsj.Util.Collections
         }
         private LinkListNode<T> child;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.LinkList`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.LinkList{T}"/> class.
         /// </summary>
         public LinkList()
         {
             this.child = null;
         }
         /// <summary>
-        /// Gets or sets the <see cref="T:Lsj.Util.Collections.LinkList`1"/> at the specified index.
+        /// Get or Set the item at the specified index
+        /// Random Access will be SLOW
         /// </summary>
         /// <param name="index">Index.</param>
         public T this[int index]
@@ -155,9 +149,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Gets the count.
+        /// Count
+        /// May be SLOW
         /// </summary>
-        /// <value>The count.</value>
         public int Count
         {
             get
@@ -177,15 +171,14 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Collections.LinkList`1"/> is read only.
+        /// Is Readonly
         /// </summary>
-        /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly => false;
         /// <summary>
-        /// Add the specified item.
+        /// Add a item
+        /// May be SLOW
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public void Add(T item)
         {
             if (this.child != null)
@@ -209,17 +202,16 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Clear this instance.
+        /// Clear the list
         /// </summary>
         public void Clear()
         {
             this.child = null;
         }
         /// <summary>
-        /// Contains the specified item.
+        /// If contain the specified item
         /// </summary>
-        /// <returns>The contains.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Contains(T item)
         {
             if (this.child != null)
@@ -241,10 +233,10 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Copies to.
+        /// Copy to
         /// </summary>
-        /// <param name="array">Array.</param>
-        /// <param name="arrayIndex">Array index.</param>
+        /// <param name="array">Destination Array</param>
+        /// <param name="arrayIndex">Destination Array index</param>
         public void CopyTo(T[] array, int arrayIndex)
         {
             var index = arrayIndex;
@@ -263,15 +255,13 @@ namespace Lsj.Util.Collections
 
         }
         /// <summary>
-        /// Gets the enumerator.
+        /// Get the enumerator
         /// </summary>
-        /// <returns>The enumerator.</returns>
         public IEnumerator<T> GetEnumerator() => new LinkListEnumerator(this);
         /// <summary>
-        /// Indexs the of.
+        /// Get the index of the item
         /// </summary>
-        /// <returns>The of.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public int IndexOf(T item)
         {
             var i = 0;
@@ -295,11 +285,11 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Insert the specified index and item.
+        /// Insert the specified item at specified index
+        /// May be slow
         /// </summary>
-        /// <returns>The insert.</returns>
-        /// <param name="index">Index.</param>
-        /// <param name="item">Item.</param>
+        /// <param name="index">index</param>
+        /// <param name="item">item</param>
         public void Insert(int index, T item)
         {
             var i = 0;
@@ -334,10 +324,9 @@ namespace Lsj.Util.Collections
             throw new ArgumentOutOfRangeException();
         }
         /// <summary>
-        /// Remove the specified item.
+        /// Remove first of the specified item.
         /// </summary>
-        /// <returns>The remove.</returns>
-        /// <param name="item">Item.</param>
+        /// <param name="item">item</param>
         public bool Remove(T item)
         {
             if (this.child != null)
@@ -367,9 +356,9 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Removes at index.
+        /// Removes the item at specified index.
         /// </summary>
-        /// <param name="index">Index.</param>
+        /// <param name="index">index</param>
         public void RemoveAt(int index)
         {
             var i = 0;
@@ -397,7 +386,7 @@ namespace Lsj.Util.Collections
         IEnumerator IEnumerable.GetEnumerator() => new LinkListEnumerator(this);
     }
     /// <summary>
-    /// Link list node.
+    /// LinkList node.
     /// </summary>
     public class LinkListNode<T>
     {
@@ -405,39 +394,32 @@ namespace Lsj.Util.Collections
         {
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.LinkListNode`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.LinkList{T}"/> class.
         /// </summary>
         /// <param name="list">List.</param>
         public LinkListNode(LinkList<T> list)
         {
-            if (list == null)
-            {
-                throw new ArgumentNullException();
-            }
-            this.List = list;
+            this.List = list ?? throw new ArgumentNullException();
         }
         /// <summary>
-        /// Gets the list.
+        /// The LinkList
         /// </summary>
-        /// <value>The list.</value>
         public LinkList<T> List
         {
             get;
             private set;
         }
         /// <summary>
-        /// Gets or sets the value.
+        /// The Value
         /// </summary>
-        /// <value>The value.</value>
         public T Value
         {
             get;
             set;
         }
         /// <summary>
-        /// Gets or sets the next.
+        /// Next Node
         /// </summary>
-        /// <value>The next.</value>
         public LinkListNode<T> Next
         {
             get;

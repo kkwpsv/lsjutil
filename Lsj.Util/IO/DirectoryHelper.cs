@@ -16,7 +16,6 @@ namespace Lsj.Util.IO
         /// </summary>
         /// <param name="path">path</param>
         /// <param name="filter">filter</param>
-        /// <returns></returns>
         public static List<FileInfo> GetAllFiles(DirectoryInfo path, string filter)
         {
             var result = new List<FileInfo>();
@@ -36,19 +35,9 @@ namespace Lsj.Util.IO
         /// Check Path Is Exists
         /// </summary>
         /// <param name="path">path</param>
-        /// <returns></returns>
         public static bool IsExistsPath(this string path)
         {
             return Directory.Exists(path);
-        }
-        /// <summary>
-        /// Check File Is Exists
-        /// </summary>
-        /// <param name="file">file</param>
-        /// <returns></returns>
-        public static bool IsExistsFile(this string file)
-        {
-            return File.Exists(file);
         }
 
     }

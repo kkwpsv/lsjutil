@@ -9,12 +9,25 @@ using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Protobuf
 {
+    /// <summary>
+    /// Message
+    /// </summary>
     public abstract class Message
     {
         int offset = 0;
         byte[] buffer;
         MemoryStream stream;
+        /// <summary>
+        /// Read
+        /// </summary>
+        /// <param name="data"></param>
         public void Read(byte[] data) => Read(data, 0, data.Length);
+        /// <summary>
+        /// Read
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
         public void Read(byte[] data, int offset, int length)
         {
             this.buffer = new byte[length];
@@ -25,7 +38,7 @@ namespace Lsj.Util.Protobuf
             {
                 var x = (int)this.ReadUInt32();
                 var fieldnumber = x >> 3;
-                var type = (eFieldType)(x & 0x07);
+                var type = (FieldType)(x & 0x07);
                 if (fields.ContainsKey(fieldnumber))
                 {
                     var field = fields[fieldnumber];
@@ -43,14 +56,14 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private object GetData(eFieldType Type, Type FieldType)
+        private object GetData(FieldType Type, Type FieldType)
         {
-            if (Type == eFieldType.Varint)
+            if (Type == Protobuf.FieldType.Varint)
             {
                 var setmethod = this.GetVarintSetMethodByType(FieldType);
                 return setmethod();
             }
-            else if (Type == eFieldType.LengthDelimited)
+            else if (Type == Protobuf.FieldType.LengthDelimited)
             {
                 if (FieldType == typeof(string))
                 {
@@ -69,14 +82,14 @@ namespace Lsj.Util.Protobuf
                     return this.ReadPackedRepeated(FieldType.GetElementType());
                 }
             }
-            else if (Type == eFieldType.Bit32)
+            else if (Type == Protobuf.FieldType.Bit32)
             {
                 if (FieldType == typeof(Single))
                 {
                     return this.ReadSingle();
                 }
             }
-            else if (Type == eFieldType.Bit64)
+            else if (Type == Protobuf.FieldType.Bit64)
             {
                 if (FieldType == typeof(Double))
                 {
@@ -85,8 +98,8 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidCastException($"Bad data");
         }
-        protected delegate object VarintSetMethodDelegate();
-        protected VarintSetMethodDelegate GetVarintSetMethodByType(Type type)
+        private delegate object VarintSetMethodDelegate();
+        private VarintSetMethodDelegate GetVarintSetMethodByType(Type type)
         {
             if (type == typeof(Boolean))
             {
@@ -371,17 +384,17 @@ namespace Lsj.Util.Protobuf
         {
             UInt32 length = this.ReadUInt32();
             var end = offset + length;
-            var result = x.CreateListOfInstance();
+            var result = x.CreateListOfType();
             while (offset < end)
             {
                 if (typeof(Message).IsAssignableFrom(x))
                 {
-                    var v = GetData(eFieldType.LengthDelimited, x);
+                    var v = GetData(FieldType.LengthDelimited, x);
                     result.GetType().GetMethod("Add").Invoke(result, new object[] { v });
                 }
                 else
                 {
-                    var v = GetData(eFieldType.Varint, x);
+                    var v = GetData(FieldType.Varint, x);
                     result.GetType().GetMethod("Add").Invoke(result, new object[] { v });
                 }
             }
@@ -408,6 +421,10 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
+        /// <summary>
+        /// Convert To BinaryArray
+        /// </summary>
+        /// <returns></returns>
         public byte[] ToArray()
         {
             stream = new MemoryStream();
@@ -429,8 +446,8 @@ namespace Lsj.Util.Protobuf
 
 
         }
-        protected delegate void VarintWriteMethodDelegate(object data);
-        protected VarintWriteMethodDelegate GetVarintWriteMethodByType(Type type)
+        private delegate void VarintWriteMethodDelegate(object data);
+        private VarintWriteMethodDelegate GetVarintWriteMethodByType(Type type)
         {
             if (type == typeof(Boolean))
             {
@@ -473,15 +490,15 @@ namespace Lsj.Util.Protobuf
                 throw new NotImplementedException();
             }
         }
-        private void WriteData(object data, eFieldType Type, Type FieldType)
+        private void WriteData(object data, FieldType Type, Type FieldType)
         {
-            if (Type == eFieldType.Varint)
+            if (Type == Protobuf.FieldType.Varint)
             {
                 var writemethod = this.GetVarintWriteMethodByType(FieldType);
                 writemethod(data);
                 return;
             }
-            else if (Type == eFieldType.LengthDelimited)
+            else if (Type == Protobuf.FieldType.LengthDelimited)
             {
                 if (FieldType == typeof(string))
                 {
@@ -504,7 +521,7 @@ namespace Lsj.Util.Protobuf
                     return;
                 }
             }
-            else if (Type == eFieldType.Bit32)
+            else if (Type == Protobuf.FieldType.Bit32)
             {
                 if (FieldType == typeof(Single))
                 {
@@ -512,7 +529,7 @@ namespace Lsj.Util.Protobuf
                     return;
                 }
             }
-            else if (Type == eFieldType.Bit64)
+            else if (Type == Protobuf.FieldType.Bit64)
             {
                 if (FieldType == typeof(Double))
                 {
@@ -724,7 +741,7 @@ namespace Lsj.Util.Protobuf
             for (int i = 0; i < l; i++)
             {
                 var v = value.GetType().GetMethod("GetValue", new Type[] { typeof(int) }).Invoke(value, new object[] { i });
-                WriteData(v, eFieldType.Varint, FieldType);
+                this.WriteData(v, Protobuf.FieldType.Varint, FieldType);
             }
             this.stream = oldstream;
             this.WriteByteArray(newstream.ReadAll());

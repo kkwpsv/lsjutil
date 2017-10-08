@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
-    /// Img.
+    /// img
     /// </summary>
-    public class img : HtmlNodeWithoutEnd
+    public class Img : HtmlNodeWithoutEnd
     {
     }
 }

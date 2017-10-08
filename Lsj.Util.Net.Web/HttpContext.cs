@@ -25,26 +25,26 @@ namespace Lsj.Util.Net.Web
     /// <summary>
     /// ContextStatus
     /// </summary>
-    public enum eContextStatus
+    public enum ContextStatus
     {
         /// <summary>
-        /// 
+        /// Created
         /// </summary>
         Created,
         /// <summary>
-        /// 
+        /// Listening
         /// </summary>
         Listening,
         /// <summary>
-        /// 
+        /// Processing
         /// </summary>
         Processing,
         /// <summary>
-        /// 
+        /// Sending
         /// </summary>
         Sending,
         /// <summary>
-        /// 
+        /// Disposing
         /// </summary>
         Disposing,
 
@@ -56,11 +56,6 @@ namespace Lsj.Util.Net.Web
     internal class HttpContext :DisposableClass, IContext, IDisposable
     {
 
-
-        /*
-           Static Method
-            
-        */
 
         /// <summary>
         /// Create a Context
@@ -87,7 +82,6 @@ namespace Lsj.Util.Net.Web
             this.socket = socket;
             this.Log = log;
             this.buffer = buffers.Dequeue();
-            //  this.buffer = new byte[10240];
             this.server = server;
         }
 
@@ -113,11 +107,11 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-        public eContextStatus Status
+        public ContextStatus Status
         {
             get;
             private set;
-        } = eContextStatus.Created;
+        } = ContextStatus.Created;
         bool IsTimeOut = false;
 
 
@@ -127,7 +121,7 @@ namespace Lsj.Util.Net.Web
             this.Request = new HttpRequest();
             ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
             this.Stream = CreateStream(socket);
-            this.Status = eContextStatus.Listening;
+            this.Status = ContextStatus.Listening;
 
 
 
@@ -157,7 +151,7 @@ namespace Lsj.Util.Net.Web
                 if (!Request.IsReadFinish)
                 {
                     this.IsTimeOut = true;
-                    this.Status = eContextStatus.Processing;
+                    this.Status = ContextStatus.Processing;
                     this.Response = ErrorHelper.Build(408, 0, this.server.Name);
                     this.DoResponse();
                 }
@@ -202,7 +196,7 @@ namespace Lsj.Util.Net.Web
 #else
                     this.socket.Disconnect();
 #endif
-                    this.Status = eContextStatus.Disposing;
+                    this.Status = ContextStatus.Disposing;
                     return;
                 }
                 int read = 0;
@@ -339,7 +333,7 @@ namespace Lsj.Util.Net.Web
 
         void Process()
         {
-            this.Status = eContextStatus.Processing;
+            this.Status = ContextStatus.Processing;
             server.OnParsed(this);
             if (Request.IsError)
             {
@@ -361,8 +355,8 @@ namespace Lsj.Util.Net.Web
                 this.ReceiveTimer.Dispose();
                 this.ReceiveTimer = null;
             }
-            this.Status = eContextStatus.Sending;
-            Response.Headers.Add(eHttpHeader.Server, this.server.Name);
+            this.Status = ContextStatus.Sending;
+            Response.Headers.Add(HttpHeader.Server, this.server.Name);
             var a = Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII).ToList().Concat(this.Response.Content.ReadAll()).Concat(new byte[] { ASCIIChar.CR, ASCIIChar.LF }).ToArray();
 
 #if NETCOREAPP1_1
@@ -401,21 +395,21 @@ namespace Lsj.Util.Net.Web
                 try
                 {
                     this.Stream.EndWrite(x);
-                    if (Response.Headers[eHttpHeader.Connection].ToLower() == "keep-alive")
+                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
                     {
                         this.KeepaliveTimer = new Timer(120 * 1000);
                         KeepaliveTimer.AutoReset = false;
                         KeepaliveTimer.Elapsed += (o, e) =>
                         {
                             this.socket.Close();
-                            this.Status = eContextStatus.Disposing;
+                            this.Status = ContextStatus.Disposing;
                         };
                         this.Read();
                     }
                     else
                     {
                         this.socket.Close();
-                        this.Status = eContextStatus.Disposing;
+                        this.Status = ContextStatus.Disposing;
                     }
                 }
                 catch (IOException)

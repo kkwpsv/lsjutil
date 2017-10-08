@@ -3,7 +3,7 @@
 namespace Lsj.Util.Net.Web.Interfaces
 {
     /// <summary>
-    /// 
+    /// Module
     /// </summary>
     public interface IModule
     {

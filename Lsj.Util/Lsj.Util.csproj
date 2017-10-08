@@ -146,15 +146,14 @@
     <Compile Include="StreamHelper.cs" />
     <Compile Include="Text\StringHelper.cs" />
     <Compile Include="Text\VariableString.cs" />
+    <Compile Include="Threading\ReadWriteLock.cs" />
     <Compile Include="UnsafeHelper.cs" />
     <Compile Include="Version.cs" />
     <Compile Include="WebHelper.cs" />
     <Compile Include="WinForm.cs" />
     <Compile Include="Xml\XmlFile.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="LSJ.snk" />
     <None Include="packages.config" />

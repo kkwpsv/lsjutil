@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
-    /// Unknown Node.
+    /// Unknown Node
     /// </summary>
-    public class unknown : HtmlNode
+    public class Unknown : HtmlNode
     {
         /// <summary>
         /// Name
@@ -22,10 +22,10 @@ namespace Lsj.Util.HtmlBuilder.Body
         }
         string name = "unknown";
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.HtmlBuilder.Body.unknown"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.HtmlBuilder.Body.Unknown"/> class.
         /// </summary>
         /// <param name="type">Type.</param>
-        public unknown(string type)
+        public Unknown(string type)
         {
             name = type;
         }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Lsj.Util.Collections
 {
+    /// <summary>
+    /// Array Helper
+    /// </summary>
     public static class ArrayHelper
     {
 #if NETCOREAPP1_1
@@ -17,42 +20,69 @@ namespace Lsj.Util.Collections
             return result.ToArray();
         }
 #endif
-        public static (T value, int row, int col)[] ToValueTuples<T>(this T[][] array)
+        /// <summary>
+        /// ConvertToThreeValueTuples
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static (T value, int row, int col)[] ToThreeValueTuples<T>(this T[][] array)
         {
             var result = new List<ValueTuple<T, int, int>>();
-            for (int i = 0; i < array.Length; i++)
+            if (array != null)
             {
-                for (int j = 0; j < array[i].Length; j++)
+                for (int i = 0; i < array.Length; i++)
                 {
-                    if (!array[i][j].Equals(default(T)))
+                    for (int j = 0; j < array[i].Length; j++)
                     {
-                        result.Add((array[i][j], i, j));
+                        if (!array[i][j].Equals(default(T)))
+                        {
+                            result.Add((array[i][j], i, j));
+                        }
                     }
                 }
             }
             return result.ToArray();
         }
-        public static T[][] Transposition<T>(this T[][] array)
+        /// <summary>
+        /// Transposition
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public static T[,] Transposition<T>(this T[,] array)
         {
-            if (array[0] == null)
+            if (array == null)
             {
-                return null;
+                throw new ArgumentNullException();
             }
-            var result = new T[array[0].Length][];
-            for (int i = 0; i < array.Length; i++)
+            var lengthx = array.GetLength(0);
+            var lengthy = array.GetLength(1);
+            var result = new T[lengthy, lengthx];
+            for (int i = 0; i < lengthx; i++)
             {
-                for (int j = 0; j < array[0].Length && j < array[i].Length; j++)
+                for (int j = 0; j < lengthy; j++)
                 {
-                    result[j][i] = array[i][j];
+                    result[j, i] = array[i, j];
                 }
             }
             return result;
         }
+        /// <summary>
+        /// Transposition
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tuples"></param>
+        /// <returns></returns>
         public static (T value, int row, int col)[] Transposition<T>(this (T value, int row, int col)[] tuples)
         {
+            if (tuples == null)
+            {
+                throw new ArgumentNullException();
+            }
             var result = new(T, int, int)[tuples.Length];
 
-            for (int i = 0, x = 0; i < result.Length; i++, x++)
+            for (int i = 0, x = 0; i < result.Length; i++)
             {
                 for (int j = 0; j < tuples.Length; j++)
                 {

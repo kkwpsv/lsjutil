@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.HtmlBuilder.Body
 {
     /// <summary>
-    /// Body.
+    /// body
     /// </summary>
-    public class body : HtmlNodeWithChildrenForceNewLine
+    public class Body : HtmlNodeWithChildrenForceNewLine
     {
     }
 }

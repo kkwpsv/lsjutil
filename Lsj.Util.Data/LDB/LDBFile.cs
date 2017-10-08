@@ -40,7 +40,7 @@ namespace Lsj.Util.Data.LDB
                                                             0,          0,          0,          0,        255,//100
                                                  };
         /// <summary>
-        /// Inital a new instance of LDBFile
+        /// Inital a new instance of <see cref="Lsj.Util.Data.LDB.LDBFile"/> class
         /// </summary>
         public LDBFile()
         {
@@ -48,24 +48,24 @@ namespace Lsj.Util.Data.LDB
         }
 
         /// <summary>
-        /// Inital a new instance of LDBFile from a file
+        /// Initialize a new instance of <see cref="Lsj.Util.Data.LDB.LDBFile"/> class from a file
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="Filename"></param>
         /// <param name="CanWrite"></param>
-        public LDBFile(string filename, bool CanWrite)
+        public LDBFile(string Filename, bool CanWrite)
         {
-            this.FileName = filename;
-            if (!File.Exists(filename))
+            this.FileName = Filename;
+            if (!File.Exists(Filename))
             {
-                CreateFile(filename);
+                CreateFile(Filename);
             }
             if (CanWrite)
             {
-                this.file = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+                this.file = new FileStream(Filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
             }
             else
             {
-                this.file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                this.file = new FileStream(Filename, FileMode.Open, FileAccess.Read, FileShare.Read);
             }
             this.IsOpenFile = true;
             this.file.Seek(0, SeekOrigin.Begin);
@@ -79,9 +79,9 @@ namespace Lsj.Util.Data.LDB
             }
         }
 
-        private void CreateFile(string filename)
+        private void CreateFile(string Filename)
         {
-            File.WriteAllBytes(filename, NEWFILE);
+            File.WriteAllBytes(Filename, NEWFILE);
         }
 
         private void Initial()
@@ -208,7 +208,7 @@ namespace Lsj.Util.Data.LDB
 
 
         /// <summary>
-        /// Cleans up managed resources.
+        /// Cleans up managed resources
         /// </summary>
         protected override void CleanUpManagedResources()
         {

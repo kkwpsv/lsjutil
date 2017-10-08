@@ -12,76 +12,75 @@ namespace Lsj.Util.Logs.Logger
 
 {
     /// <summary>
-    /// Console logger.
+    /// Console Logger
     /// </summary>
     public class ConsoleLogger : ILogger
     {
         ConsoleColor[] ConsoleColors { get; } = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Red };
         /// <summary>
-        /// ConsoleDebugColor
+        /// Console Debug Color
         /// </summary>
         public ConsoleColor ConsoleDebugColor
         {
             get
             {
-                return ConsoleColors[(int)eLogType.Debug];
+                return ConsoleColors[(int)LogType.Debug];
             }
             set
             {
-                ConsoleColors[(int)eLogType.Debug] = value;
+                ConsoleColors[(int)LogType.Debug] = value;
             }
         }
         /// <summary>
-        /// ConsoleInfoColor
+        /// Console Info Color
         /// </summary>
         public ConsoleColor ConsoleInfoColor
         {
             get
             {
-                return ConsoleColors[(int)eLogType.Info];
+                return ConsoleColors[(int)LogType.Info];
             }
             set
             {
-                ConsoleColors[(int)eLogType.Info] = value;
+                ConsoleColors[(int)LogType.Info] = value;
             }
         }
         /// <summary>
-        /// ConsoleWarnColor
+        /// Console Warn Color
         /// </summary>
         public ConsoleColor ConsoleWarnColor
         {
             get
             {
-                return ConsoleColors[(int)eLogType.Warn];
+                return ConsoleColors[(int)LogType.Warn];
             }
             set
             {
-                ConsoleColors[(int)eLogType.Warn] = value;
+                ConsoleColors[(int)LogType.Warn] = value;
             }
         }
         /// <summary>
-        /// ConsoleErrorColor
+        /// Console Error Color
         /// </summary>
         public ConsoleColor ConsoleErrorColor
         {
             get
             {
-                return ConsoleColors[(int)eLogType.Error];
+                return ConsoleColors[(int)LogType.Error];
             }
             set
             {
-                ConsoleColors[(int)eLogType.Error] = value;
+                ConsoleColors[(int)LogType.Error] = value;
             }
         }
 
         private readonly object lockobj = new object();
         /// <summary>
-        /// Add the specified str and type.
+        /// Add Log
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="str">String.</param>
-        /// <param name="type">Type.</param>
-        public void Add(string str, eLogType type)
+        /// <param name="str">content</param>
+        /// <param name="type">type</param>
+        public void Add(string str, LogType type)
         {
             Monitor.Enter(lockobj);
             try

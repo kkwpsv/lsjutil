@@ -7,6 +7,9 @@ using System.Collections;
 
 namespace Lsj.Util.Office.Word
 {
+    /// <summary>
+    /// Tables
+    /// </summary>
     public class Tables : IEnumerable<Table>
     {
         private Document doc;
@@ -15,6 +18,11 @@ namespace Lsj.Util.Office.Word
         {
             this.doc = doc;
         }
+        /// <summary>
+        /// Get Table by specified index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Table this[int index]
         {
             get
@@ -22,7 +30,10 @@ namespace Lsj.Util.Office.Word
                 return new Table(doc.Tables[index + 1]);
             }
         }
-
+        /// <summary>
+        /// GetEnumerator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Table> GetEnumerator()
         {
             for (int i = 0; i < doc.Tables.Count; i++)
@@ -30,7 +41,6 @@ namespace Lsj.Util.Office.Word
                 yield return new Table(doc.Tables[i + 1]);
             }
         }
-
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 namespace Lsj.Util.Config
 {
     /// <summary>
-    /// ConfigElementNameAttribute
+    /// ConfigElement Name Attribute
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ConfigElementNameAttribute : Attribute

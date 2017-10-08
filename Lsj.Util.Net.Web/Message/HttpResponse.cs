@@ -11,9 +11,9 @@ using Lsj.Util.Text;
 namespace Lsj.Util.Net.Web.Message
 {
     /// <summary>
-    /// Http response.
+    /// HttpResponse
     /// </summary>
-    public class HttpResponse :HttpMessageBase, IHttpResponse
+    public class HttpResponse : HttpMessageBase, IHttpResponse
     {
         bool parsefirst = false;
         /// <summary>
@@ -30,7 +30,7 @@ namespace Lsj.Util.Net.Web.Message
         }
 
         /// <summary>
-        /// The content.
+        /// Content
         /// </summary>
         public Stream content;
         /// <summary>
@@ -154,43 +154,43 @@ namespace Lsj.Util.Net.Web.Message
         }
 
         /// <summary>
-        /// Write the specified buffer.
+        /// Write
         /// </summary>
-        /// <returns>The write.</returns>
-        /// <param name="buffer">Buffer.</param>
+        /// <returns></returns>
+        /// <param name="buffer">.</param>
         public override void Write(byte[] buffer)
         {
             this.content.Write(buffer);
         }
         /// <summary>
-        /// Write the specified str.
+        /// Write 
         /// </summary>
-        /// <returns>The write.</returns>
-        /// <param name="str">String.</param>
+        /// <returns></returns>
+        /// <param name="str"></param>
         public override void Write(string str)
         {
-            if (this.Headers[eHttpHeader.ContentType] == "")
+            if (this.Headers[HttpHeader.ContentType] == "")
             {
-                this.Headers[eHttpHeader.ContentType] = "text/html;charset=utf-8";
+                this.Headers[HttpHeader.ContentType] = "text/html;charset=utf-8";
             }
             this.Write(str.ConvertToBytes(Encoding.UTF8));
         }
         /// <summary>
-        /// Write 304.
+        /// Write 304
         /// </summary>
         public void Write304()
         {
             this.ErrorCode = 304;
         }
         /// <summary>
-        /// Gets the http header.
+        /// Get HttpHeader
         /// </summary>
-        /// <returns>The http header.</returns>
+        /// <returns></returns>
         public override string GetHttpHeader()
         {
-            this.Headers[eHttpHeader.ContentLength] = this.ContentLength.ToString();
+            this.Headers[HttpHeader.ContentLength] = this.ContentLength.ToString();
             var sb = new StringBuilder();
-            sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {SatusCode.GetStringByCode(ErrorCode)}\r\n");
+            sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {StatusCode.GetStringByCode(ErrorCode)}\r\n");
             foreach (var header in Headers)
             {
                 sb.Append($"{header.Key}: {header.Value}\r\n");
@@ -199,7 +199,7 @@ namespace Lsj.Util.Net.Web.Message
             {
                 foreach (var cookie in Cookies)
                 {
-                    sb.Append($"Set-Cookie: {cookie.name}={cookie.content}; Expires={cookie.expires.ToUniversalTime().ToString("r")}; domain={cookie.domain}; path=/ \r\n");
+                    sb.Append($"Set-Cookie: {cookie.Name}={cookie.Content}; Expires={cookie.Expires.ToUniversalTime().ToString("r")}; domain={cookie.Domain}; path=/ \r\n");
                 }
             }
             sb.Append("\r\n");
@@ -210,20 +210,20 @@ namespace Lsj.Util.Net.Web.Message
         /// Return And Redirect
         /// </summary>
         /// <param name="str"></param>
-        /// <param name="uri"></param>
-        public void ReturnAndRedirect(string str, string uri)
+        /// <param name="url"></param>
+        public void ReturnAndRedirect(string str, string url)
         {
-            Write(@"<script language=""javascript"" charset=""utf-8""> alert(""" + str + @""");document.location.href=""" + uri + @""";</script>");
+            Write(@"<script language=""javascript"" charset=""utf-8""> alert(""" + str + @""");document.location.href=""" + url + @""";</script>");
         }
         /// <summary>
-        /// Redirect the specified uri.
+        /// Redirect the specified url
         /// </summary>
-        /// <returns>The redirect.</returns>
-        /// <param name="uri">URI.</param>
+        /// <returns></returns>
+        /// <param name="uri"></param>
         public void Redirect(string uri)
         {
             this.ErrorCode = 301;
-            this.Headers[eHttpHeader.Location] = uri;
+            this.Headers[HttpHeader.Location] = uri;
         }
     }
 }

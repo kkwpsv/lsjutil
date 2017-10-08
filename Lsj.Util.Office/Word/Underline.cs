@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Lsj.Util.Office.Word
 {
-    public enum eUnderline
+    /// <summary>
+    /// Underline
+    /// </summary>
+    public enum Underline
     {
+#pragma warning disable CS1591
         None = 0,
         Single = 1,
         Words = 2,
@@ -25,5 +29,6 @@ namespace Lsj.Util.Office.Word
         DashLong = 39,
         WavyDouble = 43,
         DashLongHeavy = 55
+#pragma warning restore CS1591
     }
 }

@@ -5,28 +5,47 @@ using System.Text;
 
 namespace Lsj.Util.CsBuilder
 {
-    public class Class :ClassMember
+    /// <summary>
+    /// Class
+    /// </summary>
+    public class Class : ClassMember
     {
+        /// <summary>
+        /// Namespace
+        /// </summary>
         public string Namespace
         {
             get;
             set;
         }
-        public eVisibility Visibility
+        /// <summary>
+        /// Visibility
+        /// </summary>
+        public Visibility Visibility
         {
             get;
             set;
         }
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name
         {
             get;
             set;
         }
+        /// <summary>
+        /// Members
+        /// </summary>
         public List<ClassMember> Members
         {
             get;
         } = new List<ClassMember>();
-
+        /// <summary>
+        /// Convert To String
+        /// </summary>
+        /// <param name="i">Count of blank</param>
+        /// <returns></returns>
         public override string ToString(int i)
         {
             var sb = new StringBuilder();
@@ -39,7 +58,7 @@ namespace Lsj.Util.CsBuilder
                 i++;
             }
             sb.Append(NULL, i * 4);
-            sb.AppendLine($@"{(Visibility == eVisibility.None ? "" : Visibility.ToString().ToLower())} class {Name}");
+            sb.AppendLine($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} class {Name}");
             sb.Append(NULL, i * 4);
             sb.AppendLine("{");
             i++;
@@ -58,7 +77,10 @@ namespace Lsj.Util.CsBuilder
             }
             return sb.ToString();
         }
-
+        /// <summary>
+        /// Convert To String
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => ToString(0);
     }
 }

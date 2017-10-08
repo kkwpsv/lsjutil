@@ -8,31 +8,29 @@ using System.Text;
 namespace Lsj.Util.Collections
 {
     /// <summary>
-    /// My queue.
+    /// Queue
     /// </summary>
     public class MyQueue<T>
     {
         SeqList<T> m_list;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.MyQueue`1"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MyQueue{T}"/> class.
         /// </summary>
         public MyQueue()
         {
             this.m_list = new SeqList<T>();
         }
         /// <summary>
-        /// Enqueue the specified value.
+        /// Enqueue
         /// </summary>
-        /// <returns>The enqueue.</returns>
-        /// <param name="value">Value.</param>
+        /// <param name="value">item</param>
         public void Enqueue(T value)
         {
             m_list.Add(value);
         }
         /// <summary>
-        /// Dequeue this instance.
+        /// Dequeue
         /// </summary>
-        /// <returns>The dequeue.</returns>
         public T Dequeue()
         {
             if (m_list.Count == 0)
@@ -47,9 +45,8 @@ namespace Lsj.Util.Collections
             }
         }
         /// <summary>
-        /// Peek this instance.
+        /// Peek
         /// </summary>
-        /// <returns>The peek.</returns>
         public T Peek()
         {
             if (m_list.Count == 0)
@@ -62,5 +59,14 @@ namespace Lsj.Util.Collections
                 return value;
             }
         }
+        /// <summary>
+        /// Count
+        /// </summary>
+        public int Count => m_list.Count;
+
+        /// <summary>
+        /// Is Empty
+        /// </summary>
+        public bool IsEmpty => Count == 0;
     }
 }

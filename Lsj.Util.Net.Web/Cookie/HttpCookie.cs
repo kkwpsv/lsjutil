@@ -13,18 +13,18 @@ namespace Lsj.Util.Net.Web.Cookie
         /// <summary>
         /// Name
         /// </summary>
-        public string name { get; set; } = "";
+        public string Name { get; set; } = "";
         /// <summary>
         /// Content
         /// </summary>
-        public string content { get; set; } = "";
+        public string Content { get; set; } = "";
         /// <summary>
         /// Expires
         /// </summary>
-        public DateTime expires { get; set; } = DateTime.Now;
+        public DateTime Expires { get; set; } = DateTime.Now;
         /// <summary>
         /// Domain
         /// </summary>
-        public string domain { get; set; } = "";
+        public string Domain { get; set; } = "";
     }
 }

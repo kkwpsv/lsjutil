@@ -62,11 +62,13 @@ namespace Lsj.Util
                 }
                 CompilerResults res = null;
                 CodeDomProvider compiler = new CSharpCodeProvider();
-                CompilerParameters param = new CompilerParameters(@using, target, false);
-                param.GenerateExecutable = false;
-                param.GenerateInMemory = false;
-                param.WarningLevel = 2;
-                param.CompilerOptions = "/lib:.";
+                CompilerParameters param = new CompilerParameters(@using, target, false)
+                {
+                    GenerateExecutable = false,
+                    GenerateInMemory = false,
+                    WarningLevel = 2,
+                    CompilerOptions = "/lib:."
+                };
                 string[] filepaths = new string[files.Count];
                 for (int i = 0; i < files.Count; i++)
                 {

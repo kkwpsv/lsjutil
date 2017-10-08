@@ -6,7 +6,7 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Interfaces
 {
     /// <summary>
-    /// Response
+    /// HttpResponse
     /// </summary>
     public interface IHttpResponse : IHttpMessage
     {

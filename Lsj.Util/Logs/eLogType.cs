@@ -9,7 +9,7 @@ namespace Lsj.Util.Logs
     /// <summary>
     /// Log Type
     /// </summary>
-    public enum eLogType
+    public enum LogType
     {
         /// <summary>
         /// None

@@ -7,7 +7,10 @@ using Microsoft.Office.Interop.Excel;
 
 namespace Lsj.Util.Office.Word
 {
-    public class Chart :DisposableClass
+    /// <summary>
+    /// Chart
+    /// </summary>
+    public class Chart : DisposableClass
     {
         private Microsoft.Office.Interop.Word.Chart chart;
         private Workbook workbook;
@@ -17,7 +20,10 @@ namespace Lsj.Util.Office.Word
 
         private int rowcount = 0;
         private int columncount = 0;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Office.Word.Chart"/> class
+        /// </summary>
+        /// <param name="chart"></param>
         public Chart(Microsoft.Office.Interop.Word.Chart chart)
         {
             this.chart = chart;
@@ -25,15 +31,20 @@ namespace Lsj.Util.Office.Word
             this.application = workbook.Application;
             this.worksheet = workbook.Worksheets["Sheet1"];
         }
-
-        public void SetData(string[] catagory, string datatitle, double[] data)
+        /// <summary>
+        /// Set Data
+        /// </summary>
+        /// <param name="catagory"></param>
+        /// <param name="dataTitle"></param>
+        /// <param name="data"></param>
+        public void SetData(string[] catagory, string dataTitle, double[] data)
         {
             rowcount = catagory.Length + 1;
             for (int i = 1; i <= catagory.Length; i++)
             {
                 worksheet.Cells[i + 1, 1] = catagory[i - 1];
             }
-            worksheet.Cells[1, 2] = datatitle;
+            worksheet.Cells[1, 2] = dataTitle;
             for (int i = 1; i <= data.Length && i < rowcount; i++)
             {
                 worksheet.Cells[i + 1, 2] = data[i - 1];
@@ -41,11 +52,16 @@ namespace Lsj.Util.Office.Word
             chart.SetSourceData($@"=Sheet1!$A$1:$B${rowcount}");
             columncount = 2;
         }
-
-        public void AddNewSeries(eChartType type, string datatitle, double[] data)
+        /// <summary>
+        /// AddNewSeries
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="dataTitle"></param>
+        /// <param name="data"></param>
+        public void AddNewSeries(ChartType type, string dataTitle, double[] data)
         {
             columncount++;
-            worksheet.Cells[1, columncount] = datatitle;
+            worksheet.Cells[1, columncount] = dataTitle;
             for (int i = 1; i <= data.Length && i < rowcount; i++)
             {
                 worksheet.Cells[i + 1, columncount] = data[i - 1];
@@ -54,10 +70,12 @@ namespace Lsj.Util.Office.Word
 
             var x = chart.SeriesCollection().Add($@"=Sheet1!${(char)(ASCIIChar.A + columncount - 1)}$2:${(char)(ASCIIChar.A + columncount - 1)}${rowcount}");
             x.Type = type;
-            x.Name = datatitle;
+            x.Name = dataTitle;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void CleanUpUnmanagedResources()
         {
             System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);

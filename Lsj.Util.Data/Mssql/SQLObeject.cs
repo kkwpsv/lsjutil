@@ -9,12 +9,12 @@ using Lsj.Util.Logs;
 namespace Lsj.Util.Data.Mssql
 {
     /// <summary>
-    /// SQL Obeject.
+    /// SQL Obeject
     /// </summary>
     public class SQLObeject : DisposableClass, IDisposable
     {
         /// <summary>
-        /// Cleans up managed resources.
+        /// Cleans up managed resources
         /// </summary>
         protected override void CleanUpManagedResources()
         {
@@ -29,7 +29,7 @@ namespace Lsj.Util.Data.Mssql
 
         SqlConnection connection;
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Data.Mssql.SQLObeject"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Data.Mssql.SQLObeject"/> class.
         /// </summary>
         /// <param name="conn">Conn.</param>
         public SQLObeject(SqlConnection conn)
@@ -41,7 +41,7 @@ namespace Lsj.Util.Data.Mssql
             }
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Data.Mssql.SQLObeject"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Data.Mssql.SQLObeject"/> class.
         /// </summary>
         /// <param name="conn">Conn.</param>
         public SQLObeject(string conn)
@@ -50,17 +50,17 @@ namespace Lsj.Util.Data.Mssql
             this.connection.Open();
         }
         /// <summary>
-        /// Execs the procedure.
+        /// Execs the procedure
         /// </summary>
-        /// <param name="name">Name.</param>
+        /// <param name="name">Name</param>
         public object ExecProcedure(string name) => ExecProcedure(name, null);
 
 
         /// <summary>
-        /// Execs the procedure.
+        /// Execs the procedure
         /// </summary>
-        /// <param name="name">Name.</param>
-        /// <param name="para">Para.</param>
+        /// <param name="name">Name</param>
+        /// <param name="para">Para</param>
         public object ExecProcedure(string name, params SQLParam[] para)
         {
             try
@@ -89,18 +89,18 @@ namespace Lsj.Util.Data.Mssql
         }
 
         /// <summary>
-        /// Gets the sql data reader.
+        /// Get the SqlDataReader
         /// </summary>
-        /// <returns>The sql data reader.</returns>
-        /// <param name="name">Name.</param>
+        /// <returns></returns>
+        /// <param name="name">Name</param>
         public SqlDataReader GetSqlDataReader(string name) => GetSqlDataReader(name, null);
 
         /// <summary>
-        /// Gets the sql data reader.
+        /// Get the SqlDataReader
         /// </summary>
-        /// <returns>The sql data reader.</returns>
-        /// <param name="name">Name.</param>
-        /// <param name="para">Para.</param>
+        /// <returns></returns>
+        /// <param name="name">Name</param>
+        /// <param name="para">Para</param>
         public SqlDataReader GetSqlDataReader(string name, params SQLParam[] para)
         {
             try

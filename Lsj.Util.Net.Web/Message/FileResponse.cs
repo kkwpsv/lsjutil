@@ -6,7 +6,7 @@ using Lsj.Util.Net.Web.Protocol;
 
 namespace Lsj.Util.Net.Web.Message
 {
-    class FileResponse :HttpResponse
+    class FileResponse : HttpResponse
     {
         readonly FileInfo file;
 
@@ -14,21 +14,21 @@ namespace Lsj.Util.Net.Web.Message
         {
             file = new FileInfo(path);
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            this.Headers[eHttpHeader.ContentType] = MIME.GetContengTypeByExtension(System.IO.Path.GetExtension(path));
-            if (time == request.Headers[eHttpHeader.IfModifiedSince])
+            this.Headers[HttpHeader.ContentType] = MIME.GetContentTypeByExtension(System.IO.Path.GetExtension(path));
+            if (time == request.Headers[HttpHeader.IfModifiedSince])
             {
                 this.Write304();
             }
             else
             {
                 Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
-                if (request.Headers[eHttpHeader.AcceptEncoding].Contains("gzip"))
+                if (request.Headers[HttpHeader.AcceptEncoding].Contains("gzip"))
                 {
                     using (var compress = new GZipStream(content, CompressionMode.Compress, true))
                     {
                         compress.Write(file.OpenRead().ReadAll());
                     }
-                    Headers.Add(eHttpHeader.ContentEncoding, "gzip");
+                    Headers.Add(HttpHeader.ContentEncoding, "gzip");
                 }
                 else
                 {

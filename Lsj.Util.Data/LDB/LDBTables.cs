@@ -18,19 +18,19 @@ namespace Lsj.Util.Data.LDB
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Data.LDB.LDBTables"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Data.LDB.LDBTables"/> class.
         /// </summary>
-        /// <param name="ldb">Ldb.</param>
+        /// <param name="ldb">Ldb</param>
         public LDBTables(LDBFile ldb)
         {
             this.dic = new SafeDictionary<string, LDBTable>();
             this.ldb = ldb;
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Data.LDB.LDBTables"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Data.LDB.LDBTables"/> class.
         /// </summary>
-        /// <param name="ldb">Ldb.</param>
-        /// <param name="buffer">Buffer.</param>
+        /// <param name="ldb">Ldb</param>
+        /// <param name="buffer">Buffer</param>
         public LDBTables(LDBFile ldb, byte[] buffer)
         {
             this.dic = new SafeDictionary<string, LDBTable>();

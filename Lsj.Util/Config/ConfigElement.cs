@@ -9,20 +9,20 @@ using Lsj.Util.Text;
 namespace Lsj.Util.Config
 {
     /// <summary>
-    /// Config element.
+    /// Config Element
     /// </summary>
     public class ConfigElement
     {
         string value;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Config.ConfigElement"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Config.ConfigElement"/> class
         /// </summary>
         public ConfigElement()
         {
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Config.ConfigElement"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Config.ConfigElement"/> class
         /// </summary>
         /// <param name="value">Value.</param>
         public ConfigElement(string value)
@@ -31,24 +31,20 @@ namespace Lsj.Util.Config
         }
 
         /// <summary>
-        /// Gets the value.
+        /// Get the value
         /// </summary>
-        /// <value>The value.</value>
         public string Value => value.ToSafeString();
         /// <summary>
-        /// Gets the string array value.
+        /// Get value as string array
         /// </summary>
-        /// <value>The string array value.</value>
         public string[] StringArrayValue => Value.Split(',');
         /// <summary>
-        /// Gets the bool value.
+        /// Get value as bool
         /// </summary>
-        /// <value><c>true</c> if bool value; otherwise, <c>false</c>.</value>
         public bool BoolValue => Value == "True";
         /// <summary>
-        /// Gets the int value.
+        /// Get value as int
         /// </summary>
-        /// <value>The int value.</value>
         public int IntValue => Value.ConvertToInt(0);
 
 

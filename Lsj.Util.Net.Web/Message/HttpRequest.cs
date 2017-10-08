@@ -15,11 +15,11 @@ namespace Lsj.Util.Net.Web.Message
 {
     internal class HttpRequest : HttpMessageBase, IHttpRequest
     {
-        public eHttpMethod Method
+        public HttpMethod Method
         {
             get;
             protected set;
-        } = eHttpMethod.UnParsed;
+        } = HttpMethod.UnParsed;
         public URI Uri
         {
             get;
@@ -72,7 +72,7 @@ namespace Lsj.Util.Net.Web.Message
                     else
                     {
                         var length = (int)(ptr - start) + 1;//读取长度
-                        if (this.Method == eHttpMethod.UnParsed)//判断是否Parse首行
+                        if (this.Method == HttpMethod.UnParsed)//判断是否Parse首行
                         {
                             if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
                             {
@@ -105,46 +105,46 @@ namespace Lsj.Util.Net.Web.Message
             {
                 if (*ptr == ASCIIChar.G && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T)
                 {
-                    this.Method = eHttpMethod.GET;
+                    this.Method = HttpMethod.GET;
                     left -= 3;
                 }
                 else if (*ptr == ASCIIChar.H && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.D)
                 {
-                    this.Method = eHttpMethod.HEAD;
+                    this.Method = HttpMethod.HEAD;
                     left -= 4;
                 }
                 else if (*ptr == ASCIIChar.P)
                 {
                     if (*(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.S && *(++ptr) == ASCIIChar.T)
                     {
-                        this.Method = eHttpMethod.POST;
+                        this.Method = HttpMethod.POST;
                         left -= 4;
                     }
                     else if (*(++ptr) == ASCIIChar.U && *(++ptr) == ASCIIChar.T)
                     {
-                        this.Method = eHttpMethod.PUT;
+                        this.Method = HttpMethod.PUT;
                         left -= 3;
                     }
                 }
                 else if (*ptr == ASCIIChar.T && *(++ptr) == ASCIIChar.R && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.C && *(++ptr) == ASCIIChar.E)
                 {
-                    this.Method = eHttpMethod.TRACE;
+                    this.Method = HttpMethod.TRACE;
                     left -= 5;
                 }
                 else if (*ptr == ASCIIChar.O && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.I && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.N && *(++ptr) == ASCIIChar.S)
                 {
 
-                    this.Method = eHttpMethod.OPTIONS;
+                    this.Method = HttpMethod.OPTIONS;
                     left -= 7;
                 }
                 else if (*ptr == ASCIIChar.D && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.L && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.E)
                 {
-                    this.Method = eHttpMethod.DELETE;
+                    this.Method = HttpMethod.DELETE;
                     left -= 6;
                 }
             }
             #endregion
-            if (this.Method != eHttpMethod.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
+            if (this.Method != HttpMethod.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
             {
                 left--;
                 var uriptr = ++ptr;

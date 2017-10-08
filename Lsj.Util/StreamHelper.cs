@@ -28,7 +28,7 @@ namespace Lsj.Util
             return result;
         }
         /// <summary>
-        /// ReadAllWithoutSeek
+        /// ReadAll Without Seek
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>

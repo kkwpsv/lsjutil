@@ -5,12 +5,12 @@ using System.Collections.Specialized;
 namespace Lsj.Util.Config
 {
     /// <summary>
-    /// App config.
+    /// AppConfig
     /// </summary>
     public class AppConfig
     {
         /// <summary>
-        /// Gets the app settings.
+        /// AppSettings
         /// </summary>
         /// <value>The app settings.</value>
         public static NameValueCollection AppSettings

@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Lsj.Util.Office.Word
 {
-    public enum ePaperSize
+    /// <summary>
+    /// PaperSize
+    /// </summary>
+    public enum PaperSize
     {
+#pragma warning disable CS1591
         Paper10x14 = 0,
         Paper11x17 = 1,
         PaperLetter = 2,
@@ -49,5 +53,6 @@ namespace Lsj.Util.Office.Word
         PaperEnvelopeMonarch = 39,
         PaperEnvelopePersonal = 40,
         PaperCustom = 41
+#pragma warning restore CS1591
     }
 }

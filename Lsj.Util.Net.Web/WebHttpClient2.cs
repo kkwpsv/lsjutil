@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Text;
-using Lsj.Util.Net.Web.Exceptions;
 using Lsj.Util.Net;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Web.Protocol;
@@ -47,7 +46,7 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public IHttpResponse Get(URI uri)
         {
-            Build(uri, null, eHttpMethod.GET);
+            Build(uri, null, HttpMethod.GET);
             return Do();
         }
         /// <summary>
@@ -65,7 +64,7 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public IHttpResponse Post(URI uri, byte[] postdata)
         {
-            Build(uri, postdata, eHttpMethod.POST);
+            Build(uri, postdata, HttpMethod.POST);
             return Do();
         }
         /// <summary>
@@ -75,7 +74,7 @@ namespace Lsj.Util.Net.Web
         /// <param name="content"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public void Build(URI uri, byte[] content, eHttpMethod method) => Build(uri, content, method, null);
+        public void Build(URI uri, byte[] content, HttpMethod method) => Build(uri, content, method, null);
         /// <summary>
         /// Do
         /// </summary>
@@ -84,7 +83,7 @@ namespace Lsj.Util.Net.Web
         /// <param name="method"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public void Build(URI uri, byte[] content, eHttpMethod method, IDictionary<string, string> headers)
+        public void Build(URI uri, byte[] content, HttpMethod method, IDictionary<string, string> headers)
         {
             //确保HTTP
             if (uri.Scheme == "https")
@@ -142,6 +141,10 @@ namespace Lsj.Util.Net.Web
             }
 
         }
+        /// <summary>
+        /// DoAction
+        /// </summary>
+        /// <returns></returns>
         public IHttpResponse Do()
         {
             //发送请求头
@@ -224,11 +227,11 @@ namespace Lsj.Util.Net.Web
             }
             //如果接受字节为0。。断开，抛出异常
             this.stream.Dispose();
-            throw new HttpClientException("Error When Receive Data");
+            throw new InvalidOperationException("Error When Receive Data");
         }
 
         /// <summary>
-        /// 
+        /// CleanUp Managed Resources
         /// </summary>
 
         protected override void CleanUpManagedResources()

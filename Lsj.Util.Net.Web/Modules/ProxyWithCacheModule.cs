@@ -11,12 +11,12 @@ using Lsj.Util.Net.Web.Message;
 namespace Lsj.Util.Net.Web.Modules
 {
     /// <summary>
-    /// Proxy with cache module.
+    /// Proxy with cache Module
     /// </summary>
-    public class ProxyWithCacheModule :IModule
+    public class ProxyWithCacheModule : IModule
     {
         /// <summary>
-        /// Src Uri like http://www.example.com
+        /// Source Uri like http://www.example.com
         /// </summary>
         public string SrcUri
         {
@@ -25,9 +25,8 @@ namespace Lsj.Util.Net.Web.Modules
         } = "http://www.example.com";
 
         /// <summary>
-        /// Gets or sets the default page.
+        /// DefaultPage
         /// </summary>
-        /// <value>The default page.</value>
         public string[] DefaultPage
         {
             get; set;
@@ -38,11 +37,11 @@ namespace Lsj.Util.Net.Web.Modules
 
 
         /// <summary>
-        /// Process.
+        /// Process
         /// </summary>
-        /// <returns>The process.</returns>
-        /// <param name="o">O.</param>
-        /// <param name="args">Arguments.</param>
+        /// <returns></returns>
+        /// <param name="o">website</param>
+        /// <param name="args">args</param>
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsProcessed = true;

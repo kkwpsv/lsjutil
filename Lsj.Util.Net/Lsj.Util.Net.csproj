@@ -100,15 +100,15 @@
     <Compile Include="Sockets\TcpAsyncClient.cs" />
     <Compile Include="Sockets\TcpAsyncListener.cs" />
     <Compile Include="Sockets\TcpSocket.cs" />
-    <Compile Include="Socks5\eReplyType.cs" />
+    <Compile Include="Socks5\ReplyType.cs" />
     <Compile Include="Socks5\Proxyer\ConnectProxyer.cs" />
     <Compile Include="Socks5\Proxyer\IProxyer.cs" />
     <Compile Include="Socks5\Socks5Client.cs" />
     <Compile Include="Socks5\Socks5Server.cs" />
     <Compile Include="URI.cs" />
-    <Compile Include="Web\Protocol\eConnectionType.cs" />
-    <Compile Include="Web\Protocol\eHttpHeader.cs" />
-    <Compile Include="Web\Protocol\eHttpMethod.cs" />
+    <Compile Include="Web\Protocol\ConnectionType.cs" />
+    <Compile Include="Web\Protocol\HttpHeader.cs" />
+    <Compile Include="Web\Protocol\HttpMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />

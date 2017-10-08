@@ -5,9 +5,6 @@ using System.Reflection;
 using System.Text;
 using Lsj.Util.Logs;
 
-
-
-
 namespace Lsj.Util.Reflection
 {
     /// <summary>
@@ -18,34 +15,32 @@ namespace Lsj.Util.Reflection
         /// <summary>
         /// Get All Non-Public Field
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">Type</param>
         public static FieldInfo[] GetAllNonPublicField(this Type type) => type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
         /// <summary>
         /// Get Attribute
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static T GetAttribute<T>(this MemberInfo type) where T : Attribute
+        /// <typeparam name="T">Attribute Type</typeparam>
+        /// <param name="member">member</param>
+        public static T GetAttribute<T>(this MemberInfo member) where T : Attribute
         {
-            var x = type.GetCustomAttributes(typeof(T), true);
+            var x = member.GetCustomAttributes(typeof(T), true);
             return (T)x.FirstOrDefault();
 
         }
         /// <summary>
         /// Create Instance
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
+        /// <typeparam name="T">type</typeparam>
+        /// <param name="param">param</param>
         /// <returns></returns>
         public static T CreateInstance<T>(params object[] param) => CreateInstance<T>(typeof(T), param);
         /// <summary>
         /// Create Instance
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <param name="param"></param>
+        /// <typeparam name="T">type</typeparam>
+        /// <param name="type">type</param>
+        /// <param name="param">param</param>
         /// <returns></returns>
         public static T CreateInstance<T>(this Type type, params object[] param)
         {
@@ -59,10 +54,9 @@ namespace Lsj.Util.Reflection
             }
         }
         /// <summary>
-        /// 
+        /// Get Type Name
         /// </summary>
         /// <param name="type"></param>
-        /// <returns></returns>
         public static string GetTypeName(this Type type)
         {
             if (type == typeof(int))
@@ -79,13 +73,13 @@ namespace Lsj.Util.Reflection
             }
         }
         /// <summary>
-        /// 
+        /// Create List Of Type
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">type</param>
         /// <returns></returns>
-        public static object CreateListOfInstance(this Type type)
+        public static object CreateListOfType(this Type type)
         {
-            return Activator.CreateInstance(typeof(List<object>).GetGenericTypeDefinition().MakeGenericType(type));
+            return Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
         }
     }
 }

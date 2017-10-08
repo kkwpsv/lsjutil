@@ -6,24 +6,42 @@ using Lsj.Util.Collections;
 
 namespace Lsj.Util.SQLBuilder.Statement
 {
-    public class Insert :SQLStatement
+    /// <summary>
+    /// Insert
+    /// </summary>
+    public class Insert : SQLStatement
     {
+        /// <summary>
+        /// Table Name
+        /// </summary>
         public string TableName
         {
             get;
             set;
         }
         SafeStringToStringDirectionary data;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.SQLBuilder.Statement.Insert"/> class
+        /// </summary>
+        /// <param name="TableName"></param>
         public Insert(string TableName) : this(TableName, new SafeStringToStringDirectionary())
         {
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.SQLBuilder.Statement.Insert"/> class
+        /// </summary>
+        /// <param name="TableName"></param>
+        /// <param name="data"></param>
         public Insert(string TableName, SafeStringToStringDirectionary data)
         {
             this.TableName = TableName;
             this.data = data;
         }
 
-
+        /// <summary>
+        /// Convert To String
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

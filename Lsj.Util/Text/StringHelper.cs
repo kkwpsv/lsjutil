@@ -16,7 +16,7 @@ using System.Web;
 namespace Lsj.Util.Text
 {
     /// <summary>
-    /// StringHelper
+    /// String Helper
     /// </summary>
     public static class StringHelper
     {
@@ -35,7 +35,7 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="src">Source String</param>
         /// <param name="n">Char Offset</param>
-        /// <returns></returns>
+
         public static string RemoveOne(this string src, int n) => src.Remove(n, 1);
 
 
@@ -65,7 +65,7 @@ namespace Lsj.Util.Text
         }
 
         /// <summary>
-        /// Convert String To Byte Array
+        /// Convert String To Binary Byte Array
         /// </summary>
 #if NETCOREAPP1_1
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.UTF8);
@@ -73,7 +73,7 @@ namespace Lsj.Util.Text
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.Default);
 #endif
         /// <summary>
-        /// Convert String To Byte Array
+        /// Convert String To Binary Byte Array
         /// <param name="src">Source String</param>
         /// <param name="encoding">Encoding</param>
         /// </summary>
@@ -82,7 +82,7 @@ namespace Lsj.Util.Text
 
 
         /// <summary>
-        /// Convert Byte Array To String
+        /// Convert Binary Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// </summary>
 #if NETCOREAPP1_1
@@ -92,7 +92,7 @@ namespace Lsj.Util.Text
 #endif
 
         /// <summary>
-        /// Convert Byte Array To String
+        /// Convert Binary Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// <param name="encoding">Encoding</param>
         /// </summary>
@@ -154,9 +154,6 @@ namespace Lsj.Util.Text
             }
             return i < min ? min : i > max ? max : i;
         }
-
-
-
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
@@ -183,11 +180,6 @@ namespace Lsj.Util.Text
             }
             return i < min ? min : i > max ? max : i;
         }
-
-
-
-
-
         /// <summary>
         /// Convert String To Decimal
         /// <param name="src">Source String</param>
@@ -207,21 +199,16 @@ namespace Lsj.Util.Text
         /// <param name="OnError"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        /// <returns></returns>
+
         public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min, decimal max)
         {
-            decimal i;
-            if (!decimal.TryParse(src, out i))
+            if (!decimal.TryParse(src, out var i))
             {
                 return OnError;
             }
             return i < min ? min : i > max ? max : i;
 
         }
-
-
-
-
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
@@ -240,7 +227,7 @@ namespace Lsj.Util.Text
         /// <param name="OnError"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        /// <returns></returns>
+
         public static float ConvertToFloat(this string src, float OnError, float min, float max)
         {
             if (!float.TryParse(src, out float i))
@@ -249,8 +236,6 @@ namespace Lsj.Util.Text
             }
             return i < min ? min : i > max ? max : i;
         }
-
-
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
@@ -269,7 +254,7 @@ namespace Lsj.Util.Text
         /// <param name="OnError"></param>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        /// <returns></returns>
+
         public static double ConvertToDouble(this string src, double OnError, double min, double max)
         {
             if (!double.TryParse(src, out double i))
@@ -278,23 +263,16 @@ namespace Lsj.Util.Text
             }
             return i < min ? min : i > max ? max : i;
         }
-
-
-
-
-
         /// <summary>
         /// Avoid Null String
         /// <param name="src">Source String</param>
         /// </summary>        
         public static string ToSafeString(this string src) => src + "";
-
         /// <summary>
         /// Convert String To StringBuilder
         /// <param name="src">Source String</param>
         /// </summary>
         public static StringBuilder ToStringBuilder(this string src) => new StringBuilder(src);
-
         /// <summary>
         /// Read String From Stream
         /// <param name="stream">Source Stream</param>
@@ -321,14 +299,11 @@ namespace Lsj.Util.Text
 #else
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
 #endif
-
-
         /// <summary>
         /// Split
         /// </summary>
         /// <param name="str"></param>
         /// <param name="sparator"></param>
-        /// <returns></returns>
         public static string[] Split(this string str, string sparator)
         {
             var result = new List<string>();
@@ -348,25 +323,20 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="src"></param>
         /// <param name="str"></param>
-        /// <returns></returns>
         public static bool IsMatchIgnoreCase(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
         /// <summary>
         /// Is Match
         /// </summary>
         /// <param name="src"></param>
         /// <param name="str"></param>
-        /// <returns></returns>
         public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.None);
-
         /// <summary>
         /// Convert To Datetime
         /// </summary>
         /// <param name="src"></param>
-        /// <returns></returns>
         public static DateTime ConvertToDateTime(this string src)
         {
-            DateTime result;
-            if (DateTime.TryParse(src, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            if (DateTime.TryParse(src, CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
             {
                 return result;
             }
@@ -377,11 +347,9 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="src"></param>
         /// <param name="format"></param>
-        /// <returns></returns>
         public static DateTime ConvertToDateTime(this string src, string format)
         {
-            DateTime result;
-            if (DateTime.TryParseExact(src, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            if (DateTime.TryParseExact(src, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
             {
                 return result;
             }
@@ -392,7 +360,6 @@ namespace Lsj.Util.Text
         /// Trim String Array
         /// </summary>
         /// <param name="x"></param>
-        /// <returns></returns>
         public static string[] Trim(this string[] x)
         {
             for (int i = 0; i < x.Length; i++)
@@ -401,14 +368,12 @@ namespace Lsj.Util.Text
             }
             return x;
         }
-
         /// <summary>
-        /// ReadStringFromBytePoint
+        /// Read String From Byte Point
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="count"></param>
         /// <param name="encoding"></param>
-        /// <returns></returns>
         public static unsafe string ReadStringFromBytePoint(byte* buffer, long count, Encoding encoding)
         {
             byte[] x = new byte[count];
@@ -419,21 +384,18 @@ namespace Lsj.Util.Text
             }
             return encoding.GetString(x);
         }
-
         /// <summary>
-        /// ReadStringFromBytePoint
+        /// Read String From Byte Point
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="count"></param>
-        /// <returns></returns>
         public static unsafe string ReadStringFromBytePoint(byte* buffer, long count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
 
         /// <summary>
-        /// ReadStringFromBytePoint
+        /// Read String From Byte Point
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="count"></param>
-        /// <returns></returns>
         public static unsafe string ReadStringFromCharPoint(char* buffer, long count)
         {
             char[] x = new char[count];
@@ -444,28 +406,22 @@ namespace Lsj.Util.Text
             }
             return new string(x);
         }
-
-
         /// <summary>
-        /// ConvertToIPAddress
+        /// Convert To IPAddress
         /// </summary>
         /// <param name="src"></param>
-        /// <returns></returns>
         public static IPAddress ConvertToIPAddress(this string src)
         {
-            IPAddress i;
-            if (!IPAddress.TryParse(src, out i))
+            if (!IPAddress.TryParse(src, out var i))
             {
                 return IPAddress.Any;
             }
             return i;
-
         }
         /// <summary>
-        /// URIEncode
+        /// Url Encode
         /// </summary>
         /// <param name="src"></param>
-        /// <returns></returns>
 #if NETCOREAPP1_1
         public static string UrlEncode(this string src) => WebUtility.UrlEncode(src);
 #else
@@ -473,10 +429,9 @@ namespace Lsj.Util.Text
 #endif
 
         /// <summary>
-        /// URIDecode
+        /// Url Decode
         /// </summary>
         /// <param name="src"></param>
-        /// <returns></returns>
 #if NETCOREAPP1_1
         public static string UrlDecode(this string src) => WebUtility.UrlDecode(src);
 #else
@@ -486,7 +441,6 @@ namespace Lsj.Util.Text
         /// Is Null or Empty
         /// </summary>
         /// <param name="src"></param>
-        /// <returns></returns>
         public static bool IsNullOrEmpty(this string src) => string.IsNullOrEmpty(src);
 
 

@@ -12,7 +12,7 @@ using Lsj.Util.Logs.Interfaces;
 namespace Lsj.Util.Logs.Logger
 {
     /// <summary>
-    /// Log view logger.
+    /// LogView Logger
     /// </summary>
     public class LogViewLogger : ILogger
     {
@@ -20,76 +20,72 @@ namespace Lsj.Util.Logs.Logger
         /// LogView
         /// </summary>
         public LogView LogView { get; set; } = new LogView();
+        Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
         /// <summary>
-        /// LogViewColors
-        /// </summary>
-        public Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
-        /// <summary>
-        /// LogViewDebugColor
+        /// LogView Debug Color
         /// </summary>
         public Color LogViewDebugColor
         {
             get
             {
-                return LogViewColors[(int)eLogType.Debug];
+                return LogViewColors[(int)LogType.Debug];
             }
             set
             {
-                LogViewColors[(int)eLogType.Debug] = value;
+                LogViewColors[(int)LogType.Debug] = value;
             }
         }
         /// <summary>
-        /// LogViewInfoColor
+        /// LogView Info Color
         /// </summary>
         public Color LogViewInfoColor
         {
             get
             {
-                return LogViewColors[(int)eLogType.Info];
+                return LogViewColors[(int)LogType.Info];
             }
             set
             {
-                LogViewColors[(int)eLogType.Info] = value;
+                LogViewColors[(int)LogType.Info] = value;
             }
         }
         /// <summary>
-        /// LogViewWarnColor
+        /// LogView Warn Color
         /// </summary>
         public Color LogViewWarnColor
         {
             get
             {
-                return LogViewColors[(int)eLogType.Warn];
+                return LogViewColors[(int)LogType.Warn];
             }
             set
             {
-                LogViewColors[(int)eLogType.Warn] = value;
+                LogViewColors[(int)LogType.Warn] = value;
             }
         }
         /// <summary>
-        /// LogViewErrorColor
+        /// LogView Error Color
         /// </summary>
         public Color LogViewErrorColor
         {
             get
             {
-                return LogViewColors[(int)eLogType.Error];
+                return LogViewColors[(int)LogType.Error];
             }
             set
             {
-                LogViewColors[(int)eLogType.Error] = value;
+                LogViewColors[(int)LogType.Error] = value;
             }
         }
 
 
         private readonly object lockobj = new object();
         /// <summary>
-        /// Add the specified str and type.
+        /// Add Log
         /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="str">String.</param>
-        /// <param name="type">Type.</param>
-        public void Add(string str, eLogType type)
+        /// <param name="str">content</param>
+        /// <param name="type">type</param>
+        public void Add(string str, LogType type)
         {
             Monitor.Enter(lockobj);
             try

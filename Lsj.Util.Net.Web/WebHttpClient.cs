@@ -18,12 +18,13 @@ namespace Lsj.Util.Net.Web
         /// </summary>
         /// <param name="uri"></param>
         /// <param name="data"></param>
+        /// <param name="contentType"></param>
         /// <returns></returns>
-        public byte[] Post(string uri, byte[] data, string contenttype)
+        public byte[] Post(string uri, byte[] data, string contentType)
         {
             var request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = "Post";
-            request.ContentType = contenttype;
+            request.ContentType = contentType;
             if (this.cookicontainer == null)
             {
                 this.cookicontainer = new CookieContainer();

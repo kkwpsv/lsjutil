@@ -13,7 +13,7 @@ using Lsj.Util.Net.Sockets.Event;
 namespace Lsj.Util.Net.Sockets
 {
     /// <summary>
-    /// Tcp Async listener.
+    /// TcpAsync Listener
     /// </summary>
     public class TcpAsyncListener
     {
@@ -21,21 +21,18 @@ namespace Lsj.Util.Net.Sockets
         IPAddress m_ip = IPAddress.Any;
         int m_port = 80;
 
-
-
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncListener"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Sockets.TcpAsyncListener"/> class.
         /// </summary>
         public TcpAsyncListener() : this(IPAddress.Any, 0)
         {
 
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncListener"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Sockets.TcpAsyncListener"/> class.
         /// </summary>
-        /// <param name="address">Address.</param>
-        /// <param name="port">Port.</param>
+        /// <param name="address"></param>
+        /// <param name="port"></param>
         public TcpAsyncListener(IPAddress address, int port)
         {
             this.socket = new TcpSocket();
@@ -44,7 +41,7 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// Gets or sets the log.
+        /// Log
         /// </summary>
         /// <value>The log.</value>
         public LogProvider Log
@@ -71,9 +68,8 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// Gets or sets the port.
+        /// Port
         /// </summary>
-        /// <value>The port.</value>
         public int Port
         {
             get
@@ -90,35 +86,33 @@ namespace Lsj.Util.Net.Sockets
             }
         }
         /// <summary>
-        /// Gets a value indicating whether this <see cref="T:Lsj.Util.Net.Sockets.TcpAsyncListener"/> is started.
+        /// Is Started
         /// </summary>
-        /// <value><c>true</c> if is started; otherwise, <c>false</c>.</value>
         public bool IsStarted
         {
             get;
             private set;
         } = false;
         /// <summary>
-        /// SocketAccepted
+        /// SocketAccepted EventHandler
         /// </summary>
         public event EventHandler<SocketAcceptedArgs> SocketAccepted;
         /// <summary>
-        /// SocketReceived
+        /// SocketReceived EventHandler
         /// </summary>
         public event EventHandler<SocketReceivedArgs> SocketReceived;
         /// <summary>
-        /// SocketSent
+        /// SocketSent EventHandler
         /// </summary>
         public event EventHandler<SocketSentArgs> SocketSent;
 
 
 
         /// <summary>
-        /// Bind the specified address and port.
+        /// Bind
         /// </summary>
-        /// <returns>The bind.</returns>
-        /// <param name="address">Address.</param>
-        /// <param name="port">Port.</param>
+        /// <param name="address"></param>
+        /// <param name="port"></param>
         public virtual void Bind(IPAddress address, int port)
         {
             try
@@ -132,7 +126,7 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// Start this instance.
+        /// Start
         /// </summary>
         public virtual void Start()
         {
@@ -175,7 +169,7 @@ namespace Lsj.Util.Net.Sockets
         }
 
         /// <summary>
-        /// Stop this instance.
+        /// Stop
         /// </summary>
         public virtual void Stop()
         {
@@ -210,7 +204,7 @@ namespace Lsj.Util.Net.Sockets
                     SocketAccepted(this, args);
                     if (args.IsReject)
                     {
-                        Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
+                        Log.Warn("Socket was rejected" + ((args.Socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.Socket.RemoteEndPoint).ToString() : "") + " .");
                         return;
                     }
                 }
@@ -224,13 +218,14 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// AfterOnAccepted
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="obj">StateObject</param>
         protected virtual void AfterOnAccepted(StateObject obj)
         {
         }
-
-
-
+        /// <summary>
+        /// Receive
+        /// </summary>
+        /// <param name="obj">StateObject</param>
         protected void Receive(StateObject obj)
         {
             var args = new SocketAsyncEventArgs();
@@ -248,7 +243,6 @@ namespace Lsj.Util.Net.Sockets
             OnReceived(args);
         }
 
-
         private void OnReceived(SocketAsyncEventArgs e)
         {
             var obj = e.UserToken as StateObject;
@@ -259,7 +253,7 @@ namespace Lsj.Util.Net.Sockets
                 SocketReceived(this, args);
                 if (args.IsReject)
                 {
-                    Log.Warn("Socket was rejected" + ((args.socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.socket.RemoteEndPoint).ToString() : "") + " .");
+                    Log.Warn("Socket was rejected" + ((args.Socket.RemoteEndPoint is IPEndPoint) ? " from " + ((IPEndPoint)args.Socket.RemoteEndPoint).ToString() : "") + " .");
                     return;
                 }
             }
@@ -269,14 +263,25 @@ namespace Lsj.Util.Net.Sockets
         /// <summary>
         /// AfterOnReceived
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="received"></param>
+        /// <param name="obj">StateObject</param>
+        /// <param name="received">Received byte count</param>
         protected virtual void AfterOnReceived(StateObject obj, int received)
         {
 
         }
+        /// <summary>
+        /// Send
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="tosend"></param>
         protected void Send(StateObject obj, byte[] tosend) => Send(obj, tosend, 0, tosend.Length);
-
+        /// <summary>
+        /// Send
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="tosend"></param>
+        /// <param name="offet"></param>
+        /// <param name="count"></param>
         protected void Send(StateObject obj, byte[] tosend, int offet, int count)
         {
             var args = new SocketAsyncEventArgs();
@@ -293,9 +298,6 @@ namespace Lsj.Util.Net.Sockets
         {
             OnSent(args);
         }
-
-
-
         private void OnSent(SocketAsyncEventArgs e)
         {
             var obj = e.UserToken as StateObject;
@@ -306,6 +308,13 @@ namespace Lsj.Util.Net.Sockets
             }
             AfterSent(obj, e.Buffer, e.Offset, e.BytesTransferred);
         }
+        /// <summary>
+        /// AfterSent
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
         protected virtual void AfterSent(StateObject handle, byte[] buffer, int offset, int count)
         {
 

@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Sockets.Event
         /// <summary>
         /// socket
         /// </summary>
-        public Socket socket
+        public Socket Socket
         {
             get;
             private set;
@@ -28,12 +28,12 @@ namespace Lsj.Util.Net.Sockets.Event
             set;
         } = false;
         /// <summary>
-        /// SocketAcceptedArgs
+        /// Initialize a new instance of <see cref="Lsj.Util.Net.Sockets.Event.SocketConnectedArgs"/> class
         /// </summary>
         /// <param name="socket"></param>
         public SocketConnectedArgs(Socket socket)
         {
-            this.socket = socket;
+            this.Socket = socket;
         }
     }
 }

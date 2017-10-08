@@ -5,11 +5,18 @@ using System.Text;
 
 namespace Lsj.Util.Protobuf
 {
+    /// <summary>
+    /// Field Attribute
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class FieldAttribute :Attribute
+    public class FieldAttribute : Attribute
     {
-
-        public FieldAttribute(int FieldNumber, eFieldType FieldType = eFieldType.Varint)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Protobuf.FieldAttribute"/> class
+        /// </summary>
+        /// <param name="FieldNumber"></param>
+        /// <param name="FieldType"></param>
+        public FieldAttribute(int FieldNumber, FieldType FieldType = FieldType.Varint)
         {
             if (FieldNumber < 1 || FieldNumber > 2047)
             {
@@ -18,14 +25,20 @@ namespace Lsj.Util.Protobuf
             this.FieldNumber = FieldNumber;
             this.FieldType = FieldType;
         }
+        /// <summary>
+        /// Field Number
+        /// </summary>
         public int FieldNumber
         {
             get;
         }
-        public eFieldType FieldType
+        /// <summary>
+        /// Field Type
+        /// </summary>
+        public FieldType FieldType
         {
             get;
-        } = eFieldType.Varint;
+        } = FieldType.Varint;
 
     }
 }

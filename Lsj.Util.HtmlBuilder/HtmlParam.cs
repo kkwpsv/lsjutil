@@ -12,12 +12,20 @@ namespace Lsj.Util.HtmlBuilder
     public struct HtmlParam
     {
         /// <summary>
-        /// The name.
+        /// Name
         /// </summary>
-        public string name;
+        public string Name
+        {
+            get;
+            set;
+        }
         /// <summary>
-        /// The value.
+        /// Value
         /// </summary>
-        public string value;
+        public string Value
+        {
+            get;
+            set;
+        }
     }
 }

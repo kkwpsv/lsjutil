@@ -102,8 +102,6 @@
     <Compile Include="Error\ErrorHelper.cs" />
     <Compile Include="Event\ProcessEventArgs.cs" />
     <Compile Include="Event\RequestParsedEventArgs.cs" />
-    <Compile Include="Exceptions\HttpClientException.cs" />
-    <Compile Include="Exceptions\ListenerException.cs" />
     <Compile Include="HttpsContext.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Interfaces\IContext.cs" />
@@ -126,7 +124,7 @@
     <Compile Include="Message\HttpRequest.cs" />
     <Compile Include="Static\Header.cs" />
     <Compile Include="Static\MIME.cs" />
-    <Compile Include="Static\SatusCode.cs" />
+    <Compile Include="Static\StatusCode.cs" />
     <Compile Include="WebHttpClient.cs" />
     <Compile Include="WebHttpClient2.cs" />
     <Compile Include="WebServer.cs" />

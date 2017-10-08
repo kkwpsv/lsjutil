@@ -13,11 +13,10 @@ namespace Lsj.Util.IO
     public static class FileHelper
     {
         /// <summary>
-        /// GetLength
+        /// GetFileLength
         /// </summary>
         /// <param name="path"></param>
-        /// <returns></returns>
-        public static long GetLength(string path)
+        public static long GetFileLength(this string path)
         {
             var a = new FileInfo(path);
             if (!a.Exists)
@@ -25,9 +24,17 @@ namespace Lsj.Util.IO
                 return 0;
             }
             else
-            {                
-               return a.Length;
+            {
+                return a.Length;
             }
+        }
+        /// <summary>
+        /// Check File Is Exists
+        /// </summary>
+        /// <param name="file">file</param>
+        public static bool IsExistsFile(this string file)
+        {
+            return File.Exists(file);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// </summary>
         void Stop();
         /// <summary>
-        /// LogProvider
+        /// Log
         /// </summary>
         LogProvider Log
         {
@@ -39,7 +39,7 @@ namespace Lsj.Util.Net.Web.Interfaces
             get;
         }
         /// <summary>
-        /// SocketReceived
+        /// SocketAccepted
         /// </summary>
         event EventHandler<SocketAcceptedArgs> SocketAccepted;
     }

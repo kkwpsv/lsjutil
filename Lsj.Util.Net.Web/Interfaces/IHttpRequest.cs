@@ -8,7 +8,7 @@ using Lsj.Util.Net.Web.Protocol;
 namespace Lsj.Util.Net.Web.Interfaces
 {
     /// <summary>
-    /// Request
+    /// HttpRequest
     /// </summary>
     public interface IHttpRequest : IHttpMessage
     {
@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <summary>
         /// Method
         /// </summary>
-        eHttpMethod Method
+        HttpMethod Method
         {
             get;
         }

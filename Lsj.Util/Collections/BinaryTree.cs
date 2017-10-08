@@ -6,24 +6,56 @@ using System.Collections.Generic;
 
 namespace Lsj.Util.Collections
 {
+    /// <summary>
+    /// BinaryTree
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BinaryTree<T> : BinaryTreeNode<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.BinaryTree{T}"/> class.
+        /// </summary>
+        /// <param name="val">value</param>
         public BinaryTree(T val) : base(val)
         {
         }
+        /// <summary>
+        /// Is Empty
+        /// </summary>
         public bool IsEmpty => this.left == null && this.right == null;
 
 
     }
-
+    /// <summary>
+    /// BinaryTreeNode
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BinaryTreeNode<T>
     {
+        /// <summary>
+        /// Value
+        /// </summary>
         protected T val;
+        /// <summary>
+        /// Parent
+        /// </summary>
         protected BinaryTreeNode<T> parent;
+        /// <summary>
+        /// Left Child
+        /// </summary>
         protected BinaryTreeNode<T> left;
+        /// <summary>
+        /// Right Child
+        /// </summary>
         protected BinaryTreeNode<T> right;
 
+        /// <summary>
+        /// Parent
+        /// </summary>
         public BinaryTreeNode<T> Parent => this.parent;
+        /// <summary>
+        /// Left Child
+        /// </summary>
         public BinaryTreeNode<T> Left
         {
             get
@@ -36,6 +68,9 @@ namespace Lsj.Util.Collections
                 this.left.parent = this;
             }
         }
+        /// <summary>
+        /// Right Child
+        /// </summary>
         public BinaryTreeNode<T> Right
         {
             get
@@ -48,15 +83,17 @@ namespace Lsj.Util.Collections
                 this.right.parent = this;
             }
         }
-
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.BinaryTreeNode{T}"/> class.
+        /// </summary>
+        /// <param name="val"></param>
         public BinaryTreeNode(T val)
         {
             this.val = val;
         }
-
-
-
+        /// <summary>
+        /// Height
+        /// </summary>
         public int Height
         {
             get
@@ -80,16 +117,10 @@ namespace Lsj.Util.Collections
             }
         }
 
-
-
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// TraverseDLRWithRecursion
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<BinaryTreeNode<T>> TraverseDLRWithRecursion()
         {
             yield return this;
@@ -108,9 +139,10 @@ namespace Lsj.Util.Collections
                 }
             }
         }
-
-
-
+        /// <summary>
+        /// TraverseDLRWithoutRecursion
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<BinaryTreeNode<T>> TraverseDLRWithoutRecursion()
         {
             var stack = new MyStack<BinaryTreeNode<T>>();
@@ -129,11 +161,10 @@ namespace Lsj.Util.Collections
                 }
             }
         }
-
-
-
-
-
+        /// <summary>
+        /// TraverseLDRWithRecursion
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<BinaryTreeNode<T>> TraverseLDRWithRecursion()
         {
 
@@ -153,6 +184,10 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+        /// <summary>
+        /// TraverseLDRWithoutRecursion
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<BinaryTreeNode<T>> TraverseLDRWithoutRecursion()
         {
             var stack = new MyStack<BinaryTreeNode<T>>();
@@ -174,12 +209,10 @@ namespace Lsj.Util.Collections
 
             }
         }
-
-
-
-
-
-
+        /// <summary>
+        /// TraverseLRDWithRecursion
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<BinaryTreeNode<T>> TraverseLRDWithRecursion()
         {
             if (this.left != null)
@@ -198,8 +231,5 @@ namespace Lsj.Util.Collections
             }
             yield return this;
         }
-
-
-
     }
 }

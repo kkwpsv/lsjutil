@@ -8,18 +8,30 @@ using Lsj.Util.Reflection;
 
 namespace Lsj.Util.CsBuilder
 {
-    public class AutoProperty :ClassMember
+    /// <summary>
+    /// Auto Property
+    /// </summary>
+    public class AutoProperty : ClassMember
     {
-        public eVisibility Visibility
+        /// <summary>
+        /// VIsibility
+        /// </summary>
+        public Visibility Visibility
         {
             get;
             set;
-        } = eVisibility.None;
+        } = Visibility.None;
+        /// <summary>
+        /// Name
+        /// </summary>
         public string Name
         {
             get;
             set;
-        } = "MethodName";
+        } = "AutoPropertyName";
+        /// <summary>
+        /// Return Type
+        /// </summary>
         public Type ReturnType
         {
             get;
@@ -28,13 +40,21 @@ namespace Lsj.Util.CsBuilder
 
 
 
-
+        /// <summary>
+        /// Convert To String
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => ToString(0);
+        /// <summary>
+        /// Convert To String
+        /// </summary>
+        /// <param name="i">Count of blank</param>
+        /// <returns></returns>
         public override string ToString(int i)
         {
             var sb = new StringBuilder();
             sb.Append(NULL, i * 4);
-            sb.AppendLine($@"{(Visibility == eVisibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType.GetTypeName()} {Name}");
+            sb.AppendLine($@"{(Visibility == Visibility.None ? "" : Visibility.ToString().ToLower())} {ReturnType.GetTypeName()} {Name}");
             sb.Append(NULL, i * 4);
             sb.AppendLine("{");
             sb.Append(NULL, (i + 1) * 4);

@@ -6,7 +6,7 @@ using System.Text;
 namespace Lsj.Util
 {
     /// <summary>
-    /// ASCIIChar
+    /// ASCII Char
     /// </summary>
     public static class ASCIIChar
     {
@@ -33,43 +33,43 @@ namespace Lsj.Util
         /// <summary>
         /// 0
         /// </summary>
-        public const byte N0 = 48;
+        public const byte Num0 = 48;
         /// <summary>
         /// 1
         /// </summary>
-        public const byte N1 = 49;
+        public const byte Num1 = 49;
         /// <summary>
         /// 2
         /// </summary>
-        public const byte N2 = 50;
+        public const byte Num2 = 50;
         /// <summary>
         /// 3
         /// </summary>
-        public const byte N3 = 51;
+        public const byte Num3 = 51;
         /// <summary>
         /// 4
         /// </summary>
-        public const byte N4 = 52;
+        public const byte Num4 = 52;
         /// <summary>
         /// 5
         /// </summary>
-        public const byte N5 = 53;
+        public const byte Num5 = 53;
         /// <summary>
         /// 6
         /// </summary>
-        public const byte N6 = 54;
+        public const byte Num6 = 54;
         /// <summary>
         /// 7
         /// </summary>
-        public const byte N7 = 55;
+        public const byte Num7 = 55;
         /// <summary>
         /// 8
         /// </summary>
-        public const byte N8 = 56;
+        public const byte Num8 = 56;
         /// <summary>
         /// 9
         /// </summary>
-        public const byte N9 = 57;
+        public const byte Num9 = 57;
         /// <summary>
         /// :
         /// </summary>

@@ -5,8 +5,12 @@ using System.Text;
 
 namespace Lsj.Util.Office.Word
 {
-    public enum eHorizontalAlignment
+    /// <summary>
+    /// ParagraphAlignment
+    /// </summary>
+    public enum ParagraphAlignment
     {
+#pragma warning disable CS1591
         Left = 0,
         Center = 1,
         Right = 2,
@@ -16,5 +20,6 @@ namespace Lsj.Util.Office.Word
         JustifyHi = 7,
         JustifyLow = 8,
         ThaiJustify = 9
+#pragma warning restore CS1591
     }
 }

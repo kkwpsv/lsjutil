@@ -11,7 +11,7 @@ namespace Lsj.Util.Net.Web.Listener
     /// <summary>
     /// SocketListener
     /// </summary>
-    public class SocketListener :TcpAsyncListener, IListener
+    public class SocketListener : TcpAsyncListener, IListener
     {
         bool IsSSL = false;
 
@@ -43,19 +43,19 @@ namespace Lsj.Util.Net.Web.Listener
         private string password;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Listener.SocketListener"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Web.Listener.SocketListener"/> class.
         /// </summary>
-        /// <param name="server">Server.</param>
+        /// <param name="server"></param>
         public SocketListener(WebServer server) : this(false, "", "", server)
         {
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Listener.SocketListener"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Web.Listener.SocketListener"/> class.
         /// </summary>
-        /// <param name="IsSSL">If set to <c>true</c> is ssl.</param>
-        /// <param name="file">File.</param>
-        /// <param name="password">Password.</param>
-        /// <param name="server">Server.</param>
+        /// <param name="IsSSL"></param>
+        /// <param name="file"></param>
+        /// <param name="password"></param>
+        /// <param name="server"></param>
         public SocketListener(bool IsSSL, string file, string password, WebServer server) : base()
         {
             this.IsSSL = IsSSL;
@@ -64,7 +64,7 @@ namespace Lsj.Util.Net.Web.Listener
             this.Server = server;
         }
         /// <summary>
-        /// Start this instance.
+        /// Start
         /// </summary>
         public override void Start()
         {
@@ -74,7 +74,7 @@ namespace Lsj.Util.Net.Web.Listener
             {
                 try
                 {
-                    Contexts.FindAll((x) => (x.Status == eContextStatus.Disposing)).ForEach((a) =>
+                    Contexts.FindAll((x) => (x.Status == ContextStatus.Disposing)).ForEach((a) =>
                     {
                         a.Dispose();
                         Contexts.Remove(a);
@@ -86,7 +86,7 @@ namespace Lsj.Util.Net.Web.Listener
             }, null, 0, 1000 * 10);
         }
         /// <summary>
-        /// AfterOnAccepted
+        ///
         /// </summary>
         /// <param name="obj"></param>
         protected override void AfterOnAccepted(StateObject obj)
