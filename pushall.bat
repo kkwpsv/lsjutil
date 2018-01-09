@@ -1,4 +1,4 @@
-nuget push packages/Lsj.Util.1.0.5.nupkg -Source nuget.org
+nuget push packages/Lsj.Util.1.0.6.nupkg -Source nuget.org
 nuget push packages/Lsj.Util.CsBuilder.1.0.1.nupkg -Source nuget.org
 nuget push packages/Lsj.Util.Data.1.0.1.nupkg -Source nuget.org
 nuget push packages/Lsj.Util.HtmlBuilder.1.0.1.nupkg -Source nuget.org

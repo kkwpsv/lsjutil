@@ -13,7 +13,7 @@ namespace Lsj.Util
     public static class StreamHelper
     {
         /// <summary>
-        /// ReadAll
+        /// ReadAll (Seek Before Read)
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>

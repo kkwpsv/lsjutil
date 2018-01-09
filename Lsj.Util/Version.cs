@@ -17,7 +17,7 @@ namespace Lsj.Util
         int m_revision;
 
         /// <summary>
-        /// MajOr
+        /// Major
         /// </summary>
         public int Major => m_major;
         /// <summary>
