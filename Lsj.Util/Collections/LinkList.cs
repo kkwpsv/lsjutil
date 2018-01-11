@@ -16,7 +16,7 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// LinkList Enumerator
         /// </summary>
-        public class LinkListEnumerator : IEnumerator<T>, IEnumerator
+        public struct LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
             LinkList<T> linklist;
             LinkListNode<T> current;
@@ -25,6 +25,7 @@ namespace Lsj.Util.Collections
             {
                 this.linklist = linklist;
                 this.last = linklist.Count - 1;
+                this.current = null;
             }
             /// <summary>
             /// Dispose

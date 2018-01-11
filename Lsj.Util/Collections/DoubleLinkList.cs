@@ -15,7 +15,7 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// DoubleLinkList Enumerator
         /// </summary>
-        public class DoubleLinkListEnumerator : IEnumerator<T>, IEnumerator
+        public struct DoubleLinkListEnumerator : IEnumerator<T>, IEnumerator
         {
             DoubleLinkList<T> linklist;
             DoubleLinkListNode<T> current;
@@ -24,6 +24,7 @@ namespace Lsj.Util.Collections
             {
                 this.linklist = linklist;
                 this.last = linklist.Count - 1;
+                this.current = null;
             }
             /// <summary>
             /// Dispose

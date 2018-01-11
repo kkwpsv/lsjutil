@@ -15,7 +15,7 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Sequence List
         /// </summary>
-        public class SeqListEnumerator : IEnumerator<T>, IEnumerator
+        public struct SeqListEnumerator : IEnumerator<T>, IEnumerator
         {
             SeqList<T> seqlist;
             int position;
