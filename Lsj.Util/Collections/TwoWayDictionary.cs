@@ -15,17 +15,11 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
         /// </summary>
-        public TwoWayDictionary() : this(false)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
-        /// </summary>
         /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)
         {
-            this.a = new SafeDictionary<TKey, TValue>(IsMultiThreadSafety);
-            this.b = new SafeDictionary<TValue, TKey>(IsMultiThreadSafety);
+            this.a = new SafeDictionary<TKey, TValue>();
+            this.b = new SafeDictionary<TValue, TKey>();
         }
         /// <summary>
         /// Get or Set the value with specified key
