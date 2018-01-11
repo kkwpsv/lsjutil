@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Socks5
     /// Simple Socks5Server 
     /// implement NO AUTHENTICATION 
     /// </summary>
-    public class Socks5Server : TcpAsyncListener
+    public class Socks5Server : TcpAsyncListener, IDisposable
     {
         MultiThreadSafeList<Socks5ServerClient> Clients = new MultiThreadSafeList<Socks5ServerClient>();
         /// <summary>

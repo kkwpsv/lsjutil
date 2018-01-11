@@ -12,7 +12,7 @@ namespace Lsj.Util.Protobuf
     /// <summary>
     /// Message
     /// </summary>
-    public abstract class Message
+    public abstract class Message : DisposableClass, IDisposable
     {
         int offset = 0;
         byte[] buffer;
@@ -755,6 +755,17 @@ namespace Lsj.Util.Protobuf
         {
             var result = BitConverter.GetBytes(value);
             stream.Write(result);
+        }
+        /// <summary>
+        /// Clean Up Managed Resource
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            if (this.stream != null)
+            {
+                this.stream.Dispose();
+            }
+            base.CleanUpManagedResources();
         }
     }
 }

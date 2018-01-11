@@ -9,7 +9,7 @@ namespace Lsj.Util.Binary
     /// <summary>
     /// Binary File
     /// </summary>
-    public class BaseBinaryFile
+    public class BaseBinaryFile : DisposableClass ,IDisposable
     {
         /// <summary>
         /// File Stream
@@ -30,6 +30,15 @@ namespace Lsj.Util.Binary
         protected virtual void Read()
         {
 
+        }
+
+        /// <summary>
+        /// Clean Up Managed Resources
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            this.file.Dispose();
+            base.CleanUpManagedResources();
         }
     }
 }

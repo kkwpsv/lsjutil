@@ -15,7 +15,7 @@ namespace Lsj.Util.Net.Sockets
     /// <summary>
     /// TcpAsync Listener
     /// </summary>
-    public class TcpAsyncListener
+    public class TcpAsyncListener : DisposableClass, IDisposable
     {
         Socket socket;
         IPAddress m_ip = IPAddress.Any;
@@ -331,6 +331,15 @@ namespace Lsj.Util.Net.Sockets
                 buffer = buffer,
                 handle = handle
             };
+        }
+
+        /// <summary>
+        /// Clean Up Managed Resources
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            this.socket.Dispose();
+            base.CleanUpManagedResources();
         }
     }
 }

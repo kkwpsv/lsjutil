@@ -15,7 +15,7 @@ namespace Lsj.Util.Net.Sockets
     /// <summary>
     /// Tcp async client.
     /// </summary>
-    public class TcpAsyncClient
+    public class TcpAsyncClient : DisposableClass, IDisposable
     {
         Socket socket;
         IPAddress m_ip = IPAddress.Any;
@@ -300,6 +300,15 @@ namespace Lsj.Util.Net.Sockets
                 buffer = buffer,
                 handle = handle
             };
+        }
+
+        /// <summary>
+        /// Clean Up Managed Resources
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            this.socket.Dispose();
+            base.CleanUpManagedResources();
         }
     }
 }

@@ -18,11 +18,11 @@ namespace Lsj.Util.Data.Mssql
         /// </summary>
         protected override void CleanUpManagedResources()
         {
-            base.CleanUpManagedResources();
             if (this.connection != null && this.connection.State != ConnectionState.Closed)
             {
                 this.connection.Close();
             }
+            base.CleanUpManagedResources();
         }
 
 

@@ -14,7 +14,7 @@ namespace Lsj.Util.Net.Web.Message
     /// <summary>
     /// HttpMessage Base
     /// </summary>
-    public abstract class HttpMessageBase : IHttpMessage
+    public abstract class HttpMessageBase : DisposableClass, IDisposable, IHttpMessage
     {
         /// <summary>
         /// Headers
@@ -173,7 +173,6 @@ namespace Lsj.Util.Net.Web.Message
         {
             throw new NotImplementedException();
         }
-
 
     }
 }

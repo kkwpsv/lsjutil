@@ -10,7 +10,7 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// Multi thread safe List
     /// </summary>
-    public class MultiThreadSafeList<T> : IList<T>
+    public class MultiThreadSafeList<T> : DisposableClass, IDisposable, IList<T>
     {
         List<T> m_list;
         ReadWriteLock m_lock = new ReadWriteLock();
@@ -183,6 +183,16 @@ namespace Lsj.Util.Collections
                     yield return i;
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Clean Up Managed Resources
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            this.m_lock.Dispose();
+            base.CleanUpManagedResources();
         }
 
 

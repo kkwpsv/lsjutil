@@ -10,7 +10,7 @@ namespace Lsj.Util.Threading
     /// ReadWriteLock
     /// using ReaderWriterLockSlim
     /// </summary>
-    public class ReadWriteLock
+    public class ReadWriteLock : DisposableClass, IDisposable
     {
         ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
@@ -37,7 +37,7 @@ namespace Lsj.Util.Threading
         /// <summary>
         /// ReadLock Object
         /// </summary>
-        public class ReadLockObject : IDisposable
+        public sealed class ReadLockObject : IDisposable
         {
             ReadWriteLock readWriteLock;
             internal ReadLockObject(ReadWriteLock readWriteLock)
@@ -57,7 +57,7 @@ namespace Lsj.Util.Threading
         /// <summary>
         /// WriteLock Object
         /// </summary>
-        public class WriteLockObject : IDisposable
+        public sealed class WriteLockObject : IDisposable
         {
             ReadWriteLock readWriteLock;
             internal WriteLockObject(ReadWriteLock readWriteLock)
@@ -77,7 +77,7 @@ namespace Lsj.Util.Threading
         /// <summary>
         /// UpgradeableReadLock Object
         /// </summary>
-        public class UpgradeableReadLockObject : IDisposable
+        public sealed class UpgradeableReadLockObject : IDisposable
         {
             ReadWriteLock readWriteLock;
             bool hasUpgrade;
@@ -106,6 +106,15 @@ namespace Lsj.Util.Threading
                 readWriteLock.@lock.ExitUpgradeableReadLock();
 
             }
+        }
+
+        /// <summary>
+        /// Clean Up Managed Resources
+        /// </summary>
+        protected override void CleanUpManagedResources()
+        {
+            this.@lock.Dispose();
+            base.CleanUpManagedResources();
         }
     }
 }

@@ -217,6 +217,13 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
         string userhostaddress;
+
+
+        protected override void CleanUpManagedResources()
+        {
+            m_content.Dispose();
+            base.CleanUpManagedResources();
+        }
     }
 }
 

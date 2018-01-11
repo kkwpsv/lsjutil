@@ -241,7 +241,7 @@ namespace Lsj.Util.Net.Web
                 stream.Dispose();
                 stream = null;
             }
-
+            base.CleanUpManagedResources();
 
         }
     }
