@@ -7,7 +7,9 @@
     <DelaySign>False</DelaySign>
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility For Protobuf</Description>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
+    <Authors>Lsj</Authors>
+    <Company>Lsj</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -7,7 +7,9 @@
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility For Web</Description>
-    <Version>1.0.3</Version>
+    <Version>1.1.0</Version>
+    <Authors>Lsj</Authors>
+    <Company>Ls</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,6 +38,16 @@
     <DocumentationFile>bin\x86\Release\netcoreapp1.1\.xml</DocumentationFile>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Session\**" />
+    <EmbeddedResource Remove="Session\**" />
+    <None Remove="Session\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Utils.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.Core.csproj" />

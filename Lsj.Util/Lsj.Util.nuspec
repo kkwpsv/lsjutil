@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Lsj.Util</id>
-    <version>1.0.6</version>
+    <version>1.1.0</version>
     <authors>lsj</authors>
     <owners>lsj</owners>
     <projectUrl>https://github.com/sdzxwxlsj/lsjutil</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>My Utility</description>
     <releaseNotes></releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2015-</copyright>
     <tags></tags>
   </metadata>
 </package>

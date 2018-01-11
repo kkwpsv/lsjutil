@@ -7,6 +7,9 @@
     <DelaySign>False</DelaySign>
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility To Build SQL File</Description>
+    <Version>1.1.0</Version>
+    <Authors>Lsj</Authors>
+    <Company>Lsj</Company>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
