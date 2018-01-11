@@ -19,7 +19,7 @@ namespace Lsj.Util.Logs.Logger
         /// <summary>
         /// LogView
         /// </summary>
-        public LogView LogView { get; set; } = new LogView();
+        public LogView LogView { get; set; }
         Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
         /// <summary>
         /// LogView Debug Color
@@ -87,6 +87,10 @@ namespace Lsj.Util.Logs.Logger
         /// <param name="type">type</param>
         public void Add(string str, LogType type)
         {
+            if (this.LogView == null)
+            {
+                return;
+            }
             Monitor.Enter(lockobj);
             try
             {
