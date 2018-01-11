@@ -10,6 +10,14 @@ namespace Lsj.Util.Collections
     public static class ArrayHelper
     {
 #if NETCOREAPP1_1
+        /// <summary>
+        /// Convert all item in the array
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TOutput"></typeparam>
+        /// <param name="array"></param>
+        /// <param name="converter"></param>
+        /// <returns></returns>
         public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Func<TInput, TOutput> converter)
         {
             var result = new List<TOutput>();
