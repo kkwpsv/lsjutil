@@ -143,10 +143,6 @@
       <Project>{3089c6c9-7687-4cb1-b86e-5045ceef17f9}</Project>
       <Name>Lsj.Util.Net</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lsj.Util.Office\Lsj.Util.Office.csproj">
-      <Project>{66070437-A20C-4978-A802-213E55A63008}</Project>
-      <Name>Lsj.Util.Office</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lsj.Util.Protobuf\Lsj.Util.Protobuf.csproj">
       <Project>{7afb2c14-b12d-4919-b54a-c701d80d251e}</Project>
       <Name>Lsj.Util.Protobuf</Name>
