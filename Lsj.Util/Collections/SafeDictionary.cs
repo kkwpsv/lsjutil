@@ -12,9 +12,7 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
-        ReadWriteLock m_lock = new ReadWriteLock();
         Dictionary<TKey, TValue> m_Dictionary;
-        bool IsMultiThreadSafety = false;
 
         /// <summary>
         /// Keys
@@ -27,32 +25,16 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
         /// </summary>
-        public SafeDictionary() : this(false)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
-        /// </summary>
-        /// <param name="IsMultiThreadSafety">If multithread safe</param>
-        public SafeDictionary(bool IsMultiThreadSafety) : this(new Dictionary<TKey, TValue>(), IsMultiThreadSafety)
+        public SafeDictionary() : this(new Dictionary<TKey, TValue>())
         {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="src">Source</param>
-        public SafeDictionary(Dictionary<TKey, TValue> src) : this(src, false)
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
-        /// </summary>
-        /// <param name="src">Source</param>
-        /// <param name="IsMultiThreadSafety">If multithread safe</param>
-        public SafeDictionary(Dictionary<TKey, TValue> src, bool IsMultiThreadSafety)
+        public SafeDictionary(Dictionary<TKey, TValue> src)
         {
             this.m_Dictionary = src ?? throw new ArgumentNullException();
-            this.IsMultiThreadSafety = IsMultiThreadSafety;
         }
         /// <summary>
         /// NullValue
@@ -71,18 +53,7 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                if (IsMultiThreadSafety)
-                {
-                    using (m_lock.EnterRead())
-                    {
-                        return this.m_Dictionary.Count;
-                    }
-                }
-                else
-                {
-                    return this.m_Dictionary.Count;
-                }
-
+                return this.m_Dictionary.Count;
             }
         }
         /// <summary>
@@ -98,31 +69,11 @@ namespace Lsj.Util.Collections
         {
             get
             {
-                if (IsMultiThreadSafety)
-                {
-                    using (m_lock.EnterRead())
-                    {
-                        return Contain(key) ? m_Dictionary[key] : NullValue;
-                    }
-                }
-                else
-                {
-                    return Contain(key) ? m_Dictionary[key] : NullValue;
-                }
+                return Contain(key) ? m_Dictionary[key] : NullValue;
             }
             set
             {
-                if (IsMultiThreadSafety)
-                {
-                    using (m_lock.EnterWrite())
-                    {
-                        Set(key, value);
-                    }
-                }
-                else
-                {
-                    Set(key, value);
-                }
+                Set(key, value);
             }
         }
         /// <summary>
@@ -133,25 +84,11 @@ namespace Lsj.Util.Collections
         /// <param name="value">Value.</param>
         public void Add(TKey key, TValue value)
         {
-            if (IsMultiThreadSafety)
+            if (Contain(key))
             {
-                using (m_lock.EnterWrite())
-                {
-                    if (Contain(key))
-                    {
-                        LogProvider.Default.Warn("Add Same Key : " + key.ToString());
-                    }
-                    Set(key, value);
-                }
+                LogProvider.Default.Warn("Add Same Key : " + key.ToString());
             }
-            else
-            {
-                if (Contain(key))
-                {
-                    LogProvider.Default.Warn("Add Same Key : " + key.ToString());
-                }
-                Set(key, value);
-            }
+            Set(key, value);
         }
         /// <summary>
         /// Add the specified item.
@@ -166,35 +103,15 @@ namespace Lsj.Util.Collections
         /// <param name="key">Key.</param>
         public bool Remove(TKey key)
         {
-            if (IsMultiThreadSafety)
+            if (Contain(key))
             {
-                using (var x = m_lock.EnterUpgradeableRead())
-                {
-                    if (Contain(key))
-                    {
-                        x.Upgrade();
-                        Del(key);
-                        return true;
-                    }
-                    else
-                    {
-                        LogProvider.Default.Debug("The Key doesn't Exist : " + key.ToString());
-                        return false;
-                    }
-                }
+                Del(key);
+                return true;
             }
             else
             {
-                if (Contain(key))
-                {
-                    Del(key);
-                    return true;
-                }
-                else
-                {
-                    LogProvider.Default.Debug("The Key doesn't Exist : " + key.ToString());
-                    return false;
-                }
+                LogProvider.Default.Debug("The Key doesn't Exist : " + key.ToString());
+                return false;
             }
         }
         /// <summary>
@@ -204,35 +121,16 @@ namespace Lsj.Util.Collections
         /// <param name="item">Item.</param>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (IsMultiThreadSafety)
+
+            if (Contains(item))
             {
-                using (var x = m_lock.EnterUpgradeableRead())
-                {
-                    if (Contain(item.Key) && this[item.Key].Equals(item.Value))
-                    {
-                        x.Upgrade();
-                        Del(item.Key);
-                        return true;
-                    }
-                    else
-                    {
-                        LogProvider.Default.Debug("The Key doesn't Exist : " + item.Key.ToString());
-                        return false;
-                    }
-                }
+                Del(item.Key);
+                return true;
             }
             else
             {
-                if (Contain(item.Key) && this[item.Key].Equals(item.Value))
-                {
-                    Del(item.Key);
-                    return true;
-                }
-                else
-                {
-                    LogProvider.Default.Debug("The Key doesn't Exist : " + item.Key.ToString());
-                    return false;
-                }
+                LogProvider.Default.Debug("The Key doesn't Exist : " + item.Key.ToString());
+                return false;
             }
         }
         /// <summary>
@@ -240,17 +138,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         public void Clear()
         {
-            if (IsMultiThreadSafety)
-            {
-                using (m_lock.EnterWrite())
-                {
-                    Clr();
-                }
-            }
-            else
-            {
-                Clr();
-            }
+            Clr();
         }
 
 
@@ -261,17 +149,7 @@ namespace Lsj.Util.Collections
         /// <param name="arrayIndex">Destination Array Index</param>
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            if (IsMultiThreadSafety)
-            {
-                using (m_lock.EnterRead())
-                {
-                    ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
-                }
-            }
-            else
-            {
-                ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
-            }
+            ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
         }
 
 
@@ -283,17 +161,7 @@ namespace Lsj.Util.Collections
         /// <param name="key">Key</param>
         public bool ContainsKey(TKey key)
         {
-            if (IsMultiThreadSafety)
-            {
-                using (m_lock.EnterRead())
-                {
-                    return Contain(key);
-                }
-            }
-            else
-            {
-                return Contain(key);
-            }
+            return Contain(key);
         }
         /// <summary>
         /// If contain specified item.
@@ -302,17 +170,7 @@ namespace Lsj.Util.Collections
         /// <param name="item">Item.</param>
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            if (IsMultiThreadSafety)
-            {
-                using (m_lock.EnterRead())
-                {
-                    return this.Contain(item.Key) && this[item.Key].Equals(item.Value);
-                }
-            }
-            else
-            {
-                return this.Contain(item.Key) && this[item.Key].Equals(item.Value);
-            }
+            return this.Contain(item.Key) && this[item.Key].Equals(item.Value);
         }
 
         /// <summary>
@@ -322,21 +180,9 @@ namespace Lsj.Util.Collections
         /// <param name="value">Value</param>
         public bool TryGetValue(TKey key, out TValue value)
         {
-            if (IsMultiThreadSafety)
-            {
-                using (m_lock.EnterRead())
-                {
-                    var flag = Contain(key);
-                    value = flag ? m_Dictionary[key] : NullValue;
-                    return flag;
-                }
-            }
-            else
-            {
-                var flag = Contain(key);
-                value = flag ? m_Dictionary[key] : NullValue;
-                return flag;
-            }
+            var flag = Contain(key);
+            value = flag ? m_Dictionary[key] : NullValue;
+            return flag;
         }
 
 
@@ -346,22 +192,9 @@ namespace Lsj.Util.Collections
         /// <returns>The enumerator.</returns>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            if (IsMultiThreadSafety)
+            foreach (var x in m_Dictionary)
             {
-                using (m_lock.EnterRead())
-                {
-                    foreach (var x in m_Dictionary)
-                    {
-                        yield return x;
-                    }
-                }
-            }
-            else
-            {
-                foreach (var x in m_Dictionary)
-                {
-                    yield return x;
-                }
+                yield return x;
             }
         }
         IEnumerator IEnumerable.GetEnumerator()
@@ -373,27 +206,12 @@ namespace Lsj.Util.Collections
         /// </summary>
         public Dictionary<TKey, TValue> ToDictionary()
         {
-            if (IsMultiThreadSafety)
+            var x = new Dictionary<TKey, TValue>();
+            foreach (var a in this)
             {
-                using (m_lock.EnterRead())
-                {
-                    var x = new Dictionary<TKey, TValue>();
-                    foreach (var a in this)
-                    {
-                        x.Add(a.Key, a.Value);
-                    }
-                    return x;
-                }
+                x.Add(a.Key, a.Value);
             }
-            else
-            {
-                var x = new Dictionary<TKey, TValue>();
-                foreach (var a in this)
-                {
-                    x.Add(a.Key, a.Value);
-                }
-                return x;
-            }
+            return x;
 
         }
 
@@ -422,5 +240,10 @@ namespace Lsj.Util.Collections
             m_Dictionary.Remove(key);
         }
 
+
+        internal void DelInternal(TKey key)
+        {
+            Del(key);
+        }
     }
 }
