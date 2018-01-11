@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
+    <None Include="Lsj.Util.HtmlBuilder.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj">
