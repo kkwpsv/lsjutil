@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
     <Description>My Utility For AspNetCore</Description>
+    <Version>1.1.0</Version>
+    <Authors>Lsj</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Company>Lsj</Company>
   </PropertyGroup>
 
   <ItemGroup>
