@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.HtmlBuilder.Header;
@@ -18,7 +18,11 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Version
         /// </summary>
+#if NETCOREAPP1_1
+        public static readonly string Version = $"HtmlBuilder/lsj({typeof(HtmlPage).GetTypeInfo().Assembly.GetName().Version.ToString()})";
+#else
         public static readonly string Version = $"HtmlBuilder/lsj({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
+#endif
         /// <summary>
         /// HtmlPage
         /// </summary>

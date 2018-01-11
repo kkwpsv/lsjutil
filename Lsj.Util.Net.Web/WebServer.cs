@@ -6,6 +6,7 @@ using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Logs;
 using Lsj.Util.Collections;
+using System.Reflection;
 
 namespace Lsj.Util.Net.Web
 {
@@ -22,7 +23,11 @@ namespace Lsj.Util.Net.Web
         {
             get;
             internal set;
+#if NETCOREAPP1_1
+        } = $"LsjWebServer({typeof(WebServer).GetTypeInfo().Assembly.GetName().Version.ToString()})";
+#else
         } = $"LsjWebServer({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
+#endif
 
 
         List<IListener> listeners = new List<IListener>();
