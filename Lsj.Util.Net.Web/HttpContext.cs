@@ -53,7 +53,7 @@ namespace Lsj.Util.Net.Web
     /// HttpContext
     /// </summary>
     /// 
-    internal class HttpContext :DisposableClass, IContext, IDisposable
+    internal class HttpContext : DisposableClass, IContext, IDisposable
     {
 
 
@@ -137,7 +137,7 @@ namespace Lsj.Util.Net.Web
                 if (!Request.IsReadFinish)
                 {
                     this.IsTimeOut = true;
-                    this.Status = eContextStatus.Processing;
+                    this.Status = ContextStatus.Processing;
                     this.Response = ErrorHelper.Build(408, 0, this.server.Name);
                     this.DoResponse();
                 }
@@ -366,19 +366,19 @@ namespace Lsj.Util.Net.Web
                 try
                 {
                     this.Stream.Write(a);
-                    if (Response.Headers[eHttpHeader.Connection].ToLower() == "keep-alive")
+                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
                     {
                         this.KeepaliveTimer = new Timer((o) =>
                         {
                             this.socket.Shutdown();
-                            this.Status = eContextStatus.Disposing;
+                            this.Status = ContextStatus.Disposing;
                         }, null, 120 * 1000, Timeout.Infinite);
                         this.Read();
                     }
                     else
                     {
                         this.socket.Shutdown();
-                        this.Status = eContextStatus.Disposing;
+                        this.Status = ContextStatus.Disposing;
                     }
                 }
                 catch (IOException)
@@ -462,7 +462,7 @@ namespace Lsj.Util.Net.Web
                 Stream.Dispose();
                 Stream = null;
             }
-
+            base.CleanUpManagedResources();
         }
 
 
