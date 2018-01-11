@@ -8,6 +8,9 @@
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility To Build cs File</Description>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <Authors>Lsj</Authors>
+    <Company>Lsj</Company>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
