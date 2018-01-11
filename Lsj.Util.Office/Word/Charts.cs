@@ -27,7 +27,7 @@ namespace Lsj.Util.Office.Word
         {
             get
             {
-                return this.Skip(index - 1)?.First() ?? throw new IndexOutOfRangeException();
+                return this.Skip(index - 1)?.First() ?? null;
             }
         }
         /// <summary>
