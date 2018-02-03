@@ -13,6 +13,16 @@ namespace Lsj.Util.Net.Web
     public class WebHttpClient
     {
         CookieContainer cookicontainer;
+
+
+        /// <summary>
+        /// User-Agent
+        /// </summary>
+        public string UserAgent
+        {
+            get;
+            set;
+        } = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0";
         /// <summary>
         /// POST
         /// </summary>
@@ -25,6 +35,7 @@ namespace Lsj.Util.Net.Web
             var request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = "Post";
             request.ContentType = contentType;
+            request.Headers[HttpRequestHeader.UserAgent] = UserAgent;
             if (this.cookicontainer == null)
             {
                 this.cookicontainer = new CookieContainer();
@@ -53,6 +64,7 @@ namespace Lsj.Util.Net.Web
                 this.cookicontainer = new CookieContainer();
             }
             request.CookieContainer = this.cookicontainer;
+            request.Headers[HttpRequestHeader.UserAgent] = UserAgent;
 #if NETCOREAPP1_1
             return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
 #else
