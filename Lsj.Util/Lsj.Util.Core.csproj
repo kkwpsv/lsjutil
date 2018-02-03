@@ -9,7 +9,7 @@
     <PreBuildEvent></PreBuildEvent>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Description>My Utility</Description>
     <Authors>Lsj</Authors>
     <Company>Lsj</Company>

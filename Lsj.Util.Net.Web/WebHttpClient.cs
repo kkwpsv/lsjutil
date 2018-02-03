@@ -31,8 +31,8 @@ namespace Lsj.Util.Net.Web
             }
             request.CookieContainer = this.cookicontainer;
 #if NETCOREAPP1_1
-            request.GetRequestStreamAsync().WaitAndGetResult().Write(data);
-            return request.GetResponseAsync().WaitAndGetResult().GetResponseStream().ReadAllWithoutSeek();
+            request.GetRequestStreamAsync().Result.Write(data);
+            return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
 #else
             request.GetRequestStream().Write(data);
             return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
@@ -54,7 +54,7 @@ namespace Lsj.Util.Net.Web
             }
             request.CookieContainer = this.cookicontainer;
 #if NETCOREAPP1_1
-            return request.GetResponseAsync().WaitAndGetResult().GetResponseStream().ReadAllWithoutSeek();
+            return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
 #else
             return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
 #endif

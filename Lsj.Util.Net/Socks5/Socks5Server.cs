@@ -87,7 +87,7 @@ namespace Lsj.Util.Net.Socks5
                                             UnsafeHelper.Copy(client.buffer, 5, x, 0, client.buffer[4]);
                                             var y = x.ConvertFromBytes(Encoding.ASCII);
 #if NETCOREAPP1_1
-                                            remoteip = Dns.GetHostAddressesAsync(y).WaitAndGetResult().FirstOrDefault();
+                                            remoteip = Dns.GetHostAddressesAsync(y).Result.FirstOrDefault();
 #else
                                             remoteip = Dns.GetHostAddresses(y).FirstOrDefault();
 #endif

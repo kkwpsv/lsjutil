@@ -31,7 +31,7 @@ namespace Lsj.Util.Net
         public static IPAddress[] GetHostIPV4Addresses(string domain)
         {
 #if NETCOREAPP1_1
-            return Dns.GetHostAddressesAsync(domain).WaitAndGetResult().Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
+            return Dns.GetHostAddressesAsync(domain).Result.Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
 #else
             return Dns.GetHostAddresses(domain).Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
 #endif

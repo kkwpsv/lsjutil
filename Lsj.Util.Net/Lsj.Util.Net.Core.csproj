@@ -8,7 +8,7 @@
     <PostBuildEvent></PostBuildEvent>
     <Description>My Utility For Net</Description>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Lsj</Authors>
     <Company>Lsj</Company>
   </PropertyGroup>
