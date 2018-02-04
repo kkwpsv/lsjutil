@@ -135,6 +135,10 @@
       <Project>{ff55db4b-9a84-42fd-8dbf-b3fbc4aff9ff}</Project>
       <Name>Lsj.Util.HtmlBuilder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lsj.Util.JSON\Lsj.Util.JSON.csproj">
+      <Project>{3d117515-0ad4-40bb-be3e-c974160d17fa}</Project>
+      <Name>Lsj.Util.JSON</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj">
       <Project>{35fa4756-1cfd-40f8-a324-d620ab422590}</Project>
       <Name>Lsj.Util.Net.Web</Name>
