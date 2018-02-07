@@ -49,8 +49,16 @@ namespace Lsj.Util.Debugger
             var x2 = @"-0.5";
             var result2 = JSONParser.Parse(x2);
             var x3 = @"{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}";
-            var result3 = JSONParser.Parse<TestClass>(x3);
-            var result4 = JSONParser.Parse(x3);
+            var result31 = JSONParser.Parse<TestClass>(x3);
+            var result32 = JSONParser.Parse(x3);
+            var x4 = @"[1,2,3]";
+            var result41 = JSONParser.Parse(x4);
+            var result42 = JSONParser.Parse<List<int>>(x4);
+            var x5 = @"[1,2,3,{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}]";
+            var result5 = JSONParser.Parse(x5);
+            Console.WriteLine(result5[3].c.a);
+            var x6 = @"[{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}},{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}]";
+            var result6 = JSONParser.Parse<List<TestClass>>(x6);
         }
 
     }
