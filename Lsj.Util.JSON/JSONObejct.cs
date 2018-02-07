@@ -22,8 +22,7 @@ namespace Lsj.Util.JSON
             }
             else
             {
-                result = null;
-                return false;
+                return base.TryGetMember(binder, out result);
             }
         }
         public override bool TrySetMember(SetMemberBinder binder, object value)
@@ -33,15 +32,16 @@ namespace Lsj.Util.JSON
         }
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            result = null;
+
             if (binder.Name == "Set" && args.Length == 2 && args[0] is string)
             {
+                result = null;
                 data[(string)args[0]] = args[1];
                 return true;
             }
             else
             {
-                return false;
+                return base.TryInvokeMember(binder, args, out result);
             }
         }
         public override IEnumerable<string> GetDynamicMemberNames() => data.Keys;
