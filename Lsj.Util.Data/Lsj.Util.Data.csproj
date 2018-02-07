@@ -106,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LSJ.snk" />
-    <None Include="Lsj.Util.Data.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

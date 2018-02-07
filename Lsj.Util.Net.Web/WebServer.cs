@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Web
         {
             get;
             internal set;
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         } = $"LsjWebServer({typeof(WebServer).GetTypeInfo().Assembly.GetName().Version.ToString()})";
 #else
         } = $"LsjWebServer({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";

@@ -9,7 +9,7 @@ namespace Lsj.Util.Collections
     /// </summary>
     public static class ArrayHelper
     {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         /// <summary>
         /// Convert all item in the array
         /// </summary>

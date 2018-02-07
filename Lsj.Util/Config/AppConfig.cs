@@ -1,6 +1,6 @@
 using System.Collections.Specialized;
 
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 #else
 namespace Lsj.Util.Config
 {

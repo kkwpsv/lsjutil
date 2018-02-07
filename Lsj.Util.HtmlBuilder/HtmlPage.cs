@@ -18,7 +18,7 @@ namespace Lsj.Util.HtmlBuilder
         /// <summary>
         /// Version
         /// </summary>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static readonly string Version = $"HtmlBuilder/lsj({typeof(HtmlPage).GetTypeInfo().Assembly.GetName().Version.ToString()})";
 #else
         public static readonly string Version = $"HtmlBuilder/lsj({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";

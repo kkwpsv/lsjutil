@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Core", "Lsj.Util\Lsj.Util.Core.csproj", "{426366D6-300E-4967-955B-FBA6B37FB222}"
 EndProject
@@ -17,6 +17,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.SQLBuilder.Core", "Lsj.Util.SQLBuilder\Lsj.Util.SQLBuilder.Core.csproj", "{130E6160-D087-4813-A356-ED807C2C6AFA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.AspNet.Core", "Lsj.Util.AspNet\Lsj.Util.AspNet.Core.csproj", "{C4B5D62F-BF44-4F42-A215-6F5F32FC92FD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.JSON.Core", "Lsj.Util.JSON\Lsj.Util.JSON.Core.csproj", "{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,6 +126,18 @@ Global
 		{C4B5D62F-BF44-4F42-A215-6F5F32FC92FD}.Release|x64.Build.0 = Release|Any CPU
 		{C4B5D62F-BF44-4F42-A215-6F5F32FC92FD}.Release|x86.ActiveCfg = Release|Any CPU
 		{C4B5D62F-BF44-4F42-A215-6F5F32FC92FD}.Release|x86.Build.0 = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|x64.Build.0 = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4FE6E0CF-C42E-42CD-AD06-45EAAFB2B3BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

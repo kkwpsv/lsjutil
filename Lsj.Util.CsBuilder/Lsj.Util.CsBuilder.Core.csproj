@@ -1,43 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <DelaySign>False</DelaySign>
-    <PostBuildEvent></PostBuildEvent>
-    <Description>My Utility To Build cs File</Description>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Authors>Lsj</Authors>
-    <Company>Lsj</Company>
-    <Version>1.1.0</Version>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>lsj</Authors>
+    <Version>1.2.0</Version>
+    <Description>My Utility For Building cs File</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\netcoreapp1.1\Lsj.Util.CsBuilder.Core.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\x86\Release\netcoreapp1.1\.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-    <DocumentationFile>bin\x64\Release\netcoreapp1.1\.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.0\Lsj.Util.CsBuilder.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

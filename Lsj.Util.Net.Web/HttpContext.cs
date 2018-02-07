@@ -13,7 +13,7 @@ using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Protocol;
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 using System.Threading;
 #else
 using System.Timers;
@@ -126,7 +126,7 @@ namespace Lsj.Util.Net.Web
 
 
 
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             new Thread(() =>
             {
                 var read = this.Stream.Read(buffer, 0, buffer.Length);
@@ -169,7 +169,7 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         void OnReceived(int byteleft)
 #else
         void OnReceived(IAsyncResult ar)
@@ -182,7 +182,7 @@ namespace Lsj.Util.Net.Web
             this.KeepaliveTimer = null;
             try
             {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 #else
                 var byteleft = Stream.EndRead(ar);//剩余字节数  =  读取的字节数
 #endif
@@ -191,7 +191,7 @@ namespace Lsj.Util.Net.Web
 
                 if (byteleft == 0)//如果未读取到。。断开连接
                 {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                     this.socket.Shutdown();
 #else
                     this.socket.Disconnect();
@@ -226,7 +226,7 @@ namespace Lsj.Util.Net.Web
 
                         if (contentread < x)
                         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                             new Thread(() =>
                             {
                                 var aa = this.Stream.Read(buffer, 0, buffer.Length);
@@ -252,7 +252,7 @@ namespace Lsj.Util.Net.Web
                 {
                     //如果未收完Header
                     Move(read, byteleft);//移动
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                     new Thread(() =>
                     {
                         var aa = this.Stream.Read(buffer, byteleft, buffer.Length);
@@ -272,7 +272,7 @@ namespace Lsj.Util.Net.Web
         int contentread;
         Timer ReceiveTimer;
         Timer KeepaliveTimer;
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         void OnReceivedContent(int read)
 #else
         void OnReceivedContent(IAsyncResult ar)
@@ -282,7 +282,7 @@ namespace Lsj.Util.Net.Web
             {
                 return;
             }
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 #else
             var read = Stream.EndRead(ar);//读取字节数
 #endif
@@ -304,7 +304,7 @@ namespace Lsj.Util.Net.Web
             if (contentread < len)
             {
                 //不足继续读取
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                 new Thread(() =>
                 {
                     var aa = this.Stream.Read(buffer, 0, buffer.Length);
@@ -359,7 +359,7 @@ namespace Lsj.Util.Net.Web
             Response.Headers.Add(HttpHeader.Server, this.server.Name);
             var a = Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII).ToList().Concat(this.Response.Content.ReadAll()).Concat(new byte[] { ASCIIChar.CR, ASCIIChar.LF }).ToArray();
 
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 
             new Thread(() =>
             {

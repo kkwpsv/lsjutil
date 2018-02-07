@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="ip"></param>
         /// <param name="port"></param>
         public static void Bind(this Socket socket, IPAddress ip, int port) => socket.Bind(new IPEndPoint(ip, port));
-#if !NETCOREAPP1_1
+#if !NETCOREAPP2_0
         /// <summary>
         /// BeginAccept
         /// </summary>

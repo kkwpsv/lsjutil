@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 using Lsj.Util.Collections;
 #else
 using System.Web;
@@ -44,7 +44,7 @@ namespace Lsj.Util.Text
         /// </summary>
         public static int[] ConvertToIntArray(this string[] src)
         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             return ArrayHelper.ConvertAll(src, s => s.ConvertToInt());
 #else
             return Array.ConvertAll(src, s => s.ConvertToInt());
@@ -57,7 +57,7 @@ namespace Lsj.Util.Text
         /// </summary>
         public static byte[] ConvertToByteArray(this string[] src)
         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             return ArrayHelper.ConvertAll(src, s => s.ConvertToByte());
 #else
             return Array.ConvertAll(src, s => s.ConvertToByte());
@@ -67,7 +67,7 @@ namespace Lsj.Util.Text
         /// <summary>
         /// Convert String To Binary Byte Array
         /// </summary>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.UTF8);
 #else
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.Default);
@@ -85,7 +85,7 @@ namespace Lsj.Util.Text
         /// Convert Binary Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// </summary>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.UTF8);
 #else
         public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.Default);
@@ -294,7 +294,7 @@ namespace Lsj.Util.Text
         /// Read String From Stream
         /// <param name="stream">Source Stream</param>
         /// </summary>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.UTF8);
 #else
         public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
@@ -422,7 +422,7 @@ namespace Lsj.Util.Text
         /// Url Encode
         /// </summary>
         /// <param name="src"></param>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static string UrlEncode(this string src) => WebUtility.UrlEncode(src);
 #else
         public static string UrlEncode(this string src) => HttpUtility.UrlEncode(src);
@@ -432,7 +432,7 @@ namespace Lsj.Util.Text
         /// Url Decode
         /// </summary>
         /// <param name="src"></param>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         public static string UrlDecode(this string src) => WebUtility.UrlDecode(src);
 #else
         public static string UrlDecode(this string src) => HttpUtility.UrlDecode(src);

@@ -177,7 +177,7 @@ namespace Lsj.Util.Net.Sockets
                 return;
             try
             {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                 socket.Shutdown();
 #else
                 socket.Close();

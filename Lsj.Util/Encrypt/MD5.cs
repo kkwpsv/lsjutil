@@ -20,7 +20,7 @@ namespace Lsj.Util.Encrypt
         /// </summary>
         public static string GetMD5String(string str)
         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             using (IncrementalHash hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
                 hasher.AppendData(Encoding.UTF8.GetBytes(str));
@@ -39,7 +39,7 @@ namespace Lsj.Util.Encrypt
         /// </summary>
         public static string GetDualMD5String(string str)
         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             using (IncrementalHash hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
                 hasher.AppendData(Encoding.UTF8.GetBytes(str));

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
 namespace Lsj.Util
 {
     /// <summary>

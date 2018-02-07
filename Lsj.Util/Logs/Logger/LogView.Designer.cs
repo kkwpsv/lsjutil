@@ -1,4 +1,4 @@
-﻿#if !NETCOREAPP1_1
+﻿#if !NETCOREAPP2_0
 namespace Lsj.Util.Logs.Logger
 {
     partial class LogView

@@ -1,12 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-    <Description>My Utility For AspNetCore</Description>
-    <Version>1.1.0</Version>
-    <Authors>Lsj</Authors>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <SignAssembly>True</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Company>Lsj</Company>
+    <Authors>lsj</Authors>
+    <Version>1.2.0</Version>
+    <Description>My Utility For Asp.net Core</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.0\Lsj.Util.AspNet.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

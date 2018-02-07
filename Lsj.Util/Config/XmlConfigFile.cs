@@ -33,7 +33,7 @@ namespace Lsj.Util.Config
         public sealed override void Refresh()
         {
             base.Refresh();
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             if (m_Document.Elements().Count() > 0)
             {
                 var config = m_Document.Elements().Where(x => x.Name == "config").FirstOrDefault();

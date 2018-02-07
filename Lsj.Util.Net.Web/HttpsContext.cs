@@ -54,7 +54,7 @@ namespace Lsj.Util.Net.Web
         protected override Stream CreateStream(Socket socket)
         {
             var x = new SslStream(new NetworkStream(socket, true), true);
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             x.AuthenticateAsServerAsync(new X509Certificate(file, password), false, SslProtocols.Tls, true).Wait();
 #else
             x.AuthenticateAsServer(new X509Certificate(file, password), false, SslProtocols.Tls, true);

@@ -8,7 +8,7 @@ namespace Lsj.Util
     /// </summary>
     public static class Static
     {
-#if !NETCOREAPP1_1
+#if !NETCOREAPP2_0
         /// <summary>
         /// CurrentPath eg. C:\a\
         /// </summary>

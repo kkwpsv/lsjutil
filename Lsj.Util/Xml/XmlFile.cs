@@ -24,7 +24,7 @@ namespace Lsj.Util.Xml
             this.path = path;
             try
             {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                 this.m_Document = XDocument.Load(path);
 #else
                 this.m_Document = new XmlDocument();
@@ -40,7 +40,7 @@ namespace Lsj.Util.Xml
         /// <summary>
         /// The Document
         /// </summary>
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
         protected XDocument m_Document;
 #else
         protected XmlDocument m_Document;
@@ -55,7 +55,7 @@ namespace Lsj.Util.Xml
         {
             try
             {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
                 this.m_Document = XDocument.Load(path);
 #else
                 m_Document.Load(path);

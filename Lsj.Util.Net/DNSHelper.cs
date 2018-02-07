@@ -30,7 +30,7 @@ namespace Lsj.Util.Net
         /// <param name="domain">Domain</param>
         public static IPAddress[] GetHostIPV4Addresses(string domain)
         {
-#if NETCOREAPP1_1
+#if NETCOREAPP2_0
             return Dns.GetHostAddressesAsync(domain).Result.Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
 #else
             return Dns.GetHostAddresses(domain).Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();

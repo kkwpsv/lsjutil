@@ -64,7 +64,7 @@ namespace Lsj.Util
         }
 
 
-#if !NETCOREAPP1_1
+#if !NETCOREAPP2_0
         /// <summary>
         /// BeginRead
         /// </summary>

@@ -1,9 +1,0 @@
-nuget push packages/Lsj.Util.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.CsBuilder.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.Data.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.HtmlBuilder.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.Net.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.Net.Web.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.Office.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.Protobuf.1.1.0.nupkg -Source nuget.org
-nuget push packages/Lsj.Util.SQLBuilder.1.1.0.nupkg -Source nuget.org
