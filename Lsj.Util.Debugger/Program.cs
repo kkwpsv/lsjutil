@@ -7,6 +7,8 @@ using Lsj.Util.Net.Socks5;
 using System.Net;
 using Lsj.Util.Binary;
 using Lsj.Util.JSON;
+using System.Text;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Debugger
 {
@@ -43,22 +45,37 @@ namespace Lsj.Util.Debugger
             //Console.ReadLine();
 
 
+            //var sb = new StringBuilder("aaaaa");
+            //sb.RemoveLast(1);
+            //Console.WriteLine(sb);
+
+
+
+
 
             var x1 = @"""\u0040""";
             var result1 = JSONParser.Parse(x1);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result1));
             var x2 = @"-0.5";
             var result2 = JSONParser.Parse(x2);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result2));
             var x3 = @"{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}";
             var result31 = JSONParser.Parse<TestClass>(x3);
             var result32 = JSONParser.Parse(x3);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result31));
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result32));
             var x4 = @"[1,2,3]";
             var result41 = JSONParser.Parse(x4);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result41));
             var result42 = JSONParser.Parse<List<int>>(x4);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result42));
             var x5 = @"[1,2,3,{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}]";
             var result5 = JSONParser.Parse(x5);
-            Console.WriteLine(result5[3].c.a);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result5));
             var x6 = @"[{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}},{""a"": 1,""b"":""x"",""c"":{""a"": 1,""b"":""x""}}]";
             var result6 = JSONParser.Parse<List<TestClass>>(x6);
+            Console.WriteLine(JSONConverter.ConvertToJSONString(result6));
+            Console.ReadLine();
         }
 
     }
