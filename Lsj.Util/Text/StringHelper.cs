@@ -25,11 +25,37 @@ namespace Lsj.Util.Text
         /// </summary>
         public static string RemoveLastOne(this string src) => RemoveLast(src, 1);
         /// <summary>
+        /// Remove Last Char
+        /// </summary>
+        public static void RemoveLastOne(this StringBuilder src) => RemoveLast(src, 1);
+        /// <summary>
         /// Remove Last Chars
         /// <param name="src">Source String</param>
         /// <param name="n">Number</param>
         /// </summary>
         public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length - n) : "";
+        /// <summary>
+        /// Remove Chars After n
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="n"></param>
+        public static void Remove(this StringBuilder src, int n) => src.Remove(n, src.Length - n);
+        /// <summary>
+        /// Remove Last Chars
+        /// <param name="src">Source String</param>
+        /// <param name="n">Number</param>
+        /// </summary>
+        public static void RemoveLast(this StringBuilder src, int n)
+        {
+            if (src.Length >= n)
+            {
+                src.Remove(src.Length - n);
+            }
+            else
+            {
+                src.Clear();
+            }
+        }
         /// <summary>
         /// Remove One Char
         /// </summary>
