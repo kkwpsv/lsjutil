@@ -7,7 +7,7 @@
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>lsj</Authors>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Description>My Utility For JSON</Description>
   </PropertyGroup>
 
