@@ -8,3 +8,4 @@ rd /s /q Lsj.Util.Net.Web\obj
 rd /s /q Lsj.Util.Office\obj
 rd /s /q Lsj.Util.Protobuf\obj
 rd /s /q Lsj.Util.SQLBuilder\obj
+rd /s /q Lsj.Util.JSON\obj
