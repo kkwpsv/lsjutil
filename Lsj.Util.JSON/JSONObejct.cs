@@ -11,7 +11,6 @@ namespace Lsj.Util.JSON
     {
         private SafeDictionary<string, object> data = new SafeDictionary<string, object>();
 
-
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             var name = binder.Name;

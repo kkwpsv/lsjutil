@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\Lsj.Util.JSON.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JSONArray.cs" />
+    <Compile Include="JSONConverter.cs" />
     <Compile Include="JSONObejct.cs" />
     <Compile Include="JSONParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
