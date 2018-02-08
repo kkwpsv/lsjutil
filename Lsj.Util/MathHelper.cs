@@ -11,6 +11,15 @@ namespace Lsj.Util
     /// </summary>
     public static class MathHelper
     {
+
+
+        /// <summary>
+        /// IsNumeric
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNumeric(this Type type) { if (type == null) throw new ArgumentNullException("type"); return (type == typeof(SByte) || type == typeof(Int16) || type == typeof(Int32) || type == typeof(Int64) || type == typeof(Byte) || type == typeof(UInt16) || type == typeof(UInt32) || type == typeof(UInt64) || type == typeof(Single) || type == typeof(Double) || type == typeof(Decimal)); }
+
         /// <summary>
         /// ConvertToInt
         /// </summary>
