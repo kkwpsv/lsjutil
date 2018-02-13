@@ -25,7 +25,19 @@ namespace Lsj.Util
         /// <returns></returns>
         public static int ConvertToInt(this byte[] src, int offset)
         {
-            if (offset >= 0 && offset + 4 <= src.Length)
+            if (src == null)
+            {
+                throw new ArgumentNullException("Src cannot be null");
+            }
+            if (offset < 0)
+            {
+                throw new ArgumentOutOfRangeException("Offset must be larger than zero.");
+            }
+            else if (offset + 4 > src.Length)
+            {
+                throw new ArgumentOutOfRangeException("Offset + 4 must be less than the length of src");
+            }
+            else
             {
                 unsafe
                 {
@@ -36,10 +48,6 @@ namespace Lsj.Util
                     }
                 }
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
         }
         /// <summary>
         /// Convert To Int
@@ -48,6 +56,10 @@ namespace Lsj.Util
         /// <returns></returns>
         public unsafe static int ConvertToInt(byte* src)
         {
+            if (src == null)
+            {
+                throw new ArgumentNullException();
+            }
             return *(int*)src;
         }
         /// <summary>
@@ -64,7 +76,19 @@ namespace Lsj.Util
         /// <returns></returns>
         public static int ConvertToShort(this byte[] src, int offset)
         {
-            if (offset >= 0 && offset + 2 <= src.Length)
+            if (src == null)
+            {
+                throw new ArgumentNullException("Src cannot be null");
+            }
+            if (offset < 0)
+            {
+                throw new ArgumentOutOfRangeException("Offset must be larger than zero.");
+            }
+            else if (offset + 2 > src.Length)
+            {
+                throw new ArgumentOutOfRangeException("Offset + 2 must be less than the length of src");
+            }
+            else
             {
                 unsafe
                 {
@@ -75,10 +99,6 @@ namespace Lsj.Util
                     }
                 }
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
         }
         /// <summary>
         /// Convert To Short
@@ -87,6 +107,10 @@ namespace Lsj.Util
         /// <returns></returns>
         public unsafe static int ConvertToShort(byte* src)
         {
+            if (src == null)
+            {
+                throw new ArgumentNullException();
+            }
             return *(short*)src;
         }
         /// <summary>
