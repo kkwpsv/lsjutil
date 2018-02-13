@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Office", "Lsj.Util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.JSON", "Lsj.Util.JSON\Lsj.Util.JSON.csproj", "{3D117515-0AD4-40BB-BE3E-C974160D17FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.Tests", "Lsj.Util.Tests\Lsj.Util.Tests.csproj", "{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,18 @@ Global
 		{3D117515-0AD4-40BB-BE3E-C974160D17FA}.Release|x64.Build.0 = Release|Any CPU
 		{3D117515-0AD4-40BB-BE3E-C974160D17FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{3D117515-0AD4-40BB-BE3E-C974160D17FA}.Release|x86.Build.0 = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|x64.Build.0 = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|x64.ActiveCfg = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|x64.Build.0 = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6EE81B5-FDE5-4DCD-8E97-C10A6B7BA505}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
