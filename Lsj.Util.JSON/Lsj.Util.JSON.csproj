@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="JSONArray.cs" />
     <Compile Include="JSONConverter.cs" />
+    <Compile Include="JSONFormater.cs" />
     <Compile Include="JSONObejct.cs" />
     <Compile Include="JSONParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
