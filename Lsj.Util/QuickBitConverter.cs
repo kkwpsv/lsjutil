@@ -15,6 +15,8 @@ namespace Lsj.Util
         /// Convert To Int
         /// </summary>
         /// <param name="src"></param>
+        /// <exception cref="ArgumentNullException">The src is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 4.</exception>
         /// <returns></returns>
         public static int ConvertToInt(this byte[] src) => ConvertToInt(src, 0);
         /// <summary>
@@ -22,6 +24,8 @@ namespace Lsj.Util
         /// </summary>
         /// <param name="src"></param>
         /// <param name="offset"></param>
+        /// <exception cref="ArgumentNullException">src is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The offset is less than zero or the offset + 4 is larger than the length of src.</exception>
         /// <returns></returns>
         public static int ConvertToInt(this byte[] src, int offset)
         {
@@ -53,6 +57,7 @@ namespace Lsj.Util
         /// Convert To Int
         /// </summary>
         /// <param name="src"></param>
+        /// <exception cref="ArgumentNullException">The pointer is null.</exception>
         /// <returns></returns>
         public unsafe static int ConvertToInt(byte* src)
         {
@@ -66,6 +71,8 @@ namespace Lsj.Util
         /// Convert To Short
         /// </summary>
         /// <param name="src"></param>
+        /// <exception cref="ArgumentNullException">The src is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 2.</exception>
         /// <returns></returns>
         public static int ConvertToShort(this byte[] src) => ConvertToShort(src, 0);
         /// <summary>
@@ -73,6 +80,8 @@ namespace Lsj.Util
         /// </summary>
         /// <param name="src"></param>
         /// <param name="offset"></param>
+        /// <exception cref="ArgumentNullException">src is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The offset is less than zero or the offset + 2 is larger than the length of src.</exception>
         /// <returns></returns>
         public static int ConvertToShort(this byte[] src, int offset)
         {
@@ -104,6 +113,7 @@ namespace Lsj.Util
         /// Convert To Short
         /// </summary>
         /// <param name="src"></param>
+        /// <exception cref="ArgumentNullException">The pointer is null.</exception>
         /// <returns></returns>
         public unsafe static int ConvertToShort(byte* src)
         {

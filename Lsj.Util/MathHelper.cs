@@ -17,6 +17,7 @@ namespace Lsj.Util
         /// IsNumeric
         /// </summary>
         /// <param name="type"></param>
+        /// <exception cref="ArgumentNullException">type is null</exception>
         /// <returns></returns>
         public static bool IsNumeric(this Type type) { if (type == null) throw new ArgumentNullException("type"); return (type == typeof(SByte) || type == typeof(Int16) || type == typeof(Int32) || type == typeof(Int64) || type == typeof(Byte) || type == typeof(UInt16) || type == typeof(UInt32) || type == typeof(UInt64) || type == typeof(Single) || type == typeof(Double) || type == typeof(Decimal)); }
 
@@ -31,6 +32,7 @@ namespace Lsj.Util
         /// <param name="x">Value</param>
         /// <param name="min">MinValue</param>
         /// <param name="max">MaxValue</param>
+        /// <exception cref="ArgumentException">Max value is less than min value.</exception>
         public static int ConvertToInt(this long x, int min, int max)
         {
             if (min > max)
@@ -55,6 +57,7 @@ namespace Lsj.Util
         /// <param name="x">Value</param>
         /// <param name="min">MinValue</param>
         /// <param name="max">MaxValue</param>
+        /// <exception cref="ArgumentException">Max value is less than min value.</exception>
         public static int ConvertToInt(this double x, int min, int max)
         {
             if (min > max)
@@ -79,6 +82,7 @@ namespace Lsj.Util
         /// <param name="x">Value</param>
         /// <param name="min">MinValue</param>
         /// <param name="max">MaxValue</param>
+        /// <exception cref="ArgumentException">Max value is less than min value.</exception>
         public static int ConvertToInt(this decimal x, int min, int max)
         {
             if (min > max)
@@ -103,6 +107,7 @@ namespace Lsj.Util
         /// <param name="x">Value</param>
         /// <param name="min">MinValue</param>
         /// <param name="max">MaxValue</param>
+        /// <exception cref="ArgumentException">Max value is less than min value.</exception>
         public static long ConvertToLong(this double x, long min, long max)
         {
             if (min > max)
@@ -127,6 +132,7 @@ namespace Lsj.Util
         /// <param name="x">Value</param>
         /// <param name="min">MinValue</param>
         /// <param name="max">MaxValue</param>
+        /// <exception cref="ArgumentException">Max value is less than min value.</exception>
         public static long ConvertToLong(this decimal x, long min, long max)
         {
             if (min > max)
