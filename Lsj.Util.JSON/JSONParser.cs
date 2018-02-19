@@ -195,14 +195,23 @@ namespace Lsj.Util.JSON
                 {
                     if (isDynamic)
                     {
-                        var value = ParseValue(ptr, ref index, length, null);
                         if (name != null)
                         {
+                            var value = ParseValue(ptr, ref index, length, null);
                             dynamicResult.Set(name, value);
                             status = Status.wantCommaOrEnd;
                         }
                         else
                         {
+                            if (dynamicResult.Count == 0)
+                            {
+                                if (c == ']')
+                                {
+                                    status = Status.End;
+                                    break;
+                                }
+                            }
+                            var value = ParseValue(ptr, ref index, length, null);
                             dynamicResult.Add(value);
                             status = Status.wantCommaOrEnd;
                         }

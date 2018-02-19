@@ -14,6 +14,21 @@ namespace Lsj.Util.JSON
 
 
 
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            if (binder.Name == "Count")
+            {
+                result = array.Count;
+                return true;
+            }
+            else
+            {
+                return base.TryGetMember(binder, out result);
+            }
+        }
+
+
+
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
             if (binder.Name == "Add" && args.Length == 1)
