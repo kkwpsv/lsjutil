@@ -156,7 +156,7 @@ namespace Lsj.Util.JSON
                     }
                     else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')
                     {
-                        index += 4;
+                        index += 3;
                         return true;
                     }
                     else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')
