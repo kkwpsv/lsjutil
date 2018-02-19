@@ -35,7 +35,7 @@ namespace Lsj.Util.Net.Web
             var request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = "Post";
             request.ContentType = contentType;
-            request.Headers[HttpRequestHeader.UserAgent] = UserAgent;
+            request.UserAgent = UserAgent;
             if (this.cookicontainer == null)
             {
                 this.cookicontainer = new CookieContainer();
@@ -64,7 +64,7 @@ namespace Lsj.Util.Net.Web
                 this.cookicontainer = new CookieContainer();
             }
             request.CookieContainer = this.cookicontainer;
-            request.Headers[HttpRequestHeader.UserAgent] = UserAgent;
+            request.UserAgent = UserAgent;
 #if NETCOREAPP2_0
             return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
 #else
