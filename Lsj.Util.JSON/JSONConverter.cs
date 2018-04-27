@@ -29,7 +29,7 @@ namespace Lsj.Util.JSON
         {
             if (val == null)
             {
-                return "";
+                return "null";
             }
             else if (val is bool)
             {

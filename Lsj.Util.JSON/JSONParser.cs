@@ -170,6 +170,11 @@ namespace Lsj.Util.JSON
                         status = Status.End;
                         break;
                     }
+                    else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')
+                    {
+                        index += 3;
+                        return null;
+                    }
                     else
                     {
                         throw new InvalidDataException($"Error JSON string. Index = {index}");
