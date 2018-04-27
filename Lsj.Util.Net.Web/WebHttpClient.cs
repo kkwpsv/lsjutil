@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web
     /// </summary>
     public class WebHttpClient
     {
-        CookieContainer cookicontainer;
+        CookieContainer cookicontainer = new CookieContainer();
 
 
         /// <summary>
@@ -29,17 +29,36 @@ namespace Lsj.Util.Net.Web
         /// <param name="uri"></param>
         /// <param name="data"></param>
         /// <param name="contentType"></param>
+        /// <param name="headers"></param>
         /// <returns></returns>
-        public byte[] Post(string uri, byte[] data, string contentType)
+        public byte[] Post(string uri, byte[] data, string contentType, IDictionary<string, string> headers = null)
         {
             var request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = "Post";
             request.ContentType = contentType;
-            request.UserAgent = UserAgent;
-            if (this.cookicontainer == null)
+            if (headers != null)
             {
-                this.cookicontainer = new CookieContainer();
+                foreach (var header in headers)
+                {
+                    if (header.Key == "Accept")
+                    {
+                        request.Accept = header.Value;
+                    }
+                    else if (header.Key == "Referer")
+                    {
+                        request.Referer = header.Value;
+                    }
+                    else if (header.Key == "User-Agent")
+                    {
+                        request.UserAgent = header.Value;
+                    }
+                    else
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
+                }
             }
+            request.UserAgent = UserAgent;
             request.CookieContainer = this.cookicontainer;
 #if NETCOREAPP2_0
             request.GetRequestStreamAsync().Result.Write(data);
@@ -55,14 +74,33 @@ namespace Lsj.Util.Net.Web
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public byte[] Get(string uri)
+        public byte[] Get(string uri, IDictionary<string, string> headers = null)
         {
             var request = (HttpWebRequest)HttpWebRequest.Create(uri);
             request.Method = "Get";
-            if (this.cookicontainer == null)
+            if (headers != null)
             {
-                this.cookicontainer = new CookieContainer();
+                foreach (var header in headers)
+                {
+                    if (header.Key == "Accept")
+                    {
+                        request.Accept = header.Value;
+                    }
+                    else if (header.Key == "Referer")
+                    {
+                        request.Referer = header.Value;
+                    }
+                    else if (header.Key == "User-Agent")
+                    {
+                        request.UserAgent = header.Value;
+                    }
+                    else
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
+                }
             }
+            request.UserAgent = UserAgent;
             request.CookieContainer = this.cookicontainer;
             request.UserAgent = UserAgent;
 #if NETCOREAPP2_0
@@ -71,6 +109,23 @@ namespace Lsj.Util.Net.Web
             return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
 #endif
 
+        }
+        /// <summary>
+        /// Add Cookie
+        /// </summary>
+        /// <param name="cookie"></param>
+        public void AddCookie(System.Net.Cookie cookie)
+        {
+            this.cookicontainer.Add(cookie);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public CookieCollection GetCookie(Uri uri)
+        {
+            return this.cookicontainer.GetCookies(uri);
         }
     }
 }
