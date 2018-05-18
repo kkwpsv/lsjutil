@@ -16,5 +16,6 @@ namespace Lsj.Util.Debugger
     {
         public static void Main()
         {
-		}
+        }
+    }
 }
