@@ -20,6 +20,21 @@ namespace Lsj.Util.Text
     /// </summary>
     public static class StringHelper
     {
+        public static string SubstringIgnoreOverFlow(this string src, int startIndex, int length)
+        {
+            if (startIndex + length <= src.Length)
+            {
+                return src.Substring(startIndex, length);
+            }
+            else if (startIndex >= src.Length)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return src.Substring(startIndex, src.Length - startIndex - 1);
+            }
+        }
         /// <summary>
         /// Remove Last Char
         /// </summary>
