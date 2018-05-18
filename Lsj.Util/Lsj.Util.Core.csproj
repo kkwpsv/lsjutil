@@ -7,7 +7,7 @@
     <AssemblyOriginatorKeyFile>LSJ.snk</AssemblyOriginatorKeyFile>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Authors>lsj</Authors>
-    <Version>1.2.2</Version>
+    <Version>1.2.4</Version>
     <Description>My Utility</Description>
   </PropertyGroup>
 

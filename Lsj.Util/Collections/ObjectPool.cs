@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 
@@ -10,8 +11,17 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class ObjectPool<T> where T : class
     {
-        private Func<T> m_createMethod;
-        private MyQueue<T> m_items = new MyQueue<T>();
+        private readonly Func<T> createMethod;
+        private ConcurrentBag<T> items = new ConcurrentBag<T>();
+
+        /// <summary>
+        /// Capacity
+        /// </summary>
+        public int Capacity
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.ObjectPool{T}"/> class.
@@ -19,7 +29,7 @@ namespace Lsj.Util.Collections
         /// <param name="createMethod">Create Method</param>
         public ObjectPool(Func<T> createMethod)
         {
-            m_createMethod = createMethod;
+            this.createMethod = createMethod;
         }
 
         /// <summary>
@@ -27,13 +37,14 @@ namespace Lsj.Util.Collections
         /// </summary>
         public T Dequeue()
         {
-            lock (m_items)
+            if (items.TryTake(out T item))
             {
-                if (m_items.Count > 0)
-                    return m_items.Dequeue();
+                return item;
             }
-
-            return m_createMethod();
+            else
+            {
+                return createMethod();
+            }
         }
 
         /// <summary>
@@ -41,8 +52,17 @@ namespace Lsj.Util.Collections
         /// </summary>
         public void Enqueue(T value)
         {
-            lock (m_items)
-                m_items.Enqueue(value);
+            if (value != null)
+            {
+                if (items.Count > Capacity)
+                {
+                    (value as IDisposable)?.Dispose();
+                }
+                else
+                {
+                    items.Add(value);
+                }
+            }
         }
     }
 }
