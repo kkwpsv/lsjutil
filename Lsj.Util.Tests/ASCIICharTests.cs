@@ -7,18 +7,15 @@ using System.Text;
 
 namespace Lsj.Util.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class ASCIICharTests
     {
-        [TestMethod()]
-        public void IsNumberTest_Number()
+        [TestMethod]
+        public void IsNumberTest()
         {
             Assert.AreEqual(ASCIIChar.IsNumber((byte)'0'), true);
-        }
-        [TestMethod()]
-        public void IsNumberTest_NotNumber()
-        {
-            Assert.AreEqual(ASCIIChar.IsNumber((byte)'A'), false);
+            Assert.AreEqual(ASCIIChar.IsNumber(20), false);
+            Assert.AreEqual(ASCIIChar.IsNumber(60), false);
         }
     }
 }

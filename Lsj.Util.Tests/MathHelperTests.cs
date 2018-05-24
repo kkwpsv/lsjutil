@@ -8,134 +8,91 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Lsj.Util.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class MathHelperTests
     {
-        [TestMethod()]
-        public void IsNumericTest_Numeric()
+        [TestMethod]
+        [ExcludeFromCodeCoverage]
+        public void IsNumericTest()
         {
             Assert.AreEqual(typeof(int).IsNumeric(), true);
-        }
-        [TestMethod()]
-        public void IsNumericTest_NotNumeric()
-        {
             Assert.AreEqual(typeof(string).IsNumeric(), false);
+            try
+            {
+                ((Type)null).IsNumeric();
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentNullException));
+            }
         }
 
-        [TestMethod()]
-        public void ConvertToIntTest_LongNormal()
+
+        [TestMethod]
+        [ExcludeFromCodeCoverage]
+        public void ConvertToIntTest()
         {
             Assert.AreEqual(0L.ConvertToInt(), 0);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_LongLargerThanMax()
-        {
             Assert.AreEqual(long.MaxValue.ConvertToInt(1, 2), 2);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_LongLessThanMin()
-        {
             Assert.AreEqual(long.MinValue.ConvertToInt(1, 2), 1);
-        }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        [ExcludeFromCodeCoverage]
-        public void ConvertToIntTest_LongMinLargerThanMax()
-        {
-            (0L).ConvertToInt(2, 1);
-        }
-
-        [TestMethod()]
-        public void ConvertToIntTest_DecimalNormal()
-        {
             Assert.AreEqual(0.9m.ConvertToInt(), 0);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_DecimalLargerThanMax()
-        {
             Assert.AreEqual(decimal.MaxValue.ConvertToInt(1, 2), 2);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_DecimalLessThanMin()
-        {
             Assert.AreEqual(decimal.MinValue.ConvertToInt(1, 2), 1);
-        }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        [ExcludeFromCodeCoverage]
-        public void ConvertToIntTest_DecimalMinLargerThanMax()
-        {
-            (0m).ConvertToInt(2, 1);
-        }
-
-        [TestMethod()]
-        public void ConvertToIntTest_DoubleNormal()
-        {
             Assert.AreEqual(0.9d.ConvertToInt(), 0);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_DoubleLargerThanMax()
-        {
             Assert.AreEqual(double.MaxValue.ConvertToInt(1, 2), 2);
-        }
-        [TestMethod()]
-        public void ConvertToIntTest_DoubleLessThanMin()
-        {
             Assert.AreEqual(double.MinValue.ConvertToInt(1, 2), 1);
-        }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        [ExcludeFromCodeCoverage]
-        public void ConvertToIntTest_DoubleMinLargerThanMax()
-        {
-            (0d).ConvertToInt(2, 1);
+            try
+            {
+                (0L).ConvertToInt(2, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
+            try
+            {
+                (0m).ConvertToInt(2, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
+            try
+            {
+                (0d).ConvertToInt(2, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
         }
 
-        [TestMethod()]
-        public void ConvertToLongTest_DecimalNormal()
+        [TestMethod]
+        [ExcludeFromCodeCoverage]
+        public void ConvertToLongTest()
         {
             Assert.AreEqual(0.9m.ConvertToLong(), 0);
-        }
-        [TestMethod()]
-        public void ConvertToLongTest_DecimalLargerThanMax()
-        {
             Assert.AreEqual(decimal.MaxValue.ConvertToLong(1, 2), 2);
-        }
-        [TestMethod()]
-        public void ConvertToLongTest_DecimalLessThanMin()
-        {
-            Assert.AreEqual(decimal.MinValue.ConvertToInt(1, 2), 1);
-        }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        [ExcludeFromCodeCoverage]
-        public void ConvertToLongTest_DecimalMinLargerThanMax()
-        {
-            (0m).ConvertToInt(2, 1);
-        }
-
-        [TestMethod()]
-        public void ConvertToLongTest_DoubleNormal()
-        {
+            Assert.AreEqual(decimal.MinValue.ConvertToLong(1, 2), 1);
             Assert.AreEqual(0.9d.ConvertToLong(), 0);
-        }
-        [TestMethod()]
-        public void ConvertToLongTest_DoubleLargerThanMax()
-        {
             Assert.AreEqual(double.MaxValue.ConvertToLong(1, 2), 2);
-        }
-        [TestMethod()]
-        public void ConvertToLongTest_DoubleLessThanMin()
-        {
             Assert.AreEqual(double.MinValue.ConvertToLong(1, 2), 1);
+            try
+            {
+                (0m).ConvertToLong(2, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
+            try
+            {
+                (0d).ConvertToLong(2, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
         }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        [ExcludeFromCodeCoverage]
-        public void ConvertToLongTest_DoubleMinLargerThanMax()
-        {
-            (0d).ConvertToLong(2, 1);
-        }
-
     }
 }

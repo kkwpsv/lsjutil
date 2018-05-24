@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lsj.Util.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class StreamHelperTests
     {
         public class StreamCannotSeek : Stream
@@ -141,56 +142,78 @@ namespace Lsj.Util.Tests
             public override void SetLength(long value) => throw new NotImplementedException();
             public override void Write(byte[] buffer, int offset, int count) => throw new NotImplementedException();
         }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ReadAllTest_CannotSeek()
-        {
-            new StreamCannotSeek().ReadAll();
-        }
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ReadAllTest_CannotRead()
-        {
-            new StreamCannotRead().ReadAll();
-        }
-        [TestMethod()]
-        public void ReadAllTest_Empty()
+        [TestMethod]
+        [ExcludeFromCodeCoverage]
+        public void ReadAllTest()
         {
             var x = new StreamEmpty().ReadAll();
             Assert.AreEqual(x.Length, 0);
-        }
-        [TestMethod()]
-        public void ReadAllTest()
-        {
-            var x = new StreamTest().ReadAll();
+            x = new StreamTest().ReadAll();
             Assert.AreEqual(x.Length, 10);
             for (int i = 0; i < 10; i++)
             {
                 Assert.AreEqual(x[i], i);
+            }
+            try
+            {
+                new StreamCannotSeek().ReadAll();
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
+            try
+            {
+                new StreamCannotRead().ReadAll();
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
             }
         }
 
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ReadAllWithoutSeekTest_CannotRead()
-        {
-            new StreamCannotRead().ReadAllWithoutSeek();
-        }
-        [TestMethod()]
-        public void ReadAllWithoutSeekTest_Empty()
+        [TestMethod]
+        public void ReadAllWithoutSeekTest()
         {
             var x = new StreamEmpty().ReadAllWithoutSeek();
             Assert.AreEqual(x.Length, 0);
-        }
-        [TestMethod()]
-        public void ReadAllWithoutSeekTest()
-        {
-            var x = new StreamTest().ReadAllWithoutSeek();
+            x = new StreamTest().ReadAllWithoutSeek();
             Assert.AreEqual(x.Length, 10);
             for (int i = 0; i < 10; i++)
             {
                 Assert.AreEqual(x[i], i);
             }
+            try
+            {
+                new StreamCannotRead().ReadAllWithoutSeek();
+            }
+            catch (Exception e)
+            {
+                Assert.IsInstanceOfType(e, typeof(ArgumentException));
+            }
+        }
+
+        [TestMethod]
+        public void WriteTest()
+        {
+            var stream = new MemoryStream();
+            stream.Write(new byte[] { 0, 1, 2, 3, 4, 5 });
+            Assert.AreEqual(stream.Length, 6);
+            var content = stream.ReadAll();
+            Assert.AreEqual(content[0], 0);
+            Assert.AreEqual(content[1], 1);
+            Assert.AreEqual(content[2], 2);
+            Assert.AreEqual(content[3], 3);
+            Assert.AreEqual(content[4], 4);
+            Assert.AreEqual(content[5], 5);
+            stream = new MemoryStream();
+            stream.Write(new byte[] { 0, 1, 2, 3, 4, 5 }, 3);
+            Assert.AreEqual(stream.Length, 3);
+            content = stream.ReadAll();
+            Assert.AreEqual(content[0], 3);
+            Assert.AreEqual(content[1], 4);
+            Assert.AreEqual(content[2], 5);
+
         }
     }
 }
