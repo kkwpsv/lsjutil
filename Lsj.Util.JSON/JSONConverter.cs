@@ -23,7 +23,7 @@ namespace Lsj.Util.JSON
         }
         public static string ConvertToJSONString(string val)
         {
-            return @"""" + val + @"""";
+            return @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
         }
         public static string ConvertToJSONString(object val)
         {
