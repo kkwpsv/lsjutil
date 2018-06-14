@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -98,6 +99,7 @@ namespace Lsj.Util.JSON
             bool isDynamic = true;
             dynamic dynamicResult = null;
             object result = null;
+            bool isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
             PropertyInfo[] properties = null;
             Type listtype = null;
             if (type != null)
@@ -106,7 +108,10 @@ namespace Lsj.Util.JSON
                 if (type != typeof(string))
                 {
                     result = Activator.CreateInstance(type);
-                    properties = type.GetProperties();
+                    if (!isDic)
+                    {
+                        properties = type.GetProperties();
+                    }
                 }
             }
 
@@ -120,9 +125,9 @@ namespace Lsj.Util.JSON
                 {
                     continue;
                 }
-                else if (status == Status.wantStart)
+                else if (status == Status.wantStart)//起始字符
                 {
-                    if (c == '{')
+                    if (c == '{')//object
                     {
                         symbol = c;
                         status = Status.wantName;
@@ -130,8 +135,12 @@ namespace Lsj.Util.JSON
                         {
                             dynamicResult = new JSONObejct();
                         }
+                        else
+                        {
+
+                        }
                     }
-                    else if (c == '[')
+                    else if (c == '[')//list
                     {
                         symbol = c;
                         status = Status.wantValue;
@@ -148,29 +157,37 @@ namespace Lsj.Util.JSON
                             }
                         }
                     }
-                    else if (c == '"')
+                    else if (c == '"')//字符串
                     {
-                        result = GetString(ptr, ref index, length);
+                        var temp = GetString(ptr, ref index, length);
+                        if (type != null && type.IsEnum)
+                        {
+                            result = Enum.Parse(type, temp);
+                        }
+                        else
+                        {
+                            result = temp;
+                        }
                         status = Status.End;
                         break;
                     }
-                    else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')
+                    else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')//true
                     {
                         index += 3;
                         return true;
                     }
-                    else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')
+                    else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')//false
                     {
                         index += 4;
                         return true;
                     }
-                    else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))
+                    else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
                     {
                         result = GetDecimal(ptr, ref index, length);
                         status = Status.End;
                         break;
                     }
-                    else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')
+                    else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
                     {
                         index += 3;
                         return null;
@@ -180,12 +197,12 @@ namespace Lsj.Util.JSON
                         throw new InvalidDataException($"Error JSON string. Index = {index}");
                     }
                 }
-                else if (status == Status.wantName)
+                else if (status == Status.wantName)//名称
                 {
                     name = GetString(ptr, ref index, length);
                     status = Status.wantColon;
                 }
-                else if (status == Status.wantColon)
+                else if (status == Status.wantColon)//冒号
                 {
                     if (c == ':')
                     {
@@ -196,25 +213,22 @@ namespace Lsj.Util.JSON
                         throw new InvalidDataException($"Error JSON string. Index = {index}");
                     }
                 }
-                else if (status == Status.wantValue)
+                else if (status == Status.wantValue)//值
                 {
-                    if (isDynamic)
+                    if (isDynamic)//动态
                     {
-                        if (name != null)
+                        if (name != null)//JSONObject
                         {
                             var value = ParseValue(ptr, ref index, length, null);
                             dynamicResult.Set(name, value);
                             status = Status.wantCommaOrEnd;
                         }
-                        else
+                        else//JSONArray
                         {
-                            if (dynamicResult.Count == 0)
+                            if (dynamicResult.Count == 0 && c == ']')
                             {
-                                if (c == ']')
-                                {
-                                    status = Status.End;
-                                    break;
-                                }
+                                status = Status.End;
+                                break;
                             }
                             var value = ParseValue(ptr, ref index, length, null);
                             dynamicResult.Add(value);
@@ -225,21 +239,30 @@ namespace Lsj.Util.JSON
                     {
                         if (name != null)
                         {
-                            var property = properties.Where(x => x.Name == name).FirstOrDefault();
-                            if (property != null)
+                            if (isDic)//Dic
                             {
-                                var value = ParseValue(ptr, ref index, length, property.PropertyType);
-                                property.SetValue(result, value, null);
+                                var value = ParseValue(ptr, ref index, length, null);
+                                type.GetMethod("Add").Invoke(result, new object[] { name, value });
                                 status = Status.wantCommaOrEnd;
                             }
-                            else
+                            else//Object
                             {
-                                throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
+                                var property = properties.Where(x => x.Name == name && !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any()).FirstOrDefault();
+                                if (property != null)
+                                {
+                                    var value = ParseValue(ptr, ref index, length, property.PropertyType);
+                                    property.SetValue(result, value, null);
+                                    status = Status.wantCommaOrEnd;
+                                }
+                                else
+                                {
+                                    throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
+                                }
                             }
                         }
-                        else
+                        else//List
                         {
-                            var value = ParseValue(ptr, ref index, length, listtype.GetGenericArguments()[0]);
+                            var value = ParseValue(ptr, ref index, length, listtype.GetGenericArguments()[1]);
                             type.GetMethod("Add").Invoke(result, new object[] { value });
                             status = Status.wantCommaOrEnd;
                         }

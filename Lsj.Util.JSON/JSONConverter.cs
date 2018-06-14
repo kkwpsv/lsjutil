@@ -25,6 +25,10 @@ namespace Lsj.Util.JSON
         {
             return @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
         }
+        public static string ConvertToJSONString(Enum val)
+        {
+            return val.ToString();
+        }
         public static string ConvertToJSONString(object val)
         {
             if (val == null)
@@ -42,6 +46,10 @@ namespace Lsj.Util.JSON
             else if (val.GetType().IsNumeric())
             {
                 return ConvertToJSONString(Convert.ToDecimal(val));
+            }
+            else if (val.GetType().IsEnum)
+            {
+                return ConvertToJSONString((Enum)val);
             }
             else
             {
@@ -85,9 +93,22 @@ namespace Lsj.Util.JSON
                             result.RemoveLastOne();
                         }
                     }
+                    else if (val.GetType().GetInterfaces().Contains(typeof(IDictionary)))
+                    {
+                        var x = val as IDictionary;
+                        foreach (IDictionaryEnumerator a in x)
+                        {
+                            flag = true;
+                            result.Append($@"""{a.Key}"":{ConvertToJSONString(a.Value)},");
+                        }
+                        if (flag)
+                        {
+                            result.RemoveLastOne();
+                        }
+                    }
                     else
                     {
-                        var properties = val.GetType().GetProperties();
+                        var properties = val.GetType().GetProperties().Where(x => !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any());
                         foreach (var property in properties)
                         {
                             flag = true;
