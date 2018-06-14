@@ -96,6 +96,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Body\Label.cs" />
+    <Compile Include="Body\Input.cs" />
+    <Compile Include="Header\Base.cs" />
     <Compile Include="HtmlNote.cs" />
     <Compile Include="Body\Section.cs" />
     <Compile Include="Body\Img.cs" />

@@ -22,7 +22,7 @@ namespace Lsj.Util.HtmlBuilder
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        unsafe public static HtmlPage ParsePage(string str)
+        public static HtmlPage ParsePage(string str)
         {
             var page = new HtmlPage();
             page = Parse(str) as HtmlPage;
@@ -33,7 +33,9 @@ namespace Lsj.Util.HtmlBuilder
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        unsafe public static HtmlNode Parse(string str)
+        public static HtmlNode Parse(string str) => InternalParse(str);
+
+        unsafe static HtmlNode InternalParse(string str)
         {
             HtmlNode root = null;
             var length = str.Length;
@@ -53,17 +55,18 @@ namespace Lsj.Util.HtmlBuilder
         unsafe static HtmlNode ParseNode(ref char* current, char* end)
         {
             HtmlNode node = null;
-            char* start = null;
+            char* start = null;//内容的开始
             string key = null;
-            bool isnote = false;//是否为注释状态
-            bool isparam = false;//是否为参数
-            bool iswithoutend = false;
-            bool isinchildren = false;
-            bool ischeckend = false;
-            bool indoctype = false;
+            bool isNote = false;//是否为注释状态
+            bool isParam = false;//是否为参数
+            bool isWithoutEnd = false;
+            bool isInChildren = false;
+            bool isCheckEnd = false;//判断标签结束
+            bool inDoctype = false;
+            bool isStart = false;
             while (current < end)
             {
-                if (isnote)
+                if (isNote)//注释处理
                 {
                     if (*current == '-' && *(current + 1) == '-' && *(current + 2) == '>')
                     {
@@ -73,75 +76,80 @@ namespace Lsj.Util.HtmlBuilder
                 }
                 else
                 {
-                    if (key == null)
+                    if (key == null)//未在标签内
                     {
-                        if (indoctype)
+                        if (inDoctype)//DOCTYPE
                         {
                             if (*current == '>')
                             {
-                                indoctype = false;
+                                inDoctype = false;
                             }
                         }
                         else
                         {
-                            if (*current == '<' && !isnote)
+                            if (*current == '<' && !isNote)//开始标签
                             {
                                 start = current + 1;
+                                isStart = true;
                             }
-                            else if (*current == '!' && current == start && *(current + 1) == '-' && *(current + 2) == '-')
+                            else if (*current == '!' && current == start && *(current + 1) == '-' && *(current + 2) == '-')//注释处理 <!---->
                             {
-                                isnote = true;
+                                isNote = true;
                                 current = current + 2;
                             }
-                            else if (*current == ' ' || *current == '>')
+                            else if (isStart && (Char.IsWhiteSpace(*current) || *current == '>'))//结束标签名
                             {
                                 key = StringHelper.ReadStringFromCharPoint(start, current - start);
                                 if (key != "!DOCTYPE")
                                 {
                                     node = GetObject(key);
-                                    iswithoutend = node is HtmlNodeWithoutEnd;
+                                    isWithoutEnd = node is HtmlNodeWithoutEnd;
                                     start = current + 1;
                                     if (*current == '>')
                                     {
-                                        isinchildren = true;
+                                        isInChildren = true;
                                     }
                                 }
                                 else
                                 {
                                     key = null;
-                                    indoctype = true;
+                                    inDoctype = true;
                                 }
                             }
                         }
 
                     }
-                    else
+                    else//在标签内
                     {
-                        if (isinchildren)
+                        if (isInChildren)//处理子标签
                         {
                             if (*current == '<')
                             {
-                                var str = StringHelper.ReadStringFromCharPoint(start, current - start);
-                                str = str.Replace("\r", "").Replace("\n", "").Replace("\t", "");
-                                if (str.Replace(" ", "").Length > 0)
+                                if (start != current)//中间是否有内容
                                 {
-                                    node.Add(new HtmlRawNode(str));
+                                    var str = StringHelper.ReadStringFromCharPoint(start, current - start);
+                                    str = str.Replace("\r", "").Replace("\n", "").Trim();//去除换行及空白
+                                    if (str.Length > 0)
+                                    {
+                                        node.Add(new HtmlRawNode(str));
+                                    }
                                 }
 
 
-                                if (*(current + 1) == '/')
+
+                                if (*(current + 1) == '/')//处理标签结束
                                 {
-                                    ischeckend = true;
+                                    isCheckEnd = true;
                                     start = current + 2;
                                     current++;
                                 }
-                                else
+                                else//处理子标签
                                 {
                                     node.Add(ParseNode(ref current, end));
                                     start = current + 1;
                                 }
                             }
-                            else if (*current == '>' && ischeckend)
+                            else if (*current == '>' && isCheckEnd)//标签结束
                             {
                                 var tmp = StringHelper.ReadStringFromCharPoint(start, current - start);
                                 if (tmp == node.Name)
@@ -150,11 +158,11 @@ namespace Lsj.Util.HtmlBuilder
                                 }
                             }
                         }
-                        else
+                        else//处理参数
                         {
-                            if (isparam)
+                            if (isParam)
                             {
-                                if (*current == '"')
+                                if (*current == '"')//结束参数
                                 {
                                     var value = StringHelper.ReadStringFromCharPoint(start, current - start);
                                     node.Add(new HtmlParam
@@ -162,7 +170,7 @@ namespace Lsj.Util.HtmlBuilder
                                         Name = key,
                                         Value = value
                                     });
-                                    isparam = false;
+                                    isParam = false;
                                 }
                             }
                             else
@@ -173,20 +181,20 @@ namespace Lsj.Util.HtmlBuilder
                                 }
                                 else if (*current == '>' || (*current == '/' && *(current + 1) == '>' && (current++) != null/*指针加1*/))
                                 {
-                                    if (iswithoutend)
+                                    if (isWithoutEnd)//有无结束标签
                                     {
                                         break;//直接返回
                                     }
                                     else
                                     {
-                                        isinchildren = true;
+                                        isInChildren = true;
                                         start = current + 1;
                                     }
                                 }
-                                else if (*current == '=' && *(current + 1) == '"')
+                                else if (*current == '=' && *(current + 1) == '"')//开始标签内容 ="
                                 {
-                                    key = StringHelper.ReadStringFromCharPoint(start, current - start);
-                                    isparam = true;
+                                    key = StringHelper.ReadStringFromCharPoint(start, current - start).TrimStart();//清除多余空格
+                                    isParam = true;
                                     start = current + 2;
                                     current = current + 1;
                                 }
@@ -213,6 +221,8 @@ namespace Lsj.Util.HtmlBuilder
                     return new Meta();
                 case "link":
                     return new Link();
+                case "base":
+                    return new Base();
                 case "title":
                     return new Title();
                 case "div":
@@ -227,6 +237,12 @@ namespace Lsj.Util.HtmlBuilder
                     return new P();
                 case "a":
                     return new A();
+                case "img":
+                    return new Img();
+                case "input":
+                    return new Input();
+                case "label":
+                    return new Label();
 
 
                 default:
