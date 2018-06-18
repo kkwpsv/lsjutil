@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>2.0.0</Version>
+<Version>2.0.1</Version>
     <Description>My Utility For Protobuf</Description>
   </PropertyGroup>
   <ItemGroup>

@@ -169,3 +169,5 @@ $RECYCLE.BIN/
 *.userprefs
 *.XML
 *.fuse*
+
+*.snk
