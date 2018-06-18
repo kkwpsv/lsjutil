@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
+    <Version>2.0.0</Version>
+    <Description>My Utility For JSON</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.CSharp">
+      <Version>4.5.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40' or '$(TargetFramework)' == 'net45'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+</Project>

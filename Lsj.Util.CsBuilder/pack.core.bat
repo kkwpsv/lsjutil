@@ -1,1 +1,0 @@
-dotnet pack Lsj.Util.CsBuilder.Core.csproj -c Release -o ..\packages --include-symbols --include-source

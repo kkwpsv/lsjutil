@@ -1,1 +1,0 @@
-dotnet pack Lsj.Util.SQLBuilder.Core.csproj -c Release -o ..\packages --include-symbols --include-source
