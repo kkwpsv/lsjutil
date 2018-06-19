@@ -111,13 +111,14 @@ namespace Lsj.Util.JSON
             char symbol = '\0';
             var status = Status.wantStart;
             bool isDynamic = true;
+            bool isDic = false;
             dynamic dynamicResult = null;
             object result = null;
-            bool isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
             PropertyInfo[] properties = null;
             Type listtype = null;
             if (type != null)
             {
+                isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
                 isDynamic = false;
                 if (type != typeof(string))
                 {
