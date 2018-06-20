@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugger", "Debugger", "{0215852F-8C26-4429-8142-0C6A2B898F3E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util", "Src\Lsj.Util\Lsj.Util.csproj", "{25D869E0-467A-48EF-BEA7-5EA9D4C87BB9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{69ABA086-5419-482D-8DC3-CAEB32B04E49}"
@@ -30,8 +28,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Protobuf", "Src\Lsj.Util.Protobuf\Lsj.Util.Protobuf.csproj", "{D5BB67CC-7049-4B44-87EB-A0A92C2B0AA5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.SQLBuilder", "Src\Lsj.Util.SQLBuilder\Lsj.Util.SQLBuilder.csproj", "{AB44DA9C-BCCC-4E56-B602-9F05A898B325}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Debugger", "Debugger\Lsj.Util.Debugger\Lsj.Util.Debugger.csproj", "{74654022-1C6D-431B-A760-800C21EE6F1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,10 +79,6 @@ Global
 		{AB44DA9C-BCCC-4E56-B602-9F05A898B325}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB44DA9C-BCCC-4E56-B602-9F05A898B325}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB44DA9C-BCCC-4E56-B602-9F05A898B325}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74654022-1C6D-431B-A760-800C21EE6F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74654022-1C6D-431B-A760-800C21EE6F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74654022-1C6D-431B-A760-800C21EE6F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74654022-1C6D-431B-A760-800C21EE6F1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,7 +95,6 @@ Global
 		{F7555F8B-DE41-4967-96F8-51C6D3E77C6D} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 		{D5BB67CC-7049-4B44-87EB-A0A92C2B0AA5} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 		{AB44DA9C-BCCC-4E56-B602-9F05A898B325} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
-		{74654022-1C6D-431B-A760-800C21EE6F1C} = {0215852F-8C26-4429-8142-0C6A2B898F3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41B6C56A-B106-48AE-99EE-350C9D3DF789}
