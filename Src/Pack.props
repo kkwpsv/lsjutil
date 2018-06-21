@@ -1,0 +1,13 @@
+﻿<Project>
+  <PropertyGroup>
+    <Authors>Lsj</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PackageVersion>$(Version)-debug</PackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageVersion>$(Version)</PackageVersion>
+  </PropertyGroup>
+</Project>
