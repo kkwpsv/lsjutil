@@ -38,7 +38,7 @@ namespace Lsj.Util.JSON
         /// <returns></returns>
         public static dynamic Parse(string str)
         {
-            if (str == null)
+            if (str.IsNullOrEmpty())
             {
                 return null;
             }
@@ -74,7 +74,7 @@ namespace Lsj.Util.JSON
         /// <returns></returns>
         public static T Parse<T>(string str)
         {
-            if (str == null)
+            if (str.IsNullOrEmpty())
             {
                 return default(T);
             }

@@ -10,6 +10,15 @@ namespace Lsj.Util.Tests.JSON
     public class JSONParserTest
     {
         [TestMethod]
+        public void Parse_EmptyAndNull()
+        {
+            Assert.AreEqual(null, JSONParser.Parse(""));
+            Assert.AreEqual(null, JSONParser.Parse(null));
+            Assert.AreEqual(0, JSONParser.Parse<int>(""));
+            Assert.AreEqual(0, JSONParser.Parse<int>(null));
+        }
+
+        [TestMethod]
         public void Parse_Int()
         {
             Assert.AreEqual(1, JSONParser.Parse("1"));
