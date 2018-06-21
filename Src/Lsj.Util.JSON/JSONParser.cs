@@ -72,21 +72,21 @@ namespace Lsj.Util.JSON
         /// <typeparam name="T"></typeparam>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static T Parse<T>(string str) where T : class, new()
+        public static T Parse<T>(string str)
         {
             if (str == null)
             {
-                return null;
+                return default(T);
             }
             var length = str.Length;
             int index = 0;
 
-            T result = null;
+            T result = default(T);
             unsafe
             {
                 fixed (char* ptr = str)
                 {
-                    result = ParseValue(ptr, ref index, length, typeof(T)) as T;
+                    result = (T)(ParseValue(ptr, ref index, length, typeof(T)));
                     if (index != length)
                     {
                         char c = *(ptr + index);
@@ -112,10 +112,9 @@ namespace Lsj.Util.JSON
             var status = Status.wantStart;
             bool isDynamic = true;
             bool isDic = false;
-            dynamic dynamicResult = null;
-            object result = null;
+            dynamic result = null;
             PropertyInfo[] properties = null;
-            Type listtype = null;
+            Type listType = null;
             if (type != null)
             {
                 isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
@@ -148,11 +147,7 @@ namespace Lsj.Util.JSON
                         status = Status.wantName;
                         if (isDynamic)
                         {
-                            dynamicResult = new JSONObejct();
-                        }
-                        else
-                        {
-
+                            result = new JSONObejct();
                         }
                     }
                     else if (c == '[')//list
@@ -161,12 +156,12 @@ namespace Lsj.Util.JSON
                         status = Status.wantValue;
                         if (isDynamic)
                         {
-                            dynamicResult = new JSONArray();
+                            result = new JSONArray();
                         }
                         else
                         {
-                            listtype = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)).FirstOrDefault();
-                            if (listtype == null)
+                            listType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)).FirstOrDefault();
+                            if (listType == null)
                             {
                                 throw new ArgumentException("Error Type. Json Array must be parsed to a IList<>.");
                             }
@@ -235,18 +230,18 @@ namespace Lsj.Util.JSON
                         if (name != null)//JSONObject
                         {
                             var value = ParseValue(ptr, ref index, length, null);
-                            dynamicResult.Set(name, value);
+                            result.Set(name, value);
                             status = Status.wantCommaOrEnd;
                         }
                         else//JSONArray
                         {
-                            if (dynamicResult.Count == 0 && c == ']')
+                            if (result.Count == 0 && c == ']')
                             {
                                 status = Status.End;
                                 break;
                             }
                             var value = ParseValue(ptr, ref index, length, null);
-                            dynamicResult.Add(value);
+                            result.Add(value);
                             status = Status.wantCommaOrEnd;
                         }
                     }
@@ -277,7 +272,12 @@ namespace Lsj.Util.JSON
                         }
                         else//List
                         {
-                            var value = ParseValue(ptr, ref index, length, listtype.GetGenericArguments()[1]);
+                            if (result.Count == 0 && c == ']')
+                            {
+                                status = Status.End;
+                                break;
+                            }
+                            var value = ParseValue(ptr, ref index, length, listType.GetGenericArguments()[0]);
                             type.GetMethod("Add").Invoke(result, new object[] { value });
                             status = Status.wantCommaOrEnd;
                         }
@@ -317,11 +317,7 @@ namespace Lsj.Util.JSON
             {
                 throw new InvalidDataException($@"Error JSON String. Not Complete.");
             }
-            if (result == null && isDynamic)
-            {
-                result = dynamicResult;
-            }
-            if (type != null)
+            if (type != null && type.GetInterface("System.IConvertible") != null)
             {
                 result = Convert.ChangeType(result, type);
             }

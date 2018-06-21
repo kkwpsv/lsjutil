@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>2.0.2</Version>
+    <Version>2.0.4</Version>
     <Description>My Utility For JSON</Description>
   </PropertyGroup>
   <ItemGroup>
@@ -15,4 +15,5 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net40' or '$(TargetFramework)' == 'net45'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
+  <Import Project="..\Pack.props" />
 </Project>
