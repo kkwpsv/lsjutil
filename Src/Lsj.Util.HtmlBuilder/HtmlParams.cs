@@ -25,5 +25,31 @@ namespace Lsj.Util.HtmlBuilder
             }
             return sb.ToString();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        protected override void Set(string key, string value)
+        {
+            key = key.ToLower();
+            base.Set(key, value);
+        }
+
+        /// <summary>
+        /// Add Classes
+        /// </summary>
+        /// <param name="classes"></param>
+        public void AddClasses(params string[] classes)
+        {
+            if (Contain("class"))
+            {
+                base.Set("class", $"{this["class"]} "+ string.Join(" ", classes));
+            }
+            else
+            {
+                Set("class", string.Join(" ", classes));
+            }
+        }
     }
 }
