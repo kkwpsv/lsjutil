@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>2.0.2</Version>
+    <Version>2.0.3</Version>
     <Description>My Utility For asp.net core</Description>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Content\css\*">
+      <PackagePath>contentFiles\any\any\wwwroot\css\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.DataAnnotations" Version="2.1.1" />
