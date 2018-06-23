@@ -215,11 +215,22 @@ namespace Lsj.Util.Collections
 
         }
 
-        void Set(TKey key, TValue value)
+        /// <summary>
+        /// Set
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        protected virtual void Set(TKey key, TValue value)
         {
             m_Dictionary[key] = value;
         }
-        bool Contain(TKey key)
+
+        /// <summary>
+        /// Contain
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual bool Contain(TKey key)
         {
             if (key == null)
             {
@@ -231,11 +242,20 @@ namespace Lsj.Util.Collections
                 return m_Dictionary.ContainsKey(key);
             }
         }
-        void Clr()
+
+        /// <summary>
+        /// Clear
+        /// </summary>
+        protected virtual void Clr()
         {
             m_Dictionary.Clear();
         }
-        void Del(TKey key)
+
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <param name="key"></param>
+        protected virtual void Del(TKey key)
         {
             m_Dictionary.Remove(key);
         }
