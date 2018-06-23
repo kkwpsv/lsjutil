@@ -1,5 +1,5 @@
 nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.0.2.nupkg -Source nuget.org
-nuget push Src/Lsj.Util.AspNetCore/bin/Release/Lsj.Util.AspNetCore.2.0.1.nupkg -Source nuget.org
+nuget push Src/Lsj.Util.AspNetCore/bin/Release/Lsj.Util.AspNetCore.2.0.2.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.CsBuilder/bin/Release/Lsj.Util.CsBuilder.2.0.1.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.Data/bin/Release/Lsj.Util.Data.2.0.1.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.HtmlBuilder/bin/Release/Lsj.Util.HtmlBuilder.2.0.2.nupkg -Source nuget.org

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Src\Lsj.Util.AspNetCore\Lsj.Util.AspNetCore.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />
   </ItemGroup>
 
