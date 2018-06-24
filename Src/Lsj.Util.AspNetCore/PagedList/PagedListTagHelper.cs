@@ -131,7 +131,7 @@ namespace Lsj.Util.AspNetCore.PagedList
             {
                 var first = GetLi(1);
                 first.Params.AddClasses("PagedList-skipToFirst");
-                if (List.PageCount == 1)
+                if (List.PageCount == 1 || List.PageCount == 0)
                 {
                     first.Params.AddClasses("disabled");
                 }
@@ -141,7 +141,7 @@ namespace Lsj.Util.AspNetCore.PagedList
 
             var previous = GetLi(List.PageNumber - 1);
             previous.Params.AddClasses("PagedList-skipToPrevious");
-            if (List.PageNumber == 1)
+            if (List.PageNumber - 1 < 1)
             {
                 previous.Params.AddClasses("disabled");
             }
@@ -173,7 +173,7 @@ namespace Lsj.Util.AspNetCore.PagedList
             {
                 var last = GetLi(List.PageCount);
                 last.Params.AddClasses("PagedList-skipToLast");
-                if (List.PageCount == 1)
+                if (List.PageCount == 1 || List.PageCount == 0)
                 {
                     last.Params.AddClasses("disabled");
                 }
