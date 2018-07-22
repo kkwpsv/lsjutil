@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Lsj.Util.Logs;
 using Lsj.Util.Text;
 
 namespace Lsj.Util.JSON
@@ -15,6 +16,31 @@ namespace Lsj.Util.JSON
     /// </summary>
     public static class JSONParser
     {
+        /// <summary>
+        /// LogProvider
+        /// </summary>
+        public static LogProvider LogProvider
+        {
+            get;
+            set;
+        } = LogProvider.Default;
+        /// <summary>
+        /// Is Strict
+        /// </summary>
+        public static bool IsStrict
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// Max Recursion Layer
+        /// </summary>
+        public static int MaxLayer
+        {
+            get;
+            set;
+        } = 1000;
+
         enum Status
         {
             wantStart,
@@ -48,7 +74,8 @@ namespace Lsj.Util.JSON
                 {
                     int index = 0;
                     int length = str.Length;
-                    var result = ParseValue(ptr, ref index, length, null);
+                    var r = 0;
+                    var result = ParseValue(ptr, ref index, length, null, ref r);
                     if (index != length)
                     {
                         char c = *(ptr + index);
@@ -86,7 +113,8 @@ namespace Lsj.Util.JSON
             {
                 fixed (char* ptr = str)
                 {
-                    result = (T)(ParseValue(ptr, ref index, length, typeof(T)));
+                    int r = 0;
+                    result = (T)(ParseValue(ptr, ref index, length, typeof(T), ref r));
                     if (index != length)
                     {
                         char c = *(ptr + index);
@@ -106,25 +134,76 @@ namespace Lsj.Util.JSON
 
         }
 
-        private unsafe static object ParseValue(char* ptr, ref int index, int length, Type type)
+        private unsafe static object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
         {
+            if (r > MaxLayer)
+            {
+                LogProvider.Warn($@"Error JSON String. Maximum recursion limit.");
+                if (IsStrict)
+                {
+                    throw new InvalidDataException($@"Error JSON String. Maximum recursion limit.");
+                }
+                r--;
+                return type == null ? null : type.IsValueType ? Activator.CreateInstance(type) : null;
+            }
+            r++;
+
             char symbol = '\0';
             var status = Status.wantStart;
             bool isDynamic = true;
             bool isDic = false;
+            bool isList = false;
             dynamic result = null;
             PropertyInfo[] properties = null;
-            Type listType = null;
+            Type genericListType = null;
+            Type genericDicType = null;
             if (type != null)
             {
-                isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
                 isDynamic = false;
                 if (type != typeof(string))
                 {
-                    result = Activator.CreateInstance(type);
-                    if (!isDic)
+                    isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
+                    isList = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)) || x == typeof(IList));
+                    if (isDic)
+                    {
+                        genericDicType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)).FirstOrDefault();
+                    }
+                    else if (isList)
+                    {
+                        genericListType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)).FirstOrDefault();
+                    }
+                    else
                     {
                         properties = type.GetProperties();
+                    }
+                    if (type.IsInterface)
+                    {
+                        if (isDic)
+                        {
+                            if (genericDicType == null)
+                            {
+                                result = new Hashtable();
+                            }
+                            else
+                            {
+                                result = Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(genericDicType.GetGenericArguments()[0], genericDicType.GetGenericArguments()[1]));
+                            }
+                        }
+                        else if (isList)
+                        {
+                            if (genericListType == null)
+                            {
+                                result = new ArrayList();
+                            }
+                            else
+                            {
+                                result = Activator.CreateInstance(typeof(List<>).MakeGenericType(genericListType.GetGenericArguments()[0]));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        result = Activator.CreateInstance(type);
                     }
                 }
             }
@@ -160,10 +239,9 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            listType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)).FirstOrDefault();
-                            if (listType == null)
+                            if (!isList)
                             {
-                                throw new ArgumentException("Error Type. Json Array must be parsed to a IList<>.");
+                                throw new ArgumentException("Error Type. Json Array must be parsed to a IList<> or IList.");
                             }
                         }
                     }
@@ -184,12 +262,16 @@ namespace Lsj.Util.JSON
                     else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')//true
                     {
                         index += 3;
-                        return true;
+                        result = true;
+                        status = Status.End;
+                        break;
                     }
                     else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')//false
                     {
                         index += 4;
-                        return true;
+                        result = false;
+                        status = Status.End;
+                        break;
                     }
                     else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
                     {
@@ -200,7 +282,9 @@ namespace Lsj.Util.JSON
                     else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
                     {
                         index += 3;
-                        return null;
+                        result = null;
+                        status = Status.End;
+                        break;
                     }
                     else
                     {
@@ -229,7 +313,7 @@ namespace Lsj.Util.JSON
                     {
                         if (name != null)//JSONObject
                         {
-                            var value = ParseValue(ptr, ref index, length, null);
+                            var value = ParseValue(ptr, ref index, length, null, ref r);
                             result.Set(name, value);
                             status = Status.wantCommaOrEnd;
                         }
@@ -240,7 +324,7 @@ namespace Lsj.Util.JSON
                                 status = Status.End;
                                 break;
                             }
-                            var value = ParseValue(ptr, ref index, length, null);
+                            var value = ParseValue(ptr, ref index, length, null, ref r);
                             result.Add(value);
                             status = Status.wantCommaOrEnd;
                         }
@@ -251,7 +335,7 @@ namespace Lsj.Util.JSON
                         {
                             if (isDic)//Dic
                             {
-                                var value = ParseValue(ptr, ref index, length, null);
+                                var value = ParseValue(ptr, ref index, length, genericDicType?.GetGenericArguments()[1], ref r);
                                 type.GetMethod("Add").Invoke(result, new object[] { name, value });
                                 status = Status.wantCommaOrEnd;
                             }
@@ -260,13 +344,20 @@ namespace Lsj.Util.JSON
                                 var property = properties.Where(x => x.Name == name && !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any()).FirstOrDefault();
                                 if (property != null)
                                 {
-                                    var value = ParseValue(ptr, ref index, length, property.PropertyType);
+                                    var value = ParseValue(ptr, ref index, length, property.PropertyType, ref r);
                                     property.SetValue(result, value, null);
                                     status = Status.wantCommaOrEnd;
                                 }
                                 else
                                 {
-                                    throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
+
+                                    if (IsStrict)
+                                    {
+                                        throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
+                                    }
+                                    var value = ParseValue(ptr, ref index, length, null, ref r);
+                                    LogProvider.Warn($@"Error JSON String. Cannot Find Property ""{name} : {value}"".");
+                                    status = Status.wantCommaOrEnd;
                                 }
                             }
                         }
@@ -277,7 +368,7 @@ namespace Lsj.Util.JSON
                                 status = Status.End;
                                 break;
                             }
-                            var value = ParseValue(ptr, ref index, length, listType.GetGenericArguments()[0]);
+                            var value = ParseValue(ptr, ref index, length, genericListType?.GetGenericArguments()[0], ref r);
                             type.GetMethod("Add").Invoke(result, new object[] { value });
                             status = Status.wantCommaOrEnd;
                         }
@@ -321,6 +412,7 @@ namespace Lsj.Util.JSON
             {
                 result = Convert.ChangeType(result, type);
             }
+            r--;
             return result;
         }
 

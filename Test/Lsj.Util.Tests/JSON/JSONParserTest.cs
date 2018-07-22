@@ -38,5 +38,20 @@ namespace Lsj.Util.Tests.JSON
             var result2 = JSONParser.Parse<List<int>>("[]");
             Assert.AreEqual(0, result2.Count);
         }
+
+        [TestMethod]
+        public void Parse_Object()
+        {
+            var result = JSONParser.Parse<TestObject>(@"{""A"":1,""B"":2,""D"":4}");
+            Assert.AreEqual(1, result.A);
+            Assert.AreEqual(2, result.B);
+        }
+
+        public class TestObject
+        {
+            public int A { get; set; }
+            public int B { get; set; }
+            public TestObject C { get; set; }
+        }
     }
 }
