@@ -39,7 +39,7 @@ namespace Lsj.Util.Text
             }
             else
             {
-                return src.Substring(startIndex, src.Length - startIndex - 1);
+                return src.Substring(startIndex, src.Length - startIndex);
             }
         }
         /// <summary>
