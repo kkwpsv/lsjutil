@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>2.0.8</Version>
+    <Version>2.0.9</Version>
     <Description>My Utility For JSON</Description>
   </PropertyGroup>
   <ItemGroup>

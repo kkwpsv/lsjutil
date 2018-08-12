@@ -83,7 +83,8 @@ namespace Lsj.Util.JSON
             {
                 var result = new StringBuilder();
                 char symbol;
-                if (val.GetType().GetInterfaces().Contains(typeof(IEnumerable)))
+
+                if (val is IEnumerable && !(val is IDictionary))
                 {
                     symbol = '[';
                     result.Append(symbol);
@@ -121,10 +122,10 @@ namespace Lsj.Util.JSON
                             result.RemoveLastOne();
                         }
                     }
-                    else if (val.GetType().GetInterfaces().Contains(typeof(IDictionary)))
+                    else if (val is IDictionary)
                     {
                         var x = val as IDictionary;
-                        foreach (IDictionaryEnumerator a in x)
+                        foreach (dynamic a in x)
                         {
                             flag = true;
                             result.Append($@"""{a.Key}"":{ConvertToJSONString(a.Value)},");
