@@ -160,14 +160,11 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-*.dll
-*.xml
 
 *.opendb
 
 *.mdb
 *.userprefs
-*.XML
 *.fuse*
 
 *.snk
