@@ -2,7 +2,7 @@
 
 namespace Lsj.Util.XML
 {
-    public class XMLDocumnet
+    public class XMLDocument
     {
         public XMLDeclaration XMLDeclaration { get; set; }
         public XMLNode Root { get; set; }

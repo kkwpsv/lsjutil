@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.APIs.WeChat", "Src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.XML", "Src\Lsj.Util.XML\Lsj.Util.XML.csproj", "{9B14A672-0061-4843-B1DC-24ED855A2A60}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.APIs.Alipay", "Src\Lsj.Util.APIs.Alipay\Lsj.Util.APIs.Alipay.csproj", "{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,10 @@ Global
 		{9B14A672-0061-4843-B1DC-24ED855A2A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B14A672-0061-4843-B1DC-24ED855A2A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B14A672-0061-4843-B1DC-24ED855A2A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +125,7 @@ Global
 		{1A472500-712C-4AED-9830-8F1C9F670F60} = {4C880CE3-4EBC-4C93-A666-0C0C40A50527}
 		{2B949EE5-C031-444A-8A9F-8D8F1A016DC5} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 		{9B14A672-0061-4843-B1DC-24ED855A2A60} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
+		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41B6C56A-B106-48AE-99EE-350C9D3DF789}

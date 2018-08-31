@@ -5,4 +5,7 @@
     <Description>My Utility For WeChat APIs</Description>
   </PropertyGroup>
   <Import Project="..\Pack.props" />
+  <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj" />
+  </ItemGroup>
 </Project>
