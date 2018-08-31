@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -83,8 +82,10 @@ namespace Lsj.Util.JSON
             {
                 var result = new StringBuilder();
                 char symbol;
+                bool isDic = false;
 
-                if (val is IEnumerable && !(val is IDictionary))
+
+                if (val is IEnumerable && !(isDic = (val is IDictionary)) && !(isDic = (val.GetType().GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)))))
                 {
                     symbol = '[';
                     result.Append(symbol);
@@ -122,10 +123,9 @@ namespace Lsj.Util.JSON
                             result.RemoveLastOne();
                         }
                     }
-                    else if (val is IDictionary)
+                    else if (isDic)
                     {
-                        var x = val as IDictionary;
-                        foreach (dynamic a in x)
+                        foreach (dynamic a in (IEnumerable)val)
                         {
                             flag = true;
                             result.Append($@"""{a.Key}"":{ConvertToJSONString(a.Value)},");
