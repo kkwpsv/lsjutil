@@ -9,11 +9,14 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
         public string OrderNo { get; private set; }
         public int TotalFee { get; private set; }
         public TradeState TradeState { get; private set; }
+        public string TradeNo { get; private set; }
+
         protected override void ParseExtra()
         {
             this.OrderNo = this.data["out_trade_no"];
             this.TotalFee = (int)(this.data["total_amount"].ConvertToDecimal() * 100);
             this.TradeState = (TradeState)Enum.Parse(typeof(TradeState), this.data["trade_status"]);
+            this.TradeNo = this.data["trade_no"];
         }
     }
 }
