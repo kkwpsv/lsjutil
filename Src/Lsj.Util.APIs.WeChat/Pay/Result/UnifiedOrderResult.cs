@@ -8,10 +8,13 @@
 
         public string PrepayID { get; private set; }
         public string CodeUrl { get; private set; }
+        public string MWebUrl { get; private set; }
+
         protected override void ParseExtra()
         {
             this.PrepayID = this.data["prepay_id"];
             this.CodeUrl = this.data["code_url"];
+            this.MWebUrl = this.data["mweb_url"];
         }
     }
 }

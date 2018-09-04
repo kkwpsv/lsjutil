@@ -5,6 +5,7 @@ using Lsj.Util.Text;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 
 namespace Lsj.Util.APIs.WeChat.Pay
 {
@@ -99,6 +100,7 @@ namespace Lsj.Util.APIs.WeChat.Pay
                 ["spbill_create_ip"] = ip.ToString(),
                 ["notify_url"] = notifyUrl,
                 ["trade_type"] = tradeType.ToString(),
+                ["out_trade_no"] = orderNo,
             };
             if (detail != null)
             {
@@ -142,7 +144,7 @@ namespace Lsj.Util.APIs.WeChat.Pay
             var url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
             var webClient = new WebHttpClient();
-            var xmlResult = webClient.Post("url", data.ToXMLString().ConvertToBytes(), "text/xml");
+            var xmlResult = webClient.Post(url, data.ToXMLString().ConvertToBytes(Encoding.UTF8), "text/xml");
 
             var result = new UnifiedOrderResult(this.secretKey);
             result.Parse(xmlResult);
@@ -176,7 +178,7 @@ namespace Lsj.Util.APIs.WeChat.Pay
             var url = "https://api.mch.weixin.qq.com/pay/orderquery";
 
             var webClient = new WebHttpClient();
-            var xmlResult = webClient.Post("url", data.ToXMLString().ConvertToBytes(), "text/xml");
+            var xmlResult = webClient.Post("url", data.ToXMLString().ConvertToBytes(Encoding.UTF8), "text/xml");
 
             var result = new OrderQueryResult(this.secretKey);
             result.Parse(xmlResult);
@@ -190,6 +192,7 @@ namespace Lsj.Util.APIs.WeChat.Pay
         JSAPI,
         NATIVE,
         APP,
+        MWEB
     }
     public enum TradeState
     {
