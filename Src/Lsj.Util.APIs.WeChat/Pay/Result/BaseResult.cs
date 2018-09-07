@@ -13,7 +13,7 @@ namespace Lsj.Util.APIs.WeChat.Pay.Result
         }
         protected XmlElement rootNode;
         protected WeChatPayData data;
-        private string key;
+        private readonly string key;
 
         public bool Status => this.ParseStatus && this.ReturnStatus && this.ResultStatus && this.SignStatus;
         public string ErrorString { get; private set; }
@@ -38,6 +38,7 @@ namespace Lsj.Util.APIs.WeChat.Pay.Result
                         this.ReturnStatus = true;
                         if (this.data["result_code"] == "SUCCESS")
                         {
+                            this.ResultStatus = true;
                             if (this.data.CheckSign(this.key))
                             {
                                 this.SignStatus = true;
