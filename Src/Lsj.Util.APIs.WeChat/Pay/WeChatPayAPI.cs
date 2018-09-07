@@ -178,7 +178,7 @@ namespace Lsj.Util.APIs.WeChat.Pay
             var url = "https://api.mch.weixin.qq.com/pay/orderquery";
 
             var webClient = new WebHttpClient();
-            var xmlResult = webClient.Post("url", data.ToXMLString().ConvertToBytes(Encoding.UTF8), "text/xml");
+            var xmlResult = webClient.Post(url, data.ToXMLString().ConvertToBytes(Encoding.UTF8), "text/xml");
 
             var result = new OrderQueryResult(this.secretKey);
             result.Parse(xmlResult);
