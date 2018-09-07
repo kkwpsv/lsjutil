@@ -21,7 +21,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
         {
             this["sign_type"] = "RSA2";
             var tosign = new StringBuilder();
-            foreach (var item in this.OrderBy(x => x.Key))
+            foreach (var item in this.Where(x => !x.Value.IsNullOrEmpty()).OrderBy(x => x.Key))
             {
                 tosign.Append($"{item.Key}={item.Value}&");
             }
@@ -36,7 +36,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new NotImplementedException("unsupport sign type");
             }
             var tosign = new StringBuilder();
-            foreach (var item in this.Where(x => x.Key != "sign_type" && x.Key != "sign").OrderBy(x => x.Key))
+            foreach (var item in this.Where(x => x.Key != "sign_type" && x.Key != "sign" && !x.Value.IsNullOrEmpty()).OrderBy(x => x.Key))
             {
                 tosign.Append($"{item.Key}={item.Value}&");
             }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Description>My Utility For WeChat APIs</Description>
   </PropertyGroup>
   <Import Project="..\Pack.props" />
