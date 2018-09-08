@@ -20,37 +20,25 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(decimal val)
-        {
-            return val.ToString();
-        }
+        public static string ConvertToJSONString(decimal val) => val.ToString();
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(bool val)
-        {
-            return val ? "true" : "false";
-        }
+        public static string ConvertToJSONString(bool val) => val ? "true" : "false";
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(string val)
-        {
-            return @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
-        }
+        public static string ConvertToJSONString(string val) => @"""" + val.Replace("\b", @"\b").Replace("\f", @"\f").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t").Replace("\"", @"\""").Replace("\\", @"\\").Replace("/", @"\/") + @"""";
         /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(Enum val)
-        {
-            return val.ToString();
-        }
+        public static string ConvertToJSONString(Enum val) => val.ToString();
         /// <summary>
         /// Convert to JSON String
         /// </summary>
@@ -62,13 +50,17 @@ namespace Lsj.Util.JSON
             {
                 return "null";
             }
-            else if (val is bool)
+            else if (val is bool b)
             {
-                return ConvertToJSONString((bool)val);
+                return ConvertToJSONString(b);
             }
-            else if (val is string)
+            else if (val is string s)
             {
-                return ConvertToJSONString((string)val);
+                return ConvertToJSONString(s);
+            }
+            else if (val is DateTime d)
+            {
+                return ConvertToJSONString(d.ToString(@"yyyy/MM/dd HH:mm:ss"));
             }
             else if (val.GetType().IsNumeric())
             {
