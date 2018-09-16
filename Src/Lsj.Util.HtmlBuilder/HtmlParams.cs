@@ -10,7 +10,7 @@ namespace Lsj.Util.HtmlBuilder
     /// <summary>
     /// Html Params
     /// </summary>
-    public class HtmlParams : SafeStringToStringDirectionary
+    public class HtmlParams : SafeStringToStringDictionary
     {
         /// <summary>
         /// To String

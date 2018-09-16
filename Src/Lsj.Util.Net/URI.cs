@@ -59,17 +59,17 @@ namespace Lsj.Util.Net
             }
         }
 
-        SafeStringToStringDirectionary queryString;
+        SafeStringToStringDictionary queryString;
         /// <summary>
         /// QueryString
         /// </summary>
-        public SafeStringToStringDirectionary QueryString
+        public SafeStringToStringDictionary QueryString
         {
             get
             {
                 if (queryString == null)
                 {
-                    queryString = new SafeStringToStringDirectionary();
+                    queryString = new SafeStringToStringDictionary();
                     if (raw.IndexOf('?') != -1)
                     {
                         string z = raw.Substring(raw.IndexOf('?') + 1);

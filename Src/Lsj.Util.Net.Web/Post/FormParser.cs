@@ -17,10 +17,10 @@ namespace Lsj.Util.Net.Web.Post
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static SafeStringToStringDirectionary Parse(string str)
+        public static SafeStringToStringDictionary Parse(string str)
         {
 
-            var form = new SafeStringToStringDirectionary();
+            var form = new SafeStringToStringDictionary();
             var a = str.Split('&');
             {
                 foreach (var b in a)

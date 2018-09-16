@@ -7,19 +7,19 @@ namespace Lsj.Util.Collections
     /// <summary>
     /// Safe string to string directionary
     /// </summary>
-    public class SafeStringToStringDirectionary : SafeDictionary<string, string>
+    public class SafeStringToStringDictionary : SafeDictionary<string, string>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeStringToStringDirectionary"/> class.
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeStringToStringDictionary"/> class.
         /// </summary>
-        public SafeStringToStringDirectionary() : base()
+        public SafeStringToStringDictionary() : base()
         {
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Lsj.Util.Collections.SafeStringToStringDirectionary"/> class.
         /// </summary>
         /// <param name="src">Source</param>
-        public SafeStringToStringDirectionary(Dictionary<string, string> src) : base(src)
+        public SafeStringToStringDictionary(Dictionary<string, string> src) : base(src)
         {
         }
 

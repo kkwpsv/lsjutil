@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web.Message
     /// <summary>
     /// HttpHeaders
     /// </summary>
-    public class HttpHeaders : SafeStringToStringDirectionary
+    public class HttpHeaders : SafeStringToStringDictionary
     {
         /// <summary>
         /// GetHttpHeader

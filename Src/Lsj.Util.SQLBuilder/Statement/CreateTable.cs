@@ -19,12 +19,12 @@ namespace Lsj.Util.SQLBuilder.Statement
             get;
             set;
         }
-        SafeStringToStringDirectionary data;
+        SafeStringToStringDictionary data;
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.SQLBuilder.Statement.CreateTable"/> class
         /// </summary>
         /// <param name="TableName"></param>
-        public CreateTable(string TableName) : this(TableName, new SafeStringToStringDirectionary())
+        public CreateTable(string TableName) : this(TableName, new SafeStringToStringDictionary())
         {
         }
         /// <summary>
@@ -32,7 +32,7 @@ namespace Lsj.Util.SQLBuilder.Statement
         /// </summary>
         /// <param name="TableName"></param>
         /// <param name="data"></param>
-        public CreateTable(string TableName, SafeStringToStringDirectionary data)
+        public CreateTable(string TableName, SafeStringToStringDictionary data)
         {
             this.TableName = TableName;
             this.data = data;
