@@ -1,8 +1,6 @@
 ﻿using Lsj.Util.JSON;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Tests.JSON
 {
@@ -47,11 +45,25 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(2, result.B);
         }
 
+        [TestMethod]
+        public void Parse_Struct()
+        {
+            var result = JSONParser.Parse<TestStruct>(@"{""A"":1,""B"":2,""D"":4}");
+            Assert.AreEqual(1, result.A);
+            Assert.AreEqual(2, result.B);
+        }
+
         public class TestObject
         {
             public int A { get; set; }
             public int B { get; set; }
             public TestObject C { get; set; }
+        }
+
+        public struct TestStruct
+        {
+            public int A { get; set; }
+            public int B { get; set; }
         }
     }
 }

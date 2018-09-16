@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using Lsj.Util.Text;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using Lsj.Util.Logs;
-using Lsj.Util.Text;
 
 namespace Lsj.Util.JSON
 {
@@ -39,9 +40,9 @@ namespace Lsj.Util.JSON
         {
             get;
             set;
-        } = 1000;
+        } = 100;
 
-        enum Status
+        private enum Status
         {
             wantStart,
             wantName,
@@ -50,7 +51,8 @@ namespace Lsj.Util.JSON
             wantCommaOrEnd,
             End
         }
-        enum ValueType
+
+        private enum ValueType
         {
             Bool,
             Number,
@@ -134,7 +136,7 @@ namespace Lsj.Util.JSON
 
         }
 
-        private unsafe static object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
+        private static unsafe object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
         {
             if (r > MaxLayer)
             {
@@ -153,6 +155,7 @@ namespace Lsj.Util.JSON
             bool isDynamic = true;
             bool isDic = false;
             bool isList = false;
+            bool isStruct = false;
             dynamic result = null;
             PropertyInfo[] properties = null;
             Type genericListType = null;
@@ -203,6 +206,10 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
+                        if (type.IsValueType)
+                        {
+                            isStruct = true;
+                        }
                         result = Activator.CreateInstance(type);
                     }
                 }
@@ -345,7 +352,19 @@ namespace Lsj.Util.JSON
                                 if (property != null)
                                 {
                                     var value = ParseValue(ptr, ref index, length, property.PropertyType, ref r);
-                                    property.SetValue(result, value, null);
+                                    if (isStruct)
+                                    {
+                                        var par = Expression.Parameter(type);
+                                        var assign = Expression.Assign(Expression.Property(par, name), Expression.Constant(value));
+                                        var expression = Expression.Lambda(Expression.Block(assign, par), par);
+                                        var fuckingResult = expression.Compile().DynamicInvoke(result);
+                                        result = fuckingResult;
+                                    }
+                                    else
+                                    {
+                                        property.SetValue(result, value, null);
+                                    }
+
                                     status = Status.wantCommaOrEnd;
                                 }
                                 else
@@ -419,7 +438,7 @@ namespace Lsj.Util.JSON
 
 
 
-        private unsafe static string GetString(char* ptr, ref int index, int length)
+        private static unsafe string GetString(char* ptr, ref int index, int length)
         {
             if (*(ptr + index) != '"')
             {
@@ -493,7 +512,7 @@ namespace Lsj.Util.JSON
         }
 
 
-        private unsafe static decimal GetDecimal(char* ptr, ref int index, int length)
+        private static unsafe decimal GetDecimal(char* ptr, ref int index, int length)
         {
             bool hasDot = false;
             bool hasNumber = false;
