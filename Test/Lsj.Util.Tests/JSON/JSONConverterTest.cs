@@ -22,5 +22,19 @@ namespace Lsj.Util.Tests.JSON
 
         [TestMethod]
         public void Convert_DateTime() => Assert.AreEqual(@"""2000\/01\/01 00:00:00""", JSONConverter.ConvertToJSONString(new DateTime(2000, 1, 1, 0, 0, 0)));
+
+        [TestMethod]
+        public void Convert_Custom() => Assert.AreEqual(@"{""A"":1Test}", JSONConverter.ConvertToJSONString(new TestObj { A = 1 }));
+
+        public class TestObj
+        {
+            [CustomSerialize(Serializer = typeof(TestSerializer))]
+            public int A { get; set; }
+        }
+        public class TestSerializer : ISerializer
+        {
+            public string Convert(object obj) => obj + "Test";
+            public object Parse(string str) => throw new NotImplementedException();
+        }
     }
 }

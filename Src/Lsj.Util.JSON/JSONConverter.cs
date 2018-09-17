@@ -134,7 +134,22 @@ namespace Lsj.Util.JSON
                         {
                             flag = true;
                             var name = property.Name;
-                            var value = ConvertToJSONString(property.GetValue(val, null));
+                            string value = "";
+                            if (property.GetCustomAttributes(typeof(CustomSerializeAttribute), true).FirstOrDefault() is CustomSerializeAttribute customSerializeAttribute)
+                            {
+                                if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
+                                {
+                                    value = serializer.Convert(property.GetValue(val, null));
+                                }
+                                else
+                                {
+                                    throw new Exception("Custom Serializer Must Implement ISerializer");
+                                }
+                            }
+                            else
+                            {
+                                value = ConvertToJSONString(property.GetValue(val, null));
+                            }
                             result.Append($@"""{name}"":{value},");
                         }
                         if (flag)

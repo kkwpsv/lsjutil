@@ -351,7 +351,24 @@ namespace Lsj.Util.JSON
                                 var property = properties.Where(x => x.Name == name && !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any()).FirstOrDefault();
                                 if (property != null)
                                 {
-                                    var value = ParseValue(ptr, ref index, length, property.PropertyType, ref r);
+                                    object value;
+                                    if (property.GetCustomAttributes(typeof(CustomSerializeAttribute), true).FirstOrDefault() is CustomSerializeAttribute customSerializeAttribute)
+                                    {
+                                        if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
+                                        {
+                                            value = serializer.Parse(GetRaw(ptr, ref index, length));
+                                        }
+                                        else
+                                        {
+                                            throw new Exception("Custom Serializer Must Implement ISerializer");
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        value = ParseValue(ptr, ref index, length, property.PropertyType, ref r);
+                                    }
+
                                     if (isStruct)
                                     {
                                         var par = Expression.Parameter(type);
@@ -510,7 +527,24 @@ namespace Lsj.Util.JSON
             }
             throw new InvalidDataException("Error JSON String. Not Complete.");
         }
-
+        private static unsafe string GetRaw(char* ptr, ref int index, int length)
+        {
+            var sb = new StringBuilder();
+            for (; index < length; index++)
+            {
+                var c = *(ptr + index);
+                if (c == ',' || c == '}' || c == ']')
+                {
+                    index--;
+                    return sb.ToString().Trim();
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            throw new InvalidDataException("Error JSON String. Not Complete.");
+        }
 
         private static unsafe decimal GetDecimal(char* ptr, ref int index, int length)
         {

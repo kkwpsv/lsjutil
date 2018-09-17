@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.JSON;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace Lsj.Util.Tests.JSON
@@ -52,18 +53,42 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(1, result.A);
             Assert.AreEqual(2, result.B);
         }
-
-        public class TestObject
+        [TestMethod]
+        public void Parse_Custom()
         {
-            public int A { get; set; }
-            public int B { get; set; }
-            public TestObject C { get; set; }
+            var result = JSONParser.Parse<TestCustomObject>(@"{""A"":Test,""B"":""Test""}");
+            Assert.AreEqual(true, result.A);
+            Assert.AreEqual(false, result.B);
         }
 
-        public struct TestStruct
+        public class TestCustomObject
         {
-            public int A { get; set; }
-            public int B { get; set; }
+            [CustomSerialize(Serializer = typeof(TestSerializer))]
+            public bool A { get; set; }
+            [CustomSerialize(Serializer = typeof(TestSerializer))]
+            public bool B { get; set; }
+        }
+
+        public class TestSerializer : ISerializer
+        {
+            public string Convert(object obj) => throw new NotImplementedException();
+            public object Parse(string str) => str == "Test";
         }
     }
+
+    public class TestObject
+    {
+        public int A { get; set; }
+        public int B { get; set; }
+        public TestObject C { get; set; }
+    }
+
+    public struct TestStruct
+    {
+        public int A { get; set; }
+        public int B { get; set; }
+    }
+
+
 }
+
