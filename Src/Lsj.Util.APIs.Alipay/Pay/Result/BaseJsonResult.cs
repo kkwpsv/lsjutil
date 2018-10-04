@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.JSON;
+using Lsj.Util.Text;
 using System;
+using System.Text;
 
 namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
@@ -9,18 +11,25 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
         public string ResultCode { get; private set; } = "-1";
         public string SubErrorString { get; private set; }
 
+        protected virtual string NodeName => "";
+
         protected dynamic response;
         protected dynamic jsonObj;
+        protected string tosign;
         protected string sign;
 
         public override void Parse(string str)
         {
             try
             {
+                var start = str.IndexOf(this.NodeName) + this.NodeName.Length + 2;
+                var end = str.IndexOf("sign") - 1;
+                this.tosign = str.Substring(start, end - start);
                 this.jsonObj = JSONParser.Parse(str);
                 this.sign = this.jsonObj.sign;
                 if (this.CheckSign())
                 {
+                    this.response = DynamicHelper.GetMember(this.jsonObj, this.NodeName);
                     this.ResultCode = this.response.code;
                     if (this.ResultCode != "10000")
                     {
@@ -45,6 +54,6 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
             }
 
         }
-        protected override bool CheckSign() => throw new NotImplementedException();
+        protected override bool CheckSign() => AlipayPayAPI.PublicRsa.VerifyData(this.tosign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this.sign));
     }
 }

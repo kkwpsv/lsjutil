@@ -224,7 +224,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             data.DoSign(this.rsa);
 
             var webClient = new WebHttpClient();
-            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryString()).ConvertFromBytes(Encoding.UTF8);
+            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
             var result = new OrderQueryResult();
             result.Parse(jsonResult);
@@ -295,7 +295,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             data.DoSign(this.rsa);
 
             var webClient = new WebHttpClient();
-            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryString()).ConvertFromBytes(Encoding.UTF8);
+            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
             var result = new TransferToAccountResult();
             result.Parse(jsonResult);
@@ -331,7 +331,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             data.DoSign(this.rsa);
 
             var webClient = new WebHttpClient();
-            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryString()).ConvertFromBytes(Encoding.UTF8);
+            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
             var result = new TransferQueryResult();
             result.Parse(jsonResult);

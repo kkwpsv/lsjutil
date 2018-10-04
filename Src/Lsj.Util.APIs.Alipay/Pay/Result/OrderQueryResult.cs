@@ -11,12 +11,9 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
         public string TradeNo { get; private set; }
         public int TotalFee { get; private set; }
         public TradeState TradeState { get; private set; }
-        protected override bool CheckSign()
-        {
-            this.response = this.jsonObj.alipay_trade_query_response;
-            string toSign = JSONConverter.ConvertToJSONString(this.response);
-            return AlipayPayAPI.PublicRsa.VerifyData(toSign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this.sign));
-        }
+
+        protected override string NodeName => "alipay_trade_query_response";
+
         protected override void ParseExtra()
         {
             this.OrderNo = this.response.out_trade_no;

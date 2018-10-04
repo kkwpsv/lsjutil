@@ -1,11 +1,9 @@
 ﻿using Lsj.Util.Text;
-using Microsoft.CSharp.RuntimeBinder;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Lsj.Util.JSON
@@ -105,9 +103,7 @@ namespace Lsj.Util.JSON
                         foreach (var property in properties)
                         {
                             flag = true;
-                            var binder = Binder.GetMember(CSharpBinderFlags.None, property, typeof(JSONConverter), new[] { CSharpArgumentInfo.Create(CSharpArgumentInfoFlags.None, null) });
-                            var callSite = CallSite<Func<CallSite, object, object>>.Create(binder);
-                            var value = callSite.Target(callSite, x);
+                            var value = DynamicHelper.GetMember(x, property);
                             result.Append($@"""{property}"":{ConvertToJSONString(value)},");
                         }
                         if (flag)
