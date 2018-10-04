@@ -23,12 +23,13 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
             try
             {
                 var start = str.IndexOf(this.NodeName) + this.NodeName.Length + 2;
-                var end = str.IndexOf("sign") - 1;
+                var end = str.IndexOf("sign") - 2;
                 this.tosign = str.Substring(start, end - start);
                 this.jsonObj = JSONParser.Parse(str);
                 this.sign = this.jsonObj.sign;
                 if (this.CheckSign())
                 {
+                    this.SignStatus = true;
                     this.response = DynamicHelper.GetMember(this.jsonObj, this.NodeName);
                     this.ResultCode = this.response.code;
                     if (this.ResultCode != "10000")
