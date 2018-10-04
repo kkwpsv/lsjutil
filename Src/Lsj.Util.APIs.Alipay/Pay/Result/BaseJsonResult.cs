@@ -7,6 +7,7 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
     {
         public override bool Status => base.Status && this.ResultCode == "10000";
         public string ResultCode { get; private set; } = "-1";
+        public string SubErrorString { get; private set; }
 
         protected dynamic response;
         protected dynamic jsonObj;
@@ -24,6 +25,7 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
                     if (this.ResultCode != "10000")
                     {
                         this.ErrorString = this.response.msg;
+                        this.SubErrorString = this.response.sub_msg;
                     }
                     else
                     {
@@ -43,9 +45,6 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
             }
 
         }
-        protected override bool CheckSign()
-        {
-            throw new NotImplementedException();
-        }
+        protected override bool CheckSign() => throw new NotImplementedException();
     }
 }
