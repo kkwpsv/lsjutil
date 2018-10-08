@@ -15,6 +15,7 @@ namespace Lsj.Util.Net.Web
 {
     /// <summary>
     /// WebClient
+    /// base on socket
     /// </summary>
     public class WebHttpClient2 : DisposableClass, IDisposable
     {

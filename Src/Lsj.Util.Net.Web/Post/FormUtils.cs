@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Collections;
+﻿using Lsj.Util.Collections;
 using Lsj.Util.Text;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Lsj.Util.Net.Web.Post
 {
     /// <summary>
-    /// FormParser
+    /// FormUtils
     /// </summary>
-    public class FormParser
+    public class FormUtils
     {
         /// <summary>
-        /// Parse
+        /// ParseFromString
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="bytes">form bytes</param>
         /// <returns></returns>
-        public static SafeStringToStringDictionary Parse(string str)
-        {
+        public static IDictionary<string, string> ParseFromBytes(byte[] bytes) => ParseFromString(bytes.ConvertFromBytes());
 
+        /// <summary>
+        /// ParseFromString
+        /// </summary>
+        /// <param name="str">form string</param>
+        /// <returns></returns>
+        public static IDictionary<string, string> ParseFromString(string str)
+        {
             var form = new SafeStringToStringDictionary();
             var a = str.Split('&');
             {
@@ -36,16 +40,17 @@ namespace Lsj.Util.Net.Web.Post
             }
             return form;
         }
+
         /// <summary>
-        /// ToBytes
+        /// ConvertToString
         /// </summary>
-        /// <param name="dic"></param>
+        /// <param name="dic">form dic</param>
         /// <returns></returns>
-        public static byte[] ToBytes(IDictionary<string, string> dic)
+        public static string ConvertToString(IDictionary<string, string> dic)
         {
             if (dic == null || dic.Count == 0)
             {
-                return new byte[0];
+                return "";
             }
             var sb = new StringBuilder();
             foreach (var a in dic)
@@ -55,8 +60,15 @@ namespace Lsj.Util.Net.Web.Post
                 sb.Append(a.Value.UrlEncode());
                 sb.Append("&");
             }
-            return sb.ToString().RemoveLastOne().ConvertToBytes();
+            return sb.ToString().RemoveLastOne();
         }
+
+        /// <summary>
+        /// ConvertToBytes
+        /// </summary>
+        /// <param name="dic">form dic</param>
+        /// <returns></returns>
+        public static byte[] ConvertToBytes(IDictionary<string, string> dic) => ConvertToString(dic).ConvertToBytes();
 
     }
 }

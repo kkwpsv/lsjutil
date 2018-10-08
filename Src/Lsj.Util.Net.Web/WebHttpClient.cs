@@ -1,28 +1,29 @@
-﻿using System;
+﻿using Lsj.Util.Net.Web.Post;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web
 {
     /// <summary>
     /// WebHttpClient
+    /// base on HttpWebRequest
     /// </summary>
     public class WebHttpClient
     {
-        CookieContainer cookicontainer = new CookieContainer();
+        private readonly CookieContainer cookicontainer = new CookieContainer();
 
 
         /// <summary>
         /// User-Agent
+        /// Default: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0
         /// </summary>
         public string UserAgent
         {
             get;
             set;
         } = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0";
+
         /// <summary>
         /// POST
         /// </summary>
@@ -33,7 +34,7 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public byte[] Post(string uri, byte[] data, string contentType, IDictionary<string, string> headers = null)
         {
-            var request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
             request.Method = "Post";
             request.ContentType = contentType;
             if (headers != null)
@@ -58,7 +59,7 @@ namespace Lsj.Util.Net.Web
                     }
                 }
             }
-            request.UserAgent = UserAgent;
+            request.UserAgent = this.UserAgent;
             request.CookieContainer = this.cookicontainer;
 #if NETSTANDARD
             request.GetRequestStreamAsync().Result.Write(data);
@@ -67,8 +68,17 @@ namespace Lsj.Util.Net.Web
             request.GetRequestStream().Write(data);
             return request.GetResponse().GetResponseStream().ReadAllWithoutSeek();
 #endif
-
         }
+
+        /// <summary>
+        /// POST Form
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="dic"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        public byte[] PostForm(string uri, IDictionary<string, string> dic, IDictionary<string, string> headers = null) => this.Post(uri, FormUtils.ConvertToBytes(dic), "application/x-www-form-urlencoded", headers);
+
         /// <summary>
         /// GET
         /// </summary>
@@ -101,9 +111,9 @@ namespace Lsj.Util.Net.Web
                     }
                 }
             }
-            request.UserAgent = UserAgent;
+            request.UserAgent = this.UserAgent;
             request.CookieContainer = this.cookicontainer;
-            request.UserAgent = UserAgent;
+            request.UserAgent = this.UserAgent;
 #if NETSTANDARD
             return request.GetResponseAsync().Result.GetResponseStream().ReadAllWithoutSeek();
 #else
@@ -111,22 +121,18 @@ namespace Lsj.Util.Net.Web
 #endif
 
         }
+
         /// <summary>
         /// Add Cookie
         /// </summary>
         /// <param name="cookie"></param>
-        public void AddCookie(System.Net.Cookie cookie)
-        {
-            this.cookicontainer.Add(cookie);
-        }
+        public void AddCookie(System.Net.Cookie cookie) => this.cookicontainer.Add(cookie);
+
         /// <summary>
-        /// 
+        /// GetCookies
         /// </summary>
         /// <param name="uri"></param>
         /// <returns></returns>
-        public CookieCollection GetCookie(Uri uri)
-        {
-            return this.cookicontainer.GetCookies(uri);
-        }
+        public CookieCollection GetCookies(Uri uri) => this.cookicontainer.GetCookies(uri);
     }
 }

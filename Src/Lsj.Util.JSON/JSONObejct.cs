@@ -1,9 +1,6 @@
 ﻿using Lsj.Util.Collections;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Text;
 
 namespace Lsj.Util.JSON
 {
@@ -12,7 +9,7 @@ namespace Lsj.Util.JSON
     /// </summary>
     public class JSONObejct : DynamicObject
     {
-        private SafeDictionary<string, object> data = new SafeDictionary<string, object>();
+        private readonly SafeDictionary<string, object> data = new SafeDictionary<string, object>();
 
         /// <summary>
         /// 
@@ -23,9 +20,9 @@ namespace Lsj.Util.JSON
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             var name = binder.Name;
-            if (data.ContainsKey(name))
+            if (this.data.ContainsKey(name))
             {
-                result = data[name];
+                result = this.data[name];
                 return true;
             }
             else
@@ -41,7 +38,7 @@ namespace Lsj.Util.JSON
         /// <returns></returns>
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            data[binder.Name] = value;
+            this.data[binder.Name] = value;
             return true;
         }
         /// <summary>
@@ -57,7 +54,7 @@ namespace Lsj.Util.JSON
             if (binder.Name == "Set" && args.Length == 2 && args[0] is string)
             {
                 result = null;
-                data[(string)args[0]] = args[1];
+                this.data[(string)args[0]] = args[1];
                 return true;
             }
             else
@@ -69,6 +66,6 @@ namespace Lsj.Util.JSON
         /// 
         /// </summary>
         /// <returns></returns>
-        public override IEnumerable<string> GetDynamicMemberNames() => data.Keys;
+        public override IEnumerable<string> GetDynamicMemberNames() => this.data.Keys;
     }
 }

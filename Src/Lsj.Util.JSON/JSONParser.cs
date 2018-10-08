@@ -282,7 +282,7 @@ namespace Lsj.Util.JSON
                     }
                     else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
                     {
-                        result = GetDecimal(ptr, ref index, length);
+                        result = GetNumberic(ptr, ref index, length);
                         status = Status.End;
                         break;
                     }
@@ -546,7 +546,7 @@ namespace Lsj.Util.JSON
             throw new InvalidDataException("Error JSON String. Not Complete.");
         }
 
-        private static unsafe decimal GetDecimal(char* ptr, ref int index, int length)
+        private static unsafe dynamic GetNumberic(char* ptr, ref int index, int length)
         {
             bool hasDot = false;
             bool hasNumber = false;
@@ -594,15 +594,40 @@ namespace Lsj.Util.JSON
             {
                 throw new InvalidDataException($"Error JSON string. Index = {index}");
             }
-            if (decimal.TryParse(sb.ToString(), out decimal result))
+            var strVal = sb.ToString();
+            index--;
+            if (!strVal.Contains("."))
             {
-                index--;
-                return result;
+                if (byte.TryParse(strVal, out byte byteVal))
+                {
+                    return byteVal;
+                }
+                else if (short.TryParse(strVal, out short shortVal))
+                {
+                    return shortVal;
+                }
+                else if (int.TryParse(strVal, out int intVal))
+                {
+                    return intVal;
+                }
+                else if (long.TryParse(strVal, out long longVal))
+                {
+                    return longVal;
+                }
+                else if (ulong.TryParse(strVal, out ulong ulongVal))
+                {
+                    return ulongVal;
+                }
+            }
+            if (decimal.TryParse(strVal, out decimal decimalVal))
+            {
+                return decimalVal;
             }
             else
             {
                 throw new InvalidDataException($"Error JSON string. Index = {index}");
             }
         }
+
     }
 }

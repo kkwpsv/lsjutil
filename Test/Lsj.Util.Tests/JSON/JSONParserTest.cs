@@ -61,19 +61,33 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(false, result.B);
         }
 
-        public class TestCustomObject
+
+        [TestMethod]
+        public void Parse_Dynamic()
         {
-            [CustomSerialize(Serializer = typeof(TestSerializer))]
-            public bool A { get; set; }
-            [CustomSerialize(Serializer = typeof(TestSerializer))]
-            public bool B { get; set; }
+            var result = JSONParser.Parse(@"{""A"":1,""B"":2,""D"":4}");
+            int d1 = result.D;
+            decimal d2 = result.D;
+            Assert.AreEqual(1, result.A);
+            Assert.AreEqual(2, result.B);
+            Assert.AreEqual(4, d1);
+            Assert.AreEqual(4m, d2);
         }
 
-        public class TestSerializer : ISerializer
-        {
-            public string Convert(object obj) => throw new NotImplementedException();
-            public object Parse(string str) => str == "Test";
-        }
+
+    }
+    public class TestCustomObject
+    {
+        [CustomSerialize(Serializer = typeof(TestSerializer))]
+        public bool A { get; set; }
+        [CustomSerialize(Serializer = typeof(TestSerializer))]
+        public bool B { get; set; }
+    }
+
+    public class TestSerializer : ISerializer
+    {
+        public string Convert(object obj) => throw new NotImplementedException();
+        public object Parse(string str) => str == "Test";
     }
 
     public class TestObject
