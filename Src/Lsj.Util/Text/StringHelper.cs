@@ -158,7 +158,11 @@ namespace Lsj.Util.Text
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static int ConvertToInt(this string src, int OnError) => ConvertToInt(src, OnError, int.MinValue, int.MaxValue);
-
+        /// <summary>
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// </summary>
+        public static int? ConvertToIntWithNull(this string src) => ConvertToIntWithNull(src, int.MinValue, int.MaxValue);
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
@@ -166,11 +170,18 @@ namespace Lsj.Util.Text
         /// <param name="min">Minimum Value</param>
         /// <param name="max">Maximum Value</param>
         /// </summary>
-        public static int ConvertToInt(this string src, int OnError, int min, int max)
+        public static int ConvertToInt(this string src, int OnError, int min, int max) => ConvertToIntWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Int
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static int? ConvertToIntWithNull(this string src, int min, int max)
         {
             if (!int.TryParse(src.ToSafeString(), out int i))
             {
-                return OnError;
+                return null;
             }
             return i < min ? min : i > max ? max : i;
         }
@@ -186,7 +197,11 @@ namespace Lsj.Util.Text
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError) => ConvertToByte(src, OnError, byte.MinValue, byte.MaxValue);
-
+        /// <summary>
+        /// Convert String To Byte
+        /// <param name="src">Source String</param>
+        /// </summary>
+        public static byte? ConvertToByteWithNull(this string src) => ConvertToByteWithNull(src, byte.MinValue, byte.MaxValue);
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
@@ -194,14 +209,22 @@ namespace Lsj.Util.Text
         /// <param name="min">Minimum Value</param>
         /// <param name="max">Maximum Value</param>
         /// </summary>
-        public static byte ConvertToByte(this string src, byte OnError, byte min, byte max)
+        public static byte ConvertToByte(this string src, byte OnError, byte min, byte max) => ConvertToByteWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Byte
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static byte? ConvertToByteWithNull(this string src, byte min, byte max)
         {
-            if (!byte.TryParse(src, out byte i))
+            if (!byte.TryParse(src.ToSafeString(), out byte i))
             {
-                return OnError;
+                return null;
             }
             return i < min ? min : i > max ? max : i;
         }
+
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
@@ -216,47 +239,31 @@ namespace Lsj.Util.Text
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
+        /// </summary>
+        public static long? ConvertToLongWithNull(this string src) => ConvertToLongWithNull(src, long.MinValue, long.MaxValue);
+        /// <summary>
+        /// Convert String To Long
+        /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param>
         /// <param name="min">Minimum Value</param>
         /// <param name="max">Maximum Value</param>
         /// </summary>
-        public static long ConvertToLong(this string src, long OnError, long min, long max)
+        public static long ConvertToLong(this string src, long OnError, long min, long max) => ConvertToLongWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Long
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static long? ConvertToLongWithNull(this string src, long min, long max)
         {
-            if (!long.TryParse(src, out long i))
+            if (!long.TryParse(src.ToSafeString(), out long i))
             {
-                return OnError;
+                return null;
             }
             return i < min ? min : i > max ? max : i;
         }
-        /// <summary>
-        /// Convert String To Decimal
-        /// <param name="src">Source String</param>
-        /// </summary>
-        public static decimal ConvertToDecimal(this string src) => ConvertToDecimal(src, 0);
-        /// <summary>
-        /// Convert String To Decimal
-        /// <param name="src">Source String</param>
-        /// <param name="OnError">On Error Return</param> 
-        /// </summary>
-        public static decimal ConvertToDecimal(this string src, decimal OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
 
-        /// <summary>
-        /// Convert String To Decimal
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="OnError"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-
-        public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min, decimal max)
-        {
-            if (!decimal.TryParse(src, out var i))
-            {
-                return OnError;
-            }
-            return i < min ? min : i > max ? max : i;
-
-        }
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
@@ -270,47 +277,110 @@ namespace Lsj.Util.Text
         public static float ConvertToFloat(this string src, float OnError) => ConvertToFloat(src, OnError, float.MinValue, float.MaxValue);
         /// <summary>
         /// Convert String To Float
+        /// <param name="src">Source String</param>
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="OnError"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-
-        public static float ConvertToFloat(this string src, float OnError, float min, float max)
+        public static float? ConvertToFloatWithNull(this string src) => ConvertToFloatWithNull(src, float.MinValue, float.MaxValue);
+        /// <summary>
+        /// Convert String To Float
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static float ConvertToFloat(this string src, float OnError, float min, float max) => ConvertToFloatWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Float
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static float? ConvertToFloatWithNull(this string src, float min, float max)
         {
-            if (!float.TryParse(src, out float i))
+            if (!float.TryParse(src.ToSafeString(), out float i))
             {
-                return OnError;
+                return null;
             }
             return i < min ? min : i > max ? max : i;
         }
+
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
         /// </summary>
         public static double ConvertToDouble(this string src) => ConvertToDouble(src, 0);
         /// <summary>
-        /// Convert String To Float
+        /// Convert String To Double
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
-        public static double ConvertToDouble(this string src, double OnError) => ConvertToDouble(src, OnError, float.MinValue, float.MaxValue);
+        public static double ConvertToDouble(this string src, double OnError) => ConvertToDouble(src, OnError, double.MinValue, double.MaxValue);
         /// <summary>
         /// Convert String To Double
+        /// <param name="src">Source String</param>
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="OnError"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-
-        public static double ConvertToDouble(this string src, double OnError, double min, double max)
+        public static double? ConvertToDoubleWithNull(this string src) => ConvertToDoubleWithNull(src, double.MinValue, double.MaxValue);
+        /// <summary>
+        /// Convert String To Double
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static double ConvertToDouble(this string src, double OnError, double min, double max) => ConvertToDoubleWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Double
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static double? ConvertToDoubleWithNull(this string src, double min, double max)
         {
-            if (!double.TryParse(src, out double i))
+            if (!double.TryParse(src.ToSafeString(), out double i))
             {
-                return OnError;
+                return null;
             }
             return i < min ? min : i > max ? max : i;
         }
+
+        /// <summary>
+        /// Convert String To Decimal
+        /// <param name="src">Source String</param>
+        /// </summary>
+        public static decimal ConvertToDecimal(this string src) => ConvertToDecimal(src, 0);
+        /// <summary>
+        /// Convert String To Decimal
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param> 
+        /// </summary>
+        public static decimal ConvertToDecimal(this string src, decimal OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
+        /// <summary>
+        /// Convert String To Decimal
+        /// <param name="src">Source String</param>
+        /// </summary>
+        public static decimal? ConvertToDecimalWithNull(this string src) => ConvertToDecimalWithNull(src, decimal.MinValue, decimal.MaxValue);
+        /// <summary>
+        /// Convert String To Decimal
+        /// <param name="src">Source String</param>
+        /// <param name="OnError">On Error Return</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min, decimal max) => ConvertToDecimalWithNull(src, min, max) ?? OnError;
+        /// <summary>
+        /// Convert String To Decimal
+        /// <param name="src">Source String</param>
+        /// <param name="min">Minimum Value</param>
+        /// <param name="max">Maximum Value</param>
+        /// </summary>
+        public static decimal? ConvertToDecimalWithNull(this string src, decimal min, decimal max)
+        {
+            if (!decimal.TryParse(src.ToSafeString(), out decimal i))
+            {
+                return null;
+            }
+            return i < min ? min : i > max ? max : i;
+        }
+
         /// <summary>
         /// Avoid Null String
         /// <param name="src">Source String</param>
