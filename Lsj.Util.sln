@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.XML", "Src\Lsj.Uti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.APIs.Alipay", "Src\Lsj.Util.APIs.Alipay\Lsj.Util.APIs.Alipay.csproj", "{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.WPF", "Src\Lsj.Util.WPF\Lsj.Util.WPF.csproj", "{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +108,10 @@ Global
 		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +132,7 @@ Global
 		{2B949EE5-C031-444A-8A9F-8D8F1A016DC5} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 		{9B14A672-0061-4843-B1DC-24ED855A2A60} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 		{5B58F5D5-74F1-4A81-9166-2A06BDD4FAB5} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
+		{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE} = {69ABA086-5419-482D-8DC3-CAEB32B04E49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {41B6C56A-B106-48AE-99EE-350C9D3DF789}
