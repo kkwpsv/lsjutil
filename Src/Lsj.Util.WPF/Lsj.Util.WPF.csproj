@@ -1,13 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>My Utility For WPF</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7\System.ComponentModel.DataAnnotations.dll</HintPath>
     </Reference>
