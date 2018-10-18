@@ -1,7 +1,7 @@
-﻿using Lsj.Util.Text;
+﻿using Lsj.Util.Reflection;
+using Lsj.Util.Text;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -72,48 +72,15 @@ namespace Lsj.Util.JSON
             {
                 var result = new StringBuilder();
                 char symbol;
-                bool isDic = false;
+                bool flag = false;
 
-
-                if (val is IEnumerable && !(isDic = (val is IDictionary)) && !(isDic = (val.GetType().GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)))))
+                if (val is IEnumerable e)
                 {
-                    symbol = '[';
-                    result.Append(symbol);
-                    bool flag = false;
-                    foreach (var value in val as IEnumerable)
+                    if (val.IsDictionary())
                     {
-                        flag = true;
-                        result.Append(ConvertToJSONString(value) + ",");
-                    }
-                    if (flag)
-                    {
-                        result.RemoveLastOne();
-                    }
-
-                }
-                else
-                {
-                    symbol = '{';
-                    result.Append(symbol);
-                    bool flag = false;
-                    if (val is DynamicObject)
-                    {
-                        var x = (val as DynamicObject);
-                        var properties = x.GetDynamicMemberNames();
-                        foreach (var property in properties)
-                        {
-                            flag = true;
-                            var value = DynamicHelper.GetMember(x, property);
-                            result.Append($@"""{property}"":{ConvertToJSONString(value)},");
-                        }
-                        if (flag)
-                        {
-                            result.RemoveLastOne();
-                        }
-                    }
-                    else if (isDic)
-                    {
-                        foreach (dynamic a in (IEnumerable)val)
+                        symbol = '{';
+                        result.Append(symbol);
+                        foreach (dynamic a in e)
                         {
                             flag = true;
                             result.Append($@"""{a.Key}"":{ConvertToJSONString(a.Value)},");
@@ -125,13 +92,47 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        var properties = val.GetType().GetProperties().Where(x => !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any());
+                        symbol = '[';
+                        result.Append(symbol);
+                        foreach (var value in e)
+                        {
+                            flag = true;
+                            result.Append(ConvertToJSONString(value) + ",");
+                        }
+                        if (flag)
+                        {
+                            result.RemoveLastOne();
+                        }
+                    }
+                }
+                else
+                {
+                    symbol = '{';
+                    result.Append(symbol);
+                    if (val is DynamicObject dynamicObject)
+                    {
+                        var properties = dynamicObject.GetDynamicMemberNames();
+                        foreach (var property in properties)
+                        {
+                            flag = true;
+                            var value = dynamicObject.GetMember(property);
+                            result.Append($@"""{property}"":{ConvertToJSONString(value)},");
+                        }
+                        if (flag)
+                        {
+                            result.RemoveLastOne();
+                        }
+                    }
+                    else
+                    {
+                        var properties = val.GetType().GetProperties().Where(x => !x.HasAttribute<NotSerializeAttribute>());
                         foreach (var property in properties)
                         {
                             flag = true;
                             var name = property.Name;
                             string value = "";
-                            if (property.GetCustomAttributes(typeof(CustomSerializeAttribute), true).FirstOrDefault() is CustomSerializeAttribute customSerializeAttribute)
+                            var customSerializeAttribute = property.GetAttribute<CustomSerializeAttribute>();
+                            if (customSerializeAttribute != null)
                             {
                                 if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
                                 {

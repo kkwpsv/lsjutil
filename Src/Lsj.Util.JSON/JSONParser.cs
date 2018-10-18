@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Logs;
+using Lsj.Util.Reflection;
 using Lsj.Util.Text;
 using System;
 using System.Collections;
@@ -88,7 +89,7 @@ namespace Lsj.Util.JSON
                         }
                         if (index != length - 1)
                         {
-                            throw new InvalidDataException($"Error JSON string. Index = {index}");
+                            throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                         }
                     }
                     return result;
@@ -127,7 +128,7 @@ namespace Lsj.Util.JSON
                         }
                         if (index != length - 1)
                         {
-                            throw new InvalidDataException($"Error JSON string. Index = {index}");
+                            throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                         }
                     }
                     return result;
@@ -165,15 +166,15 @@ namespace Lsj.Util.JSON
                 isDynamic = false;
                 if (type != typeof(string))
                 {
-                    isDic = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
-                    isList = type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)) || x == typeof(IList));
+                    isDic = type.IsDictionary();
+                    isList = type.IsList();
                     if (isDic)
                     {
-                        genericDicType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)).FirstOrDefault();
+                        genericDicType = type.GetGenericType(typeof(IDictionary<,>));
                     }
                     else if (isList)
                     {
-                        genericListType = type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)).FirstOrDefault();
+                        genericListType = type.GetGenericType(typeof(IList<>));
                     }
                     else
                     {
@@ -189,7 +190,7 @@ namespace Lsj.Util.JSON
                             }
                             else
                             {
-                                result = Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(genericDicType.GetGenericArguments()[0], genericDicType.GetGenericArguments()[1]));
+                                result = ReflectionHelper.CreateDictionaryOfType(genericDicType.GetGenericArguments()[0], genericDicType.GetGenericArguments()[1]);
                             }
                         }
                         else if (isList)
@@ -200,7 +201,7 @@ namespace Lsj.Util.JSON
                             }
                             else
                             {
-                                result = Activator.CreateInstance(typeof(List<>).MakeGenericType(genericListType.GetGenericArguments()[0]));
+                                result = ReflectionHelper.CreateListOfType(genericListType.GetGenericArguments()[0]);
                             }
                         }
                     }
@@ -210,7 +211,7 @@ namespace Lsj.Util.JSON
                         {
                             isStruct = true;
                         }
-                        result = Activator.CreateInstance(type);
+                        result = ReflectionHelper.CreateInstance(type);
                     }
                 }
             }
@@ -295,7 +296,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}");
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (status == Status.wantName)//名称
@@ -311,7 +312,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}");
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (status == Status.wantValue)//值
@@ -348,7 +349,7 @@ namespace Lsj.Util.JSON
                             }
                             else//Object
                             {
-                                var property = properties.Where(x => x.Name == name && !x.GetCustomAttributes(typeof(NotSerializeAttribute), true).Any()).FirstOrDefault();
+                                var property = properties.Where(x => x.Name == name && !x.HasAttribute<NonSerializedAttribute>()).FirstOrDefault();
                                 if (property != null)
                                 {
                                     object value;
@@ -436,7 +437,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}");
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
             }
@@ -564,7 +565,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}");
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (c >= '0' && c <= '9')
@@ -577,7 +578,7 @@ namespace Lsj.Util.JSON
                 {
                     if (index != start)
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}");
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                     else
                     {
@@ -592,7 +593,7 @@ namespace Lsj.Util.JSON
             }
             if (!hasNumber)
             {
-                throw new InvalidDataException($"Error JSON string. Index = {index}");
+                throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
             var strVal = sb.ToString();
             index--;
@@ -625,9 +626,8 @@ namespace Lsj.Util.JSON
             }
             else
             {
-                throw new InvalidDataException($"Error JSON string. Index = {index}");
+                throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
         }
-
     }
 }
