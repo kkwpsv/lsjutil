@@ -10,7 +10,10 @@ namespace Lsj.Util.Tests.JSON
     public class JSONConverterTest
     {
         [TestMethod]
-        public void Convert_Dictionary() => Assert.AreEqual(@"{""test"":1}", JSONConverter.ConvertToJSONString(new Dictionary<string, int> { { "test", 1 } }));
+        public void Convert_Dictionary()
+        {
+            Assert.AreEqual(@"{""test"":1}", JSONConverter.ConvertToJSONString(new Dictionary<string, int> { { "test", 1 } }));
+        }
 
         [TestMethod]
         public void Convert_ExpandoObject()
@@ -21,10 +24,16 @@ namespace Lsj.Util.Tests.JSON
         }
 
         [TestMethod]
-        public void Convert_DateTime() => Assert.AreEqual(@"""2000\/01\/01 00:00:00""", JSONConverter.ConvertToJSONString(new DateTime(2000, 1, 1, 0, 0, 0)));
+        public void Convert_DateTime()
+        {
+            Assert.AreEqual(@"""2000\/01\/01 00:00:00""", JSONConverter.ConvertToJSONString(new DateTime(2000, 1, 1, 0, 0, 0)));
+        }
 
         [TestMethod]
-        public void Convert_Custom() => Assert.AreEqual(@"{""A"":1Test}", JSONConverter.ConvertToJSONString(new TestObj { A = 1 }));
+        public void Convert_Custom()
+        {
+            Assert.AreEqual(@"{""A"":1Test}", JSONConverter.ConvertToJSONString(new TestObj { A = 1 }));
+        }
 
         public class TestObj
         {

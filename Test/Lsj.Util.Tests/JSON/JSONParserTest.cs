@@ -36,6 +36,10 @@ namespace Lsj.Util.Tests.JSON
 
             var result2 = JSONParser.Parse<List<int>>("[]");
             Assert.AreEqual(0, result2.Count);
+
+            var result3 = JSONParser.Parse("[]");
+            Assert.AreEqual(typeof(JSONArray), result3.GetType());
+            Assert.AreEqual(0, result3.Count);
         }
 
         [TestMethod]
