@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lsj.Util
+﻿namespace Lsj.Util
 {
     /// <summary>
     /// UnsafeHelper
     /// </summary>
-    public unsafe static class UnsafeHelper
+    public static unsafe class UnsafeHelper
     {
         /// <summary>
         /// Contact

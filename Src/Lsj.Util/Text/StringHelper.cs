@@ -561,7 +561,44 @@ namespace Lsj.Util.Text
         /// <param name="src"></param>
         public static bool IsNullOrEmpty(this string src) => string.IsNullOrEmpty(src);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="index">char index</param>
+        /// <param name="count">surrounding count</param>
+        /// <returns></returns>
+        public static string GetSurroundingChars(this string str, int index, int count)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentNullException("index must be larger than 0");
+            }
+            var start = index - count;
+            start = start < 0 ? 0 : start;
+            return str.SubstringIgnoreOverFlow(start, index - start + count + 1);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="length"></param>
+        /// <param name="index">char index</param>
+        /// <param name="count">surrounding count</param>
+        /// <returns></returns>
+       public static unsafe string GetSurroundingChars(char* str, int length, int index, int count)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentNullException("index must be larger than 0");
+            }
+            var start = index - count;
+            start = start < 0 ? 0 : start;
+            var end = index + count;
+            end = end > length ? length : end;
+            return new string(str, start, end - start + 1);
+        }
 
     }
 }

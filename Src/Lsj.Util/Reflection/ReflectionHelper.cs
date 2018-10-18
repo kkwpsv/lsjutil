@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Lsj.Util.Logs;
 
 namespace Lsj.Util.Reflection
 {
@@ -17,6 +16,15 @@ namespace Lsj.Util.Reflection
         /// </summary>
         /// <param name="type">Type</param>
         public static FieldInfo[] GetAllNonPublicField(this Type type) => type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+        /// <summary>
+        /// Has Attribute
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T>(this MemberInfo member) where T : Attribute => member.GetCustomAttributes(typeof(T), true).Any();
+
         /// <summary>
         /// Get Attribute
         /// </summary>
@@ -28,6 +36,7 @@ namespace Lsj.Util.Reflection
             return (T)x.FirstOrDefault();
 
         }
+
         /// <summary>
         /// Create Instance
         /// </summary>
@@ -35,6 +44,7 @@ namespace Lsj.Util.Reflection
         /// <param name="param">param</param>
         /// <returns></returns>
         public static T CreateInstance<T>(params object[] param) => CreateInstance<T>(typeof(T), param);
+
         /// <summary>
         /// Create Instance
         /// </summary>
@@ -53,6 +63,15 @@ namespace Lsj.Util.Reflection
                 throw new InvalidCastException("Error Type");
             }
         }
+
+        /// <summary>
+        /// Create Instance
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <param name="param">param</param>
+        /// <returns></returns>
+        public static object CreateInstance(this Type type, params object[] param) => Activator.CreateInstance(type, param);
+
         /// <summary>
         /// Get Type Name
         /// </summary>
@@ -72,14 +91,55 @@ namespace Lsj.Util.Reflection
                 return type.Name;
             }
         }
+
+        /// <summary>
+        /// Is IDictionary or IDictionary&lt;,&gt;
+        /// </summary>
+        /// <param name="obj">obj</param>
+        /// <returns></returns>
+        public static bool IsDictionary(this object obj) => IsDictionary(obj.GetType());
+        /// <summary>
+        /// Is IDictionary or IDictionary&lt;,&gt;
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <returns></returns>
+        public static bool IsDictionary(this Type type) => type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)) || x == typeof(IDictionary));
+
+        /// <summary>
+        /// Is IList or IList&lt;&gt;
+        /// </summary>
+        /// <param name="obj">obj</param>
+        /// <returns></returns>
+        public static bool IsList(this object obj) => IsList(obj.GetType());
+        /// <summary>
+        /// Is IList or IList&lt;&gt;
+        /// </summary>
+        /// <param name="type">type</param>
+        /// <returns></returns>
+        public static bool IsList(this Type type) => type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)) || x == typeof(IList));
+
+
+
         /// <summary>
         /// Create List Of Type
         /// </summary>
         /// <param name="type">type</param>
         /// <returns></returns>
-        public static object CreateListOfType(this Type type)
-        {
-            return Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
-        }
+        public static object CreateListOfType(this Type type) => Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
+        /// <summary>
+        /// Create List Of Type
+        /// </summary>
+        ///<param name="typeKey"></param>
+        ///<param name="typeValue"></param>
+        /// <returns></returns>
+        public static object CreateDictionaryOfType(this Type typeKey, Type typeValue) => Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(typeKey, typeValue));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="genericTypeDefinition"></param>
+        /// <returns></returns>
+        public static Type GetGenericType(this Type type, Type genericTypeDefinition) => type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericTypeDefinition).FirstOrDefault();
     }
 }
