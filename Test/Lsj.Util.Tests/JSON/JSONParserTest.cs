@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Lsj.Util.Tests.JSON
 {
@@ -15,6 +16,10 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(null, JSONParser.Parse(null));
             Assert.AreEqual(0, JSONParser.Parse<int>(""));
             Assert.AreEqual(0, JSONParser.Parse<int>(null));
+
+            var nullobj = JSONParser.Parse("{}");
+            Assert.AreEqual(0, (nullobj as JSONObejct).GetDynamicMemberNames().Count());
+
         }
 
         [TestMethod]
