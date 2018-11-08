@@ -7,6 +7,10 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
     public class TransferQueryResult : BaseJsonResult
     {
+        public TransferQueryResult(AlipayPayAPI alipayPayAPI) : base(alipayPayAPI)
+        {
+        }
+
         public string OrderNo { get; private set; }
         public string TradeNo { get; private set; }
         public TransferState TradeState { get; private set; }

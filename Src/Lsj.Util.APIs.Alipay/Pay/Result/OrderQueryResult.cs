@@ -1,12 +1,13 @@
-﻿using Lsj.Util.JSON;
-using Lsj.Util.Text;
-using System;
-using System.Text;
+﻿using System;
 
 namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
     public class OrderQueryResult : BaseJsonResult
     {
+        public OrderQueryResult(AlipayPayAPI alipayPayAPI) : base(alipayPayAPI)
+        {
+        }
+
         public string OrderNo { get; private set; }
         public string TradeNo { get; private set; }
         public int TotalFee { get; private set; }

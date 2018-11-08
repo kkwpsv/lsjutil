@@ -15,23 +15,15 @@ namespace Lsj.Util.APIs.Alipay.Pay
         private readonly RSACryptoServiceProvider rsa;
 
 
-        public static RSACryptoServiceProvider PublicRsa { get; private set; }
+        public RSACryptoServiceProvider PublicRsa { get; private set; }
 
-        static AlipayPayAPI()
-        {
-            PublicRsa = new RSACryptoServiceProvider();
-            PublicRsa.ImportParameters(new RSAParameters
-            {
-                Modulus = Convert.FromBase64String("g5uTaAlLnL8aeEjliqvGaNTuyXc5JK4gKgMUdY/k0DRL2dj3NOapIQTmseS1ows3ak0W3m2mHsRvMIjsWRq10hcGhluIMp3LxuWfPx4EfGYTrxVVne95nec9XmU+c2mOoQjUhqXMqVrdmsGfU9+GQMxs7j3nkBpNoBWvUAk9xKUswg/PTKC7xBlRuHGTMUkEXS42GInc3VLSILMiLQvqU4pD/Zv0Xkc6imkn5Fc3Tem6q+WigcITI53URQKDjdz7WVPBWJ5SQbA28Vw6AmooVSXyreAx1x+AYKrmscxz0DCz4CNJkIME4k1LlWepL9VLIF08EuvMnRuNLyu2vwgN2w=="),
-                Exponent = Convert.FromBase64String("AQAB")
-            });
-        }
-
-        public AlipayPayAPI(string appID, RSAParameters rsaKey)
+        public AlipayPayAPI(string appID, RSAParameters rsaKey, RSAParameters rsaPublicKey)
         {
             this.appid = appID;
             this.rsa = new RSACryptoServiceProvider();
             this.rsa.ImportParameters(rsaKey);
+            this.PublicRsa = new RSACryptoServiceProvider();
+            this.PublicRsa.ImportParameters(rsaPublicKey);
         }
 
         protected override void CleanUpManagedResources()
@@ -40,7 +32,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             base.CleanUpManagedResources();
         }
 
-        private AlipayPayData BuildBaseData() => new AlipayPayData
+        private AlipayPayData BuildBaseData() => new AlipayPayData(this)
         {
             ["app_id"] = this.appid,
             ["format"] = "JSON",
@@ -61,7 +53,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
         /// <param name="payMode">支付模式</param>
         /// <param name="qrcodeWidth">二维码宽度</param>
         /// <returns></returns>
-        public AlipayPayData PCPay(string returnUrl, string notifyUrl, string orderNo, int totalFee, string subject, string body = null, bool isVirtual = false, PayMode payMode = PayMode.Jump, int qrcodeWidth = 50)
+        public AlipayPayData PCPay(string returnUrl, string notifyUrl, string orderNo, int totalFee, string subject, string body = null, bool isVirtual = false, PCPayMode payMode = PCPayMode.Jump, int qrcodeWidth = 50)
         {
             if (orderNo.IsNullOrEmpty())
             {
@@ -110,7 +102,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             {
                 extra.goods_type = 1;
             }
-            if (payMode == PayMode.Embedded)
+            if (payMode == PCPayMode.Embedded)
             {
                 extra.qrcode_width = qrcodeWidth.ToString();
             }
@@ -226,7 +218,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
-            var result = new OrderQueryResult();
+            var result = new OrderQueryResult(this);
             result.Parse(jsonResult);
             return result;
         }
@@ -297,7 +289,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
-            var result = new TransferToAccountResult();
+            var result = new TransferToAccountResult(this);
             result.Parse(jsonResult);
             return result;
         }
@@ -333,7 +325,114 @@ namespace Lsj.Util.APIs.Alipay.Pay
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
 
-            var result = new TransferQueryResult();
+            var result = new TransferQueryResult(this);
+            result.Parse(jsonResult);
+            return result;
+        }
+
+        /// <summary>
+        /// 付款码支付
+        /// </summary>
+        /// <param name="authcode">付款码</param>
+        /// <param name="notifyUrl">通知URL</param>
+        /// <param name="orderNo">商户单号</param>
+        /// <param name="totalFee">金额</param>
+        /// <param name="subject">标题</param>
+        /// <param name="body">描述</param>
+        /// <returns></returns>
+        public PaymentCodePayResult PaymentCodePay(string authcode, string notifyUrl, string orderNo, int totalFee, string subject, string body = null)
+        {
+            if (orderNo.IsNullOrEmpty())
+            {
+                throw new ArgumentException("orderNo cannot be null or empty");
+            }
+            if (orderNo.Length > 64)
+            {
+                throw new ArgumentException("orderNo too long");
+            }
+            if (subject.IsNullOrEmpty())
+            {
+                throw new ArgumentException("subject cannot be null or empty");
+            }
+            if (subject.Length > 256)
+            {
+                throw new ArgumentException("subject too long");
+            }
+
+            var data = this.BuildBaseData();
+            if (!notifyUrl.IsNullOrEmpty())
+            {
+                data["notify_url"] = notifyUrl;
+            }
+            data["method"] = "alipay.trade.pay";
+            dynamic extra = new ExpandoObject();
+            extra.auth_code = authcode;
+            extra.out_trade_no = orderNo;
+            extra.scene = "bar_code";
+            extra.product_code = "FACE_TO_FACE_PAYMENT";
+            extra.total_amount = (decimal)totalFee / 100;
+            extra.subject = subject;
+            if (!body.IsNullOrEmpty())
+            {
+                extra.body = body;
+            }
+            data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
+            data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            data.DoSign(this.rsa);
+            var webClient = new WebHttpClient();
+            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
+            var result = new PaymentCodePayResult(this);
+            result.Parse(jsonResult);
+            return result;
+        }
+        /// <summary>
+        /// 扫码支付
+        /// </summary>
+        /// <param name="notifyUrl">通知URL</param>
+        /// <param name="orderNo">商户单号</param>
+        /// <param name="totalFee">金额</param>
+        /// <param name="subject">标题</param>
+        /// <param name="body">描述</param>
+        /// <returns></returns>
+        public ScanPayResult ScanPay(string notifyUrl, string orderNo, int totalFee, string subject, string body = null)
+        {
+            if (orderNo.IsNullOrEmpty())
+            {
+                throw new ArgumentException("orderNo cannot be null or empty");
+            }
+            if (orderNo.Length > 64)
+            {
+                throw new ArgumentException("orderNo too long");
+            }
+            if (subject.IsNullOrEmpty())
+            {
+                throw new ArgumentException("subject cannot be null or empty");
+            }
+            if (subject.Length > 256)
+            {
+                throw new ArgumentException("subject too long");
+            }
+
+            var data = this.BuildBaseData();
+            if (!notifyUrl.IsNullOrEmpty())
+            {
+                data["notify_url"] = notifyUrl;
+            }
+            data["method"] = "alipay.trade.precreate";
+            dynamic extra = new ExpandoObject();
+            extra.out_trade_no = orderNo;
+            extra.total_amount = (decimal)totalFee / 100;
+            extra.subject = subject;
+            if (!body.IsNullOrEmpty())
+            {
+                extra.body = body;
+            }
+            data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
+            data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            data.DoSign(this.rsa);
+            var webClient = new WebHttpClient();
+            var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
+            var result = new ScanPayResult(this);
             result.Parse(jsonResult);
             return result;
         }
@@ -357,7 +456,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
     /// <summary>
     /// 支付模式
     /// </summary>
-    public enum PayMode
+    public enum PCPayMode
     {
         /// <summary>
         /// 简约前置

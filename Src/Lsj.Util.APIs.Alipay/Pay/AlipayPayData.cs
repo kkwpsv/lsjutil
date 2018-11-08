@@ -10,12 +10,10 @@ namespace Lsj.Util.APIs.Alipay.Pay
 {
     public class AlipayPayData : SafeDictionary<string, string>
     {
-        public AlipayPayData() : base()
-        {
-        }
-        public AlipayPayData(Dictionary<string, string> src) : base(src)
-        {
-        }
+        private readonly AlipayPayAPI alipayPayAPI;
+
+        public AlipayPayData(AlipayPayAPI alipayPayAPI) : base() => this.alipayPayAPI = alipayPayAPI;
+        public AlipayPayData(Dictionary<string, string> src) : base(src) => this.alipayPayAPI = alipayPayAPI;
 
         public void DoSign(RSACryptoServiceProvider rsa)
         {
@@ -42,7 +40,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             tosign.RemoveLastOne();
 
-            return AlipayPayAPI.PublicRsa.VerifyData(tosign.ToString().ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this["sign"]));
+            return this.alipayPayAPI.PublicRsa.VerifyData(tosign.ToString().ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this["sign"]));
         }
 
         public string ToQueryString()

@@ -7,9 +7,13 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
     public class BaseJsonResult : BaseResult
     {
+        public BaseJsonResult(AlipayPayAPI alipayPayAPI) => this.alipayPayAPI = alipayPayAPI;
+
         public override bool Status => base.Status && this.ResultCode == "10000";
         public string ResultCode { get; private set; } = "-1";
         public string SubErrorString { get; private set; }
+
+        private readonly AlipayPayAPI alipayPayAPI;
 
         protected virtual string NodeName => "";
 
@@ -17,6 +21,7 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
         protected dynamic jsonObj;
         protected string tosign;
         protected string sign;
+
 
         public override void Parse(string str)
         {
@@ -55,6 +60,6 @@ namespace Lsj.Util.APIs.Alipay.Pay.Result
             }
 
         }
-        protected override bool CheckSign() => AlipayPayAPI.PublicRsa.VerifyData(this.tosign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this.sign));
+        protected override bool CheckSign() => this.alipayPayAPI.PublicRsa.VerifyData(this.tosign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this.sign));
     }
 }
