@@ -2,6 +2,7 @@
 
 namespace Lsj.Util.JSON
 {
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class CustomSerializeAttribute : Attribute
     {
         public Type Serializer { get; set; }

@@ -218,6 +218,7 @@ namespace Lsj.Util.JSON
 
 
             string name = null;
+            bool isWantNameFirst = false;
 
             for (; index < length; index++)
             {
@@ -232,6 +233,7 @@ namespace Lsj.Util.JSON
                     {
                         symbol = c;
                         status = Status.wantName;
+                        isWantNameFirst = true;
                         if (isDynamic)
                         {
                             result = new JSONObejct();
@@ -301,8 +303,25 @@ namespace Lsj.Util.JSON
                 }
                 else if (status == Status.wantName)//名称
                 {
-                    name = GetString(ptr, ref index, length);
-                    status = Status.wantColon;
+                    if (isWantNameFirst)
+                    {
+                        isWantNameFirst = false;
+                        if (*(ptr + index) == '}')
+                        {
+                            status = Status.End;
+                            break;
+                        }
+                    }
+                    if (*(ptr + index) != '"')
+                    {
+                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                    }
+                    else
+                    {
+                        name = GetString(ptr, ref index, length);
+                        status = Status.wantColon;
+                    }
+
                 }
                 else if (status == Status.wantColon)//冒号
                 {
