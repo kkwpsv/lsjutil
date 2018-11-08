@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 
 namespace Lsj.Util.Collections
 {
@@ -17,22 +14,22 @@ namespace Lsj.Util.Collections
         /// </summary>
         public struct DoubleLinkListEnumerator : IEnumerator<T>, IEnumerator
         {
-            DoubleLinkList<T> linklist;
-            DoubleLinkListNode<T> current;
-            int last;
+            private readonly DoubleLinkList<T> linklist;
+            private DoubleLinkListNode<T> current;
+            private readonly int last;
+
             internal DoubleLinkListEnumerator(DoubleLinkList<T> linklist)
             {
                 this.linklist = linklist;
                 this.last = linklist.Count - 1;
                 this.current = null;
             }
+
             /// <summary>
             /// Dispose
             /// </summary>
-            public void Dispose()
-            {
+            public void Dispose() => Static.DoNothing();
 
-            }
             /// <summary>
             /// Move To Next
             /// </summary>
@@ -56,6 +53,7 @@ namespace Lsj.Util.Collections
                     }
                 }
             }
+
             /// <summary>
             /// Reset
             /// </summary>
@@ -64,25 +62,13 @@ namespace Lsj.Util.Collections
                 current = null;
             }
 
-            T IEnumerator<T>.Current
-            {
-                get
-                {
-                    return current.Value;
-                }
-            }
-            Object IEnumerator.Current
-            {
-                get
-                {
-                    return current.Value;
-                }
-            }
+            T IEnumerator<T>.Current => current.Value;
 
-
-
+            Object IEnumerator.Current => current.Value;
         }
+
         private DoubleLinkListNode<T> child;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.DoubleLinkList{T}"/> class.
         /// </summary>
@@ -90,6 +76,7 @@ namespace Lsj.Util.Collections
         {
             this.child = null;
         }
+
         /// <summary>
         /// Get or Set the item at the specified index
         /// Random Access will be SLOW
@@ -148,6 +135,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Count
         /// May be SLOW
@@ -170,10 +158,12 @@ namespace Lsj.Util.Collections
                 return result;
             }
         }
+
         /// <summary>
         /// Is Readonly
         /// </summary>
         public bool IsReadOnly => false;
+
         /// <summary>
         /// Add a item
         /// May be SLOW
@@ -203,6 +193,7 @@ namespace Lsj.Util.Collections
                 };
             }
         }
+
         /// <summary>
         /// Clear the list
         /// </summary>
@@ -210,6 +201,7 @@ namespace Lsj.Util.Collections
         {
             this.child = null;
         }
+
         /// <summary>
         /// If contain the specified item
         /// </summary>
@@ -234,6 +226,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Copy to
         /// </summary>
@@ -254,12 +247,13 @@ namespace Lsj.Util.Collections
                 current = current.Next;
                 index++;
             }
-
         }
+
         /// <summary>
         /// Get the enumerator
         /// </summary>
         public IEnumerator<T> GetEnumerator() => new DoubleLinkListEnumerator(this);
+
         /// <summary>
         /// Get the index of the item
         /// </summary>
@@ -286,6 +280,7 @@ namespace Lsj.Util.Collections
                 return -1;
             }
         }
+
         /// <summary>
         /// Insert the specified item
         /// May be slow
@@ -330,6 +325,7 @@ namespace Lsj.Util.Collections
             }
             throw new ArgumentOutOfRangeException();
         }
+
         /// <summary>
         /// Remove first of the specified item.
         /// </summary>
@@ -362,6 +358,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Removes the item at specified index.
         /// </summary>
@@ -402,9 +399,8 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class DoubleLinkListNode<T>
     {
-        internal DoubleLinkListNode()
-        {
-        }
+        internal DoubleLinkListNode() => Static.DoNothing();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DoubleLinkListNode{T}"/> class.
         /// </summary>
@@ -413,6 +409,7 @@ namespace Lsj.Util.Collections
         {
             this.List = list ?? throw new ArgumentNullException();
         }
+
         /// <summary>
         /// The DoubleLinkList
         /// </summary>
@@ -421,6 +418,7 @@ namespace Lsj.Util.Collections
             get;
             private set;
         }
+
         /// <summary>
         /// The Value
         /// </summary>
@@ -429,6 +427,7 @@ namespace Lsj.Util.Collections
             get;
             set;
         }
+
         /// <summary>
         /// Next Node
         /// </summary>
@@ -437,6 +436,7 @@ namespace Lsj.Util.Collections
             get;
             internal set;
         }
+
         /// <summary>
         /// Previous Node
         /// </summary>
@@ -445,8 +445,5 @@ namespace Lsj.Util.Collections
             get;
             internal set;
         }
-
-
-
     }
 }

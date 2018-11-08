@@ -16,11 +16,14 @@ namespace Lsj.Util.Logs.Logger
     /// </summary>
     public class LogViewLogger : ILogger
     {
+        private readonly object lockobj = new object();
         /// <summary>
         /// LogView
         /// </summary>
         public LogView LogView { get; set; }
-        Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
+
+        private Color[] LogViewColors { get; } = { Color.White, Color.Gray, Color.Green, Color.Yellow, Color.Red };
+
         /// <summary>
         /// LogView Debug Color
         /// </summary>
@@ -35,6 +38,7 @@ namespace Lsj.Util.Logs.Logger
                 LogViewColors[(int)LogType.Debug] = value;
             }
         }
+
         /// <summary>
         /// LogView Info Color
         /// </summary>
@@ -49,6 +53,7 @@ namespace Lsj.Util.Logs.Logger
                 LogViewColors[(int)LogType.Info] = value;
             }
         }
+
         /// <summary>
         /// LogView Warn Color
         /// </summary>
@@ -63,6 +68,7 @@ namespace Lsj.Util.Logs.Logger
                 LogViewColors[(int)LogType.Warn] = value;
             }
         }
+
         /// <summary>
         /// LogView Error Color
         /// </summary>
@@ -78,8 +84,6 @@ namespace Lsj.Util.Logs.Logger
             }
         }
 
-
-        private readonly object lockobj = new object();
         /// <summary>
         /// Add Log
         /// </summary>

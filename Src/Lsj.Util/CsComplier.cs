@@ -48,7 +48,7 @@ namespace Lsj.Util
         /// </summary>
         public bool Complie(ref string log)
         {
-            var files = DirectoryHelper.GetAllFiles(new DirectoryInfo(path), "*.cs");
+            var files = DirectoryHelper.GetAllFilesIncludeChild(new DirectoryInfo(path), "*.cs");
             bool result;
             if (files.Count == 0)
             {

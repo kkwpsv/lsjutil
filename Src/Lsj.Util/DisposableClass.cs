@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Lsj.Util.Logs;
-
-
-
 
 namespace Lsj.Util
 {
@@ -21,7 +15,9 @@ namespace Lsj.Util
         {
             Dispose(false);
         }
+
         private bool IsDisposed = false;
+
         /// <summary>
         /// Dispose
         /// </summary>
@@ -52,15 +48,11 @@ namespace Lsj.Util
         /// <summary>
         /// Clean Up Unmanaged Resources
         /// </summary>
-        protected virtual void CleanUpUnmanagedResources()
-        {
-        }
+        protected virtual void CleanUpUnmanagedResources() => Static.DoNothing();
 
         /// <summary>
         /// Clean Up Managed Resources
         /// </summary>
-        protected virtual void CleanUpManagedResources()
-        {
-        }
+        protected virtual void CleanUpManagedResources() => Static.DoNothing();
     }
 }

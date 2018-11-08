@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Lsj.Util.Collections
 {
     /// <summary>
@@ -20,14 +19,19 @@ namespace Lsj.Util.Collections
         /// <returns></returns>
         public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Func<TInput, TOutput> converter)
         {
-            var result = new List<TOutput>();
-            foreach (var item in array)
+            if (array == null)
             {
-                result.Add(converter(item));
+                throw new ArgumentNullException(nameof(array));
             }
-            return result.ToArray();
+            var result = new TOutput[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                result[i] = converter(array[i]);
+            }
+            return result;
         }
 #endif
+
         /// <summary>
         /// ConvertToThreeValueTuples
         /// </summary>
@@ -36,6 +40,10 @@ namespace Lsj.Util.Collections
         /// <returns></returns>
         public static (T value, int row, int col)[] ToThreeValueTuples<T>(this T[][] array)
         {
+            if (array == null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
             var result = new List<ValueTuple<T, int, int>>();
             if (array != null)
             {
@@ -52,6 +60,7 @@ namespace Lsj.Util.Collections
             }
             return result.ToArray();
         }
+
         /// <summary>
         /// Transposition
         /// </summary>
@@ -62,7 +71,7 @@ namespace Lsj.Util.Collections
         {
             if (array == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(array));
             }
             var lengthx = array.GetLength(0);
             var lengthy = array.GetLength(1);
@@ -76,6 +85,7 @@ namespace Lsj.Util.Collections
             }
             return result;
         }
+
         /// <summary>
         /// Transposition
         /// </summary>
@@ -86,10 +96,9 @@ namespace Lsj.Util.Collections
         {
             if (tuples == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(tuples));
             }
-            var result = new(T, int, int)[tuples.Length];
-
+            var result = new (T, int, int)[tuples.Length];
             for (int i = 0, x = 0; i < result.Length; i++)
             {
                 for (int j = 0; j < tuples.Length; j++)

@@ -3,6 +3,7 @@ using System;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+
 namespace Lsj.Util
 {
     /// <summary>
@@ -19,16 +20,19 @@ namespace Lsj.Util
             Application.ThreadException += new ThreadExceptionEventHandler(WinForm.Application_ThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(WinForm.CurrentDomain_UnhandledException);
         }
+
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             string exceptionMsg = WinForm.GetExceptionMsg(e.Exception, e.ToString());
             MessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
+
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string exceptionMsg = WinForm.GetExceptionMsg(e.ExceptionObject as Exception, e.ToString());
             MessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
+
         private static string GetExceptionMsg(Exception ex, string backStr)
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -77,9 +81,6 @@ namespace Lsj.Util
             richTextBox.AppendText(str);
             richTextBox.AppendText("\r\n");
         }
-
-
-
     }
 }
 #endif

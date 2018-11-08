@@ -2,8 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-
 
 namespace Lsj.Util.Collections
 {
@@ -12,8 +10,9 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class MultiThreadSafeList<T> : DisposableClass, IDisposable, IList<T>
     {
-        List<T> m_list;
-        ReadWriteLock m_lock = new ReadWriteLock();
+        private List<T> m_list;
+        private ReadWriteLock m_lock = new ReadWriteLock();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeList{T}"/> class.
         /// </summary>
@@ -21,6 +20,7 @@ namespace Lsj.Util.Collections
         {
             m_list = new List<T>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeList{T}"/> class.
         /// </summary>
@@ -29,6 +29,7 @@ namespace Lsj.Util.Collections
         {
             m_list = src;
         }
+
         /// <summary>
         /// Get or Set the item at the specified index
         /// </summary>
@@ -65,6 +66,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Is Readonly
         /// </summary>
@@ -81,6 +83,7 @@ namespace Lsj.Util.Collections
                 m_list.Add(item);
             }
         }
+
         /// <summary>
         /// Clear the list
         /// </summary>
@@ -91,6 +94,7 @@ namespace Lsj.Util.Collections
                 m_list.Clear();
             }
         }
+
         /// <summary>
         /// If contain the specified item
         /// </summary>
@@ -101,8 +105,8 @@ namespace Lsj.Util.Collections
             {
                 return m_list.Contains(item);
             }
-
         }
+
         /// <summary>
         /// Copy to
         /// </summary>
@@ -115,6 +119,7 @@ namespace Lsj.Util.Collections
                 m_list.CopyTo(array, arrayIndex);
             }
         }
+
         /// <summary>
         /// Get the enumerator
         /// </summary>
@@ -128,6 +133,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Get the index of the item
         /// </summary>
@@ -139,6 +145,7 @@ namespace Lsj.Util.Collections
                 return m_list.IndexOf(item);
             }
         }
+
         /// <summary>
         /// Insert the specified item at specified index
         /// </summary>
@@ -151,6 +158,7 @@ namespace Lsj.Util.Collections
                 m_list.Insert(index, item);
             }
         }
+
         /// <summary>
         /// Remove first of the specified item.
         /// </summary>
@@ -162,6 +170,7 @@ namespace Lsj.Util.Collections
                 return m_list.Remove(item);
             }
         }
+
         /// <summary>
         /// Removes at index.
         /// </summary>
@@ -185,7 +194,6 @@ namespace Lsj.Util.Collections
             }
         }
 
-
         /// <summary>
         /// Clean Up Managed Resources
         /// </summary>
@@ -194,11 +202,6 @@ namespace Lsj.Util.Collections
             this.m_lock.Dispose();
             base.CleanUpManagedResources();
         }
-
-
-
-
-
     }
 
 }

@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using Lsj.Util.Threading;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Lsj.Util.Logs;
-using Lsj.Util.Threading;
 
 namespace Lsj.Util.Collections
 {
@@ -12,18 +11,18 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class MultiThreadSafeDictionary<TKey, TValue> : DisposableClass, IDisposable, IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
-        ReadWriteLock m_lock = new ReadWriteLock();
-        SafeDictionary<TKey, TValue> m_Dictionary;
+        private ReadWriteLock m_lock = new ReadWriteLock();
+        private SafeDictionary<TKey, TValue> m_Dictionary;
 
         /// <summary>
         /// Keys
         /// </summary>
         public ICollection<TKey> Keys => m_Dictionary.Keys;
+
         /// <summary>
         /// Values
         /// </summary>
         public ICollection<TValue> Values => m_Dictionary.Values;
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MultiThreadSafeDictionary{TKey, TValue}"/> class.
@@ -53,6 +52,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Is Readonly
         /// </summary>
@@ -79,6 +79,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Add the specified key and value.
         /// </summary>
@@ -92,12 +93,14 @@ namespace Lsj.Util.Collections
                 m_Dictionary.Add(key, value);
             }
         }
+
         /// <summary>
         /// Add the specified item.
         /// </summary>
         /// <returns>The add.</returns>
         /// <param name="item">Item.</param>
         public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
+
         /// <summary>
         /// Remove the specified key.
         /// </summary>
@@ -110,7 +113,7 @@ namespace Lsj.Util.Collections
                 if (m_Dictionary.ContainsKey(key))
                 {
                     x.Upgrade();
-                    m_Dictionary.DelInternal(key);
+                    m_Dictionary.DelDirectly(key);
                     return true;
                 }
                 else
@@ -120,6 +123,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Remove the specified item.
         /// </summary>
@@ -132,7 +136,7 @@ namespace Lsj.Util.Collections
                 if (m_Dictionary.Contains(item))
                 {
                     x.Upgrade();
-                    m_Dictionary.DelInternal(item.Key);
+                    m_Dictionary.DelDirectly(item.Key);
                     return true;
                 }
                 else
@@ -142,6 +146,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Clear this instance.
         /// </summary>
@@ -152,6 +157,7 @@ namespace Lsj.Util.Collections
                 m_Dictionary.Clear();
             }
         }
+
         /// <summary>
         /// Copy to
         /// </summary>
@@ -164,6 +170,7 @@ namespace Lsj.Util.Collections
                 m_Dictionary.CopyTo(array, arrayIndex);
             }
         }
+
         /// <summary>
         /// If contain specific key
         /// </summary>
@@ -175,6 +182,7 @@ namespace Lsj.Util.Collections
                 return m_Dictionary.ContainsKey(key);
             }
         }
+
         /// <summary>
         /// If contain specified item.
         /// </summary>
@@ -201,8 +209,6 @@ namespace Lsj.Util.Collections
             }
         }
 
-
-
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
@@ -214,6 +220,7 @@ namespace Lsj.Util.Collections
                 return m_Dictionary.GetEnumerator();
             }
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

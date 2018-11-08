@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-
 
 namespace Lsj.Util.Collections
 {
@@ -19,12 +16,11 @@ namespace Lsj.Util.Collections
         public BinaryTree(T val) : base(val)
         {
         }
+
         /// <summary>
         /// Is Empty
         /// </summary>
         public bool IsEmpty => this.left == null && this.right == null;
-
-
     }
     /// <summary>
     /// BinaryTreeNode
@@ -53,6 +49,16 @@ namespace Lsj.Util.Collections
         /// Parent
         /// </summary>
         public BinaryTreeNode<T> Parent => this.parent;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.BinaryTreeNode{T}"/> class.
+        /// </summary>
+        /// <param name="val"></param>
+        public BinaryTreeNode(T val)
+        {
+            this.val = val;
+        }
+
         /// <summary>
         /// Left Child
         /// </summary>
@@ -68,6 +74,7 @@ namespace Lsj.Util.Collections
                 this.left.parent = this;
             }
         }
+
         /// <summary>
         /// Right Child
         /// </summary>
@@ -83,14 +90,7 @@ namespace Lsj.Util.Collections
                 this.right.parent = this;
             }
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.BinaryTreeNode{T}"/> class.
-        /// </summary>
-        /// <param name="val"></param>
-        public BinaryTreeNode(T val)
-        {
-            this.val = val;
-        }
+
         /// <summary>
         /// Height
         /// </summary>
@@ -139,6 +139,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// TraverseDLRWithoutRecursion
         /// </summary>
@@ -161,6 +162,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// TraverseLDRWithRecursion
         /// </summary>
@@ -184,6 +186,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// TraverseLDRWithoutRecursion
         /// </summary>
@@ -209,6 +212,7 @@ namespace Lsj.Util.Collections
 
             }
         }
+
         /// <summary>
         /// TraverseLRDWithRecursion
         /// </summary>

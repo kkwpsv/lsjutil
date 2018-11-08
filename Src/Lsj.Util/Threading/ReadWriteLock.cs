@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Lsj.Util.Threading
@@ -12,7 +9,7 @@ namespace Lsj.Util.Threading
     /// </summary>
     public class ReadWriteLock : DisposableClass, IDisposable
     {
-        ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
+        private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 
         /// <summary>
         /// Enter Read
@@ -20,12 +17,14 @@ namespace Lsj.Util.Threading
         /// </summary>
         /// <returns></returns>
         public ReadLockObject EnterRead() => new ReadLockObject(this);
+
         /// <summary>
         /// Enter UpgradeableRead
         /// use dispose to close
         /// </summary>
         /// <returns></returns>
         public UpgradeableReadLockObject EnterUpgradeableRead() => new UpgradeableReadLockObject(this);
+
         /// <summary>
         /// Enter Write
         /// use dispose to close
@@ -33,13 +32,13 @@ namespace Lsj.Util.Threading
         /// <returns></returns>
         public WriteLockObject EnterWrite() => new WriteLockObject(this);
 
-
         /// <summary>
         /// ReadLock Object
         /// </summary>
         public sealed class ReadLockObject : IDisposable
         {
-            ReadWriteLock readWriteLock;
+            private ReadWriteLock readWriteLock;
+
             internal ReadLockObject(ReadWriteLock readWriteLock)
             {
                 this.readWriteLock = readWriteLock;
@@ -49,17 +48,15 @@ namespace Lsj.Util.Threading
             /// <summary>
             /// Exit Lock
             /// </summary>
-            public void Dispose()
-            {
-                readWriteLock.@lock.ExitReadLock();
-            }
+            public void Dispose() => readWriteLock.@lock.ExitReadLock();
         }
+
         /// <summary>
         /// WriteLock Object
         /// </summary>
         public sealed class WriteLockObject : IDisposable
         {
-            ReadWriteLock readWriteLock;
+            private ReadWriteLock readWriteLock;
             internal WriteLockObject(ReadWriteLock readWriteLock)
             {
                 this.readWriteLock = readWriteLock;
@@ -69,23 +66,22 @@ namespace Lsj.Util.Threading
             /// <summary>
             /// Exit Lock
             /// </summary>
-            public void Dispose()
-            {
-                readWriteLock.@lock.ExitWriteLock();
-            }
+            public void Dispose() => readWriteLock.@lock.ExitWriteLock();
         }
         /// <summary>
         /// UpgradeableReadLock Object
         /// </summary>
         public sealed class UpgradeableReadLockObject : IDisposable
         {
-            ReadWriteLock readWriteLock;
-            bool hasUpgrade;
+            private ReadWriteLock readWriteLock;
+            private bool hasUpgrade;
+
             internal UpgradeableReadLockObject(ReadWriteLock readWriteLock)
             {
                 this.readWriteLock = readWriteLock;
                 readWriteLock.@lock.EnterUpgradeableReadLock();
             }
+
             /// <summary>
             /// Upgrade Lock to WriteLock
             /// </summary>
@@ -94,6 +90,7 @@ namespace Lsj.Util.Threading
                 readWriteLock.@lock.EnterWriteLock();
                 hasUpgrade = true;
             }
+
             /// <summary>
             /// Exit Lock
             /// </summary>
@@ -104,7 +101,6 @@ namespace Lsj.Util.Threading
                     readWriteLock.@lock.ExitWriteLock();
                 }
                 readWriteLock.@lock.ExitUpgradeableReadLock();
-
             }
         }
 

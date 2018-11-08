@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography;
 using Lsj.Util;
 using Lsj.Util.Text;
-
-
+using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Lsj.Util.Encrypt
 {
@@ -21,14 +17,14 @@ namespace Lsj.Util.Encrypt
         public static string GetMD5String(string str)
         {
 #if NETSTANDARD
-            using (IncrementalHash hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
+            using (var hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
                 hasher.AppendData(Encoding.UTF8.GetBytes(str));
                 byte[] hash = hasher.GetHashAndReset();
                 return BitConverter.ToString(hash).Replace("-", "").ToUpper();
             }
 #else
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            var md5 = new MD5CryptoServiceProvider();
             return BitConverter.ToString(md5.ComputeHash(str.ConvertToBytes())).Replace("-", "");
 #endif
 
@@ -40,7 +36,7 @@ namespace Lsj.Util.Encrypt
         public static string GetDualMD5String(string str)
         {
 #if NETSTANDARD
-            using (IncrementalHash hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
+            using (var hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
                 hasher.AppendData(Encoding.UTF8.GetBytes(str));
                 byte[] hash = hasher.GetHashAndReset();
@@ -52,7 +48,7 @@ namespace Lsj.Util.Encrypt
                 }
             }
 #else
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            var md5 = new MD5CryptoServiceProvider();
             return BitConverter.ToString((md5.ComputeHash(md5.ComputeHash(str.ConvertToBytes())))).Replace("-", "");
 #endif
         }

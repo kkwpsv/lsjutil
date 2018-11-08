@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace Lsj.Util
 {
@@ -20,6 +17,7 @@ namespace Lsj.Util
         {
             return ToHexDump(description, dump, 0, dump.Length);
         }
+
         /// <summary>
         /// ToHexDump
         /// </summary>
@@ -30,7 +28,7 @@ namespace Lsj.Util
         /// <returns></returns>
         public static string ToHexDump(string description, byte[] dump, int start, int count)
         {
-            StringBuilder hexDump = new StringBuilder();
+            var hexDump = new StringBuilder();
             if (description != null)
             {
                 hexDump.Append(description).Append("\n");
@@ -38,8 +36,8 @@ namespace Lsj.Util
             int end = start + count;
             for (int i = start; i < end; i += 16)
             {
-                StringBuilder text = new StringBuilder();
-                StringBuilder hex = new StringBuilder();
+                var text = new StringBuilder();
+                var hex = new StringBuilder();
                 hex.Append(i.ToString("X4"));
                 hex.Append(": ");
                 for (int j = 0; j < 16; j++)

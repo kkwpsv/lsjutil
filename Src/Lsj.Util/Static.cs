@@ -1,6 +1,5 @@
 using System;
 
-
 namespace Lsj.Util
 {
     /// <summary>
@@ -8,7 +7,6 @@ namespace Lsj.Util
     /// </summary>
     public static class Static
     {
-#if !NETSTANDARD
         /// <summary>
         /// CurrentPath eg. C:\a\
         /// </summary>
@@ -16,6 +14,14 @@ namespace Lsj.Util
         {
             return AppDomain.CurrentDomain.BaseDirectory;
         }
-#endif
+
+        /// <summary>
+        /// Just Do Nothing (To make code shorter sometimes)
+        /// </summary>
+        public static void DoNothing()
+        {
+        }
+
+        public static Version Version => typeof(Static).Assembly.GetName().Version;
     }
 }

@@ -11,11 +11,13 @@ namespace Lsj.Util
         {
             this.csp = new RNGCryptoServiceProvider();
         }
+
         protected override void CleanUpManagedResources()
         {
             this.csp.Dispose();
             base.CleanUpManagedResources();
         }
+
         public int NextInt()
         {
             var result = new byte[4];

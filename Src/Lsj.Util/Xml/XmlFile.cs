@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Lsj.Util.Logs;
-
-
 
 namespace Lsj.Util.Xml
 {
@@ -15,6 +10,8 @@ namespace Lsj.Util.Xml
     /// </summary>
     public class XmlFile
     {
+        private readonly string path;
+
         /// <summary>
         /// Initialize a new instance of <see cref="Lsj.Util.Xml.XmlFile"/> class with a path
         /// </summary>
@@ -46,8 +43,6 @@ namespace Lsj.Util.Xml
         protected XmlDocument m_Document;
 #endif
 
-
-        private readonly string path;
         /// <summary>
         /// Refresh
         /// </summary>
@@ -66,6 +61,5 @@ namespace Lsj.Util.Xml
                 LogProvider.Default.Error("Error to Load XmlFile", e);
             }
         }
-
     }
 }

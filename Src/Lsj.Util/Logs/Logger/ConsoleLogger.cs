@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Lsj.Util.Logs.Interfaces;
-
-
-
 
 namespace Lsj.Util.Logs.Logger
 
@@ -16,7 +10,9 @@ namespace Lsj.Util.Logs.Logger
     /// </summary>
     public class ConsoleLogger : ILogger
     {
-        ConsoleColor[] ConsoleColors { get; } = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Red };
+        private ConsoleColor[] ConsoleColors { get; } = { ConsoleColor.White, ConsoleColor.Gray, ConsoleColor.Green, ConsoleColor.Yellow, ConsoleColor.Red };
+        private readonly object lockobj = new object();
+
         /// <summary>
         /// Console Debug Color
         /// </summary>
@@ -31,6 +27,7 @@ namespace Lsj.Util.Logs.Logger
                 ConsoleColors[(int)LogType.Debug] = value;
             }
         }
+
         /// <summary>
         /// Console Info Color
         /// </summary>
@@ -45,6 +42,7 @@ namespace Lsj.Util.Logs.Logger
                 ConsoleColors[(int)LogType.Info] = value;
             }
         }
+
         /// <summary>
         /// Console Warn Color
         /// </summary>
@@ -59,6 +57,7 @@ namespace Lsj.Util.Logs.Logger
                 ConsoleColors[(int)LogType.Warn] = value;
             }
         }
+
         /// <summary>
         /// Console Error Color
         /// </summary>
@@ -74,7 +73,6 @@ namespace Lsj.Util.Logs.Logger
             }
         }
 
-        private readonly object lockobj = new object();
         /// <summary>
         /// Add Log
         /// </summary>
@@ -85,7 +83,7 @@ namespace Lsj.Util.Logs.Logger
             Monitor.Enter(lockobj);
             try
             {
-                ConsoleColor old = Console.ForegroundColor;
+                var old = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColors[(int)type];
                 Console.WriteLine($@"[{DateTime.Now.ToString()}] {str}");
                 Console.ForegroundColor = old;

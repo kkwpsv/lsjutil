@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Lsj.Util.Logs;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Lsj.Util.Logs;
-using Lsj.Util.Threading;
 
 namespace Lsj.Util.Collections
 {
@@ -12,22 +10,23 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class SafeDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, IDictionary<TKey, TValue>
     {
-        Dictionary<TKey, TValue> m_Dictionary;
+        private Dictionary<TKey, TValue> m_Dictionary;
 
         /// <summary>
         /// Keys
         /// </summary>
         public ICollection<TKey> Keys => m_Dictionary.Keys;
+
         /// <summary>
         /// Values
         /// </summary>
         public ICollection<TValue> Values => m_Dictionary.Values;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
         /// </summary>
-        public SafeDictionary() : this(new Dictionary<TKey, TValue>())
-        {
-        }
+        public SafeDictionary() : this(new Dictionary<TKey, TValue>()) => Static.DoNothing();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SafeDictionary{TKey, TValue}"/> class.
         /// </summary>
@@ -36,26 +35,17 @@ namespace Lsj.Util.Collections
         {
             this.m_Dictionary = src ?? throw new ArgumentNullException();
         }
+
         /// <summary>
         /// NullValue
         /// </summary>
-        public virtual TValue NullValue
-        {
-            get
-            {
-                return default(TValue);
-            }
-        }
+        public virtual TValue NullValue => default;
+
         /// <summary>
         /// Count
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return this.m_Dictionary.Count;
-            }
-        }
+        public int Count => m_Dictionary.Count;
+
         /// <summary>
         /// Is Readonly
         /// </summary>
@@ -76,6 +66,7 @@ namespace Lsj.Util.Collections
                 Set(key, value);
             }
         }
+
         /// <summary>
         /// Add the specified key and value.
         /// </summary>
@@ -90,12 +81,14 @@ namespace Lsj.Util.Collections
             }
             Set(key, value);
         }
+
         /// <summary>
         /// Add the specified item.
         /// </summary>
         /// <returns>The add.</returns>
         /// <param name="item">Item.</param>
         public void Add(KeyValuePair<TKey, TValue> item) => Add(item.Key, item.Value);
+
         /// <summary>
         /// Remove the specified key.
         /// </summary>
@@ -114,6 +107,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Remove the specified item.
         /// </summary>
@@ -133,45 +127,31 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Clear this instance.
         /// </summary>
-        public void Clear()
-        {
-            Clr();
-        }
-
+        public void Clear() => Clr();
 
         /// <summary>
         /// Copy to
         /// </summary>
         /// <param name="array">Destination Array</param>
         /// <param name="arrayIndex">Destination Array Index</param>
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
-        }
-
-
-
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((IDictionary<TKey, TValue>)this.m_Dictionary).CopyTo(array, arrayIndex);
 
         /// <summary>
         /// If contain specific key
         /// </summary>
         /// <param name="key">Key</param>
-        public bool ContainsKey(TKey key)
-        {
-            return Contain(key);
-        }
+        public bool ContainsKey(TKey key) => Contain(key);
+
         /// <summary>
         /// If contain specified item.
         /// </summary>
         /// <returns>The contains.</returns>
         /// <param name="item">Item.</param>
-        public bool Contains(KeyValuePair<TKey, TValue> item)
-        {
-            return this.Contain(item.Key) && this[item.Key].Equals(item.Value);
-        }
+        public bool Contains(KeyValuePair<TKey, TValue> item) => this.Contain(item.Key) && this[item.Key].Equals(item.Value);
 
         /// <summary>
         /// Try to get value
@@ -185,7 +165,6 @@ namespace Lsj.Util.Collections
             return flag;
         }
 
-
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
@@ -197,10 +176,9 @@ namespace Lsj.Util.Collections
                 yield return x;
             }
         }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         /// <summary>
         /// Convert To Dictionary
         /// </summary>
@@ -212,7 +190,6 @@ namespace Lsj.Util.Collections
                 x.Add(a.Key, a.Value);
             }
             return x;
-
         }
 
         /// <summary>
@@ -220,10 +197,7 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        protected virtual void Set(TKey key, TValue value)
-        {
-            m_Dictionary[key] = value;
-        }
+        protected virtual void Set(TKey key, TValue value) => m_Dictionary[key] = value;
 
         /// <summary>
         /// Contain
@@ -246,24 +220,14 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Clear
         /// </summary>
-        protected virtual void Clr()
-        {
-            m_Dictionary.Clear();
-        }
+        protected virtual void Clr() => m_Dictionary.Clear();
 
         /// <summary>
         /// Delete
         /// </summary>
         /// <param name="key"></param>
-        protected virtual void Del(TKey key)
-        {
-            m_Dictionary.Remove(key);
-        }
+        protected virtual void Del(TKey key) => m_Dictionary.Remove(key);
 
-
-        internal void DelInternal(TKey key)
-        {
-            Del(key);
-        }
+        internal void DelDirectly(TKey key) => Del(key);
     }
 }

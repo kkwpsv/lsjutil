@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Text;
-
-
+﻿using Lsj.Util.Text;
 
 namespace Lsj.Util.Config
 {
@@ -13,14 +7,13 @@ namespace Lsj.Util.Config
     /// </summary>
     public class ConfigElement
     {
-        string value;
+        private string value;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Config.ConfigElement"/> class
         /// </summary>
-        public ConfigElement()
-        {
-        }
+        public ConfigElement() => Static.DoNothing();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Config.ConfigElement"/> class
         /// </summary>
@@ -34,20 +27,21 @@ namespace Lsj.Util.Config
         /// Get the value
         /// </summary>
         public string Value => value.ToSafeString();
+
         /// <summary>
         /// Get value as string array
         /// </summary>
         public string[] StringArrayValue => Value.Split(',');
+
         /// <summary>
         /// Get value as bool
         /// </summary>
         public bool BoolValue => Value == "True";
+
         /// <summary>
         /// Get value as int
         /// </summary>
         public int IntValue => Value.ConvertToInt(0);
-
-
 
         /// <summary>
         /// NullConfigElemnet

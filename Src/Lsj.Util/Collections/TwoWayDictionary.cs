@@ -1,7 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System;
-
 
 namespace Lsj.Util.Collections
 {
@@ -10,8 +9,9 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class TwoWayDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
-        SafeDictionary<TKey, TValue> a;
-        SafeDictionary<TValue, TKey> b;
+        private SafeDictionary<TKey, TValue> a;
+        private SafeDictionary<TValue, TKey> b;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
         /// </summary>
@@ -21,6 +21,7 @@ namespace Lsj.Util.Collections
             this.a = new SafeDictionary<TKey, TValue>();
             this.b = new SafeDictionary<TValue, TKey>();
         }
+
         /// <summary>
         /// Get or Set the value with specified key
         /// </summary>
@@ -36,6 +37,7 @@ namespace Lsj.Util.Collections
                 Add(key, value);
             }
         }
+
         /// <summary>
         /// Get or Set the key with specified value
         /// </summary>
@@ -52,19 +54,25 @@ namespace Lsj.Util.Collections
             }
 
         }
-        TKey GetKeyByValue(TValue value)
+
+        private TKey GetKeyByValue(TValue value)
         {
             if (ContainsValue(value))
+            {
                 return NullKey(value);
+            }
             return b[value];
         }
-        TValue GetValueByKey(TKey key)
+
+        private TValue GetValueByKey(TKey key)
         {
             if (ContainsKey(key))
+            {
                 return NullValue(key);
+            }
+
             return a[key];
         }
-
 
         /// <summary>
         /// Add the specified key and value.
@@ -83,6 +91,7 @@ namespace Lsj.Util.Collections
                 b[value] = key;
             }
         }
+
         /// <summary>
         /// Gets the enumerator
         /// </summary>
@@ -90,10 +99,12 @@ namespace Lsj.Util.Collections
         {
             return a.GetEnumerator();
         }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
+
         /// <summary>
         /// If contain specific key
         /// </summary>
@@ -102,6 +113,7 @@ namespace Lsj.Util.Collections
         {
             return a.ContainsKey(key);
         }
+
         /// <summary>
         /// If contain specific value
         /// </summary>
@@ -110,14 +122,15 @@ namespace Lsj.Util.Collections
         {
             return b.ContainsKey(value);
         }
+
         /// <summary>
         /// NullValue
         /// </summary>
-        protected virtual TValue NullValue(TKey key) => default(TValue);
+        protected virtual TValue NullValue(TKey key) => default;
         /// <summary>
         /// NullKey
         /// </summary>
-        protected virtual TKey NullKey(TValue value) => default(TKey);
+        protected virtual TKey NullKey(TValue value) => default;
 
     }
 

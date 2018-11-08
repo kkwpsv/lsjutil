@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 
 namespace Lsj.Util.Collections
 
@@ -18,15 +15,17 @@ namespace Lsj.Util.Collections
         /// </summary>
         public struct LinkListEnumerator : IEnumerator<T>, IEnumerator
         {
-            LinkList<T> linklist;
-            LinkListNode<T> current;
-            int last;
+            private readonly LinkList<T> linklist;
+            private LinkListNode<T> current;
+            private readonly int last;
+
             internal LinkListEnumerator(LinkList<T> linklist)
             {
                 this.linklist = linklist;
                 this.last = linklist.Count - 1;
                 this.current = null;
             }
+
             /// <summary>
             /// Dispose
             /// </summary>
@@ -34,6 +33,7 @@ namespace Lsj.Util.Collections
             {
 
             }
+
             /// <summary>
             /// Move To Next
             /// </summary>
@@ -57,6 +57,7 @@ namespace Lsj.Util.Collections
                     }
                 }
             }
+
             /// <summary>
             /// Reset
             /// </summary>
@@ -72,6 +73,7 @@ namespace Lsj.Util.Collections
                     return current.Value;
                 }
             }
+
             Object IEnumerator.Current
             {
                 get
@@ -83,7 +85,9 @@ namespace Lsj.Util.Collections
 
 
         }
+
         private LinkListNode<T> child;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.LinkList{T}"/> class.
         /// </summary>
@@ -91,6 +95,7 @@ namespace Lsj.Util.Collections
         {
             this.child = null;
         }
+
         /// <summary>
         /// Get or Set the item at the specified index
         /// Random Access will be SLOW
@@ -149,6 +154,7 @@ namespace Lsj.Util.Collections
                 }
             }
         }
+
         /// <summary>
         /// Count
         /// May be SLOW
@@ -171,10 +177,12 @@ namespace Lsj.Util.Collections
                 return result;
             }
         }
+
         /// <summary>
         /// Is Readonly
         /// </summary>
         public bool IsReadOnly => false;
+
         /// <summary>
         /// Add a item
         /// May be SLOW
@@ -202,6 +210,7 @@ namespace Lsj.Util.Collections
                 };
             }
         }
+
         /// <summary>
         /// Clear the list
         /// </summary>
@@ -209,6 +218,7 @@ namespace Lsj.Util.Collections
         {
             this.child = null;
         }
+
         /// <summary>
         /// If contain the specified item
         /// </summary>
@@ -233,6 +243,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Copy to
         /// </summary>
@@ -255,10 +266,12 @@ namespace Lsj.Util.Collections
             }
 
         }
+
         /// <summary>
         /// Get the enumerator
         /// </summary>
         public IEnumerator<T> GetEnumerator() => new LinkListEnumerator(this);
+
         /// <summary>
         /// Get the index of the item
         /// </summary>
@@ -285,6 +298,7 @@ namespace Lsj.Util.Collections
                 return -1;
             }
         }
+
         /// <summary>
         /// Insert the specified item at specified index
         /// May be slow
@@ -324,6 +338,7 @@ namespace Lsj.Util.Collections
             }
             throw new ArgumentOutOfRangeException();
         }
+
         /// <summary>
         /// Remove first of the specified item.
         /// </summary>
@@ -356,6 +371,7 @@ namespace Lsj.Util.Collections
                 return false;
             }
         }
+
         /// <summary>
         /// Removes the item at specified index.
         /// </summary>
@@ -383,9 +399,9 @@ namespace Lsj.Util.Collections
             }
             throw new ArgumentOutOfRangeException();
         }
-
         IEnumerator IEnumerable.GetEnumerator() => new LinkListEnumerator(this);
     }
+
     /// <summary>
     /// LinkList node.
     /// </summary>
@@ -394,6 +410,7 @@ namespace Lsj.Util.Collections
         internal LinkListNode()
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.LinkList{T}"/> class.
         /// </summary>
@@ -402,6 +419,7 @@ namespace Lsj.Util.Collections
         {
             this.List = list ?? throw new ArgumentNullException();
         }
+
         /// <summary>
         /// The LinkList
         /// </summary>
@@ -410,6 +428,7 @@ namespace Lsj.Util.Collections
             get;
             private set;
         }
+
         /// <summary>
         /// The Value
         /// </summary>
@@ -418,6 +437,7 @@ namespace Lsj.Util.Collections
             get;
             set;
         }
+
         /// <summary>
         /// Next Node
         /// </summary>
@@ -426,8 +446,5 @@ namespace Lsj.Util.Collections
             get;
             internal set;
         }
-
-
-
     }
 }

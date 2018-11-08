@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 
 namespace Lsj.Util.Collections
 {
@@ -17,20 +14,20 @@ namespace Lsj.Util.Collections
         /// </summary>
         public struct SeqListEnumerator : IEnumerator<T>, IEnumerator
         {
-            SeqList<T> seqlist;
-            int position;
+            private SeqList<T> seqlist;
+            private int position;
+
             internal SeqListEnumerator(SeqList<T> seqlist)
             {
                 this.seqlist = seqlist;
                 this.position = -1;
             }
+
             /// <summary>
             /// Dispose
             /// </summary>
-            public void Dispose()
-            {
+            public void Dispose() => Static.DoNothing();
 
-            }
             /// <summary>
             /// Move to the next
             /// </summary>
@@ -43,6 +40,7 @@ namespace Lsj.Util.Collections
                 }
                 return false;
             }
+
             /// <summary>
             /// Reset
             /// </summary>
@@ -58,6 +56,7 @@ namespace Lsj.Util.Collections
                     return seqlist.elem[position];
                 }
             }
+
             Object IEnumerator.Current
             {
                 get
@@ -65,33 +64,31 @@ namespace Lsj.Util.Collections
                     return seqlist.elem[position];
                 }
             }
-
-
-
         }
 
+        private T[] elem;
+        private int last;
+        private int capacity = 10;
 
-
-        T[] elem;
-        int last;
-        int maxsize = 10;
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.SeqList{T}"/> class.
         /// </summary>
         public SeqList()
         {
-            this.elem = new T[maxsize];
+            this.elem = new T[capacity];
             last = -1;
         }
+
         /// <summary>
         /// Add a item
         /// </summary>
         /// <param name="item">item</param>
         public void Add(T item)
         {
-            ChekIfNeedEnlargeAndDoEnlarge();
+            ChekAndDoEnlarge();
             elem[++last] = item;
         }
+
         /// <summary>
         /// Clear
         /// </summary>
@@ -99,6 +96,7 @@ namespace Lsj.Util.Collections
         {
             last = -1;
         }
+
         /// <summary>
         /// If contain the specified item
         /// </summary>
@@ -114,20 +112,24 @@ namespace Lsj.Util.Collections
             }
             return false;
         }
+
         /// <summary>
         /// Copy to
         /// </summary>
         /// <param name="array">Destination Array</param>
         /// <param name="arrayIndex">Destination Array index</param>
         public void CopyTo(T[] array, int arrayIndex) => Buffer.BlockCopy(elem, 0, array, arrayIndex, last + 1);
+
         /// <summary>
         /// Count
         /// </summary>
         public int Count => last + 1;
+
         /// <summary>
         /// Is Readonly
         /// </summary>
         public bool IsReadOnly => false;
+
         /// <summary>
         /// Remove first of the specified item.
         /// </summary>
@@ -145,6 +147,7 @@ namespace Lsj.Util.Collections
             }
             return false;
         }
+
         /// <summary>
         /// Get the index of the item
         /// </summary>
@@ -160,6 +163,7 @@ namespace Lsj.Util.Collections
             }
             return -1;
         }
+
         /// <summary>
         /// Insert the specified item at specified index
         /// </summary>
@@ -176,11 +180,12 @@ namespace Lsj.Util.Collections
             {
                 throw new ArgumentOutOfRangeException();
             }
-            ChekIfNeedEnlargeAndDoEnlarge();
+            ChekAndDoEnlarge();
             Buffer.BlockCopy(elem, index, elem, index + 1, last - index + 1);
             elem[index] = item;
             last++;
         }
+
         /// <summary>
         /// Removes the item at specified index.
         /// </summary>
@@ -198,6 +203,7 @@ namespace Lsj.Util.Collections
             }
             last--;
         }
+
         /// <summary>
         /// Get or Set the item at the specified index
         /// </summary>
@@ -223,8 +229,6 @@ namespace Lsj.Util.Collections
 
         }
 
-
-
         /// <summary>
         /// Gets the enumerator
         /// </summary>
@@ -239,40 +243,37 @@ namespace Lsj.Util.Collections
         {
             var newelem = new T[last + 1];
             Buffer.BlockCopy(elem, 0, newelem, 0, last + 1);
-            maxsize = last + 1;
+            capacity = last + 1;
             this.elem = newelem;
         }
 
-
-        private void ChekIfNeedEnlargeAndDoEnlarge()
+        private void ChekAndDoEnlarge()
         {
-            if (this.last + 1 == maxsize)
+            if (this.last + 1 == capacity)
             {
                 Enlarge();
             }
         }
+
         private void Enlarge()
         {
             T[] newelem;
-            if (maxsize == int.MaxValue)
+            if (capacity == int.MaxValue)
             {
                 throw new OutOfMemoryException();
             }
-            else if (maxsize <= int.MaxValue / 2)
+            else if (capacity <= int.MaxValue / 2)
             {
-                newelem = new T[2 * maxsize];
-                maxsize *= 2;
+                newelem = new T[2 * capacity];
+                capacity *= 2;
             }
             else
             {
                 newelem = new T[int.MaxValue];
-                maxsize = int.MaxValue;
+                capacity = int.MaxValue;
             }
             Buffer.BlockCopy(elem, 0, newelem, 0, last + 1);
             this.elem = newelem;
         }
-
-
-
     }
 }

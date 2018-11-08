@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-
 
 namespace Lsj.Util.Text
 {
     /// <summary>
     /// Variable String
     /// </summary>
-    public unsafe sealed class VariableString : DisposableClass, IDisposable, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
+    public sealed unsafe class VariableString : DisposableClass, IDisposable, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
     {
-
         internal class VariableStringEnumerator : IEnumerator<char>
         {
-            VariableString str;
-            int length;
-            int current;
+            private readonly VariableString str;
+            private readonly int length;
+            private int current;
+
             internal VariableStringEnumerator(VariableString str)
             {
                 this.str = str;
@@ -30,10 +27,8 @@ namespace Lsj.Util.Text
 
             object IEnumerator.Current => Current;
 
-            public void Dispose()
-            {
+            public void Dispose() => Static.DoNothing();
 
-            }
             public bool MoveNext()
             {
                 if (current < length)
@@ -46,48 +41,49 @@ namespace Lsj.Util.Text
                     return false;
                 }
             }
+
             public void Reset()
             {
                 current = 0;
             }
         }
 
-
-
-        char* handle;
-        int bufferlength;
-        int stringlength;
+        private char* handle;
+        private int bufferlength;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
         /// </summary>
         public VariableString()
         {
-            this.stringlength = 0;
+            this.Length = 0;
             this.bufferlength = 10;
             Alloc();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
         /// </summary>
         /// <param name="bufferlength">Buffer Length</param>
         public VariableString(int bufferlength)
         {
-            this.stringlength = 0;
+            this.Length = 0;
             this.bufferlength = bufferlength;
             Alloc();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
         /// </summary>
         /// <param name="src">Source</param>
         public VariableString(VariableString src)
         {
-            this.stringlength = src.stringlength;
+            this.Length = src.Length;
             this.bufferlength = src.bufferlength;
             Alloc();
             UnsafeHelper.Copy(src.handle, this.handle, this.bufferlength);
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Text.VariableString"/> class.
         /// </summary>
@@ -95,26 +91,29 @@ namespace Lsj.Util.Text
         public VariableString(string str)
         {
             var chars = str.ToCharArray();
-            this.stringlength = chars.Length;
-            this.bufferlength = this.stringlength < 10 ? 10 : this.stringlength;
+            this.Length = chars.Length;
+            this.bufferlength = this.Length < 10 ? 10 : this.Length;
             Alloc();
             fixed (char* src = chars)
             {
-                UnsafeHelper.Copy(src, handle, stringlength);
+                UnsafeHelper.Copy(src, handle, Length);
             }
         }
+
         private void Alloc()
         {
             this.handle = (char*)Marshal.AllocHGlobal(bufferlength * 2).ToPointer();
         }
+
         private void ReAlloc(int newbufferlength)
         {
             var oldhandle = this.handle;
             this.bufferlength = newbufferlength;
             this.handle = (char*)Marshal.AllocHGlobal(newbufferlength * 2).ToPointer();
-            UnsafeHelper.Copy(oldhandle, handle, (stringlength > newbufferlength ? newbufferlength : stringlength) * 2);
+            UnsafeHelper.Copy(oldhandle, handle, (Length > newbufferlength ? newbufferlength : Length) * 2);
             Marshal.FreeHGlobal((IntPtr)oldhandle);
         }
+
         /// <summary>
         /// Cleans up unmanaged resources
         /// </summary>
@@ -122,19 +121,21 @@ namespace Lsj.Util.Text
         {
             Marshal.FreeHGlobal((IntPtr)handle);
         }
+
         /// <summary>
         /// Convert To String
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            var chars = new char[this.stringlength];
+            var chars = new char[this.Length];
             fixed (char* src = chars)
             {
-                UnsafeHelper.Copy(handle, src, stringlength);
+                UnsafeHelper.Copy(handle, src, Length);
             }
             return new string(chars);
         }
+
         /// <summary>
         /// Clone
         /// </summary>
@@ -143,8 +144,7 @@ namespace Lsj.Util.Text
         /// <summary>
         /// Length
         /// </summary>
-        public int Length => stringlength;
-
+        public int Length { get; private set; }
 
         /// <summary>
         /// Get the char with the specified index.
@@ -154,7 +154,7 @@ namespace Lsj.Util.Text
         {
             get
             {
-                if (index >= stringlength)
+                if (index >= Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -164,7 +164,6 @@ namespace Lsj.Util.Text
                 }
             }
         }
-
 
         int IComparable.CompareTo(object obj)
         {
@@ -184,6 +183,7 @@ namespace Lsj.Util.Text
                 throw new InvalidOperationException();
             }
         }
+
         /// <summary>
         /// Compare to
         /// </summary>
@@ -215,6 +215,7 @@ namespace Lsj.Util.Text
                 return 0;
             }
         }
+
         /// <summary>
         /// Equal
         /// </summary>
@@ -224,6 +225,7 @@ namespace Lsj.Util.Text
         {
             return ((IComparable)(this)).CompareTo(obj) == 0;
         }
+
         /// <summary>
         /// Equals
         /// </summary>
@@ -238,15 +240,18 @@ namespace Lsj.Util.Text
         /// Gets the enumerator
         /// </summary>
         public IEnumerator<char> GetEnumerator() => new VariableStringEnumerator(this);
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         /// <summary>
         /// If contain the specified char
         /// </summary>
         /// <param name="x">The character</param>
         public bool Contains(char x) => IndexOf(x) >= 0;
+
         private int IndexOf(char x)
         {
-            for (int i = 0; i < stringlength; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (x == *(handle + i))
                 {
@@ -261,11 +266,12 @@ namespace Lsj.Util.Text
         /// </summary>
         /// <param name="x">The string</param>
         public bool Contains(VariableString x) => IndexOf(x) >= 0;
+
         private int IndexOf(VariableString x)
         {
             int xlength = x.Length;
             bool flag = true;
-            for (int i = 0; i < stringlength - xlength; i++)
+            for (int i = 0; i < Length - xlength; i++)
             {
                 flag = true;
                 for (int j = 0; j < xlength; j++)
@@ -283,11 +289,13 @@ namespace Lsj.Util.Text
             }
             return -1;
         }
+
         /// <summary>
         /// Substring
         /// </summary>
         /// <param name="startIndex">Start index</param>
-        public VariableString Substring(int startIndex) => Substring(startIndex, stringlength - startIndex);
+        public VariableString Substring(int startIndex) => Substring(startIndex, Length - startIndex);
+
         /// <summary>
         /// Substring
         /// </summary>
@@ -295,17 +303,18 @@ namespace Lsj.Util.Text
         /// <param name="length">Length</param>
         public VariableString Substring(int startIndex, int length)
         {
-            if (startIndex + length > stringlength)
+            if (startIndex + length > Length)
             {
                 throw new ArgumentOutOfRangeException();
             }
             var result = new VariableString(length)
             {
-                stringlength = length
+                Length = length
             };
             UnsafeHelper.Copy(handle, startIndex, result.handle, 0, length);
             return result;
         }
+
         /// <summary>
         /// Concat
         /// </summary>
@@ -318,10 +327,11 @@ namespace Lsj.Util.Text
             {
                 a.ReAlloc(total);
             }
-            UnsafeHelper.Copy(b.handle, 0, a.handle, a.stringlength, b.Length);
-            a.stringlength = total;
+            UnsafeHelper.Copy(b.handle, 0, a.handle, a.Length, b.Length);
+            a.Length = total;
             return a;
         }
+
         /// <summary>
         /// Equals
         /// </summary>
@@ -332,6 +342,7 @@ namespace Lsj.Util.Text
         {
             return a.Equals(b);
         }
+
         /// <summary>
         /// NotEquals
         /// </summary>
@@ -342,6 +353,7 @@ namespace Lsj.Util.Text
         {
             return !(a == b);
         }
+
         /// <summary>
         /// Get Hashcode
         /// </summary>

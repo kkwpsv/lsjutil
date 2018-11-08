@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-
 
 namespace Lsj.Util
 {
@@ -33,6 +30,7 @@ namespace Lsj.Util
             stream.Read(result, 0, result.Length);
             return result;
         }
+
         /// <summary>
         /// ReadAll Without Seek
         /// </summary>
@@ -54,6 +52,7 @@ namespace Lsj.Util
             }
             return result.ToArray();
         }
+
         /// <summary>
         /// Write
         /// </summary>
@@ -68,8 +67,6 @@ namespace Lsj.Util
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
         public static void Write(this Stream stream, byte[] buffer, int offset) => stream.Write(buffer, offset, buffer.Length - offset);
-
-
 
 #if !NETSTANDARD
         /// <summary>

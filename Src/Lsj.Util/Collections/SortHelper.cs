@@ -27,6 +27,7 @@ namespace Lsj.Util
                 }
             }
         }
+
         /// <summary>
         /// Single Selection Sort
         /// </summary>
@@ -55,6 +56,7 @@ namespace Lsj.Util
                 }
             }
         }
+
         /// <summary>
         /// Direct Insertion Sort
         /// </summary>

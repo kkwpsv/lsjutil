@@ -24,7 +24,9 @@ namespace Lsj.Util.Logs.Logger
             InitializeComponent();
             this.Init();
         }
+
         internal bool IsNewAdd;
+
         private void Init()
         {
             this.ReadOnly = true;
@@ -76,12 +78,7 @@ namespace Lsj.Util.Logs.Logger
                 }
                 this.Rtf = head.ToString();
             }
-
-
-
-
             ScrollToCaret();
-
         }
     }
 }

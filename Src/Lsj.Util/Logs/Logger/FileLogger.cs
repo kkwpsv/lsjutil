@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using Lsj.Util.Logs.Interfaces;
 using Lsj.Util.IO;
-
-
-
+using Lsj.Util.Logs.Interfaces;
 
 namespace Lsj.Util.Logs.Logger
 {
@@ -17,13 +11,13 @@ namespace Lsj.Util.Logs.Logger
     /// </summary>
     public class FileLogger : ILogger
     {
+        private readonly object lockobj = new object();
+
         /// <summary>
         /// FilePath
         /// </summary>
         public string FilePath { get; set; } = "./";
 
-
-        private readonly object lockobj = new object();
         /// <summary>
         /// Add Log
         /// </summary>
@@ -46,14 +40,10 @@ namespace Lsj.Util.Logs.Logger
                     num++;
                 }
                 name = name + (num == 0 ? "" : $"-{num}") + ".log";
-                File.AppendAllText(name,
-$@"[{type.ToString()}] {DateTime.Now.ToString()} 
-{str}
-");
+                File.AppendAllText(name, $"[{type.ToString()}] {DateTime.Now.ToString()} \n{str}");
             }
             catch
             {
-
             }
             finally
             {

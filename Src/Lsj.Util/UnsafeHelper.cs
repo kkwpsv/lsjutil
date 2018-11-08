@@ -33,6 +33,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -48,6 +49,7 @@
                 Copy(pts, srcoffset, pts2, dstoffset, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -61,8 +63,8 @@
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
-
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -77,6 +79,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -86,6 +89,7 @@
         /// <param name="dstoffset"></param>
         /// <param name="length"></param>
         public static void Copy(byte* src, long srcoffset, byte* dst, long dstoffset, long length) => Copy(src + srcoffset, dst + dstoffset, length);
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -135,6 +139,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -150,6 +155,7 @@
                 Copy(pts, srcoffset, pts2, dstoffset, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -163,8 +169,8 @@
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
-
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -179,6 +185,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -188,6 +195,7 @@
         /// <param name="dstoffset"></param>
         /// <param name="length"></param>
         public static void Copy(short* src, long srcoffset, short* dst, long dstoffset, long length) => Copy(src + srcoffset, dst + dstoffset, length);
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -210,6 +218,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -225,6 +234,7 @@
                 Copy(pts, srcoffset, pts2, dstoffset, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -238,8 +248,8 @@
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
-
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -254,6 +264,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -263,6 +274,7 @@
         /// <param name="dstoffset"></param>
         /// <param name="length"></param>
         public static void Copy(char* src, long srcoffset, char* dst, long dstoffset, long length) => Copy(src + srcoffset, dst + dstoffset, length);
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -305,6 +317,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -320,6 +333,7 @@
                 Copy(pts, srcoffset, pts2, dstoffset, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -333,8 +347,8 @@
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
-
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -349,6 +363,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -358,6 +373,7 @@
         /// <param name="dstoffset"></param>
         /// <param name="length"></param>
         public static void Copy(int* src, long srcoffset, int* dst, long dstoffset, long length) => Copy(src + srcoffset, dst + dstoffset, length);
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -393,6 +409,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -408,6 +425,7 @@
                 Copy(pts, srcoffset, pts2, dstoffset, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -421,8 +439,8 @@
                 var ptr = pts;
                 Copy(src, ptr, length);
             }
-
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -437,6 +455,7 @@
                 Copy(ptr, dst, length);
             }
         }
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -446,6 +465,7 @@
         /// <param name="dstoffset"></param>
         /// <param name="length"></param>
         public static void Copy(long* src, long srcoffset, long* dst, long dstoffset, long length) => Copy(src + srcoffset, dst + dstoffset, length);
+
         /// <summary>
         /// Copy
         /// </summary>
@@ -463,15 +483,10 @@
             }
         }
 
-
-
-
-
         private static void CopyLong(void* src, void* dst) => *((long*)dst) = *((long*)src);
         private static void CopyInt(void* src, void* dst) => *((int*)dst) = *((int*)src);
         private static void CopyShort(void* src, void* dst) => *((short*)dst) = *((short*)src);
         private static void CopyByte(void* src, void* dst) => *((byte*)dst) = *((byte*)src);
         private static void CopyBool(void* src, void* dst) => *((bool*)dst) = *((bool*)src);
-
     }
 }

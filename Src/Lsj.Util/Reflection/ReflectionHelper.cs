@@ -98,6 +98,7 @@ namespace Lsj.Util.Reflection
         /// <param name="obj">obj</param>
         /// <returns></returns>
         public static bool IsDictionary(this object obj) => IsDictionary(obj.GetType());
+
         /// <summary>
         /// Is IDictionary or IDictionary&lt;,&gt;
         /// </summary>
@@ -111,6 +112,7 @@ namespace Lsj.Util.Reflection
         /// <param name="obj">obj</param>
         /// <returns></returns>
         public static bool IsList(this object obj) => IsList(obj.GetType());
+
         /// <summary>
         /// Is IList or IList&lt;&gt;
         /// </summary>
@@ -118,14 +120,13 @@ namespace Lsj.Util.Reflection
         /// <returns></returns>
         public static bool IsList(this Type type) => type.GetInterfaces().Any(x => (x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IList<>)) || x == typeof(IList));
 
-
-
         /// <summary>
         /// Create List Of Type
         /// </summary>
         /// <param name="type">type</param>
         /// <returns></returns>
         public static object CreateListOfType(this Type type) => Activator.CreateInstance(typeof(List<>).MakeGenericType(type));
+
         /// <summary>
         /// Create List Of Type
         /// </summary>

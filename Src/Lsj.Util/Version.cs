@@ -1,37 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-namespace Lsj.Util
+﻿namespace Lsj.Util
 {
     /// <summary>
     /// Version
     /// </summary>
     public struct Version
     {
-        int m_major;
-        int m_minor;
-        int m_build;
-        int m_revision;
 
         /// <summary>
         /// Major
         /// </summary>
-        public int Major => m_major;
+        public int Major { get; private set; }
         /// <summary>
         /// Minor
         /// </summary>
-        public int Minor => m_minor;
+        public int Minor { get; private set; }
         /// <summary>
         /// Build
         /// </summary>
-        public int Build => m_build;
+        public int Build { get; private set; }
         /// <summary>
         /// Revision
         /// </summary>
-        public int Revision => m_revision;
+        public int Revision { get; private set; }
         /// <summary>
         /// Initialize a new instance of <see cref="Lsj.Util.Version"/> struct
         /// </summary>
@@ -65,10 +55,10 @@ namespace Lsj.Util
         /// <param name="revision">Revision</param>
         public Version(int major, int minor, int build, int revision)
         {
-            m_major = major;
-            m_minor = minor;
-            m_build = build;
-            m_revision = revision;
+            Major = major;
+            Minor = minor;
+            Build = build;
+            Revision = revision;
         }
         /// <summary>
         /// Convert To String
@@ -84,19 +74,19 @@ namespace Lsj.Util
         {
             if (length >= 4)
             {
-                return $"{m_major}.{m_minor}.{m_build}.{m_revision}";
+                return $"{Major}.{Minor}.{Build}.{Revision}";
             }
             else if (length == 3)
             {
-                return $"{m_major}.{m_minor}.{m_build}";
+                return $"{Major}.{Minor}.{Build}";
             }
             else if (length == 2)
             {
-                return $"{m_major}.{m_minor}";
+                return $"{Major}.{Minor}";
             }
             else
             {
-                return $"{m_major}";
+                return $"{Major}";
             }
         }
 
@@ -112,7 +102,9 @@ namespace Lsj.Util
                 return (this.Major == o.Major) && (this.Minor == o.Minor) && (this.Build == o.Build) && (this.Revision == o.Revision);
             }
             else
+            {
                 return false;
+            }
         }
         /// <summary>
         /// Equals
@@ -133,5 +125,9 @@ namespace Lsj.Util
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode() => 0 | (this.Major & 15) << 28 | (this.Minor & 255) << 20 | (this.Build & 255) << 12 | (this.Revision & 4095);
+
+        public static implicit operator System.Version(Version version) => new System.Version(version.Major, version.Minor, version.Build, version.Revision);
+
+        public static implicit operator Version(System.Version version) => new Version(version.Major, version.Minor, version.Build, version.Revision);
     }
 }

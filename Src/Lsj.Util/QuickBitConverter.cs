@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util
 {
@@ -19,6 +15,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 4.</exception>
         /// <returns></returns>
         public static int ConvertToInt(this byte[] src) => ConvertToInt(src, 0);
+
         /// <summary>
         /// Convert To Int
         /// </summary>
@@ -53,13 +50,14 @@ namespace Lsj.Util
                 }
             }
         }
+
         /// <summary>
         /// Convert To Int
         /// </summary>
         /// <param name="src"></param>
         /// <exception cref="ArgumentNullException">The pointer is null.</exception>
         /// <returns></returns>
-        public unsafe static int ConvertToInt(byte* src)
+        public static unsafe int ConvertToInt(byte* src)
         {
             if (src == null)
             {
@@ -67,6 +65,7 @@ namespace Lsj.Util
             }
             return *(int*)src;
         }
+
         /// <summary>
         /// Convert To Short
         /// </summary>
@@ -75,6 +74,7 @@ namespace Lsj.Util
         /// <exception cref="ArgumentOutOfRangeException">The length of src is less than 2.</exception>
         /// <returns></returns>
         public static int ConvertToShort(this byte[] src) => ConvertToShort(src, 0);
+
         /// <summary>
         /// Convert To Short
         /// </summary>
@@ -109,13 +109,14 @@ namespace Lsj.Util
                 }
             }
         }
+
         /// <summary>
         /// Convert To Short
         /// </summary>
         /// <param name="src"></param>
         /// <exception cref="ArgumentNullException">The pointer is null.</exception>
         /// <returns></returns>
-        public unsafe static int ConvertToShort(byte* src)
+        public static unsafe int ConvertToShort(byte* src)
         {
             if (src == null)
             {
@@ -123,6 +124,7 @@ namespace Lsj.Util
             }
             return *(short*)src;
         }
+
         /// <summary>
         /// Convert To Bytes
         /// </summary>
@@ -140,6 +142,7 @@ namespace Lsj.Util
             }
             return result;
         }
+
         /// <summary>
         /// Convert To Bytes
         /// </summary>
@@ -158,5 +161,4 @@ namespace Lsj.Util
             return result;
         }
     }
-
 }

@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-
 
 namespace Lsj.Util.IO
 {
@@ -16,7 +13,7 @@ namespace Lsj.Util.IO
         /// </summary>
         /// <param name="path">path</param>
         /// <param name="filter">filter</param>
-        public static List<FileInfo> GetAllFiles(DirectoryInfo path, string filter)
+        public static List<FileInfo> GetAllFilesIncludeChild(DirectoryInfo path, string filter)
         {
             var result = new List<FileInfo>();
             if (path.Exists)
@@ -25,20 +22,18 @@ namespace Lsj.Util.IO
                 DirectoryInfo[] directories = path.GetDirectories();
                 for (int i = 0; i < directories.Length; i++)
                 {
-                    DirectoryInfo subdir = directories[i];
-                    result.AddRange(GetAllFiles(subdir, filter));
+                    var subdir = directories[i];
+                    result.AddRange(GetAllFilesIncludeChild(subdir, filter));
                 }
             }
             return result;
         }
+
         /// <summary>
         /// Check Path Is Exists
         /// </summary>
         /// <param name="path">path</param>
-        public static bool IsExistsPath(this string path)
-        {
-            return Directory.Exists(path);
-        }
+        public static bool IsExistsPath(this string path) => Directory.Exists(path);
 
     }
 }

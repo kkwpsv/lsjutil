@@ -12,11 +12,11 @@ using Lsj.Util.Collections;
 using System.Web;
 #endif
 
-
 namespace Lsj.Util.Text
 {
     /// <summary>
     /// String Helper
+    /// Not check null string. Use empty if null.
     /// </summary>
     public static class StringHelper
     {
@@ -29,7 +29,16 @@ namespace Lsj.Util.Text
         /// <returns></returns>
         public static string SubstringIgnoreOverFlow(this string src, int startIndex, int length)
         {
-            if (startIndex + length <= src.Length)
+            src = src.ToSafeString();
+            if (startIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+            else if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+            else if (startIndex + length <= src.Length)
             {
                 return src.Substring(startIndex, length);
             }
@@ -42,26 +51,47 @@ namespace Lsj.Util.Text
                 return src.Substring(startIndex, src.Length - startIndex);
             }
         }
+
         /// <summary>
         /// Remove Last Char
         /// </summary>
         public static string RemoveLastOne(this string src) => RemoveLast(src, 1);
-        /// <summary>
-        /// Remove Last Char
-        /// </summary>
-        public static void RemoveLastOne(this StringBuilder src) => RemoveLast(src, 1);
+
         /// <summary>
         /// Remove Last Chars
         /// <param name="src">Source String</param>
         /// <param name="n">Number</param>
         /// </summary>
-        public static string RemoveLast(this string src, int n) => src.Length >= n ? src.Remove(src.Length - n) : "";
+        public static string RemoveLast(this string src, int n)
+        {
+            src = src.ToSafeString();
+            if (n < 0 || n > src.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(n));
+            }
+            return src.Remove(src.Length - n);
+        }
+
         /// <summary>
-        /// Remove Chars After n
+        /// Remove One Char
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="n"></param>
-        public static void Remove(this StringBuilder src, int n) => src.Remove(n, src.Length - n);
+        /// <param name="src">Source String</param>
+        /// <param name="n">Char Offset</param>
+        public static string RemoveOne(this string src, int n)
+        {
+            src = src.ToSafeString();
+            if (n < 0 || n >= src.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(n));
+            }
+            return src.Remove(n, 1);
+        }
+
+        /// <summary>
+        /// Remove Last Char
+        /// </summary>
+        public static void RemoveLastOne(this StringBuilder src) => RemoveLast(src, 1);
+
         /// <summary>
         /// Remove Last Chars
         /// <param name="src">Source String</param>
@@ -69,42 +99,55 @@ namespace Lsj.Util.Text
         /// </summary>
         public static void RemoveLast(this StringBuilder src, int n)
         {
-            if (src.Length >= n)
+            src = src ?? new StringBuilder();
+            if (n < 0 || n > src.Length)
             {
-                src.Remove(src.Length - n);
+                throw new ArgumentOutOfRangeException(nameof(n));
             }
-            else
-            {
-                src.Clear();
-            }
+            src.Remove(src.Length - n);
         }
+
         /// <summary>
-        /// Remove One Char
+        /// Remove Chars After n
         /// </summary>
-        /// <param name="src">Source String</param>
-        /// <param name="n">Char Offset</param>
-
-        public static string RemoveOne(this string src, int n) => src.Remove(n, 1);
-
+        /// <param name="src"></param>
+        /// <param name="n"></param>
+        public static void Remove(this StringBuilder src, int n)
+        {
+            src = src ?? new StringBuilder();
+            if (n < 0 || n >= src.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(n));
+            }
+            src.Remove(n, src.Length - n);
+        }
 
         /// <summary>
         /// Convert String Array To Int Array
         /// </summary>
         public static int[] ConvertToIntArray(this string[] src)
         {
+            if (src == null || src.Length == 0)
+            {
+                return new int[0];
+            }
 #if NETSTANDARD
             return ArrayHelper.ConvertAll(src, s => s.ConvertToInt());
 #else
             return Array.ConvertAll(src, s => s.ConvertToInt());
 #endif
-
         }
+
 
         /// <summary>
         /// Convert String Array To Byte Array
         /// </summary>
         public static byte[] ConvertToByteArray(this string[] src)
         {
+            if (src == null || src.Length == 0)
+            {
+                return new byte[0];
+            }
 #if NETSTANDARD
             return ArrayHelper.ConvertAll(src, s => s.ConvertToByte());
 #else
@@ -133,11 +176,14 @@ namespace Lsj.Util.Text
         /// Convert Binary Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// </summary>
+        public static string ConvertFromBytes(this byte[] src)
+        {
 #if NETSTANDARD
-        public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.UTF8);
+            return ConvertFromBytes(src, Encoding.UTF8);
 #else
-        public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.Default);
+            return ConvertFromBytes(src, Encoding.Default);
 #endif
+        }
 
         /// <summary>
         /// Convert Binary Byte Array To String
@@ -146,23 +192,25 @@ namespace Lsj.Util.Text
         /// </summary>
         public static string ConvertFromBytes(this byte[] src, Encoding encoding) => encoding.GetString(src);
 
-
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
         /// </summary>
         public static int ConvertToInt(this string src) => ConvertToInt(src, 0);
+
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static int ConvertToInt(this string src, int OnError) => ConvertToInt(src, OnError, int.MinValue, int.MaxValue);
+
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
         /// </summary>
         public static int? ConvertToIntWithNull(this string src) => ConvertToIntWithNull(src, int.MinValue, int.MaxValue);
+
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
@@ -171,6 +219,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static int ConvertToInt(this string src, int OnError, int min, int max) => ConvertToIntWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Int
         /// <param name="src">Source String</param>
@@ -191,17 +240,20 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// </summary>
         public static byte ConvertToByte(this string src) => ConvertToByte(src, 0);
+
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError) => ConvertToByte(src, OnError, byte.MinValue, byte.MaxValue);
+
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
         /// </summary>
         public static byte? ConvertToByteWithNull(this string src) => ConvertToByteWithNull(src, byte.MinValue, byte.MaxValue);
+
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
@@ -210,6 +262,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static byte ConvertToByte(this string src, byte OnError, byte min, byte max) => ConvertToByteWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Byte
         /// <param name="src">Source String</param>
@@ -230,17 +283,20 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// </summary>
         public static long ConvertToLong(this string src) => ConvertToLong(src, 0);
+
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static long ConvertToLong(this string src, long OnError) => ConvertToLong(src, OnError, long.MinValue, long.MaxValue);
+
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
         /// </summary>
         public static long? ConvertToLongWithNull(this string src) => ConvertToLongWithNull(src, long.MinValue, long.MaxValue);
+
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
@@ -249,6 +305,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static long ConvertToLong(this string src, long OnError, long min, long max) => ConvertToLongWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Long
         /// <param name="src">Source String</param>
@@ -269,17 +326,20 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// </summary>
         public static float ConvertToFloat(this string src) => ConvertToFloat(src, 0);
+
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static float ConvertToFloat(this string src, float OnError) => ConvertToFloat(src, OnError, float.MinValue, float.MaxValue);
+
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
         /// </summary>
         public static float? ConvertToFloatWithNull(this string src) => ConvertToFloatWithNull(src, float.MinValue, float.MaxValue);
+
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
@@ -288,6 +348,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static float ConvertToFloat(this string src, float OnError, float min, float max) => ConvertToFloatWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Float
         /// <param name="src">Source String</param>
@@ -308,17 +369,20 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// </summary>
         public static double ConvertToDouble(this string src) => ConvertToDouble(src, 0);
+
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static double ConvertToDouble(this string src, double OnError) => ConvertToDouble(src, OnError, double.MinValue, double.MaxValue);
+
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
         /// </summary>
         public static double? ConvertToDoubleWithNull(this string src) => ConvertToDoubleWithNull(src, double.MinValue, double.MaxValue);
+
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
@@ -327,6 +391,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static double ConvertToDouble(this string src, double OnError, double min, double max) => ConvertToDoubleWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Double
         /// <param name="src">Source String</param>
@@ -347,17 +412,20 @@ namespace Lsj.Util.Text
         /// <param name="src">Source String</param>
         /// </summary>
         public static decimal ConvertToDecimal(this string src) => ConvertToDecimal(src, 0);
+
         /// <summary>
         /// Convert String To Decimal
         /// <param name="src">Source String</param>
         /// <param name="OnError">On Error Return</param> 
         /// </summary>
         public static decimal ConvertToDecimal(this string src, decimal OnError) => ConvertToDecimal(src, OnError, decimal.MinValue, decimal.MaxValue);
+
         /// <summary>
         /// Convert String To Decimal
         /// <param name="src">Source String</param>
         /// </summary>
         public static decimal? ConvertToDecimalWithNull(this string src) => ConvertToDecimalWithNull(src, decimal.MinValue, decimal.MaxValue);
+
         /// <summary>
         /// Convert String To Decimal
         /// <param name="src">Source String</param>
@@ -366,6 +434,7 @@ namespace Lsj.Util.Text
         /// <param name="max">Maximum Value</param>
         /// </summary>
         public static decimal ConvertToDecimal(this string src, decimal OnError, decimal min, decimal max) => ConvertToDecimalWithNull(src, min, max) ?? OnError;
+
         /// <summary>
         /// Convert String To Decimal
         /// <param name="src">Source String</param>
@@ -385,12 +454,14 @@ namespace Lsj.Util.Text
         /// Avoid Null String
         /// <param name="src">Source String</param>
         /// </summary>        
-        public static string ToSafeString(this string src) => src + "";
+        public static string ToSafeString(this string src) => src + String.Empty;
+
         /// <summary>
         /// Convert String To StringBuilder
         /// <param name="src">Source String</param>
         /// </summary>
         public static StringBuilder ToStringBuilder(this string src) => new StringBuilder(src);
+
         /// <summary>
         /// Read String From Stream
         /// <param name="stream">Source Stream</param>
@@ -412,11 +483,16 @@ namespace Lsj.Util.Text
         /// Read String From Stream
         /// <param name="stream">Source Stream</param>
         /// </summary>
+
+        public static string ReadFromStream(this Stream stream)
+        {
 #if NETSTANDARD
-        public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.UTF8);
+            return ReadFromStream(stream, Encoding.UTF8);
 #else
-        public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
+            return ReadFromStream(stream, Encoding.Default);
 #endif
+        }
+
         /// <summary>
         /// Split
         /// </summary>
@@ -436,18 +512,21 @@ namespace Lsj.Util.Text
             result.Add(src);
             return result.ToArray();
         }
+
         /// <summary>
         /// Is Match Ignore Case
         /// </summary>
         /// <param name="src"></param>
         /// <param name="str"></param>
         public static bool IsMatchIgnoreCase(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Is Match
         /// </summary>
         /// <param name="src"></param>
         /// <param name="str"></param>
         public static bool IsMatch(this string src, string str) => Regex.IsMatch(src, str.Replace("*", ".*").Replace("?", "?"), RegexOptions.None);
+
         /// <summary>
         /// Convert To Datetime
         /// </summary>
@@ -460,6 +539,7 @@ namespace Lsj.Util.Text
             }
             return new DateTime();
         }
+
         /// <summary>
         /// Convert To Datetime
         /// </summary>
@@ -486,6 +566,7 @@ namespace Lsj.Util.Text
             }
             return x;
         }
+
         /// <summary>
         /// Read String From Byte Point
         /// </summary>
@@ -502,6 +583,7 @@ namespace Lsj.Util.Text
             }
             return encoding.GetString(x);
         }
+
         /// <summary>
         /// Read String From Byte Point
         /// </summary>
@@ -524,6 +606,7 @@ namespace Lsj.Util.Text
             }
             return new string(x);
         }
+
         /// <summary>
         /// Convert To IPAddress
         /// </summary>
@@ -536,25 +619,34 @@ namespace Lsj.Util.Text
             }
             return i;
         }
+
         /// <summary>
         /// Url Encode
         /// </summary>
         /// <param name="src"></param>
+
+        public static string UrlEncode(this string src)
+        {
 #if NETSTANDARD
-        public static string UrlEncode(this string src) => WebUtility.UrlEncode(src);
+            return WebUtility.UrlEncode(src);
 #else
-        public static string UrlEncode(this string src) => HttpUtility.UrlEncode(src);
+            return HttpUtility.UrlEncode(src);
 #endif
+        }
 
         /// <summary>
         /// Url Decode
         /// </summary>
         /// <param name="src"></param>
+        public static string UrlDecode(this string src)
+        {
 #if NETSTANDARD
-        public static string UrlDecode(this string src) => WebUtility.UrlDecode(src);
+            return WebUtility.UrlDecode(src);
 #else
-        public static string UrlDecode(this string src) => HttpUtility.UrlDecode(src);
+            return HttpUtility.UrlDecode(src);
 #endif
+        }
+
         /// <summary>
         /// Is Null or Empty
         /// </summary>
@@ -572,7 +664,7 @@ namespace Lsj.Util.Text
         {
             if (index < 0)
             {
-                throw new ArgumentNullException("index must be larger than 0");
+                throw new ArgumentOutOfRangeException("index must be larger than 0");
             }
             var start = index - count;
             start = start < 0 ? 0 : start;
@@ -587,7 +679,7 @@ namespace Lsj.Util.Text
         /// <param name="index">char index</param>
         /// <param name="count">surrounding count</param>
         /// <returns></returns>
-       public static unsafe string GetSurroundingChars(char* str, int length, int index, int count)
+        public static unsafe string GetSurroundingChars(char* str, int length, int index, int count)
         {
             if (index < 0)
             {
@@ -596,9 +688,8 @@ namespace Lsj.Util.Text
             var start = index - count;
             start = start < 0 ? 0 : start;
             var end = index + count;
-            end = end > length ? length : end;
+            end = end >= length ? length - 1 : end;
             return new string(str, start, end - start + 1);
         }
-
     }
 }

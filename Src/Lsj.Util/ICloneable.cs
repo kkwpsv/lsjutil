@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-#if NETSTANDARD
+﻿#if NETSTANDARD
 namespace Lsj.Util
 {
     /// <summary>

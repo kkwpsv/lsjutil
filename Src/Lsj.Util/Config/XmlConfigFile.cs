@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using Lsj.Util.Xml;
-using Lsj.Util.Reflection;
+﻿using Lsj.Util.Reflection;
 using Lsj.Util.Text;
-
-
-
-
+using Lsj.Util.Xml;
+using System.Linq;
 
 namespace Lsj.Util.Config
 
@@ -27,6 +19,7 @@ namespace Lsj.Util.Config
         {
             Refresh();
         }
+
         /// <summary>
         /// Refresh
         /// </summary>

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 
 namespace Lsj.Util.Collections
 {
@@ -12,7 +7,8 @@ namespace Lsj.Util.Collections
     /// </summary>
     public class MyQueue<T>
     {
-        SeqList<T> m_list;
+        private SeqList<T> m_list;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.MyQueue{T}"/> class.
         /// </summary>
@@ -20,6 +16,7 @@ namespace Lsj.Util.Collections
         {
             this.m_list = new SeqList<T>();
         }
+
         /// <summary>
         /// Enqueue
         /// </summary>
@@ -28,6 +25,7 @@ namespace Lsj.Util.Collections
         {
             m_list.Add(value);
         }
+
         /// <summary>
         /// Dequeue
         /// </summary>
@@ -44,6 +42,7 @@ namespace Lsj.Util.Collections
                 return value;
             }
         }
+
         /// <summary>
         /// Peek
         /// </summary>
@@ -59,6 +58,7 @@ namespace Lsj.Util.Collections
                 return value;
             }
         }
+
         /// <summary>
         /// Count
         /// </summary>

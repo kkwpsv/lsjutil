@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Lsj.Util
+﻿namespace Lsj.Util
 {
     /// <summary>
     /// ASCII Char
@@ -287,10 +282,6 @@ namespace Lsj.Util
         /// </summary>
         public const byte z = 122;
 
-
-
-
-
         /// <summary>
         /// IsNumber
         /// </summary>
@@ -301,5 +292,4 @@ namespace Lsj.Util
             return i >= 48 && i <= 57;
         }
     }
-
 }
