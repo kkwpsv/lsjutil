@@ -13,7 +13,10 @@ namespace Lsj.Util.APIs.Alipay.Pay
         private readonly AlipayPayAPI alipayPayAPI;
 
         public AlipayPayData(AlipayPayAPI alipayPayAPI) : base() => this.alipayPayAPI = alipayPayAPI;
-        public AlipayPayData(Dictionary<string, string> src) : base(src) => this.alipayPayAPI = alipayPayAPI;
+        public AlipayPayData(Dictionary<string, string> src) : base(src)
+        {
+
+        }
 
         public void DoSign(RSACryptoServiceProvider rsa)
         {
