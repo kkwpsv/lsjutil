@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lsj.Util.Protobuf
 {
@@ -39,6 +36,15 @@ namespace Lsj.Util.Protobuf
         {
             get;
         } = FieldType.Varint;
+
+        /// <summary>
+        /// IsRequired
+        /// </summary>
+        public bool IsRequired
+        {
+            get;
+            set;
+        }
 
     }
 }

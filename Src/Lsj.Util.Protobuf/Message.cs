@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using Lsj.Util.Reflection;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using Lsj.Util.Reflection;
 
 namespace Lsj.Util.Protobuf
 {
@@ -14,9 +12,9 @@ namespace Lsj.Util.Protobuf
     /// </summary>
     public abstract class Message : DisposableClass, IDisposable
     {
-        int offset = 0;
-        byte[] buffer;
-        MemoryStream stream;
+        private int offset = 0;
+        private byte[] buffer;
+        private MemoryStream stream;
         /// <summary>
         /// Read
         /// </summary>
@@ -33,6 +31,7 @@ namespace Lsj.Util.Protobuf
             this.buffer = new byte[length];
             UnsafeHelper.Copy(data, offset, buffer, 0, length);
             var fields = this.GetType().GetProperties().Where(x => x.GetAttribute<FieldAttribute>() != null).ToDictionary(x => x.GetAttribute<FieldAttribute>().FieldNumber, x => x);
+            var requires = this.GetType().GetProperties().Where(x => x.GetAttribute<FieldAttribute>() != null && x.GetAttribute<FieldAttribute>().IsRequired).ToDictionary(x => x.GetAttribute<FieldAttribute>().FieldNumber, x => false);
             var flags = new List<int>();
             while (this.offset < this.buffer.Length)
             {
@@ -52,9 +51,17 @@ namespace Lsj.Util.Protobuf
                         throw new InvalidCastException($"Bad data : {field.Name} cannot be set twice.");
                     }
                     field.SetValue(this, GetData(type, field.PropertyType), null);
-
+                    if (requires.ContainsKey(fieldnumber))
+                    {
+                        requires[fieldnumber] = true;
+                    }
                 }
             }
+            if (!requires.All(x => x.Value))
+            {
+                throw new InvalidDataException("Some required field is null");
+            }
+
         }
         private object GetData(FieldType Type, Type FieldType)
         {
@@ -84,14 +91,14 @@ namespace Lsj.Util.Protobuf
             }
             else if (Type == Protobuf.FieldType.Bit32)
             {
-                if (FieldType == typeof(Single))
+                if (FieldType == typeof(float))
                 {
                     return this.ReadSingle();
                 }
             }
             else if (Type == Protobuf.FieldType.Bit64)
             {
-                if (FieldType == typeof(Double))
+                if (FieldType == typeof(double))
                 {
                     return this.ReadDouble();
                 }
@@ -101,39 +108,39 @@ namespace Lsj.Util.Protobuf
         private delegate object VarintSetMethodDelegate();
         private VarintSetMethodDelegate GetVarintSetMethodByType(Type type)
         {
-            if (type == typeof(Boolean))
+            if (type == typeof(bool))
             {
                 return () => (this.ReadBoolean());
             }
-            else if (type == typeof(SByte))
+            else if (type == typeof(sbyte))
             {
                 return () => (this.ReadSByte());
             }
-            else if (type == typeof(Byte))
+            else if (type == typeof(byte))
             {
                 return () => (this.ReadByte());
             }
-            else if (type == typeof(Int16))
+            else if (type == typeof(short))
             {
                 return () => (this.ReadInt16());
             }
-            else if (type == typeof(UInt16))
+            else if (type == typeof(ushort))
             {
                 return () => (this.ReadUInt16());
             }
-            else if (type == typeof(Int32))
+            else if (type == typeof(int))
             {
                 return () => (this.ReadInt32());
             }
-            else if (type == typeof(UInt32))
+            else if (type == typeof(uint))
             {
                 return () => (this.ReadUInt32());
             }
-            else if (type == typeof(Int64))
+            else if (type == typeof(long))
             {
                 return () => (this.ReadInt64());
             }
-            else if (type == typeof(UInt64))
+            else if (type == typeof(ulong))
             {
                 return () => (this.ReadUInt64());
             }
@@ -142,7 +149,7 @@ namespace Lsj.Util.Protobuf
                 throw new NotImplementedException();
             }
         }
-        private Boolean ReadBoolean()
+        private bool ReadBoolean()
         {
             if (offset + 1 <= buffer.Length)
             {
@@ -151,9 +158,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private SByte ReadSByte()
+        private sbyte ReadSByte()
         {
-            SByte result = 0;
+            sbyte result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -161,7 +168,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 8)
                 {
                     var x = buffer[offset++];
-                    result |= (SByte)((SByte)(x & 0x7f) << p);
+                    result |= (sbyte)((sbyte)(x & 0x7f) << p);
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -175,9 +182,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Byte ReadByte()
+        private byte ReadByte()
         {
-            Byte result = 0;
+            byte result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -185,7 +192,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 8)
                 {
                     var x = buffer[offset++];
-                    result |= (Byte)((Byte)(x & 0x7f) << p);
+                    result |= (byte)((byte)(x & 0x7f) << p);
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -199,9 +206,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Int16 ReadInt16()
+        private short ReadInt16()
         {
-            Int16 result = 0;
+            short result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -209,7 +216,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 16)
                 {
                     var x = buffer[offset++];
-                    result |= (Int16)((Int16)(x & 0x7f) << p);
+                    result |= (short)((short)(x & 0x7f) << p);
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -223,9 +230,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private UInt16 ReadUInt16()
+        private ushort ReadUInt16()
         {
-            UInt16 result = 0;
+            ushort result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -233,7 +240,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 16)
                 {
                     var x = buffer[offset++];
-                    result |= (UInt16)((UInt16)(x & 0x7f) << p);
+                    result |= (ushort)((ushort)(x & 0x7f) << p);
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -247,7 +254,7 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Int32 ReadInt32()
+        private int ReadInt32()
         {
             Int32 result = 0;
             int l = 0;
@@ -257,7 +264,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 32)
                 {
                     var x = buffer[offset++];
-                    result |= (Int32)((Int32)(x & 0x7f) << p);
+                    result |= (x & 0x7f) << p;
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -271,9 +278,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private UInt32 ReadUInt32()
+        private uint ReadUInt32()
         {
-            UInt32 result = 0;
+            uint result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -281,7 +288,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 32)
                 {
                     var x = buffer[offset++];
-                    result |= (UInt32)((UInt32)(x & 0x7f) << p);
+                    result |= (uint)(x & 0x7f) << p;
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -295,9 +302,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Int64 ReadInt64()
+        private long ReadInt64()
         {
-            Int64 result = 0;
+            long result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -305,7 +312,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 64)
                 {
                     var x = buffer[offset++];
-                    result |= (Int64)((Int64)(x & 0x7f) << p);
+                    result |= (long)(x & 0x7f) << p;
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -319,9 +326,9 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private UInt64 ReadUInt64()
+        private ulong ReadUInt64()
         {
-            UInt64 result = 0;
+            ulong result = 0;
             int l = 0;
             int p = 0;
             while (offset < buffer.Length)
@@ -329,7 +336,7 @@ namespace Lsj.Util.Protobuf
                 while (l < 64)
                 {
                     var x = buffer[offset++];
-                    result |= (UInt64)((UInt64)(x & 0x7f) << p);
+                    result |= (ulong)(x & 0x7f) << p;
                     if (x >> 7 == 1)
                     {
                         p += 7;
@@ -343,7 +350,7 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private String ReadString()
+        private string ReadString()
         {
             UInt32 length = this.ReadUInt32();
             if (offset + length <= this.buffer.Length)
@@ -401,7 +408,7 @@ namespace Lsj.Util.Protobuf
             return result.GetType().GetMethod("ToArray").Invoke(result, null);
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Single ReadSingle()
+        private float ReadSingle()
         {
             if (offset + 4 <= buffer.Length)
             {
@@ -411,7 +418,7 @@ namespace Lsj.Util.Protobuf
             }
             throw new InvalidOperationException("Buffer is too short");
         }
-        private Double ReadDouble()
+        private double ReadDouble()
         {
             if (offset + 8 <= buffer.Length)
             {
@@ -440,6 +447,10 @@ namespace Lsj.Util.Protobuf
                     this.WriteUInt32((uint)((field.Key << 3) | (byte)type));
                     this.WriteData(value, type, field.Value.PropertyType);
                 }
+                else if (attribute.IsRequired)
+                {
+                    throw new InvalidDataException("Null value for required field");
+                }
 
             }
             return stream.ReadAll();
@@ -449,41 +460,41 @@ namespace Lsj.Util.Protobuf
         private delegate void VarintWriteMethodDelegate(object data);
         private VarintWriteMethodDelegate GetVarintWriteMethodByType(Type type)
         {
-            if (type == typeof(Boolean))
+            if (type == typeof(bool))
             {
-                return (Object o) => { this.WriteBoolean((Boolean)o); };
+                return (object o) => { this.WriteBoolean((bool)o); };
             }
-            else if (type == typeof(SByte))
+            else if (type == typeof(sbyte))
             {
-                return (Object o) => { this.WriteSByte((SByte)o); };
+                return (object o) => { this.WriteSByte((sbyte)o); };
             }
-            else if (type == typeof(Byte))
+            else if (type == typeof(byte))
             {
-                return (Object o) => { this.WriteByte((Byte)o); };
+                return (object o) => { this.WriteByte((byte)o); };
             }
-            else if (type == typeof(Int16))
+            else if (type == typeof(short))
             {
-                return (Object o) => { this.WriteInt16((Int16)o); };
+                return (object o) => { this.WriteInt16((short)o); };
             }
-            else if (type == typeof(UInt16))
+            else if (type == typeof(ushort))
             {
-                return (Object o) => { this.WriteUInt16((UInt16)o); };
+                return (object o) => { this.WriteUInt16((ushort)o); };
             }
-            else if (type == typeof(Int32))
+            else if (type == typeof(int))
             {
-                return (Object o) => { this.WriteInt32((Int32)o); };
+                return (object o) => { this.WriteInt32((int)o); };
             }
-            else if (type == typeof(UInt32))
+            else if (type == typeof(uint))
             {
-                return (Object o) => { this.WriteUInt32((UInt32)o); };
+                return (object o) => { this.WriteUInt32((uint)o); };
             }
-            else if (type == typeof(Int64))
+            else if (type == typeof(long))
             {
-                return (Object o) => { this.WriteInt64((Int64)o); };
+                return (object o) => { this.WriteInt64((long)o); };
             }
-            else if (type == typeof(UInt64))
+            else if (type == typeof(ulong))
             {
-                return (Object o) => { this.WriteUInt64((UInt64)o); };
+                return (object o) => { this.WriteUInt64((ulong)o); };
             }
             else
             {
@@ -502,7 +513,7 @@ namespace Lsj.Util.Protobuf
             {
                 if (FieldType == typeof(string))
                 {
-                    this.WriteString((String)data);
+                    this.WriteString((string)data);
                     return;
                 }
                 else if (FieldType == typeof(byte[]))
@@ -523,23 +534,23 @@ namespace Lsj.Util.Protobuf
             }
             else if (Type == Protobuf.FieldType.Bit32)
             {
-                if (FieldType == typeof(Single))
+                if (FieldType == typeof(float))
                 {
-                    this.WriteSingle((Single)data);
+                    this.WriteSingle((float)data);
                     return;
                 }
             }
             else if (Type == Protobuf.FieldType.Bit64)
             {
-                if (FieldType == typeof(Double))
+                if (FieldType == typeof(double))
                 {
-                    this.WriteDouble((Double)data);
+                    this.WriteDouble((double)data);
                     return;
                 }
             }
             throw new InvalidCastException($"Bad data");
         }
-        private void WriteBoolean(Boolean value)
+        private void WriteBoolean(bool value)
         {
             if (value)
             {
@@ -550,7 +561,7 @@ namespace Lsj.Util.Protobuf
                 stream.WriteByte(0);
             }
         }
-        private void WriteSByte(SByte value)
+        private void WriteSByte(sbyte value)
         {
             if (value == 0)
             {
@@ -560,7 +571,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (SByte)(value >> 7);
+                value = (sbyte)(value >> 7);
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -571,7 +582,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteByte(Byte value)
+        private void WriteByte(byte value)
         {
             if (value == 0)
             {
@@ -581,7 +592,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (Byte)(value >> 7);
+                value = (byte)(value >> 7);
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -592,7 +603,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteInt16(Int16 value)
+        private void WriteInt16(short value)
         {
             if (value == 0)
             {
@@ -602,7 +613,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (Int16)(value >> 7);
+                value = (short)(value >> 7);
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -613,7 +624,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteUInt16(UInt16 value)
+        private void WriteUInt16(ushort value)
         {
             if (value == 0)
             {
@@ -623,7 +634,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (UInt16)(value >> 7);
+                value = (ushort)(value >> 7);
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -634,7 +645,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteInt32(Int32 value)
+        private void WriteInt32(int value)
         {
             if (value == 0)
             {
@@ -644,7 +655,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (Int32)(value >> 7);
+                value = value >> 7;
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -655,7 +666,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteUInt32(UInt32 value)
+        private void WriteUInt32(uint value)
         {
             if (value == 0)
             {
@@ -665,7 +676,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (UInt32)(value >> 7);
+                value = value >> 7;
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -676,7 +687,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteInt64(Int64 value)
+        private void WriteInt64(long value)
         {
             if (value == 0)
             {
@@ -686,7 +697,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (Int64)(value >> 7);
+                value = value >> 7;
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -697,7 +708,7 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteUInt64(UInt64 value)
+        private void WriteUInt64(ulong value)
         {
             if (value == 0)
             {
@@ -707,7 +718,7 @@ namespace Lsj.Util.Protobuf
             while (value != 0)
             {
                 var cur = (byte)(value & 0x7f);
-                value = (UInt64)(value >> 7);
+                value = value >> 7;
                 if (value == 0)
                 {
                     stream.WriteByte(cur);
@@ -718,20 +729,17 @@ namespace Lsj.Util.Protobuf
                 }
             }
         }
-        private void WriteString(String value)
+        private void WriteString(string value)
         {
             var bytes = Encoding.UTF8.GetBytes(value);
             WriteByteArray(bytes);
         }
-        private void WriteByteArray(Byte[] value)
+        private void WriteByteArray(byte[] value)
         {
             this.WriteUInt32((uint)value.Length);
             stream.Write(value);
         }
-        private void WriteMessage(Message value)
-        {
-            this.WriteByteArray(value.ToArray());
-        }
+        private void WriteMessage(Message value) => this.WriteByteArray(value.ToArray());
         private void WritePackedRepeated(object value, Type FieldType)
         {
             var oldstream = this.stream;
@@ -746,12 +754,12 @@ namespace Lsj.Util.Protobuf
             this.stream = oldstream;
             this.WriteByteArray(newstream.ReadAll());
         }
-        private void WriteSingle(Single value)
+        private void WriteSingle(float value)
         {
             var result = BitConverter.GetBytes(value);
             stream.Write(result);
         }
-        private void WriteDouble(Double value)
+        private void WriteDouble(double value)
         {
             var result = BitConverter.GetBytes(value);
             stream.Write(result);
