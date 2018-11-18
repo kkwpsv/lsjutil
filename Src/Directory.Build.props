@@ -4,24 +4,16 @@
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup>
-
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <VersionSuffix>debug</VersionSuffix>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(AssemblyName)=='Lsj.Util' or $(AssemblyName)=='Lsj.Util.HtmlBuilder' or $(AssemblyName)=='Lsj.Util.JSON' or $(AssemblyName)=='Lsj.Util.Net.Web' or $(AssemblyName)=='Lsj.Util.Data'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <Version>2.0.5</Version>
+    <VersionPrefix>2.0.5</VersionPrefix>
     <Description>My Utility For asp.net core</Description>
   </PropertyGroup>
   <ItemGroup>
@@ -19,5 +19,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.HtmlBuilder\Lsj.Util.HtmlBuilder.csproj" />
   </ItemGroup>
-  <Import Project="..\Pack.props" />
 </Project>

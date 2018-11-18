@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>1.0.3</Version>
+    <VersionPrefix>1.0.3</VersionPrefix>
     <Description>My Utility For WeChat APIs</Description>
   </PropertyGroup>
-  <Import Project="..\Pack.props" />
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj" />
   </ItemGroup>

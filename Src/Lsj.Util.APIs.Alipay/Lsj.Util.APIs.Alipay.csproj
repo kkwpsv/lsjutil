@@ -4,7 +4,6 @@
     <VersionPrefix>1.0.8</VersionPrefix>
     <Description>My Utility For Alipay APIs</Description>
   </PropertyGroup>
-  <Import Project="..\Pack.props" />
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />
     <ProjectReference Include="..\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj" />

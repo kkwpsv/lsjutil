@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40;net45</TargetFrameworks>
-    <Version>2.0.2</Version>
+    <VersionPrefix>2.0.2</VersionPrefix>
     <Description>My Utility For Protobuf</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
-  <Import Project="..\Pack.props" />
 </Project>
