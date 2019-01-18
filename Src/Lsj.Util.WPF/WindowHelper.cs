@@ -5,6 +5,9 @@ using System.Windows.Interop;
 
 namespace Lsj.Util.WPF
 {
+    /// <summary>
+    /// Window Helper
+    /// </summary>
     public static class WindowHelper
     {
         [DllImport("user32.dll", EntryPoint = "GetWindowLong")]
@@ -13,7 +16,11 @@ namespace Lsj.Util.WPF
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         private static extern int SetWindowLong(IntPtr hMenu, int nIndex, int dwNewLong);
 
-
+        /// <summary>
+        /// Set CanMaxmize
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="canMaxmize"></param>
         public static void SetCanMaxmize(this Window window, bool canMaxmize)
         {
             int GWL_STYLE = -16;
