@@ -35,5 +35,16 @@ namespace Lsj.Util
             var callsite = CallSite<Func<CallSite, object, object, object>>.Create(binder);
             callsite.Target(callsite, obj, value);
         }
+
+        /// <summary>
+        /// Cast
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T Cast<T>(this object obj)
+        {
+            return (T)obj;
+        }
     }
 }

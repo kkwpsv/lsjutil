@@ -15,9 +15,17 @@ namespace Lsj.Util.Collections
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
         /// </summary>
+        public TwoWayDictionary() : this(false)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Collections.TwoWayDictionary{TKey, TValue}"/> class.
+        /// </summary>
         /// <param name="IsMultiThreadSafety">If set to <c>true</c> is multi thread safety.</param>
         public TwoWayDictionary(bool IsMultiThreadSafety)
         {
+            //TODO: Multi Thread Safety
             this.a = new SafeDictionary<TKey, TValue>();
             this.b = new SafeDictionary<TValue, TKey>();
         }
@@ -55,24 +63,19 @@ namespace Lsj.Util.Collections
 
         }
 
-        private TKey GetKeyByValue(TValue value)
-        {
-            if (ContainsValue(value))
-            {
-                return NullKey(value);
-            }
-            return b[value];
-        }
+        /// <summary>
+        /// Get Key By Value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public TKey GetKeyByValue(TValue value) => ContainsValue(value) ? NullKey(value) : b[value];
 
-        private TValue GetValueByKey(TKey key)
-        {
-            if (ContainsKey(key))
-            {
-                return NullValue(key);
-            }
-
-            return a[key];
-        }
+        /// <summary>
+        /// Get Value By Key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public TValue GetValueByKey(TKey key) => ContainsKey(key) ? NullValue(key) : a[key];
 
         /// <summary>
         /// Add the specified key and value.
