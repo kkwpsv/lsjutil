@@ -1,4 +1,4 @@
-nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.2.1.nupkg -Source nuget.org
+nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.2.2.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.APIs.Alipay/bin/Release/Lsj.Util.APIs.Alipay.1.0.8.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.APIs.WeChat/bin/Release/Lsj.Util.APIs.WeChat.1.0.3.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.AspNetCore/bin/Release/Lsj.Util.AspNetCore.2.0.5.nupkg -Source nuget.org

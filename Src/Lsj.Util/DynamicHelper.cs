@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
+using Lsj.Util.Text;
 
 namespace Lsj.Util
 {
@@ -45,6 +47,56 @@ namespace Lsj.Util
         public static T Cast<T>(this object obj)
         {
             return (T)obj;
+        }
+
+        public static bool AutoCastAndAssign(ref string toAssign, object val)
+        {
+            toAssign = val.ToString();
+            return true;
+        }
+        public static bool AutoCastAndAssign(ref int toAssign, object val)
+        {
+            if (val.IsNumeric())
+            {
+                toAssign = (int)val;
+                return true;
+            }
+            else
+            {
+                var str = (val as object).ToString();
+                var intVal = str.ConvertToIntWithNull();
+                if (intVal != null)
+                {
+                    toAssign = intVal.Value;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public static bool AutoCastAndAssign(ref decimal toAssign, object val)
+        {
+            if (val.IsNumeric())
+            {
+                toAssign = (int)val;
+                return true;
+            }
+            else
+            {
+                var str = (val as object).ToString();
+                var decimalVal = str.ConvertToDecimalWithNull();
+                if (decimalVal != null)
+                {
+                    toAssign = decimalVal.Value;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

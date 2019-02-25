@@ -12,6 +12,14 @@ namespace Lsj.Util
         /// <summary>
         /// IsNumeric
         /// </summary>
+        /// <param name="obj">obj</param>
+        /// <returns></returns>
+        public static bool IsNumeric(this object obj) => IsNumeric(obj.GetType());
+
+
+        /// <summary>
+        /// IsNumeric
+        /// </summary>
         /// <param name="type"></param>
         /// <exception cref="ArgumentNullException">type is null</exception>
         /// <returns></returns>
