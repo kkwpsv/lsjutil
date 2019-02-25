@@ -1,4 +1,7 @@
 ﻿using Lsj.Util.Collections;
+using Lsj.Util.JSON.Processer;
+using Lsj.Util.Reflection;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 
@@ -7,9 +10,16 @@ namespace Lsj.Util.JSON
     /// <summary>
     /// JSON Object
     /// </summary>
-    public class JSONObejct : DynamicObject
+    public class JSONObject : DynamicObject
     {
-        private readonly SafeDictionary<string, object> data = new SafeDictionary<string, object>();
+        internal readonly SafeDictionary<string, object> data = new SafeDictionary<string, object>();
+
+        public void Set(string name, object value)
+        {
+            this.data[name] = value;
+        }
+
+
 
         /// <summary>
         /// 
@@ -38,7 +48,7 @@ namespace Lsj.Util.JSON
         /// <returns></returns>
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
-            this.data[binder.Name] = value;
+            Set(binder.Name, value);
             return true;
         }
         /// <summary>
@@ -67,5 +77,13 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <returns></returns>
         public override IEnumerable<string> GetDynamicMemberNames() => this.data.Keys;
+
+
+        public T SpecifiedTo<T>()
+        {
+            var processer = new ObjectProcesser(typeof(T));
+            processer.SetValue(this);
+            return (T)processer.GetResult();
+        }
     }
 }

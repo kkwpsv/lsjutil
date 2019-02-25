@@ -1,4 +1,6 @@
-﻿using Lsj.Util.Logs;
+﻿using Lsj.Util.JSON.Processer;
+using Lsj.Util.JSON.Processer.Interfaces;
+using Lsj.Util.Logs;
 using Lsj.Util.Reflection;
 using Lsj.Util.Text;
 using System;
@@ -65,7 +67,27 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static dynamic Parse(string str)
+        public static dynamic Parse(string str) => Parse(str, null);
+
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static T Parse<T>(string str)
+        {
+            var result = Parse(str, typeof(T));
+            return result ?? default(T);
+        }
+
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static dynamic Parse(string str, Type type)
         {
             if (str.IsNullOrEmpty())
             {
@@ -78,7 +100,7 @@ namespace Lsj.Util.JSON
                     int index = 0;
                     int length = str.Length;
                     var r = 0;
-                    var result = ParseValue(ptr, ref index, length, null, ref r);
+                    var result = ParseValue(ptr, ref index, length, type, ref r);
                     if (index != length)
                     {
                         char c = *(ptr + index);
@@ -95,46 +117,6 @@ namespace Lsj.Util.JSON
                     return result;
                 }
             }
-        }
-        /// <summary>
-        /// Parse
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static T Parse<T>(string str)
-        {
-            if (str.IsNullOrEmpty())
-            {
-                return default(T);
-            }
-            var length = str.Length;
-            int index = 0;
-
-            T result = default(T);
-            unsafe
-            {
-                fixed (char* ptr = str)
-                {
-                    int r = 0;
-                    result = (T)(ParseValue(ptr, ref index, length, typeof(T), ref r));
-                    if (index != length)
-                    {
-                        char c = *(ptr + index);
-                        while (Char.IsWhiteSpace(c))
-                        {
-                            index++;
-                            c = *(ptr + index);
-                        }
-                        if (index != length - 1)
-                        {
-                            throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
-                        }
-                    }
-                    return result;
-                }
-            }
-
         }
 
         private static unsafe object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
@@ -153,72 +135,9 @@ namespace Lsj.Util.JSON
 
             char symbol = '\0';
             var status = Status.wantStart;
-            bool isDynamic = true;
-            bool isDic = false;
-            bool isList = false;
-            bool isStruct = false;
-            dynamic result = null;
-            PropertyInfo[] properties = null;
-            Type genericListType = null;
-            Type genericDicType = null;
-            if (type != null)
-            {
-                isDynamic = false;
-                if (type != typeof(string))
-                {
-                    isDic = type.IsDictionary();
-                    isList = type.IsList();
-                    if (isDic)
-                    {
-                        genericDicType = type.GetGenericType(typeof(IDictionary<,>));
-                    }
-                    else if (isList)
-                    {
-                        genericListType = type.GetGenericType(typeof(IList<>));
-                    }
-                    else
-                    {
-                        properties = type.GetProperties();
-                    }
-                    if (type.IsInterface)
-                    {
-                        if (isDic)
-                        {
-                            if (genericDicType == null)
-                            {
-                                result = new Hashtable();
-                            }
-                            else
-                            {
-                                result = ReflectionHelper.CreateDictionaryOfType(genericDicType.GetGenericArguments()[0], genericDicType.GetGenericArguments()[1]);
-                            }
-                        }
-                        else if (isList)
-                        {
-                            if (genericListType == null)
-                            {
-                                result = new ArrayList();
-                            }
-                            else
-                            {
-                                result = ReflectionHelper.CreateListOfType(genericListType.GetGenericArguments()[0]);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (type.IsValueType)
-                        {
-                            isStruct = true;
-                        }
-                        result = ReflectionHelper.CreateInstance(type);
-                    }
-                }
-            }
-
-
+            var processer = GetProcesserByType(type);
             string name = null;
-            bool isWantNameFirst = false;
+            bool hasFirstName = false;       
 
             for (; index < length; index++)
             {
@@ -233,68 +152,87 @@ namespace Lsj.Util.JSON
                     {
                         symbol = c;
                         status = Status.wantName;
-                        isWantNameFirst = true;
-                        if (isDynamic)
+                        if (!(processer is IObjectProcesser))
                         {
-                            result = new JSONObejct();
+                            throw new ArgumentException("Error Type. Json Object must be parsed to a normal object");
                         }
                     }
                     else if (c == '[')//list
                     {
                         symbol = c;
                         status = Status.wantValue;
-                        if (isDynamic)
+                        if (!(processer is IListProcesser))
                         {
-                            result = new JSONArray();
-                        }
-                        else
-                        {
-                            if (!isList)
-                            {
-                                throw new ArgumentException("Error Type. Json Array must be parsed to a IList<> or IList.");
-                            }
+                            throw new ArgumentException("Error Type. Json Array must be parssed to a IList<> or IList.");
                         }
                     }
                     else if (c == '"')//字符串
                     {
-                        var temp = GetString(ptr, ref index, length);
-                        if (type != null && type.IsEnum)
+                        if (processer is IStringProcesser stringProcesser)
                         {
-                            result = Enum.Parse(type, temp);
+                            var val = GetString(ptr, ref index, length);
+                            stringProcesser.SetValue(val);
+                            status = Status.End;
+                            break;
                         }
                         else
                         {
-                            result = temp;
+                            throw new ArgumentException("Error Type. Json String must be parsed to string or enum");
                         }
-                        status = Status.End;
-                        break;
                     }
                     else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')//true
                     {
                         index += 3;
-                        result = true;
-                        status = Status.End;
-                        break;
+                        if (processer is IBoolProcesser boolProcesser)
+                        {
+                            boolProcesser.SetValue(true);
+                            status = Status.End;
+                            break;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Error Type. Json Bool must be parsed to bool");
+                        }
                     }
                     else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')//false
                     {
                         index += 4;
-                        result = false;
-                        status = Status.End;
-                        break;
+                        if (processer is IBoolProcesser boolProcesser)
+                        {
+                            boolProcesser.SetValue(false);
+                            status = Status.End;
+                            break;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Error Type. Json Bool must be parsed to bool");
+                        }
                     }
                     else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
                     {
-                        result = GetNumberic(ptr, ref index, length);
-                        status = Status.End;
-                        break;
+                        if (processer is INumericProcesser numericProcesser)
+                        {
+                            numericProcesser.SetValue(GetNumeric(ptr, ref index, length));
+                            status = Status.End;
+                            break;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Error Type. Json Number must be parsed to a numeric type");
+                        }
                     }
                     else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
                     {
-                        index += 3;
-                        result = null;
-                        status = Status.End;
-                        break;
+                        if (processer is INullableProcesser nullableProcesser)
+                        {
+                            nullableProcesser.SetNull();
+                            status = Status.End;
+                            break;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Error Type. Json Null must be parsed to a nullable object");
+                        }
                     }
                     else
                     {
@@ -303,14 +241,10 @@ namespace Lsj.Util.JSON
                 }
                 else if (status == Status.wantName)//名称
                 {
-                    if (isWantNameFirst)
+                    if (!hasFirstName && *(ptr + index) == '}')
                     {
-                        isWantNameFirst = false;
-                        if (*(ptr + index) == '}')
-                        {
-                            status = Status.End;
-                            break;
-                        }
+                        status = Status.End;
+                        break;
                     }
                     if (*(ptr + index) != '"')
                     {
@@ -321,7 +255,6 @@ namespace Lsj.Util.JSON
                         name = GetString(ptr, ref index, length);
                         status = Status.wantColon;
                     }
-
                 }
                 else if (status == Status.wantColon)//冒号
                 {
@@ -336,99 +269,29 @@ namespace Lsj.Util.JSON
                 }
                 else if (status == Status.wantValue)//值
                 {
-                    if (isDynamic)//动态
+                    if (name != null && processer is IObjectProcesser objectProcesser)
                     {
-                        if (name != null)//JSONObject
+                        var value = ParseValue(ptr, ref index, length, objectProcesser.GetValueType(name), ref r);
+                        objectProcesser.Set(name, value);
+                        status = Status.wantCommaOrEnd;
+                    }
+                    else if (processer is IListProcesser listProcesser)
+                    {
+                        if (listProcesser.IsListEmpty() && c == ']')
                         {
-                            var value = ParseValue(ptr, ref index, length, null, ref r);
-                            result.Set(name, value);
-                            status = Status.wantCommaOrEnd;
+                            status = Status.End;
+                            break;
                         }
-                        else//JSONArray
+                        else
                         {
-                            if (result.Count == 0 && c == ']')
-                            {
-                                status = Status.End;
-                                break;
-                            }
-                            var value = ParseValue(ptr, ref index, length, null, ref r);
-                            result.Add(value);
+                            var value = ParseValue(ptr, ref index, length, listProcesser.GetChildType(), ref r);
+                            listProcesser.AddChild(value);
                             status = Status.wantCommaOrEnd;
                         }
                     }
                     else
                     {
-                        if (name != null)
-                        {
-                            if (isDic)//Dic
-                            {
-                                var value = ParseValue(ptr, ref index, length, genericDicType?.GetGenericArguments()[1], ref r);
-                                type.GetMethod("Add").Invoke(result, new object[] { name, value });
-                                status = Status.wantCommaOrEnd;
-                            }
-                            else//Object
-                            {
-                                var property = properties.Where(x => x.Name == name && !x.HasAttribute<NonSerializedAttribute>()).FirstOrDefault();
-                                if (property != null)
-                                {
-                                    object value;
-                                    if (property.GetCustomAttributes(typeof(CustomSerializeAttribute), true).FirstOrDefault() is CustomSerializeAttribute customSerializeAttribute)
-                                    {
-                                        if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
-                                        {
-                                            value = serializer.Parse(GetRaw(ptr, ref index, length));
-                                        }
-                                        else
-                                        {
-                                            throw new Exception("Custom Serializer Must Implement ISerializer");
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        value = ParseValue(ptr, ref index, length, property.PropertyType, ref r);
-                                    }
-
-                                    if (isStruct)
-                                    {
-                                        var par = Expression.Parameter(type);
-                                        var assign = Expression.Assign(Expression.Property(par, name), Expression.Constant(value));
-                                        var expression = Expression.Lambda(Expression.Block(assign, par), par);
-                                        var fuckingResult = expression.Compile().DynamicInvoke(result);
-                                        result = fuckingResult;
-                                    }
-                                    else
-                                    {
-                                        property.SetValue(result, value, null);
-                                    }
-
-                                    status = Status.wantCommaOrEnd;
-                                }
-                                else
-                                {
-
-                                    if (IsStrict)
-                                    {
-                                        throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
-                                    }
-                                    var value = ParseValue(ptr, ref index, length, null, ref r);
-                                    LogProvider.Warn($@"Error JSON String. Cannot Find Property ""{name} : {value}"".");
-                                    status = Status.wantCommaOrEnd;
-                                }
-                            }
-                        }
-                        else//List
-                        {
-                            if (result.Count == 0 && c == ']')
-                            {
-                                status = Status.End;
-                                break;
-                            }
-                            var value = ParseValue(ptr, ref index, length, genericListType?.GetGenericArguments()[0], ref r);
-                            type.GetMethod("Add").Invoke(result, new object[] { value });
-                            status = Status.wantCommaOrEnd;
-                        }
-
+                        throw new Exception("Internal Exception");
                     }
                 }
                 else if (status == Status.wantCommaOrEnd)
@@ -464,17 +327,47 @@ namespace Lsj.Util.JSON
             {
                 throw new InvalidDataException($@"Error JSON String. Not Complete.");
             }
-            if (type != null && type.GetInterface("System.IConvertible") != null)
-            {
-                result = Convert.ChangeType(result, type);
-            }
             r--;
-            return result;
+            return processer.GetResult();
         }
 
+        internal static IProcesser GetProcesserByType(Type type)
+        {
+            IProcesser processer;
+            if (type != null)
+            {
+                if (type.IsNumeric())
+                {
+                    processer = new NumericProcesser(type);
+                }
+                else if (type == typeof(string))
+                {
+                    processer = new StringProcesser();
+                }
+                else if (type.IsDictionary())
+                {
+                    processer = new DictionaryProcesser(type);
+                }
+                else if (type.IsList())
+                {
+                    processer = new ListProcesser(type);
+                }
+                else if (type.IsValueType)
+                {
+                    processer = new StructProcesser(type);
+                }
+                else
+                {
+                    processer = new ObjectProcesser(type);
+                }
+            }
+            else
+            {
+                processer = new DynamicProcesser();
+            }
 
-
-
+            return processer;
+        }
         private static unsafe string GetString(char* ptr, ref int index, int length)
         {
             if (*(ptr + index) != '"')
@@ -547,26 +440,8 @@ namespace Lsj.Util.JSON
             }
             throw new InvalidDataException("Error JSON String. Not Complete.");
         }
-        private static unsafe string GetRaw(char* ptr, ref int index, int length)
-        {
-            var sb = new StringBuilder();
-            for (; index < length; index++)
-            {
-                var c = *(ptr + index);
-                if (c == ',' || c == '}' || c == ']')
-                {
-                    index--;
-                    return sb.ToString().Trim();
-                }
-                else
-                {
-                    sb.Append(c);
-                }
-            }
-            throw new InvalidDataException("Error JSON String. Not Complete.");
-        }
 
-        private static unsafe dynamic GetNumberic(char* ptr, ref int index, int length)
+        private static unsafe object GetNumeric(char* ptr, ref int index, int length)
         {
             bool hasDot = false;
             bool hasNumber = false;

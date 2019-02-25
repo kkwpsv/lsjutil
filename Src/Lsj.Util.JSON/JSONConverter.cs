@@ -136,7 +136,7 @@ namespace Lsj.Util.JSON
                             {
                                 if (Activator.CreateInstance(customSerializeAttribute.Serializer) is ISerializer serializer)
                                 {
-                                    value = serializer.Convert(property.GetValue(val, null));
+                                    value = ConvertToJSONString(serializer.Convert(property.GetValue(val, null)));
                                 }
                                 else
                                 {

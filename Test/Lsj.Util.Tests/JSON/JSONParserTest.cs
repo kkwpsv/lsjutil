@@ -18,7 +18,7 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(0, JSONParser.Parse<int>(null));
 
             var nullobj = JSONParser.Parse("{}");
-            Assert.AreEqual(0, (nullobj as JSONObejct).GetDynamicMemberNames().Count());
+            Assert.AreEqual(0, (nullobj as JSONObject).GetDynamicMemberNames().Count());
 
         }
 
@@ -65,7 +65,7 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Parse_Custom()
         {
-            var result = JSONParser.Parse<TestCustomObject>(@"{""A"":Test,""B"":""Test""}");
+            var result = JSONParser.Parse<TestCustomObject>(@"{""A"":""Test"",""B"":""Test2""}");
             Assert.AreEqual(true, result.A);
             Assert.AreEqual(false, result.B);
         }
@@ -87,16 +87,16 @@ namespace Lsj.Util.Tests.JSON
     }
     public class TestCustomObject
     {
-        [CustomSerialize(Serializer = typeof(TestSerializer))]
+        [CustomSerialize(Serializer = typeof(TestSerializer), SourceType = typeof(string))]
         public bool A { get; set; }
-        [CustomSerialize(Serializer = typeof(TestSerializer))]
+        [CustomSerialize(Serializer = typeof(TestSerializer), SourceType = typeof(string))]
         public bool B { get; set; }
     }
 
     public class TestSerializer : ISerializer
     {
-        public string Convert(object obj) => throw new NotImplementedException();
-        public object Parse(string str) => str == "Test";
+        public object Convert(object obj) => throw new NotImplementedException();
+        public object Parse(object str) => (string)str == "Test";
     }
 
     public class TestObject

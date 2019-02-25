@@ -9,7 +9,7 @@ namespace Lsj.Util.JSON
     /// <summary>
     /// JSON Formater
     /// </summary>
-    public class JSONFormater
+    public static class JSONFormater
     {
         /// <summary>
         /// Format
@@ -80,5 +80,7 @@ namespace Lsj.Util.JSON
             }
             return sb.ToString();
         }
+
+        public static string FormatJson(this string str) => Format(str);
     }
 }

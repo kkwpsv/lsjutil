@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.JSON.Processer;
+using Lsj.Util.Reflection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -13,7 +15,15 @@ namespace Lsj.Util.JSON
     /// </summary>
     public class JSONArray : DynamicObject, IEnumerable<object>
     {
-        List<dynamic> array = new List<dynamic>();
+        internal readonly List<object> array = new List<object>();
+
+        public int Count => array.Count;
+
+        public void Add(object value)
+        {
+            array.Add(value);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -96,6 +106,20 @@ namespace Lsj.Util.JSON
         /// <returns></returns>
         public IEnumerator<object> GetEnumerator() => array.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => array.GetEnumerator();
+
+        public T SpecifiedTo<T>()
+        {
+            if (typeof(T).IsList())
+            {
+                var processer = new ListProcesser(typeof(T));
+                processer.SetValue(this);
+                return (T)processer.GetResult();
+            }
+            else
+            {
+                throw new ArgumentException("T must be IList or IList<>");
+            }
+        }
 
 
     }

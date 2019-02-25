@@ -6,6 +6,7 @@ namespace Lsj.Util.JSON
     public class CustomSerializeAttribute : Attribute
     {
         public Type Serializer { get; set; }
+        public Type SourceType { get; set; }
 
         public CustomSerializeAttribute()
         {
@@ -13,8 +14,8 @@ namespace Lsj.Util.JSON
     }
     public interface ISerializer
     {
-        string Convert(object obj);
-        object Parse(string str);
+        object Convert(object obj);
+        object Parse(object str);
     }
 }
 

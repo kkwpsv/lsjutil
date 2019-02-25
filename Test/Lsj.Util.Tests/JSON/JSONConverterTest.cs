@@ -32,7 +32,7 @@ namespace Lsj.Util.Tests.JSON
         [TestMethod]
         public void Convert_Custom()
         {
-            Assert.AreEqual(@"{""A"":1Test}", JSONConverter.ConvertToJSONString(new TestObj { A = 1 }));
+            Assert.AreEqual(@"{""A"":""1Test""}", JSONConverter.ConvertToJSONString(new TestObj { A = 1 }));
         }
 
         public class TestObj
@@ -42,8 +42,8 @@ namespace Lsj.Util.Tests.JSON
         }
         public class TestSerializer : ISerializer
         {
-            public string Convert(object obj) => obj + "Test";
-            public object Parse(string str) => throw new NotImplementedException();
+            public object Convert(object obj) => obj + "Test";
+            public object Parse(object str) => throw new NotImplementedException();
         }
     }
 }
