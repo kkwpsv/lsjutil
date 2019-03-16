@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lsj.Util.AspNet.Core.MVC
+namespace Lsj.Util.AspNetCore.MVC
 {
     /// <summary>
     /// JavaScriptResult

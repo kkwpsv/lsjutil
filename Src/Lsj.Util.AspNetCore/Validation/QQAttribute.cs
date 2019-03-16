@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Lsj.Util.AspNet.Core.Validation
+namespace Lsj.Util.AspNetCore.Validation
 {
     /// <summary>
     /// Validate QQ
