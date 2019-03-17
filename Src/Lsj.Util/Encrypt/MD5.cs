@@ -14,31 +14,40 @@ namespace Lsj.Util.Encrypt
         /// <summary>
         /// Get MD5 String (Upper)
         /// </summary>
-        public static string GetMD5String(string str)
+        public static string GetMD5String(string str) => GetMD5String(Encoding.UTF8.GetBytes(str));
+
+        /// <summary>
+        /// Get MD5 String (Upper)
+        /// </summary>
+        public static string GetMD5String(byte[] data)
         {
 #if NETSTANDARD
             using (var hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
-                hasher.AppendData(Encoding.UTF8.GetBytes(str));
+                hasher.AppendData(data);
                 byte[] hash = hasher.GetHashAndReset();
                 return BitConverter.ToString(hash).Replace("-", "").ToUpper();
             }
 #else
             var md5 = new MD5CryptoServiceProvider();
-            return BitConverter.ToString(md5.ComputeHash(str.ConvertToBytes())).Replace("-", "");
+            return BitConverter.ToString(md5.ComputeHash(data)).Replace("-", "");
 #endif
-
         }
 
         /// <summary>
         /// Get Dual MD5 String (Upper)
         /// </summary>
-        public static string GetDualMD5String(string str)
+        public static string GetDualMD5String(string str) => GetDualMD5String(Encoding.UTF8.GetBytes(str));
+
+        /// <summary>
+        /// Get Dual MD5 String (Upper)
+        /// </summary>
+        public static string GetDualMD5String(byte[] data)
         {
 #if NETSTANDARD
             using (var hasher = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
             {
-                hasher.AppendData(Encoding.UTF8.GetBytes(str));
+                hasher.AppendData(data);
                 byte[] hash = hasher.GetHashAndReset();
                 using (IncrementalHash hasher2 = IncrementalHash.CreateHash(HashAlgorithmName.MD5))
                 {
@@ -49,7 +58,7 @@ namespace Lsj.Util.Encrypt
             }
 #else
             var md5 = new MD5CryptoServiceProvider();
-            return BitConverter.ToString((md5.ComputeHash(md5.ComputeHash(str.ConvertToBytes())))).Replace("-", "");
+            return BitConverter.ToString((md5.ComputeHash(md5.ComputeHash(data)))).Replace("-", "");
 #endif
         }
     }
