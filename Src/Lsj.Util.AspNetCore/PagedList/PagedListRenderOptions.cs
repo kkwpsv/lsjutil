@@ -34,5 +34,7 @@
         public string LinkToNextPageText { get; set; } = "»";
         public string LinkToLastPageText { get; set; } = "»»";
         public string[] UlClasses { get; set; } = new[] { "pagination" };
+        public string[] LiClasses { get; set; } = new[] { "page-item" };
+        public string[] AClasses { get; set; } = new[] { "page-link" };
     }
 }

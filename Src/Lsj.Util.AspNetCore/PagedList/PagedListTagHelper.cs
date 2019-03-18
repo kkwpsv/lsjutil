@@ -100,8 +100,10 @@ namespace Lsj.Util.AspNetCore.PagedList
         private Li GetLi(int page)
         {
             var li = new Li();
+            li.Params.AddClasses(Options.LiClasses);
             var a = new A();
             a.Params["href"] = GetPageUrl(page);
+            a.Params.AddClasses(Options.AClasses);
             li.Add(a);
             return li;
         }
@@ -124,13 +126,12 @@ namespace Lsj.Util.AspNetCore.PagedList
             int firstPage = List.PageNumber - Options.MaxPageNumber;
             firstPage = firstPage < 1 ? 1 : firstPage;
             int lastPage = firstPage + Options.MaxPageNumber;
-            lastPage = lastPage > List.PageNumber ? List.PageNumber : List.PageNumber;
+            lastPage = lastPage > List.PageCount ? List.PageCount : lastPage;
 
             var ul = new Ul();
             if (Options.RenderFirstPage == RenderMode.Always || (Options.RenderFirstPage == RenderMode.IfNeeded && firstPage > 1))
             {
                 var first = GetLi(1);
-                first.Params.AddClasses("PagedList-skipToFirst");
                 if (List.PageCount == 1 || List.PageCount == 0)
                 {
                     first.Params.AddClasses("disabled");
@@ -140,7 +141,6 @@ namespace Lsj.Util.AspNetCore.PagedList
             }
 
             var previous = GetLi(List.PageNumber - 1);
-            previous.Params.AddClasses("PagedList-skipToPrevious");
             if (List.PageNumber - 1 < 1)
             {
                 previous.Params.AddClasses("disabled");
@@ -161,7 +161,6 @@ namespace Lsj.Util.AspNetCore.PagedList
 
 
             var next = GetLi(List.PageNumber + 1);
-            next.Params.AddClasses("PagedList-skipToNext");
             if (List.PageNumber + 1 > List.PageCount)
             {
                 next.Params.AddClasses("disabled");
@@ -172,7 +171,6 @@ namespace Lsj.Util.AspNetCore.PagedList
             if (Options.RenderLastPage == RenderMode.Always || (Options.RenderLastPage == RenderMode.IfNeeded && lastPage < List.PageCount))
             {
                 var last = GetLi(List.PageCount);
-                last.Params.AddClasses("PagedList-skipToLast");
                 if (List.PageCount == 1 || List.PageCount == 0)
                 {
                     last.Params.AddClasses("disabled");
