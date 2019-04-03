@@ -126,8 +126,16 @@
         /// <returns></returns>
         public override int GetHashCode() => 0 | (this.Major & 15) << 28 | (this.Minor & 255) << 20 | (this.Build & 255) << 12 | (this.Revision & 4095);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="version"></param>
         public static implicit operator System.Version(Version version) => new System.Version(version.Major, version.Minor, version.Build, version.Revision);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="version"></param>
         public static implicit operator Version(System.Version version) => new Version(version.Major, version.Minor, version.Build, version.Revision);
     }
 }

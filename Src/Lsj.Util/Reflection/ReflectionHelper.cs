@@ -144,6 +144,12 @@ namespace Lsj.Util.Reflection
 
 
 #if NET40
+        /// <summary>
+        /// SetValue
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="obj"></param>
+        /// <param name="value"></param>
         public static void SetValue(this PropertyInfo property, object obj, object value) => property.SetValue(obj, value, null);
 #endif
     }

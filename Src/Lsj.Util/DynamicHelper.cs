@@ -49,11 +49,24 @@ namespace Lsj.Util
             return (T)obj;
         }
 
+        /// <summary>
+        /// Cast and Assign
+        /// </summary>
+        /// <param name="toAssign"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static bool AutoCastAndAssign(ref string toAssign, object val)
         {
             toAssign = val.ToString();
             return true;
         }
+
+        /// <summary>
+        /// Cast and Assign
+        /// </summary>
+        /// <param name="toAssign"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static bool AutoCastAndAssign(ref int toAssign, object val)
         {
             if (val.IsNumeric())
@@ -76,6 +89,13 @@ namespace Lsj.Util
                 }
             }
         }
+
+        /// <summary>
+        /// Cast and Assign
+        /// </summary>
+        /// <param name="toAssign"></param>
+        /// <param name="val"></param>
+        /// <returns></returns>
         public static bool AutoCastAndAssign(ref decimal toAssign, object val)
         {
             if (val.IsNumeric())
