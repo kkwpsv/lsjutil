@@ -22,6 +22,9 @@ namespace Lsj.Util.AspNetCore.PagedList
         private readonly IUrlHelperFactory UrlHelperFactory;
         private IUrlHelper urlHelper;
 
+        /// <summary>
+        /// ViewContext
+        /// </summary>
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -64,7 +67,10 @@ namespace Lsj.Util.AspNetCore.PagedList
         [HtmlAttributeName("options")]
         public PagedListRenderOptions Options { get; set; } = new PagedListRenderOptions();
 
-
+        /// <summary>
+        /// Initialize
+        /// </summary>
+        /// <param name="urlHelperFactory"></param>
         public PagedListTagHelper(IUrlHelperFactory urlHelperFactory)
         {
             this.UrlHelperFactory = urlHelperFactory;
@@ -123,9 +129,9 @@ namespace Lsj.Util.AspNetCore.PagedList
             output.TagName = "div";
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            int firstPage = List.PageNumber - Options.MaxPageNumber;
+            int firstPage = List.PageNumber - Options.MaxPageCount;
             firstPage = firstPage < 1 ? 1 : firstPage;
-            int lastPage = firstPage + Options.MaxPageNumber;
+            int lastPage = firstPage + Options.MaxPageCount;
             lastPage = lastPage > List.PageCount ? List.PageCount : lastPage;
 
             var ul = new Ul();
