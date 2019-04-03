@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.APIs.Alipay", "Src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.WPF", "Src\Lsj.Util.WPF\Lsj.Util.WPF.csproj", "{2D280799-F7BF-4CAD-88FE-75BA6C0BFDCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lsj.Util.APIs.UmeTrip", "Src\Lsj.Util.APIs.UmeTrip\Lsj.Util.APIs.UmeTrip.csproj", "{4B0722C9-0795-49C7-9720-3564A0067302}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.APIs.UmeTrip", "Src\Lsj.Util.APIs.UmeTrip\Lsj.Util.APIs.UmeTrip.csproj", "{4B0722C9-0795-49C7-9720-3564A0067302}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
