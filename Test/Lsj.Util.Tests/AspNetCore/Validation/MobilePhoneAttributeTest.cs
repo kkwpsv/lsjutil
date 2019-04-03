@@ -1,4 +1,4 @@
-﻿using Lsj.Util.AspNet.Core.Validation;
+﻿using Lsj.Util.AspNetCore.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lsj.Util.Tests.AspNetCore.Validation
