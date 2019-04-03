@@ -14,13 +14,13 @@ namespace Lsj.Util.WPF.Converters
     /// Base Two Way Converter
     /// </summary>
     /// <typeparam name="TFrom"></typeparam>
-    /// <typeparam name="TTO"></typeparam>
-    public abstract class BaseTwoWayConverter<TFrom, TTO> : IValueConverter
+    /// <typeparam name="TTo"></typeparam>
+    public abstract class BaseTwoWayConverter<TFrom, TTo> : IValueConverter
     {
         /// <summary>
         /// ConvertDictionary
         /// </summary>
-        protected TwoWayDictionary<TFrom, TTO> ConvertDictionary = new TwoWayDictionary<TFrom, TTO>();
+        protected TwoWayDictionary<TFrom, TTo> ConvertDictionary = new TwoWayDictionary<TFrom, TTo>();
 
         /// <summary>
         /// Convert
@@ -41,6 +41,6 @@ namespace Lsj.Util.WPF.Converters
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is TTO val && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is TTo val && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
     }
 }
