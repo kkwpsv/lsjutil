@@ -72,13 +72,21 @@ namespace Lsj.Util.WPF
         /// <typeparam name="T"></typeparam>
         /// <param name="field"></param>
         /// <param name="value"></param>
+        /// <param name="affectedPropertyNames"></param>
         /// <param name="propertyName"></param>
-        protected void SetField<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+        protected void SetField<T>(ref T field, T value, string[] affectedPropertyNames = null, [CallerMemberName]string propertyName = null)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
                 this.OnPropertyChanged(propertyName);
+            }
+            if (affectedPropertyNames != null && affectedPropertyNames.Length > 0)
+            {
+                foreach (var name in affectedPropertyNames)
+                {
+                    this.OnPropertyChanged(name);
+                }
             }
         }
     }
