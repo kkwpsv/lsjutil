@@ -137,7 +137,7 @@ namespace Lsj.Util.JSON
             var status = Status.wantStart;
             var processer = GetProcesserByType(type);
             string name = null;
-            bool hasFirstName = false;       
+            bool hasFirstName = false;
 
             for (; index < length; index++)
             {
@@ -339,6 +339,10 @@ namespace Lsj.Util.JSON
                 if (type.IsNumeric())
                 {
                     processer = new NumericProcesser(type);
+                }
+                else if (type == typeof(bool))
+                {
+                    processer = new BoolProcesser();
                 }
                 else if (type == typeof(string))
                 {
