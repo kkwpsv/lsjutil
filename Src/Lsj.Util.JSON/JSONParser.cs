@@ -356,6 +356,10 @@ namespace Lsj.Util.JSON
                 {
                     processer = new ListProcesser(type);
                 }
+                else if (type.IsEnum)
+                {
+                    processer = new EnumProcesser(type);
+                }
                 else if (type.IsValueType)
                 {
                     processer = new StructProcesser(type);

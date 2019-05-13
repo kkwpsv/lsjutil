@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
-    class EnumProcesser : IStringProcesser
+    class EnumProcesser : IStringProcesser, INumericProcesser
     {
         object result;
         Type type;
 
-        EnumProcesser(Type type)
+        public EnumProcesser(Type type)
         {
             this.type = type;
         }
