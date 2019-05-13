@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Lsj.Util.APIs.UmeTrip\Lsj.Util.APIs.UmeTrip.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.AspNetCore\Lsj.Util.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\Src\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />
   </ItemGroup>
 

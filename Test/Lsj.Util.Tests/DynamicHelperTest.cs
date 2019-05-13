@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Lsj.Util.Dynamic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Lsj.Util.Tests
 {
