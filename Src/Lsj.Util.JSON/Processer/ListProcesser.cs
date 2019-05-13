@@ -20,7 +20,7 @@ namespace Lsj.Util.JSON.Processer
             this.type = type;
             addMethod = type.GetMethod("Add");
             genericListType = type.GetGenericType(typeof(IList<>));
-            result = genericListType == null ? new ArrayList() : ReflectionHelper.CreateListOfType(genericListType.GetGenericArguments()[0]);
+            result = ReflectionHelper.CreateInstance(type);
         }
 
         public object GetResult() => result;
