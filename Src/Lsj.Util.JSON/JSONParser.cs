@@ -223,6 +223,7 @@ namespace Lsj.Util.JSON
                     }
                     else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
                     {
+                        index += 3;
                         if (processer is INullableProcesser nullableProcesser)
                         {
                             nullableProcesser.SetNull();
