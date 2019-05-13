@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Reflection;
+﻿using Lsj.Util.Dynamic;
+using Lsj.Util.Reflection;
 using Lsj.Util.Text;
 using System;
 using System.Collections;

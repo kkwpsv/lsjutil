@@ -6,6 +6,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

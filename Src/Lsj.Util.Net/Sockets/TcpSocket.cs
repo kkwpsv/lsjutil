@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="ip"></param>
         /// <param name="port"></param>
         public static void Bind(this Socket socket, IPAddress ip, int port) => socket.Bind(new IPEndPoint(ip, port));
-#if !NETSTANDARD
+#if NET40
         /// <summary>
         /// BeginAccept
         /// </summary>
@@ -83,12 +83,13 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="state"></param>
         /// <returns></returns>
         public static IAsyncResult BeginSend(this Socket socket, byte[] buffer, AsyncCallback callback, object state) => socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
+#endif
         /// <summary>
         /// Disconnect
         /// </summary>
         /// <param name="socket"></param>
         public static void Disconnect(this Socket socket) => socket.Disconnect(false);
-#endif
+
         /// <summary>
         /// Listen
         /// </summary>
