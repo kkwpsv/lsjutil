@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -7,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Lsj.Util.IO;
+using Lsj.Util.Logs;
 using Lsj.Util.Logs.Interfaces;
 
-namespace Lsj.Util.Logs.Logger
+namespace Lsj.Util.WinForm.Logs.Logger
 {
     /// <summary>
     /// LogView Logger
@@ -114,4 +114,3 @@ namespace Lsj.Util.Logs.Logger
         }
     }
 }
-#endif

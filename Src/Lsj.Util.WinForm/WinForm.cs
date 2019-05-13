@@ -1,10 +1,9 @@
-#if !NETSTANDARD
-using System;
+﻿using System;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Lsj.Util
+namespace Lsj.Util.WinForm
 {
     /// <summary>
     /// WinForm Helper
@@ -24,30 +23,30 @@ namespace Lsj.Util
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             string exceptionMsg = WinForm.GetExceptionMsg(e.Exception, e.ToString());
-            MessageBox.Show(exceptionMsg, "ϵͳ����", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            MessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             string exceptionMsg = WinForm.GetExceptionMsg(e.ExceptionObject as Exception, e.ToString());
-            MessageBox.Show(exceptionMsg, "ϵͳ����", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            MessageBox.Show(exceptionMsg, "系统错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
 
         private static string GetExceptionMsg(Exception ex, string backStr)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("****************************�쳣�ı�****************************");
-            stringBuilder.AppendLine("������ʱ�䡿��" + DateTime.Now.ToString());
+            stringBuilder.AppendLine("****************************异常文本****************************");
+            stringBuilder.AppendLine("【出现时间】：" + DateTime.Now.ToString());
             bool flag = ex != null;
             if (flag)
             {
-                stringBuilder.AppendLine("���쳣���͡���" + ex.GetType().Name);
-                stringBuilder.AppendLine("���쳣��Ϣ����" + ex.Message);
-                stringBuilder.AppendLine("����ջ���á���" + ex.StackTrace);
+                stringBuilder.AppendLine("【异常类型】：" + ex.GetType().Name);
+                stringBuilder.AppendLine("【异常信息】：" + ex.Message);
+                stringBuilder.AppendLine("【堆栈调用】：" + ex.StackTrace);
             }
             else
             {
-                stringBuilder.AppendLine("��δ�����쳣����" + backStr);
+                stringBuilder.AppendLine("【未处理异常】：" + backStr);
             }
             stringBuilder.AppendLine("***************************************************************");
             return stringBuilder.ToString();
@@ -83,4 +82,3 @@ namespace Lsj.Util
         }
     }
 }
-#endif

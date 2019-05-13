@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD
-namespace Lsj.Util.Logs.Logger
+﻿namespace Lsj.Util.WinForm.Logs.Logger
 {
     partial class LogView
     {
@@ -35,4 +34,4 @@ namespace Lsj.Util.Logs.Logger
 #endregion
     }
 }
-#endif
+

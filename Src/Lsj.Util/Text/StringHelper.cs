@@ -6,12 +6,6 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-#if NETSTANDARD
-using Lsj.Util.Collections;
-#else
-using System.Web;
-#endif
-
 namespace Lsj.Util.Text
 {
     /// <summary>
@@ -131,11 +125,8 @@ namespace Lsj.Util.Text
             {
                 return new int[0];
             }
-#if NETSTANDARD
-            return ArrayHelper.ConvertAll(src, s => s.ConvertToInt());
-#else
             return Array.ConvertAll(src, s => s.ConvertToInt());
-#endif
+
         }
 
 
@@ -148,11 +139,7 @@ namespace Lsj.Util.Text
             {
                 return new byte[0];
             }
-#if NETSTANDARD
-            return ArrayHelper.ConvertAll(src, s => s.ConvertToByte());
-#else
             return Array.ConvertAll(src, s => s.ConvertToByte());
-#endif
         }
 
         /// <summary>
@@ -620,32 +607,7 @@ namespace Lsj.Util.Text
             return i;
         }
 
-        /// <summary>
-        /// Url Encode
-        /// </summary>
-        /// <param name="src"></param>
 
-        public static string UrlEncode(this string src)
-        {
-#if NETSTANDARD
-            return WebUtility.UrlEncode(src);
-#else
-            return HttpUtility.UrlEncode(src);
-#endif
-        }
-
-        /// <summary>
-        /// Url Decode
-        /// </summary>
-        /// <param name="src"></param>
-        public static string UrlDecode(this string src)
-        {
-#if NETSTANDARD
-            return WebUtility.UrlDecode(src);
-#else
-            return HttpUtility.UrlDecode(src);
-#endif
-        }
 
         /// <summary>
         /// Is Null or Empty

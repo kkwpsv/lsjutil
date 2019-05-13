@@ -1,5 +1,4 @@
-﻿#if !NETSTANDARD
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Lsj.Util.Text;
 
-namespace Lsj.Util.Logs.Logger
+namespace Lsj.Util.WinForm.Logs.Logger
 {
     /// <summary>
     /// LogView
@@ -82,4 +81,3 @@ namespace Lsj.Util.Logs.Logger
         }
     }
 }
-#endif

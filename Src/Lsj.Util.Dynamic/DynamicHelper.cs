@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
 using Lsj.Util.Text;
 
-namespace Lsj.Util
+namespace Lsj.Util.Dynamic
 {
     /// <summary>
     /// Dynamic Helper

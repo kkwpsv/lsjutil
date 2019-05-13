@@ -1,7 +1,5 @@
+#if NET40
 using System.Collections.Specialized;
-
-#if NETSTANDARD
-#else
 namespace Lsj.Util.Config
 {
     /// <summary>
