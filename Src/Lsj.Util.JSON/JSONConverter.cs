@@ -14,6 +14,16 @@ namespace Lsj.Util.JSON
     public static class JSONConverter
     {
         /// <summary>
+        /// Convert Enum To String Or Int (Default String)
+        /// </summary>
+        public static bool ConvertEnumToStringOrInt
+        {
+            get;
+            set;
+        } = true;
+
+
+        /// <summary>
         /// Convert to JSON String
         /// </summary>
         /// <param name="val"></param>
@@ -36,7 +46,7 @@ namespace Lsj.Util.JSON
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string ConvertToJSONString(Enum val) => val.ToString();
+        public static string ConvertToJSONString(Enum val) => ConvertEnumToStringOrInt ? $@"""{val.ToString()}""" : ((int)(object)val).ToString();
         /// <summary>
         /// Convert to JSON String
         /// </summary>

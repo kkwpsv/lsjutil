@@ -22,6 +22,21 @@ namespace Lsj.Util.JSON.Processer
             result = Enum.Parse(type, val);
         }
 
-        public void SetValue(object value) => SetValue(value.ToString());
+        public void SetValue(int val)
+        {
+            result = Convert.ChangeType(val, type);
+        }
+
+        public void SetValue(object value)
+        {
+            if (value is int intVal)
+            {
+                SetValue(intVal);
+            }
+            else
+            {
+                SetValue(value.ToString());
+            }
+        }
     }
 }
