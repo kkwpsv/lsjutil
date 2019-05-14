@@ -26,15 +26,12 @@ namespace Lsj.Util.WPF
                 var result = new List<ValidationResult>();
 
                 var value = this.GetType().GetProperty(columnName)?.GetValue(this, null);
-                if (value != null)
+                Validator.TryValidateProperty(value, vc, result);
+                var stringResult = result.Select(x => x.ErrorMessage).ToList();
+                this.Validate(columnName, value, stringResult);
+                if (stringResult.Count > 0)
                 {
-                    Validator.TryValidateProperty(value, vc, result);
-                    var stringResult = result.Select(x => x.ErrorMessage).ToList();
-                    this.Validate(columnName, value, stringResult);
-                    if (stringResult.Count > 0)
-                    {
-                        return string.Join(Environment.NewLine, stringResult);
-                    }
+                    return string.Join(Environment.NewLine, stringResult);
                 }
                 return string.Empty;
             }

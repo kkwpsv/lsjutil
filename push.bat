@@ -14,5 +14,5 @@ nuget push Src/Lsj.Util.Office/bin/Release/Lsj.Util.Office.2.0.1.nupkg -Source n
 nuget push Src/Lsj.Util.Protobuf/bin/Release/Lsj.Util.Protobuf.2.0.2.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.SQLBuilder/bin/Release/Lsj.Util.SQLBuilder.2.0.2.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.WinForm/bin/Release/Lsj.Util.WinForm.1.0.0.nupkg -Source nuget.org
-nuget push Src/Lsj.Util.WPF/bin/Release/Lsj.Util.WPF.1.1.2.nupkg -Source nuget.org
+nuget push Src/Lsj.Util.WPF/bin/Release/Lsj.Util.WPF.1.1.3.nupkg -Source nuget.org
 pause
