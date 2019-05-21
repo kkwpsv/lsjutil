@@ -70,7 +70,6 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(false, result.B);
         }
 
-
         [TestMethod]
         public void Parse_Dynamic()
         {
@@ -82,9 +81,8 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(4, d1);
             Assert.AreEqual(4m, d2);
         }
-
-
     }
+
     public class TestCustomObject
     {
         [CustomSerialize(Serializer = typeof(TestSerializer), SourceType = typeof(string))]
@@ -111,7 +109,5 @@ namespace Lsj.Util.Tests.JSON
         public int A { get; set; }
         public int B { get; set; }
     }
-
-
 }
 
