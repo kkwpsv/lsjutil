@@ -13,7 +13,7 @@ namespace Lsj.Util.JSON.Processer
 
         public void SetValue(bool value)
         {
-            this.result = false;
+            this.result = value;
         }
 
         public void SetValue(object value)
