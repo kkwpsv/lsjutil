@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Collections;
+using Lsj.Util.Net.Web;
 using Lsj.Util.Text;
 using System;
 using System.Collections.Generic;

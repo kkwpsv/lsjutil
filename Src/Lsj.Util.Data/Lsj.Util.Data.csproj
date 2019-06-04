@@ -1,11 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;net45</TargetFrameworks>
-    <VersionPrefix>2.0.1</VersionPrefix>
+    <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
+    <VersionPrefix>2.0.2</VersionPrefix>
     <Description>My Utility For Data</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="System.Data.SqlClient">
+      <Version>4.6.1</Version>
+    </PackageReference>
   </ItemGroup>
 </Project>
