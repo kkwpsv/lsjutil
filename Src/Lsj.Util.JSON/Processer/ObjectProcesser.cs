@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Lsj.Util.JSON.Processer
 {
-    class ObjectProcesser : IObjectProcesser
+    class ObjectProcesser : IObjectProcesser, INullableProcesser
     {
         protected object result;
         protected Dictionary<string, PropertyInfo> properties;
@@ -69,6 +69,8 @@ namespace Lsj.Util.JSON.Processer
                 }
             }
         }
+
+        public void SetNull() => result = null;
 
         public void SetValue(object value)
         {

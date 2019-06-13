@@ -20,6 +20,8 @@ namespace Lsj.Util.Tests.JSON
             var nullobj = JSONParser.Parse("{}");
             Assert.AreEqual(0, (nullobj as JSONObject).GetDynamicMemberNames().Count());
 
+            var obj = JSONParser.Parse<TestObject>(@"{""C"":null}");
+            Assert.AreEqual(null, obj.C);
         }
 
         [TestMethod]
