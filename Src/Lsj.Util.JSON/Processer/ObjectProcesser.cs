@@ -19,8 +19,7 @@ namespace Lsj.Util.JSON.Processer
             result = ReflectionHelper.CreateInstance(type);
             properties = type.GetProperties().Where(x => !x.HasAttribute<NotSerializeAttribute>())
                 .ToDictionary(x => x.HasAttribute<CustomJsonPropertyNameAttribute>() ? x.GetAttribute<CustomJsonPropertyNameAttribute>().Name : x.Name
-                , x => x
-                );
+                , x => x);
         }
         public object GetResult() => result;
         public Type GetValueType(string name)
@@ -52,20 +51,31 @@ namespace Lsj.Util.JSON.Processer
             if (properties.ContainsKey(name))
             {
                 var property = properties[name];
-                if (property.HasAttribute<CustomSerializeAttribute>())
+                if (property.CanWrite)
                 {
-                    if (Activator.CreateInstance(property.GetAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
+                    if (property.HasAttribute<CustomSerializeAttribute>())
                     {
-                        property.SetValue(result, serializer.Parse(value));
+                        if (Activator.CreateInstance(property.GetAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
+                        {
+                            property.SetValue(result, serializer.Parse(value));
+                        }
+                        else
+                        {
+                            throw new Exception("Custom Serializer Must Implement ISerializer");
+                        }
                     }
                     else
                     {
-                        throw new Exception("Custom Serializer Must Implement ISerializer");
+                        property.SetValue(result, value);
                     }
                 }
                 else
                 {
-                    property.SetValue(result, value);
+                    JSONParser.LogProvider.Warn($@"Error JSON String. Cannot Write Property ""{name}"".");
+                    if (JSONParser.IsStrict)
+                    {
+                        throw new InvalidDataException($@"Error JSON String. Cannot Write Property ""{name}"".");
+                    }
                 }
             }
         }
