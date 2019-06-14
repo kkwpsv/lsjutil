@@ -24,7 +24,7 @@ namespace Lsj.Util.JSON.Processer
             }
             else
             {
-                throw new InvalidCastException("value must be bool");
+                JSONParser.Error("value must be bool");
             }
         }
     }

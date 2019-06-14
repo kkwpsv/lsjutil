@@ -21,7 +21,9 @@ namespace Lsj.Util.JSON.Processer
                 .ToDictionary(x => x.HasAttribute<CustomJsonPropertyNameAttribute>() ? x.GetAttribute<CustomJsonPropertyNameAttribute>().Name : x.Name
                 , x => x);
         }
+
         public object GetResult() => result;
+
         public Type GetValueType(string name)
         {
             if (properties.ContainsKey(name))
@@ -38,14 +40,11 @@ namespace Lsj.Util.JSON.Processer
             }
             else
             {
-                if (JSONParser.IsStrict)
-                {
-                    throw new InvalidDataException($@"Error JSON String. Cannot Find Property ""{name}"".");
-                }
+                JSONParser.Warn($@"Error JSON String. Cannot Find Property ""{name}"".");
             }
             return null;
-
         }
+
         public virtual void Set(string name, object value)
         {
             if (properties.ContainsKey(name))

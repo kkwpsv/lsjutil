@@ -97,14 +97,14 @@ namespace Lsj.Util.JSON
                     if (index != length)
                     {
                         char c = *(ptr + index);
-                        while (Char.IsWhiteSpace(c))
+                        while (char.IsWhiteSpace(c))
                         {
                             index++;
                             c = *(ptr + index);
                         }
                         if (index != length - 1)
                         {
-                            throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                            Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                         }
                     }
                     return result;
@@ -116,11 +116,7 @@ namespace Lsj.Util.JSON
         {
             if (r > MaxLayer)
             {
-                LogProvider.Warn($@"Error JSON String. Maximum recursion limit.");
-                if (IsStrict)
-                {
-                    throw new InvalidDataException($@"Error JSON String. Maximum recursion limit.");
-                }
+                Warn($@"Error JSON String. Maximum recursion limit.");
                 r--;
                 return type == null ? null : type.IsValueType ? Activator.CreateInstance(type) : null;
             }
@@ -135,7 +131,7 @@ namespace Lsj.Util.JSON
             for (; index < length; index++)
             {
                 var c = *(ptr + index);
-                if (Char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(c))
                 {
                     continue;
                 }
@@ -147,7 +143,7 @@ namespace Lsj.Util.JSON
                         status = Status.wantName;
                         if (!(processer is IObjectProcesser))
                         {
-                            throw new ArgumentException("Error Type. Json Object must be parsed to a normal object");
+                            Error("Error Type. Json Object must be parsed to a normal object");
                         }
                     }
                     else if (c == '[')//list
@@ -156,7 +152,7 @@ namespace Lsj.Util.JSON
                         status = Status.wantValue;
                         if (!(processer is IListProcesser))
                         {
-                            throw new ArgumentException("Error Type. Json Array must be parssed to a IList<> or IList.");
+                            Error("Error Type. Json Array must be parssed to a IList<> or IList.");
                         }
                     }
                     else if (c == '"')//字符串
@@ -170,7 +166,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new ArgumentException("Error Type. Json String must be parsed to string or enum");
+                            Error("Error Type. Json String must be parsed to string or enum");
                         }
                     }
                     else if (c == 't' && length - index >= 4 && *(ptr + index + 1) == 'r' && *(ptr + index + 2) == 'u' && *(ptr + index + 3) == 'e')//true
@@ -184,7 +180,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new ArgumentException("Error Type. Json Bool must be parsed to bool");
+                            Error("Error Type. Json Bool must be parsed to bool");
                         }
                     }
                     else if (c == 'f' && length - index >= 5 && *(ptr + index + 1) == 'a' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 's' && *(ptr + index + 4) == 'e')//false
@@ -198,7 +194,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new ArgumentException("Error Type. Json Bool must be parsed to bool");
+                            Error("Error Type. Json Bool must be parsed to bool");
                         }
                     }
                     else if (c == '-' || (c >= ASCIIChar.Num0 && c <= ASCIIChar.Num9))//decimal
@@ -211,7 +207,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new ArgumentException("Error Type. Json Number must be parsed to a numeric type");
+                            Error("Error Type. Json Number must be parsed to a numeric type");
                         }
                     }
                     else if (c == 'n' && length - index >= 4 && *(ptr + index + 1) == 'u' && *(ptr + index + 2) == 'l' && *(ptr + index + 3) == 'l')//null
@@ -225,12 +221,12 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new ArgumentException("Error Type. Json Null must be parsed to a nullable object");
+                            Error("Error Type. Json Null must be parsed to a nullable object");
                         }
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (status == Status.wantName)//名称
@@ -242,7 +238,7 @@ namespace Lsj.Util.JSON
                     }
                     if (*(ptr + index) != '"')
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                     else
                     {
@@ -258,7 +254,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (status == Status.wantValue)//值
@@ -285,7 +281,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new Exception("Internal Exception");
+                        Error("Internal Exception");
                     }
                 }
                 else if (status == Status.wantCommaOrEnd)
@@ -313,13 +309,13 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
             }
             if (status != Status.End)
             {
-                throw new InvalidDataException($@"Error JSON String. Not Complete.");
+                Error($@"Error JSON String. Not Complete.");
             }
             r--;
             return processer.GetResult();
@@ -370,11 +366,12 @@ namespace Lsj.Util.JSON
 
             return processer;
         }
+
         private static unsafe string GetString(char* ptr, ref int index, int length)
         {
             if (*(ptr + index) != '"')
             {
-                throw new ArgumentException("Internal Error");
+                Error("Internal Error");
             }
             index++;
             var sb = new StringBuilder();
@@ -431,7 +428,7 @@ namespace Lsj.Util.JSON
                         }
                         else
                         {
-                            throw new InvalidDataException($"Error JSON string. Index = {index}");
+                            Error($"Error JSON string. Index = {index}");
                         }
                     }
                 }
@@ -440,7 +437,7 @@ namespace Lsj.Util.JSON
                     sb.Append(c);
                 }
             }
-            throw new InvalidDataException("Error JSON String. Not Complete.");
+            Error("Error JSON String. Not Complete.");
         }
 
         private static unsafe object GetNumeric(char* ptr, ref int index, int length)
@@ -461,7 +458,7 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                 }
                 else if (c >= '0' && c <= '9')
@@ -474,7 +471,7 @@ namespace Lsj.Util.JSON
                 {
                     if (index != start)
                     {
-                        throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                        Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                     }
                     else
                     {
@@ -489,7 +486,7 @@ namespace Lsj.Util.JSON
             }
             if (!hasNumber)
             {
-                throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
             var strVal = sb.ToString();
             index--;
@@ -522,8 +519,22 @@ namespace Lsj.Util.JSON
             }
             else
             {
-                throw new InvalidDataException($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
+                Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
+        }
+
+        internal static void Warn(string str, Exception exception = null)
+        {
+            LogProvider.Warn(str);
+            if (IsStrict)
+            {
+                throw new JSONParserException(str, exception);
+            }
+        }
+        internal static void Error(string str, Exception exception = null)
+        {
+            LogProvider.Error(str);
+            throw new JSONParserException(str, exception);
         }
     }
 }
