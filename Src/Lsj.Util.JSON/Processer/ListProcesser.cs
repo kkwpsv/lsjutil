@@ -15,6 +15,7 @@ namespace Lsj.Util.JSON.Processer
         MethodInfo addMethod;
         Type genericListType;
         bool isEmpty = true;
+
         public ListProcesser(Type type)
         {
             this.type = type;
@@ -24,9 +25,13 @@ namespace Lsj.Util.JSON.Processer
         }
 
         public object GetResult() => result;
+
         public Type GetChildType() => result is ArrayList ? null : genericListType.GetGenericArguments()[0];
+
         public bool IsListEmpty() => isEmpty;
+
         public void SetNull() => result = null;
+
         public void AddChild(object value)
         {
             isEmpty = false;
