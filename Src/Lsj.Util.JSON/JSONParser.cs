@@ -55,13 +55,6 @@ namespace Lsj.Util.JSON
             End
         }
 
-        private enum ValueType
-        {
-            Bool,
-            Number,
-            String,
-            Null,
-        }
         /// <summary>
         /// Parse
         /// </summary>
