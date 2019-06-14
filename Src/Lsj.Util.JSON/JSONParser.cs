@@ -438,6 +438,7 @@ namespace Lsj.Util.JSON
                 }
             }
             Error("Error JSON String. Not Complete.");
+            return null;
         }
 
         private static unsafe object GetNumeric(char* ptr, ref int index, int length)
@@ -521,6 +522,7 @@ namespace Lsj.Util.JSON
             {
                 Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
             }
+            return null;
         }
 
         internal static void Warn(string str, Exception exception = null)

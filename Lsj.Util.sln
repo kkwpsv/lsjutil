@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.WinForm", "Src\Lsj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Dynamic", "Src\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj", "{2ACF6598-126C-4141-97E1-7235B4F1A85D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{566D40B1-3E7B-42E2-8616-911816226B0A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{566D40B1-3E7B-42E2-8616-911816226B0A}"
 	ProjectSection(SolutionItems) = preProject
 		push.bat = push.bat
 	EndProjectSection
