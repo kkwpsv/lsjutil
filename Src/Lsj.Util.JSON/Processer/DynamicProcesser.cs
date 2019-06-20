@@ -20,15 +20,13 @@ namespace Lsj.Util.JSON.Processer
         byte type = 0;
 
         object result = new JSONObject();
-
-
         void EnsureInit(byte type)
         {
             if (this.type != type)
             {
                 if (this.type != 0)
                 {
-                    throw new Exception("Internal Exception");
+                    JSONParser.Error("Internal Exception");
                 }
                 this.type = type;
                 if (type == 2)
@@ -40,30 +38,36 @@ namespace Lsj.Util.JSON.Processer
         }
 
         public object GetResult() => result;
+
         public Type GetValueType(string name)
         {
             EnsureInit(1);
             return null;
         }
+
         public void Set(string name, object value)
         {
             EnsureInit(1);
             (result as JSONObject).Set(name, value);
         }
+
         public void SetEmptyObject()
         {
             EnsureInit(1);
         }
+
         public Type GetChildType()
         {
             EnsureInit(2);
             return null;
         }
+
         public bool IsListEmpty()
         {
             EnsureInit(2);
             return (result as JSONArray).Count == 0;
         }
+
         public void AddChild(object value)
         {
             EnsureInit(2);
@@ -116,7 +120,7 @@ namespace Lsj.Util.JSON.Processer
             }
             else
             {
-                throw new NotSupportedException("value must be string,bool,numeric or JSONObject");
+                JSONParser.Error("value must be string, bool, numeric or JSONObject");
             }
         }
     }

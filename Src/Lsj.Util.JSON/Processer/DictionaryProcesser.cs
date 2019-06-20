@@ -13,6 +13,7 @@ namespace Lsj.Util.JSON.Processer
         object result;
         MethodInfo addMethod;
         Type genericDicType;
+
         public DictionaryProcesser(Type type)
         {
             addMethod = type.GetMethod("Add");
@@ -21,12 +22,16 @@ namespace Lsj.Util.JSON.Processer
         }
 
         public object GetResult() => result;
+
         public Type GetValueType(string name) => result is Hashtable ? null : genericDicType.GetGenericArguments()[1];
+
         public void Set(string name, object value)
         {
             addMethod.Invoke(result, new object[] { name, value });
         }
+
         public void SetNull() => result = null;
+
         public void SetValue(object value)
         {
             if (value is JSONObject obj)

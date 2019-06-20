@@ -13,6 +13,7 @@ namespace Lsj.Util.JSON.Processer
         {
 
         }
+
         public override void Set(string name, object value)
         {
             if (properties.ContainsKey(name))
@@ -26,7 +27,7 @@ namespace Lsj.Util.JSON.Processer
                     }
                     else
                     {
-                        throw new Exception("Custom Serializer Must Implement ISerializer");
+                        JSONParser.Error("Custom Serializer Must Implement ISerializer");
                     }
                 }
                 var par = Expression.Parameter(result.GetType());
