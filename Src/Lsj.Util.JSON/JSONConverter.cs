@@ -141,6 +141,11 @@ namespace Lsj.Util.JSON
                         {
                             flag = true;
                             var name = property.Name;
+                            var attr = property.GetAttribute<CustomJsonPropertyNameAttribute>();
+                            if (attr != null)
+                            {
+                                name = attr.Name;
+                            }
                             string value = "";
                             var customSerializeAttribute = property.GetAttribute<CustomSerializeAttribute>();
                             if (customSerializeAttribute != null)
