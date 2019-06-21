@@ -11,16 +11,16 @@ using System.Windows.Data;
 namespace Lsj.Util.WPF.Converters
 {
     /// <summary>
-    /// Base Two Way Converter
+    /// TwoWayDictionaryConverter
     /// </summary>
     /// <typeparam name="TFrom"></typeparam>
     /// <typeparam name="TTo"></typeparam>
-    public abstract class BaseTwoWayConverter<TFrom, TTo> : IValueConverter
+    public class TwoWayDictionaryConverter<TFrom, TTo> : IValueConverter
     {
         /// <summary>
         /// ConvertDictionary
         /// </summary>
-        protected TwoWayDictionary<TFrom, TTo> ConvertDictionary = new TwoWayDictionary<TFrom, TTo>();
+        public TwoWayDictionary<TFrom, TTo> ConvertDictionary { get; set; } = new TwoWayDictionary<TFrom, TTo>();
 
         /// <summary>
         /// Convert
@@ -30,7 +30,7 @@ namespace Lsj.Util.WPF.Converters
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is TFrom val && ConvertDictionary.ContainsKey(val) ? ConvertDictionary.GetValueByKey(val) : DependencyProperty.UnsetValue;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is TFrom val && targetType.IsAssignableFrom(typeof(TTo)) && ConvertDictionary.ContainsKey(val) ? ConvertDictionary.GetValueByKey(val) : DependencyProperty.UnsetValue;
 
 
         /// <summary>
@@ -41,6 +41,6 @@ namespace Lsj.Util.WPF.Converters
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns></returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is TTo val && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is TTo val && targetType.IsAssignableFrom(typeof(TFrom)) && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
     }
 }
