@@ -9,7 +9,6 @@ using System.Windows.Data;
 
 namespace Lsj.Util.WPF.Converters
 {
-
     public class BaseDictionaryConverter<TFrom, TTo> : IValueConverter
     {
         public Dictionary<TFrom, TTo> ConvertDictionary { get; set; } = new Dictionary<TFrom, TTo>();
