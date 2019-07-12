@@ -22,13 +22,14 @@
         SW_MAXIMIZE = 3,
 
         /// <summary>
-        /// Minimizes the specified window and activates the next top-level window in the z-order.
+        /// Minimizes the specified window and activates the next top-level window in the Z order.
         /// </summary>
         SW_MINIMIZE = 6,
 
         /// <summary>
-        /// Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when restoring a minimized window.
-        /// </summary>
+        /// Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position.
+        /// An application should specify this flag when restoring a minimized window.
+        /// /// </summary>
         SW_RESTORE = 9,
 
         /// <summary>
@@ -52,22 +53,23 @@
         SW_SHOWMINIMIZED = 2,
 
         /// <summary>
-        /// Displays the window as a minimized window. This value is similar to <see cref="ShowWindowCommands.SW_SHOWMINIMIZED"/>, except the window is not activated.
+        /// Displays the window as a minimized window. This value is similar to <see cref="SW_SHOWMINIMIZED"/>, except the window is not activated.
         /// </summary>
         SW_SHOWMINNOACTIVE = 7,
 
         /// <summary>
-        /// Displays the window in its current size and position. This value is similar to <see cref="ShowWindowCommands.SW_SHOW"/>, except the window is not activated.
+        /// Displays the window in its current size and position. This value is similar to <see cref="SW_SHOW"/>, except the window is not activated.
         /// </summary>
         SW_SHOWNA = 8,
 
         /// <summary>
-        /// Displays a window in its most recent size and position. This value is similar to <see cref="ShowWindowCommands.SW_SHOWNORMAL"/>, except the window is not activated.
+        /// Displays a window in its most recent size and position. This value is similar to <see cref="SW_SHOWNORMAL"/>, except the window is not activated.
         /// </summary>
         SW_SHOWNOACTIVATE = 4,
 
         /// <summary>
-        /// Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position. An application should specify this flag when displaying the window for the first time.
+        /// Activates and displays a window. If the window is minimized or maximized, the system restores it to its original size and position.
+        /// An application should specify this flag when displaying the window for the first time.
         /// </summary>
         SW_SHOWNORMAL = 1,
     }

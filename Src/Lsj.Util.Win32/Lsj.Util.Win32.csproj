@@ -4,5 +4,9 @@
     <VersionPrefix>1.0.0</VersionPrefix>
     <Description>My Utility For Win32</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>0419</NoWarn>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
+  </ItemGroup>
 </Project>

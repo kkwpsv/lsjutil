@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// System Metrics
-    /// For GetSystemMetrics
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsystemmetrics
+    /// Index For <see cref="GetSystemMetrics"/>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetrics
     /// </summary>
     public enum SystemMetric : int
     {

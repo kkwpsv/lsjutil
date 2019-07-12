@@ -3,14 +3,18 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// Class Styles
+    /// </para>
+    /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/window-class-styles
+    /// </para>
     /// </summary>
     [Flags]
     public enum ClassStyles : uint
     {
-        /// <summary
-        /// >Aligns the window's client area on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.
+        /// <summary>
+        /// Aligns the window's client area on a byte boundary (in the x direction). This style affects the width of the window and its horizontal placement on the display.
         /// </summary>
         CS_BYTEALIGNCLIENT = 0x1000,
 
