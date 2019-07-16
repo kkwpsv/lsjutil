@@ -47,6 +47,12 @@ namespace Lsj.Util.Tests.JSON
             var result3 = JSONParser.Parse("[]");
             Assert.AreEqual(typeof(JSONArray), result3.GetType());
             Assert.AreEqual(0, result3.Count);
+
+            var result4 = JSONParser.Parse<List<TestStruct>>(@"[{""A"":1},{""B"":2},{""C"":""ABC""}]");
+            Assert.AreEqual(3, result4.Count);
+            Assert.AreEqual(1, result4[0].A);
+            Assert.AreEqual(2, result4[1].B);
+            Assert.AreEqual("ABC", result4[2].C);
         }
 
         [TestMethod]
@@ -110,6 +116,7 @@ namespace Lsj.Util.Tests.JSON
     {
         public int A { get; set; }
         public int B { get; set; }
+        public string C { get; set; }
     }
 }
 
