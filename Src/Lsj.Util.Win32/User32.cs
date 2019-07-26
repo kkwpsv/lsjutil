@@ -264,6 +264,34 @@ namespace Lsj.Util.Win32
         public static extern IntPtr DefWindowProc([In]IntPtr hWnd, [In]WindowsMessages uMsg, [In]UIntPtr wParam, [In]IntPtr lParam);
 
         /// <summary>
+        /// <para>
+        /// Destroys the specified window.
+        /// The function sends <see cref="WindowsMessages.WM_DESTROY"/> and <see cref="WindowsMessages.WM_NCDESTROY"/> messages 
+        /// to the window to deactivate it and remove the keyboard focus from it.
+        /// The function also destroys the window's menu, flushes the thread message queue, destroys timers, removes clipboard ownership,
+        /// and breaks the clipboard viewer chain (if the window is at the top of the viewer chain).
+        /// If the specified window is a parent or owner window, DestroyWindow automatically destroys the associated child or owned windows
+        /// when it destroys the parent or owner window.The function first destroys child or owned windows, and then it destroys the parent or owner window.
+        /// <see cref="DestroyWindow"/> also destroys modeless dialog boxes created by the CreateDialog function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroywindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">A handle to the window to be destroyed.</param>
+        /// <returns>
+        /// <para>
+        /// If the function succeeds, the return value is nonzero.
+        /// </para>
+        /// <para>
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </para>
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyWindow([In]IntPtr hwnd);
+
+        /// <summary>
         /// Dispatches a message to a window procedure. It is typically used to dispatch a message retrieved by the GetMessage function.
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dispatchmessagew
         /// </summary>

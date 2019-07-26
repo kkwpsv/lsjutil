@@ -13,7 +13,7 @@ nuget push Src/Lsj.Util.Net.Web/bin/Release/Lsj.Util.Net.Web.2.1.0.nupkg -Source
 nuget push Src/Lsj.Util.Office/bin/Release/Lsj.Util.Office.2.0.1.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.Protobuf/bin/Release/Lsj.Util.Protobuf.2.0.3.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.SQLBuilder/bin/Release/Lsj.Util.SQLBuilder.2.0.3.nupkg -Source nuget.org
-nuget push src/Lsj.Util.Win32/bin/Release/Lsj.Util.Win32.1.0.1.nupkg -Source nuget.org
+nuget push src/Lsj.Util.Win32/bin/Release/Lsj.Util.Win32.1.0.2.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.WinForm/bin/Release/Lsj.Util.WinForm.1.0.0.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.WPF/bin/Release/Lsj.Util.WPF.1.3.0.nupkg -Source nuget.org
 nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.3.0.nupkg -Source My
@@ -31,7 +31,7 @@ nuget push Src/Lsj.Util.Net.Web/bin/Release/Lsj.Util.Net.Web.2.1.0.nupkg -Source
 nuget push Src/Lsj.Util.Office/bin/Release/Lsj.Util.Office.2.0.1.nupkg -Source My
 nuget push Src/Lsj.Util.Protobuf/bin/Release/Lsj.Util.Protobuf.2.0.3.nupkg -Source My
 nuget push Src/Lsj.Util.SQLBuilder/bin/Release/Lsj.Util.SQLBuilder.2.0.3.nupkg -Source My
-nuget push src/Lsj.Util.Win32/bin/Release/Lsj.Util.Win32.1.0.1.nupkg -Source My
+nuget push src/Lsj.Util.Win32/bin/Release/Lsj.Util.Win32.1.0.2.nupkg -Source My
 nuget push Src/Lsj.Util.WinForm/bin/Release/Lsj.Util.WinForm.1.0.0.nupkg -Source My
 nuget push Src/Lsj.Util.WPF/bin/Release/Lsj.Util.WPF.1.3.0.nupkg -Source My
 pause
