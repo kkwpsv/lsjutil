@@ -6,7 +6,9 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// <see cref="UpdateLayeredWindow"/> flags.
+    /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-updatelayeredwindow
     /// </para>

@@ -9,11 +9,15 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
+    /// <para>
     /// Contains window class information. It is used with the <see cref="RegisterClassEx"/> and GetClassInfoEx functions.
     /// The <see cref="WNDCLASSEX"/> structure is similar to the WNDCLASS structure.There are two differences.
     /// <see cref="WNDCLASSEX"/> includes the <see cref="cbSize"/> member, which specifies the size of the structure, 
     /// and the <see cref="hIconSm"/> member, which contains a handle to a small icon associated with the window class.
+    /// </para>
+    /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-tagwndclassexw
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct WNDCLASSEX

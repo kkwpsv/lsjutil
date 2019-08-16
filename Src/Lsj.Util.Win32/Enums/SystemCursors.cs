@@ -5,8 +5,12 @@ using System.Text;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// System Cursors
+    /// </para>
+    /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw
+    /// </para>
     /// </summary>
     public enum SystemCursors
     {

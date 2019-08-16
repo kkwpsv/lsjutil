@@ -66,9 +66,13 @@ namespace Lsj.Util.Win32
 
 
         /// <summary>
+        /// <para>
         /// An application-defined function that processes messages sent to a window.
         /// The <see cref="WNDPROC"/> type defines a pointer to this callback function.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)
+        /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
         /// <param name="uMsg">The message.</param>
@@ -251,9 +255,13 @@ namespace Lsj.Util.Win32
             [In]IntPtr hWndParent, [In]IntPtr hMenu, [In]IntPtr hInstance, [In]IntPtr lpParam);
 
         /// <summary>
+        /// <para>
         /// Calls the default window procedure to provide default processing for any window messages that an application does not process.
         /// This function ensures that every message is processed. DefWindowProc is called with the same parameters received by the window procedure.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defwindowprocw
+        /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window procedure that received the message.</param>
         /// <param name="uMsg">The message.</param>
@@ -292,8 +300,12 @@ namespace Lsj.Util.Win32
         public static extern bool DestroyWindow([In]IntPtr hwnd);
 
         /// <summary>
+        /// <para>
         /// Dispatches a message to a window procedure. It is typically used to dispatch a message retrieved by the GetMessage function.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dispatchmessagew
+        /// </para>
         /// </summary>
         /// <param name="lpmsg">The message.</param>
         /// <returns>
@@ -304,10 +316,14 @@ namespace Lsj.Util.Win32
         public static extern IntPtr DispatchMessage([In] ref MSG lpmsg);
 
         /// <summary>
+        /// <para>
         /// The GetDC function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
         /// You can use the returned handle in subsequent GDI functions to draw in the DC.
         /// The device context is an opaque data structure, whose values are used internally by GDI.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdc
+        /// </para>
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the window whose DC is to be retrieved.
@@ -321,8 +337,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr GetDC([In]IntPtr hwnd);
 
         /// <summary>
+        /// <para>
         /// Retrieves a message from the calling thread's message queue. The function dispatches incoming sent messages until a posted message is available for retrieval.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessage
+        /// </para>
         /// </summary>
         /// <param name="lpMsg">A <see cref="MSG"/> structure that receives message information from the thread's message queue.</param>
         /// <param name="hWnd">
@@ -358,15 +378,17 @@ namespace Lsj.Util.Win32
         public static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
         /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by GetSystemMetrics are in pixels.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsystemmetrics
+        /// </para>
         /// </summary>
-        /// 
         /// <param name="smIndex">
         /// The system metric or configuration setting to be retrieved.
         /// </param>
-        /// 
         /// <returns>
         /// If the function succeeds, the return value is the requested system metric or configuration setting.]
         /// If the function fails, the return value is 0. <see cref="Marshal.GetLastWin32Error"/> does not provide extended error information.
@@ -375,9 +397,13 @@ namespace Lsj.Util.Win32
         public static extern int GetSystemMetrics(SystemMetric smIndex);
 
         /// <summary>
+        /// <para>
         /// Retrieves the dimensions of the bounding rectangle of the specified window.
         /// The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrect
+        /// </para>
         /// </summary>
         /// <param name="hwnd">A handle to the window.</param>
         /// <param name="lpRect">A <see cref="RECT"/> structure that receives the screen coordinates of the upper-left and lower-right corners of the window.</param>
@@ -406,8 +432,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr LoadBitmap([In]IntPtr hInstance, [In][MarshalAs(UnmanagedType.LPWStr)]string lpBitmapName);
 
         /// <summary>
+        /// <para>
         /// Loads the specified cursor resource from the executable (.EXE) file associated with an application instance.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw
+        /// </para>
         /// </summary>
         /// <param name="hInstance">A handle to an instance of the module whose executable file contains the cursor to be loaded.</param>
         /// <param name="lpCursorName">The name of the cursor resource to be loaded.</param>
@@ -419,8 +449,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr LoadCursor([In]IntPtr hInstance, [In][MarshalAs(UnmanagedType.LPWStr)]string lpCursorName);
 
         /// <summary>
+        /// <para>
         /// Loads the specified cursor resource from the executable (.EXE) file associated with an application instance.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw
+        /// </para>
         /// </summary>
         /// <param name="hInstance">Must be NULL.</param>
         /// <param name="lpCursorName">The resource identifier in the low-order word and zero in the high-order word.</param>
@@ -432,8 +466,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr LoadCursor([In]IntPtr hInstance, [In]SystemCursors lpCursorName);
 
         /// <summary>
+        /// <para>
         /// Loads the specified icon resource from the executable (.exe) file associated with an application instance.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw
+        /// </para>
         /// </summary>
         /// <param name="hInstance">
         /// A handle to an instance of the module whose executable file contains the icon to be loaded.
@@ -448,8 +486,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr LoadIcon([In]IntPtr hInstance, [In][MarshalAs(UnmanagedType.LPWStr)]string lpIconName);
 
         /// <summary>
+        /// <para>
         /// Loads the specified icon resource from the executable (.exe) file associated with an application instance.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw
+        /// </para>
         /// </summary>
         /// <param name="hInstance">Must be NULL.</param>
         /// <param name="lpIconName">he resource identifier in the low-order word and zero in the high-order word.</param>
@@ -460,12 +502,14 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
         public static extern IntPtr LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
 
-
-
         /// <summary>
+        /// <para>
         /// Indicates to the system that a thread has made a request to terminate (quit).
         /// It is typically used in response to a <see cref="WindowsMessages.WM_DESTROY"/> message.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postquitmessage
+        /// </para>
         /// </summary>
         /// <param name="nExitCode">
         /// The application exit code.
@@ -475,8 +519,12 @@ namespace Lsj.Util.Win32
         public static extern void PostQuitMessage([In] int nExitCode);
 
         /// <summary>
+        /// <para>
         /// Registers a window class for subsequent use in calls to the CreateWindow or <see cref="CreateWindowEx"/> function.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassexw
+        /// </para>
         /// </summary>
         /// <param name="Arg1">
         /// A pointer to a <see cref="WNDCLASSEX"/> structure.
@@ -533,8 +581,12 @@ namespace Lsj.Util.Win32
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
 
         /// <summary>
+        /// <para>
         /// Sets the specified window's show state.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow
+        /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
         /// <param name="nCmdShow">
@@ -551,10 +603,14 @@ namespace Lsj.Util.Win32
         public static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);
 
         /// <summary>
+        /// <para>
         /// Translates virtual-key messages into character messages.
         /// The character messages are posted to the calling thread's message queue, 
         /// to be read the next time the thread calls the <see cref="GetMessage"/> or PeekMessage function.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessagew
+        /// </para>
         /// </summary>
         /// <param name="lpMsg">
         /// An MSG structure that contains message information retrieved from the calling thread's message queue
@@ -569,54 +625,48 @@ namespace Lsj.Util.Win32
         public static extern bool TranslateMessage([In] ref MSG lpMsg);
 
         /// <summary>
+        /// <para>
         /// Updates the position, size, shape, content, and translucency of a layered window.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatelayeredwindow
+        /// </para>
         /// </summary>
-        /// 
         /// <param name="hwnd">
         /// A handle to a layered window. A layered window is created by specifying <see cref="WindowStylesEx.WS_EX_LAYERED"/> when creating the window with the CreateWindowEx function.
         /// Windows 8: <see cref="WindowStylesEx.WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
         /// Previous Windows versions support <see cref="WindowStylesEx.WS_EX_LAYERED"/> only for top-level windows.
         /// </param>
-        /// 
         /// <param name="hdcDst">
         /// A handle to a DC for the screen. This handle is obtained by specifying NULL when calling the function.
         /// It is used for palette color matching when the window contents are updated.
         /// If <paramref name="hdcDst"/> is NULL, the default palette will be used.
         /// If <paramref name="hdcSrc"/> is NULL, <paramref name="hdcDst"/> must be NULL.
         /// </param>
-        /// 
         /// <param name="pptDst">
         /// A structure that specifies the new screen position of the layered window.
         /// If the current position is not changing, <paramref name="pptDst"/> can be NULL.
         /// </param>
-        /// 
         /// <param name="psize">
         /// A structure that specifies the new size of the layered window. If the size of the window is not changing, <paramref name="psize"/> can be NULL.
         /// If <paramref name="hdcSrc"/> is NULL, <paramref name="psize"/> must be NULL.
         /// </param>
-        /// 
         /// <param name="hdcSrc">
         /// A handle to a DC for the surface that defines the layered window. This handle can be obtained by calling the CreateCompatibleDC function. 
         /// If the shape and visual context of the window are not changing, <paramref name="hdcSrc"/> can be NULL.
         /// </param>
-        /// 
         /// <param name="pptSrc">
         /// A structure that specifies the location of the layer in the device context. If <paramref name="hdcSrc"/> is NULL, <paramref name="pptSrc"/> should be NULL.
         /// </param>
-        /// 
         /// <param name="crKey">
         /// A structure that specifies the color key to be used when composing the layered window. 
         /// </param>
-        /// 
         /// <param name="pblend">
         /// A pointer to a structure that specifies the transparency value to be used when composing the layered window.
         /// </param>
-        /// 
         /// <param name="dwFlags">
         /// Flags. If <paramref name="hdcSrc"/> is NULL, <paramref name="dwFlags"/> should be zero.
         /// </param>
-        /// 
         /// <returns>
         /// If the function succeeds, the return value is nonzero.
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// TODO: Finish Messages
     /// </para>
     /// <para>
-    ///  From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues
     /// </para>
     /// </summary>
     public enum WindowsMessages : uint

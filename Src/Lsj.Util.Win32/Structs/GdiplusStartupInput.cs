@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Gdiplus;
 
@@ -13,6 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplusinit/ns-gdiplusinit-gdiplusstartupinput
     /// </para>
     /// </summary>
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct GdiplusStartupInput
     {
         /// <summary>

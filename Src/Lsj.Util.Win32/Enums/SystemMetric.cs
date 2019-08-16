@@ -6,8 +6,12 @@ using static Lsj.Util.Win32.User32;
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
+    /// <para>
     /// Index For <see cref="GetSystemMetrics"/>
+    /// </para>
+    /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetrics
+    /// </para>
     /// </summary>
     public enum SystemMetric : int
     {

@@ -12,8 +12,12 @@ namespace Lsj.Util.Win32
     public static class Gdi32
     {
         /// <summary>
+        /// <para>
         /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap
+        /// </para>
         /// </summary>
         /// <param name="hdc">A handle to a device context.</param>
         /// <param name="nWidth">The bitmap width, in pixels.</param>
@@ -26,8 +30,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateCompatibleBitmap([In]IntPtr hdc, [In]int nWidth, [In]int nHeight);
 
         /// <summary>
+        /// <para>
         /// The <see cref="CreateCompatibleDC"/> function creates a memory device context (DC) compatible with the specified device.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatibledc
+        /// </para>
         /// </summary>
         /// <param name="hdc">A handle to an existing DC. If this handle is NULL, the function creates a memory DC compatible with the application's current screen.</param>
         /// <returns>
@@ -38,8 +46,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateCompatibleDC([In]IntPtr hdc);
 
         /// <summary>
+        /// <para>
         /// The <see cref="DeleteDC"/> function deletes the specified device context (DC).
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletedc
+        /// </para>
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
         /// <returns>
@@ -50,9 +62,13 @@ namespace Lsj.Util.Win32
         public static extern bool DeleteDC(IntPtr hdc);
 
         /// <summary>
+        /// <para>
         /// The <see cref="DeleteObject"/> function deletes a logical pen, brush, font, bitmap, region, or palette, freeing all system resources associated with the object.
         /// After the object is deleted, the specified handle is no longer valid.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteobject
+        /// </para>
         /// </summary>
         /// <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
         /// <returns>

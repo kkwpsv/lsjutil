@@ -6,8 +6,12 @@ using System.Text;
 namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
+    /// <para>
     /// The <see cref="RECT"/> structure defines a rectangle by the coordinates of its upper-left and lower-right corners.
+    /// </para>
+    /// <para>
     /// From: https://docs.microsoft.com/en-us/windows/win32/api/windef/ns-windef-rect
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct RECT
