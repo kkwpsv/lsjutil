@@ -14,20 +14,20 @@ namespace Lsj.Util.Binary
         /// <summary>
         /// File Stream
         /// </summary>
-        protected FileStream file;
+        protected FileStream _file;
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Binary.BaseBinaryFile"/> class.
         /// </summary>
         /// <param name="path">File Path</param>
         public BaseBinaryFile(string path)
         {
-            this.file = new FileStream(path, FileMode.Open, FileAccess.Read);
-            Read();
+            _file = new FileStream(path, FileMode.Open, FileAccess.Read);
         }
+
         /// <summary>
         /// Read
         /// </summary>
-        protected virtual void Read()
+        protected virtual bool Read()
         {
 
         }
@@ -37,7 +37,7 @@ namespace Lsj.Util.Binary
         /// </summary>
         protected override void CleanUpManagedResources()
         {
-            this.file.Dispose();
+            _file.Dispose();
             base.CleanUpManagedResources();
         }
     }

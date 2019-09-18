@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using WORD = System.UInt16;
+using DWORD = System.UInt32;
+
 namespace Lsj.Util.Binary
 {
     /// <summary>
@@ -13,13 +16,6 @@ namespace Lsj.Util.Binary
     public class PEFile : DosExeFile
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Binary.PEFile"/> class.
-        /// </summary>
-        /// <param name="path">File Path</param>
-        public PEFile(string path) : base(path)
-        {
-        }
-        /// <summary>
         /// NTHeader
         /// </summary>
         public NTHeader NTHeader
@@ -27,64 +23,79 @@ namespace Lsj.Util.Binary
             get;
             private set;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Lsj.Util.Binary.PEFile"/> class.
+        /// </summary>
+        /// <param name="path">File Path</param>
+        public PEFile(string path) : base(path)
+        {
+        }
+
         /// <summary>
         /// Read
         /// </summary>
-        protected override void Read()
+        protected override bool Read()
         {
-            base.Read();
-            if (this.DosHeader.HeaderParagraphs == 4)
+            if (base.Read())
             {
-                var peoffset = dosheaderbytes.ConvertToInt(0x3c);
-                file.Seek(peoffset, SeekOrigin.Begin);
-                byte[] x = new byte[4];
-                file.Read(x, 0, 4);
-                var t = x.ConvertToInt();
-                if (t != 0x4550)
+                var ntHeaderOffset = DosHeader.e_lfanew;
+                if (ntHeaderOffset != 0)
                 {
-                    throw new ArgumentException("Error PE File");
+                    var ntHeader = new NTHeader();
+                    _file.Seek(ntHeaderOffset, SeekOrigin.Begin);
+
+                    var buffer = new byte[0x18];
+                    _file.Read(buffer, 0, 0x18);
+
+                    unsafe
+                    {
+                        UnsafeHelper.Copy(buffer, ntHeader.buffer, 0x18);
+                    }
+
+                    if (ntHeader.Signature == 0x4550)//PE
+                    {
+                        if (ntHeader.FileHeader.SizeOfOptionalHeader != 0)
+                        {
+
+                        }
+
+                        NTHeader = ntHeader;
+                        return true;
+                    }
                 }
-                var fileheader = new FileHeader();
-
-
-
-                var ntheader = new NTHeader(0x4550, fileheader);
-
-                this.NTHeader = ntheader;
-
             }
-            else
-            {
-                throw new ArgumentException("Error PE File");
-            }
+            return false;
         }
     }
 
     /// <summary>
     /// NTHeader
     /// </summary>
+    [StructLayout(LayoutKind.Explicit)]
     public struct NTHeader
     {
-        internal NTHeader(UInt16 signature, FileHeader fileheader)
-        {
-            this.Signature = signature;
-            this.FileHeader = fileheader;
-        }
+        [FieldOffset(0x00)]
+        internal unsafe fixed byte buffer[0x18];
+
         /// <summary>
         /// Signature
         /// </summary>
-        public readonly UInt16 Signature;
+        [FieldOffset(0x00)]
+        public readonly DWORD Signature;
+
         /// <summary>
         /// FileHeader
         /// </summary>
-        public readonly FileHeader FileHeader;
+        [FieldOffset(0x04)]
+        public readonly ImageFileHeader FileHeader;
     }
 
     /// <summary>
     /// FileHeader
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 20)]
-    public struct FileHeader
+    public struct ImageFileHeader
     {
         [FieldOffset(0x00)]
         internal unsafe fixed byte buffer[20];
@@ -94,31 +105,37 @@ namespace Lsj.Util.Binary
         /// </summary>
         [FieldOffset(0x00)]
         public readonly Machine Machine;
+
         /// <summary>
-        /// NumberOfSections
+        /// Number Of Sections
         /// </summary>
         [FieldOffset(0x02)]
-        public readonly UInt16 NumberOfSections;
+        public readonly WORD NumberOfSections;
+
         /// <summary>
-        /// TimeDateStamp
+        /// Time Date Stamp
         /// </summary>
         [FieldOffset(0x04)]
-        public readonly UInt32 TimeDateStamp;
+        public readonly DWORD TimeDateStamp;
+
         /// <summary>
-        /// PointerToSymbolTable
+        /// Pointer To Symbol Table
         /// </summary>
         [FieldOffset(0x08)]
-        public readonly UInt32 PointerToSymbolTable;
+        public readonly DWORD PointerToSymbolTable;
+
         /// <summary>
-        /// NumberOfSymbols
+        /// Number Of Symbols
         /// </summary>
         [FieldOffset(0x0C)]
-        public readonly UInt32 NumberOfSymbols;
+        public readonly DWORD NumberOfSymbols;
+
         /// <summary>
-        /// SizeOfOptionalHeader
+        /// Size Of Optional Header
         /// </summary>
         [FieldOffset(0x10)]
-        public readonly UInt16 SizeOfOptionalHeader;
+        public readonly WORD SizeOfOptionalHeader;
+
         /// <summary>
         /// Characteristics
         /// </summary>
@@ -130,116 +147,163 @@ namespace Lsj.Util.Binary
     /// <summary>
     /// Machine
     /// </summary>
-    public enum Machine : UInt16
+    public enum Machine : WORD
     {
         /// <summary>
         /// Unknown
         /// </summary>
         UNKNOWN = 0,
+
         /// <summary>
-        /// i386
+        /// Useful for indicating we want to interact with the host and not a WoW guest.
+        /// </summary>
+        TARGET_HOST = 0x0001,
+
+        /// <summary>
+        /// Intel 386.
         /// </summary>
         I386 = 0x014c,
+
         /// <summary>
-        /// R3000
+        /// MIPS little-endian, 0x160 big-endian
         /// </summary>
         R3000 = 0x0162,
+
         /// <summary>
-        /// R4000
+        /// MIPS little-endian
         /// </summary>
         R4000 = 0x0166,
+
         /// <summary>
-        /// R10000
+        /// MIPS little-endian
         /// </summary>
         R10000 = 0x0168,
+
         /// <summary>
-        /// Windows CE 2 MIPS little endian
+        /// MIPS little-endian WCE v2
         /// </summary>
         WCEMIPSV2 = 0x0169,
+
         /// <summary>
-        /// Alpha AXP
+        /// Alpha_AXP
         /// </summary>
         ALPHA = 0x0184,
+
         /// <summary>
-        /// SH3 little endian
+        /// SH3 little-endian
         /// </summary>
         SH3 = 0x01a2,
+
         /// <summary>
-        /// SH3DSP little endian
+        /// SH3DSP
         /// </summary>
         SH3DSP = 0x01a3,
+
         /// <summary>
-        /// SH3E little endian
+        /// SH3E little-endian
         /// </summary>
         SH3E = 0x01a4,
+
         /// <summary>
-        /// SH4 little endian
+        /// SH4 little-endian
         /// </summary>
         SH4 = 0x01a6,
+
         /// <summary>
-        /// SH5 little endian
+        /// SH5
         /// </summary>
         SH5 = 0x01a8,
+
         /// <summary>
-        /// ARM little endian
+        /// ARM Little-Endian
         /// </summary>
         ARM = 0x01c0,
+
         /// <summary>
-        /// ARM processor with Thumb decompressor
+        /// ARM Thumb/Thumb-2 Little-Endian
         /// </summary>
         THUMB = 0x01c2,
+
+        /// <summary>
+        /// ARM Thumb-2 Little-Endian
+        /// </summary>
+        ARMNT = 0x01c4,
+
         /// <summary>
         /// AM33
         /// </summary>
         AM33 = 0x01d3,
+
         /// <summary>
-        /// IBM PowerPC little endian
+        /// IBM PowerPC Little-Endian
         /// </summary>
         POWERPC = 0x01F0,
+
         /// <summary>
-        /// IBM PowerPC little endian with FPU
+        /// IBM PowerPC Little-Endian with FPU
         /// </summary>
         POWERPCFP = 0x01f1,
+
         /// <summary>
-        /// Itanium
+        /// Intel 64
         /// </summary>
         IA64 = 0x0200,
+
         /// <summary>
         /// MIPS
         /// </summary>
         MIPS16 = 0x0266,
+
         /// <summary>
-        /// ALPHA AXP64
+        /// ALPHA64
         /// </summary>
         ALPHA64 = 0x0284,
+
         /// <summary>
         /// MIPS with FPU
         /// </summary>
         MIPSFPU = 0x0366,
+
         /// <summary>
         /// MIPS16 with FPU
         /// </summary>
         MIPSFPU16 = 0x0466,
+
+        /// <summary>
+        /// AXP64
+        /// </summary>
+        AXP64 = ALPHA64,
+
         /// <summary>
         /// Infineon
         /// </summary>
         TRICORE = 0x0520,
+
         /// <summary>
         /// CEF
         /// </summary>
         CEF = 0x0CEF,
+
         /// <summary>
-        /// EBC
+        /// EFI Byte Code
         /// </summary>
         EBC = 0x0EBC,
+
         /// <summary>
-        /// AMD X64
+        /// AMD64 (K8)
         /// </summary>
         AMD64 = 0x8664,
+
         /// <summary>
-        /// M32R little endian
+        /// M32R little-endian
         /// </summary>
         M32R = 0x9041,
+
+        /// <summary>
+        /// ARM64 Little-Endian
+        /// </summary>
+        ARM64 = 0xAA64,
+
         /// <summary>
         /// CEE
         /// </summary>
@@ -253,63 +317,78 @@ namespace Lsj.Util.Binary
     public enum Characteristics : UInt16
     {
         /// <summary>
-        /// RELOCS_STRIPPED
+        /// Relocation info stripped from file.
         /// </summary>
         RELOCS_STRIPPED = 0x0001,
+
         /// <summary>
-        /// EXECUTABLE_IMAGE
+        ///  File is executable  (i.e. no unresolved external references).
         /// </summary>
         EXECUTABLE_IMAGE = 0x0002,
+
         /// <summary>
-        /// LINE_NUMS_STRIPPED
+        ///  Line nunbers stripped from file.
         /// </summary>
         LINE_NUMS_STRIPPED = 0x0004,
+
         /// <summary>
-        /// LOCAL_SYMS_STRIPPED
+        /// Local symbols stripped from file.
         /// </summary>
         LOCAL_SYMS_STRIPPED = 0x0008,
+
+
         /// <summary>
-        /// AGGRESIVE_WS_TRIM
+        /// Aggressively trim working set
         /// </summary>
         AGGRESIVE_WS_TRIM = 0x0010,
+
         /// <summary>
-        ///   LARGE_ADDRESS_AWARE
+        /// App can handle >2gb addresses
         /// </summary>
         LARGE_ADDRESS_AWARE = 0x0020,
+
         /// <summary>
-        /// BYTES_REVERSED_LO
+        /// Bytes of machine word are reversed.
         /// </summary>
         BYTES_REVERSED_LO = 0x0080,
+
         /// <summary>
-        /// BIT32_MACHINE
+        /// 32 bit word machine.
         /// </summary>
         BIT32_MACHINE = 0x0100,
+
         /// <summary>
-        /// DEBUG_STRIPPED
+        /// Debugging info stripped from file in .DBG file
         /// </summary>
         DEBUG_STRIPPED = 0x0200,
+
         /// <summary>
-        /// REMOVABLE_RUN_FROM_SWAP
+        /// If Image is on removable media, copy and run from the swap file.
         /// </summary>
         REMOVABLE_RUN_FROM_SWAP = 0x0400,
+
         /// <summary>
-        /// NET_RUN_FROM_SWAP
+        /// If Image is on Net, copy and run from the swap file.
         /// </summary>
         NET_RUN_FROM_SWAP = 0x0800,
+
         /// <summary>
-        /// SYSTEM
+        /// System File.
         /// </summary>
         SYSTEM = 0x1000,
+
         /// <summary>
-        /// DLL
+        /// File is a DLL.
         /// </summary>
         DLL = 0x2000,
+
         /// <summary>
-        /// UP_SYSTEM_ONLY
+        /// File should only be run on a UP machine
         /// </summary>
         UP_SYSTEM_ONLY = 0x4000,
+
         /// <summary>
-        /// BYTES_REVERSED_HI
+        /// Bytes of machine word are reversed.
         /// </summary>
         BYTES_REVERSED_HI = 0x8000
     }

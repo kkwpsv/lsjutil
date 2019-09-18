@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.IO;
+
+using WORD = System.UInt16;
+using LONG = System.UInt32;
 
 namespace Lsj.Util.Binary
 {
@@ -30,45 +34,42 @@ namespace Lsj.Util.Binary
         /// <summary>
         /// DosHeader Byte Array
         /// </summary>
-        protected byte[] dosheaderbytes;
+        protected byte[] _dosHeaderBytes;
 
         /// <summary>
         /// Read
         /// </summary>
-        protected override void Read()
+        protected override bool Read()
         {
-            byte[] headers = new byte[28];
-            if (file.Read(headers, 0, 28) == 28 && headers[0] == 0x4d && headers[1] == 0x5a)
+            byte[] headers = new byte[28]; //Min Header Size
+            _file.Seek(0, SeekOrigin.Begin);
+            if (_file.Read(headers, 0, 28) == 28 && headers[0] == 0x4d && headers[1] == 0x5a)//MZ
             {
-                var headersize = (headers[0x08] | headers[0x09] << 8) << 4;
-                if (headersize >= 28)
+                var headerSize = headers.ConvertToShort(0x08) << 4;
+
+                if (headerSize > 28)
                 {
-                    Array.Resize(ref headers, headersize);
-                    file.Read(headers, 28, headersize - 28);
-                    this.dosheaderbytes = headers;
+                    Array.Resize(ref headers, headerSize);
+                    _file.Read(headers, 28, headerSize - 28);
+                }
+
+                if (headerSize >= 28)
+                {
+                    _dosHeaderBytes = headers;
 
                     unsafe
                     {
-                        var dosheader = new DosHeader();
-                        fixed (byte* headerptr = dosheaderbytes)
+                        var dosHeader = new DosHeader();
+                        fixed (byte* headerPtr = _dosHeaderBytes)
                         {
-                            UnsafeHelper.Copy(headerptr, dosheader.buffer, 28);
+                            UnsafeHelper.Copy(headerPtr, dosHeader.buffer, headerSize > 0x40 ? 0x40 : headerSize);
                         }
-                        this.DosHeader = dosheader;
+                        DosHeader = dosHeader;
                     }
-
-
-
-                }
-                else
-                {
-                    throw new ArgumentException("Error Dos Exe File");
+                    return true;
                 }
             }
-            else
-            {
-                throw new ArgumentException("Error Dos Exe File");
-            }
+            return false;
         }
         /// <summary>
         /// RelocationTable
@@ -76,122 +77,149 @@ namespace Lsj.Util.Binary
         /// <returns></returns>
         public RelocationItem[] GetRelocationTable()
         {
-            var result = new RelocationItem[DosHeader.NumRelocs];
-            var size = DosHeader.NumRelocs * 4;
+            var result = new RelocationItem[DosHeader.e_crlc];
+            var size = DosHeader.e_crlc * 4;
 
-            unsafe
+            _file.Seek(DosHeader.lfarlc, SeekOrigin.Begin);
+            var buffer = new byte[size];
+            if (_file.Read(buffer, 0, size) == size)
             {
-
-                fixed (byte* x = this.dosheaderbytes)
+                unsafe
                 {
-                    var src = x + DosHeader.RelocationTableOffset;
-                    fixed (RelocationItem* dst = result)
+                    fixed (RelocationItem* items = result)
                     {
-                        UnsafeHelper.Copy(src, (byte*)dst, size);
+                        UnsafeHelper.Copy(buffer, items, size);
                     }
+                    return result;
                 }
             }
 
-            return result;
-
-
+            return null;
         }
     }
+
     /// <summary>
-    /// Dos Header
+    /// DOS .EXE header
     /// </summary>
-    [StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Explicit, Size = 0x40)]
     public struct DosHeader
     {
         [FieldOffset(0x00)]
-        internal unsafe fixed byte buffer[28];
+        internal unsafe fixed byte buffer[0x40];
 
         /// <summary>
-        /// Signature
+        /// Magic number (MZ)
         /// </summary>
         [FieldOffset(0x00)]
-        public readonly UInt16 Signature;
+        public WORD e_magic;
 
         /// <summary>
-        /// BytesInLastBlock
+        /// Bytes on last page of file
         /// </summary>
         [FieldOffset(0x02)]
-        public readonly UInt16 BytesInLastBlock;
+        public WORD e_cblp;
 
         /// <summary>
-        /// BlocksInFile
+        /// Pages in file
         /// </summary>
         [FieldOffset(0x04)]
-        public readonly UInt16 BlocksInFile;
+        public WORD e_cp;
 
         /// <summary>
-        /// NumRelocs
+        /// Relocations
         /// </summary>
         [FieldOffset(0x06)]
-        public readonly UInt16 NumRelocs;
+        public WORD e_crlc;
 
         /// <summary>
-        /// HeaderParagraphs
+        /// Size of header in paragraphs
         /// </summary>
         [FieldOffset(0x08)]
-        public readonly UInt16 HeaderParagraphs;
+        public WORD e_cparhdr;
 
         /// <summary>
-        /// MinExtraParagraphs
+        /// Minimum extra paragraphs needed
         /// </summary>
         [FieldOffset(0x0A)]
-        public readonly UInt16 MinExtraParagraphs;
+        public WORD e_minalloc;
 
         /// <summary>
-        /// MaxExtraParagraphs
+        /// Maximum extra paragraphs needed
         /// </summary>
         [FieldOffset(0x0C)]
-        public readonly UInt16 MaxExtraParagraphs;
+        public WORD e_maxalloc;
 
         /// <summary>
-        /// SS
+        /// Initial (relative) SS value
         /// </summary>
         [FieldOffset(0x0E)]
-        public readonly UInt16 SS;
+        public WORD ss;
 
         /// <summary>
-        /// SP
+        /// Initial SP value
         /// </summary>
         [FieldOffset(0x10)]
-        public readonly UInt16 SP;
+        public WORD sp;
 
         /// <summary>
         /// CheckSum
         /// </summary>
         [FieldOffset(0x12)]
-        public readonly UInt16 CheckSum;
+        public WORD csum;
 
         /// <summary>
-        /// IP
+        /// Initial IP value
         /// </summary>
         [FieldOffset(0x14)]
-        public readonly UInt16 IP;
+        public WORD ip;
 
         /// <summary>
-        /// CS
+        /// Initial (relative) CS value
         /// </summary>
         [FieldOffset(0x16)]
-        public readonly UInt16 CS;
+        public WORD cs;
 
         /// <summary>
-        /// RelocationTableOffset
+        /// File address of relocation table
         /// </summary>
         [FieldOffset(0x18)]
-        public readonly UInt16 RelocationTableOffset;
+        public WORD lfarlc;
 
         /// <summary>
-        /// OverlayNumber
+        /// Overlay number
         /// </summary>
         [FieldOffset(0x1A)]
-        public readonly UInt16 OverlayNumber;
+        public WORD ovno;
 
+        /// <summary>
+        /// Reserved words
+        /// </summary>
+        [FieldOffset(0x1C)]
+        public unsafe fixed WORD e_res[4];
 
+        /// <summary>
+        /// OEM identifier (for <see cref="e_oeminfo"/>)
+        /// </summary>
+        [FieldOffset(0x24)]
+        public WORD e_oemid;
 
+        /// <summary>
+        /// OEM information; <see cref="e_oemid"/> specific
+        /// </summary>
+        [FieldOffset(0x26)]
+        public WORD e_oeminfo;
+
+        /// <summary>
+        /// Reserved words
+        /// </summary>
+        [FieldOffset(0x28)]
+        public unsafe fixed WORD e_res2[10];
+
+        /// <summary>
+        /// File address of new exe header (PE header)
+        /// </summary>
+        [FieldOffset(0x3C)]
+        public LONG e_lfanew;
     }
 
     /// <summary>
@@ -204,11 +232,11 @@ namespace Lsj.Util.Binary
         /// Offset
         /// </summary>
         [FieldOffset(0x00)]
-        public readonly UInt16 Offset;
+        public readonly WORD Offset;
         /// <summary>
         /// Segment
         /// </summary>
         [FieldOffset(0x02)]
-        public readonly UInt16 Segment;
+        public readonly WORD Segment;
     };
 }
