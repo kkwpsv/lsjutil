@@ -25,6 +25,15 @@
         /// <param name="src"></param>
         /// <param name="dst"></param>
         /// <param name="length"></param>
+        public static void Copy(byte[] src, void* dst, long length) => Copy(src, (byte*)dst, length);
+
+
+        /// <summary>
+        /// Copy
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="dst"></param>
+        /// <param name="length"></param>
         public static void Copy(byte[] src, byte[] dst, long length)
         {
             fixed (byte* pts = src)
