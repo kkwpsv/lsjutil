@@ -1,4 +1,4 @@
-nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.3.0.nupkg -Source nuget.org
+nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.3.1.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.APIs.Alipay/bin/Release/Lsj.Util.APIs.Alipay.1.0.9.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.APIs.UmeTrip/bin/Release/Lsj.Util.APIs.UmeTrip.1.0.1.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.APIs.WeChat/bin/Release/Lsj.Util.APIs.WeChat.1.0.4.nupkg -Source nuget.org
@@ -16,7 +16,7 @@ nuget push Src/Lsj.Util.SQLBuilder/bin/Release/Lsj.Util.SQLBuilder.2.0.3.nupkg -
 nuget push src/Lsj.Util.Win32/bin/Release/Lsj.Util.Win32.1.0.3.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.WinForm/bin/Release/Lsj.Util.WinForm.1.0.0.nupkg -Source nuget.org
 nuget push Src/Lsj.Util.WPF/bin/Release/Lsj.Util.WPF.1.3.0.nupkg -Source nuget.org
-nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.3.0.nupkg -Source My
+nuget push Src/Lsj.Util/bin/Release/Lsj.Util.2.3.1.nupkg -Source My
 nuget push Src/Lsj.Util.APIs.Alipay/bin/Release/Lsj.Util.APIs.Alipay.1.0.9.nupkg -Source My
 nuget push Src/Lsj.Util.APIs.UmeTrip/bin/Release/Lsj.Util.APIs.UmeTrip.1.0.1.nupkg -Source My
 nuget push Src/Lsj.Util.APIs.WeChat/bin/Release/Lsj.Util.APIs.WeChat.1.0.4.nupkg -Source My
