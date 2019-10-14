@@ -29,7 +29,7 @@ namespace Lsj.Util.Binary
         /// </summary>
         protected virtual bool Read()
         {
-
+            return true;
         }
 
         /// <summary>
