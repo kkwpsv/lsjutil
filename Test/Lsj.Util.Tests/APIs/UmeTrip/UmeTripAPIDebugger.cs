@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Lsj.Util.Tests.APIs.UmeTrip
 {
-    [TestClass]
+    //[TestClass]
     public class UmeTripAPIDebugger
     {
-        [TestMethod]
+        //[TestMethod]
         public void Debug()
         {
             var api = new UmeTripAPI();

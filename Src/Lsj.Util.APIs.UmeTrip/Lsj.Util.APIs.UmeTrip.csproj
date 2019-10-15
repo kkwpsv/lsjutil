@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>$(LsjUtilAPIsUmeTripVersionPrefix)</VersionPrefix>
     <Description>My Utility For UmeTrip APIs</Description>
   </PropertyGroup>
   <ItemGroup>

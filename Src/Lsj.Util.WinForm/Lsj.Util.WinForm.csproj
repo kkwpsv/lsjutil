@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFrameworks>net40;netcoreapp3.0</TargetFrameworks>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>$(LsjUtilWinFormVersionPrefix)</VersionPrefix>
     <Description>My Utility For WinForm</Description>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>

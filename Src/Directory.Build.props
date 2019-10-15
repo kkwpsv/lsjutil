@@ -1,8 +1,10 @@
 ﻿<Project>
+  <Import Project="Version.props" />
   <PropertyGroup>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
