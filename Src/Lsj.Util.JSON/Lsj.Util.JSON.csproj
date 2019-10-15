@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
-    <VersionPrefix>3.2.1</VersionPrefix>
+    <VersionPrefix>$(LsjUtilJSONVersionPrefix)</VersionPrefix>
     <Description>My Utility For JSON</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

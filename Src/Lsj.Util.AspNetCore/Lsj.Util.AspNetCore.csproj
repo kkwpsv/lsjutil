@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
-    <VersionPrefix>2.3.1</VersionPrefix>
+    <VersionPrefix>$(LsjUtilAspNetCoreVersionPrefix)</VersionPrefix>
     <Description>My Utility For asp.net core</Description>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">

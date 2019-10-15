@@ -16,7 +16,7 @@ namespace Lsj.Util.Tests
         public void CopyTest()
         {
             var a = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
-            var b = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            var b = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             UnsafeHelper.Copy(a, b, 15);
             for (int i = 0; i < 15; i++)
             {
@@ -59,8 +59,8 @@ namespace Lsj.Util.Tests
                 }
             }
 
-            var aaa = new short[] { 0, 1, 2, 3, 4, 5, 6, 7 };
-            var bbb = new short[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            var aaa = new short[] { 0, 1, 2, 3, 4, 5, 6 };
+            var bbb = new short[] { 0, 0, 0, 0, 0, 0, 0 };
             UnsafeHelper.Copy(aaa, bbb, 7);
             for (int i = 0; i < 7; i++)
             {
@@ -73,7 +73,7 @@ namespace Lsj.Util.Tests
             {
                 fixed (short* bbb2 = bbb)
                 {
-                    UnsafeHelper.Copy(aaa, bbb2, 15);
+                    UnsafeHelper.Copy(aaa, bbb2, 7);
                     for (int i = 0; i < 7; i++)
                     {
                         Assert.AreEqual(bbb[i], i);
@@ -94,7 +94,7 @@ namespace Lsj.Util.Tests
             {
                 fixed (int* bbbb2 = bbbb)
                 {
-                    UnsafeHelper.Copy(aaaa, bbbb2, 15);
+                    UnsafeHelper.Copy(aaaa, bbbb2, 3);
                     for (int i = 0; i < 3; i++)
                     {
                         Assert.AreEqual(bbbb[i], i);
@@ -115,7 +115,7 @@ namespace Lsj.Util.Tests
             {
                 fixed (long* bbbbb2 = bbbbb)
                 {
-                    UnsafeHelper.Copy(aaaaa, bbbbb2, 15);
+                    UnsafeHelper.Copy(aaaaa, bbbbb2, 3);
                     for (int i = 0; i < 3; i++)
                     {
                         Assert.AreEqual(bbbbb[i], i);

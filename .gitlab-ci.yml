@@ -1,0 +1,22 @@
+stages:
+  - build
+  - test
+  - push
+
+build:
+  stage: build
+  script:
+    - ".\\build.bat"
+
+test:
+  stage: test
+  script:
+    - ".\\test.bat"
+
+push:
+  stage: push
+  only:
+   - master
+  script:
+    - ".\\pack.bat"
+    - ".\\push.bat"

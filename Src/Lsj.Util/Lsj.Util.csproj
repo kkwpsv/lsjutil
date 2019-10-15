@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
-    <VersionPrefix>2.3.1</VersionPrefix>
+    <VersionPrefix>$(LsjUtilVersionPrefix)</VersionPrefix>
     <Description>My Utility</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>

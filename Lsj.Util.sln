@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{69ABA086-5419-482D-8DC3-CAEB32B04E49}"
 	ProjectSection(SolutionItems) = preProject
 		Src\Directory.Build.props = Src\Directory.Build.props
+		Src\Version.props = Src\Version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.AspNetCore", "Src\Lsj.Util.AspNetCore\Lsj.Util.AspNetCore.csproj", "{E73189B7-95C0-4BA2-BE1D-107F7AA487AE}"
