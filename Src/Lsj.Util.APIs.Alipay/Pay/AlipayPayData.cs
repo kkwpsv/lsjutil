@@ -9,16 +9,31 @@ using System.Text;
 
 namespace Lsj.Util.APIs.Alipay.Pay
 {
+    /// <summary>
+    /// Alipay Pay Data
+    /// </summary>
     public class AlipayPayData : SafeDictionary<string, string>
     {
-        private readonly AlipayPayAPI alipayPayAPI;
+        private readonly AlipayPayAPI _alipayPayAPI;
 
-        public AlipayPayData(AlipayPayAPI alipayPayAPI) : base() => this.alipayPayAPI = alipayPayAPI;
+        /// <summary>
+        /// Alipay Pay Data
+        /// </summary>
+        /// <param name="alipayPayAPI"></param>
+        public AlipayPayData(AlipayPayAPI alipayPayAPI) : base() => _alipayPayAPI = alipayPayAPI;
+
+        /// <summary>
+        /// Alipay Pay Data
+        /// </summary>
+        /// <param name="src"></param>
         public AlipayPayData(Dictionary<string, string> src) : base(src)
         {
-
         }
 
+        /// <summary>
+        /// Sign
+        /// </summary>
+        /// <param name="rsa"></param>
         public void DoSign(RSACryptoServiceProvider rsa)
         {
             this["sign_type"] = "RSA2";
@@ -30,6 +45,11 @@ namespace Lsj.Util.APIs.Alipay.Pay
             tosign.RemoveLastOne();
             this["sign"] = Convert.ToBase64String(rsa.SignData(tosign.ToString().ConvertToBytes(Encoding.UTF8), "SHA256"));
         }
+
+        /// <summary>
+        /// Check Sign V1
+        /// </summary>
+        /// <returns></returns>
         public bool CheckSignV1()
         {
             var signType = this["sign_type"];
@@ -44,9 +64,13 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             tosign.RemoveLastOne();
 
-            return this.alipayPayAPI.PublicRsa.VerifyData(tosign.ToString().ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this["sign"]));
+            return _alipayPayAPI.PublicRsa.VerifyData(tosign.ToString().ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this["sign"]));
         }
 
+        /// <summary>
+        /// To Query String
+        /// </summary>
+        /// <returns></returns>
         public string ToQueryString()
         {
             var result = new StringBuilder();
@@ -57,6 +81,11 @@ namespace Lsj.Util.APIs.Alipay.Pay
             result.RemoveLastOne();
             return result.ToString();
         }
+
+        /// <summary>
+        /// To Query String with Url Encode
+        /// </summary>
+        /// <returns></returns>
         public string ToQueryStringWithUrlEncode()
         {
             var result = new StringBuilder();

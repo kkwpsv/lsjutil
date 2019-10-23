@@ -3,29 +3,38 @@ using System.Collections.Generic;
 
 namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
-    public class BaseFormResult : BaseResult
+    /// <summary>
+    /// Base Form Result
+    /// </summary>
+    public abstract class BaseFormResult : BaseResult
     {
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="src"></param>
         public void Parse(Dictionary<string, string> src)
         {
             try
             {
-                this.data = new AlipayPayData(src);
+                data = new AlipayPayData(src);
 
-                if (this.CheckSign())
+                if (CheckSign())
                 {
-                    this.SignStatus = true;
-                    this.ParseExtra();
+                    SignStatus = true;
+                    ParseExtra();
                 }
                 else
                 {
-                    this.SignStatus = false;
+                    SignStatus = false;
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
             {
-                this.ParseStatus = false;
-                this.ErrorString = e.ToString();
+                ParseStatus = false;
+                ErrorString = e.ToString();
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }

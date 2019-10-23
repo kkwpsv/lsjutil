@@ -6,6 +6,9 @@ using System.Web;
 
 namespace Lsj.Util.Net.Web
 {
+    /// <summary>
+    /// Web String Helper
+    /// </summary>
     public static class WebStringHelper
     {
         /// <summary>

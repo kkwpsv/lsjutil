@@ -80,6 +80,7 @@ namespace Lsj.Util.Win32
         /// <param name="image">Image object.</param>
         /// <returns>
         /// </returns>
+        /// </summary>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipLoadImageFromFile", SetLastError = true)]
         public static extern GpStatus GdipLoadImageFromFile([In][MarshalAs(UnmanagedType.LPWStr)]string filename, [Out]out IntPtr image);
 

@@ -10,22 +10,41 @@ using System.Threading.Tasks;
 
 namespace Lsj.Util.WPF
 {
+    /// <summary>
+    /// Async Observable Collection
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class AsyncObservableCollection<T> : ObservableCollection<T>
     {
-        private SynchronizationContext _creatorSynchronizationContext = SynchronizationContext.Current;
+        private readonly SynchronizationContext _creatorSynchronizationContext = SynchronizationContext.Current;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public AsyncObservableCollection()
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
         public AsyncObservableCollection(List<T> list) : base(list)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="collection"></param>
         public AsyncObservableCollection(IEnumerable<T> collection) : base(collection)
         {
         }
 
+        /// <summary>
+        /// OnCollectionChanged
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             if (SynchronizationContext.Current == _creatorSynchronizationContext)
@@ -38,6 +57,10 @@ namespace Lsj.Util.WPF
             }
         }
 
+        /// <summary>
+        /// OnPropertyChanged
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             if (SynchronizationContext.Current == _creatorSynchronizationContext)
