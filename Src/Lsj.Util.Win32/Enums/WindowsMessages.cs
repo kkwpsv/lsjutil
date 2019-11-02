@@ -209,5 +209,20 @@ namespace Lsj.Util.Win32.Enums
         WM_NCHITTEST = 0x0084,
 
         #endregion
+
+        #region Power Management Messages
+
+        /// <summary>
+        /// <para>
+        /// Notifies applications that a power-management event has occurred.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/power/wm-powerbroadcast
+        /// </para>
+        /// </summary>
+        WM_POWERBROADCAST = 0x0218,
+
+        #endregion
     }
 }

@@ -64,7 +64,6 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
-
         /// <summary>
         /// <para>
         /// An application-defined function that processes messages sent to a window.
@@ -537,6 +536,35 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", SetLastError = true)]
         public static extern ushort RegisterClassEx([In] ref WNDCLASSEX Arg1);
+
+        /// <summary>
+        /// <para>
+        /// Registers the application to receive power setting notifications for the specific power setting event.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerpowersettingnotification
+        /// </para>
+        /// </summary>
+        /// <param name="hRecipient">
+        /// Handle indicating where the power setting notifications are to be sent.
+        /// For interactive applications, the <paramref name="Flags"/> parameter should be <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_WINDOW_HANDLE"/>,
+        /// and the <paramref name="hRecipient"/> parameter should be a window handle. 
+        /// For services, the <paramref name="Flags"/> parameter should be <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_SERVICE_HANDLE"/>,
+        /// and the <paramref name="hRecipient"/> parameter should be a SERVICE_STATUS_HANDLE as returned from RegisterServiceCtrlHandlerEx.
+        /// </param>
+        /// <param name="PowerSettingGuid">
+        /// The GUID of the power setting for which notifications are to be sent.
+        /// </param>
+        /// <param name="Flags">
+        /// Flags.
+        /// </param>
+        /// <returns>
+        /// Returns a notification handle for unregistering for power notifications.
+        /// If the function fails, the return value is NULL.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
+        public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient, [MarshalAs(UnmanagedType.LPStruct)] [In] Guid PowerSettingGuid, [In] RegisterPowerSettingNotificationFlags Flags);
 
         /// <summary>
         /// <para>
