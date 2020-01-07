@@ -66,6 +66,17 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
+        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew
+        /// </para>
+        /// </summary>
+        public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
+
+        /// <summary>
+        /// <para>
         /// An application-defined function that processes messages sent to a window.
         /// The <see cref="WNDPROC"/> type defines a pointer to this callback function.
         /// </para>
@@ -337,6 +348,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the dots per inch (dpi) value for the associated window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow 
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">The window you want to get information about.</param>
+        /// <returns>
+        /// The DPI for the window which depends on the DPI_AWARENESS of the window. An invalid hwnd value will result in a return value of 0.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", SetLastError = true)]
+        public static extern uint GetDpiForWindow([In]IntPtr hwnd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a message from the calling thread's message queue. The function dispatches incoming sent messages until a posted message is available for retrieval.
         /// </para>
         /// <para>
@@ -375,6 +401,32 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", SetLastError = true)]
         public static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+
+        /// <summary>
+        /// <para>
+        /// The GetMonitorInfo function retrieves information about a display monitor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmonitorinfow
+        /// </para>
+        /// </summary>
+        /// <param name="hMonitor">
+        /// A handle to the display monitor of interest.
+        /// </param>
+        /// <param name="lpmi">
+        /// A pointer to a MONITORINFO or <see cref="MONITORINFOEX"/> structure that receives information about the specified display monitor.
+        /// You must set the <see cref="MONITORINFOEX.cbSize"/> member of the structure to sizeof(MONITORINFO) or <code>sizeof(MONITORINFOEX)</code>
+        /// before calling the <see cref="GetMonitorInfo"/> function. Doing so lets the function determine the type of structure you are passing to it.
+        /// <see cref="MONITORINFOEX"/> structure is a superset of the MONITORINFO structure. 
+        /// It has one additional member: a string that contains a name for the display monitor.
+        /// Most applications have no use for a display monitor name, and so can save some bytes by using a MONITORINFO structure.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", SetLastError = true)]
+        public static extern bool GetMonitorInfo([In]IntPtr hMonitor, ref MONITORINFOEX lpmi);
 
         /// <summary>
         /// <para>
@@ -500,6 +552,53 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
         public static extern IntPtr LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
+        /// that has the largest area of intersection with the bounding rectangle of a specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">A handle to the window of interest.</param>
+        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
+        /// <returns>
+        /// If the window intersects one or more display monitor rectangles,
+        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
+        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Places (posts) a message in the message queue associated with the thread that created the specified window and
+        /// returns without waiting for the thread to process the message.
+        ///</para>
+        /// <para>
+        /// To post a message in the message queue associated with a thread, use the PostThreadMessage function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure is to receive the message. The following values have special meanings.
+        /// <see cref="HWND_BROADCAST"/> : The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
+        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
+        /// <see cref="IntPtr.Zero"/>: The function behaves like a call to PostThreadMessage with the dwThreadId parameter set to the identifier of the current thread.
+        /// </param>
+        /// <param name="msg">The message to be posted.</param>
+        /// <param name="wParam">Additional message-specific information.</param>
+        /// <param name="lParam">Additional message-specific information.</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
+        public static extern bool PostMessage(IntPtr hWnd, WindowsMessages msg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// <para>

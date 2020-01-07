@@ -148,6 +148,10 @@ namespace Lsj.Util.Win32.Enums
 
         WM_WINDOWPOSCHANGED = 0x0047,
 
+        /// <summary>
+        /// Sent to a window whose size, position, or place in the Z order is about to change as a result of a call to the <see cref="SetWindowPos"/> function
+        /// or another window-management function.
+        /// </summary>
         WM_WINDOWPOSCHANGING = 0x0046,
 
         #endregion
