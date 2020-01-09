@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
     <LsjUtilVersionPrefix>2.3.1</LsjUtilVersionPrefix>
-    <LsjUtilAPIsAlipayVersionPrefix>1.0.9</LsjUtilAPIsAlipayVersionPrefix>
+    <LsjUtilAPIsAlipayVersionPrefix>1.0.10</LsjUtilAPIsAlipayVersionPrefix>
     <LsjUtilAPIsUmeTripVersionPrefix>1.0.1</LsjUtilAPIsUmeTripVersionPrefix>
-    <LsjUtilAPIsWeChatVersionPrefix>1.0.4</LsjUtilAPIsWeChatVersionPrefix>
+    <LsjUtilAPIsWeChatVersionPrefix>1.0.5</LsjUtilAPIsWeChatVersionPrefix>
     <LsjUtilAspNetCoreVersionPrefix>2.3.1</LsjUtilAspNetCoreVersionPrefix>
     <LsjUtilCsBuilderVersionPrefix>2.0.2</LsjUtilCsBuilderVersionPrefix>
     <LsjUtilDataVersionPrefix>2.0.2</LsjUtilDataVersionPrefix>
@@ -11,11 +11,11 @@
     <LsjUtilHtmlBuilderVersionPrefix>2.0.4</LsjUtilHtmlBuilderVersionPrefix>
     <LsjUtilJSONVersionPrefix>3.2.1</LsjUtilJSONVersionPrefix>
     <LsjUtilNetVersionPrefix>2.1.0</LsjUtilNetVersionPrefix>
-    <LsjUtilNetWebVersionPrefix>2.1.0</LsjUtilNetWebVersionPrefix>
+    <LsjUtilNetWebVersionPrefix>2.1.1</LsjUtilNetWebVersionPrefix>
     <LsjUtilProtobufVersionPrefix>2.0.3</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>2.0.3</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>1.0.3</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32VersionPrefix>1.1.0</LsjUtilWin32VersionPrefix>
     <LsjUtilWinFormVersionPrefix>1.0.0</LsjUtilWinFormVersionPrefix>
-    <LsjUtilWPFVersionPrefix>1.3.0</LsjUtilWPFVersionPrefix>
+    <LsjUtilWPFVersionPrefix>1.3.1</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
 </Project>
