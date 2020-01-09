@@ -6,6 +6,7 @@
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <LangVersion>8.0</LangVersion>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
@@ -15,7 +16,6 @@
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <VersionSuffix>debug</VersionSuffix>
   </PropertyGroup>
