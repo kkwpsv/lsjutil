@@ -9,32 +9,46 @@ using System.Text;
 
 namespace Lsj.Util.APIs.Alipay.Pay
 {
+    /// <summary>
+    /// Alipay Pay API
+    /// </summary>
     public class AlipayPayAPI : DisposableClass
     {
-        private readonly string appid;
-        private readonly RSACryptoServiceProvider rsa;
+        private readonly string _appid;
+        private readonly RSACryptoServiceProvider _rsa;
 
-
+        /// <summary>
+        /// Rsa Public Key
+        /// </summary>
         public RSACryptoServiceProvider PublicRsa { get; private set; }
 
+        /// <summary>
+        /// Alipay Pay API
+        /// </summary>
+        /// <param name="appID"></param>
+        /// <param name="rsaKey"></param>
+        /// <param name="rsaPublicKey"></param>
         public AlipayPayAPI(string appID, RSAParameters rsaKey, RSAParameters rsaPublicKey)
         {
-            this.appid = appID;
-            this.rsa = new RSACryptoServiceProvider();
-            this.rsa.ImportParameters(rsaKey);
-            this.PublicRsa = new RSACryptoServiceProvider();
-            this.PublicRsa.ImportParameters(rsaPublicKey);
+            _appid = appID;
+            _rsa = new RSACryptoServiceProvider();
+            _rsa.ImportParameters(rsaKey);
+            PublicRsa = new RSACryptoServiceProvider();
+            PublicRsa.ImportParameters(rsaPublicKey);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void CleanUpManagedResources()
         {
-            this.rsa.Dispose();
+            _rsa.Dispose();
             base.CleanUpManagedResources();
         }
 
         private AlipayPayData BuildBaseData() => new AlipayPayData(this)
         {
-            ["app_id"] = this.appid,
+            ["app_id"] = _appid,
             ["format"] = "JSON",
             ["charset"] = "utf-8",
             ["version"] = "1.0"
@@ -72,7 +86,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new ArgumentException("subject too long");
             }
 
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             if (!returnUrl.IsNullOrEmpty())
             {
                 data["return_url"] = returnUrl;
@@ -94,26 +108,15 @@ namespace Lsj.Util.APIs.Alipay.Pay
             {
                 extra.body = body;
             }
-            if (isVirtual)
-            {
-                extra.goods_type = 0;
-            }
-            else
-            {
-                extra.goods_type = 1;
-            }
+            extra.goods_type = isVirtual ? 0 : 1;
             if (payMode == PCPayMode.Embedded)
             {
                 extra.qrcode_width = qrcodeWidth.ToString();
             }
 
-
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
-
-
-
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
             return data;
         }
 
@@ -147,7 +150,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new ArgumentException("subject too long");
             }
 
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             if (!returnUrl.IsNullOrEmpty())
             {
                 data["return_url"] = returnUrl;
@@ -168,22 +171,11 @@ namespace Lsj.Util.APIs.Alipay.Pay
             {
                 extra.body = body;
             }
-            if (isVirtual)
-            {
-                extra.goods_type = 0;
-            }
-            else
-            {
-                extra.goods_type = 1;
-            }
-
+            extra.goods_type = isVirtual ? 0 : 1;
 
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
-
-
-
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
             return data;
         }
 
@@ -195,7 +187,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
         /// <returns></returns>
         public OrderQueryResult OrderQuery(string tradeNo, string orderNo)
         {
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             data["method"] = "alipay.trade.query";
 
             dynamic extra = new ExpandoObject();
@@ -213,7 +205,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
 
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
@@ -261,7 +253,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new ArgumentException("amount too small");
             }
 
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             data["method"] = "alipay.fund.trans.toaccount.transfer";
 
             dynamic extra = new ExpandoObject();
@@ -284,7 +276,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
 
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
 
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
@@ -302,7 +294,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
         /// <returns></returns>
         public TransferQueryResult TransferQuery(string tradeNo, string orderNo)
         {
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             data["method"] = "alipay.fund.trans.order.query";
 
             dynamic extra = new ExpandoObject();
@@ -320,7 +312,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
 
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
@@ -359,7 +351,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new ArgumentException("subject too long");
             }
 
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             if (!notifyUrl.IsNullOrEmpty())
             {
                 data["notify_url"] = notifyUrl;
@@ -378,7 +370,8 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
+
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
             var result = new PaymentCodePayResult(this);
@@ -413,7 +406,7 @@ namespace Lsj.Util.APIs.Alipay.Pay
                 throw new ArgumentException("subject too long");
             }
 
-            var data = this.BuildBaseData();
+            var data = BuildBaseData();
             if (!notifyUrl.IsNullOrEmpty())
             {
                 data["notify_url"] = notifyUrl;
@@ -429,7 +422,8 @@ namespace Lsj.Util.APIs.Alipay.Pay
             }
             data["biz_content"] = JSONConverter.ConvertToJSONString(extra);
             data["timestamp"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            data.DoSign(this.rsa);
+            data.DoSign(_rsa);
+
             var webClient = new WebHttpClient();
             var jsonResult = webClient.Get("https://openapi.alipay.com/gateway.do?" + data.ToQueryStringWithUrlEncode()).ConvertFromBytes(Encoding.UTF8);
             var result = new ScanPayResult(this);

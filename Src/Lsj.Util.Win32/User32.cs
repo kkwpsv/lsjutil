@@ -64,6 +64,16 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
+        /// <summary>
+        /// <para>
+        /// The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
+        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew
+        /// </para>
+        /// </summary>
+        public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
 
         /// <summary>
         /// <para>
@@ -338,6 +348,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the dots per inch (dpi) value for the associated window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow 
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">The window you want to get information about.</param>
+        /// <returns>
+        /// The DPI for the window which depends on the DPI_AWARENESS of the window. An invalid hwnd value will result in a return value of 0.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", SetLastError = true)]
+        public static extern uint GetDpiForWindow([In]IntPtr hwnd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a message from the calling thread's message queue. The function dispatches incoming sent messages until a posted message is available for retrieval.
         /// </para>
         /// <para>
@@ -379,6 +404,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The GetMonitorInfo function retrieves information about a display monitor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmonitorinfow
+        /// </para>
+        /// </summary>
+        /// <param name="hMonitor">
+        /// A handle to the display monitor of interest.
+        /// </param>
+        /// <param name="lpmi">
+        /// A pointer to a MONITORINFO or <see cref="MONITORINFOEX"/> structure that receives information about the specified display monitor.
+        /// You must set the <see cref="MONITORINFOEX.cbSize"/> member of the structure to sizeof(MONITORINFO) or <code>sizeof(MONITORINFOEX)</code>
+        /// before calling the <see cref="GetMonitorInfo"/> function. Doing so lets the function determine the type of structure you are passing to it.
+        /// <see cref="MONITORINFOEX"/> structure is a superset of the MONITORINFO structure. 
+        /// It has one additional member: a string that contains a name for the display monitor.
+        /// Most applications have no use for a display monitor name, and so can save some bytes by using a MONITORINFO structure.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", SetLastError = true)]
+        public static extern bool GetMonitorInfo([In]IntPtr hMonitor, ref MONITORINFOEX lpmi);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by GetSystemMetrics are in pixels.
         /// </para>
@@ -395,6 +446,45 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", SetLastError = true)]
         public static extern int GetSystemMetrics(SystemMetric smIndex);
+
+        /// <summary>
+        /// Retrieves information about the specified window. The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+        /// <param name="nIndex">
+        /// The zero-based offset to the value to be retrieved. 
+        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
+        /// To retrieve any other value, specify one of the following values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested value.
+        /// If the function fails, the return value is zero.To get extended error information, call GetLastError.
+        /// If <see cref="SetWindowLong"/> has not been called previously, <see cref="GetWindowLong"/> returns zero for values in the extra window or class memory.
+        /// </returns>   
+        public static IntPtr GetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex) => IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : GetWindowLongImp(hWnd, nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", SetLastError = true)]
+        internal static extern IntPtr GetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
+        internal static extern IntPtr GetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+
+        /// <summary>
+        /// Retrieves the show state and the restored, minimized, and maximized positions of the specified window.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpwndpl">
+        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
+        /// Before calling <see cref="GetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of the <see cref="WINDOWPLACEMENT"/> structure 
+        /// to <code>sizeof(WINDOWPLACEMENT)</code>. <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", SetLastError = true)]
+        public static extern bool GetWindowPlacement([In] IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>
@@ -504,6 +594,53 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
+        /// that has the largest area of intersection with the bounding rectangle of a specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">A handle to the window of interest.</param>
+        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
+        /// <returns>
+        /// If the window intersects one or more display monitor rectangles,
+        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
+        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Places (posts) a message in the message queue associated with the thread that created the specified window and
+        /// returns without waiting for the thread to process the message.
+        ///</para>
+        /// <para>
+        /// To post a message in the message queue associated with a thread, use the PostThreadMessage function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure is to receive the message. The following values have special meanings.
+        /// <see cref="HWND_BROADCAST"/> : The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
+        /// overlapped windows, and pop-up windows. The message is not posted to child windows.
+        /// <see cref="IntPtr.Zero"/>: The function behaves like a call to PostThreadMessage with the dwThreadId parameter set to the identifier of the current thread.
+        /// </param>
+        /// <param name="msg">The message to be posted.</param>
+        /// <param name="wParam">Additional message-specific information.</param>
+        /// <param name="lParam">Additional message-specific information.</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
+        public static extern bool PostMessage(IntPtr hWnd, WindowsMessages msg, IntPtr wParam, IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// Indicates to the system that a thread has made a request to terminate (quit).
         /// It is typically used in response to a <see cref="WindowsMessages.WM_DESTROY"/> message.
         /// </para>
@@ -540,6 +677,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Registers the application to receive power setting notifications for the specific power setting event.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerpowersettingnotification
+        /// </para>
+        /// </summary>
+        /// <param name="hRecipient">
+        /// Handle indicating where the power setting notifications are to be sent.
+        /// For interactive applications, the <paramref name="Flags"/> parameter should be <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_WINDOW_HANDLE"/>,
+        /// and the <paramref name="hRecipient"/> parameter should be a window handle. 
+        /// For services, the <paramref name="Flags"/> parameter should be <see cref="RegisterPowerSettingNotificationFlags.DEVICE_NOTIFY_SERVICE_HANDLE"/>,
+        /// and the <paramref name="hRecipient"/> parameter should be a SERVICE_STATUS_HANDLE as returned from RegisterServiceCtrlHandlerEx.
+        /// </param>
+        /// <param name="PowerSettingGuid">
+        /// The GUID of the power setting for which notifications are to be sent.
+        /// </param>
+        /// <param name="Flags">
+        /// Flags.
+        /// </param>
+        /// <returns>
+        /// Returns a notification handle for unregistering for power notifications.
+        /// If the function fails, the return value is NULL.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
+        public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient, [MarshalAs(UnmanagedType.LPStruct)] [In] Guid PowerSettingGuid, [In] RegisterPowerSettingNotificationFlags Flags);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ReleaseDC"/> function releases a device context (DC), freeing it for use by other applications.
         /// The effect of the <see cref="ReleaseDC"/> function depends on the type of DC. It frees only common and window DCs.
         /// It has no effect on class or private DCs.
@@ -556,6 +722,49 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", SetLastError = true)]
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        /// <summary>
+        /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+        /// <param name="nIndex">
+        /// The zero-based offset to the value to be retrieved. 
+        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
+        /// To retrieve any other value, specify one of the following values.
+        /// </param>
+        /// <param name="dwNewLong">The replacement value.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the specified 32-bit integer.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the previous value of the specified 32-bit integer is zero, and the function succeeds, the return value is zero, 
+        /// but the function does not clear the last error information. This makes it difficult to determine success or failure.
+        /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
+        /// Then, function failure will be indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
+        /// </returns>
+        public static IntPtr SetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong) => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", SetLastError = true)]
+        internal static extern IntPtr SetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
+        internal static extern IntPtr SetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+
+        /// <summary>
+        /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpwndpl">
+        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
+        /// Before calling <see cref="SetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of the <see cref="WINDOWPLACEMENT"/> structure 
+        /// to <code>sizeof(WINDOWPLACEMENT)</code>. <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", SetLastError = true)]
+        public static extern bool SetWindowPlacement([In] IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>

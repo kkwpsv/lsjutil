@@ -8,15 +8,35 @@ using System.Xml;
 
 namespace Lsj.Util.APIs.WeChat.Pay
 {
+    /// <summary>
+    /// WeChat Pay Data
+    /// </summary>
     public class WeChatPayData : SafeDictionary<string, string>
     {
+        /// <summary>
+        /// WeChat Pay Data
+        /// </summary>
         public WeChatPayData() : base()
         {
         }
+
+        /// <summary>
+        /// WeChat Pay Data
+        /// </summary>
         public WeChatPayData(Dictionary<string, string> src) : base(src)
         {
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public override string NullValue => string.Empty;
+
+        /// <summary>
+        /// Set
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         protected override void Set(string key, string value)
         {
             if (value == null)
@@ -25,6 +45,11 @@ namespace Lsj.Util.APIs.WeChat.Pay
             }
             base.Set(key, value);
         }
+
+        /// <summary>
+        /// Sign
+        /// </summary>
+        /// <param name="key"></param>
         public void Sign(string key)
         {
             var tosign = new StringBuilder();
@@ -36,6 +61,12 @@ namespace Lsj.Util.APIs.WeChat.Pay
 
             this["sign"] = MD5.GetMD5String(tosign.ToString());
         }
+
+        /// <summary>
+        /// Check Sign
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool CheckSign(string key)
         {
             var tosign = new StringBuilder();
@@ -49,6 +80,10 @@ namespace Lsj.Util.APIs.WeChat.Pay
             return this["sign"] == sign;
         }
 
+        /// <summary>
+        /// To XML String
+        /// </summary>
+        /// <returns></returns>
         public string ToXMLString()
         {
             var document = new XmlDocument();

@@ -148,6 +148,10 @@ namespace Lsj.Util.Win32.Enums
 
         WM_WINDOWPOSCHANGED = 0x0047,
 
+        /// <summary>
+        /// Sent to a window whose size, position, or place in the Z order is about to change as a result of a call to the <see cref="SetWindowPos"/> function
+        /// or another window-management function.
+        /// </summary>
         WM_WINDOWPOSCHANGING = 0x0046,
 
         #endregion
@@ -207,6 +211,21 @@ namespace Lsj.Util.Win32.Enums
         /// If the mouse is not captured, the message is sent to the window beneath the cursor. Otherwise, the message is sent to the window that has captured the mouse.
         /// </summary>
         WM_NCHITTEST = 0x0084,
+
+        #endregion
+
+        #region Power Management Messages
+
+        /// <summary>
+        /// <para>
+        /// Notifies applications that a power-management event has occurred.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/power/wm-powerbroadcast
+        /// </para>
+        /// </summary>
+        WM_POWERBROADCAST = 0x0218,
 
         #endregion
     }

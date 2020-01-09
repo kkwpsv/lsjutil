@@ -6,61 +6,111 @@ using System.Text;
 
 namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
-    public class BaseJsonResult : BaseResult
+    /// <summary>
+    /// Base Json Result
+    /// </summary>
+    public abstract class BaseJsonResult : BaseResult
     {
-        public BaseJsonResult(AlipayPayAPI alipayPayAPI) => this.alipayPayAPI = alipayPayAPI;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="alipayPayAPI"></param>
+        protected BaseJsonResult(AlipayPayAPI alipayPayAPI) => _alipayPayAPI = alipayPayAPI;
 
-        public override bool Status => base.Status && this.ResultCode == "10000";
+        private readonly AlipayPayAPI _alipayPayAPI;
+
+        /// <summary>
+        /// Status
+        /// </summary>
+        public override bool Status => base.Status && ResultCode == "10000";
+
+        /// <summary>
+        /// Result Code
+        /// </summary>
         public string ResultCode { get; private set; } = "-1";
+
+        /// <summary>
+        /// Sub Error String
+        /// </summary>
         public string SubErrorString { get; private set; }
 
-        private readonly AlipayPayAPI alipayPayAPI;
-
+        /// <summary>
+        /// Node Name
+        /// </summary>
         protected virtual string NodeName => "";
 
+        /// <summary>
+        /// Response
+        /// </summary>
         protected dynamic response;
+
+        /// <summary>
+        /// Json Obj
+        /// </summary>
         protected dynamic jsonObj;
+
+        /// <summary>
+        /// To Sign String
+        /// </summary>
         protected string tosign;
+
+        /// <summary>
+        /// Sign
+        /// </summary>
         protected string sign;
 
-
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="str"></param>
         public override void Parse(string str)
         {
             try
             {
-                var start = str.IndexOf(this.NodeName) + this.NodeName.Length + 2;
+                var start = str.IndexOf(NodeName) + NodeName.Length + 2;
                 var end = str.IndexOf("sign") - 2;
-                this.tosign = str.Substring(start, end - start);
-                this.jsonObj = JSONParser.Parse(str);
-                this.sign = this.jsonObj.sign;
-                if (this.CheckSign())
+#if NETCOREAPP3_0
+                tosign = str[start..end];
+#else
+                tosign = str.Substring(start, end - start);
+#endif
+                jsonObj = JSONParser.Parse(str);
+                sign = jsonObj.sign;
+                if (CheckSign())
                 {
-                    this.SignStatus = true;
-                    this.response = DynamicHelper.GetMember(this.jsonObj, this.NodeName);
-                    this.ResultCode = this.response.code;
-                    if (this.ResultCode != "10000")
+                    SignStatus = true;
+                    response = DynamicHelper.GetMember(jsonObj, NodeName);
+                    ResultCode = response.code;
+                    if (ResultCode != "10000")
                     {
-                        this.ErrorString = this.response.msg;
-                        this.SubErrorString = this.response.sub_msg;
+                        ErrorString = response.msg;
+                        SubErrorString = response.sub_msg;
                     }
                     else
                     {
-                        this.ParseExtra();
+                        ParseExtra();
                     }
 
                 }
                 else
                 {
-                    this.SignStatus = false;
+                    SignStatus = false;
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
             {
-                this.ParseStatus = false;
-                this.ErrorString = e.ToString();
+                ParseStatus = false;
+                ErrorString = e.ToString();
             }
+#pragma warning restore CA1031 // Do not catch general exception types
 
         }
-        protected override bool CheckSign() => this.alipayPayAPI.PublicRsa.VerifyData(this.tosign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(this.sign));
+
+        /// <summary>
+        /// Check Sign
+        /// </summary>
+        /// <returns></returns>
+        protected override bool CheckSign() => _alipayPayAPI.PublicRsa.VerifyData(tosign.ConvertToBytes(Encoding.UTF8), "SHA256", Convert.FromBase64String(sign));
     }
 }

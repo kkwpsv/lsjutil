@@ -5,69 +5,121 @@ using System.Xml;
 
 namespace Lsj.Util.APIs.WeChat.Pay.Result
 {
-    public class BaseResult
+    /// <summary>
+    /// Base Result
+    /// </summary>
+    public abstract class BaseResult
     {
-        public BaseResult(string key)
+        /// <summary>
+        /// BaseResult
+        /// </summary>
+        /// <param name="key"></param>
+        protected BaseResult(string key)
         {
-            this.key = key;
+            _key = key;
         }
-        protected XmlElement rootNode;
-        protected WeChatPayData data;
-        private readonly string key;
 
-        public bool Status => this.ParseStatus && this.ReturnStatus && this.ResultStatus && this.SignStatus;
+        /// <summary>
+        /// Root Node
+        /// </summary>
+        protected XmlElement _rootNode;
+
+        /// <summary>
+        /// Data
+        /// </summary>
+        protected WeChatPayData _data;
+
+        /// <summary>
+        /// Key
+        /// </summary>
+        private readonly string _key;
+
+        /// <summary>
+        /// Status
+        /// </summary>
+        public bool Status => ParseStatus && ReturnStatus && ResultStatus && SignStatus;
+
+        /// <summary>
+        /// Error String
+        /// </summary>
         public string ErrorString { get; private set; }
+
+        /// <summary>
+        /// Parse Status
+        /// </summary>
         public bool ParseStatus { get; private set; } = true;
+
+        /// <summary>
+        /// Return Result
+        /// </summary>
         public bool ReturnStatus { get; private set; } = false;
+
+        /// <summary>
+        /// Result Status
+        /// </summary>
         public bool ResultStatus { get; private set; } = false;
+
+        /// <summary>
+        /// Sign Status
+        /// </summary>
         public bool SignStatus { get; private set; } = false;
+
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="xml"></param>
         public void Parse(byte[] xml)
         {
             try
             {
-                using (var stream = new MemoryStream(xml))
+                using var stream = new MemoryStream(xml);
+                var documnet = new XmlDocument
                 {
-                    var documnet = new XmlDocument();
-                    documnet.XmlResolver = null;
-                    documnet.Load(stream);
-                    this.rootNode = documnet.DocumentElement;
+                    XmlResolver = null
+                };
+                documnet.Load(stream);
+                _rootNode = documnet.DocumentElement;
 
-                    this.data = new WeChatPayData(this.rootNode.ChildNodes.OfType<XmlElement>().ToDictionary(x => x.Name, x => x.InnerText));
-                    if (this.data["return_code"] == "SUCCESS")
+                _data = new WeChatPayData(_rootNode.ChildNodes.OfType<XmlElement>().ToDictionary(x => x.Name, x => x.InnerText));
+                if (_data["return_code"] == "SUCCESS")
+                {
+                    ReturnStatus = true;
+                    if (_data["result_code"] == "SUCCESS")
                     {
-                        this.ReturnStatus = true;
-                        if (this.data["result_code"] == "SUCCESS")
+                        ResultStatus = true;
+                        if (_data.CheckSign(_key))
                         {
-                            this.ResultStatus = true;
-                            if (this.data.CheckSign(this.key))
-                            {
-                                this.SignStatus = true;
-                                this.ParseExtra();
-                            }
-                            else
-                            {
-                                this.SignStatus = false;
-                            }
-
+                            SignStatus = true;
+                            ParseExtra();
                         }
                         else
                         {
-                            this.ResultStatus = false;
+                            SignStatus = false;
                         }
+
                     }
                     else
                     {
-                        this.ErrorString = this.data["return_msg"];
+                        ResultStatus = false;
                     }
                 }
+                else
+                {
+                    ErrorString = _data["return_msg"];
+                }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
             {
-                this.ParseStatus = false;
-                this.ErrorString = e.ToString();
+                ParseStatus = false;
+                ErrorString = e.ToString();
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
+        /// <summary>
+        /// Parse Extra
+        /// </summary>
         protected virtual void ParseExtra()
         {
 

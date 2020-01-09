@@ -1,0 +1,17 @@
+﻿using Lsj.Util.Win32.Structs;
+
+namespace Lsj.Util.Win32.Enums
+{
+    /// <summary>
+    /// <para>>
+    /// <see cref="MONITORINFOEX"/> flags.
+    /// </para
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo
+    /// </para>
+    /// </summary>
+    public enum MONITORINFOFlags
+    {
+        MONITORINFOF_PRIMARY = 1,
+    }
+}

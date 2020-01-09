@@ -2,22 +2,51 @@
 
 namespace Lsj.Util.APIs.Alipay.Pay.Result
 {
-    public class BaseResult
+    /// <summary>
+    /// Base Result
+    /// </summary>
+    public abstract class BaseResult
     {
+        /// <summary>
+        /// Alipay Pay Data
+        /// </summary>
         protected AlipayPayData data;
-        public virtual bool Status => this.ParseStatus && this.SignStatus;
+
+        /// <summary>
+        /// Status
+        /// </summary>
+        public virtual bool Status => ParseStatus && SignStatus;
+
+        /// <summary>
+        /// Error String
+        /// </summary>
         public string ErrorString { get; protected set; }
+
+        /// <summary>
+        /// Parse Status
+        /// </summary>
         public bool ParseStatus { get; protected set; } = true;
+
+        /// <summary>
+        /// Sign Status
+        /// </summary>
         public bool SignStatus { get; protected set; } = false;
 
-        public virtual void Parse(string str)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Parse
+        /// </summary>
+        /// <param name="str"></param>
+        public virtual void Parse(string str) => throw new NotImplementedException();
 
+        /// <summary>
+        /// Check Sign
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool CheckSign() => data.CheckSignV1();
 
-        protected virtual bool CheckSign() => this.data.CheckSignV1();
-
+        /// <summary>
+        /// Parse Extra
+        /// </summary>
         protected virtual void ParseExtra()
         {
 
