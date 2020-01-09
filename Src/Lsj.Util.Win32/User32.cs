@@ -448,6 +448,45 @@ namespace Lsj.Util.Win32
         public static extern int GetSystemMetrics(SystemMetric smIndex);
 
         /// <summary>
+        /// Retrieves information about the specified window. The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+        /// <param name="nIndex">
+        /// The zero-based offset to the value to be retrieved. 
+        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
+        /// To retrieve any other value, specify one of the following values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested value.
+        /// If the function fails, the return value is zero.To get extended error information, call GetLastError.
+        /// If <see cref="SetWindowLong"/> has not been called previously, <see cref="GetWindowLong"/> returns zero for values in the extra window or class memory.
+        /// </returns>   
+        public static IntPtr GetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex) => IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : GetWindowLongImp(hWnd, nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", SetLastError = true)]
+        internal static extern IntPtr GetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
+        internal static extern IntPtr GetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+
+        /// <summary>
+        /// Retrieves the show state and the restored, minimized, and maximized positions of the specified window.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpwndpl">
+        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
+        /// Before calling <see cref="GetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of the <see cref="WINDOWPLACEMENT"/> structure 
+        /// to <code>sizeof(WINDOWPLACEMENT)</code>. <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", SetLastError = true)]
+        public static extern bool GetWindowPlacement([In] IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+
+        /// <summary>
         /// <para>
         /// Retrieves the dimensions of the bounding rectangle of the specified window.
         /// The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
@@ -683,6 +722,49 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", SetLastError = true)]
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        /// <summary>
+        /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+        /// <param name="nIndex">
+        /// The zero-based offset to the value to be retrieved. 
+        /// Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+        /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer.
+        /// To retrieve any other value, specify one of the following values.
+        /// </param>
+        /// <param name="dwNewLong">The replacement value.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the specified 32-bit integer.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the previous value of the specified 32-bit integer is zero, and the function succeeds, the return value is zero, 
+        /// but the function does not clear the last error information. This makes it difficult to determine success or failure.
+        /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
+        /// Then, function failure will be indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
+        /// </returns>
+        public static IntPtr SetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong) => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", SetLastError = true)]
+        internal static extern IntPtr SetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
+        internal static extern IntPtr SetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+
+        /// <summary>
+        /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpwndpl">
+        /// A pointer to a <see cref="WINDOWPLACEMENT"/> structure that specifies the new show state and window positions.
+        /// Before calling <see cref="SetWindowPlacement"/>, set the <see cref="WINDOWPLACEMENT.length"/> member of the <see cref="WINDOWPLACEMENT"/> structure 
+        /// to <code>sizeof(WINDOWPLACEMENT)</code>. <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", SetLastError = true)]
+        public static extern bool SetWindowPlacement([In] IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>
