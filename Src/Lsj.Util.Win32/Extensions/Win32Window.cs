@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Extensions
     {
         private readonly IntPtr _window;
 
-        public IntPtr WindowHandle => _window;
+        public IntPtr Handle => _window;
 
         public Win32Window() : this(Guid.NewGuid().ToString(), "")
         {
