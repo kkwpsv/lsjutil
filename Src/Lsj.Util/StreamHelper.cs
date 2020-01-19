@@ -10,6 +10,31 @@ namespace Lsj.Util
     public static class StreamHelper
     {
         /// <summary>
+        /// CopyTo with Count
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="des"></param>
+        public static long CopyToWithCount(this Stream src, Stream des, long count)
+        {
+            var bufferSize = 81920;
+            var buffer = new byte[bufferSize];
+            var copied = 0L;
+
+            while (count != 0)
+            {
+                var bytesRead = src.Read(buffer, 0, bufferSize);
+                if (bytesRead == 0)
+                {
+                    break;
+                }
+                copied += bytesRead;
+                des.Write(buffer, 0, bytesRead);
+                count -= bytesRead;
+            }
+            return copied;
+        }
+
+        /// <summary>
         /// ReadAll (Seek Before Read)
         /// </summary>
         /// <param name="stream"></param>
