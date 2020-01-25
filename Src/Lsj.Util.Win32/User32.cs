@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -90,6 +89,22 @@ namespace Lsj.Util.Win32
         /// <param name="lParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <returns>The return value is the result of the message processing and depends on the message sent.</returns>
         public delegate IntPtr WNDPROC([In]IntPtr hWnd, [In]WindowsMessages uMsg, [In]UIntPtr wParam, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumWindows"/> or EnumDesktopWindows function.
+        /// It receives top-level window handles. The WNDENUMPROC type defines a pointer to this callback function.
+        /// <see cref="EnumWindowsProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633498(v%3Dvs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to a top-level window.</param>
+        /// <param name="lParam">The application-defined value given in <see cref="EnumWindowsProc"/> or EnumDesktopWindows.</param>
+        /// <returns></returns>
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool EnumWindowsProc([In]IntPtr hWnd, [In]IntPtr lParam);
 
 
         /// <summary>
@@ -327,6 +342,22 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates all top-level windows on the screen by passing the handle to each window, in turn, to an application-defined callback function.
+        /// EnumWindows continues until the last top-level window is enumerated or the callback function returns FALSE.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumwindows
+        /// </para>
+        /// </summary>
+        /// <param name="lpEnumFunc">A pointer to an application-defined callback function. For more information, see <see cref="EnumWindowsProc"/>.</param>
+        /// <param name="lParam">An application-defined value to be passed to the callback function.</param>
+        /// <returns></returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindows", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumWindows([In]EnumWindowsProc lpEnumFunc, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// The GetDC function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
         /// You can use the returned handle in subsequent GDI functions to draw in the DC.
         /// The device context is an opaque data structure, whose values are used internally by GDI.
@@ -506,6 +537,34 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect([In]IntPtr hwnd, [Out]out RECT lpRect);
+
+        /// <summary>
+        /// <para>
+        /// Copies the text of the specified window's title bar (if it has one) into a buffer. 
+        /// If the specified window is a control, the text of the control is copied. 
+        /// However, <see cref="GetWindowText"/> cannot retrieve the text of a control in another application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowtextw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window or control containing the text.</param>
+        /// <param name="lpString">
+        /// The buffer that will receive the text.
+        /// If the string is as long or longer than the buffer, the string is truncated and terminated with a null character.
+        /// </param>
+        /// <param name="nMaxCount">
+        /// The maximum number of characters to copy to the buffer, including the null character.
+        /// If the text exceeds this limit, it is truncated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in characters, of the copied string, not including the terminating null character.
+        /// If the window has no title bar or text, if the title bar is empty, or if the window or control handle is invalid, 
+        /// the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// This function cannot retrieve the text of an edit control in another application.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", SetLastError = true)]
+        public static extern int GetWindowText([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpString, [In]int nMaxCount);
 
         /// <summary>
         /// <para>
