@@ -351,7 +351,13 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="lpEnumFunc">A pointer to an application-defined callback function. For more information, see <see cref="EnumWindowsProc"/>.</param>
         /// <param name="lParam">An application-defined value to be passed to the callback function.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If EnumWindowsProc returns zero, the return value is also zero. 
+        /// In this case, the callback function should call SetLastError to obtain a meaningful error code
+        /// to be returned to the caller of <see cref="EnumWindows"/>.
+        /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindows", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumWindows([In]EnumWindowsProc lpEnumFunc, [In]IntPtr lParam);
