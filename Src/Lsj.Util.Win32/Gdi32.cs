@@ -59,7 +59,8 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", SetLastError = true)]
-        public static extern bool DeleteDC(IntPtr hdc);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteDC([In]IntPtr hdc);
 
         /// <summary>
         /// <para>
@@ -76,7 +77,8 @@ namespace Lsj.Util.Win32
         /// If the specified handle is not valid or is currently selected into a DC, the return value is zero.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", SetLastError = true)]
-        public static extern bool DeleteObject(IntPtr hObject);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject([In]IntPtr hObject);
 
         /// <summary>
         /// <para>
@@ -88,9 +90,12 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hdc">A handle to the DC.</param>
         /// <param name="nIndex">The item to be returned.</param>
-        /// <returns></returns>
-        [DllImport("gdi32.dll")]
-        public static extern int GetDeviceCaps(IntPtr hdc, DeviceCapIndexes nIndex);
+        /// <returns>
+        /// The return value specifies the value of the desired item.
+        /// When <paramref name="nIndex"/> is <see cref="DeviceCapIndexes.BITSPIXEL"/> and the device has 15bpp or 16bpp, the return value is 16.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", SetLastError = true)]
+        public static extern int GetDeviceCaps([In]IntPtr hdc, [In]DeviceCapIndexes nIndex);
 
         /// <summary>
         /// <para>

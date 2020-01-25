@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// Token returned by a previous call to <see cref="GdiplusStartup"/>.
         /// </param>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusShutdown", SetLastError = true)]
-        public static extern void GdiplusShutdown(UIntPtr token);
+        public static extern void GdiplusShutdown([In]UIntPtr token);
 
         /// <summary>
         /// <para>

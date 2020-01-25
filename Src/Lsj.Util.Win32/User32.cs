@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -90,6 +89,22 @@ namespace Lsj.Util.Win32
         /// <param name="lParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <returns>The return value is the result of the message processing and depends on the message sent.</returns>
         public delegate IntPtr WNDPROC([In]IntPtr hWnd, [In]WindowsMessages uMsg, [In]UIntPtr wParam, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="EnumWindows"/> or EnumDesktopWindows function.
+        /// It receives top-level window handles. The WNDENUMPROC type defines a pointer to this callback function.
+        /// <see cref="EnumWindowsProc"/> is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633498(v%3Dvs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to a top-level window.</param>
+        /// <param name="lParam">The application-defined value given in <see cref="EnumWindowsProc"/> or EnumDesktopWindows.</param>
+        /// <returns></returns>
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool EnumWindowsProc([In]IntPtr hWnd, [In]IntPtr lParam);
 
 
         /// <summary>
@@ -327,6 +342,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates all top-level windows on the screen by passing the handle to each window, in turn, to an application-defined callback function.
+        /// EnumWindows continues until the last top-level window is enumerated or the callback function returns FALSE.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumwindows
+        /// </para>
+        /// </summary>
+        /// <param name="lpEnumFunc">A pointer to an application-defined callback function. For more information, see <see cref="EnumWindowsProc"/>.</param>
+        /// <param name="lParam">An application-defined value to be passed to the callback function.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If EnumWindowsProc returns zero, the return value is also zero. 
+        /// In this case, the callback function should call SetLastError to obtain a meaningful error code
+        /// to be returned to the caller of <see cref="EnumWindows"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindows", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumWindows([In]EnumWindowsProc lpEnumFunc, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// The GetDC function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
         /// You can use the returned handle in subsequent GDI functions to draw in the DC.
         /// The device context is an opaque data structure, whose values are used internally by GDI.
@@ -400,7 +437,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", SetLastError = true)]
-        public static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        public static extern int GetMessage([Out]out MSG lpMsg, [In]IntPtr hWnd, [In]uint wMsgFilterMin, [In] uint wMsgFilterMax);
 
         /// <summary>
         /// <para>
@@ -426,7 +463,8 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", SetLastError = true)]
-        public static extern bool GetMonitorInfo([In]IntPtr hMonitor, ref MONITORINFOEX lpmi);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetMonitorInfo([In]IntPtr hMonitor, [In][Out]ref MONITORINFOEX lpmi);
 
         /// <summary>
         /// <para>
@@ -445,7 +483,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is 0. <see cref="Marshal.GetLastWin32Error"/> does not provide extended error information.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", SetLastError = true)]
-        public static extern int GetSystemMetrics(SystemMetric smIndex);
+        public static extern int GetSystemMetrics([In]SystemMetric smIndex);
 
         /// <summary>
         /// Retrieves information about the specified window. The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
@@ -462,13 +500,13 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.To get extended error information, call GetLastError.
         /// If <see cref="SetWindowLong"/> has not been called previously, <see cref="GetWindowLong"/> returns zero for values in the extra window or class memory.
         /// </returns>   
-        public static IntPtr GetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex) => IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : GetWindowLongImp(hWnd, nIndex);
+        public static IntPtr GetWindowLong([In]IntPtr hWnd, [In]GetWindowLongIndexes nIndex) => IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : GetWindowLongImp(hWnd, nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", SetLastError = true)]
-        internal static extern IntPtr GetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+        private static extern IntPtr GetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", SetLastError = true)]
-        internal static extern IntPtr GetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+        private static extern IntPtr GetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
 
         /// <summary>
         /// Retrieves the show state and the restored, minimized, and maximized positions of the specified window.
@@ -484,7 +522,8 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", SetLastError = true)]
-        public static extern bool GetWindowPlacement([In] IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetWindowPlacement([In] IntPtr hWnd, [In][Out]ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>
@@ -502,7 +541,36 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect([In]IntPtr hwnd, [Out]out RECT lpRect);
+
+        /// <summary>
+        /// <para>
+        /// Copies the text of the specified window's title bar (if it has one) into a buffer. 
+        /// If the specified window is a control, the text of the control is copied. 
+        /// However, <see cref="GetWindowText"/> cannot retrieve the text of a control in another application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowtextw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window or control containing the text.</param>
+        /// <param name="lpString">
+        /// The buffer that will receive the text.
+        /// If the string is as long or longer than the buffer, the string is truncated and terminated with a null character.
+        /// </param>
+        /// <param name="nMaxCount">
+        /// The maximum number of characters to copy to the buffer, including the null character.
+        /// If the text exceeds this limit, it is truncated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in characters, of the copied string, not including the terminating null character.
+        /// If the window has no title bar or text, if the title bar is empty, or if the window or control handle is invalid, 
+        /// the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// This function cannot retrieve the text of an edit control in another application.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", SetLastError = true)]
+        public static extern int GetWindowText([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpString, [In]int nMaxCount);
 
         /// <summary>
         /// <para>
@@ -637,7 +705,8 @@ namespace Lsj.Util.Win32
         /// <param name="lParam">Additional message-specific information.</param>
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
-        public static extern bool PostMessage(IntPtr hWnd, WindowsMessages msg, IntPtr wParam, IntPtr lParam);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PostMessage([In]IntPtr hWnd, [In]WindowsMessages msg, [In]IntPtr wParam, [In]IntPtr lParam);
 
         /// <summary>
         /// <para>
@@ -702,7 +771,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
-        public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient, [MarshalAs(UnmanagedType.LPStruct)] [In] Guid PowerSettingGuid, [In] RegisterPowerSettingNotificationFlags Flags);
+        public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient, [In][MarshalAs(UnmanagedType.LPStruct)]Guid PowerSettingGuid, [In]RegisterPowerSettingNotificationFlags Flags);
 
         /// <summary>
         /// <para>
@@ -721,7 +790,8 @@ namespace Lsj.Util.Win32
         /// If the DC was not released, the return value is zero.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", SetLastError = true)]
-        public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ReleaseDC([In]IntPtr hWnd, [In]IntPtr hDC);
 
         /// <summary>
         /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
@@ -742,13 +812,13 @@ namespace Lsj.Util.Win32
         /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
         /// Then, function failure will be indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
         /// </returns>
-        public static IntPtr SetWindowLong(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong) => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
+        public static IntPtr SetWindowLong([In]IntPtr hWnd, [In]GetWindowLongIndexes nIndex, [In]IntPtr dwNewLong) => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", SetLastError = true)]
-        internal static extern IntPtr SetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+        private static extern IntPtr SetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", SetLastError = true)]
-        internal static extern IntPtr SetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+        private static extern IntPtr SetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
 
         /// <summary>
         /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
@@ -764,6 +834,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPlacement([In] IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
@@ -787,7 +858,8 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = true)]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, SetWindowPosFlags uFlags);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowPos([In]IntPtr hWnd, [In]IntPtr hWndInsertAfter, [In]int X, [In]int Y, [In]int cx, [In]int cy, [In]SetWindowPosFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -809,7 +881,7 @@ namespace Lsj.Util.Win32
         /// If the window was previously hidden, the return value is zero.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", SetLastError = true)]
-        public static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommands nCmdShow);
+        public static extern bool ShowWindow([In]IntPtr hWnd, [In]ShowWindowCommands nCmdShow);
 
         /// <summary>
         /// <para>
@@ -831,6 +903,7 @@ namespace Lsj.Util.Win32
         /// If the message is not translated (that is, a character message is not posted to the thread's message queue), the return value is zero.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TranslateMessage([In] ref MSG lpMsg);
 
         /// <summary>
@@ -881,7 +954,8 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindow", SetLastError = true)]
-        public static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr hdcDst, ref POINT pptDst, ref SIZE psize, IntPtr hdcSrc, ref POINT pptSrc,
-            uint crKey, [In] ref BLENDFUNCTION pblend, UpdateLayeredWindowFlags dwFlags);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UpdateLayeredWindow([In]IntPtr hwnd, [In]IntPtr hdcDst, [In]ref POINT pptDst, [In]ref SIZE psize, [In]IntPtr hdcSrc, [In]ref POINT pptSrc,
+            [In]uint crKey, [In] ref BLENDFUNCTION pblend, [In]UpdateLayeredWindowFlags dwFlags);
     }
 }
