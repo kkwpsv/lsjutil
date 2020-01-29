@@ -12,7 +12,8 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/extended-window-styles
     /// </para>
     /// </summary>
-    public enum WindowStylesEx
+    [Flags]
+    public enum WindowStylesEx : uint
     {
         /// <summary>
         /// The window accepts drag-drop files.
