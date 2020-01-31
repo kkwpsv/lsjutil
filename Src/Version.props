@@ -14,7 +14,7 @@
     <LsjUtilNetWebVersionPrefix>2.1.2</LsjUtilNetWebVersionPrefix>
     <LsjUtilProtobufVersionPrefix>2.0.3</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>2.0.3</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>1.1.1</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32VersionPrefix>1.2.0</LsjUtilWin32VersionPrefix>
     <LsjUtilWinFormVersionPrefix>1.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>1.3.1</LsjUtilWPFVersionPrefix>
   </PropertyGroup>

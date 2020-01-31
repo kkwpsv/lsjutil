@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Extensions
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>
         /// </summary>
         /// <returns></returns>
-        public static (IntPtr, string)[] GetAllTopLevelWindowHandleWithText()
+        public static (IntPtr WindowHandle, string Text)[] GetAllTopLevelWindowHandleWithText()
         {
             var result = new List<(IntPtr, string)>();
             EnumWindows((handle, _) =>
