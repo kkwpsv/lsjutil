@@ -527,6 +527,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the identifier of the thread that created the specified window and, optionally, 
+        /// the identifier of the process that created the window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="lpdwProcessId">
+        /// A pointer to a variable that receives the process identifier. 
+        /// If this parameter is not NULL, GetWindowThreadProcessId copies the identifier of the process to the variable; 
+        /// otherwise, it does not.
+        /// </param>
+        /// <returns>The return value is the identifier of the thread that created the window.</returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, [Out]out uint lpdwProcessId);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the dimensions of the bounding rectangle of the specified window.
         /// The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
         /// </para>
