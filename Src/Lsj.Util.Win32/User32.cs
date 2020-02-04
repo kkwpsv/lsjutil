@@ -863,6 +863,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Changes the text of the specified window's title bar (if it has one). 
+        /// If the specified window is a control, the text of the control is changed. 
+        /// However, <see cref="SetWindowText"/> cannot change the text of a control in another application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowtextw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window or control whose text is to be changed.</param>
+        /// <param name="lpString">The new title or control text.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowTextW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetWindowText([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
         /// Sets the specified window's show state.
         /// </para>
         /// <para>
