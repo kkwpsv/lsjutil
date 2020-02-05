@@ -1,5 +1,4 @@
-::TODO: use better way to copy key
-copy D:\Key\LSJ.snk Src\LSJ.snk
+b64 -d %SnkFile% Src\LSJ.snk
 
 cd Src\Lsj.Util\
 dotnet pack -c Release --include-source
