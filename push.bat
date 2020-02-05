@@ -10,7 +10,8 @@ nuget push Src\Lsj.Util.HtmlBuilder\bin\Release\*.nupkg -Source https://api.nuge
 nuget push Src\Lsj.Util.JSON\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Net\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Net.Web\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
-nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
+::TODO: fix build com+
+::nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.SQLBuilder\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
@@ -29,7 +30,8 @@ nuget push Src\Lsj.Util.HtmlBuilder\bin\Release\*.nupkg -Source https://nuget.sd
 nuget push Src\Lsj.Util.JSON\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Net\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Net.Web\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
-nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
+::TODO: fix build com+
+::nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.SQLBuilder\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
