@@ -23,5 +23,7 @@ namespace Lsj.Util.Win32.Extensions
                 return null;
             }
         }
+
+        public static string GetSystemErrorMessageFromCode(SystemErrorCodes code) => GetSystemErrorMessageFromCode((uint)code);
     }
 }
