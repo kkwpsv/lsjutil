@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", SetLastError = true)]
         public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
-            [MarshalAs(UnmanagedType.LPWStr)][Out]out string lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
+            [Out]out IntPtr lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
 
         /// <summary>
         /// <para>
