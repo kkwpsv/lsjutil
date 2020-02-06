@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Lsj.Util.Net.Web.Session
 {
+    /// <summary>
+    /// Session Object
+    /// </summary>
     public class HttpSession
     {
 
@@ -15,11 +18,19 @@ namespace Lsj.Util.Net.Web.Session
 #else
         RNGCryptoServiceProvider randgen;
 #endif
+
+        /// <summary>
+        /// Session ID
+        /// </summary>
         public string ID
         {
             get;
             private set;
         }
+
+        /// <summary>
+        /// Last Use Time
+        /// </summary>
         public DateTime LastUseTime
         {
             get;

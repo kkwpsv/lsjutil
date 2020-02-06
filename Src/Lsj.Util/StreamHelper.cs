@@ -12,8 +12,9 @@ namespace Lsj.Util
         /// <summary>
         /// CopyTo with Count
         /// </summary>
-        /// <param name="src"></param>
-        /// <param name="des"></param>
+        /// <param name="src">Source Stream.</param>
+        /// <param name="des">Destination Stream.</param>
+        /// <param name="count">Copy Count.</param>
         public static long CopyToWithCount(this Stream src, Stream des, long count)
         {
             var bufferSize = 81920;
