@@ -50,7 +50,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Dynamic", "Src\Lsj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extra", "Extra", "{566D40B1-3E7B-42E2-8616-911816226B0A}"
 	ProjectSection(SolutionItems) = preProject
+		build.bat = build.bat
+		pack.bat = pack.bat
 		push.bat = push.bat
+		test.bat = test.bat
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lsj.Util.Win32", "Src\Lsj.Util.Win32\Lsj.Util.Win32.csproj", "{91AD2F12-4188-4B91-B87E-814354745DAF}"
