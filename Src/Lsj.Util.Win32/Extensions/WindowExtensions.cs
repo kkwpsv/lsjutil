@@ -5,7 +5,10 @@ using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Extensions
 {
-    public class WindowExtensions
+    /// <summary>
+    /// Window Extensions
+    /// </summary>
+    public static class WindowExtensions
     {
         /// <summary>
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.Enums
@@ -12,7 +10,8 @@ namespace Lsj.Util.Win32.Enums
     public enum WINDOWPLACEMENTFlags : uint
     {
         /// <summary>
-        /// If the calling thread and the thread that owns the window are attached to different input queues, the system posts the request to the thread that owns the window.
+        /// If the calling thread and the thread that owns the window are attached to different input queues,
+        /// the system posts the request to the thread that owns the window.
         /// This prevents the calling thread from blocking its execution while other threads process the request.
         /// </summary>
         WPF_ASYNCWINDOWPLACEMENT = 4,

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -23,15 +20,18 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// This flag is set when the bitmap has an Alpha channel (that is, per-pixel alpha)
-        /// Note that the APIs use premultiplied alpha, which means that the red, green and blue channel values in the bitmap must be premultiplied with the alpha channel value. 
-        /// For example, if the alpha channel value is x, the red, green and blue channels must be multiplied by x and divided by 0xff prior to the call.
+        /// Note that the APIs use premultiplied alpha, which means that the red, green and blue channel values in the bitmap
+        /// must be premultiplied with the alpha channel value. 
+        /// For example, if the alpha channel value is x, the red, green and blue channels must be multiplied by x and
+        /// divided by 0xff prior to the call.
         /// </summary>
         public static readonly byte AC_SRC_ALPHA = 1;
 
 
         /// <summary>
         /// The source blend operation. 
-        /// Currently, the only source and destination blend operation that has been defined is <see cref="AC_SRC_OVER"/>. For details, see the following Remarks section.
+        /// Currently, the only source and destination blend operation that has been defined is <see cref="AC_SRC_OVER"/>.
+        /// For details, see the following Remarks section.
         /// </summary>
         public byte BlendOp;
 

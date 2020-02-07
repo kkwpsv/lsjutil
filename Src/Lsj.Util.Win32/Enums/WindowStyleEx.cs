@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -39,10 +37,13 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The title bar of the window includes a question mark. When the user clicks the question mark, 
-        /// the cursor changes to a question mark with a pointer. If the user then clicks a child window, the child receives a WM_HELP message.
-        /// The child window should pass the message to the parent window procedure, which should call the WinHelp function using the HELP_WM_HELP command.
+        /// the cursor changes to a question mark with a pointer. If the user then clicks a child window,
+        /// the child receives a <see cref="WindowsMessages.WM_HELP"/> message.
+        /// The child window should pass the message to the parent window procedure,
+        /// which should call the <see cref="WinHelp"/> function using the <see cref="HELP_WM_HELP"/> command.
         /// The Help application displays a pop-up window that typically contains help for the child window.
-        /// <see cref="WS_EX_CONTEXTHELP"/> cannot be used with the <see cref="WindowStyles.WS_MAXIMIZEBOX"/> or <see cref="WindowStyles.WS_MINIMIZEBOX"/> styles.
+        /// <see cref="WS_EX_CONTEXTHELP"/> cannot be used with
+        /// the <see cref="WindowStyles.WS_MAXIMIZEBOX"/> or <see cref="WindowStyles.WS_MINIMIZEBOX"/> styles.
         /// </summary>
         WS_EX_CONTEXTHELP = 0x00000400,
 
@@ -54,14 +55,16 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_CONTROLPARENT = 0x00010000,
 
         /// <summary>
-        /// The window has a double border; the window can, optionally, be created with a title bar by specifying the <see cref="WindowStyles.WS_CAPTION"/> style in the dwStyle parameter.
+        /// The window has a double border; the window can, optionally,
+        /// be created with a title bar by specifying the <see cref="WindowStyles.WS_CAPTION"/> style in the dwStyle parameter.
         /// </summary>
         WS_EX_DLGMODALFRAME = 0x00000001,
 
         /// <summary>
         /// The window is a layered window.
-        /// This style cannot be used if the window has a class style of either <see cref="ClassStyles.CS_OWNDC"/> or <see cref="ClassStyles.CS_CLASSDC"/>.
-        /// Windows 8: The WS_EX_LAYERED style is supported for top-level windows and child windows.
+        /// This style cannot be used if the window has a class style of either <see cref="ClassStyles.CS_OWNDC"/> 
+        /// or <see cref="ClassStyles.CS_CLASSDC"/>.
+        /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
         /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
         /// </summary>
         WS_EX_LAYERED = 0x00080000,
@@ -98,7 +101,8 @@ namespace Lsj.Util.Win32.Enums
         /// The system does not bring this window to the foreground when the user minimizes or closes the foreground window.
         /// The window should not be activated through programmatic access or via keyboard navigation by accessible technology, such as Narrator.
         /// To activate the window, use the SetActiveWindow or SetForegroundWindow function.
-        /// The window does not appear on the taskbar by default. To force the window to appear on the taskbar, use the <see cref="WS_EX_APPWINDOW"/> style.
+        /// The window does not appear on the taskbar by default.
+        /// To force the window to appear on the taskbar, use the <see cref="WS_EX_APPWINDOW"/> style.
         /// </summary>
         WS_EX_NOACTIVATE = 0x08000000,
 
@@ -108,7 +112,8 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_NOINHERITLAYOUT = 0x00100000,
 
         /// <summary>
-        /// The child window created with this style does not send the WM_PARENTNOTIFY message to its parent window when it is created or destroyed.
+        /// The child window created with this style does not send the <see cref="WindowsMessages.WM_PARENTNOTIFY"/> message
+        /// to its parent window when it is created or destroyed.
         /// </summary>
         WS_EX_NOPARENTNOTIFY = 0x00000004,
 
@@ -130,9 +135,11 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The window has generic "right-aligned" properties. This depends on the window class.
-        /// This style has an effect only if the shell language is Hebrew, Arabic, or another language that supports reading-order alignment; otherwise, the style is ignored.
-        /// Using the <see cref="WS_EX_RIGHT"/> style for static or edit controls has the same effect as using the SS_RIGHT or ES_RIGHT style, respectively. 
-        /// Using this style with button controls has the same effect as using BS_RIGHT and BS_RIGHTBUTTON styles.
+        /// This style has an effect only if the shell language is Hebrew, Arabic, or another language that supports reading-order alignment;
+        /// otherwise, the style is ignored.
+        /// Using the <see cref="WS_EX_RIGHT"/> style for static or edit controls has the same effect
+        /// as using the <see cref="SS_RIGHT"/> or <see cref="ES_RIGHT"/> style, respectively. 
+        /// Using this style with button controls has the same effect as using <see cref="BS_RIGHT"/> and <see cref="BS_RIGHTBUTTON"/> styles.
         /// </summary>
         WS_EX_RIGHT = 0x00001000,
 
@@ -154,8 +161,10 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The window is intended to be used as a floating toolbar. A tool window has a title bar that is shorter than a normal title bar,
-        /// and the window title is drawn using a smaller font. A tool window does not appear in the taskbar or in the dialog that appears when the user presses ALT+TAB.
-        /// If a tool window has a system menu, its icon is not displayed on the title bar. However, you can display the system menu by right-clicking or by typing ALT+SPACE. 
+        /// and the window title is drawn using a smaller font.
+        /// A tool window does not appear in the taskbar or in the dialog that appears when the user presses ALT+TAB.
+        /// If a tool window has a system menu, its icon is not displayed on the title bar.
+        /// However, you can display the system menu by right-clicking or by typing ALT+SPACE. 
         /// </summary>
         WS_EX_TOOLWINDOW = 0x00000080,
 
@@ -168,7 +177,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The window should not be painted until siblings beneath the window (that were created by the same thread) have been painted.
         /// The window appears transparent because the bits of underlying sibling windows have already been painted.
-        /// To achieve transparency without these restrictions, use the SetWindowRgn function.
+        /// To achieve transparency without these restrictions, use the <see cref="SetWindowRgn"/> function.
         /// </summary>
         WS_EX_TRANSPARENT = 0x00000020,
 

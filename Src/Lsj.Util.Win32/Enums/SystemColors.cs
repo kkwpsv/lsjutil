@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -67,7 +63,8 @@ namespace Lsj.Util.Win32.Enums
         COLOR_BACKGROUND = 1,
 
         /// <summary>
-        /// Face color for three-dimensional display elements and for dialog box backgrounds. The associated foreground color is <see cref="COLOR_BTNTEXT"/>.
+        /// Face color for three-dimensional display elements and for dialog box backgrounds.
+        /// The associated foreground color is <see cref="COLOR_BTNTEXT"/>.
         /// </summary>
         COLOR_BTNFACE = 15,
 
@@ -103,12 +100,13 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Right side color in the color gradient of an active window's title bar. <see cref="COLOR_ACTIVECAPTION"/> specifies the left side color.
-        /// Use SPI_GETGRADIENTCAPTIONS with the SystemParametersInfo function to determine whether the gradient effect is enabled.
+        /// Use <see cref="SPI_GETGRADIENTCAPTIONS"/> with the SystemParametersInfo function to determine whether the gradient effect is enabled.
         /// </summary>
         COLOR_GRADIENTACTIVECAPTION = 27,
 
         /// <summary>
-        /// Right side color in the color gradient of an inactive window's title bar. <see cref="COLOR_INACTIVECAPTION"/> specifies the left side color.
+        /// Right side color in the color gradient of an inactive window's title bar.
+        /// <see cref="COLOR_INACTIVECAPTION"/> specifies the left side color.
         /// </summary>
         COLOR_GRADIENTINACTIVECAPTION = 28,
 
@@ -186,7 +184,7 @@ namespace Lsj.Util.Win32.Enums
         COLOR_SCROLLBAR = 0,
 
         /// <summary>
-        /// Window background. The associated foreground colors are <see cref="COLOR_WINDOWTEXT"/> and COLOR_HOTLITE.
+        /// Window background. The associated foreground colors are <see cref="COLOR_WINDOWTEXT"/> and <see cref="COLOR_HOTLITE"/>.
         /// </summary>
         COLOR_WINDOW = 5,
 

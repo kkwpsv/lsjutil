@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -16,7 +13,8 @@ namespace Lsj.Util.Win32.Enums
     public enum UpdateLayeredWindowFlags : uint
     {
         /// <summary>
-        /// Use pblend as the blend function. If the display mode is 256 colors or less, the effect of this value is the same as the effect of <see cref="ULW_OPAQUE"/>.
+        /// Use pblend as the blend function.
+        /// If the display mode is 256 colors or less, the effect of this value is the same as the effect of <see cref="ULW_OPAQUE"/>.
         /// </summary>
         ULW_ALPHA = 2,
 
@@ -31,7 +29,8 @@ namespace Lsj.Util.Win32.Enums
         ULW_OPAQUE = 4,
 
         /// <summary>
-        /// Force the UpdateLayeredWindowIndirect function to fail if the current window size does not match the size specified in the psize.
+        /// Force the <see cref="UpdateLayeredWindowIndirect"/> function to fail if the current window size does not match
+        /// the size specified in the psize.
         /// </summary>
         ULW_EX_NORESIZE = 8,
     }

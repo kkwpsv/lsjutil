@@ -1,8 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -18,7 +16,8 @@ namespace Lsj.Util.Win32.Structs
     public struct MSG
     {
         /// <summary>
-        /// A handle to the window whose window procedure receives the message. This member is NULL when the message is a thread message.
+        /// A handle to the window whose window procedure receives the message.
+        /// This member is <see cref="IntPtr.Zero"/> when the message is a thread message.
         /// </summary>
         public IntPtr hwnd;
 

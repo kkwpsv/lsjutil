@@ -12,6 +12,11 @@ namespace Lsj.Util.Win32
     public static class Gdi32
     {
         /// <summary>
+        /// HGDI_ERROR
+        /// </summary>
+        public static readonly IntPtr HGDI_ERROR = new IntPtr(-1);
+
+        /// <summary>
         /// <para>
         /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
         /// </para>
@@ -24,7 +29,7 @@ namespace Lsj.Util.Win32
         /// <param name="nHeight">The bitmap height, in pixels.</param>
         /// <returns>
         /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
-        /// If the function fails, the return value is NULL.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
         public static extern IntPtr CreateCompatibleBitmap([In]IntPtr hdc, [In]int nWidth, [In]int nHeight);
@@ -37,10 +42,12 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatibledc
         /// </para>
         /// </summary>
-        /// <param name="hdc">A handle to an existing DC. If this handle is NULL, the function creates a memory DC compatible with the application's current screen.</param>
+        /// <param name="hdc">
+        /// A handle to an existing DC. If this handle is NULL, the function creates a memory DC compatible with the application's current screen.
+        /// </param>
         /// <returns>
         /// If the function succeeds, the return value is the handle to a memory DC.
-        /// If the function fails, the return value is NULL.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", SetLastError = true)]
         public static extern IntPtr CreateCompatibleDC([In]IntPtr hdc);
@@ -55,8 +62,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
         /// <returns>
-        /// If the function succeeds, the return value is nonzero.
-        /// If the function fails, the return value is zero.
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -64,7 +71,8 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="DeleteObject"/> function deletes a logical pen, brush, font, bitmap, region, or palette, freeing all system resources associated with the object.
+        /// The <see cref="DeleteObject"/> function deletes a logical pen, brush, font, bitmap, region, or palette, 
+        /// freeing all system resources associated with the object.
         /// After the object is deleted, the specified handle is no longer valid.
         /// </para>
         /// <para>
@@ -73,8 +81,8 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
         /// <returns>
-        /// If the function succeeds, the return value is nonzero.
-        /// If the specified handle is not valid or is currently selected into a DC, the return value is zero.
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="false"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -99,7 +107,8 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="SelectObject"/> function selects an object into the specified device context (DC). The new object replaces the previous object of the same type.
+        /// The <see cref="SelectObject"/> function selects an object into the specified device context (DC).
+        /// The new object replaces the previous object of the same type.
         /// </para> 
         /// <para>
         ///  From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectobject
@@ -109,8 +118,11 @@ namespace Lsj.Util.Win32
         /// <param name="hgdiobj">A handle to the object to be selected.</param>
         /// <returns>
         /// If the selected object is not a region and the function succeeds, the return value is a handle to the object being replaced.
-        /// If the selected object is a region and the function succeeds, the return value is one of the following values: SIMPLEREGION, COMPLEXREGION, NULLREGION.
-        /// If an error occurs and the selected object is not a region, the return value is NULL. Otherwise, it is HGDI_ERROR.
+        /// If the selected object is a region and the function succeeds, 
+        /// the return value is one of the following values: <see cref="RegionFlags.SIMPLEREGION"/>, <see cref="RegionFlags.COMPLEXREGION"/>,
+        /// <see cref="RegionFlags.NULLREGION" />
+        /// If an error occurs and the selected object is not a region, the return value is <see cref="IntPtr.Zero"/>.
+        /// Otherwise, it is <see cref="HGDI_ERROR"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", SetLastError = true)]
         public static extern IntPtr SelectObject([In]IntPtr hdc, [In]IntPtr hgdiobj);

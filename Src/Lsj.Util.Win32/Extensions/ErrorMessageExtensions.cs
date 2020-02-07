@@ -7,8 +7,16 @@ using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Extensions
 {
+    /// <summary>
+    /// Error Message Extensions
+    /// </summary>
     public static class ErrorMessageExtensions
     {
+        /// <summary>
+        /// Get System Error Message From Code
+        /// </summary>
+        /// <param name="code">Error Code</param>
+        /// <returns>Error Message</returns>
         public static string GetSystemErrorMessageFromCode(uint code)
         {
             if (FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER | FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM, IntPtr.Zero,
@@ -24,6 +32,18 @@ namespace Lsj.Util.Win32.Extensions
             }
         }
 
+        /// <summary>
+        /// Get System Error Message From Code
+        /// </summary>
+        /// <param name="code">Error Code</param>
+        /// <returns>Error Message</returns>
         public static string GetSystemErrorMessageFromCode(SystemErrorCodes code) => GetSystemErrorMessageFromCode((uint)code);
+
+        /// <summary>
+        /// Get System Error Message From Code
+        /// </summary>
+        /// <param name="code">Error Code</param>
+        /// <returns>Error Message</returns>
+        public static string GetSystemErrorMessageFromCode(int code) => GetSystemErrorMessageFromCode(unchecked((uint)code));
     }
 }

@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// US English
         /// If <see cref="FormatMessage"/> does not locate a message for any of the preceding LANGIDs, 
         /// it returns any language message string that is present.
-        /// If that fails, it returns ERROR_RESOURCE_LANG_NOT_FOUND.
+        /// If that fails, it returns <see cref="SystemErrorCodes.ERROR_RESOURCE_LANG_NOT_FOUND"/>.
         /// </param>
         /// <param name="lpBuffer">
         /// A pointer to a buffer that receives the null-terminated string that specifies the formatted message. 
@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// US English
         /// If <see cref="FormatMessage"/> does not locate a message for any of the preceding LANGIDs, 
         /// it returns any language message string that is present.
-        /// If that fails, it returns ERROR_RESOURCE_LANG_NOT_FOUND.
+        /// If that fails, it returns <see cref="SystemErrorCodes.ERROR_RESOURCE_LANG_NOT_FOUND"/>.
         /// </param>
         /// <param name="lpBuffer">
         /// A pointer to a buffer that receives the null-terminated string that specifies the formatted message. 
@@ -170,6 +170,124 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates the specified number of bytes from the heap.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalalloc
+        /// </para>
+        /// </summary>
+        /// <param name="uFlags">
+        /// The memory allocation attributes. If zero is specified, the default is <see cref="GlobalMemoryFlags.GMEM_FIXED"/>.
+        /// This parameter can be one or more of the following values, except for the incompatible combinations that are specifically noted.
+        /// <see cref="GlobalMemoryFlags.GHND"/> : Combines <see cref="GlobalMemoryFlags.GMEM_MOVEABLE"/> and <see cref="GlobalMemoryFlags.GMEM_ZEROINIT"/>.
+        /// <see cref="GlobalMemoryFlags.GMEM_FIXED"/> : Allocates fixed memory. The return value is a pointer.
+        /// <see cref="GlobalMemoryFlags.GMEM_MOVEABLE"/> : Allocates movable memory. Memory blocks are never moved in physical memory,
+        /// but they can be moved within the default heap. The return value is a handle to the memory object. 
+        /// To translate the handle into a pointer, use the <see cref="GlobalLock"/> function.
+        /// This value cannot be combined with <see cref="GlobalMemoryFlags.GMEM_FIXED"/>.
+        /// <see cref="GlobalMemoryFlags.GMEM_ZEROINIT"/> : Initializes memory contents to zero.
+        /// <see cref="GlobalMemoryFlags.GPTR"/> : Combines <see cref="GlobalMemoryFlags.GMEM_FIXED"/> and <see cref="GlobalMemoryFlags.GMEM_ZEROINIT"/>.
+        /// The following values are obsolete, but are provided for compatibility with 16-bit Windows. They are ignored.
+        /// <see cref="GlobalMemoryFlags.GMEM_DDESHARE"/>, <see cref="GlobalMemoryFlags.GMEM_DISCARDABLE"/>, <see cref="GlobalMemoryFlags.GMEM_LOWER"/>,
+        /// <see cref="GlobalMemoryFlags.GMEM_NOCOMPACT"/>, <see cref="GlobalMemoryFlags.GMEM_NODISCARD"/>, <see cref="GlobalMemoryFlags.GMEM_NOT_BANKED"/>,
+        /// <see cref="GlobalMemoryFlags.GMEM_NOTIFY"/>, <see cref="GlobalMemoryFlags.GMEM_SHARE"/>.
+        /// </param>
+        /// <param name="dwBytes">
+        /// The number of bytes to allocate.
+        /// If this parameter is zero and the <paramref name="uFlags"/> parameter specifies <see cref="GlobalMemoryFlags.GMEM_MOVEABLE"/>,
+        /// the function returns a handle to a memory object that is marked as discarded.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly allocated memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAlloc", SetLastError = true)]
+        public static extern IntPtr GlobalAlloc(GlobalMemoryFlags uFlags, IntPtr dwBytes);
+
+        /// <summary>
+        /// Locks a global memory object and returns a pointer to the first byte of the object's memory block.
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the first byte of the memory block.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", SetLastError = true)]
+        public static extern IntPtr GlobalLock(IntPtr hMem);
+
+        /// <summary>
+        /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object to be reallocated.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <param name="dwBytes">
+        /// The new size of the memory block, in bytes. If uFlags specifies <see cref="GlobalMemoryFlags.GMEM_MODIFY"/>, this parameter is ignored.
+        /// </param>
+        /// <param name="uFlags">
+        /// The reallocation options. If <see cref="GlobalMemoryFlags.GMEM_MODIFY"/> is specified,
+        /// the function modifies the attributes of the memory object only (the dwBytes parameter is ignored.)
+        /// Otherwise, the function reallocates the memory object.
+        /// You can optionally combine <see cref="GlobalMemoryFlags.GMEM_MODIFY"/> with the following value.
+        /// <see cref="GlobalMemoryFlags.GMEM_MOVEABLE"/> : Allocates movable memory.
+        /// If the memory is a locked <see cref="GlobalMemoryFlags.GMEM_MOVEABLE"/> memory block 
+        /// or a <see cref="GlobalMemoryFlags.GMEM_FIXED"/> memory block and this flag is not specified, the memory can only be reallocated in place.
+        /// If this parameter does not specify <see cref="GlobalMemoryFlags.GMEM_MODIFY"/>, you can use the following value.
+        /// <see cref="GlobalMemoryFlags.GMEM_ZEROINIT"/> : Causes the additional memory contents to be initialized to zero
+        /// if the memory object is growing in size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the reallocated memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", SetLastError = true)]
+        public static extern IntPtr GlobalReAlloc(IntPtr hMem, IntPtr dwBytes, GlobalMemoryFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Allocates the specified number of bytes from the heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localalloc
+        /// </para>
+        /// </summary>
+        /// <param name="uFlags">
+        /// The memory allocation attributes. The default is the <see cref="LocalMemoryFlags.LMEM_FIXED"/> value.
+        /// This parameter can be one or more of the following values, except for the incompatible combinations that are specifically noted.
+        /// <see cref="LocalMemoryFlags.LHND"/> : Combines <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/> and <see cref="LocalMemoryFlags.LMEM_ZEROINIT"/>.
+        /// <see cref="LocalMemoryFlags.LMEM_FIXED"/> : Allocates fixed memory. The return value is a pointer to the memory object.
+        /// <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/> : Allocates movable memory. Memory blocks are never moved in physical memory,
+        /// but they can be moved within the default heap. The return value is a handle to the memory object. 
+        /// To translate the handle to a pointer, use the <see cref="LocalLock"/> function.
+        /// This value cannot be combined with <see cref="LocalMemoryFlags.LMEM_FIXED"/>.
+        /// <see cref="LocalMemoryFlags.LMEM_ZEROINIT"/> : Initializes memory contents to zero.
+        /// <see cref="LocalMemoryFlags.LPTR"/> : Combines <see cref="LocalMemoryFlags.LMEM_FIXED"/> and <see cref="LocalMemoryFlags.LMEM_ZEROINIT"/>.
+        /// <see cref="LocalMemoryFlags.NONZEROLHND"/> : Same as <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/>.
+        /// <see cref="LocalMemoryFlags.NONZEROLPTR"/> : Same as <see cref="LocalMemoryFlags.LMEM_FIXED"/>.
+        /// The following values are obsolete, but are provided for compatibility with 16-bit Windows. They are ignored.
+        /// <see cref="LocalMemoryFlags.LMEM_DISCARDABLE"/>, <see cref="LocalMemoryFlags.LMEM_NOCOMPACT"/>, <see cref="LocalMemoryFlags.LMEM_NODISCARD"/>.
+        /// </param>
+        /// <param name="uBytes">
+        /// The number of bytes to allocate. If this parameter is zero and the uFlags parameter specifies <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/>,
+        /// the function returns a handle to a memory object that is marked as discarded.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly allocated memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", SetLastError = true)]
+        public static extern IntPtr LocalAlloc(LocalMemoryFlags uFlags, IntPtr uBytes);
+
+        /// <summary>
+        /// <para>
         /// Frees the specified local memory object and invalidates its handle.
         /// </para>
         /// <para>
@@ -178,16 +296,70 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hMem">
         /// A handle to the local memory object.
-        /// This handle is returned by either the LocalAlloc or LocalReAlloc function.
-        /// It is not safe to free memory allocated with GlobalAlloc.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// It is not safe to free memory allocated with <see cref="GlobalAlloc"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is NULL.
+        /// If the function succeeds, the return value is <see cref="IntPtr.Zero"/>.
         /// If the function fails, the return value is equal to a handle to the local memory object.
         /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
         public static extern IntPtr LocalFree([In]IntPtr hMem);
+
+        /// <summary>
+        /// <para>
+        /// Locks a local memory object and returns a pointer to the first byte of the object's memory block.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-locallock
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object. This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the first byte of the memory block.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", SetLastError = true)]
+        public static extern IntPtr LocalLock(IntPtr hMem);
+
+        /// <summary>
+        /// <para>
+        /// Changes the size or the attributes of a specified local memory object. The size can increase or decrease.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localrealloc
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object to be reallocated.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <param name="uBytes">
+        /// The new size of the memory block, in bytes. If uFlags specifies <see cref="LocalMemoryFlags.LMEM_MODIFY"/>, this parameter is ignored.
+        /// </param>
+        /// <param name="uFlags">
+        /// The reallocation options. If <see cref="LocalMemoryFlags.LMEM_MODIFY"/> is specified,
+        /// the function modifies the attributes of the memory object only (the <paramref name="uBytes"/> parameter is ignored.)
+        /// Otherwise, the function reallocates the memory object.
+        /// You can optionally combine <see cref="LocalMemoryFlags.LMEM_MODIFY"/> with the following value.
+        /// <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/> : Allocates fixed or movable memory. 
+        /// If the memory is a locked <see cref="LocalMemoryFlags.LMEM_MOVEABLE"/> memory block
+        /// or a <see cref="LocalMemoryFlags.LMEM_FIXED"/> memory block and this flag is not specified, the memory can only be reallocated in place.
+        /// If this parameter does not specify <see cref="LocalMemoryFlags.LMEM_MODIFY"/>, you can use the following value.
+        /// <see cref="LocalMemoryFlags.LMEM_ZEROINIT"/> : Causes the additional memory contents to be initialized to zero
+        /// if the memory object is growing in size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the reallocated memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
+        public static extern IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, LocalMemoryFlags uFlags);
 
         /// <summary>
         /// <para>

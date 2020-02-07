@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -22,7 +18,8 @@ namespace Lsj.Util.Win32.Enums
         WM_APP = 0x8000,
 
         /// <summary>
-        /// Used to define private messages for use by private window classes, usually of the form <see cref="WM_USER"/>+x, where x is an integer value.
+        /// Used to define private messages for use by private window classes, 
+        /// usually of the form <see cref="WM_USER"/>+x, where x is an integer value.
         /// </summary>
         WM_USER = 0x0400,
 

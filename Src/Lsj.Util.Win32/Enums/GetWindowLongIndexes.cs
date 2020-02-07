@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -41,7 +38,8 @@ namespace Lsj.Util.Win32.Enums
         GWL_STYLE = -16,
 
         /// <summary>
-        /// Retrieves the user data associated with the window. This data is intended for use by the application that created the window. Its value is initially zero.
+        /// Retrieves the user data associated with the window. This data is intended for use by the application that created the window.
+        /// Its value is initially zero.
         /// </summary>
         GWL_USERDATA = -21,
 

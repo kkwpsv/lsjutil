@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.Enums
+﻿namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -20,7 +16,8 @@ namespace Lsj.Util.Win32.Enums
         Ok,
 
         /// <summary>
-        /// Indicates that there was an error on the method call, which is identified as something other than those defined by the other elements of this enumeration.
+        /// Indicates that there was an error on the method call,
+        /// which is identified as something other than those defined by the other elements of this enumeration.
         /// </summary>
         GenericError,
 
@@ -31,7 +28,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Indicates that the operating system is out of memory and could not allocate memory to process the method call.
-        /// For an explanation of how constructors use the OutOfMemory status, see the Remarks section at the end of this topic.
+        /// For an explanation of how constructors use the <see cref="OutOfMemory"/> status, see the Remarks section at the end of this topic.
         /// </summary>
         OutOfMemory,
 
@@ -57,7 +54,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Indicates that the object is in an invalid state to satisfy the API call.
-        /// For example, calling Pen::GetColor from a pen that is not a single, solid color results in a WrongState status.
+        /// For example, calling Pen::GetColor from a pen that is not a single, solid color results in a <see cref="WrongState"/> status.
         /// </summary>
         WrongState,
 

@@ -1,7 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
@@ -17,7 +15,8 @@ namespace Lsj.Util.Win32.Structs
     public struct WINDOWPOS
     {
         /// <summary>
-        /// The position of the window in Z order (front-to-back position). This member can be a handle to the window behind which this window is placed,
+        /// The position of the window in Z order (front-to-back position).
+        /// This member can be a handle to the window behind which this window is placed,
         /// or can be one of the special values listed with the <see cref="SetWindowPos"/> function.
         /// </summary>
         public IntPtr hwndInsertAfter;
