@@ -1096,6 +1096,42 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region SystemParametersInfo Messages
+
+        /// <summary>
+        /// <para>
+        /// A message that is sent to all top-level windows when the <see cref="SystemParametersInfo"/> function changes a system-wide setting
+        /// or when policy settings have changed.
+        /// Applications should send <see cref="WM_SETTINGCHANGE"/> to all top-level windows when they make changes to system parameters.
+        /// (This message cannot be sent directly to a window.)
+        /// To send the <see cref="WM_SETTINGCHANGE"/> message to all top-level windows,
+        /// use the <see cref="SendMessageTimeout"/> function with the hwnd parameter set to <see cref="HWND_BROADCAST"/>.
+        ///A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-settingchange
+        /// </para>
+        /// </summary>
+        WM_SETTINGCHANGE = WM_WININICHANGE,
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_WININICHANGE"/> message to all top-level windows after making a change to the WIN.INI file.
+        /// The <see cref="SystemParametersInfo"/> function sends this message after an application uses the function to change a setting in WIN.INI.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-wininichange
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="WM_WININICHANGE"/> message is provided only for compatibility with earlier versions of the system.
+        /// Applications should use the <see cref="WM_SETTINGCHANGE"/> message.
+        /// </remarks>
+        WM_WININICHANGE = 0x001A,
+
+        #endregion
+
         #region Timer Notifications
 
         /// <summary>
