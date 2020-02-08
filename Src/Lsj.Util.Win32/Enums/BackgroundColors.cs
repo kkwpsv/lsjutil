@@ -79,7 +79,7 @@ namespace Lsj.Util.Win32.Enums
         COLOR_INACTIVEBORDER = SystemColors.COLOR_INACTIVEBORDER + 1,
 
         /// <summary>
-        /// Inactive window caption. The associated foreground color is <see cref="COLOR_INACTIVECAPTIONTEXT"/>".
+        /// Inactive window caption. The associated foreground color is <see cref="SystemColors.COLOR_INACTIVECAPTIONTEXT"/>".
         /// Specifies the left side color in the color gradient of an inactive window's title bar if the gradient effect is enabled.
         /// </summary>
         COLOR_INACTIVECAPTION = SystemColors.COLOR_INACTIVECAPTION + 1,

@@ -64,7 +64,8 @@ namespace Lsj.Util.Win32.Enums
         /// The second click must occur within the rectangle that is defined by <see cref="SM_CXDOUBLECLK"/> and
         /// <see cref="SM_CYDOUBLECLK"/> for the system
         /// to consider the two clicks a double-click. The two clicks must also occur within a specified time.
-        /// To set the width of the double-click rectangle, call SystemParametersInfo with <see cref="SPI_SETDOUBLECLKWIDTH"/>.
+        /// To set the width of the double-click rectangle,
+        /// call <see cref="SystemParametersInfo"/> with <see cref="SystemParametersInfoParameters.SPI_SETDOUBLECLKWIDTH"/>.
         /// </summary>
         SM_CXDOUBLECLK = 36,
 
@@ -102,7 +103,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The width of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars, 
-        /// call the <see cref="SystemParametersInfofunction"/> with the <see cref="SPI_GETWORKAREA"/> value.
+        /// call the <see cref="SystemParametersInfofunction"/> with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
         /// </summary>
         SM_CXFULLSCREEN = 16,
 
@@ -169,7 +170,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
-        /// A window can override this value by processing the <see cref="WM_GETMINMAXINFO"/> message.
+        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CXMINTRACK = 34,
 
@@ -243,7 +244,7 @@ namespace Lsj.Util.Win32.Enums
         /// The second click must occur within the rectangle defined by <see cref="SM_CXDOUBLECLK"/> and 
         /// <see cref="SM_CYDOUBLECLK"/> for the system to consider 
         /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click 
-        /// rectangle, call <see cref="SystemParametersInfo"/> with <see cref="SPI_SETDOUBLECLKHEIGHT"/>.
+        /// rectangle, call <see cref="SystemParametersInfo"/> with <see cref="SystemParametersInfoParameters.SPI_SETDOUBLECLKHEIGHT"/>.
         /// </summary>
         SM_CYDOUBLECLK = 37,
 
@@ -282,7 +283,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The height of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars,
-        /// call the <see cref="SystemParametersInfo"/> function with the <see cref="SPI_GETWORKAREA"/> value.
+        /// call the <see cref="SystemParametersInfo"/> function with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
         /// </summary>
         SM_CYFULLSCREEN = 17,
 

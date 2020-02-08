@@ -100,7 +100,8 @@
 
         /// <summary>
         /// Right side color in the color gradient of an active window's title bar. <see cref="COLOR_ACTIVECAPTION"/> specifies the left side color.
-        /// Use <see cref="SPI_GETGRADIENTCAPTIONS"/> with the SystemParametersInfo function to determine whether the gradient effect is enabled.
+        /// Use <see cref="SystemParametersInfoParameters.SPI_GETGRADIENTCAPTIONS"/> with the <see cref="SystemParametersInfo"/> function 
+        /// to determine whether the gradient effect is enabled.
         /// </summary>
         COLOR_GRADIENTACTIVECAPTION = 27,
 
@@ -184,7 +185,7 @@
         COLOR_SCROLLBAR = 0,
 
         /// <summary>
-        /// Window background. The associated foreground colors are <see cref="COLOR_WINDOWTEXT"/> and <see cref="COLOR_HOTLITE"/>.
+        /// Window background. The associated foreground colors are <see cref="COLOR_WINDOWTEXT"/> and <see cref="COLOR_HOTLIGHT"/>.
         /// </summary>
         COLOR_WINDOW = 5,
 

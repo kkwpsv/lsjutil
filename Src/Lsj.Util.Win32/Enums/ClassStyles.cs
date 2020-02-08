@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.Enums
         CS_DBLCLKS = 0x8,
 
         /// <summary>
-        /// Enables the drop shadow effect on a window. The effect is turned on and off through <see cref="SPI_SETDROPSHADOW"/>.
+        /// Enables the drop shadow effect on a window. The effect is turned on and off through <see cref="SystemParametersInfoParameters.SPI_SETDROPSHADOW"/>.
         /// Typically, this is enabled for small, short-lived windows such as menus to emphasize their Z order relationship to other windows.
         /// </summary>
         CS_DROPSHADOW = 0x20000,
