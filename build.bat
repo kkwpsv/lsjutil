@@ -34,9 +34,8 @@ dotnet build -c Release
 cd ..\Lsj.Util.Net.Web
 dotnet build -c Release
 
-::TODO: fix build com+
-::cd ..\Lsj.Util.Office
-::dotnet build -c Release
+cd ..\Lsj.Util.Office
+dotnet build -c Release
 
 cd ..\Lsj.Util.Protobuf
 dotnet build -c Release

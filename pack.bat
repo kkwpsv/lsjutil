@@ -36,9 +36,8 @@ dotnet pack -c Release --include-source
 cd ..\Lsj.Util.Net.Web
 dotnet pack -c Release --include-source
 
-::TODO: fix build com+
-::cd ..\Lsj.Util.Office
-::dotnet pack -c Release --include-source
+cd ..\Lsj.Util.Office
+dotnet pack -c Release --include-source
 
 cd ..\Lsj.Util.Protobuf
 dotnet pack -c Release --include-source
