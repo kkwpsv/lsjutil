@@ -8,9 +8,13 @@ using System.Windows.Data;
 
 namespace Lsj.Util.WPF.Converters
 {
+    /// <summary>
+    /// <see cref="T:double[]"/> To <see cref="Rect"/> Converter
+    /// </summary>
     [ValueConversion(typeof(double[]), typeof(Rect))]
     public class DoubleToRectConverter : IMultiValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (values?.Length == 2 && targetType == typeof(Rect))
@@ -21,6 +25,9 @@ namespace Lsj.Util.WPF.Converters
             }
             return DependencyProperty.UnsetValue;
         }
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) => new[] { DependencyProperty.UnsetValue };
+
+        /// <inheritdoc/>
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture) =>
+            new[] { DependencyProperty.UnsetValue };
     }
 }

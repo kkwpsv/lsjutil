@@ -5,11 +5,17 @@ using System.Windows.Data;
 
 namespace Lsj.Util.WPF.Converters
 {
+    /// <summary>
+    /// <see cref="IntPtr"/> To Hex String Converter
+    /// </summary>
     [ValueConversion(typeof(IntPtr), typeof(string), ParameterType = typeof(string))]
     public class IntPtrToHexConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is IntPtr ptr ? ptr.ToString(parameter as string ?? "X8") : DependencyProperty.UnsetValue;
+        /// <inheritdoc/>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+            value is IntPtr ptr ? ptr.ToString(parameter as string ?? "X8") : DependencyProperty.UnsetValue;
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string str)
