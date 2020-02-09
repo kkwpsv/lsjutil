@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32
 {
@@ -10,6 +12,234 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
+        /// If the calling process is impersonating another user, the new process uses the token for the calling process, not the impersonation token.
+        /// To run the new process in the security context of the user represented by the impersonation token,
+        /// use the <see cref="CreateProcessAsUser"/> or <see cref="CreateProcessWithLogonW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw
+        /// </para>
+        /// </summary>
+        /// <param name="lpApplicationName">
+        /// The name of the module to be executed. This module can be a Windows-based application.
+        /// It can be some other type of module (for example, MS-DOS or OS/2) if the appropriate subsystem is available on the local computer.
+        /// The string can specify the full path and file name of the module to execute or it can specify a partial name.
+        /// In the case of a partial name, the function uses the current drive and current directory to complete the specification.
+        /// The function will not use the search path.
+        /// This parameter must include the file name extension; no default extension is assumed.
+        /// The <paramref name="lpApplicationName"/> parameter can be <see langword="null"/>.
+        /// In that case, the module name must be the first white space–delimited token in the <paramref name="lpCommandLine"/> string.
+        /// If you are using a long file name that contains a space, use quoted strings to indicate where the file name ends and the arguments begin;
+        /// otherwise, the file name is ambiguous.
+        /// For example, consider the string "c:\program files\sub dir\program name".
+        /// This string can be interpreted in a number of ways.
+        /// The system tries to interpret the possibilities in the following order:
+        /// c:\program.exe c:\program files\sub.exe c:\program files\sub dir\program.exe c:\program files\sub dir\program name.exe
+        /// If the executable module is a 16-bit application, <paramref name="lpApplicationName"/> should be NULL,
+        /// and the string pointed to by <paramref name="lpCommandLine"/> should specify the executable module as well as its arguments.
+        /// To run a batch file, you must start the command interpreter; set <paramref name="lpApplicationName"/> to cmd.exe and
+        /// set <paramref name="lpCommandLine"/> to the following arguments: /c plus the name of the batch file.
+        /// </param>
+        /// <param name="lpCommandLine">
+        /// The command line to be executed.
+        /// The maximum length of this string is 32,768 characters, including the Unicode terminating null character.
+        /// If lpApplicationName is <see langword="null"/>,
+        /// the module name portion of <paramref name="lpCommandLine"/> is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// The Unicode version of this function, <see cref="CreateProcess"/>, can modify the contents of this string.
+        /// Therefore, this parameter cannot be a pointer to read-only memory (such as a const variable or a literal string).
+        /// If this parameter is a constant string, the function may cause an access violation.
+        /// The <paramref name="lpCommandLine"/> parameter can be <see langword="null"/>.
+        /// In that case, the function uses the string pointed to by <paramref name="lpApplicationName"/> as the command line.
+        /// If both <paramref name="lpApplicationName"/> and <paramref name="lpCommandLine"/> are non-NULL,
+        /// the null-terminated string pointed to by <paramref name="lpApplicationName"/> specifies the module to execute,
+        /// and the null-terminated string pointed to by <paramref name="lpCommandLine"/> specifies the command line.
+        /// The new process can use <see cref="GetCommandLine"/> to retrieve the entire command line.
+        /// Console processes written in C can use the argc and argv arguments to parse the command line.
+        /// Because argv[0] is the module name, C programmers generally repeat the module name as the first token in the command line.
+        /// If <paramref name="lpApplicationName"/> is <see langword="null"/>,
+        /// the first white space–delimited token of the command line specifies the module name.
+        /// If you are using a long file name that contains a space, use quoted strings to indicate where the file name ends and
+        /// the arguments begin (see the explanation for the <paramref name="lpApplicationName"/> parameter).
+        /// If the file name does not contain an extension, .exe is appended.
+        /// Therefore, if the file name extension is .com, this parameter must include the .com extension.
+        /// If the file name ends in a period (.) with no extension, or if the file name contains a path, .exe is not appended.
+        /// If the file name does not contain a directory path, the system searches for the executable file in the following sequence:
+        /// 1.The directory from which the application loaded.
+        /// 2. The current directory for the parent process.
+        /// 3. The 32-bit Windows system directory. Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
+        /// 4.The 16-bit Windows system directory. 
+        /// There is no function that obtains the path of this directory, but it is searched. The name of this directory is System.
+        /// 5. The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// 6.The directories that are listed in the PATH environment variable.
+        /// Note that this function does not search the per-application path specified by the App Paths registry key.
+        /// To include this per-application path in the search sequence, use the <see cref="ShellExecute"/> function.
+        /// The system adds a terminating null character to the command-line string to separate the file name from the arguments.
+        /// This divides the original string into two strings for internal processing.
+        /// </param>
+        /// <param name="lpProcessAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether
+        /// the returned handle to the new process object can be inherited by child processes.
+        /// If <paramref name="lpProcessAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new process.
+        /// If <paramref name="lpProcessAttributes"/> is <see langword="null"/> or
+        /// <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> is <see cref="IntPtr.Zero"/>, the process gets a default security descriptor.
+        /// The ACLs in the default security descriptor for a process come from the primary token of the creator.
+        /// Windows XP:  The ACLs in the default security descriptor for a process come from the primary or impersonation token of the creator.
+        /// This behavior changed with Windows XP with SP2 and Windows Server 2003.
+        /// </param>
+        /// <param name="lpThreadAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether
+        /// the returned handle to the new thread object can be inherited by child processes.
+        /// If <paramref name="lpThreadAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the main thread.
+        /// If <paramref name="lpThreadAttributes"/> is <see langword="null"/> or
+        /// <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> is <see cref="IntPtr.Zero"/>, the thread gets a default security descriptor.
+        /// The ACLs in the default security descriptor for a thread come from the process token.
+        /// Windows XP:  The ACLs in the default security descriptor for a thread come from the primary or impersonation token of the creator.
+        /// This behavior changed with Windows XP with SP2 and Windows Server 2003.
+        /// </param>
+        /// <param name="bInheritHandles">
+        /// If this parameter is <see langword="true"/>, each inheritable handle in the calling process is inherited by the new process.
+        /// If the parameter is <see langword="false"/>, the handles are not inherited.
+        /// Note that inherited handles have the same value and access rights as the original handles.
+        /// For additional discussion of inheritable handles, see Remarks.
+        /// Terminal Services:  You cannot inherit handles across sessions.
+        /// Additionally, if this parameter is <see langword="true"/>, you must create the process in the same session as the caller.
+        /// Protected Process Light (PPL) processes:  The generic handle inheritance is blocked
+        /// when a PPL process creates a non-PPL process since <see cref="PROCESS_DUP_HANDLE"/> is not allowed from a non-PPL process to a PPL process.
+        /// See Process Security and Access Rights
+        /// </param>
+        /// <param name="dwCreationFlags">
+        /// The flags that control the priority class and the creation of the process. 
+        /// This parameter also controls the new process's priority class, which is used to determine the scheduling priorities of the process's threads.
+        /// For a list of values, see <see cref="GetPriorityClass"/>.
+        /// If none of the priority class flags is specified, the priority class defaults to <see cref="NORMAL_PRIORITY_CLASS"/>
+        /// unless the priority class of the creating process is <see cref="IDLE_PRIORITY_CLASS"/> or <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>.
+        /// In this case, the child process receives the default priority class of the calling process.
+        /// </param>
+        /// <param name="lpEnvironment">
+        /// A pointer to the environment block for the new process.
+        /// If this parameter is <see langword="null"/>, the new process uses the environment of the calling process.
+        /// An environment block consists of a null-terminated block of null-terminated strings.
+        /// Each string is in the following form: name=value\0
+        /// Because the equal sign is used as a separator, it must not be used in the name of an environment variable.
+        /// An environment block can contain either Unicode or ANSI characters.
+        /// If the environment block pointed to by <paramref name="lpEnvironment"/> contains Unicode characters,
+        /// be sure that <paramref name="dwCreationFlags"/> includes <see cref="ProcessCreationFlags.CREATE_UNICODE_ENVIRONMENT"/>.
+        /// If this parameter is <see langword="null"/> and the environment block of the parent process contains Unicode characters,
+        /// you must also ensure that dwCreationFlags includes <see cref="ProcessCreationFlags.CREATE_UNICODE_ENVIRONMENT"/>.
+        /// </param>
+        /// <param name="lpCurrentDirectory">
+        /// The full path to the current directory for the process. The string can also specify a UNC path.
+        /// If this parameter is <see langword="null"/>, the new process will have the same current drive and directory as the calling process.
+        /// (This feature is provided primarily for shells that need to start an application and specify its initial drive and working directory.)
+        /// </param>
+        /// <param name="lpStartupInfo">
+        /// A pointer to a <see cref="STARTUPINFO"/> or <see cref="STARTUPINFOEX"/> structure.
+        /// To set extended attributes, use a <see cref="STARTUPINFOEX"/> structure and
+        /// specify <see cref="ProcessCreationFlags.EXTENDED_STARTUPINFO_PRESENT"/> in the <paramref name="dwCreationFlags"/> parameter.
+        /// Handles in <see cref="STARTUPINFO"/> or <see cref="STARTUPINFOEX"/> must be closed with CloseHandle when they are no longer needed.
+        /// Important  The caller is responsible for ensuring that the standard handle fields in <see cref="STARTUPINFO"/> contain valid handle values.
+        /// These fields are copied unchanged to the child process without validation,
+        /// even when the dwFlags member specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>.
+        /// Incorrect values can cause the child process to misbehave or crash.
+        /// Use the Application Verifier runtime verification tool to detect invalid handles.
+        /// </param>
+        /// <param name="lpProcessInformation">
+        /// A pointer to a <see cref="PROCESS_INFORMATION"/> structure that receives identification information about the new process.
+        /// Handles in <see cref="PROCESS_INFORMATION"/> must be closed with <see cref="CloseHandle"/> when they are no longer needed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// Note that the function returns before the process has finished initialization.
+        /// If a required DLL cannot be located or fails to initialize, the process is terminated.
+        /// To get the termination status of a process, call <see cref="GetExitCodeProcess"/>.
+        /// </returns>
+        /// <remarks>
+        /// The process is assigned a process identifier.
+        /// The identifier is valid until the process terminates.
+        /// It can be used to identify the process, or specified in the <see cref="OpenProcess"/> function to open a handle to the process.
+        /// The initial thread in the process is also assigned a thread identifier.
+        /// It can be specified in the <see cref="OpenThread"/> function to open a handle to the thread.
+        /// The identifier is valid until the thread terminates and can be used to uniquely identify the thread within the system.
+        /// These identifiers are returned in the <see cref="PROCESS_INFORMATION"/> structure.
+        /// The name of the executable in the command line that the operating system provides to a process is not necessarily identical
+        /// to that in the command line that the calling process gives to the <see cref="CreateProcess"/> function.
+        /// The operating system may prepend a fully qualified path to an executable name that is provided without a fully qualified path.
+        /// The calling thread can use the <see cref="WaitForInputIdle"/> function to wait until the new process has finished its initialization
+        /// and is waiting for user input with no input pending.
+        /// For example, the creating process would use <see cref="WaitForInputIdle"/> before trying to find a window associated with the new process.
+        /// This can be useful for synchronization between parent and child processes,
+        /// because <see cref="CreateProcess"/> returns without waiting for the new process to finish its initialization.
+        /// The preferred way to shut down a process is by using the <see cref="ExitProcess"/> function,
+        /// because this function sends notification of approaching termination to all DLLs attached to the process.
+        /// Other means of shutting down a process do not notify the attached DLLs.
+        /// Note that when a thread calls <see cref="ExitProcess"/>, other threads of the process are terminated
+        /// without an opportunity to execute any additional code (including the thread termination code of attached DLLs).
+        /// For more information, see Terminating a Process.
+        /// A parent process can directly alter the environment variables of a child process during process creation.
+        /// This is the only situation when a process can directly change the environment settings of another process.
+        /// For more information, see Changing Environment Variables.
+        /// If an application provides an environment block,
+        /// the current directory information of the system drives is not automatically propagated to the new process.
+        /// For example, there is an environment variable named =C: whose value is the current directory on drive C.
+        /// An application must manually pass the current directory information to the new process.
+        /// To do so, the application must explicitly create these environment variable strings,
+        /// sort them alphabetically (because the system uses a sorted environment), and put them into the environment block.
+        /// Typically, they will go at the front of the environment block, due to the environment block sort order.
+        /// One way to obtain the current directory information for a drive X is to make the following call: GetFullPathName("X:", ...).
+        /// That avoids an application having to scan the environment block.
+        /// If the full path returned is X:, there is no need to pass that value on as environment data,
+        /// since the root directory is the default current directory for drive X of a new process.
+        /// When a process is created with <see cref="ProcessCreationFlags.CREATE_NEW_PROCESS_GROUP"/> specified,
+        /// an implicit call to SetConsoleCtrlHandler(NULL,TRUE) is made on behalf of the new process;
+        /// this means that the new process has CTRL+C disabled.
+        /// This lets shells handle CTRL+C themselves, and selectively pass that signal on to sub-processes.
+        /// CTRL+BREAK is not disabled, and may be used to interrupt the process/process group.
+        /// By default, passing <see langword="true"/> as the value of the <paramref name="bInheritHandles"/> parameter
+        /// causes all inheritable handles to be inherited by the new process.
+        /// This can be problematic for applications which create processes from multiple threads simultaneously
+        /// yet desire each process to inherit different handles.
+        /// Applications can use the <see cref="UpdateProcThreadAttributeList"/> function
+        /// with the PROC_THREAD_ATTRIBUTE_HANDLE_LIST parameter to provide a list of handles to be inherited by a particular process.
+        /// 
+        /// Security Remarks
+        /// The first parameter, <paramref name="lpApplicationName"/>, can be <see langword="null"/>,
+        /// in which case the executable name must be in the white space–delimited string pointed to by <paramref name="lpCommandLine"/>.
+        /// If the executable or path name has a space in it, there is a risk that a different executable
+        /// could be run because of the way the function parses spaces.
+        /// The following example is dangerous because the function will attempt to run "Program.exe", if it exists, instead of "MyApp.exe".
+        /// <code>
+        /// LPTSTR szCmdline = _tcsdup(TEXT("C:\\Program Files\\MyApp -L -S"));
+        /// CreateProcess(NULL, szCmdline, /* ... */);
+        /// </code>
+        /// If a malicious user were to create an application called "Program.exe" on a system,
+        /// any program that incorrectly calls <see cref="CreateProcess"/> using the Program Files directory will run this application
+        /// instead of the intended application.
+        /// To avoid this problem, do not pass <see langword="null"/> for <paramref name="lpApplicationName"/>.
+        /// If you do pass <see langword="null"/> for <paramref name="lpApplicationName"/>,
+        /// use quotation marks around the executable path in <paramref name="lpCommandLine"/>, as shown in the example below.
+        /// <code>
+        /// LPTSTR szCmdline[] = _tcsdup(TEXT("\"C:\\Program Files\\MyApp\" -L -S"));
+        /// CreateProcess(NULL, szCmdline, /*...*/);
+        /// </code>
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
+          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
+          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
+          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
+          [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment,
+          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))][In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo,
+          [Out]out PROCESS_INFORMATION lpProcessInformation);
+
         /// <summary>
         /// <para>
         /// Formats a message string. The function requires a message definition as input. 
