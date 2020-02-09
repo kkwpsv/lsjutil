@@ -23,11 +23,7 @@ namespace Lsj.Util.Net.Web.Session
         public HttpSessions()
         {
             Thread CheckThread = new Thread(Check);
-#if NETCOREAPP1_1
-            CheckThread.IsBackground = true;
-#else
             CheckThread.Priority = ThreadPriority.BelowNormal;
-#endif
         }
 
         private void Check()
