@@ -7,7 +7,7 @@ namespace Lsj.Util.Threading
     /// ReadWriteLock
     /// using ReaderWriterLockSlim
     /// </summary>
-    public class ReadWriteLock : DisposableClass, IDisposable
+    public class ReadWriteLock : DisposableClass
     {
         private ReaderWriterLockSlim @lock = new ReaderWriterLockSlim();
 

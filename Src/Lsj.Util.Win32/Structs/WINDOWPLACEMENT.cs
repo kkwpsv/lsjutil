@@ -49,7 +49,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public RECT rcNormalPosition;
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public RECT rcDevice;
     }
 }

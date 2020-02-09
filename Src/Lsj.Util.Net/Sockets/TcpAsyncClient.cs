@@ -136,11 +136,7 @@ namespace Lsj.Util.Net.Sockets
                 return;
             try
             {
-#if NETSTANDARD
-                socket.Shutdown();
-#else
                 socket.Close();
-#endif
                 SocketConnected = null;
             }
             catch (Exception e)

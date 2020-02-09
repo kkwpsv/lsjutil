@@ -1,15 +1,9 @@
-#if NET40
+#if NET40 || NET45
 using Microsoft.CSharp;
-using System;
 using System.CodeDom.Compiler;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Lsj.Util.IO;
-
-
 
 namespace Lsj.Util
 {
@@ -60,9 +54,9 @@ namespace Lsj.Util
                 {
                     File.Delete(target);
                 }
-                CompilerResults res = null;
+
                 CodeDomProvider compiler = new CSharpCodeProvider();
-                CompilerParameters param = new CompilerParameters(@using, target, false)
+                var param = new CompilerParameters(@using, target, false)
                 {
                     GenerateExecutable = false,
                     GenerateInMemory = false,
@@ -72,17 +66,17 @@ namespace Lsj.Util
                 string[] filepaths = new string[files.Count];
                 for (int i = 0; i < files.Count; i++)
                 {
-                    filepaths[i] = ((FileInfo)files[i]).FullName;
+                    filepaths[i] = files[i].FullName;
                 }
-                res = compiler.CompileAssemblyFromFile(param, filepaths);
+                var res = compiler.CompileAssemblyFromFile(param, filepaths);
                 if (res.Errors.HasErrors)
                 {
-                    StringBuilder sb = new StringBuilder();
+                    var sb = new StringBuilder();
                     foreach (CompilerError err in res.Errors)
                     {
                         if (!err.IsWarning)
                         {
-                            StringBuilder builder = new StringBuilder();
+                            var builder = new StringBuilder();
                             builder.Append("   ");
                             builder.Append(err.FileName);
                             builder.Append(" Line:");

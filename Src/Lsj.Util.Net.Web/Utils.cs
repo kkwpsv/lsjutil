@@ -6,8 +6,16 @@ using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web
 {
+    /// <summary>
+    /// Utils
+    /// </summary>
     public static class Utils
     {
+        /// <summary>
+        /// Parse String Array
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public static string[] ParseStringArray(string x)
         {
             var result = new List<StringPair>();
@@ -21,6 +29,7 @@ namespace Lsj.Util.Net.Web
             result.Sort((x1, x2) => (x1.q > x2.q ? 1 : -1));
             return result.Select((xx) => (xx.name)).ToArray();
         }
+
         struct StringPair
         {
             internal string name;

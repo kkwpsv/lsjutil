@@ -177,11 +177,7 @@ namespace Lsj.Util.Net.Sockets
                 return;
             try
             {
-#if NETSTANDARD
-                socket.Shutdown();
-#else
                 socket.Close();
-#endif
                 SocketAccepted = null;
             }
             catch (Exception e)

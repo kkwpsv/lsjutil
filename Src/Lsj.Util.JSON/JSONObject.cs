@@ -14,6 +14,11 @@ namespace Lsj.Util.JSON
     {
         internal readonly SafeDictionary<string, object> data = new SafeDictionary<string, object>();
 
+        /// <summary>
+        /// Set
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
         public void Set(string name, object value)
         {
             this.data[name] = value;
@@ -79,6 +84,11 @@ namespace Lsj.Util.JSON
         public override IEnumerable<string> GetDynamicMemberNames() => this.data.Keys;
 
 
+        /// <summary>
+        /// Specified To
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T SpecifiedTo<T>()
         {
             var processer = new ObjectProcesser(typeof(T));

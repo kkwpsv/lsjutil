@@ -22,25 +22,12 @@ namespace Lsj.Util.WPF.Converters
         /// </summary>
         public TwoWayDictionary<TFrom, TTo> ConvertDictionary { get; set; } = new TwoWayDictionary<TFrom, TTo>();
 
-        /// <summary>
-        /// Convert
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is TFrom val && targetType.IsAssignableFrom(typeof(TTo)) && ConvertDictionary.ContainsKey(val) ? ConvertDictionary.GetValueByKey(val) : DependencyProperty.UnsetValue;
+        /// <inheritdoc/>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+            value is TFrom val && targetType.IsAssignableFrom(typeof(TTo)) && ConvertDictionary.ContainsKey(val) ? ConvertDictionary.GetValueByKey(val) : DependencyProperty.UnsetValue;
 
-
-        /// <summary>
-        /// ConvertBack
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <param name="parameter"></param>
-        /// <param name="culture"></param>
-        /// <returns></returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value is TTo val && targetType.IsAssignableFrom(typeof(TFrom)) && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
+        /// <inheritdoc/>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+            value is TTo val && targetType.IsAssignableFrom(typeof(TFrom)) && ConvertDictionary.ContainsValue(val) ? ConvertDictionary.GetKeyByValue(val) : DependencyProperty.UnsetValue;
     }
 }

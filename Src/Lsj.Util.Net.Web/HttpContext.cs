@@ -69,14 +69,6 @@ namespace Lsj.Util.Net.Web
             return new HttpContext(socket, log, server);
         }
         static ObjectPool<byte[]> buffers = new ObjectPool<byte[]>(() => new byte[10240]);//10K
-
-
-
-
-
-
-
-
         protected HttpContext(Socket socket, LogProvider log, WebServer server)
         {
             this.socket = socket;
@@ -122,9 +114,6 @@ namespace Lsj.Util.Net.Web
             ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
             this.Stream = CreateStream(socket);
             this.Status = ContextStatus.Listening;
-
-
-
 
 #if NET40
             this.Stream.BeginRead(buffer, OnReceived);

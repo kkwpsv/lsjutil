@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdiplus/-gdiplus-flatapi-flat
     /// </para>
     /// </summary>
-    public class Gdiplus
+    public static class Gdiplus
     {
         /// <summary>
         /// Creates a Graphics object that is associated with a specified device context.
@@ -112,12 +112,13 @@ namespace Lsj.Util.Win32
         /// Pointer to a ULONG_PTR that receives a token. Pass the token to <see cref="GdiplusShutdown"/> when you have finished using GDI+.
         /// </param>
         /// <param name="input">
-        /// Pointer to a GdiplusStartupInput structure that contains the GDI+ version, a pointer to a debug callback function,
-        /// a Boolean value that specifies whether to suppress the background thread, and a Boolean value that specifies whether to suppress external image codecs.
+        /// Pointer to a <see cref="GdiplusStartupInput"/>  structure that contains the GDI+ version, a pointer to a debug callback function,
+        /// a Boolean value that specifies whether to suppress the background thread,
+        /// and a Boolean value that specifies whether to suppress external image codecs.
         /// </param>
         /// <param name="output"></param>
         /// <returns>
-        /// If the function succeeds, it returns OK.
+        /// If the function succeeds, it returns <see cref="GpStatus.Ok"/>.
         /// If the function fails, it returns one of the other elements of the <see cref="GpStatus"/> enumeration.
         /// </returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusStartup", SetLastError = true)]

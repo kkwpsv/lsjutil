@@ -6,7 +6,7 @@ namespace Lsj.Util
     /// <summary>
     /// True Random
     /// </summary>
-    public class TrueRandom : DisposableClass, IDisposable
+    public class TrueRandom : DisposableClass
     {
         private readonly RNGCryptoServiceProvider csp;
 

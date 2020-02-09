@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.Gdiplus;
 
 namespace Lsj.Util.Win32.Structs
@@ -23,15 +21,18 @@ namespace Lsj.Util.Win32.Structs
         public uint GdiplusVersion;
 
         /// <summary>
-        /// Pointer to a callback function that GDI+ can call, on debug builds, for assertions and warnings. The default value is NULL.
+        /// Pointer to a callback function that GDI+ can call, on debug builds, for assertions and warnings.
+        /// The default value is <see cref="IntPtr.Zero"/>.
         /// </summary>
         public IntPtr DebugEventCallback;
 
         /// <summary>
         /// Boolean value that specifies whether to suppress the GDI+ background thread. 
-        /// If you set this member to TRUE, <see cref="GdiplusStartup"/> returns (in its output parameter) a pointer to a hook function and a pointer to an unhook function.
+        /// If you set this member to <see langword="true"/>,
+        /// <see cref="GdiplusStartup"/> returns (in its output parameter) a pointer to a hook function and a pointer to an unhook function.
         /// You must call those functions appropriately to replace the background thread.
-        /// If you do not want to be responsible for calling the hook and unhook functions, set this member to FALSE. The default value is FALSE.
+        /// If you do not want to be responsible for calling the hook and unhook functions,
+        /// set this member to <see langword="false"/>. The default value is <see langword="false"/>.
         /// </summary>
         public bool SuppressBackgroundThread;
 

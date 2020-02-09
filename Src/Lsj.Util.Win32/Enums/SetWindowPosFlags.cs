@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -16,13 +13,14 @@ namespace Lsj.Util.Win32.Enums
     public enum SetWindowPosFlags : uint
     {
         /// <summary>
-        /// If the calling thread and the thread that owns the window are attached to different input queues, the system posts the request to the thread that owns the window.
+        /// If the calling thread and the thread that owns the window are attached to different input queues,
+        /// the system posts the request to the thread that owns the window.
         /// This prevents the calling thread from blocking its execution while other threads process the request.
         /// </summary>
         SWP_ASYNCWINDOWPOS = 0x4000,
 
         /// <summary>
-        /// Prevents generation of the WM_SYNCPAINT message.
+        /// Prevents generation of the <see cref="WindowsMessages.WM_SYNCPAINT"/> message.
         /// </summary>
         SWP_DEFERERASE = 0x200,
 
@@ -33,8 +31,8 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Applies new frame styles set using the SetWindowLong function.
-        /// Sends a WM_NCCALCSIZE message to the window, even if the window's size is not being changed.
-        /// If this flag is not specified, WM_NCCALCSIZE is sent only when the window's size is being changed.
+        /// Sends a <see cref="WindowsMessages.WM_NCCALCSIZE"/> message to the window, even if the window's size is not being changed.
+        /// If this flag is not specified, <see cref="WindowsMessages.WM_NCCALCSIZE"/> is sent only when the window's size is being changed.
         /// </summary>
         SWP_FRAMECHANGED = 0x0020,
 
@@ -45,13 +43,15 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Does not activate the window. 
-        /// If this flag is not set, the window is activated and moved to the top of either the topmost or non-topmost group (depending on the setting of the hWndInsertAfter parameter).
+        /// If this flag is not set, the window is activated and moved to the top of either the topmost or
+        /// non-topmost group (depending on the setting of the hWndInsertAfter parameter).
         /// </summary>
         SWP_NOACTIVATE = 0x0010,
 
         /// <summary>
         /// Discards the entire contents of the client area.
-        /// If this flag is not specified, the valid contents of the client area are saved and copied back into the client area after the window is sized or repositioned.
+        /// If this flag is not specified, the valid contents of the client area are saved and copied back into 
+        /// the client area after the window is sized or repositioned.
         /// </summary>
         SWP_NOCOPYBITS = 0x0100,
 
@@ -67,7 +67,8 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Does not redraw changes.
-        /// If this flag is set, no repainting of any kind occurs. This applies to the client area, the nonclient area (including the title bar and scroll bars),
+        /// If this flag is set, no repainting of any kind occurs.
+        /// This applies to the client area, the nonclient area (including the title bar and scroll bars),
         /// and any part of the parent window uncovered as a result of the window being moved. 
         /// When this flag is set, the application must explicitly invalidate or redraw any parts of the window and parent window that need redrawing.
         /// </summary>
@@ -79,7 +80,7 @@ namespace Lsj.Util.Win32.Enums
         SWP_NOREPOSITION = 0x0200,
 
         /// <summary>
-        /// Prevents the window from receiving the WM_WINDOWPOSCHANGING message.
+        /// Prevents the window from receiving the <see cref="WindowsMessages.WM_WINDOWPOSCHANGING"/> message.
         /// </summary>
         SWP_NOSENDCHANGING = 0x0400,
 

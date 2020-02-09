@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.Gdi32;
+﻿using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -46,12 +43,14 @@ namespace Lsj.Util.Win32.Enums
         VERTRES = 10,
 
         /// <summary>
-        /// Number of pixels per logical inch along the screen width. In a system with multiple display monitors, this value is the same for all monitors.
+        /// Number of pixels per logical inch along the screen width.
+        /// In a system with multiple display monitors, this value is the same for all monitors.
         /// </summary>
         LOGPIXELSX = 88,
 
         /// <summary>
-        /// Number of pixels per logical inch along the screen height. In a system with multiple display monitors, this value is the same for all monitors.
+        /// Number of pixels per logical inch along the screen height.
+        /// In a system with multiple display monitors, this value is the same for all monitors.
         /// </summary>
         LOGPIXELSY = 90,
 
@@ -113,19 +112,22 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Number of entries in the system palette.
-        /// This index is valid only if the device driver sets the RC_PALETTE bit in the RASTERCAPS index and is available only if the driver is compatible with 16-bit Windows.
+        /// This index is valid only if the device driver sets the <see cref="RC_PALETTE"/> bit in the <see cref="RASTERCAPS"/> index and
+        /// is available only if the driver is compatible with 16-bit Windows.
         /// </summary>
         SIZEPALETTE = 104,
 
         /// <summary>
         /// Number of reserved entries in the system palette.
-        /// This index is valid only if the device driver sets the RC_PALETTE bit in the RASTERCAPS index and is available only if the driver is compatible with 16-bit Windows.
+        /// This index is valid only if the device driver sets the <see cref="RC_PALETTE"/> bit in the <see cref="RASTERCAPS"/> index and
+        /// is available only if the driver is compatible with 16-bit Windows.
         /// </summary>
         NUMRESERVED = 106,
 
         /// <summary>
         /// Actual color resolution of the device, in bits per pixel.
-        /// This index is valid only if the device driver sets the RC_PALETTE bit in the RASTERCAPS index and is available only if the driver is compatible with 16-bit Windows.
+        /// This index is valid only if the device driver sets the <see cref="RC_PALETTE"/> bit in the <see cref="RASTERCAPS"/> index and
+        /// is available only if the driver is compatible with 16-bit Windows.
         /// </summary>
         COLORRES = 108,
 

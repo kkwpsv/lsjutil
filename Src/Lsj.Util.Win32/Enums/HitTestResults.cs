@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// <see cref="WM_NCHITTEST"/> Results
+    /// <see cref="WindowsMessages.WM_NCHITTEST"/> Results
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/wm-nchittest
@@ -107,7 +104,7 @@ namespace Lsj.Util.Win32.Enums
         HTRIGHT = 11,
 
         /// <summary>
-        /// In a size box (same as HTGROWBOX).
+        /// In a size box (same as <see cref="HTGROWBOX"/>).
         /// </summary>
         HTSIZE = 4,
 

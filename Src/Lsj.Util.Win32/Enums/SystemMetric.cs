@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -41,13 +38,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Reflects the state of the laptop or slate mode, 0 for Slate Mode and non-zero otherwise.
-        /// When this system metric changes, the system sends a broadcast message via WM_SETTINGCHANGE with "ConvertibleSlateMode" in the LPARAM.
-        /// Note that this system metric doesn't apply to desktop PCs. In that case, use GetAutoRotationState.
+        /// When this system metric changes, the system sends a broadcast message via <see cref="WindowsMessages.WM_SETTINGCHANGE"/>
+        /// with "ConvertibleSlateMode" in the LPARAM.
+        /// Note that this system metric doesn't apply to desktop PCs. In that case, use <see cref="GetAutoRotationState"/>.
         /// </summary>
         SM_CONVERTIBLESLATEMODE = 0x2003,
 
         /// <summary>
-        /// The width of a window border, in pixels. This is equivalent to the SM_CXEDGE value for windows with the 3-D look.
+        /// The width of a window border, in pixels. This is equivalent to the <see cref="SM_CXEDGE"/> value for windows with the 3-D look.
         /// </summary>
         SM_CXBORDER = 5,
 
@@ -63,9 +61,11 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The width of the rectangle around the location of a first click in a double-click sequence, in pixels.
-        /// The second click must occur within the rectangle that is defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system
+        /// The second click must occur within the rectangle that is defined by <see cref="SM_CXDOUBLECLK"/> and
+        /// <see cref="SM_CYDOUBLECLK"/> for the system
         /// to consider the two clicks a double-click. The two clicks must also occur within a specified time.
-        /// To set the width of the double-click rectangle, call SystemParametersInfo with SPI_SETDOUBLECLKWIDTH.
+        /// To set the width of the double-click rectangle,
+        /// call <see cref="SystemParametersInfo"/> with <see cref="SystemParametersInfoParameters.SPI_SETDOUBLECLKWIDTH"/>.
         /// </summary>
         SM_CXDOUBLECLK = 36,
 
@@ -77,33 +77,33 @@ namespace Lsj.Util.Win32.Enums
         SM_CXDRAG = 68,
 
         /// <summary>
-        /// The width of a 3-D border, in pixels. This metric is the 3-D counterpart of SM_CXBORDER.
+        /// The width of a 3-D border, in pixels. This metric is the 3-D counterpart of <see cref="SM_CXBORDER"/>.
         /// </summary>
         SM_CXEDGE = 45,
 
         /// <summary>
         /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels.
-        /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border.
-        /// This value is the same as SM_CXDLGFRAME.
+        /// SM_CXFIXEDFRAME is the height of the horizontal border, and <see cref="SM_CYFIXEDFRAME"/> is the width of the vertical border.
+        /// This value is the same as <see cref="SM_CXDLGFRAME"/>.
         /// </summary>
         SM_CXFIXEDFRAME = 7,
 
         /// <summary>
-        /// The width of the left and right edges of the focus rectangle that the DrawFocusRectdraws. 
+        /// The width of the left and right edges of the focus rectangle that the <see cref="DrawFocusRectdraws"/>. 
         /// This value is in pixels. 
         /// Windows 2000:  This value is not supported.
         /// </summary>
         SM_CXFOCUSBORDER = 83,
 
         /// <summary>
-        /// This value is the same as SM_CXSIZEFRAME.
+        /// This value is the same as <see cref="SM_CXSIZEFRAME"/>.
         /// </summary>
         SM_CXFRAME = 32,
 
         /// <summary>
         /// The width of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars, 
-        /// call the SystemParametersInfofunction with the SPI_GETWORKAREA value.
+        /// call the <see cref="SystemParametersInfofunction"/> with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
         /// </summary>
         SM_CXFULLSCREEN = 16,
 
@@ -119,13 +119,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The default width of an icon, in pixels. The LoadIcon function can load only icons with the dimensions 
-        /// that SM_CXICON and SM_CYICON specifies.
+        /// that <see cref="SM_CXICON"/> and <see cref="SM_CYICON"/> specifies.
         /// </summary>
         SM_CXICON = 11,
 
         /// <summary>
         /// The width of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
-        /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CXICON.
+        /// <see cref="SM_CXICONSPACING"/> by <see cref="SM_CYICONSPACING"/> when arranged.
+        /// This value is always greater than or equal to <see cref="SM_CXICON"/>.
         /// </summary>
         SM_CXICONSPACING = 38,
 
@@ -137,7 +138,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The default maximum width of a window that has a caption and sizing borders, in pixels. 
         /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. 
-        /// A window can override this value by processing the WM_GETMINMAXINFO message.
+        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CXMAXTRACK = 59,
 
@@ -163,13 +164,13 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The width of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
-        /// This value is always greater than or equal to SM_CXMINIMIZED.
+        /// This value is always greater than or equal to <see cref="SM_CXMINIMIZED"/>.
         /// </summary>
         SM_CXMINSPACING = 47,
 
         /// <summary>
         /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
-        /// A window can override this value by processing the WM_GETMINMAXINFO message.
+        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CXMINTRACK = 34,
 
@@ -180,7 +181,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The width of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
-        /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, HORZRES).
+        /// <see cref="GetDeviceCaps"/> as follows: GetDeviceCaps( hdcPrimaryMonitor, HORZRES).
         /// </summary>
         SM_CXSCREEN = 0,
 
@@ -191,7 +192,8 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
-        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
+        /// <see cref="SM_CXSIZEFRAME"/> is the width of the horizontal border,
+        /// and <see cref="SM_CYSIZEFRAME"/> is the height of the vertical border. 
         /// This value is the same as SM_CXFRAME.
         /// </summary>
         SM_CXSIZEFRAME = 32,
@@ -208,7 +210,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The width of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
-        /// The SM_XVIRTUALSCREEN metric is the coordinates for the left side of the virtual screen.
+        /// The <see cref="SM_XVIRTUALSCREEN"/> metric is the coordinates for the left side of the virtual screen.
         /// </summary>
         SM_CXVIRTUALSCREEN = 78,
 
@@ -218,7 +220,7 @@ namespace Lsj.Util.Win32.Enums
         SM_CXVSCROLL = 2,
 
         /// <summary>
-        /// The height of a window border, in pixels. This is equivalent to the SM_CYEDGE value for windows with the 3-D look.
+        /// The height of a window border, in pixels. This is equivalent to the <see cref="SM_CYEDGE"/> value for windows with the 3-D look.
         /// </summary>
         SM_CYBORDER = 6,
 
@@ -239,9 +241,10 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The height of the rectangle around the location of a first click in a double-click sequence, in pixels. 
-        /// The second click must occur within the rectangle defined by SM_CXDOUBLECLK and SM_CYDOUBLECLK for the system to consider 
+        /// The second click must occur within the rectangle defined by <see cref="SM_CXDOUBLECLK"/> and 
+        /// <see cref="SM_CYDOUBLECLK"/> for the system to consider 
         /// the two clicks a double-click. The two clicks must also occur within a specified time. To set the height of the double-click 
-        /// rectangle, call SystemParametersInfo with SPI_SETDOUBLECLKHEIGHT.
+        /// rectangle, call <see cref="SystemParametersInfo"/> with <see cref="SystemParametersInfoParameters.SPI_SETDOUBLECLKHEIGHT"/>.
         /// </summary>
         SM_CYDOUBLECLK = 37,
 
@@ -253,14 +256,15 @@ namespace Lsj.Util.Win32.Enums
         SM_CYDRAG = 69,
 
         /// <summary>
-        /// The height of a 3-D border, in pixels. This is the 3-D counterpart of SM_CYBORDER.
+        /// The height of a 3-D border, in pixels. This is the 3-D counterpart of <see cref="SM_CYBORDER"/>.
         /// </summary>
         SM_CYEDGE = 46,
 
         /// <summary>
         /// The thickness of the frame around the perimeter of a window that has a caption but is not sizable, in pixels. 
-        /// SM_CXFIXEDFRAME is the height of the horizontal border, and SM_CYFIXEDFRAME is the width of the vertical border. 
-        /// This value is the same as SM_CYDLGFRAME.
+        /// <see cref="SM_CXFIXEDFRAME"/> is the height of the horizontal border,
+        /// and <see cref="SM_CYFIXEDFRAME"/> is the width of the vertical border. 
+        /// This value is the same as <see cref="SM_CYDLGFRAME"/>.
         /// </summary>
         SM_CYFIXEDFRAME = 8,
 
@@ -272,14 +276,14 @@ namespace Lsj.Util.Win32.Enums
         SM_CYFOCUSBORDER = 84,
 
         /// <summary>
-        /// This value is the same as SM_CYSIZEFRAME.
+        /// This value is the same as <see cref="SM_CYSIZEFRAME"/>.
         /// </summary>
         SM_CYFRAME = 33,
 
         /// <summary>
         /// The height of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen not obscured by the system taskbar or by application desktop toolbars,
-        /// call the SystemParametersInfo function with the SPI_GETWORKAREA value.
+        /// call the <see cref="SystemParametersInfo"/> function with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
         /// </summary>
         SM_CYFULLSCREEN = 17,
 
@@ -289,13 +293,15 @@ namespace Lsj.Util.Win32.Enums
         SM_CYHSCROLL = 3,
 
         /// <summary>
-        /// The default height of an icon, in pixels. The LoadIcon function can load only icons with the dimensions SM_CXICON and SM_CYICON.
+        /// The default height of an icon, in pixels.
+        /// The LoadIcon function can load only icons with the dimensions <see cref="SM_CXICON"/> and <see cref="SM_CYICON"/>.
         /// </summary>
         SM_CYICON = 12,
 
         /// <summary>
         /// The height of a grid cell for items in large icon view, in pixels. Each item fits into a rectangle of size 
-        /// SM_CXICONSPACING by SM_CYICONSPACING when arranged. This value is always greater than or equal to SM_CYICON.
+        /// <see cref="SM_CXICONSPACING"/> by <see cref="SM_CYICONSPACING"/> when arranged.
+        /// This value is always greater than or equal to <see cref="SM_CYICON"/>.
         /// </summary>
         SM_CYICONSPACING = 39,
 
@@ -312,7 +318,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. 
         /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing 
-        /// the WM_GETMINMAXINFO message.
+        /// the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CYMAXTRACK = 60,
 
@@ -343,19 +349,19 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The height of a grid cell for a minimized window, in pixels. Each minimized window fits into a rectangle this size when arranged. 
-        /// This value is always greater than or equal to SM_CYMINIMIZED.
+        /// This value is always greater than or equal to <see cref="SM_CYMINIMIZED"/>.
         /// </summary>
         SM_CYMINSPACING = 48,
 
         /// <summary>
         /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
-        /// A window can override this value by processing the WM_GETMINMAXINFO message.
+        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CYMINTRACK = 35,
 
         /// <summary>
         /// The height of the screen of the primary display monitor, in pixels. This is the same value obtained by calling 
-        /// GetDeviceCaps as follows: GetDeviceCaps( hdcPrimaryMonitor, VERTRES).
+        /// <see cref="GetDeviceCaps"/> as follows: GetDeviceCaps( hdcPrimaryMonitor, VERTRES).
         /// </summary>
         SM_CYSCREEN = 1,
 
@@ -366,8 +372,9 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The thickness of the sizing border around the perimeter of a window that can be resized, in pixels. 
-        /// SM_CXSIZEFRAME is the width of the horizontal border, and SM_CYSIZEFRAME is the height of the vertical border. 
-        /// This value is the same as SM_CYFRAME.
+        /// <see cref="SM_CXSIZEFRAME"/> is the width of the horizontal border,
+        /// and <see cref="SM_CYSIZEFRAME"/> is the height of the vertical border. 
+        /// This value is the same as <see cref="SM_CYFRAME"/>.
         /// </summary>
         SM_CYSIZEFRAME = 33,
 
@@ -388,7 +395,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The height of the virtual screen, in pixels. The virtual screen is the bounding rectangle of all display monitors. 
-        /// The SM_YVIRTUALSCREEN metric is the coordinates for the top of the virtual screen.
+        /// The <see cref="SM_YVIRTUALSCREEN"/> metric is the coordinates for the top of the virtual screen.
         /// </summary>
         SM_CYVIRTUALSCREEN = 79,
 
@@ -422,15 +429,15 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Nonzero if Input Method Manager/Input Method Editor features are enabled; otherwise, 0. 
-        /// SM_IMMENABLED indicates whether the system is ready to use a Unicode-based IME on a Unicode application. 
-        /// To ensure that a language-dependent IME works, check SM_DBCSENABLED and the system ANSI code page.
+        /// <see cref="SM_IMMENABLED"/> indicates whether the system is ready to use a Unicode-based IME on a Unicode application. 
+        /// To ensure that a language-dependent IME works, check <see cref="SM_DBCSENABLED"/> and the system ANSI code page.
         /// Otherwise the ANSI-to-Unicode conversion may not be performed correctly, or some components like fonts
         /// or registry settings may not be present.
         /// </summary>
         SM_IMMENABLED = 82,
 
         /// <summary>
-        /// Nonzero if there are digitizers in the system; otherwise, 0. SM_MAXIMUMTOUCHES returns the aggregate maximum of the 
+        /// Nonzero if there are digitizers in the system; otherwise, 0. <see cref="SM_MAXIMUMTOUCHES"/> returns the aggregate maximum of the 
         /// maximum number of contacts supported by every digitizer in the system. If the system has only single-touch digitizers, 
         /// the return value is 1. If the system has multi-touch digitizers, the return value is the number of simultaneous contacts 
         /// the hardware can provide. Windows Server 2008, Windows Vista, and Windows XP/2000:  This value is not supported.
@@ -541,26 +548,28 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         ///Reflects the state of the docking mode, 0 for Undocked Mode and non-zero otherwise.
-        ///When this system metric changes, the system sends a broadcast message via WM_SETTINGCHANGE with "SystemDockMode" in the LPARAM.
+        ///When this system metric changes, the system sends a broadcast message
+        ///via <see cref="WindowsMessages.WM_SETTINGCHANGE"/> with "SystemDockMode" in the LPARAM.
         /// </summary>
         SM_SYSTEMDOCKED = 0x2004,
 
         /// <summary>
         /// Nonzero if the current operating system is the Windows XP Tablet PC edition or if the current operating system is Windows Vista
-        /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0. The SM_DIGITIZER setting indicates the type of digitizer 
-        /// input supported by a device running Windows 7 or Windows Server 2008 R2. For more information, see Remarks.
+        /// or Windows 7 and the Tablet PC Input service is started; otherwise, 0.
+        /// The <see cref="SM_DIGITIZER"/> setting indicates the type of digitizer input supported by a device
+        /// running Windows 7 or Windows Server 2008 R2. For more information, see Remarks.
         /// </summary>
         SM_TABLETPC = 86,
 
         /// <summary>
         /// The coordinates for the left side of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
-        /// The SM_CXVIRTUALSCREEN metric is the width of the virtual screen.
+        /// The <see cref="SM_CXVIRTUALSCREEN"/> metric is the width of the virtual screen.
         /// </summary>
         SM_XVIRTUALSCREEN = 76,
 
         /// <summary>
         /// The coordinates for the top of the virtual screen. The virtual screen is the bounding rectangle of all display monitors. 
-        /// The SM_CYVIRTUALSCREEN metric is the height of the virtual screen.
+        /// The <see cref="SM_CYVIRTUALSCREEN"/> metric is the height of the virtual screen.
         /// </summary>
         SM_YVIRTUALSCREEN = 77,
     }

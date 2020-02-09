@@ -1,4 +1,7 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Kernel32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -11,7 +14,8 @@
     public enum ShowWindowCommands : uint
     {
         /// <summary>
-        /// Minimizes a window, even if the thread that owns the window is not responding. This flag should only be used when minimizing windows from a different thread.
+        /// Minimizes a window, even if the thread that owns the window is not responding.
+        /// This flag should only be used when minimizing windows from a different thread.
         /// </summary>
         SW_FORCEMINIMIZE = 11,
 
@@ -42,7 +46,8 @@
         SW_SHOW = 5,
 
         /// <summary>
-        /// Sets the show state based on the SW_ value specified in the STARTUPINFO structure passed to the CreateProcess function by the program that started the application.
+        /// Sets the show state based on the SW_ value specified in the <see cref="STARTUPINFO"/> structure passed to the
+        /// <see cref="CreateProcess"/> function by the program that started the application.
         /// </summary>
         SW_SHOWDEFAULT = 10,
 
@@ -57,17 +62,20 @@
         SW_SHOWMINIMIZED = 2,
 
         /// <summary>
-        /// Displays the window as a minimized window. This value is similar to <see cref="SW_SHOWMINIMIZED"/>, except the window is not activated.
+        /// Displays the window as a minimized window.
+        /// This value is similar to <see cref="SW_SHOWMINIMIZED"/>, except the window is not activated.
         /// </summary>
         SW_SHOWMINNOACTIVE = 7,
 
         /// <summary>
-        /// Displays the window in its current size and position. This value is similar to <see cref="SW_SHOW"/>, except the window is not activated.
+        /// Displays the window in its current size and position.
+        /// This value is similar to <see cref="SW_SHOW"/>, except the window is not activated.
         /// </summary>
         SW_SHOWNA = 8,
 
         /// <summary>
-        /// Displays a window in its most recent size and position. This value is similar to <see cref="SW_SHOWNORMAL"/>, except the window is not activated.
+        /// Displays a window in its most recent size and position.
+        /// This value is similar to <see cref="SW_SHOWNORMAL"/>, except the window is not activated.
         /// </summary>
         SW_SHOWNOACTIVATE = 4,
 

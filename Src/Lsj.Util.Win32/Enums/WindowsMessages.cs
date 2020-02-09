@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -22,9 +18,30 @@ namespace Lsj.Util.Win32.Enums
         WM_APP = 0x8000,
 
         /// <summary>
-        /// Used to define private messages for use by private window classes, usually of the form <see cref="WM_USER"/>+x, where x is an integer value.
+        /// Used to define private messages for use by private window classes, 
+        /// usually of the form <see cref="WM_USER"/>+x, where x is an integer value.
         /// </summary>
         WM_USER = 0x0400,
+
+        /// <summary>
+        /// WM_KEYFIRST
+        /// </summary>
+        WM_KEYFIRST = 0x0100,
+
+        /// <summary>
+        /// WM_KEYLAST
+        /// </summary>
+        WM_KEYLAST = 0x0109,
+
+        /// <summary>
+        /// WM_MOUSEFIRST
+        /// </summary>
+        WM_MOUSEFIRST = 0x0200,
+
+        /// <summary>
+        /// WM_MOUSELAST
+        /// </summary>
+        WM_MOUSELAST = 0x020E,
 
         #region Clipboard Messages
 
@@ -948,6 +965,96 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Painting and Drawing Messages
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_DISPLAYCHANGE"/> message is sent to all windows when the display resolution has changed.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-displaychange
+        /// </para>
+        /// </summary>
+        WM_DISPLAYCHANGE = 0x007E,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_NCPAINT"/> message is sent to a window when its frame must be painted.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-ncpaint
+        /// </para>
+        /// </summary>
+        WM_NCPAINT = 0x0085,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_PAINT"/> message is sent when the system or another application makes a request to
+        /// paint a portion of an application's window.
+        /// The message is sent when the <see cref="UpdateWindow"/> or <see cref="RedrawWindow"/> function is called,
+        /// or by the <see cref="DispatchMessage"/> function when the application obtains a <see cref="WM_PAINT"/> message
+        /// by using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paint
+        /// </para>
+        /// </summary>
+        WM_PAINT = 0x000F,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_PRINT"/> message is sent to a window to request that it draw itself in the specified device context,
+        /// most commonly in a printer device context.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-print
+        /// </para>
+        /// </summary>
+        WM_PRINT = 0x0317,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_PRINTCLIENT"/> message is sent to a window to request that it draw its client area in the specified device context,
+        /// most commonly in a printer device context.
+        /// Unlike <see cref="WM_PRINT"/>, <see cref="WM_PRINTCLIENT"/> is not processed by <see cref="DefWindowProc"/>.
+        /// A window should process the <see cref="WM_PRINTCLIENT"/> message through an application-defined WindowProc function
+        /// for it to be used properly.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-printclient
+        /// </para>
+        /// </summary>
+        WM_PRINTCLIENT = 0x0318,
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_SETREDRAW"/> message to a window to allow changes in that window
+        /// to be redrawn or to prevent changes in that window from being redrawn.
+        /// To send this message, call the <see cref="SendMessage"/> function with the following parameters.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-setredraw
+        /// </para>
+        /// </summary>
+        WM_SETREDRAW = 0x000B,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_SYNCPAINT"/> message is used to synchronize painting while avoiding linking independent GUI threads.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syncpaint
+        /// </para>
+        /// </summary>
+        WM_SYNCPAINT = 0x0088,
+
+        #endregion
+
         #region Power Management
 
         /// <summary>
@@ -1006,6 +1113,42 @@ namespace Lsj.Util.Win32.Enums
         /// This message is also sent to the owner of a vertical scroll bar control when a scroll event occurs in the control.
         /// </summary>
         WM_VSCROLL = 0x0115,
+
+        #endregion
+
+        #region SystemParametersInfo Messages
+
+        /// <summary>
+        /// <para>
+        /// A message that is sent to all top-level windows when the <see cref="SystemParametersInfo"/> function changes a system-wide setting
+        /// or when policy settings have changed.
+        /// Applications should send <see cref="WM_SETTINGCHANGE"/> to all top-level windows when they make changes to system parameters.
+        /// (This message cannot be sent directly to a window.)
+        /// To send the <see cref="WM_SETTINGCHANGE"/> message to all top-level windows,
+        /// use the <see cref="SendMessageTimeout"/> function with the hwnd parameter set to <see cref="HWND_BROADCAST"/>.
+        ///A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-settingchange
+        /// </para>
+        /// </summary>
+        WM_SETTINGCHANGE = WM_WININICHANGE,
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_WININICHANGE"/> message to all top-level windows after making a change to the WIN.INI file.
+        /// The <see cref="SystemParametersInfo"/> function sends this message after an application uses the function to change a setting in WIN.INI.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-wininichange
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// The <see cref="WM_WININICHANGE"/> message is provided only for compatibility with earlier versions of the system.
+        /// Applications should use the <see cref="WM_SETTINGCHANGE"/> message.
+        /// </remarks>
+        WM_WININICHANGE = 0x001A,
 
         #endregion
 

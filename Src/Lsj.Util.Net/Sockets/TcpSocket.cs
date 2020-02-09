@@ -32,7 +32,7 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="ip"></param>
         /// <param name="port"></param>
         public static void Bind(this Socket socket, IPAddress ip, int port) => socket.Bind(new IPEndPoint(ip, port));
-#if NET40
+
         /// <summary>
         /// BeginAccept
         /// </summary>
@@ -40,6 +40,7 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="callback"></param>
         /// <returns></returns>
         public static IAsyncResult BeginAccept(this Socket socket, AsyncCallback callback) => socket.BeginAccept(callback, null);
+
         /// <summary>
         /// BeginConnect
         /// </summary>
@@ -48,7 +49,9 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="port"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginConnect(this Socket socket, IPAddress ip, int port, AsyncCallback callback) => socket.BeginConnect(ip, port, callback, null);
+        public static IAsyncResult BeginConnect(this Socket socket, IPAddress ip, int port, AsyncCallback callback) =>
+            socket.BeginConnect(ip, port, callback, null);
+        
         /// <summary>
         /// BeginReceive
         /// </summary>
@@ -56,7 +59,9 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="buffer"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, AsyncCallback callback) => socket.BeginReceive(buffer, callback, null);
+        public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, AsyncCallback callback) =>
+            socket.BeginReceive(buffer, callback, null);
+        
         /// <summary>
         /// BeginReceive
         /// </summary>
@@ -65,7 +70,9 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, AsyncCallback callback, object state) => socket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
+        public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, AsyncCallback callback, object state) =>
+            socket.BeginReceive(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
+
         /// <summary>
         /// BeginSend
         /// </summary>
@@ -73,7 +80,9 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="content"></param>
         /// <param name="asyncCallback"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginSend(this Socket socket, byte[] content, AsyncCallback asyncCallback) => socket.BeginSend(content, asyncCallback, null);
+        public static IAsyncResult BeginSend(this Socket socket, byte[] content, AsyncCallback asyncCallback) =>
+            socket.BeginSend(content, asyncCallback, null);
+
         /// <summary>
         /// BeginSend
         /// </summary>
@@ -82,8 +91,9 @@ namespace Lsj.Util.Net.Sockets
         /// <param name="callback"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public static IAsyncResult BeginSend(this Socket socket, byte[] buffer, AsyncCallback callback, object state) => socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
-#endif
+        public static IAsyncResult BeginSend(this Socket socket, byte[] buffer, AsyncCallback callback, object state) =>
+            socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
+
         /// <summary>
         /// Disconnect
         /// </summary>
@@ -95,17 +105,20 @@ namespace Lsj.Util.Net.Sockets
         /// </summary>
         /// <param name="socket"></param>
         public static void Listen(this Socket socket) => socket.Listen(int.MaxValue);
+
         /// <summary>
         /// Shutdown
         /// </summary>
         /// <param name="socket"></param>
         public static void Shutdown(this Socket socket) => socket.Shutdown(SocketShutdown.Both);
+
         /// <summary>
         /// IsDataAvailable
         /// </summary>
         /// <param name="socket"></param>
         /// <returns></returns>
         public static bool IsDataAvailable(this Socket socket) => socket.Available > 0;
+
         /// <summary>
         /// 
         /// </summary>

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// BackgroundColors For WNDCLASSEX
+    /// BackgroundColors For <see cref="WNDCLASSEX"/>
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-tagwndclassexw
@@ -37,7 +35,8 @@ namespace Lsj.Util.Win32.Enums
         COLOR_BACKGROUND = SystemColors.COLOR_BACKGROUND + 1,
 
         /// <summary>
-        /// Face color for three-dimensional display elements and for dialog box backgrounds. The associated foreground color is <see cref="COLOR_BTNTEXT"/>.
+        /// Face color for three-dimensional display elements and for dialog box backgrounds.
+        /// The associated foreground color is <see cref="COLOR_BTNTEXT"/>.
         /// </summary>
         COLOR_BTNFACE = SystemColors.COLOR_BTNFACE + 1,
 
@@ -47,17 +46,20 @@ namespace Lsj.Util.Win32.Enums
         COLOR_BTNSHADOW = SystemColors.COLOR_BTNSHADOW + 1,
 
         /// <summary>
-        /// Text on push buttons. The associated background color is <see cref="COLOR_BTNFACE"/>.
+        /// Text on push buttons.
+        /// The associated background color is <see cref="COLOR_BTNFACE"/>.
         /// </summary>
         COLOR_BTNTEXT = SystemColors.COLOR_BTNTEXT + 1,
 
         /// <summary>
-        /// Text in caption, size box, and scroll bar arrow box. The associated background color is <see cref="COLOR_ACTIVECAPTION"/>.
+        /// Text in caption, size box, and scroll bar arrow box.
+        /// The associated background color is <see cref="COLOR_ACTIVECAPTION"/>.
         /// </summary>
         COLOR_CAPTIONTEXT = SystemColors.COLOR_CAPTIONTEXT + 1,
 
         /// <summary>
-        /// Grayed (disabled) text. This color is set to 0 if the current display driver does not support a solid gray color.
+        /// Grayed (disabled) text.
+        /// This color is set to 0 if the current display driver does not support a solid gray color.
         /// </summary>
         COLOR_GRAYTEXT = SystemColors.COLOR_GRAYTEXT + 1,
 
@@ -77,7 +79,7 @@ namespace Lsj.Util.Win32.Enums
         COLOR_INACTIVEBORDER = SystemColors.COLOR_INACTIVEBORDER + 1,
 
         /// <summary>
-        /// Inactive window caption. The associated foreground color is COLOR_INACTIVECAPTIONTEXT".
+        /// Inactive window caption. The associated foreground color is <see cref="SystemColors.COLOR_INACTIVECAPTIONTEXT"/>".
         /// Specifies the left side color in the color gradient of an inactive window's title bar if the gradient effect is enabled.
         /// </summary>
         COLOR_INACTIVECAPTION = SystemColors.COLOR_INACTIVECAPTION + 1,

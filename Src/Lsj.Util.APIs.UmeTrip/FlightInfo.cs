@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Lsj.Util.APIs.UmeTrip
 {
+    /// <summary>
+    /// Flight Info
+    /// </summary>
     public class FlightInfo
     {
         /// <summary>
@@ -16,6 +19,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 航空公司
         /// </summary>
@@ -25,6 +29,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 机型
         /// </summary>
@@ -34,6 +39,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 起飞时间
         /// </summary>
@@ -43,6 +49,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 到达时间
         /// </summary>
@@ -52,6 +59,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 剩余票量
         /// </summary>
@@ -61,6 +69,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 准点率
         /// </summary>
@@ -70,6 +79,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 价格
         /// </summary>
@@ -79,6 +89,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 民航基金
         /// </summary>
@@ -88,6 +99,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 然后附加费
         /// </summary>
@@ -97,12 +109,16 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 总价
         /// </summary>
         [NotSerialize]
         public int TotalPrice => Price + CivilAviationDevelopmentFund + FuelSurcharge;
 
+        /// <summary>
+        /// Cabins
+        /// </summary>
         [CustomJsonPropertyNameAttribute("pcabinInfos")]
         public List<CabinInfo> Cabins
         {

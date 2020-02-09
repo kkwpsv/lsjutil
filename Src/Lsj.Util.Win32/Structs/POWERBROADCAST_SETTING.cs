@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// Sent with a power setting event and contains data about the specific change. For more information, see Registering for Power Events and Power Setting GUIDs.
+    /// Sent with a power setting event and contains data about the specific change
+    /// . For more information, see Registering for Power Events and Power Setting GUIDs.
     /// </para>
     /// <para>
     /// Data is after DataLength, which cannot be marshal automatically.

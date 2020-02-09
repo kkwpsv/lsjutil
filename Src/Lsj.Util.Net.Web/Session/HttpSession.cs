@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Lsj.Util.Net.Web.Session
 {
@@ -13,11 +10,7 @@ namespace Lsj.Util.Net.Web.Session
     public class HttpSession
     {
 
-#if NETCOREAPP1_1
-        RandomNumberGenerator randgen;
-#else
         RNGCryptoServiceProvider randgen;
-#endif
 
         /// <summary>
         /// Session ID
@@ -40,6 +33,11 @@ namespace Lsj.Util.Net.Web.Session
         private static char[] s_encoding;
         private static bool[] s_legalchars;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public object this[string key]
         {
             get
@@ -67,13 +65,13 @@ namespace Lsj.Util.Net.Web.Session
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public HttpSession()
         {
-#if NETCOREAPP1_1
-            randgen = RandomNumberGenerator.Create();
-#else
             randgen = new RNGCryptoServiceProvider();
-#endif
             byte[] buffer = new byte[15];
             randgen.GetBytes(buffer);
             char[] array = new char[24];
