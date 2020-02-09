@@ -23,6 +23,26 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         WM_USER = 0x0400,
 
+        /// <summary>
+        /// WM_KEYFIRST
+        /// </summary>
+        WM_KEYFIRST = 0x0100,
+
+        /// <summary>
+        /// WM_KEYLAST
+        /// </summary>
+        WM_KEYLAST = 0x0109,
+
+        /// <summary>
+        /// WM_MOUSEFIRST
+        /// </summary>
+        WM_MOUSEFIRST = 0x0200,
+
+        /// <summary>
+        /// WM_MOUSELAST
+        /// </summary>
+        WM_MOUSELAST = 0x020E,
+
         #region Clipboard Messages
 
         /// <summary>
