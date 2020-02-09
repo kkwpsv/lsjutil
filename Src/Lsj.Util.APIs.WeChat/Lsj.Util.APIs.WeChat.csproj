@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net40;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilAPIsWeChatVersionPrefix)</VersionPrefix>
     <Description>My Utility For WeChat APIs</Description>
   </PropertyGroup>

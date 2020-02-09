@@ -14,6 +14,13 @@ namespace Lsj.Util.APIs.UmeTrip
     /// </summary>
     public class UmeTripAPI
     {
+        /// <summary>
+        /// Get Flights
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public List<FlightInfo> GetFlights(string from, string to, DateTime date)
         {
             var flights = new List<FlightInfo>();

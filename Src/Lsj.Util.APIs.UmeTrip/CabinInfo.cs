@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Lsj.Util.APIs.UmeTrip
 {
+    /// <summary>
+    /// CabinInfo
+    /// </summary>
     public class CabinInfo
     {
         /// <summary>
@@ -16,6 +19,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 剩余票量
         /// </summary>
@@ -25,6 +29,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 折扣
         /// </summary>
@@ -34,6 +39,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 价格
         /// </summary>
@@ -43,6 +49,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 民航基金
         /// </summary>
@@ -52,6 +59,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 然后附加费
         /// </summary>
@@ -61,6 +69,7 @@ namespace Lsj.Util.APIs.UmeTrip
             get;
             set;
         }
+
         /// <summary>
         /// 总价
         /// </summary>
