@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Marshals
 {
     internal class AlternativeStructObjectMarshaler<T1, T2> : ICustomMarshaler where T1 : struct where T2 : struct
     {
-        static StringOrIntPtrObjectMarshaler instance = new StringOrIntPtrObjectMarshaler();
+        static AlternativeStructObjectMarshaler<T1, T2> instance = new AlternativeStructObjectMarshaler<T1, T2>();
 
         public static ICustomMarshaler GetInstance(string cookie) => instance;
 
