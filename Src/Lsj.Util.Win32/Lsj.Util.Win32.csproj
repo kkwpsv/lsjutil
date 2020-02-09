@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netstandard2.0;net40;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net40;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilWin32VersionPrefix)</VersionPrefix>
     <Description>My Utility For Win32</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -8,10 +8,5 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <PackageReference Include="System.ValueTuple">
-      <Version>4.5.0</Version>
-    </PackageReference>
   </ItemGroup>
 </Project>
