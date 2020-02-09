@@ -81,6 +81,11 @@ namespace Lsj.Util.JSON
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Format Json
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string FormatJson(this string str) => Format(str);
     }
 }

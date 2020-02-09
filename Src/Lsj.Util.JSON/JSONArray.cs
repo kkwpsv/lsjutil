@@ -17,8 +17,15 @@ namespace Lsj.Util.JSON
     {
         internal readonly List<object> array = new List<object>();
 
+        /// <summary>
+        /// Count
+        /// </summary>
         public int Count => array.Count;
 
+        /// <summary>
+        /// Add item
+        /// </summary>
+        /// <param name="value"></param>
         public void Add(object value)
         {
             array.Add(value);
@@ -107,6 +114,11 @@ namespace Lsj.Util.JSON
         public IEnumerator<object> GetEnumerator() => array.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => array.GetEnumerator();
 
+        /// <summary>
+        /// Specified To
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public T SpecifiedTo<T>()
         {
             if (typeof(T).IsList())
