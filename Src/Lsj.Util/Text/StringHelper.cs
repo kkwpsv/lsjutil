@@ -145,11 +145,8 @@ namespace Lsj.Util.Text
         /// <summary>
         /// Convert String To Binary Byte Array
         /// </summary>
-#if NETSTANDARD
-        public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.UTF8);
-#else
         public static byte[] ConvertToBytes(this string src) => ConvertToBytes(src, Encoding.Default);
-#endif
+
         /// <summary>
         /// Convert String To Binary Byte Array
         /// <param name="src">Source String</param>
@@ -157,20 +154,11 @@ namespace Lsj.Util.Text
         /// </summary>
         public static byte[] ConvertToBytes(this string src, Encoding encoding) => encoding.GetBytes(src.ToSafeString());
 
-
-
         /// <summary>
         /// Convert Binary Byte Array To String
         /// <param name="src">Source ByteArray</param>
         /// </summary>
-        public static string ConvertFromBytes(this byte[] src)
-        {
-#if NETSTANDARD
-            return ConvertFromBytes(src, Encoding.UTF8);
-#else
-            return ConvertFromBytes(src, Encoding.Default);
-#endif
-        }
+        public static string ConvertFromBytes(this byte[] src) => ConvertFromBytes(src, Encoding.Default);
 
         /// <summary>
         /// Convert Binary Byte Array To String
@@ -471,14 +459,7 @@ namespace Lsj.Util.Text
         /// <param name="stream">Source Stream</param>
         /// </summary>
 
-        public static string ReadFromStream(this Stream stream)
-        {
-#if NETSTANDARD
-            return ReadFromStream(stream, Encoding.UTF8);
-#else
-            return ReadFromStream(stream, Encoding.Default);
-#endif
-        }
+        public static string ReadFromStream(this Stream stream) => ReadFromStream(stream, Encoding.Default);
 
         /// <summary>
         /// Split

@@ -26,6 +26,8 @@ namespace Lsj.Util
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+#pragma warning disable CA1063
         private void Dispose(bool flag)
         {
             if (!IsDisposed)
@@ -45,6 +47,8 @@ namespace Lsj.Util
             }
             IsDisposed = true;
         }
+#pragma warning restore CA1063
+
         /// <summary>
         /// Clean Up Unmanaged Resources
         /// </summary>

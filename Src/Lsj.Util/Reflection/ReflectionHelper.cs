@@ -142,7 +142,6 @@ namespace Lsj.Util.Reflection
         /// <returns></returns>
         public static Type GetGenericType(this Type type, Type genericTypeDefinition) => type.GetInterfaces().Where(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericTypeDefinition).FirstOrDefault();
 
-
 #if NET40
         /// <summary>
         /// SetValue

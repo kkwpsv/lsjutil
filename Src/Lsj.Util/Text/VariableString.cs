@@ -8,7 +8,7 @@ namespace Lsj.Util.Text
     /// <summary>
     /// Variable String
     /// </summary>
-    public sealed unsafe class VariableString : DisposableClass, IDisposable, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
+    public sealed unsafe class VariableString : DisposableClass, ICloneable, IComparable, IComparable<VariableString>, IEnumerable<char>
     {
         internal class VariableStringEnumerator : IEnumerator<char>
         {

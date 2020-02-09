@@ -94,7 +94,6 @@ namespace Lsj.Util
         /// <param name="offset"></param>
         public static void Write(this Stream stream, byte[] buffer, int offset) => stream.Write(buffer, offset, buffer.Length - offset);
 
-#if !NETSTANDARD
         /// <summary>
         /// BeginRead
         /// </summary>
@@ -120,6 +119,5 @@ namespace Lsj.Util
         /// <param name="callback"></param>
         /// <returns></returns>
         public static IAsyncResult BeginWrite(this Stream stream, byte[] buffer, AsyncCallback callback) => stream.BeginWrite(buffer, 0, buffer.Length, callback, null);
-#endif
     }
 }

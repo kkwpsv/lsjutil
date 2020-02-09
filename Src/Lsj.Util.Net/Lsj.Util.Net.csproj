@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="System.Web" />
+    <PackageReference Include="Microsoft.Bcl" Version="1.1.10" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />

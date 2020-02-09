@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Xml;
-using System.Xml.Linq;
 using Lsj.Util.Logs;
 
 namespace Lsj.Util.Xml
@@ -21,12 +20,8 @@ namespace Lsj.Util.Xml
             this.path = path;
             try
             {
-#if NETSTANDARD
-                this.m_Document = XDocument.Load(path);
-#else
                 this.m_Document = new XmlDocument();
                 m_Document.Load(path);
-#endif
             }
             catch (Exception e)
             {
@@ -37,11 +32,7 @@ namespace Lsj.Util.Xml
         /// <summary>
         /// The Document
         /// </summary>
-#if NETSTANDARD
-        protected XDocument m_Document;
-#else
         protected XmlDocument m_Document;
-#endif
 
         /// <summary>
         /// Refresh
@@ -50,11 +41,7 @@ namespace Lsj.Util.Xml
         {
             try
             {
-#if NETSTANDARD
-                this.m_Document = XDocument.Load(path);
-#else
                 m_Document.Load(path);
-#endif
             }
             catch (Exception e)
             {

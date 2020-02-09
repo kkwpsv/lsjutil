@@ -1,11 +1,10 @@
-#if NET40
 using System.Collections.Specialized;
 namespace Lsj.Util.Config
 {
     /// <summary>
     /// AppConfig
     /// </summary>
-    public class AppConfig
+    public static class AppConfig
     {
         /// <summary>
         /// AppSettings
@@ -20,4 +19,3 @@ namespace Lsj.Util.Config
         }
     }
 }
-#endif
