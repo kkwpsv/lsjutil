@@ -1,3 +1,5 @@
+nuget restore
+
 cd Src\Lsj.Util\
 dotnet build -c Release || exit -1
 

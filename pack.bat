@@ -1,3 +1,5 @@
+nuget restore
+
 b64 -d %SnkFile% Src\LSJ.snk
 
 cd Src\Lsj.Util\
