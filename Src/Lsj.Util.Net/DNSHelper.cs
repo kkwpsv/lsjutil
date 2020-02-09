@@ -19,23 +19,13 @@ namespace Lsj.Util.Net
         /// </summary>
         /// <returns></returns>
         /// <param name="domain">Domain</param>
-        public static IPAddress GetHostIPV4Address(string domain)
-        {
-            return GetHostIPV4Addresses(domain).First();
-        }
+        public static IPAddress GetHostIPV4Address(string domain) => GetHostIPV4Addresses(domain).First();
         /// <summary>
         /// Gets the host IPV4 addresses
         /// </summary>
         /// <returns></returns>
         /// <param name="domain">Domain</param>
-        public static IPAddress[] GetHostIPV4Addresses(string domain)
-        {
-#if NETSTANDARD
-            return Dns.GetHostAddressesAsync(domain).Result.Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
-#else
-            return Dns.GetHostAddresses(domain).Where((x) => (x.AddressFamily == AddressFamily.InterNetwork)).ToArray();
-#endif
-
-        }
+        public static IPAddress[] GetHostIPV4Addresses(string domain) =>
+            Dns.GetHostAddresses(domain).Where((x) => x.AddressFamily == AddressFamily.InterNetwork).ToArray();
     }
 }
