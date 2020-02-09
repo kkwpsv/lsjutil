@@ -666,6 +666,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Dispatches incoming sent messages, checks the thread message queue for a posted message, and retrieves the message (if any exist).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-peekmessagew
+        /// </para>
+        /// </summary>
+        /// <param name="lpMsg">A pointer to an <see cref="MSG"/> structure that receives message information.</param>
+        /// <param name="hWnd">
+        /// A handle to the window whose messages are to be retrieved. The window must belong to the current thread.
+        /// If <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, <see cref="PeekMessage"/> retrieves messages for any window
+        /// that belongs to the current thread, and any messages on the current thread's message queue
+        /// whose hwnd value is <see cref="IntPtr.Zero"/> (see the <see cref="MSG"/> structure).
+        /// Therefore if <paramref name="hWnd"/> is <see cref="IntPtr.Zero"/>, both window messages and thread messages are processed.
+        /// If <paramref name="hWnd"/> is -1, <see cref="PeekMessage"/> retrieves only messages on the current thread's message queue
+        /// whose hwnd value is <see cref="IntPtr.Zero"/>, that is,
+        /// thread messages as posted by <see cref="PostMessage"/> (when the hWnd parameter is <see cref="IntPtr.Zero"/>) or <see cref="PostThreadMessage"/>.
+        /// </param>
+        /// <param name="wMsgFilterMin">
+        /// The value of the first message in the range of messages to be examined.
+        /// Use <see cref="WindowsMessages.WM_KEYFIRST"/> (0x0100) to specify the first keyboard message
+        /// or <see cref="WindowsMessages.WM_MOUSEFIRST"/> (0x0200) to specify the first mouse message.
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </param>
+        /// <param name="wMsgFilterMax">
+        /// The value of the last message in the range of messages to be examined.
+        /// Use <see cref="WindowsMessages.WM_KEYLAST"/> to specify the last keyboard message
+        /// or <see cref="WindowsMessages.WM_MOUSELAST"/> to specify the last mouse message.
+        /// If <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> are both zero,
+        /// <see cref="PeekMessage"/> returns all available messages (that is, no range filtering is performed).
+        /// </param>
+        /// <param name="wRemoveMsg">
+        /// Specifies how messages are to be handled. This parameter can be one or more of the following values.
+        /// <see cref="PeekMessageFlags.PM_NOREMOVE"/>, <see cref="PeekMessageFlags.PM_REMOVE"/> and <see cref="PeekMessageFlags.PM_NOYIELD"/>.
+        /// By default, all message types are processed.
+        /// To specify that only certain message should be processed, specify one or more of the following values.
+        /// <see cref="PeekMessageFlags.PM_QS_INPUT"/>, <see cref="PeekMessageFlags.PM_QS_PAINT"/>,
+        /// <see cref="PeekMessageFlags.PM_QS_POSTMESSAGE"/> and <see cref="PeekMessageFlags.PM_QS_SENDMESSAGE"/>.
+        /// </param>
+        /// <returns>
+        /// If a message is available, the return value is <see langword="true"/>.
+        /// If no messages are available, the return value is <see langword="false"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool PeekMessage([Out]out MSG lpMsg, [In]IntPtr hWnd, [In]uint wMsgFilterMin, [In] uint wMsgFilterMax,
+            [In] PeekMessageFlags wRemoveMsg);
+
+        /// <summary>
+        /// <para>
         /// Places (posts) a message in the message queue associated with the thread that created the specified window and
         /// returns without waiting for the thread to process the message.
         ///</para>
