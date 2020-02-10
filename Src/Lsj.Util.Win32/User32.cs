@@ -166,6 +166,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="BeginPaint"/> function prepares the specified window for painting
+        /// and fills a <see cref="PAINTSTRUCT"/> structure with information about the painting.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-beginpaint
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window to be repainted.
+        /// </param>
+        /// <param name="lpPaint">
+        /// Pointer to the <see cref="PAINTSTRUCT"/> structure that will receive painting information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to a display device context for the specified window.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>, indicating that no display device context is available.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="BeginPaint"/> function automatically sets the clipping region of the device context to
+        /// exclude any area outside the update region.
+        /// The update region is set by the <see cref="InvalidateRect"/> or <see cref="InvalidateRgn"/> function and by the system
+        /// after sizing, moving, creating, scrolling, or any other operation that affects the client area.
+        /// If the update region is marked for erasing, <see cref="BeginPaint"/> sends a <see cref="WindowsMessages.WM_ERASEBKGND"/> message to the window.
+        /// An application should not call <see cref="BeginPaint"/> except in response to a <see cref="WindowsMessages.WM_PAINT"/> message
+        /// .Each call to BeginPaint must have a corresponding call to the <see cref="EndPaint"/> function.
+        /// If the caret is in the area to be painted, <see cref="BeginPaint"/> automatically hides the caret to prevent it from being erased.
+        /// If the window's class has a background brush, BeginPaint uses that brush to erase the background of the update region before returning.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization. The output returned is always in terms of physical pixels.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", SetLastError = true)]
+        public static extern IntPtr BeginPaint([In]IntPtr hWnd, [Out]out PAINTSTRUCT lpPaint);
+
+        /// <summary>
+        /// <para>
         /// Creates an overlapped, pop-up, or child window with an extended window style; 
         /// otherwise, this function is identical to the <see cref="CreateWindow"/> function.
         /// </para>
