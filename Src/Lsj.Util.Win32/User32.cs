@@ -110,6 +110,60 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool WNDENUMPROC([In]IntPtr hWnd, [In]IntPtr lParam);
 
+
+        /// <summary>
+        /// <para>
+        /// Enables you to produce special effects when showing or hiding windows.
+        /// There are four types of animation: roll, slide, collapse or expand, and alpha-blended fade.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to animate. The calling thread must own this window.
+        /// </param>
+        /// <param name="dwTime">
+        /// The time it takes to play the animation, in milliseconds. Typically, an animation takes 200 milliseconds to play.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The type of animation.
+        /// This parameter can be one or more of the following values.
+        /// Note that, by default, these flags take effect when showing a window.
+        /// To take effect when hiding a window, use <see cref="AnimateWindowFlags.AW_HIDE"/> and a logical OR operator with the appropriate flags.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// The function will fail in the following situations:
+        /// If the window is already visible and you are trying to show the window.
+        /// If the window is already hidden and you are trying to hide the window.
+        /// If there is no direction specified for the slide or roll animation.
+        /// When trying to animate a child window with <see cref="AnimateWindowFlags.AW_BLEND"/>.
+        /// If the thread does not own the window. 
+        /// Note that, in this case, <see cref="AnimateWindow"/> fails
+        /// but <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_SUCCESS"/>.
+        /// To get extended error information, call the <see cref="Marshal.GetLastWin32Error"/> function.
+        /// </returns>
+        /// <remarks>
+        /// To show or hide a window without special effects, use <see cref="ShowWindow"/>.
+        /// When using slide or roll animation, you must specify the direction.
+        /// It can be either <see cref="AnimateWindowFlags.AW_HOR_POSITIVE"/>, <see cref="AnimateWindowFlags.AW_HOR_NEGATIVE"/>,
+        /// <see cref="AnimateWindowFlags.AW_VER_POSITIVE"/>, or <see cref="AnimateWindowFlags.AW_VER_NEGATIVE"/>.
+        /// You can combine <see cref="AnimateWindowFlags.AW_HOR_POSITIVE"/> or <see cref="AnimateWindowFlags.AW_HOR_NEGATIVE"/>
+        /// with <see cref="AnimateWindowFlags.AW_VER_POSITIVE"/> or <see cref="AnimateWindowFlags.AW_VER_NEGATIVE"/> to animate a window diagonally.
+        /// The window procedures for the window and its child windows should handle
+        /// any <see cref="WindowsMessages.WM_PRINT"/> or <see cref="WindowsMessages.WM_PRINTCLIENT"/> messages.
+        /// Dialog boxes, controls, and common controls already handle <see cref="WindowsMessages.WM_PRINTCLIENT"/>.
+        /// The default window procedure already handles <see cref="WindowsMessages.WM_PRINT"/>.
+        /// If a child window is displayed partially clipped, when it is animated it will have holes where it is clipped.
+        /// <see cref="AnimateWindow"/> supports RTL windows.
+        /// Avoid animating a window that has a drop shadow because it produces visually distracting, jerky animations.
+        /// </remarks>
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", SetLastError = true)]
+        public static extern bool AnimateWindow([In]IntPtr hWnd, uint dwTime, AnimateWindowFlags dwFlags);
+
         /// <summary>
         /// <para>
         /// Creates an overlapped, pop-up, or child window with an extended window style; 
