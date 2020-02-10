@@ -26,14 +26,19 @@ namespace Lsj.Util.Win32.Marshals
         /// <param name="val"></param>
         public AlternativeStructObject(T2 val)
         {
-            IsStruct1 = false;
+            IsStruct2 = false;
             T2Val = val;
         }
 
         /// <summary>
-        /// Is String
+        /// Is Struct1
         /// </summary>
         public bool IsStruct1 { get; private set; }
+
+        /// <summary>
+        /// Is Struct2
+        /// </summary>
+        public bool IsStruct2 { get; private set; }
 
         /// <summary>
         /// The Value of <typeparamref name="T1"/>
