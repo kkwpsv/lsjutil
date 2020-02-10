@@ -12,6 +12,7 @@
     <LsjUtilJSONVersionPrefix>4.0.0</LsjUtilJSONVersionPrefix>
     <LsjUtilNetVersionPrefix>4.0.0</LsjUtilNetVersionPrefix>
     <LsjUtilNetWebVersionPrefix>4.0.0</LsjUtilNetWebVersionPrefix>
+    <LsjUtilOfficeVersionPrefix>4.0.0</LsjUtilOfficeVersionPrefix>
     <LsjUtilProtobufVersionPrefix>4.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>4.0.0</LsjUtilSQLBuilderVersionPrefix>
     <LsjUtilWin32VersionPrefix>4.0.0</LsjUtilWin32VersionPrefix>
