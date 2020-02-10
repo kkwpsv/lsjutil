@@ -117,12 +117,14 @@ namespace Lsj.Util.Win32.Structs
         public uint dwYCountChars;
 
         /// <summary>
-        /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USEFILLATTRIBUTE"/>,
+        /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEFILLATTRIBUTE"/>,
         /// this member is the initial text and background colors if a new console window is created in a console application.
         /// Otherwise, this member is ignored.
-        /// This value can be any combination of the following values: <see cref="FOREGROUND_BLUE"/>, <see cref="FOREGROUND_GREEN"/>,
-        /// <see cref="FOREGROUND_RED"/>, <see cref="FOREGROUND_INTENSITY"/>, <see cref="BACKGROUND_BLUE"/>, <see cref="BACKGROUND_GREEN"/>,
-        /// <see cref="BACKGROUND_RED"/>, and <see cref="BACKGROUND_INTENSITY"/>.
+        /// This value can be any combination of the following values: <see cref="ConsoleCharacterAttributes.FOREGROUND_BLUE"/>,
+        /// <see cref="ConsoleCharacterAttributes.FOREGROUND_GREEN"/>, <see cref="ConsoleCharacterAttributes.FOREGROUND_RED"/>,
+        /// <see cref="ConsoleCharacterAttributes.FOREGROUND_INTENSITY"/>, <see cref="ConsoleCharacterAttributes.BACKGROUND_BLUE"/>,
+        /// <see cref="ConsoleCharacterAttributes.BACKGROUND_GREEN"/>, <see cref="ConsoleCharacterAttributes.BACKGROUND_RED"/>,
+        /// and <see cref="ConsoleCharacterAttributes.BACKGROUND_INTENSITY"/>.
         /// For example, the following combination of values produces red text on a white background:
         /// <code>FOREGROUND_RED| BACKGROUND_RED| BACKGROUND_GREEN| BACKGROUND_BLUE</code>
         /// </summary>
