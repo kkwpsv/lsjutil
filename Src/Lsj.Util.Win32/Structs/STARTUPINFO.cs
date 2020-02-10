@@ -142,8 +142,7 @@ namespace Lsj.Util.Win32.Structs
         /// In subsequent calls to <see cref="ShowWindow"/>, the <see cref="wShowWindow"/> member is used
         /// if the nCmdShow parameter of <see cref="ShowWindow"/> is set to <see cref="ShowWindowCommands.SW_SHOWDEFAULT"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U2)]
-        public ShowWindowCommands wShowWindow;
+        public ushort wShowWindow;
 
         /// <summary>
         /// Reserved for use by the C Run-time; must be zero.
@@ -153,7 +152,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved for use by the C Run-time; must be <see cref="IntPtr.Zero"/>.
         /// </summary>
-        IntPtr lpReserved2;
+        public IntPtr lpReserved2;
 
         /// <summary>
         /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>,
