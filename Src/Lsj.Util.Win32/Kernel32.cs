@@ -470,6 +470,25 @@ namespace Lsj.Util.Win32
         public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
             [Out]out IntPtr lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
 
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getstartupinfow
+        /// </para>
+        /// </summary>
+        /// <param name="lpStartupInfo">
+        /// A pointer to a <see cref="STARTUPINFO"/> structure that receives the startup information.
+        /// </param>
+        /// <remarks>
+        /// The <see cref="STARTUPINFO"/> structure was specified by the process that created the calling process.
+        /// It can be used to specify properties associated with the main window of the calling process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", SetLastError = true)]
+        public static extern void GetStartupInfo([Out]out STARTUPINFO lpStartupInfo);
+
         /// <summary>
         /// <para>
         /// Allocates the specified number of bytes from the heap.
