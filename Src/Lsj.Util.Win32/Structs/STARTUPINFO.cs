@@ -57,16 +57,26 @@ namespace Lsj.Util.Win32.Structs
         /// A backslash in the string indicates that the string includes both the desktop and window station names.
         /// For more information, see Thread Connection to a Desktop.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpDesktop;
+        public IntPtr lpDesktop;
+
+        /// <summary>
+        /// The <see cref="string"/> value of <see cref="lpDesktop"/>,
+        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// </summary>
+        public unsafe string lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
 
         /// <summary>
         /// For console processes, this is the title displayed in the title bar if a new console window is created.
         /// If <see langword="null"/>, the name of the executable file is used as the window title instead.
         /// This parameter must be <see langword="null"/> for GUI or console processes that do not create a new console window.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpTitle;
+        public IntPtr lpTitle;
+
+        /// <summary>
+        /// The <see cref="string"/> value of <see cref="lpTitleString"/>,
+        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// </summary>
+        public unsafe string lpTitleString => Marshal.PtrToStringUni(lpTitle);
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEPOSITION"/>,
