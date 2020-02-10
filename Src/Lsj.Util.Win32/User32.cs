@@ -162,7 +162,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", SetLastError = true)]
-        public static extern bool AnimateWindow([In]IntPtr hWnd, uint dwTime, AnimateWindowFlags dwFlags);
+        public static extern bool AnimateWindow([In]IntPtr hWnd, [In]uint dwTime, [In]AnimateWindowFlags dwFlags);
 
         /// <summary>
         /// <para>
