@@ -491,6 +491,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the fully qualified path for the file that contains the specified module.
+        /// The module must have been loaded by the current process.
+        /// To locate the file for a module that was loaded by another process, use the <see cref="GetModuleFileNameEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the loaded module whose path is being requested.
+        /// If this parameter is <see cref="IntPtr.Zero"/>,
+        /// <see cref="GetModuleFileName"/> retrieves the path of the executable file of the current process.
+        /// The <see cref="GetModuleFileName"/> function does not retrieve the path for modules
+        /// that were loaded using the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// </param>
+        /// <param name="lpFilename">
+        /// A pointer to a buffer that receives the fully qualified path of the module.
+        /// If the length of the path is less than the size that the <paramref name="nSize"/> parameter specifies,
+        /// the function succeeds and the path is returned as a null-terminated string.
+        /// If the length of the path exceeds the size that the <paramref name="nSize"/> parameter specifies,
+        /// the function succeeds and the string is truncated to <paramref name="nSize"/> characters including the terminating null character.
+        /// Windows XP:  The string is truncated to nSize characters and is not null-terminated.
+        /// The string returned will use the same format that was specified when the module was loaded.
+        /// Therefore, the path can be a long or short file name, and can use the prefix "\?".
+        /// For more information, see Naming a File.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpFilename"/> buffer, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string that is copied to the buffer, in characters,
+        /// not including the terminating null character.
+        /// If the buffer is too small to hold the module name, the string is truncated to <paramref name="nSize"/> characters
+        /// including the terminating null character, the function returns <paramref name="nSize"/>,
+        /// and the function sets the last error to <see cref="SystemErrorCodes.ERROR_INSUFFICIENT_BUFFER"/>.
+        /// Windows XP:  If the buffer is too small to hold the module name, the function returns <paramref name="nSize"/>.
+        /// The last error code remains <see cref="SystemErrorCodes.ERROR_SUCCESS"/>.
+        /// If <paramref name="nSize"/> is zero, the return value is zero and the last error code is <see cref="SystemErrorCodes.ERROR_SUCCESS"/>
+        /// If the function fails, the return value is 0 (zero). To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a DLL is loaded in two processes, its file name in one process may differ in case from its file name in the other process.
+        /// The global variable _pgmptr is automatically initialized to the full path of the executable file,
+        /// and can be used to retrieve the full path name of an executable file.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", SetLastError = true)]
+        public static extern uint GetModuleFileName([In]IntPtr hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, uint nSize);
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>
