@@ -14,6 +14,38 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Allocates a new console for the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/allocconsole
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process can be associated with only one console,
+        /// so the <see cref="AllocConsole"/> function fails if the calling process already has a console.
+        /// A process can use the <see cref="FreeConsole"/> function to detach itself from its current console,
+        /// then it can call <see cref="AllocConsole"/> to create a new console or <see cref="AttachConsole"/> to attach to another console.
+        /// If the calling process creates a child process, the child inherits the new console.
+        /// <see cref="AllocConsole"/> initializes standard input, standard output, and standard error handles for the new console.
+        /// The standard input handle is a handle to the console's input buffer,
+        /// and the standard output and standard error handles are handles to the console's screen buffer.To retrieve these handles,
+        /// use the <see cref="GetStdHandle"/> function.
+        /// This function is primarily used by graphical user interface (GUI) application to create a console window.
+        /// GUI applications are initialized without a console.
+        /// Console applications are initialized with a console, unless they are created as detached processes
+        /// (by calling the <see cref="CreateProcess"/> function with the <see cref="ProcessCreationFlags.DETACHED_PROCESS"/> flag).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocConsole", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllocConsole();
+
+        /// <summary>
+        /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
         /// If the calling process is impersonating another user, the new process uses the token for the calling process, not the impersonation token.
         /// To run the new process in the security context of the user represented by the impersonation token,
