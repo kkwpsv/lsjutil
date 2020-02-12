@@ -374,6 +374,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enables or disables mouse and keyboard input to the specified window or control.
+        /// When input is disabled, the window does not receive input such as mouse clicks and key presses.
+        /// When input is enabled, the window receives all input.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window to be enabled or disabled.</param>
+        /// <param name="bEnable">
+        /// Indicates whether to enable or disable the window.
+        /// If this parameter is <see langword="true"/>, the window is enabled.
+        /// If the parameter is <see langword="false"/>, the window is disabled.
+        /// </param>
+        /// <returns>
+        /// If the window was previously disabled, the return value is <see langword="true"/>.
+        /// If the window was not previously disabled, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the window is being disabled, the system sends a <see cref="WindowsMessages.WM_CANCELMODE"/> message.
+        /// If the enabled state of a window is changing,
+        /// the system sends a <see cref="WindowsMessages.WM_ENABLE"/> message after the <see cref="WindowsMessages.WM_CANCELMODE"/> message.
+        /// (These messages are sent before <see cref="EnableWindow"/> returns.)
+        /// If a window is already disabled, its child windows are implicitly disabled,
+        /// although they are not sent a <see cref="WindowsMessages.WM_ENABLE"/> message.
+        /// A window must be enabled before it can be activated.
+        /// For example, if an application is displaying a modeless dialog box and has disabled its main window,
+        /// the application must enable the main window before destroying the dialog box.
+        /// Otherwise, another window will receive the keyboard focus and be activated.
+        /// If a child window is disabled, it is ignored when the system tries to determine which window should receive mouse messages.
+        /// By default, a window is enabled when it is created.
+        /// To create a window that is initially disabled, an application can specify the <see cref="WindowStyles.WS_DISABLED"/> style
+        /// in the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
+        /// After a window has been created, an application can use <see cref="EnableWindow"/> to enable or disable the window.
+        /// An application can use this function to enable or disable a control in a dialog box.
+        /// A disabled control cannot receive the keyboard focus, nor can a user gain access to it.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableWindow", SetLastError = true)]
+        public static extern bool EnableWindow([In]IntPtr hWnd, [In]bool bEnable);
+
+        /// <summary>
+        /// <para>
         /// Enumerates all top-level windows on the screen by passing the handle to each window, in turn, to an application-defined callback function.
         /// EnumWindows continues until the last top-level window is enumerated or the callback function returns <see langword="false"/>.
         /// </para>
