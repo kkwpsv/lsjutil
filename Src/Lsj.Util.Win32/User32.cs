@@ -1060,6 +1060,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sends the specified message to a window or windows.
+        /// The <see cref="SendMessage"/> function calls the window procedure for the specified window
+        /// and does not return until the window procedure has processed the message.
+        /// To send a message and return immediately, use the <see cref="SendMessageCallback"/> or <see cref="SendNotifyMessage"/> function.
+        /// To post a message to a thread's message queue and return immediately,
+        /// use the <see cref="PostMessage"/> or <see cref="PostThreadMessage"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessage
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure will receive the message.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+        /// Message sending is subject to UIPI.
+        /// The thread of a process can send messages only to message queues of threads in processes of lesser or equal integrity level.
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the result of the message processing; it depends on the message sent.
+        /// </returns>
+        /// <remarks>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="Marshal.GetLastWin32Error"/>, is set to 5 (access denied).
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use
+        /// the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WindowsMessages.WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WindowsMessages.WM_USER"/>) to another process, you must do custom marshalling.
+        /// If the specified window was created by the calling thread, the window procedure is called immediately as a subroutine.
+        /// If the specified window was created by a different thread, the system switches to that thread and calls the appropriate window procedure.
+        /// Messages sent between threads are processed only when the receiving thread executes message retrieval code.
+        /// The sending thread is blocked until the receiving thread processes the message.
+        /// However, the sending thread will process incoming nonqueued messages while waiting for its message to be processed.
+        /// To prevent this, use <see cref="SendMessageTimeout"/> with <see cref="SMTO_BLOCK"/> set.
+        /// For more information on nonqueued messages, see Nonqueued Messages.
+        /// An accessibility application can use <see cref="SendMessage"/> to send <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
+        /// This functionality is not guaranteed to work for other types of applications.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = true)]
+        public static extern IntPtr SendMessage([In]IntPtr hWnd, [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// Sets the specified window's show state.
         /// </para>
         /// <para>
