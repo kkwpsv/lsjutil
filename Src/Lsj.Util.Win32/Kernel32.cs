@@ -188,8 +188,9 @@ namespace Lsj.Util.Win32
         /// The flags that control the priority class and the creation of the process. 
         /// This parameter also controls the new process's priority class, which is used to determine the scheduling priorities of the process's threads.
         /// For a list of values, see <see cref="GetPriorityClass"/>.
-        /// If none of the priority class flags is specified, the priority class defaults to <see cref="NORMAL_PRIORITY_CLASS"/>
-        /// unless the priority class of the creating process is <see cref="IDLE_PRIORITY_CLASS"/> or <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>.
+        /// If none of the priority class flags is specified, the priority class defaults to <see cref="ProcessPriorityClasses.NORMAL_PRIORITY_CLASS"/>
+        /// unless the priority class of the creating process is <see cref="ProcessPriorityClasses.IDLE_PRIORITY_CLASS"/> 
+        /// or <see cref="ProcessPriorityClasses.BELOW_NORMAL_PRIORITY_CLASS"/>.
         /// In this case, the child process receives the default priority class of the calling process.
         /// </param>
         /// <param name="lpEnvironment">
