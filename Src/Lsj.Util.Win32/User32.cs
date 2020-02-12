@@ -683,6 +683,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the length, in characters, of the specified window's title bar text (if the window has a title bar).
+        /// If the specified window is a control, the function retrieves the length of the text within the control.
+        /// However, <see cref="GetWindowTextLength"/> cannot retrieve the length of the text of an edit control in another application.
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">A handle to the window or control.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in characters, of the text.
+        /// Under certain conditions, this value might be greater than the length of the text (see Remarks).
+        /// If the window has no text, the return value is zero.
+        /// Function failure is indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
+        /// This function does not clear the most recent error information.
+        /// To determine success or failure, clear the most recent error information 
+        /// by calling <see cref="SetLastError"/> with 0, then call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the target window is owned by the current process, <see cref="GetWindowTextLength"/> causes
+        /// a <see cref="WindowsMessages.WM_GETTEXTLENGTH"/> message to be sent to the specified window or control.
+        /// Under certain conditions, the <see cref="GetWindowTextLength"/> function may return a value that is larger than the actual length of the text.
+        /// This occurs with certain mixtures of ANSI and Unicode, and is due to the system allowing for the possible existence
+        /// of double-byte character set (DBCS) characters within the text.
+        /// The return value, however, will always be at least as large as the actual length of the text;
+        /// you can thus always use it to guide buffer allocation.
+        /// This behavior can occur when an application uses both ANSI functions and common dialogs, which use Unicode.
+        /// It can also occur when an application uses the ANSI version of <see cref="GetWindowTextLength"/> with a window whose window procedure is Unicode,
+        /// or the Unicode version of <see cref="GetWindowTextLength"/> with a window whose window procedure is ANSI.
+        /// For more information on ANSI and ANSI functions, see Conventions for Function Prototypes.
+        /// To obtain the exact length of the text, use the <see cref="WindowsMessages.WM_GETTEXT"/>, <see cref="LB_GETTEXT"/>,
+        /// or <see cref="CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLength", SetLastError = true)]
+        public static extern int GetWindowTextLength([In]IntPtr hWnd);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
