@@ -870,7 +870,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool PostMessage([In]IntPtr hWnd, [In]WindowsMessages msg, [In]IntPtr wParam, [In]IntPtr lParam);
+        public static extern bool PostMessage([In]IntPtr hWnd, [In]WindowsMessages msg, [In]UIntPtr wParam, [In]IntPtr lParam);
 
         /// <summary>
         /// <para>
