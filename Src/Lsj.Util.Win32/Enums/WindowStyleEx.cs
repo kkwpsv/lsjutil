@@ -139,7 +139,8 @@ namespace Lsj.Util.Win32.Enums
         /// otherwise, the style is ignored.
         /// Using the <see cref="WS_EX_RIGHT"/> style for static or edit controls has the same effect
         /// as using the <see cref="SS_RIGHT"/> or <see cref="ES_RIGHT"/> style, respectively. 
-        /// Using this style with button controls has the same effect as using <see cref="BS_RIGHT"/> and <see cref="BS_RIGHTBUTTON"/> styles.
+        /// Using this style with button controls has the same effect as using <see cref="ButtonStyles.BS_RIGHT"/>
+        /// and <see cref="ButtonStyles.BS_RIGHTBUTTON"/> styles.
         /// </summary>
         WS_EX_RIGHT = 0x00001000,
 
