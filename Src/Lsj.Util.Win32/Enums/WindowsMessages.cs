@@ -43,6 +43,22 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         WM_MOUSELAST = 0x020E,
 
+        #region Button Control Notifications
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_CTLCOLORBTN"/> message is sent to the parent window of a button before drawing the button.
+        /// The parent window can change the button's text and background colors.
+        /// However, only owner-drawn buttons respond to the parent window processing this message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorbtn
+        /// </para>
+        /// </summary>
+        WM_CTLCOLORBTN = 0x0135,
+
+        #endregion
+
         #region Clipboard Messages
 
         /// <summary>

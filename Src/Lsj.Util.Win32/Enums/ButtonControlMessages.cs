@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32.Enums
         /// Simulates the user clicking a button.
         /// This message causes the button to receive the <see cref="WindowsMessages.WM_LBUTTONDOWN"/>
         /// and <see cref="WindowsMessages.WM_LBUTTONUP"/> messages,
-        /// and the button's parent window to receive a <see cref="BN_CLICKED"/> notification code.
+        /// and the button's parent window to receive a <see cref="ButtonControlNotifications.BN_CLICKED"/> notification code.
         /// </summary>
         BM_CLICK = 0x00F5,
 
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32.Enums
         BM_SETCHECK = 0x00F1,
 
         /// <summary>
-        /// Sets a flag on a radio button that controls the generation of <see cref="BN_CLICKED"/> messages when the button receives focus.
+        /// Sets a flag on a radio button that controls the generation of <see cref="ButtonControlNotifications.BN_CLICKED"/> messages when the button receives focus.
         /// </summary>
         BM_SETDONTCLICK = 0x00F8,
 

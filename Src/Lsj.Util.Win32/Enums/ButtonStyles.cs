@@ -141,9 +141,11 @@ namespace Lsj.Util.Win32.Enums
         BS_MULTILINE = 0x00002000,
 
         /// <summary>
-        /// Enables a button to send <see cref="BN_KILLFOCUS"/> and <see cref="BN_SETFOCUS"/> notification codes to its parent window.
-        /// Note that buttons send the <see cref="BN_CLICKED"/> notification code regardless of whether it has this style.
-        /// To get <see cref="BN_DBLCLK"/> notification codes, the button must have the <see cref="BS_RADIOBUTTON"/> or <see cref="BS_OWNERDRAW"/> style.
+        /// Enables a button to send <see cref="ButtonControlNotifications.BN_KILLFOCUS"/> and
+        /// <see cref="ButtonControlNotifications.BN_SETFOCUS"/> notification codes to its parent window.
+        /// Note that buttons send the <see cref="ButtonControlNotifications.BN_CLICKED"/> notification code regardless of whether it has this style.
+        /// To get <see cref="ButtonControlNotifications.BN_DBLCLK"/> notification codes,
+        /// the button must have the <see cref="BS_RADIOBUTTON"/> or <see cref="BS_OWNERDRAW"/> style.
         /// </summary>
         BS_NOTIFY = 0x00004000,
 
