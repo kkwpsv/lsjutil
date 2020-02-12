@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Extensions
@@ -35,9 +37,21 @@ namespace Lsj.Util.Win32.Extensions
             var result = new List<(IntPtr, string)>();
             EnumWindows((handle, _) =>
             {
-                var sb = new StringBuilder(20);
-                GetWindowText(handle, sb, 20);
-                result.Add((handle, sb.ToString()));
+                SetLastError(0);
+                var length = GetWindowTextLength(handle);
+                var code = Marshal.GetLastWin32Error();
+                if (code == 0)
+                {
+                    var sb = new StringBuilder(length);
+                    GetWindowText(handle, sb, 20);
+                    code = Marshal.GetLastWin32Error();
+                    if (code == 0)
+                    {
+                        result.Add((handle, sb.ToString()));
+                        return true;
+                    }
+                }
+                result.Add((handle, null));
                 return true;
             }, IntPtr.Zero);
             return result.ToArray();
