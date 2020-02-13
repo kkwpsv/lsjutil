@@ -16,6 +16,11 @@ namespace Lsj.Util.Win32.Structs
     public struct BUTTON_IMAGELIST
     {
         /// <summary>
+        /// BCCL_NOGLYPH
+        /// </summary>
+        public static readonly IntPtr BCCL_NOGLYPH = (IntPtr)(-1);
+
+        /// <summary>
         /// A handle to the image list.
         /// The provider retains ownership of the image list and is ultimately responsible for its disposal.
         /// Under Windows Vista, you can pass <see cref="BCCL_NOGLYPH"/> in this parameter to indicate that no glyph should be displayed.
