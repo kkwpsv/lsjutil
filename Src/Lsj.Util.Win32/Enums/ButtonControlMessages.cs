@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Macros.ButtonControlMacros;
 
 namespace Lsj.Util.Win32.Enums
 {
