@@ -201,6 +201,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Passes message information to the specified window procedure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPrevWndFunc">
+        /// The previous window procedure.
+        /// If this value is obtained by calling the <see cref="GetWindowLong"/> function with the nIndex parameter
+        /// set to <see cref="GetWindowLongIndexes.GWL_WNDPROC"/> or <see cref="GetWindowLongIndexes.DWL_DLGPROC"/>,
+        /// it is actually either the address of a window or dialog box procedure,
+        /// or a special internal value meaningful only to <see cref="CallWindowProc"/>.
+        /// </param>
+        /// <param name="hWnd">
+        /// A handle to the window procedure to receive the message.
+        /// </param>
+        /// <param name="Msg">
+        /// The message.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// The contents of this parameter depend on the value of the <paramref name="Msg"/> parameter.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the result of the message processing and depends on the message sent.
+        /// </returns>
+        /// <remarks>
+        /// Use the <see cref="CallWindowProc"/> function for window subclassing.
+        /// Usually, all windows with the same class share one window procedure.
+        /// A subclass is a window or set of windows with the same class whose messages are intercepted and processed
+        /// by another window procedure (or procedures) before being passed to the window procedure of the class.
+        /// The <see cref="SetWindowLong"/> function creates the subclass by changing the window procedure associated with a particular window,
+        /// causing the system to call the new window procedure instead of the previous one.
+        /// An application must pass any messages not processed by the new window procedure
+        /// to the previous window procedure by calling <see cref="CallWindowProc"/>.
+        /// This allows the application to create a chain of window procedures.
+        /// The <see cref="CallWindowProc"/> function handles Unicode-to-ANSI conversion.
+        /// You cannot take advantage of this conversion if you call the window procedure directly.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", SetLastError = true)]
+        public static extern int CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In]WNDPROC lpPrevWndFunc, [In]IntPtr hWnd,
+            [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// Creates an overlapped, pop-up, or child window with an extended window style; 
         /// otherwise, this function is identical to the <see cref="CreateWindow"/> function.
         /// </para>
