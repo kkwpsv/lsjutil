@@ -4,6 +4,7 @@ using System.Text;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Ws2_32;
 
 namespace Lsj.Util.Win32
 {
