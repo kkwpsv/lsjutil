@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Adds a string to the list box of a combo box.
-        /// If the combo box does not have the <see cref="CBS_SORT"/> style, the string is added to the end of the list.
+        /// If the combo box does not have the <see cref="ComboBoxStyles.CBS_SORT"/> style, the string is added to the end of the list.
         /// Otherwise, the string is inserted into the list, and the list is sorted.
         /// </summary>
         CB_ADDSTRING = 0x0143,
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Gets the minimum allowable width, in pixels, of the list box of a combo box
-        /// with the <see cref="CBS_DROPDOWN"/> or <see cref="CBS_DROPDOWNLIST"/> style.
+        /// with the <see cref="ComboBoxStyles.CBS_DROPDOWN"/> or <see cref="ComboBoxStyles.CBS_DROPDOWNLIST"/> style.
         /// </summary>
         CB_GETDROPPEDWIDTH = 0x015F,
 
@@ -127,7 +127,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Gets the current locale of the combo box.
         /// The locale is used to determine the correct sorting order of displayed text for combo boxes
-        /// with the <see cref="CBS_SORT"/> style and text added by using the <see cref="CB_ADDSTRING"/> message.
+        /// with the <see cref="ComboBoxStyles.CBS_SORT"/> style and text added by using the <see cref="CB_ADDSTRING"/> message.
         /// </summary>
         CB_GETLOCALE = 0x015A,
 
@@ -153,7 +153,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Inserts a string or item data into the list of a combo box.
         /// Unlike the <see cref="CB_ADDSTRING"/> message, the <see cref="CB_INSERTSTRING"/> message does not cause 
-        /// a list with the <see cref="CBS_SORT"/> style to be sorted.
+        /// a list with the <see cref="ComboBoxStyles.CBS_SORT"/> style to be sorted.
         /// </summary>
         CB_INSERTSTRING = 0x014A,
 
@@ -187,7 +187,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// An application sends the <see cref="CB_SETDROPPEDWIDTH"/> message to set the minimum allowable width, in pixels,
-        /// of the list box of a combo box with the <see cref="CBS_DROPDOWN"/> or <see cref="CBS_DROPDOWNLIST"/> style.
+        /// of the list box of a combo box with the <see cref="ComboBoxStyles.CBS_DROPDOWN"/> or <see cref="ComboBoxStyles.CBS_DROPDOWNLIST"/> style.
         /// </summary>
         CB_SETDROPPEDWIDTH = 0x0160,
 
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// An application sends a <see cref="CB_SETEXTENDEDUI"/> message to select either the default UI or the extended UI
-        /// for a combo box that has the <see cref="CBS_DROPDOWN"/> or <see cref="CBS_DROPDOWNLIST"/> style.
+        /// for a combo box that has the <see cref="ComboBoxStyles.CBS_DROPDOWN"/> or <see cref="ComboBoxStyles.CBS_DROPDOWNLIST"/> style.
         /// </summary>
         CB_SETEXTENDEDUI = 0x0155,
 
@@ -207,7 +207,7 @@ namespace Lsj.Util.Win32.Enums
         /// by which a list box can be scrolled horizontally (the scrollable width).
         /// If the width of the list box is smaller than this value, the horizontal scroll bar horizontally scrolls items in the list box.
         /// If the width of the list box is equal to or greater than this value, the horizontal scroll bar is hidden or,
-        /// if the combo box has the <see cref="CBS_DISABLENOSCROLL"/> style, disabled.
+        /// if the combo box has the <see cref="ComboBoxStyles.CBS_DISABLENOSCROLL"/> style, disabled.
         /// </summary>
         CB_SETHORIZONTALEXTENT = 0x015E,
 
@@ -223,7 +223,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// An application sends a <see cref="CB_SETLOCALE"/> message to set the current locale of the combo box.
-        /// If the combo box has the <see cref="CBS_SORT"/> style and strings are added using <see cref="CB_ADDSTRING"/>,
+        /// If the combo box has the <see cref="ComboBoxStyles.CBS_SORT"/> style and strings are added using <see cref="CB_ADDSTRING"/>,
         /// the locale of a combo box affects how list items are sorted.
         /// </summary>
         CB_SETLOCALE = 0x0159,
@@ -242,7 +242,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// An application sends a <see cref="CB_SHOWDROPDOWN"/> message to show or hide the list box of a combo box
-        /// that has the <see cref="CBS_DROPDOWN"/> or <see cref="CBS_DROPDOWNLIST"/> style.
+        /// that has the <see cref="ComboBoxStyles.CBS_DROPDOWN"/> or <see cref="ComboBoxStyles.CBS_DROPDOWNLIST"/> style.
         /// </summary>
         CB_SHOWDROPDOWN = 0x014F,
     }
