@@ -760,7 +760,7 @@ namespace Lsj.Util.Win32
         /// or the Unicode version of <see cref="GetWindowTextLength"/> with a window whose window procedure is ANSI.
         /// For more information on ANSI and ANSI functions, see Conventions for Function Prototypes.
         /// To obtain the exact length of the text, use the <see cref="WindowsMessages.WM_GETTEXT"/>, <see cref="LB_GETTEXT"/>,
-        /// or <see cref="CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
+        /// or <see cref="ComboBoxControlMessages.CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLength", SetLastError = true)]
         public static extern int GetWindowTextLength([In]IntPtr hWnd);
