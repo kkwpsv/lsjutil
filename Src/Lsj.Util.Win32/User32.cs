@@ -250,6 +250,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Translates a string into the OEM-defined character set.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-chartooemw
+        /// </para>
+        /// </summary>
+        /// <param name="pSrc">
+        /// The null-terminated string to be translated.
+        /// </param>
+        /// <param name="pDst">
+        /// The destination buffer, which receives the translated string.
+        /// If the CharToOem function is being used as an ANSI function, the string can be translated in place
+        /// by setting the <paramref name="pDst"/> parameter to the same address as the <paramref name="pSrc"/> parameter.
+        /// This cannot be done if CharToOem is being used as a wide-character function.
+        /// </param>
+        /// <returns>
+        /// The return value is always <see langword="true"/> except when you pass the same address
+        /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
+        /// In this case the function returns <see langword="false"/> and
+        /// <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_INVALID_ADDRESS"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CharToOem([MarshalAs(UnmanagedType.LPWStr)][In]string pSrc, [In]IntPtr pDst);
+
+        /// <summary>
+        /// <para>
         /// Creates an overlapped, pop-up, or child window with an extended window style; 
         /// otherwise, this function is identical to the <see cref="CreateWindow"/> function.
         /// </para>
