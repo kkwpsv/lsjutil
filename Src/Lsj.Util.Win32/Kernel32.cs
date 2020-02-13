@@ -86,6 +86,65 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes an open object handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-closehandle
+        /// </para>
+        /// </summary>
+        /// <param name="hObject">
+        /// A valid handle to an open object.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the application is running under a debugger, the function will throw an exception if it receives either a handle value
+        /// that is not valid or a pseudo-handle value.
+        /// This can happen if you close a handle twice, or if you call <see cref="CloseHandle"/> on a handle returned
+        /// by the <see cref="FindFirstFile"/> function instead of calling the <see cref="FindClose"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The CloseHandle function closes handles to the following objects:
+        /// Access token, Communications device, Console input, Console screen buffer, Event, File, File mapping, I/O completion port, 
+        /// Job, Mailslot, Memory resource notification, Mutex, Named pipe, Pipe, Process, Semaphore, Thread, Transaction, Waitable timer.
+        /// The documentation for the functions that create these objects indicates that <see cref="CloseHandle"/> should be used
+        /// when you are finished with the object, and what happens to pending operations on the object after the handle is closed.
+        /// In general, <see cref="CloseHandle"/> invalidates the specified object handle, decrements the object's handle count,
+        /// and performs object retention checks. After the last handle to an object is closed, the object is removed from the system.
+        /// For a summary of the creator functions for these objects, see Kernel Objects.
+        /// Generally, an application should call <see cref="CloseHandle"/> once for each handle it opens.
+        /// It is usually not necessary to call <see cref="CloseHandle"/> if a function that uses a handle
+        /// fails with <see cref="SystemErrorCodes.ERROR_INVALID_HANDLE"/>, because this error usually indicates that the handle is already invalidated.
+        /// However, some functions use <see cref="SystemErrorCodes.ERROR_INVALID_HANDLE"/> to indicate that the object itself is no longer valid.
+        /// For example, a function that attempts to use a handle to a file on a network might fail
+        /// with <see cref="SystemErrorCodes.ERROR_INVALID_HANDLE"/> if the network connection is severed,
+        /// because the file object is no longer available. In this case, the application should close the handle.
+        /// If a handle is transacted, all handles bound to a transaction should be closed before the transaction is committed.
+        /// If a transacted handle was opened by calling <see cref="CreateFileTransacted"/> with the <see cref="FILE_FLAG_DELETE_ON_CLOSE"/> flag,
+        /// the file is not deleted until the application closes the handle and calls <see cref="CommitTransaction"/>.
+        /// For more information about transacted objects, see Working With Transactions.
+        /// Closing a thread handle does not terminate the associated thread or remove the thread object.
+        /// Closing a process handle does not terminate the associated process or remove the process object.
+        /// To remove a thread object, you must terminate the thread, then close all handles to the thread.
+        /// For more information, see Terminating a Thread.
+        /// To remove a process object, you must terminate the process, then close all handles to the process.
+        /// For more information, see Terminating a Process.
+        /// Closing a handle to a file mapping can succeed even when there are file views that are still open.
+        /// For more information, see Closing a File Mapping Object.
+        /// Do not use the <see cref="CloseHandle"/> function to close a socket. Instead, use the <see cref="closesocket"/> function,
+        /// which releases all resources associated with the socket including the handle to the socket object.
+        /// For more information, see Socket Closure.
+        /// Do not use the <see cref="CloseHandle"/> function to close a handle to an open registry key.
+        /// Instead, use the <see cref="RegCloseKey"/> function.
+        /// <see cref="CloseHandle"/> does not close the handle to the registry key, but does not return an error to indicate this failure.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseHandle([In]IntPtr hObject);
+
+        /// <summary>
+        /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
         /// If the calling process is impersonating another user, the new process uses the token for the calling process, not the impersonation token.
         /// To run the new process in the security context of the user represented by the impersonation token,
