@@ -79,7 +79,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// For a directory, the right to traverse the directory.
-        /// By default, users are assigned the <see cref="BYPASS_TRAVERSE_CHECKING"/> privilege,
+        /// By default, users are assigned the BYPASS_TRAVERSE_CHECKING privilege,
         /// which ignores the <see cref="FILE_TRAVERSE"/> access right.
         /// See the remarks in File Security and Access Rights for more information.
         /// </summary>
