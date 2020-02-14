@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Macros
     /// Button Control Macros
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/controls/bumper-button-control-reference-macros
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-button-control-reference-macros
     /// </para>
     /// </summary>
     public static class ButtonControlMacros
