@@ -20,6 +20,11 @@ namespace Lsj.Util.Win32
         public const uint ATTACH_PARENT_PROCESS = unchecked((uint)-1);
 
         /// <summary>
+        /// INVALID_HANDLE_VALUE
+        /// </summary>
+        public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
+
+        /// <summary>
         /// <para>
         /// Allocates a new console for the calling process.
         /// </para>
@@ -144,6 +149,221 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle([In]IntPtr hObject);
+
+        /// <summary>
+        /// <para>
+        /// Creates or opens a file, file stream, or directory as a transacted operation.
+        /// The function returns a handle that can be used to access the object.
+        /// To perform this operation as a nontransacted operation or to access objects
+        /// other than files(for example, named pipes, physical devices, mailslots), use the <see cref="CreateFile"/> function.
+        /// For more information about transactions, see the Remarks section of this topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiletransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of an object to be created or opened.
+        /// The object must reside on the local computer
+        /// otherwise, the function fails and the last error code is set to <see cref="SystemErrorCodes.ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File. For information on special device names, see Defining an MS-DOS Device Name.
+        /// To create a file stream, specify the name of the file, a colon, and then the name of the stream.
+        /// For more information, see File Streams.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the object, which can be summarized as read, write, both or neither (zero).
+        /// The most commonly used values are <see cref="GenericAccessRights.GENERIC_READ"/>, <see cref="GenericAccessRights.GENERIC_WRITE"/>,
+        /// or both (<see cref="GenericAccessRights.GENERIC_READ"/> | <see cref="GenericAccessRights.GENERIC_WRITE"/>).
+        /// For more information, see Generic Access Rights and File Security and Access Rights.
+        /// If this parameter is zero, the application can query file, directory, or device attributes without accessing that file or device.
+        /// For more information, see the Remarks section of this topic.
+        /// You cannot request an access mode that conflicts with the sharing mode that is specified in an open request that has an open handle.
+        /// For more information, see Creating and Opening Files.
+        /// </param>
+        /// <param name="dwShareMode">
+        /// The sharing mode of an object, which can be read, write, both, delete, all of these, or none (refer to the following table).
+        /// If this parameter is zero and <see cref="CreateFileTransacted"/> succeeds,
+        /// the object cannot be shared and cannot be opened again until the handle is closed.
+        /// For more information, see the Remarks section of this topic.
+        /// You cannot request a sharing mode that conflicts with the access mode that is specified in an open request that has an open handle,
+        /// because that would result in the following sharing violation: <see cref="SystemErrorCodes.ERROR_SHARING_VIOLATION"/>.
+        /// For more information, see Creating and Opening Files.
+        /// To enable a process to share an object while another process has the object open,
+        /// use a combination of one or more of the following values to specify the access mode they can request to open the object.
+        /// The sharing options for each open handle remain in effect until that handle is closed, regardless of process context.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that contains an optional security descriptor and
+        /// also determines whether or not the returned handle can be inherited by child processes.
+        /// The parameter can be <see cref="IntPtr.Zero"/>.
+        /// If the <paramref name="lpSecurityAttributes"/> parameter is NULL, the handle returned by <see cref="CreateFileTransacted"/> 
+        /// cannot be inherited by any child processes your application may create and
+        /// the object associated with the returned handle gets a default security descriptor.
+        /// The <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> member of the structure specifies whether the returned handle can be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for an object,
+        /// but may also be NULL.
+        /// If <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member is NULL,
+        /// the object associated with the returned handle is assigned a default security descriptor.
+        /// <see cref="CreateFileTransacted"/> ignores the <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member when opening an existing file,
+        /// but continues to use the <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> member.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="dwCreationDisposition">
+        /// An action to take on files that exist and do not exist.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="dwFlagsAndAttributes">
+        /// The file attributes and flags, <see cref="FileAttributes.FILE_ATTRIBUTE_NORMAL"/> being the most common default value.
+        /// This parameter can include any combination of the available file attributes (FILE_ATTRIBUTE_*).
+        /// All other file attributes override <see cref="FileAttributes.FILE_ATTRIBUTE_NORMAL"/>.
+        /// This parameter can also contain combinations of flags (FILE_FLAG_) for control of buffering behavior,
+        /// access modes, and other special-purpose flags. These combine with any FILE_ATTRIBUTE_ values.
+        /// This parameter can also contain Security Quality of Service (SQOS) information
+        /// by specifying the <see cref="SECURITY_SQOS_PRESENT"/> flag.
+        /// Additional SQOS-related flags information is presented in the table following the attributes and flags tables.
+        /// When <see cref="CreateFileTransacted"/> opens an existing file, it generally combines the file flags
+        /// with the file attributes of the existing file, and ignores any file attributes supplied as part of <paramref name="dwFlagsAndAttributes"/>.
+        /// Special cases are detailed in Creating and Opening Files.
+        /// The following file attributes and flags are used only for file objects, not other types of objects
+        /// that <see cref="CreateFileTransacted"/> opens (additional information can be found in the Remarks section of this topic).
+        /// For more advanced access to file attributes, see <see cref="SetFileAttributes"/>.
+        /// For a complete list of all file attributes with their values and descriptions, see File Attribute Constants.
+        /// The <paramref name="lpSecurityAttributes"/> parameter can also specify SQOS information.
+        /// For more information, see Impersonation Levels.
+        /// When the calling application specifies the <see cref="SECURITY_SQOS_PRESENT"/> flag
+        /// as part of <paramref name="dwFlagsAndAttributes"/>, it can also contain one or more of the following values.
+        /// <see cref="SECURITY_ANONYMOUS"/>, <see cref="SECURITY_CONTEXT_TRACKING"/>, <see cref="SECURITY_DELEGATION"/>,
+        /// <see cref="SECURITY_EFFECTIVE_ONLY"/>, <see cref="SECURITY_IDENTIFICATION"/>, <see cref="SECURITY_IMPERSONATION"/>
+        /// </param>
+        /// <param name="hTemplateFile">
+        /// A valid handle to a template file with the <see cref="GenericAccessRights.GENERIC_READ"/> access right.
+        /// The template file supplies file attributes and extended attributes for the file that is being created.
+        /// This parameter can be <see cref="IntPtr.Zero"/>.
+        /// When opening an existing file, <see cref="CreateFileTransacted"/> ignores the template file.
+        /// When opening a new EFS-encrypted file, the file inherits the DACL from its parent directory.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <param name="pusMiniVersion">
+        /// The miniversion to be opened.
+        /// If the transaction specified in hTransaction is not the transaction that is modifying the file,
+        /// this parameter should be <see cref="IntPtr.Zero"/>.
+        /// Otherwise, this parameter can be a miniversion identifier returned by the <see cref="FSCTL_TXFS_CREATE_MINIVERSION"/> control code,
+        /// or one of the following values.
+        /// <see cref="TXFS_MINIVERSION_COMMITTED_VIEW"/>, <see cref="TXFS_MINIVERSION_DIRTY_VIEW"/>, <see cref="TXFS_MINIVERSION_DEFAULT_VIEW"/>.
+        /// </param>
+        /// <param name="lpExtendedParameter">
+        /// This parameter is reserved and must be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified file, device, named pipe, or mail slot.
+        /// If the function fails, the return value is INVALID_HANDLE_VALUE.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// When using the handle returned by <see cref="CreateFileTransacted"/>,
+        /// use the transacted version of file I/O functions instead of the standard file I/O functions where appropriate.
+        /// For more information, see Programming Considerations for Transactional NTFS.
+        /// When opening a transacted handle to a directory, that handle must have <see cref="FileAccessRights.FILE_WRITE_DATA"/>
+        /// (<see cref="FileAccessRights.FILE_ADD_FILE"/>) and <see cref="FileAccessRights.FILE_APPEND_DATA"/>
+        /// (<see cref="FileAccessRights.FILE_ADD_SUBDIRECTORY"/>) permissions.
+        /// These are included in <see cref="FileAccessRights.FILE_GENERIC_WRITE"/> permissions.
+        /// You should open directories with fewer permissions if you are just using the handle to create files or subdirectories;
+        /// otherwise, sharing violations can occur.
+        /// You cannot open a file with <see cref="FileAccessRights.FILE_EXECUTE"/> access level
+        /// when that file is a part of another transaction (that is, another application opened it by calling <see cref="CreateFileTransacted"/>).
+        /// This means that <see cref="CreateFileTransacted"/> fails if the access level
+        /// <see cref="FileAccessRights.FILE_EXECUTE"/> or <see cref="FileAccessRights.FILE_ALL_ACCESS"/> is specified.
+        /// When a non-transacted application calls <see cref="CreateFileTransacted"/> with <see cref="MAXIMUM_ALLOWED"/> specified 
+        /// for <paramref name="lpSecurityAttributes"/>, a handle is opened with the same access level every time.
+        /// When a transacted application calls <see cref="CreateFileTransacted"/> with <see cref="MAXIMUM_ALLOWED"/> specified
+        /// for <paramref name="lpSecurityAttributes"/>, a handle is opened with a differing amount of access based on
+        /// whether the file is locked by a transaction.
+        /// For example, if the calling application has <see cref="FileAccessRights.FILE_EXECUTE"/> access level for a file,
+        /// the application only obtains this access if the file that is being opened is either not locked by a transaction,
+        /// or is locked by a transaction and the application is already a transacted reader for that file.
+        /// See Transactional NTFS for a complete description of transacted operations.
+        /// Use the <see cref="CloseHandle"/> function to close an object handle returned by <see cref="CreateFileTransacted"/>
+        /// when the handle is no longer needed, and prior to committing or rolling back the transaction.
+        /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
+        /// On volumes that are formatted for that kind of file system, a new file inherits the compression and encryption attributes of its directory.
+        /// You cannot use <see cref="CreateFileTransacted"/> to control compression on a file or directory.
+        /// For more information, see File Compression and Decompression, and File Encryption.
+        /// Symbolic link behavior—If the call to this function creates a new file, there is no change in behavior.
+        /// If <see cref="FileFlags.FILE_FLAG_OPEN_REPARSE_POINT"/> is specified:
+        /// If an existing file is opened and it is a symbolic link, the handle returned is a handle to the symbolic link.
+        /// If <see cref="FileCreationDispositions.TRUNCATE_EXISTING"/> or <see cref="FileFlags.FILE_FLAG_DELETE_ON_CLOSE"/> are specified,
+        /// the file affected is a symbolic link.
+        /// If <see cref="FileFlags.FILE_FLAG_OPEN_REPARSE_POINT"/> is not specified:
+        /// If an existing file is opened and it is a symbolic link, the handle returned is a handle to the target.
+        /// If <see cref="FileCreationDispositions.CREATE_ALWAYS"/>, <see cref="FileCreationDispositions.TRUNCATE_EXISTING"/>,
+        /// or <see cref="FileFlags.FILE_FLAG_DELETE_ON_CLOSE"/> are specified, the file affected is the target.
+        /// A multi-sector write is not guaranteed to be atomic unless you are using a transaction (that is, the handle created is a transacted handle).
+        /// A single-sector write is atomic. Multi-sector writes that are cached may not always be written to the disk;
+        /// therefore, specify <see cref="FileFlags.FILE_FLAG_WRITE_THROUGH"/> to ensure that
+        /// an entire multi-sector write is written to the disk without caching.
+        /// As stated previously, if the <paramref name="lpSecurityAttributes"/> parameter is <see cref="IntPtr.Zero"/>,
+        /// the handle returned by <see cref="CreateFileTransacted"/> cannot be inherited by any child processes your application may create.
+        /// The following information regarding this parameter also applies:
+        /// If <see cref="SECURITY_ATTRIBUTES.bInheritHandle"/> is not <see langword="false"/>, which is any nonzero value,
+        /// then the handle can be inherited. Therefore it is critical this structure member be properly
+        /// initialized to <see langword="false"/> if you do not intend the handle to be inheritable.
+        /// The access control lists(ACL) in the default security descriptor for a file or directory are inherited from its parent directory.
+        /// The target file system must support security on files and directories for the <paramref name="lpSecurityDescriptor"/> to have an effect on them,
+        /// which can be determined by using <see cref="GetVolumeInformation"/>.
+        /// Files
+        /// If you try to create a file on a floppy drive that does not have a floppy disk or a CD-ROM drive that does not have a CD,
+        /// the system displays a message for the user to insert a disk or a CD.
+        /// To prevent the system from displaying this message, call the <see cref="SetErrorMode"/> function with <see cref="SEM_FAILCRITICALERRORS"/>.
+        /// For more information, see Creating and Opening Files.
+        /// If you rename or delete a file and then restore it shortly afterward, the system searches the cache for file information to restore.
+        /// Cached information includes its short/long name pair and creation time.
+        /// If you call <see cref="CreateFileTransacted"/> on a file that is pending deletion as a result of a previous call to <see cref="DeleteFile"/>,
+        /// the function fails. The operating system delays file deletion until all handles to the file are closed.
+        /// <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// The <paramref name="dwDesiredAccess"/> parameter can be zero, allowing the application to query file attributes
+        /// without accessing the file if the application is running with adequate security settings.
+        /// This is useful to test for the existence of a file without opening it for read and/or write access,
+        /// or to obtain other statistics about the file or directory.
+        /// See Obtaining and Setting File Information and <see cref="GetFileInformationByHandle"/>.
+        /// When an application creates a file across a network, it is better to use
+        /// <see cref="GenericAccessRights.GENERIC_READ"/> | <see cref="GenericAccessRights.GENERIC_WRITE"/> than
+        /// to use <see cref="GenericAccessRights.GENERIC_WRITE"/> alone.
+        /// The resulting code is faster, because the redirector can use the cache manager and send fewer SMBs with more data.
+        /// This combination also avoids an issue where writing to a file
+        /// across a network can occasionally return <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// File Streams
+        /// On NTFS file systems, you can use <see cref="CreateFileTransacted"/> to create separate streams within a file.
+        /// For more information, see File Streams.
+        /// Directories
+        /// An application cannot create a directory by using <see cref="CreateFileTransacted"/>,
+        /// therefore only the <see cref="FileCreationDispositions.OPEN_EXISTING"/> value is valid
+        /// for <paramref name="dwCreationDisposition"/> for this use case.
+        /// To create a directory, the application must call <see cref="CreateDirectoryTransacted"/>,
+        /// <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/>.
+        /// To open a directory using <see cref="CreateFileTransacted"/>, specify the <see cref="FileFlags.FILE_FLAG_BACKUP_SEMANTICS"/> flag
+        /// as part of <paramref name="dwFlagsAndAttributes"/>.
+        /// Appropriate security checks still apply when this flag is used
+        /// without <see cref="SE_BACKUP_NAME"/> and <see cref="SE_RESTORE_NAME"/> privileges.
+        /// When using <see cref="CreateFileTransacted"/> to open a directory during defragmentation of a FAT or FAT32 file system volume,
+        /// do not specify the <see cref="MAXIMUM_ALLOWED"/> access right. Access to the directory is denied if this is done.
+        /// Specify the <see cref="GenericAccessRights.GENERIC_READ"/> access right instead.
+        /// For more information, see About Directory Management.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", SetLastError = true)]
+        public static extern IntPtr CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAccessRights dwDesiredAccess,
+            [In]FileShareModes dwShareMode,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes,
+            [In]FileCreationDispositions dwCreationDisposition, [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile, [In]IntPtr hTransaction,
+            [In]IntPtr pusMiniVersion, [In]IntPtr lpExtendedParameter);
 
         /// <summary>
         /// <para>
