@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilew
     /// </para>
     /// </summary>
-    public enum FileShareModes
+    public enum FileShareModes : uint
     {
         /// <summary>
         /// Prevents other processes from opening a file or device if they request delete, read, or write access.
