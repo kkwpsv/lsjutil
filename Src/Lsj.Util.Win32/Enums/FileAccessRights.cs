@@ -111,5 +111,10 @@ namespace Lsj.Util.Win32.Enums
         /// Same as <see cref="STANDARD_RIGHTS_READ"/>.
         /// </summary>
         STANDARD_RIGHTS_WRITE = StandardAccessRights.READ_CONTROL,
+
+        /// <summary>
+        /// FILE_GENERIC_WRITE
+        /// </summary>
+        FILE_GENERIC_WRITE = STANDARD_RIGHTS_WRITE | FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES | FILE_WRITE_EA | FILE_APPEND_DATA | StandardAccessRights.SYNCHRONIZE,
     }
 }
