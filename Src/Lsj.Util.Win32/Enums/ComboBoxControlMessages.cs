@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Lsj.Util.Win32.Macros.ComboxBoxControlMacros;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -231,7 +229,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// An application sends a <see cref="CB_SETMINVISIBLE"/> message to set the minimum number of visible items in the drop-down list of a combo box.
         /// </summary>
-        CB_SETMINVISIBLE = CBM_FIRST+1,
+        CB_SETMINVISIBLE = CBM_FIRST + 1,
 
         /// <summary>
         /// An application sends the <see cref="CB_SETTOPINDEX"/> message to ensure that a particular item is visible in the list box of a combo box.
