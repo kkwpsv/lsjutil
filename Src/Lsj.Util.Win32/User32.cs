@@ -415,7 +415,8 @@ namespace Lsj.Util.Win32
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", SetLastError = true)]
-        public static extern IntPtr CreateDialogParam([In]IntPtr hInstance, [In]StringOrIntPtrObject lpTemplateName,
+        public static extern IntPtr CreateDialogParam([In]IntPtr hInstance,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
             [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
         /// <summary>
