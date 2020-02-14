@@ -5,7 +5,7 @@ namespace Lsj.Util.Win32.Enums
     /// <summary>
     /// <para>
     /// To create a combo box using the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function,
-    /// specify the <see cref="COMBOBOX"/> class, appropriate window style constants, and a combination of the following combo box styles.
+    /// specify the COMBOBOX class, appropriate window style constants, and a combination of the following combo box styles.
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/combo-box-styles
