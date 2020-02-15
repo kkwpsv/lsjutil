@@ -8,6 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilew
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea
     /// </para>
     /// </summary>
     public enum FileFlags : uint
@@ -105,5 +106,11 @@ namespace Lsj.Util.Win32.Enums
         /// For additional information, see the Caching Behavior section of this topic.
         /// </summary>
         FILE_FLAG_WRITE_THROUGH = 0x80000000,
+
+        /// <summary>
+        /// If you attempt to create multiple instances of a pipe with this flag, creation of the first instance succeeds,
+        /// but creation of the next instance fails with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// </summary>
+        FILE_FLAG_FIRST_PIPE_INSTANCE = 0x00080000,
     }
 }

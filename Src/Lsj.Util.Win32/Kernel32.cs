@@ -25,6 +25,11 @@ namespace Lsj.Util.Win32
         public const uint MAILSLOT_WAIT_FOREVER = unchecked((uint)-1);
 
         /// <summary>
+        /// PIPE_UNLIMITED_INSTANCES
+        /// </summary>
+        public const uint PIPE_UNLIMITED_INSTANCES = 255;
+
+        /// <summary>
         /// INVALID_HANDLE_VALUE
         /// </summary>
         public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
@@ -1043,6 +1048,152 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", SetLastError = true)]
         public static extern IntPtr CreateMailslot([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nMaxMessageSize, [In]uint lReadTimeout,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Creates an instance of a named pipe and returns a handle for subsequent pipe operations.
+        /// A named pipe server process uses this function either to create the first instance of a specific named pipe
+        /// and establish its basic attributes or to create a new instance of an existing named pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea (CreateNamedPipeW document not exists)
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The unique pipe name. This string must have the following form:
+        /// \.\pipe&lt;i&gt;pipename
+        /// The pipename part of the name can include any character other than a backslash, including numbers and special characters.
+        /// The entire pipe name string can be up to 256 characters long. Pipe names are not case sensitive.
+        /// </param>
+        /// <param name="dwOpenMode">
+        /// The open mode.
+        /// The function fails if <paramref name="dwOpenMode"/> specifies anything other than 0 or the flags listed in the following tables.
+        /// This parameter must specify one of the following pipe access modes. The same mode must be specified for each instance of the pipe.
+        /// <see cref="PipeOpenModes.PIPE_ACCESS_DUPLEX"/>, <see cref="PipeOpenModes.PIPE_ACCESS_INBOUND"/>, <see cref="PipeOpenModes.PIPE_ACCESS_OUTBOUND"/>.
+        /// This parameter can also include one or more of the following flags, which enable the write-through and overlapped modes.
+        /// These modes can be different for different instances of the same pipe.
+        /// <see cref="FileFlags.FILE_FLAG_FIRST_PIPE_INSTANCE"/>:
+        /// If you attempt to create multiple instances of a pipe with this flag, creation of the first instance succeeds,
+        /// but creation of the next instance fails with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// <see cref="FileFlags.FILE_FLAG_WRITE_THROUGH"/>:
+        /// Write-through mode is enabled. This mode affects only write operations on byte-type pipes and, then,
+        /// only when the client and server processes are on different computers.
+        /// If this mode is enabled, functions writing to a named pipe do not return until the data written is transmitted across the network
+        /// and is in the pipe's buffer on the remote computer.
+        /// If this mode is not enabled, the system enhances the efficiency of network operations by buffering data
+        /// until a minimum number of bytes accumulate or until a maximum time elapses.
+        /// <see cref="FileFlags.FILE_FLAG_OVERLAPPED"/>
+        /// Overlapped mode is enabled.
+        /// If this mode is enabled, functions performing read, write, and connect operations that may take a significant time
+        /// to be completed can return immediately.
+        /// This mode enables the thread that started the operation to perform other operations while the time-consuming operation
+        /// executes in the background.
+        /// For example, in overlapped mode, a thread can handle simultaneous input and output (I/O) operations on
+        /// multiple instances of a pipe or perform simultaneous read and write operations on the same pipe handle.
+        /// If overlapped mode is not enabled, functions performing read, write, and connect operations on the pipe handle
+        /// do not return until the operation is finished.
+        /// The <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions can only be used with a pipe handle in overlapped mode.
+        /// The <see cref="ReadFile"/>, <see cref="WriteFile"/>, <see cref="ConnectNamedPipe"/>, and <see cref="TransactNamedPipe"/> functions
+        /// can execute either synchronously or as overlapped operations.
+        /// This parameter can include any combination of the following security access modes.
+        /// These modes can be different for different instances of the same pipe.
+        /// <see cref="StandardAccessRights.WRITE_DAC"/>:
+        /// The caller will have write access to the named pipe's discretionary access control list (ACL).
+        /// <see cref="StandardAccessRights.WRITE_OWNER"/>:
+        /// The caller will have write access to the named pipe's owner.
+        /// <see cref="ACCESS_SYSTEM_SECURITY"/>:
+        /// The caller will have write access to the named pipe's SACL. For more information, see Access-Control Lists (ACLs) and SACL Access Right.
+        /// </param>
+        /// <param name="dwPipeMode">
+        /// The pipe mode.
+        /// The function fails if <paramref name="dwPipeMode"/> specifies anything other than 0 or the flags listed in the following tables.
+        /// One of the following type modes can be specified. The same type mode must be specified for each instance of the pipe.
+        /// <see cref="PipeModes.PIPE_TYPE_BYTE"/>, <see cref="PipeModes.PIPE_TYPE_MESSAGE"/>
+        /// One of the following read modes can be specified. Different instances of the same pipe can specify different read modes.
+        /// <see cref="PipeModes.PIPE_READMODE_BYTE"/>, <see cref="PipeModes.PIPE_READMODE_MESSAGE"/>
+        /// One of the following wait modes can be specified. Different instances of the same pipe can specify different wait modes.
+        /// <see cref="PipeModes.PIPE_WAIT"/>, <see cref="PipeModes.PIPE_NOWAIT"/>
+        /// One of the following remote-client modes can be specified. Different instances of the same pipe can specify different remote-client modes.
+        /// <see cref="PipeModes.PIPE_ACCEPT_REMOTE_CLIENTS"/>, <see cref="PipeModes.PIPE_REJECT_REMOTE_CLIENTS"/>
+        /// </param>
+        /// <param name="nMaxInstances">
+        /// The maximum number of instances that can be created for this pipe.
+        /// The first instance of the pipe can specify this value; the same number must be specified for other instances of the pipe.
+        /// Acceptable values are in the range 1 through <see cref="PIPE_UNLIMITED_INSTANCES"/>.
+        /// If this parameter is <see cref="PIPE_UNLIMITED_INSTANCES"/>, the number of pipe instances that can be created
+        /// is limited only by the availability of system resources.
+        /// If nMaxInstances is greater than <see cref="PIPE_UNLIMITED_INSTANCES"/>,
+        /// the return value is <see cref="INVALID_HANDLE_VALUE"/> and
+        /// <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_INVALID_PARAMETER"/>.
+        /// </param>
+        /// <param name="nOutBufferSize">
+        /// The number of bytes to reserve for the output buffer. For a discussion on sizing named pipe buffers, see the following Remarks section.
+        /// </param>
+        /// <param name="nInBufferSize">
+        /// The number of bytes to reserve for the input buffer. For a discussion on sizing named pipe buffers, see the following Remarks section.
+        /// </param>
+        /// <param name="nDefaultTimeOut">
+        /// The default time-out value, in milliseconds, if the <see cref="WaitNamedPipe"/> function specifies <see cref="NMPWAIT_USE_DEFAULT_WAIT"/>.
+        /// Each instance of a named pipe must specify the same value.
+        /// A value of zero will result in a default time-out of 50 milliseconds.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies a security descriptor for the new named pipe
+        /// and determines whether child processes can inherit the returned handle.
+        /// If <paramref name="lpSecurityAttributes"/> is <see langword="null"/>, 
+        /// the named pipe gets a default security descriptor and the handle cannot be inherited.
+        /// The ACLs in the default security descriptor for a named pipe grant full control to the LocalSystem account,
+        /// administrators, and the creator owner. They also grant read access to members of the Everyone group and the anonymous account.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the server end of a named pipe instance.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// To create an instance of a named pipe by using <see cref="CreateNamedPipe"/>,
+        /// the user must have <see cref="FILE_CREATE_PIPE_INSTANCE"/> access to the named pipe object.
+        /// If a new named pipe is being created, the access control list (ACL) from the security attributes parameter
+        /// defines the discretionary access control for the named pipe.
+        /// All instances of a named pipe must specify the same pipe type (byte-type or message-type),
+        /// pipe access (duplex, inbound, or outbound), instance count, and time-out value.
+        /// If different values are used, this function fails and
+        /// <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// A client process connects to a named pipe by using the <see cref="CreateFile"/> or <see cref="CallNamedPipe"/> function.
+        /// The client side of a named pipe starts out in byte mode, even if the server side is in message mode.
+        /// To avoid problems receiving data, set the client side to message mode as well.
+        /// To change the mode of the pipe, the pipe client must open a read-only pipe
+        /// with <see cref="GenericAccessRights.GENERIC_READ"/> and <see cref="FileAccessRights.FILE_WRITE_ATTRIBUTES"/> access.
+        /// The pipe server should not perform a blocking read operation until the pipe client has started. Otherwise, a race condition can occur.
+        /// This typically occurs when initialization code, such as the C run-time, needs to lock and examine inherited handles.
+        /// Every time a named pipe is created, the system creates the inbound and/or outbound buffers using nonpaged pool,
+        /// which is the physical memory used by the kernel.
+        /// The number of pipe instances (as well as objects such as threads and processes) that you can create is limited by the available nonpaged pool.
+        /// Each read or write request requires space in the buffer for the read or write data, plus additional space for the internal data structures.
+        /// The input and output buffer sizes are advisory. The actual buffer size reserved for each end of the named pipe is either the system default,
+        /// the system minimum or maximum, or the specified size rounded up to the next allocation boundary.
+        /// The buffer size specified should be small enough that your process will not run out of nonpaged pool,
+        /// but large enough to accommodate typical requests.
+        /// Whenever a pipe write operation occurs, the system first tries to charge the memory against the pipe write quota.
+        /// If the remaining pipe write quota is enough to fulfill the request, the write operation completes immediately.
+        /// If the remaining pipe write quota is too small to fulfill the request, the system will try to expand the buffers
+        /// to accommodate the data using nonpaged pool reserved for the process.
+        /// The write operation will block until the data is read from the pipe so that the additional buffer quota can be released.
+        /// Therefore, if your specified buffer size is too small, the system will grow the buffer as needed,
+        /// but the downside is that the operation will block.
+        /// If the operation is overlapped, a system thread is blocked; otherwise, the application thread is blocked.
+        /// To free resources used by a named pipe, the application should always close handles when they are no longer needed,
+        /// which is accomplished either by calling the <see cref="CloseHandle"/> function or when the process associated with the instance handles ends.
+        /// Note that an instance of a named pipe may have more than one handle associated with it.
+        /// An instance of a named pipe is always deleted when the last handle to the instance of the named pipe is closed.
+        /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie,
+        /// from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", SetLastError = true)]
+        public static extern IntPtr CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint dwOpenMode, [In]uint dwPipeMode,
+            [In]uint nMaxInstances, [In]uint nOutBufferSize, [In]uint nInBufferSize, [In]uint nDefaultTimeOut,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
 
         /// <summary>
