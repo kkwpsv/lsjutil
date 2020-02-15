@@ -51,7 +51,7 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static IAsyncResult BeginConnect(this Socket socket, IPAddress ip, int port, AsyncCallback callback) =>
             socket.BeginConnect(ip, port, callback, null);
-        
+
         /// <summary>
         /// BeginReceive
         /// </summary>
@@ -61,7 +61,20 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, AsyncCallback callback) =>
             socket.BeginReceive(buffer, callback, null);
-        
+
+        /// <summary>
+        /// BeginReceive
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public static IAsyncResult BeginReceive(this Socket socket, byte[] buffer, int offset, int size, AsyncCallback callback, object state) =>
+            socket.BeginReceive(buffer, offset, size, SocketFlags.None, callback, state);
+
         /// <summary>
         /// BeginReceive
         /// </summary>
@@ -93,6 +106,19 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static IAsyncResult BeginSend(this Socket socket, byte[] buffer, AsyncCallback callback, object state) =>
             socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, callback, state);
+
+        /// <summary>
+        /// BeginSend
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="size"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public static IAsyncResult BeginSend(this Socket socket, byte[] buffer, int offset, int size, AsyncCallback callback, object state) =>
+            socket.BeginSend(buffer, offset, size, SocketFlags.None, callback, state);
 
         /// <summary>
         /// Disconnect
