@@ -1102,7 +1102,7 @@ namespace Lsj.Util.Win32
         /// The caller will have write access to the named pipe's discretionary access control list (ACL).
         /// <see cref="StandardAccessRights.WRITE_OWNER"/>:
         /// The caller will have write access to the named pipe's owner.
-        /// <see cref="ACCESS_SYSTEM_SECURITY"/>:
+        /// <see cref="Constants.ACCESS_SYSTEM_SECURITY"/>:
         /// The caller will have write access to the named pipe's SACL. For more information, see Access-Control Lists (ACLs) and SACL Access Right.
         /// </param>
         /// <param name="dwPipeMode">
