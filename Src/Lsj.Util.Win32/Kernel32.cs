@@ -218,6 +218,77 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new directory as a transacted operation, with the attributes of a specified template directory.
+        /// If the underlying file system supports security on files and directories,
+        /// the function applies a specified security descriptor to the new directory.
+        /// The new directory retains the other attributes of the specified template directory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectorytransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpTemplateDirectory">
+        /// The path of the directory to use as a template when creating the new directory. This parameter can be <see langword="null"/>.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// The directory must reside on the local computer; otherwise, the function fails and
+        /// the last error code is set to <see cref="SystemErrorCodes.ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="lpNewDirectory">
+        /// The path of the directory to be created.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// The <paramref name="lpSecurityAttributes"/> member of the structure specifies a security descriptor for the new directory.
+        /// If <paramref name="lpSecurityAttributes"/> is <see langword="null"/>, the directory gets a default security descriptor.
+        /// The access control lists (ACL) in the default security descriptor for a directory are inherited from its parent directory.
+        /// The target file system must support security on files and directories for this parameter to have an effect.
+        /// This is indicated when <see cref="GetVolumeInformation"/> returns <see cref="FS_PERSISTENT_ACLS"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// Possible errors include the following.
+        /// <see cref="SystemErrorCodes.ERROR_ALREADY_EXISTS"/>: The specified directory already exists.
+        /// <see cref="SystemErrorCodes.ERROR_EFS_NOT_ALLOWED_IN_TRANSACTION"/>:
+        /// You cannot create a child directory with a parent directory that has encryption disabled.
+        /// <see cref="SystemErrorCodes.ERROR_PATH_NOT_FOUND"/>:
+        /// One or more intermediate directories do not exist.
+        /// This function only creates the final directory in the path.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateDirectoryTransacted"/> function allows you to create directories that inherit stream information from other directories.
+        /// This function is useful, for example, when you are using Macintosh directories,
+        /// which have a resource stream that is needed to properly identify directory contents as an attribute.
+        /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
+        /// On volumes formatted for such a file system, a new directory inherits the compression and encryption attributes of its parent directory.
+        /// This function fails with <see cref="SystemErrorCodes.ERROR_EFS_NOT_ALLOWED_IN_TRANSACTION"/> if you try to create a child directory
+        /// with a parent directory that has encryption disabled.
+        /// You can obtain a handle to a directory by calling the <see cref="CreateFileTransacted"/> function
+        /// with the <see cref="FileFlags.FILE_FLAG_BACKUP_SEMANTICS"/> flag set.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes,
+            IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
         /// Creates or opens a file, file stream, or directory as a transacted operation.
         /// The function returns a handle that can be used to access the object.
         /// To perform this operation as a nontransacted operation or to access objects
