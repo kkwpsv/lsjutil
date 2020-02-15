@@ -152,6 +152,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new directory.
+        /// If the underlying file system supports security on files and directories,
+        /// the function applies a specified security descriptor to the new directory.
+        /// To specify a template directory, use the <see cref="CreateDirectoryEx"/> function.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateDirectoryTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The path of the directory to be created.
+        /// For the ANSI version of this function, there is a default string size limit for paths of 248 characters
+        /// (<see cref="Constants.MAX_PATH"/> - enough room for a 8.3 filename).
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File
+        ///  Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="CreateDirectory"/>),
+        ///  you can opt-in to remove the 248 character limitation without prepending "\\?\". The 255 character limit per path segment still applies.
+        ///  See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// The <paramref name="lpSecurityAttributes"/> member of the structure specifies a security descriptor for the new directory.
+        /// If <paramref name="lpSecurityAttributes"/> is null, the directory gets a default security descriptor.
+        /// The access control lists (ACL) in the default security descriptor for a directory are inherited from its parent directory.
+        /// The target file system must support security on files and directories for this parameter to have an effect.
+        /// This is indicated when <see cref="GetVolumeInformation"/> returns <see cref="FS_PERSISTENT_ACLS"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// Possible errors include the following.
+        /// <see cref="SystemErrorCodes.ERROR_ALREADY_EXISTS"/>: The specified directory already exists.
+        /// <see cref="SystemErrorCodes.ERROR_PATH_NOT_FOUND"/>: One or more intermediate directories do not exist.
+        /// </returns>
+        /// <remarks>
+        /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
+        /// On volumes formatted for such a file system, a new directory inherits the compression and encryption attributes of its parent directory.
+        /// An application can obtain a handle to a directory by calling <see cref="CreateFile"/> with
+        /// the <see cref="FileFlags.FILE_FLAG_BACKUP_SEMANTICS"/> flag set.
+        /// For a code example, see <see cref="CreateFile"/>.
+        /// To support inheritance functions that query the security descriptor of this object may heuristically determine
+        /// and report that inheritance is in effect. See Automatic Propagation of Inheritable ACEs for more information.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
+[MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
         /// Creates a new directory with the attributes of a specified template directory.
         /// If the underlying file system supports security on files and directories,
         /// the function applies a specified security descriptor to the new directory.
