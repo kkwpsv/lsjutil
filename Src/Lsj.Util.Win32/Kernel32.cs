@@ -152,6 +152,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new directory with the attributes of a specified template directory.
+        /// If the underlying file system supports security on files and directories,
+        /// the function applies a specified security descriptor to the new directory.
+        /// The new directory retains the other attributes of the specified template directory.
+        /// To perform this operation as a transacted operation, use the <see cref="CreateDirectoryTransacted"/> function.
+        /// </para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createdirectoryexw
+        /// </summary>
+        /// <param name="lpTemplateDirectory">
+        /// The path of the directory to use as a template when creating the new directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="CreateDirectoryEx"/>),
+        /// you can opt-in to remove the <see cref="Constants.MAX_PATH"/> character limitation without prepending "\\?\".
+        /// The 255 character limit per path segment still applies.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpNewDirectory">
+        /// The path of the directory to be created.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="CreateDirectoryEx"/>),
+        /// you can opt-in to remove the <see cref="Constants.MAX_PATH"/> character limitation without prepending "\\?\".
+        /// The 255 character limit per path segment still applies.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// The <paramref name="lpSecurityAttributes"/> member of the structure specifies a security descriptor for the new directory.
+        /// If <paramref name="lpSecurityAttributes"/> is null, the directory gets a default security descriptor.
+        /// The access control lists (ACL) in the default security descriptor for a directory are inherited from its parent directory.
+        /// The target file system must support security on files and directories for this parameter to have an effect.
+        /// This is indicated when <see cref="GetVolumeInformation"/> returns <see cref="FS_PERSISTENT_ACLS"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// Possible errors include the following.
+        /// <see cref="SystemErrorCodes.ERROR_ALREADY_EXISTS"/>: The specified directory already exists.
+        /// <see cref="SystemErrorCodes.ERROR_PATH_NOT_FOUND"/>: One or more intermediate directories do not exist.
+        /// This function only creates the final directory in the path.
+        /// To create all intermediate directories on the path, use the <see cref="SHCreateDirectoryEx"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateDirectoryEx"/> function allows you to create directories that inherit stream information from other directories.
+        /// This function is useful, for example, when you are using Macintosh directories,
+        /// which have a resource stream that is needed to properly identify directory contents as an attribute.
+        /// Some file systems, such as the NTFS file system, support compression or encryption for individual files and directories.
+        /// On volumes formatted for such a file system, a new directory inherits the compression and encryption attributes of its parent directory.
+        /// You can obtain a handle to a directory by calling the <see cref="CreateFile"/> function with
+        /// the <see cref="FileFlags.FILE_FLAG_BACKUP_SEMANTICS"/> flag set.
+        /// For a code example, see <see cref="CreateFile"/>.
+        /// To support inheritance functions that query the security descriptor of this object can heuristically determine and report
+        /// that inheritance is in effect. For more information, see Automatic Propagation of Inheritable ACEs.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
         /// Creates or opens a file, file stream, or directory as a transacted operation.
         /// The function returns a handle that can be used to access the object.
         /// To perform this operation as a nontransacted operation or to access objects
