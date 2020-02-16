@@ -25,6 +25,21 @@ namespace Lsj.Util.Win32
         public const uint MAILSLOT_WAIT_FOREVER = unchecked((uint)-1);
 
         /// <summary>
+        /// Does not wait for the named pipe. If the named pipe is not available, the function returns an error.
+        /// </summary>
+        public const uint NMPWAIT_NOWAIT = 0x00000001;
+
+        /// <summary>
+        /// Uses the default time-out specified in a call to the <see cref="CreateNamedPipe"/> function.
+        /// </summary>
+        public const uint NMPWAIT_USE_DEFAULT_WAIT = 0x00000000;
+
+        /// <summary>
+        /// Waits indefinitely.
+        /// </summary>
+        public const uint NMPWAIT_WAIT_FOREVER = 0xffffffff;
+
+        /// <summary>
         /// PIPE_UNLIMITED_INSTANCES
         /// </summary>
         public const uint PIPE_UNLIMITED_INSTANCES = 255;
@@ -100,6 +115,63 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachConsole", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AttachConsole([In]uint dwProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Connects to a message-type pipe (and waits if an instance of the pipe is not available),
+        /// writes to and reads from the pipe, and then closes the pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-callnamedpipea
+        /// </para>
+        /// </summary>
+        /// <param name="lpNamedPipeName">
+        /// The pipe name.
+        /// </param>
+        /// <param name="lpInBuffer">
+        /// The data to be written to the pipe.
+        /// </param>
+        /// <param name="nInBufferSize">
+        /// The size of the write buffer, in bytes.
+        /// </param>
+        /// <param name="lpOutBuffer">
+        /// A pointer to the buffer that receives the data read from the pipe.
+        /// </param>
+        /// <param name="nOutBufferSize">
+        /// The size of the read buffer, in bytes.
+        /// </param>
+        /// <param name="lpBytesRead">
+        /// A pointer to a variable that receives the number of bytes read from the pipe.
+        /// </param>
+        /// <param name="nTimeOut">
+        /// The number of milliseconds to wait for the named pipe to be available.
+        /// In addition to numeric values, the following special values can be specified.
+        /// <see cref="NMPWAIT_NOWAIT"/>, <see cref="NMPWAIT_WAIT_FOREVER"/>, <see cref="NMPWAIT_USE_DEFAULT_WAIT"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the message written to the pipe by the server process is longer than <paramref name="nOutBufferSize"/>,
+        /// <see cref="CallNamedPipe"/> returns <see langword="false"/>,
+        /// and <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_MORE_DATA"/>.
+        /// The remainder of the message is discarded, because <see cref="CallNamedPipe"/> closes the handle to the pipe before returning.
+        /// </returns>
+        /// <remarks>
+        /// Calling <see cref="CallNamedPipe"/> is equivalent to calling the <see cref="CreateFile"/> (or <see cref="WaitNamedPipe"/>,
+        /// if <see cref="CreateFile"/> cannot open the pipe immediately), <see cref="TransactNamedPipe"/>, and <see cref="CloseHandle"/> functions.
+        /// <see cref="CreateFile"/> is called with an access flag
+        /// of <see cref="GenericAccessRights.GENERIC_READ"/> | <see cref="GenericAccessRights.GENERIC_WRITE"/>,
+        /// and an inherit handle flag of <see langword="false"/>.
+        /// <see cref="CallNamedPipe"/> fails if the pipe is a byte-type pipe.
+        /// Windows 10, version 1709:  Pipes are only supported within an app-container;
+        /// ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNamedPipeW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CallNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpNamedPipeName, [In]IntPtr lpInBuffer,
+            [In]uint nInBufferSize, [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesRead, [In]uint nTimeOut);
 
         /// <summary>
         /// <para>
