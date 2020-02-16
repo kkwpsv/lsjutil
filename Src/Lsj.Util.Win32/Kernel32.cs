@@ -283,6 +283,88 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enables a named pipe server process to wait for a client process to connect to an instance of a named pipe.
+        /// A client process connects by calling either the <see cref="CreateFile"/> or <see cref="CallNamedPipe"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-connectnamedpipe
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the server end of a named pipe instance.
+        /// This handle is returned by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure.
+        /// If <paramref name="hNamedPipe"/> was opened with <see cref="FileFlags.FILE_FLAG_OVERLAPPED"/>,
+        /// the <paramref name="lpOverlapped"/> parameter must not be <see cref="IntPtr.Zero"/>.
+        /// It must point to a valid <see cref="OVERLAPPED"/> structure.
+        /// If <paramref name="hNamedPipe"/> was opened with <see cref="FileFlags.FILE_FLAG_OVERLAPPED"/>
+        /// and <paramref name="lpOverlapped"/> is <see cref="IntPtr.Zero"/>,
+        /// the function can incorrectly report that the connect operation is complete.
+        /// If <paramref name="hNamedPipe"/> was created with <see cref="FileFlags.FILE_FLAG_OVERLAPPED"/>
+        /// and <paramref name="lpOverlapped"/> is not <see cref="IntPtr.Zero"/>,
+        /// the <see cref="OVERLAPPED"/> structure should contain a handle to a manual-reset event object
+        /// (which the server can create by using the <see cref="CreateEvent"/> function).
+        /// If <paramref name="hNamedPipe"/> was not opened with <see cref="FileFlags.FILE_FLAG_OVERLAPPED"/>,
+        /// the function does not return until a client is connected or an error occurs.
+        /// Successful synchronous operations result in the function returning a nonzero value if a client connects after the function is called.
+        /// </param>
+        /// <returns>
+        /// If the operation is synchronous, <see cref="ConnectNamedPipe"/> does not return until the operation has completed.
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the operation is asynchronous, <see cref="ConnectNamedPipe"/> returns immediately.
+        /// If the operation is still pending, the return value is <see langword="false"/>
+        /// and <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_IO_PENDING"/>.
+        /// (You can use the <see cref="HasOverlappedIoCompleted"/> macro to determine when the operation has finished.)
+        /// If the function fails, the return value is <see langword="false"/>
+        /// and <see cref="Marshal.GetLastWin32Error"/> returns a value
+        /// other than <see cref="SystemErrorCodes.ERROR_IO_PENDING"/> or <see cref="SystemErrorCodes.ERROR_PIPE_CONNECTED"/>.
+        /// If a client connects before the function is called, the function returns <see langword="false"/>
+        /// and GetLastError returns <see cref="SystemErrorCodes.ERROR_PIPE_CONNECTED"/>.
+        /// This can happen if a client connects in the interval between the call to <see cref="CreateNamedPipe"/>
+        /// and the call to <see cref="ConnectNamedPipe"/>.
+        /// In this situation, there is a good connection between client and server, even though the function returns <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// A named pipe server process can use <see cref="ConnectNamedPipe"/> with a newly created pipe instance.
+        /// It can also be used with an instance that was previously connected to another client process;
+        /// in this case, the server process must first call the <see cref="DisconnectNamedPipe"/> function
+        /// to disconnect the handle from the previous client before the handle can be reconnected to a new client.
+        /// Otherwise, <see cref="ConnectNamedPipe"/> returns <see langword="false"/>,
+        /// and <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_NO_DATA"/>
+        /// if the previous client has closed its handle or <see cref="SystemErrorCodes.ERROR_PIPE_CONNECTED"/> if it has not closed its handle.
+        /// The behavior of <see cref="ConnectNamedPipe"/> depends on two conditions:
+        /// whether the pipe handle's wait mode is set to blocking or nonblocking and
+        /// whether the function is set to execute synchronously or in overlapped mode.
+        /// A server initially specifies a pipe handle's wait mode in the <see cref="CreateNamedPipe"/> function,
+        /// and it can be changed by using the <see cref="SetNamedPipeHandleState"/> function.
+        /// The server process can use any of the wait functions or <see cref="SleepEx"/>— to determine
+        /// when the state of the event object is signaled, and it can then use
+        /// the <see cref="HasOverlappedIoCompleted"/> macro to determine when the <see cref="ConnectNamedPipe"/> operation completes.
+        /// If the specified pipe handle is in nonblocking mode, <see cref="ConnectNamedPipe"/> always returns immediately.
+        /// In nonblocking mode, <see cref="ConnectNamedPipe"/> returns a nonzero value the first time it is called for a pipe instance
+        /// that is disconnected from a previous client.
+        /// This indicates that the pipe is now available to be connected to a new client process.
+        /// In all other situations when the pipe handle is in nonblocking mode, <see cref="ConnectNamedPipe"/> returns <see langword="false"/>.
+        /// In these situations, <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_PIPE_LISTENING"/>
+        /// if no client is connected, <see cref="SystemErrorCodes.ERROR_PIPE_CONNECTED"/> if a client is connected,
+        /// and <see cref="SystemErrorCodes.ERROR_NO_DATA"/> if a previous client has closed its pipe handle but the server has not disconnected.
+        /// Note that a good connection between client and server exists only
+        /// after the <see cref="SystemErrorCodes.ERROR_PIPE_CONNECTED"/> error is received.
+        /// Nonblocking mode is supported for compatibility with Microsoft LAN Manager version 2.0,
+        /// and it should not be used to achieve asynchronous input and output (I/O) with named pipes.
+        /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process
+        /// that's part of the same app. Also, named pipes must use the syntax "\\.\pipe\LOCAL\" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConnectNamedPipe", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ConnectNamedPipe([In]IntPtr hNamedPipe, [In]int lpOverlapped);
+
+        /// <summary>
+        /// <para>
         /// Creates a new directory.
         /// If the underlying file system supports security on files and directories,
         /// the function applies a specified security descriptor to the new directory.
