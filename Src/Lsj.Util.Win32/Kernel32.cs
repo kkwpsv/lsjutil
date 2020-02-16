@@ -644,6 +644,78 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates or opens a named or unnamed event object and returns a handle to the object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createeventexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpEventAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// If <paramref name="lpEventAttributes"/> is <see langword="null"/>, the event handle cannot be inherited by child processes.
+        /// The <paramref name="lpEventAttributes"/> member of the structure specifies a security descriptor for the new event.
+        /// If <paramref name="lpEventAttributes"/> is <see langword="null"/>, the event gets a default security descriptor.
+        /// The ACLs in the default security descriptor for an event come from the primary or impersonation token of the creator.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the event object. The name is limited to <see cref="Constants.MAX_PATH"/> characters. Name comparison is case sensitive.
+        /// If <paramref name="lpName"/> is <see langword="null"/>, the event object is created without a name.
+        /// If <paramref name="lpName"/> matches the name of another kind of object in the same namespace
+        /// (such as an existing semaphore, mutex, waitable timer, job, or file-mapping object),
+        /// the function fails and the <see cref="Marshal.GetLastWin32Error"/> function returns <see cref="SystemErrorCodes.ERROR_INVALID_HANDLE"/>.
+        /// This occurs because these objects share the same namespace.
+        /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// Fast user switching is implemented using Terminal Services sessions.
+        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// The object can be created in a private namespace. For more information, see Object Namespaces.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one or more of the following values.
+        /// <see cref="CreateEventExFlags.CREATE_EVENT_INITIAL_SET"/>, <see cref="CreateEventExFlags.CREATE_EVENT_MANUAL_RESET"/>
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access mask for the event object.
+        /// For a list of access rights, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the event object.
+        /// If the named event object existed before the function call, the function returns a handle to the existing object
+        /// and <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_ALREADY_EXISTS"/>.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// Any thread of the calling process can specify the event-object handle in a call to one of the wait functions.
+        /// The single-object wait functions return when the state of the specified object is signaled.
+        /// The multiple-object wait functions can be instructed to return either when any one or when all of the specified objects are signaled.
+        /// When a wait function returns, the waiting thread is released to continue its execution.
+        /// The initial state of the event object is specified by the dwFlags parameter.
+        /// Use the <see cref="SetEvent"/> function to set the state of an event object to signaled.
+        /// Use the <see cref="ResetEvent"/> function to reset the state of an event object to nonsignaled.
+        /// When the state of a manual-reset event object is signaled, it remains signaled until it is explicitly reset
+        /// to nonsignaled by the <see cref="ResetEvent"/> function.
+        /// Any number of waiting threads, or threads that subsequently begin wait operations for the specified event object,
+        /// can be released while the object's state is signaled.
+        /// Multiple processes can have handles of the same event object, enabling use of the object for interprocess synchronization.
+        /// The following object-sharing mechanisms are available:
+        /// A child process created by the <see cref="CreateProcess"/> function can inherit a handle to an event object
+        /// if the <paramref name="lpEventAttributes"/> parameter of <see cref="CreateEvent"/> enabled inheritance.
+        /// A process can specify the event-object handle in a call to the <see cref="DuplicateHandle"/> function
+        /// to create a duplicate handle that can be used by another process.
+        /// A process can specify the name of an event object in a call to the <see cref="OpenEvent"/> or <see cref="CreateEvent"/> function.
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// The system closes the handle automatically when the process terminates.
+        /// The event object is destroyed when its last handle has been closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", SetLastError = true)]
+        public static extern IntPtr CreateEventEx(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpEventAttributes,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]CreateEventExFlags dwFlags, [In]uint dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
         /// Creates or opens a file or I/O device.
         /// The most commonly used I/O devices are as follows: file, file stream, directory, physical disk, volume, console buffer,
         /// tape drive, communications resource, mailslot, and pipe.
