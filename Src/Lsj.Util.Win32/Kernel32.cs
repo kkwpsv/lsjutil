@@ -1514,6 +1514,63 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an anonymous pipe, and returns handles to the read and write ends of the pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-createpipe
+        /// </para>
+        /// </summary>
+        /// <param name="hReadPipe">
+        /// A pointer to a variable that receives the read handle for the pipe.
+        /// </param>
+        /// <param name="hWritePipe">
+        /// A pointer to a variable that receives the write handle for the pipe.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether the returned handle can be inherited by child processes.
+        /// If <paramref name="lpPipeAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new pipe.
+        /// If <paramref name="lpPipeAttributes"/> is <see langword="null"/>, the pipe gets a default security descriptor.
+        /// The ACLs in the default security descriptor for a pipe come from the primary or impersonation token of the creator.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the buffer for the pipe, in bytes.
+        /// The size is only a suggestion; the system uses the value to calculate an appropriate buffering mechanism.
+        /// If this parameter is zero, the system uses the default buffer size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CreatePipe"/> creates the pipe, assigning the specified pipe size to the storage buffer.
+        /// <see cref="CreatePipe"/> also creates handles that the process uses to read from and write to the buffer
+        /// in subsequent calls to the <see cref="ReadFile"/> and <see cref="WriteFile"/> functions.
+        /// To read from the pipe, a process uses the read handle in a call to the <see cref="ReadFile"/> function.
+        /// <see cref="ReadFile"/> returns when one of the following is true: a write operation completes on the write end of the pipe,
+        /// the number of bytes requested has been read, or an error occurs.
+        /// When a process uses <see cref="WriteFile"/> to write to an anonymous pipe, the write operation is not completed until all bytes are written.
+        /// If the pipe buffer is full before all bytes are written, <see cref="WriteFile"/> does not return
+        /// until another process or thread uses <see cref="ReadFile"/> to make more buffer space available.
+        /// Anonymous pipes are implemented using a named pipe with a unique name.
+        /// Therefore, you can often pass a handle to an anonymous pipe to a function that requires a handle to a named pipe.
+        /// If <see cref="CreatePipe"/> fails, the contents of the output parameters are indeterminate.
+        /// No assumptions should be made about their contents in this event.
+        /// To free resources used by a pipe, the application should always close handles when they are no longer needed,
+        /// which is accomplished either by calling the <see cref="CloseHandle"/> function or
+        /// when the process associated with the instance handles ends.
+        /// Note that an instance of a pipe may have more than one handle associated with it.
+        /// An instance of a pipe is always deleted when the last handle to the instance of the named pipe is closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePipe", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreatePipe([Out]out IntPtr hReadPipe, [Out]out IntPtr hWritePipe,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpPipeAttributes,
+            [In] uint nSize);
+
+        /// <summary>
+        /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
         /// If the calling process is impersonating another user, the new process uses the token for the calling process, not the impersonation token.
         /// To run the new process in the security context of the user represented by the impersonation token,
