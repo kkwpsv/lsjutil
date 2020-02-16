@@ -1526,7 +1526,7 @@ namespace Lsj.Util.Win32
         /// <param name="hWritePipe">
         /// A pointer to a variable that receives the write handle for the pipe.
         /// </param>
-        /// <param name="lpSecurityAttributes">
+        /// <param name="lpPipeAttributes">
         /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether the returned handle can be inherited by child processes.
         /// If <paramref name="lpPipeAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
         /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new pipe.
