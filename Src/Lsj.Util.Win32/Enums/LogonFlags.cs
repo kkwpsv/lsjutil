@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw
     /// </para>
     /// </summary>
-    public enum CreateProcessWithLogonWFlags : uint
+    public enum LogonFlags : uint
     {
         /// <summary>
         /// Log on, then load the user profile in the HKEY_USERS registry key.
