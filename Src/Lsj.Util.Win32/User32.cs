@@ -763,7 +763,7 @@ namespace Lsj.Util.Win32
         /// A handle to the module which contains the dialog box template.
         /// If this parameter is <see cref="IntPtr.Zero"/>, then the current executable is used.
         /// </param>
-        /// <param name="lpTemplateName">
+        /// <param name="lpTemplate">
         /// The dialog box template.
         /// This parameter is either the pointer to a null-terminated character string that specifies the name of the dialog box template
         /// or an integer value that specifies the resource identifier of the dialog box template.
