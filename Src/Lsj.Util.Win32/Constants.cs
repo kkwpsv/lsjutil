@@ -20,8 +20,18 @@ namespace Lsj.Util.Win32
         public const uint ACCESS_SYSTEM_SECURITY = 0x01000000;
 
         /// <summary>
+        /// INFINITE
+        /// </summary>
+        public const uint INFINITE = 0xFFFFFFFF;
+
+        /// <summary>
         /// MaximumAllowed access type
         /// </summary>
         public const uint MAXIMUM_ALLOWED = 0x02000000;
+
+        /// <summary>
+        /// INVALID_HANDLE_VALUE
+        /// </summary>
+        public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
     }
 }

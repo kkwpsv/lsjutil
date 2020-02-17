@@ -46,11 +46,6 @@ namespace Lsj.Util.Win32
         public const uint PIPE_UNLIMITED_INSTANCES = 255;
 
         /// <summary>
-        /// INVALID_HANDLE_VALUE
-        /// </summary>
-        public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
-
-        /// <summary>
         /// <para>
         /// Allocates a new console for the calling process.
         /// </para>
@@ -414,7 +409,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
-[MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
 
         /// <summary>
         /// <para>
