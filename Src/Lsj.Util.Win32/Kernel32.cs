@@ -2538,7 +2538,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword=""="false"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
         /// </returns>
         /// <remarks>
@@ -2570,6 +2570,41 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
+        /// Disconnects the server end of a named pipe instance from a client process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-disconnectnamedpipe
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to an instance of a named pipe.
+        /// This handle must be created by the <see cref="CreateNamedPipe"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the client end of the named pipe is open, the <see cref="DisconnectNamedPipe"/> function forces that end of the named pipe closed.
+        /// The client receives an error the next time it attempts to access the pipe.
+        /// A client that is forced off a pipe by <see cref="DisconnectNamedPipe"/> must still use
+        /// the <see cref="CloseHandle"/> function to close its end of the pipe.
+        /// The pipe exists as long as a server or client process has an open handle to the pipe.
+        /// When the server process disconnects a pipe instance, any unread data in the pipe is discarded.
+        /// Before disconnecting, the server can make sure data is not lost by calling the <see cref="FlushFileBuffers"/> function,
+        /// which does not return until the client process has read all the data.
+        /// The server process must call <see cref="DisconnectNamedPipe"/> to disconnect a pipe handle from its previous client
+        /// before the handle can be connected to another client by using the <see cref="ConnectNamedPipe"/> function.
+        /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process
+        /// that's part of the same app. Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DisconnectNamedPipe([In]IntPtr hNamedPipe);
 
         /// <summary>
         /// <para>
