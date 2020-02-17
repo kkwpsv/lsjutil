@@ -357,7 +357,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDialog"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
         /// <see cref="CreateDialog"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message
         /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies
-        /// the <see cref="DS_SETFONT"/> or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// the <see cref="DialogBoxStyles.DS_SETFONT"/> or <see cref="DialogBoxStyles.DS_SHELLFONT"/> style) to the dialog box procedure.
         /// The function displays the dialog box if the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style.
         /// Finally, <see cref="CreateDialog"/> returns the window handle to the dialog box.
         /// After <see cref="CreateDialog"/> returns, the application displays the dialog box
@@ -410,7 +410,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDialogParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
         /// <see cref="CreateDialogParam"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message
         /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies
-        /// the <see cref="DS_SETFONT"/> or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// the <see cref="DialogBoxStyles.DS_SETFONT"/> or <see cref="DialogBoxStyles.DS_SHELLFONT"/> style) to the dialog box procedure.
         /// The function displays the dialog box if the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style.
         /// Finally, <see cref="CreateDialogParam"/> returns the window handle of the dialog box.
         /// After <see cref="CreateDialogParam"/> returns, the application displays the dialog box
@@ -785,8 +785,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="DialogBox"/> macro uses the <see cref="CreateWindowEx"/> function to create the dialog box.
         /// <see cref="DialogBox"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message 
-        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DS_SETFONT"/>
-        /// or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DialogBoxStyles.DS_SETFONT"/>
+        /// or <see cref="DialogBoxStyles.DS_SHELLFONT"/> style) to the dialog box procedure.
         /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style),
         /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
         /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxParam"/> destroys the dialog box,
@@ -838,8 +838,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="DialogBoxParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
         /// <see cref="DialogBoxParam"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message 
-        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DS_SETFONT"/>
-        /// or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DialogBoxStyles.DS_SETFONT"/>
+        /// or <see cref="DialogBoxStyles.DS_SHELLFONT"/> style) to the dialog box procedure.
         /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style),
         /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
         /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxParam"/> destroys the dialog box,
