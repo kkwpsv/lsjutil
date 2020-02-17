@@ -51,5 +51,26 @@ namespace Lsj.Util.Win32
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnvironmentBlock", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateEnvironmentBlock([Out]out IntPtr lpEnvironment, [In]IntPtr hToken, [In]bool bInherit);
+
+        /// <summary>
+        /// <para>
+        /// Frees environment variables created by the CreateEnvironmentBlock function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-destroyenvironmentblock
+        /// </para>
+        /// </summary>
+        /// <param name="lpEnvironment">
+        /// Pointer to the environment block created by <see cref="CreateEnvironmentBlock"/>.
+        /// The environment block is an array of null-terminated Unicode strings.
+        /// The list ends with two nulls (\0\0).
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if successful; otherwise, <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
     }
 }
