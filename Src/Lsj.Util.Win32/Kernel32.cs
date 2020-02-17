@@ -2573,6 +2573,66 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes an existing file as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiletransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file to be deleted.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// The file must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="SystemErrorCodes.ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction. This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// If an application attempts to delete a file that does not exist,
+        /// the <see cref="DeleteFileTransacted"/> function fails with <see cref="SystemErrorCodes.ERROR_FILE_NOT_FOUND"/>.
+        /// If the file is a read-only file, the function fails with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// The following list identifies some tips for deleting, removing, or closing files:
+        /// To delete a read-only file, first you must remove the read-only attribute.
+        /// To delete or rename a file, you must have either delete permission on the file, or delete child permission in the parent directory.
+        /// To recursively delete the files in a directory, use the <see cref="SHFileOperation"/> function.
+        /// To remove an empty directory, use the <see cref="RemoveDirectory"/> function.
+        /// To close an open file, use the <see cref="CloseHandle"/> function.
+        /// If you set up a directory with all access except delete and delete child, and the access control lists (ACL) of new files are inherited,
+        /// then you can create a file without being able to delete it.
+        /// However, then you can create a file, and then get all the access you request on the handle that is returned to you at the time
+        /// you create the file.
+        /// If you request delete permission at the time you create a file, you can delete or rename the file with that handle,
+        /// but not with any other handle.
+        /// For more information, see File Security and Access Rights.
+        /// The <see cref="DeleteFileTransacted"/> function fails if an application attempts to delete a file that has other handles open
+        /// for normal I/O or as a memory-mapped file (<see cref="FileShareModes.FILE_SHARE_DELETE"/> must have been specified
+        /// when other handles were opened).
+        /// The <see cref="DeleteFileTransacted"/> function marks a file for deletion on close.
+        /// The file is deleted after the last transacted writer handle to the file is closed, provided that the transaction is still active.
+        /// If a file has been marked for deletion and a transacted writer handle is still open after the transaction completes,
+        /// the file will not be deleted.
+        /// Symbolic link behavior—
+        /// If the path points to a symbolic link, the symbolic link is deleted, not the target.
+        /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FileFlags.FILE_FLAG_DELETE_ON_CLOSE"/>.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileTransactedW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
         /// Disconnects the server end of a named pipe instance from a client process.
         /// </para>
         /// <para>
