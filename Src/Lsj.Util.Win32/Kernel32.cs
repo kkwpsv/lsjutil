@@ -2532,7 +2532,7 @@ namespace Lsj.Util.Win32
         /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
         /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
         /// For more information, see Naming a File.
-        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="DeleteFileW"/>),
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="DeleteFile"/>),
         /// you can opt-in to remove the <see cref="Constants.MAX_PATH"/> character limitation without prepending "\\?\".
         /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </param>
