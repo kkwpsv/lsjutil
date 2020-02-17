@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.Enums
 {
