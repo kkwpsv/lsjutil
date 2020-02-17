@@ -2520,6 +2520,59 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes an existing file.
+        /// To perform this operation as a transacted operation, use the <see cref="DeleteFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-deletefilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file to be deleted.
+        /// In the ANSI version of this function, the name is limited to <see cref="Constants.MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="DeleteFileW"/>),
+        /// you can opt-in to remove the <see cref="Constants.MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword=""="false"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// If an application attempts to delete a file that does not exist,
+        /// the <see cref="DeleteFile"/> function fails with <see cref="SystemErrorCodes.ERROR_FILE_NOT_FOUND"/>.
+        /// If the file is a read-only file, the function fails with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// The following list identifies some tips for deleting, removing, or closing files:
+        /// To delete a read-only file, first you must remove the read-only attribute.
+        /// To delete or rename a file, you must have either delete permission on the file, or delete child permission in the parent directory.
+        /// To recursively delete the files in a directory, use the <see cref="SHFileOperation"/> function.
+        /// To remove an empty directory, use the <see cref="RemoveDirectory"/> function.
+        /// To close an open file, use the <see cref="CloseHandle"/> function.
+        /// If you set up a directory with all access except delete and delete child, and the access control lists (ACL) of new files are inherited,
+        /// then you can create a file without being able to delete it.
+        /// However, then you can create a file, and then get all the access you request on the handle that is returned to you at the time
+        /// you create the file.
+        /// If you request delete permission at the time you create a file, you can delete or rename the file with that handle,
+        /// but not with any other handle.
+        /// For more information, see File Security and Access Rights.
+        /// The <see cref="DeleteFile"/> function fails if an application attempts to delete a file that has other handles open for normal I/O or
+        /// as a memory-mapped file (<see cref="FileShareModes.FILE_SHARE_DELETE"/> must have been specified when other handles were opened).
+        /// The <see cref="DeleteFile"/> function marks a file for deletion on close.
+        /// Therefore, the file deletion does not occur until the last handle to the file is closed.
+        /// Subsequent calls to <see cref="CreateFile"/> to open the file fail with <see cref="SystemErrorCodes.ERROR_ACCESS_DENIED"/>.
+        /// Symbolic link behavior—
+        /// If the path points to a symbolic link, the symbolic link is deleted, not the target.
+        /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FileFlags.FILE_FLAG_DELETE_ON_CLOSE"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
         /// Formats a message string. The function requires a message definition as input. 
         /// The message definition can come from a buffer passed into the function.
         /// It can come from a message table resource in an already-loaded module.
