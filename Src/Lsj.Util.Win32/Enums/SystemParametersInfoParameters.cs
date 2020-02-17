@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         /// <remarks>
         /// You should not use this value. It might be altered or unavailable in subsequent versions of Windows.
-        /// Instead, use the <see cref="GetScaleFactorForDevice"/> function or the <see cref="DisplayProperties"/> class 
+        /// Instead, use the <see cref="GetScaleFactorForDevice"/> function or the DisplayProperties class 
         /// to retrieve the preferred scaling factor.
         /// Desktop applications should use desktop logical DPI rather than scale factor.
         /// Desktop logical DPI can be retrieved through the <see cref="GetDeviceCaps"/> function.
