@@ -870,6 +870,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DrawFocusRect"/> function draws a rectangle in the style used to indicate that the rectangle has the focus.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that specifies the logical coordinates of the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="DrawFocusRect"/> works only in <see cref="MM_TEXT"/> mode.
+        /// Because <see cref="DrawFocusRect"/> is an XOR function, calling it a second time with the same rectangle removes the rectangle from the screen.
+        /// This function draws a rectangle that cannot be scrolled.
+        /// To scroll an area containing a rectangle drawn by this function, call <see cref="DrawFocusRect"/> to remove the rectangle from the screen,
+        /// scroll the area, and then call <see cref="DrawFocusRect"/> again to draw the rectangle in the new position.
+        /// Windows XP: The focus rectangle can now be thicker than 1 pixel, so it is more visible for high-resolution, high-density displays and accessibility needs.
+        /// This is handled by the <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERWIDTH"/> and
+        /// <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
+        public static extern bool DrawFocusRect([In]IntPtr hDC, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
+
+        /// <summary>
+        /// <para>
         /// Enables or disables mouse and keyboard input to the specified window or control.
         /// When input is disabled, the window does not receive input such as mouse clicks and key presses.
         /// When input is enabled, the window receives all input.

@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32.Enums
         SM_CXFIXEDFRAME = 7,
 
         /// <summary>
-        /// The width of the left and right edges of the focus rectangle that the <see cref="DrawFocusRectdraws"/>. 
+        /// The width of the left and right edges of the focus rectangle that the <see cref="DrawFocusRect"/> draws. 
         /// This value is in pixels. 
         /// Windows 2000:  This value is not supported.
         /// </summary>
