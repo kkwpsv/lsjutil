@@ -17,7 +17,12 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// CW_USEDEFAULT
         /// </summary>
-        public static readonly int CW_USEDEFAULT = unchecked((int)0x80000000);
+        public const int CW_USEDEFAULT = unchecked((int)0x80000000);
+
+        /// <summary>
+        /// DLGWINDOWEXTRA
+        /// </summary>
+        public const int DLGWINDOWEXTRA = 30;
 
         /// <summary>
         /// HWND_MESSAGE
