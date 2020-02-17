@@ -419,6 +419,179 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
             [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
+
+        /// <summary>
+        /// <para>
+        /// Creates an overlapped, pop-up, or child window.
+        /// It specifies the window class, window title, window style, and (optionally) the initial position and size of the window.
+        /// The function also specifies the window's parent or owner, if any, and the window's menu.
+        /// To use extended window styles in addition to the styles supported by <see cref="CreateWindow"/>, use the <see cref="CreateWindowEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindoww
+        /// </para>
+        /// </summary>
+        /// <param name="lpClassName">
+        /// A null-terminated string or a class atom created by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// The atom must be in the low-order word of <paramref name="lpClassName"/>; the high-order word must be zero.
+        /// If <paramref name="lpClassName"/> is a string, it specifies the window class name.
+        /// The class name can be any name registered with <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>,
+        /// provided that the module that registers the class is also the module that creates the window.
+        /// The class name can also be any of the predefined system class names.
+        /// For a list of system class names, see the Remarks section.
+        /// </param>
+        /// <param name="lpWindowName">
+        /// The window name.
+        /// If the window style specifies a title bar, the window title pointed to by <paramref name="lpWindowName"/> is displayed in the title bar.
+        /// When using <see cref="CreateWindow"/> to create controls, such as buttons, check boxes, and static controls,
+        /// use <paramref name="lpWindowName"/> to specify the text of the control.
+        /// When creating a static control with the <see cref="SS_ICON"/> style, use <paramref name="lpWindowName"/> to specify the icon name or identifier.
+        /// To specify an identifier, use the syntax "#num".
+        /// </param>
+        /// <param name="dwStyle">
+        /// The style of the window being created.
+        /// This parameter can be a combination of the window style values, plus the control styles indicated in the Remarks section.
+        /// </param>
+        /// <param name="x">
+        /// The initial horizontal position of the window.
+        /// For an overlapped or pop-up window, the x parameter is the initial x-coordinate of the window's upper-left corner, in screen coordinates.
+        /// For a child window, x is the x-coordinate of the upper-left corner of the window relative
+        /// to the upper-left corner of the parent window's client area.
+        /// If this parameter is set to <see cref="CW_USEDEFAULT"/>, the system selects the default position for the window's upper-left corner
+        /// and ignores the y parameter.
+        /// <see cref="CW_USEDEFAULT"/> is valid only for overlapped windows;
+        /// if it is specified for a pop-up or child window, the x and y parameters are set to zero.
+        /// </param>
+        /// <param name="y">
+        /// The initial vertical position of the window.
+        /// For an overlapped or pop-up window, the y parameter is the initial y-coordinate of the window's upper-left corner, in screen coordinates.
+        /// For a child window, y is the initial y-coordinate of the upper-left corner of the child window relative
+        /// to the upper-left corner of the parent window's client area.
+        /// For a list box, y is the initial y-coordinate of the upper-left corner of the list box's client area relative to the upper-left corner
+        /// of the parent window's client area.
+        /// If an overlapped window is created with the <see cref="WindowStyles.WS_VISIBLE"/> style bit set and
+        /// the x parameter is set to <see cref="CW_USEDEFAULT"/>, then the y parameter determines how the window is shown.
+        /// If the y parameter is <see cref="CW_USEDEFAULT"/>, then the window manager calls <see cref="ShowWindow"/>
+        /// with the <see cref="ShowWindowCommands.SW_SHOW"/> flag after the window has been created.
+        /// If the y parameter is some other value, then the window manager calls <see cref="ShowWindow"/> with that value as the nCmdShow parameter.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width, in device units, of the window.
+        /// For overlapped windows, <paramref name="nWidth"/> is either the window's width, in screen coordinates, or <see cref="CW_USEDEFAULT"/>.
+        /// If <paramref name="nWidth"/> is <see cref="CW_USEDEFAULT"/>, the system selects a default width and height for the window;
+        /// the default width extends from the initial x-coordinate to the right edge of the screen,
+        /// and the default height extends from the initial y-coordinate to the top of the icon area.
+        /// <see cref="CW_USEDEFAULT"/> is valid only for overlapped windows;
+        /// if <see cref="CW_USEDEFAULT"/> is specified for a pop-up or child window,
+        /// <paramref name="nWidth"/> and <paramref name="nHeight"/> are set to zero.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height, in device units, of the window.
+        /// For overlapped windows, <paramref name="nHeight"/> is the window's height, in screen coordinates.
+        /// If <paramref name="nWidth"/> is set to <see cref="CW_USEDEFAULT"/>, the system ignores nHeight.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the parent or owner window of the window being created.
+        /// To create a child window or an owned window, supply a valid window handle.
+        /// This parameter is optional for pop-up windows.
+        /// To create a message-only window, supply <see cref="HWND_MESSAGE"/> or a handle to an existing message-only window.
+        /// </param>
+        /// <param name="hMenu">
+        /// A handle to a menu, or specifies a child-window identifier depending on the window style.
+        /// For an overlapped or pop-up window, <paramref name="hMenu"/> identifies the menu to be used with the window;
+        /// it can be <see cref="IntPtr.Zero"/> if the class menu is to be used.
+        /// For a child window, <paramref name="hMenu"/> specifies the child-window identifier,
+        /// an integer value used by a dialog box control to notify its parent about events.
+        /// The application determines the child-window identifier; it must be unique for all child windows with the same parent window.
+        /// </param>
+        /// <param name="hInstance">
+        /// A handle to the instance of the module to be associated with the window.
+        /// </param>
+        /// <param name="lpParam">
+        /// A pointer to a value to be passed to the window through the <see cref="CREATESTRUCT"/> structure
+        /// (<see cref="CREATESTRUCT.lpCreateParams"/> member) pointed to by the <paramref name="lpParam"/> param
+        /// of the <see cref="WindowsMessages.WM_CREATE"/> message.
+        /// This message is sent to the created window by this function before it returns.
+        /// If an application calls <see cref="CreateWindow"/> to create a MDI client window,
+        /// <paramref name="lpParam"/> should point to a <see cref="CLIENTCREATESTRUCT"/> structure.
+        /// If an MDI client window calls <see cref="CreateWindow"/> to create an MDI child window,
+        /// <paramref name="lpParam"/> should point to a <see cref="MDICREATESTRUCT"/> structure.
+        /// <paramref name="lpParam"/> may be <see cref="IntPtr.Zero"/> if no additional data is needed.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Before returning, <see cref="CreateWindow"/> sends a <see cref="WindowsMessages.WM_CREATE"/> message to the window procedure.
+        /// For overlapped, pop-up, and child windows, <see cref="CreateWindow"/> sends <see cref="WindowsMessages.WM_CREATE"/>,
+        /// <see cref="WindowsMessages.WM_GETMINMAXINFO"/>, and <see cref="WindowsMessages.WM_NCCREATE"/> messages to the window.
+        /// The <paramref name="lpParam"/> parameter of the <see cref="WindowsMessages.WM_CREATE"/> message contains
+        /// a pointer to a <see cref="CREATESTRUCT"/> structure.
+        /// If the <see cref="WindowStyles.WS_VISIBLE"/> style is specified,
+        /// <see cref="CreateWindow"/> sends the window all the messages required to activate and show the window.
+        /// If the created window is a child window, its default position is at the bottom of the Z-order.
+        /// If the created window is a top-level window, its default position is at the top of the Z-order
+        /// (but beneath all topmost windows unless the created window is itself topmost).
+        /// For information on controlling whether the Taskbar displays a button for the created window, see Managing Taskbar Buttons.
+        /// For information on removing a window, see the <see cref="DestroyWindow"/> function.
+        /// The following predefined system classes can be specified in the <paramref name="lpClassName"/> parameter.
+        /// Note the corresponding control styles you can use in the <paramref name="dwStyle"/>/> parameter.
+        /// BUTTON:
+        /// Designates a small rectangular child window that represents a button the user can click to turn it on or off.
+        /// Button controls can be used alone or in groups, and they can either be labeled or appear without text.
+        /// Button controls typically change appearance when the user clicks them.
+        /// For more information, see Buttons
+        /// For a table of the button styles you can specify in the <paramref name="dwStyle"/> parameter, see Button Styles.
+        /// COMBOBOX:
+        /// Designates a control consisting of a list box and a selection field similar to an edit control.
+        /// When using this style, an application should either display the list box at all times or enable a drop-down list box.
+        /// If the list box is visible, typing characters into the selection field highlights the first list box entry that matches the characters typed.
+        /// Conversely, selecting an item in the list box displays the selected text in the selection field.
+        /// For more information, see Combo Boxes.
+        /// For a table of the combo box styles you can specify in the <paramref name="dwStyle"/> parameter, see Combo Box Styles.
+        /// EDIT:
+        /// Designates a rectangular child window into which the user can type text from the keyboard.
+        /// The user selects the control and gives it the keyboard focus by clicking it or moving to it by pressing the TAB key.
+        /// The user can type text when the edit control displays a flashing caret; use the mouse to move the cursor, select characters to be replaced,
+        /// or position the cursor for inserting characters; or use the BACKSPACE key to delete characters. For more information, see Edit Controls.
+        /// For a table of the edit control styles you can specify in the dwStyle parameter, see Edit Control Styles.
+        /// LISTBOX:
+        /// Designates a list of character strings. Specify this control whenever an application must present a list of names,
+        /// such as file names, from which the user can choose.
+        /// The user can select a string by clicking it. A selected string is highlighted, and a notification message is passed to the parent window.
+        /// For more information, see List Boxes.
+        /// For a table of the list box styles you can specify in the <paramref name="dwStyle"/> parameter, see List Box Styles.
+        /// MDICLIENT:
+        /// Designates an MDI client window. This window receives messages that control the MDI application's child windows.
+        /// The recommended style bits are <see cref="WindowStyles.WS_CLIPCHILDREN"/> and <see cref="WindowStyles.WS_CHILD"/>.
+        /// Specify the <see cref="WindowStyles.WS_HSCROLL"/> and <see cref="WindowStyles.WS_VSCROLL"/> styles to create an MDI client window
+        /// that allows the user to scroll MDI child windows into view.
+        /// For more information, see Multiple Document Interface.
+        /// RichEdit:
+        /// Designates a Microsoft Rich Edit 1.0 control.
+        /// This window lets the user view and edit text with character and paragraph formatting,
+        /// and can include embedded Component Object Model (COM) objects.
+        /// For more information, see Rich Edit Controls.
+        /// For a table of the rich edit control styles you can specify in the <paramref name="dwStyle"/> parameter, see Rich Edit Control Styles.
+        /// RICHEDIT_CLASS:
+        /// Designates a Microsoft Rich Edit 2.0 control.
+        /// This controls let the user view and edit text with character and paragraph formatting, and can include embedded COM objects.
+        /// For more information, see Rich Edit Controls.
+        /// For a table of the rich edit control styles you can specify in the <paramref name="dwStyle"/> parameter, see Rich Edit Control Styles.
+        /// SCROLLBAR:
+        /// Designates a rectangle that contains a scroll box and has direction arrows at both ends.
+        /// The scroll bar sends a notification message to its parent window whenever the user clicks the control.
+        /// The parent window is responsible for updating the position of the scroll box, if necessary.
+        /// For more information, see Scroll Bars.
+        /// For a table of the scroll bar control styles you can specify in the <paramref name="dwStyle"/> parameter, see Scroll Bar Control Styles.
+        /// STATIC:
+        /// Designates a simple text field, box, or rectangle used to label, box, or separate other controls.
+        /// Static controls take no input and provide no output.
+        /// For more information, see Static Controls.
+        /// For a table of the static control styles you can specify in the <paramref name="dwStyle"/> parameter, see Static Control Styles.
+        /// </remarks>
+        public static IntPtr CreateWindow(StringOrIntPtrObject lpClassName, string lpWindowName, WindowStyles dwStyle,
+            int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam) =>
+            CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+
         /// <summary>
         /// <para>
         /// Creates an overlapped, pop-up, or child window with an extended window style; 
