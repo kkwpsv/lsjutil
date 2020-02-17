@@ -750,6 +750,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a modal dialog box from a dialog box template resource.
+        /// Before displaying the dialog box, the function passes an application-defined value to the dialog box procedure
+        /// as the lParam parameter of the <see cref="WindowsMessages.WM_INITDIALOG"/> message.
+        /// An application can use this value to initialize dialog box controls.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxparamw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the module which contains the dialog box template.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, then the current executable is used.
+        /// </param>
+        /// <param name="lpTemplateName">
+        /// The dialog box template.
+        /// This parameter is either the pointer to a null-terminated character string that specifies the name of the dialog box template
+        /// or an integer value that specifies the resource identifier of the dialog box template.
+        /// If the parameter specifies a resource identifier, its high-order word must be zero and its low-order word must contain the identifier.
+        /// You can use the <see cref="MAKEINTRESOURCE"/> macro to create this value.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the window that owns the dialog box.
+        /// </param>
+        /// <param name="lpDialogFunc">
+        /// A pointer to the dialog box procedure. For more information about the dialog box procedure, see <see cref="DLGPROC"/>.
+        /// </param>
+        /// <param name="dwInitParam">
+        /// The value to pass to the dialog box in the lParam parameter of the <see cref="WindowsMessages.WM_INITDIALOG"/> message.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value of the nResult parameter specified
+        /// in the call to the <see cref="EndDialog"/> function used to terminate the dialog box.
+        /// If the function fails because the <paramref name="hWndParent"/> parameter is invalid, the return value is <see cref="IntPtr.Zero"/>.
+        /// The function returns <see cref="IntPtr.Zero"/> in this case for compatibility with previous versions of Windows.
+        /// If the function fails for any other reason, the return value is –1.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DialogBoxParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
+        /// <see cref="DialogBoxParam"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message 
+        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DS_SETFONT"/>
+        /// or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style),
+        /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
+        /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxParam"/> destroys the dialog box,
+        /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
+        /// by the dialog box procedure when it called <see cref="EndDialog"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", SetLastError = true)]
+        public static extern IntPtr DialogBoxParam([In]IntPtr hInstance,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
+            [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc,[In]IntPtr dwInitParam);
+
+        /// <summary>
+        /// <para>
         /// Dispatches a message to a window procedure.
         /// It is typically used to dispatch a message retrieved by the <see cref="GetMessage"/> function.
         /// </para>
