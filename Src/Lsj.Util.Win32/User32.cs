@@ -751,6 +751,49 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Creates a modal dialog box from a dialog box template resource.
+        /// <see cref="DialogBox"/> does not return control until the specified callback function terminates the modal dialog box
+        /// by calling the <see cref="EndDialog"/> function.
+        /// <see cref="DialogBox"/> is implemented as a call to the <see cref="DialogBoxParam"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the module which contains the dialog box template.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, then the current executable is used.
+        /// </param>
+        /// <param name="lpTemplateName">
+        /// The dialog box template.
+        /// This parameter is either the pointer to a null-terminated character string that specifies the name of the dialog box template
+        /// or an integer value that specifies the resource identifier of the dialog box template.
+        /// If the parameter specifies a resource identifier, its high-order word must be zero and its low-order word must contain the identifier.
+        /// You can use the <see cref="MAKEINTRESOURCE"/> macro to create this value.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the window that owns the dialog box.
+        /// </param>
+        /// <param name="lpDialogFunc">
+        /// A pointer to the dialog box procedure. For more information about the dialog box procedure, see <see cref="DLGPROC"/>.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The <see cref="DialogBox"/> macro uses the <see cref="CreateWindowEx"/> function to create the dialog box.
+        /// <see cref="DialogBox"/> then sends a <see cref="WindowsMessages.WM_INITDIALOG"/> message 
+        /// (and a <see cref="WindowsMessages.WM_SETFONT"/> message if the template specifies the <see cref="DS_SETFONT"/>
+        /// or <see cref="DS_SHELLFONT"/> style) to the dialog box procedure.
+        /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WindowStyles.WS_VISIBLE"/> style),
+        /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
+        /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxParam"/> destroys the dialog box,
+        /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
+        /// by the dialog box procedure when it called <see cref="EndDialog"/>.
+        /// </remarks>
+        public static IntPtr DialogBox(IntPtr hInstance, StringOrIntPtrObject lpTemplate, IntPtr hWndParent, DLGPROC lpDialogFunc) =>
+            DialogBoxParam(hInstance, lpTemplate, hWndParent, lpDialogFunc, IntPtr.Zero);
+
+        /// <summary>
+        /// <para>
+        /// Creates a modal dialog box from a dialog box template resource.
         /// Before displaying the dialog box, the function passes an application-defined value to the dialog box procedure
         /// as the lParam parameter of the <see cref="WindowsMessages.WM_INITDIALOG"/> message.
         /// An application can use this value to initialize dialog box controls.
@@ -801,7 +844,7 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", SetLastError = true)]
         public static extern IntPtr DialogBoxParam([In]IntPtr hInstance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
-            [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc,[In]IntPtr dwInitParam);
+            [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
         /// <summary>
         /// <para>
