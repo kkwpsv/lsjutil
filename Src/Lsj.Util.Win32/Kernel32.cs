@@ -3157,7 +3157,7 @@ namespace Lsj.Util.Win32
         /// A pointer to an array of <see cref="LUID_AND_ATTRIBUTES"/> structures that specify the privileges to delete in the restricted token.
         /// The <see cref="GetTokenInformation"/> function can be used with the TokenPrivileges flag to retrieve the privileges held by the existing token.
         /// The function ignores any privileges in the array that are not held by the existing token.
-        /// The function ignores the <see cref="Attributes"/> members of the <see cref="LUID_AND_ATTRIBUTES"/> structures.
+        /// The function ignores the <see cref="LUID_AND_ATTRIBUTES.Attributes"/> members of the <see cref="LUID_AND_ATTRIBUTES"/> structures.
         /// This parameter can be <see cref="IntPtr.Zero"/> if you do not want to delete any privileges.
         /// If the calling program passes too many privileges in this array,
         /// <see cref="CreateRestrictedToken"/> returns <see cref="SystemErrorCodes.ERROR_INVALID_PARAMETER"/>.
