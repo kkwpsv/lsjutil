@@ -2998,7 +2998,7 @@ namespace Lsj.Util.Win32
         /// <param name="lpEnvironment">
         /// A pointer to an environment block for the new process.
         /// If this parameter is <see cref="IntPtr.Zero"/>, the new process uses an environment created
-        /// from the profile of the user specified by <paramref name="lpUsername"/>.
+        /// from the profile of the user specified by <paramref name="hToken"/>.
         /// An environment block consists of a null-terminated block of null-terminated strings. Each string is in the following form:
         /// name=value
         /// Because the equal sign (=) is used as a separator, it must not be used in the name of an environment variable.
@@ -3051,7 +3051,7 @@ namespace Lsj.Util.Win32
         /// It is your responsibility to load the user registry hive into HKEY_USERS before calling <see cref="CreateProcessWithTokenW"/>,
         /// by using <see cref="LogonFlags.LOGON_WITH_PROFILE"/>, or by calling the <see cref="LoadUserProfile"/> function.
         /// If the <paramref name="lpEnvironment"/> parameter is <see cref="IntPtr.Zero"/>,
-        /// the new process uses an environment block created from the profile of the user specified by <paramref name="lpUsername"/>.
+        /// the new process uses an environment block created from the profile of the user specified by <paramref name="hToken"/>.
         /// If the HOMEDRIVE and HOMEPATH variables are not set, <see cref="CreateProcessWithTokenW"/> modifies the environment block
         /// to use the drive and path of the user's working directory.
         /// When created, the new process and thread handles receive full access rights
