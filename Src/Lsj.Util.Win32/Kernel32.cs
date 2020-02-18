@@ -3442,6 +3442,105 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a thread that runs in the virtual address space of another process
+        /// and optionally specifies extended attributes such as processor group affinity.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethreadex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process in which the thread is to be created.
+        /// The handle must have the <see cref="PROCESS_CREATE_THREAD"/>, <see cref="PROCESS_QUERY_INFORMATION"/>, <see cref="PROCESS_VM_OPERATION"/>,
+        /// <see cref="PROCESS_VM_WRITE"/>, and <see cref="PROCESS_VM_READ"/> access rights.
+        /// In Windows 10, version 1607, your code must obtain these access rights for the new handle.
+        /// However, starting in Windows 10, version 1703, if the new handle is entitled to these access rights, the system obtains them for you.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpThreadAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies a security descriptor for the new thread and determines
+        /// whether child processes can inherit the returned handle.
+        /// If <paramref name="lpThreadAttributes"/> is <see langword="null"/>, the thread gets a default security descriptor
+        /// and the handle cannot be inherited.
+        /// The access control lists (ACL) in the default security descriptor for a thread come from the primary token of the creator.
+        /// </param>
+        /// <param name="dwStackSize">
+        /// The initial size of the stack, in bytes. The system rounds this value to the nearest page.
+        /// If this parameter is 0 (zero), the new thread uses the default size for the executable.
+        /// For more information, see Thread Stack Size.
+        /// </param>
+        /// <param name="lpStartAddress">
+        /// A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be executed by the thread
+        /// and represents the starting address of the thread in the remote process.
+        /// The function must exist in the remote process.
+        /// For more information, see <see cref="ThreadProc"/>.
+        /// </param>
+        /// <param name="lpParameter">
+        /// A pointer to a variable to be passed to the thread function.
+        /// </param>
+        /// <param name="dwCreationFlags">
+        /// The flags that control the creation of the thread.
+        /// 0: The thread runs immediately after creation.
+        /// <see cref="ThreadCreationFlags.CREATE_SUSPENDED"/>, <see cref="ThreadCreationFlags.STACK_SIZE_PARAM_IS_A_RESERVATION"/>
+        /// </param>
+        /// <param name="lpAttributeList">
+        /// An attribute list that contains additional parameters for the new thread.
+        /// This list is created by the <see cref="InitializeProcThreadAttributeList"/> function.
+        /// </param>
+        /// <param name="lpThreadId">
+        /// A pointer to a variable that receives the thread identifier.
+        /// If this parameter is <see langword="null"/>, the thread identifier is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the new thread.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateRemoteThreadEx"/> function causes a new thread of execution to begin in the address space of the specified process.
+        /// The thread has access to all objects that the process opens.
+        /// The <paramref name="lpAttributeList"/> parameter can be used to specify extended attributes such as processor group affinity for the new thread.
+        /// If <paramref name="lpAttributeList"/> is <see cref="IntPtr.Zero"/>, the function's behavior is the same as <see cref="CreateRemoteThread"/>.
+        /// Prior to Windows 8, Terminal Services isolates each terminal session by design.
+        /// Therefore, <see cref="CreateRemoteThread"/> fails if the target process is in a different session than the calling process.
+        /// The new thread handle is created with full access to the new thread.
+        /// If a security descriptor is not provided, the handle may be used in any function that requires a thread object handle.
+        /// When a security descriptor is provided, an access check is performed on all subsequent uses of the handle before access is granted.
+        /// If the access check denies access, the requesting process cannot use the handle to gain access to the thread.
+        /// If the thread is created in a runnable state (that is, if the <see cref="ThreadCreationFlags.CREATE_SUSPENDED"/> flag is not used),
+        /// the thread can start running before <see cref="CreateThread"/> returns and, in particular, before the caller receives the handle
+        /// and identifier of the created thread.
+        /// The thread is created with a thread priority of <see cref="THREAD_PRIORITY_NORMAL"/>.
+        /// To get and set the priority value of a thread, use the <see cref="GetThreadPriority"/> and <see cref="SetThreadPriority"/> functions.
+        /// When a thread terminates, the thread object attains a signaled state, which satisfies the threads that are waiting for the object.
+        /// The thread object remains in the system until the thread has terminated
+        /// and all handles to it are closed through a call to <see cref="CloseHandle"/>.
+        /// The <see cref="ExitProcess"/>, <see cref="ExitThread"/>, <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/> functions,
+        /// and a process that is starting (as the result of a CreateProcess call) are serialized between each other within a process.
+        /// Only one of these events occurs in an address space at a time.
+        /// This means the following restrictions hold:
+        /// During process startup and DLL initialization routines, new threads can be created,
+        /// but they do not begin execution until DLL initialization is done for the process.
+        /// Only one thread in a process can be in a DLL initialization or detach routine at a time.
+        /// <see cref="ExitProcess"/> returns after all threads have completed their DLL initialization or detach routines.
+        /// A common use of this function is to inject a thread into a process that is being debugged to issue a break.
+        /// However, this use is not recommended, because the extra thread is confusing to the person debugging the application and
+        /// there are several side effects to using this technique:
+        /// It converts single-threaded applications into multithreaded applications.
+        /// It changes the timing and memory layout of the process.
+        /// It results in a call to the entry point of each DLL in the process.
+        /// Another common use of this function is to inject a thread into a process to query heap or other process information.
+        /// This can cause the same side effects mentioned in the previous paragraph.
+        /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", SetLastError = true)]
+        public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
+            [In]UIntPtr dwStackSize, [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter,
+            [In]uint dwCreationFlags, [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateRestrictedToken"/> function creates a new access token that is a restricted version of an existing access token.
         /// The restricted token can have disabled security identifiers (SIDs), deleted privileges, and a list of restricting SIDs.
         /// For more information, see Restricted Tokens.
