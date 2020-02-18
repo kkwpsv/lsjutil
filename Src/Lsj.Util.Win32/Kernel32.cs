@@ -1761,6 +1761,60 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates or opens a job object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-createjobobjectw
+        /// </para>
+        /// </summary>
+        /// <param name="lpJobAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies the security descriptor for the job object
+        /// and determines whether child processes can inherit the returned handle.
+        /// If <paramref name="lpJobAttributes"/> is <see langword="null"/>, the job object gets a default security descriptor 
+        /// and the handle cannot be inherited.
+        /// The ACLs in the default security descriptor for a job object come from the primary or impersonation token of the creator.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the job. The name is limited to <see cref="Constants.MAX_PATH"/> characters. Name comparison is case-sensitive.
+        /// If <paramref name="lpName"/> is <see langword="null"/>, the job is created without a name.
+        /// If <paramref name="lpName"/> matches the name of an existing event, semaphore, mutex, waitable timer, or file-mapping object,
+        /// the function fails and the <see cref="Marshal.GetLastWin32Error"/> function returns <see cref="SystemErrorCodes.ERROR_INVALID_HANDLE"/>.
+        /// This occurs because these objects share the same namespace.
+        /// The object can be created in a private namespace. For more information, see Object Namespaces.
+        /// Terminal Services:  The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the job object.
+        /// The handle has the <see cref="JOB_OBJECT_ALL_ACCESS"/> access right.
+        /// If the object existed before the function call, the function returns a handle to the existing job object
+        /// and <see cref="Marshal.GetLastError"/> returns <see cref="SystemErrorCodes.ERROR_ALREADY_EXISTS"/>.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a job is created, its accounting information is initialized to zero, all limits are inactive, and there are no associated processes.
+        /// To assign a process to a job object, use the <see cref="AssignProcessToJobObject"/> function.
+        /// To set limits for a job, use the <see cref="SetInformationJobObject"/> function.
+        /// To query accounting information, use the <see cref="QueryInformationJobObject"/> function.
+        /// All processes associated with a job must run in the same session.
+        /// A job is associated with the session of the first process to be assigned to the job.
+        /// Windows Server 2003 and Windows XP:  A job is associated with the session of the process that created it.
+        /// To close a job object handle, use the <see cref="CloseHandle"/> function.
+        /// The job is destroyed when its last handle has been closed and all associated processes have exited.
+        /// However, if the job has the <see cref="JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE"/> flag specified,
+        /// closing the last job object handle terminates all associated processes and then destroys the job object itself.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateJobObjectW", SetLastError = true)]
+        public static extern IntPtr CreateJobObject(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpJobAttributes,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
         /// Creates a mailslot with the specified name and returns a handle that a mailslot server can use to perform operations on the mailslot.
         /// The mailslot is local to the computer that creates it. An error occurs if a mailslot with the specified name already exists.
         /// </para>
