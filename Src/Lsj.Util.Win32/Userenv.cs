@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// <see langword="true"/> if successful; otherwise, <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// To free the buffer when you have finished with the environment block, call the <see cref="DestroyEnvironmentBlock"/> function.
@@ -67,7 +67,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// <see langword="true"/> if successful; otherwise, <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

@@ -39,12 +39,12 @@ namespace Lsj.Util.Win32.Extensions
             {
                 SetLastError(0);
                 var length = GetWindowTextLength(handle);
-                var code = Marshal.GetLastWin32Error();
+                var code = GetLastError();
                 if (code == 0)
                 {
                     var sb = new StringBuilder(length);
                     GetWindowText(handle, sb, 20);
-                    code = Marshal.GetLastWin32Error();
+                    code = GetLastError();
                     if (code == 0)
                     {
                         result.Add((handle, sb.ToString()));

@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call the <see cref="Marshal.GetLastWin32Error"/> function.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
         /// <remarks>
         /// You can commit any transaction handle that has been opened or created using the <see cref="TRANSACTION_COMMIT"/> permission;
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is a handle to the transaction.
         /// If the function fails, the return value is <see cref="Constants.INVALID_HANDLE_VALUE"/>.
-        /// To get extended error information, call the <see cref="Marshal.GetLastWin32Error"/> function.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
         /// <remarks>
         /// Use the <see cref="CloseHandle"/> function to close the transaction handle.

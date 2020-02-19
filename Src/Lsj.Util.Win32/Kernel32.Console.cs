@@ -1,13 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static System.Runtime.InteropServices.Marshal;
 
 namespace Lsj.Util.Win32
 {
-    /// <summary>
-    /// Kernel32.dll
-    /// </summary>
     public static partial class Kernel32
     {
         /// <summary>
@@ -26,7 +22,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// A process can be associated with only one console,
@@ -63,7 +59,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// A process can be attached to at most one console.

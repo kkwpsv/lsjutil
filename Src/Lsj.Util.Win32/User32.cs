@@ -195,8 +195,8 @@ namespace Lsj.Util.Win32
         /// When trying to animate a child window with <see cref="AnimateWindowFlags.AW_BLEND"/>.
         /// If the thread does not own the window. 
         /// Note that, in this case, <see cref="AnimateWindow"/> fails
-        /// but <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_SUCCESS"/>.
-        /// To get extended error information, call the <see cref="Marshal.GetLastWin32Error"/> function.
+        /// but <see cref="GetLastError"/> returns <see cref="SystemErrorCodes.ERROR_SUCCESS"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
         /// <remarks>
         /// To show or hide a window without special effects, use <see cref="ShowWindow"/>.
@@ -322,7 +322,7 @@ namespace Lsj.Util.Win32
         /// The return value is always <see langword="true"/> except when you pass the same address
         /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
         /// In this case the function returns <see langword="false"/> and
-        /// <see cref="Marshal.GetLastWin32Error"/> returns <see cref="SystemErrorCodes.ERROR_INVALID_ADDRESS"/>.
+        /// <see cref="GetLastError"/> returns <see cref="SystemErrorCodes.ERROR_INVALID_ADDRESS"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -404,7 +404,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the window handle to the dialog box.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// The <see cref="CreateDialogParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
@@ -692,7 +692,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is a handle to the new window.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// This function typically fails for one of the following reasons:
         /// an invalid parameter value
         /// the system class was registered by a different module
@@ -746,7 +746,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// <para>
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </para>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyWindow", SetLastError = true)]
@@ -833,7 +833,7 @@ namespace Lsj.Util.Win32
         /// If the function fails because the <paramref name="hWndParent"/> parameter is invalid, the return value is <see cref="IntPtr.Zero"/>.
         /// The function returns <see cref="IntPtr.Zero"/> in this case for compatibility with previous versions of Windows.
         /// If the function fails for any other reason, the return value is –1.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// The <see cref="DialogBoxParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
@@ -955,7 +955,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// If <see cref="WNDENUMPROC"/> returns <see langword="false"/>, the return value is also <see langword="false"/>. 
         /// In this case, the callback function should call <see cref="SetLastError"/> to obtain a meaningful error code
         /// to be returned to the caller of <see cref="EnumWindows"/>.
@@ -1042,7 +1042,7 @@ namespace Lsj.Util.Win32
         /// If the function retrieves the <see cref="WindowsMessages.WM_QUIT"/> message, the return value is zero.
         /// If there is an error, the return value is -1. 
         /// For example, the function fails if <paramref name="hWnd"/> is an invalid window handle or <paramref name="lpMsg"/> is an invalid pointer. 
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", SetLastError = true)]
         public static extern int GetMessage([Out]out MSG lpMsg, [In]IntPtr hWnd, [In]uint wMsgFilterMin, [In] uint wMsgFilterMax);
@@ -1089,7 +1089,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is the requested system metric or configuration setting.
-        /// If the function fails, the return value is 0. <see cref="Marshal.GetLastWin32Error"/> does not provide extended error information.
+        /// If the function fails, the return value is 0. <see cref="GetLastError"/> does not provide extended error information.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", SetLastError = true)]
         public static extern int GetSystemMetrics([In]SystemMetric smIndex);
@@ -1107,7 +1107,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is the requested value.
-        /// If the function fails, the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
         /// If <see cref="SetWindowLong"/> has not been called previously,
         /// <see cref="GetWindowLong"/> returns zero for values in the extra window or class memory.
         /// </returns>   
@@ -1133,7 +1133,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1174,7 +1174,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1202,7 +1202,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the length, in characters, of the copied string, not including the terminating null character.
         /// If the window has no title bar or text, if the title bar is empty, or if the window or control handle is invalid, 
-        /// the return value is zero. To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
         /// This function cannot retrieve the text of an edit control in another application.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", SetLastError = true)]
@@ -1220,10 +1220,10 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the length, in characters, of the text.
         /// Under certain conditions, this value might be greater than the length of the text (see Remarks).
         /// If the window has no text, the return value is zero.
-        /// Function failure is indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
+        /// Function failure is indicated by a return value of zero and a <see cref="GetLastError"/> result that is nonzero.
         /// This function does not clear the most recent error information.
         /// To determine success or failure, clear the most recent error information 
-        /// by calling <see cref="SetLastError"/> with 0, then call <see cref="Marshal.GetLastWin32Error"/>.
+        /// by calling <see cref="SetLastError"/> with 0, then call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// If the target window is owned by the current process, <see cref="GetWindowTextLength"/> causes
@@ -1273,7 +1273,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the handle to the newly loaded cursor.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", SetLastError = true)]
         public static extern IntPtr LoadCursor([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCursorName);
@@ -1291,7 +1291,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the handle to the newly loaded cursor.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", SetLastError = true)]
         public static extern IntPtr LoadCursor([In]IntPtr hInstance, [In]SystemCursors lpCursorName);
@@ -1312,7 +1312,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the handle to the newly loaded icon.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
         public static extern IntPtr LoadIcon([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpIconName);
@@ -1330,7 +1330,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is the handle to the newly loaded icon.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
         public static extern IntPtr LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
@@ -1466,7 +1466,7 @@ namespace Lsj.Util.Win32
         /// This atom can only be used by the <see cref="CreateWindow"/>, <see cref="CreateWindowEx"/>, <see cref="GetClassInfo"/>,
         /// <see cref="GetClassInfoEx"/>, <see cref="FindWindow"/>, <see cref="FindWindowEx"/>, and 
         /// <see cref="UnregisterClass"/> functions and the IActiveIMMap::FilterClientWindows method.
-        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", SetLastError = true)]
         public static extern ushort RegisterClassEx([In] ref WNDCLASSEX Arg1);
@@ -1498,7 +1498,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// Returns a notification handle for unregistering for power notifications.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
         public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient,
@@ -1538,11 +1538,11 @@ namespace Lsj.Util.Win32
         /// <param name="dwNewLong">The replacement value.</param>
         /// <returns>
         /// If the function succeeds, the return value is the previous value of the specified 32-bit integer.
-        /// If the function fails, the return value is zero.To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
         /// If the previous value of the specified 32-bit integer is zero, and the function succeeds, the return value is zero, 
         /// but the function does not clear the last error information. This makes it difficult to determine success or failure.
         /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
-        /// Then, function failure will be indicated by a return value of zero and a <see cref="Marshal.GetLastWin32Error"/> result that is nonzero.
+        /// Then, function failure will be indicated by a return value of zero and a <see cref="GetLastError"/> result that is nonzero.
         /// </returns>
         public static IntPtr SetWindowLong([In]IntPtr hWnd, [In]GetWindowLongIndexes nIndex, [In]IntPtr dwNewLong)
             => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
@@ -1566,7 +1566,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1592,7 +1592,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1614,7 +1614,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowTextW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -1653,7 +1653,7 @@ namespace Lsj.Util.Win32
         /// The return value specifies the result of the message processing; it depends on the message sent.
         /// </returns>
         /// <remarks>
-        /// When a message is blocked by UIPI the last error, retrieved with <see cref="Marshal.GetLastWin32Error"/>, is set to 5 (access denied).
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
         /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use
         /// the <see cref="RegisterWindowMessage"/> function to obtain a unique message for inter-application communication.
         /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WindowsMessages.WM_USER"/>-1)).
@@ -1772,7 +1772,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindow", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
