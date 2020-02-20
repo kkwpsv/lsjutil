@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
@@ -9,6 +10,46 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Disables the <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications for the specified dynamic-link library (DLL).
+        /// This can reduce the size of the working set for some applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-disablethreadlibrarycalls
+        /// </para>
+        /// </summary>
+        /// <param name="hLibModule">
+        /// A handle to the DLL module for which the <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications are to be disabled.
+        /// The <see cref="LoadLibrary"/>, <see cref="LoadLibraryEx"/>, or <see cref="GetModuleHandle"/> function returns this handle.
+        /// Note that you cannot call <see cref="GetModuleHandle"/> with <see cref="IntPtr.Zero"/>
+        /// because this returns the base address of the executable image, not the DLL image.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// The <see cref="DisableThreadLibraryCalls"/> function fails if the DLL specified
+        /// by <paramref name="hLibModule"/> has active static thread local storage, or if <paramref name="hLibModule"/> is an invalid module handle.
+        /// To get extended error information, see <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DisableThreadLibraryCalls"/> function lets a DLL disable the <see cref="DLL_THREAD_ATTACH"/>
+        /// and <see cref="DLL_THREAD_DETACH"/> notification calls.
+        /// This can be a useful optimization for multithreaded applications that have many DLLs, frequently create and delete threads,
+        /// and whose DLLs do not need these thread-level notifications of attachment/detachment.
+        /// A remote procedure call (RPC) server application is an example of such an application.
+        /// In these sorts of applications, DLL initialization routines often remain in memory
+        /// to service <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications.
+        /// By disabling the notifications, the DLL initialization code is not paged in because a thread is created or deleted,
+        /// thus reducing the size of the application's working code set.
+        /// To implement the optimization, modify a DLL's <see cref="DLL_PROCESS_ATTACH"/> code to call <see cref="DisableThreadLibraryCalls"/>.
+        /// Do not call this function from a DLL that is linked to the static C run-time library (CRT).
+        /// The static CRT requires <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications to function properly.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DisableThreadLibraryCalls([In]IntPtr hLibModule);
+
         /// <summary>
         /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
