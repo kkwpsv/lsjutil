@@ -369,6 +369,21 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Edit Control Messages
+
+        /// <summary>
+        /// <para>
+        /// An application sends a <see cref="WM_UNDO"/> message to an edit control to undo the last operation.
+        /// When this message is sent to an edit control, the previously deleted text is restored or the previously added text is deleted.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-undo
+        /// </para>
+        /// </summary>
+        WM_UNDO = 0x0304,
+
+        #endregion
+
         #region High DPI
 
         /// <summary>

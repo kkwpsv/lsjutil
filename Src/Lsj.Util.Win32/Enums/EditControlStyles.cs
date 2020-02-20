@@ -1,5 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.EditControlMessages;
 
 namespace Lsj.Util.Win32.Enums
 {
