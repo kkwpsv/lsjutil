@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32
         /// Sets all pages to be non-cachable.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped with <see cref="SEC_NOCACHE"/>
-        /// can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// <see cref="SEC_NOCACHE"/> requires either
         /// the <see cref="SEC_RESERVE"/> or <see cref="SEC_COMMIT"/> attribute to be set.
         /// <see cref="SEC_RESERVE"/>:
@@ -143,7 +143,7 @@ namespace Lsj.Util.Win32
         /// Sets all pages to be write-combined.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped with <see cref="SEC_WRITECOMBINE"/>
-        /// can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// <see cref="SEC_WRITECOMBINE"/> requires either
         /// the <see cref="SEC_RESERVE"/> or <see cref="SEC_COMMIT"/> attribute to be set.
         /// Windows Server 2003 and Windows XP:  This flag is not supported until Windows Vista.
@@ -350,7 +350,7 @@ namespace Lsj.Util.Win32
         /// Sets all pages to be non-cachable.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped with <see cref="SEC_NOCACHE"/>
-        /// can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// <see cref="SEC_NOCACHE"/> requires either
         /// the <see cref="SEC_RESERVE"/> or <see cref="SEC_COMMIT"/> attribute to be set.
         /// <see cref="SEC_RESERVE"/>:
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// Sets all pages to be write-combined.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped with <see cref="SEC_WRITECOMBINE"/>
-        /// can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// <see cref="SEC_WRITECOMBINE"/> requires either
         /// the <see cref="SEC_RESERVE"/> or <see cref="SEC_COMMIT"/> attribute to be set.
         /// Windows Server 2003 and Windows XP:  This flag is not supported until Windows Vista.
