@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sets all pages to be non-cachable.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped
-        /// with <see cref="SEC_NOCACHE"/> can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// with <see cref="SEC_NOCACHE"/> can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// The <see cref="PAGE_NOCACHE"/> flag cannot be used with the <see cref="PAGE_GUARD"/>,
         /// <see cref="PAGE_NOACCESS"/>, or <see cref="PAGE_WRITECOMBINE"/> flags.
         /// The <see cref="PAGE_NOCACHE"/> flag can be used only when allocating private memory with the <see cref="VirtualAlloc"/>,
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sets all pages to be write-combined.
         /// Applications should not use this attribute except when explicitly required for a device.
         /// Using the interlocked functions with memory that is mapped as write-combined
-        /// can result in an <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/> exception.
+        /// can result in an EXCEPTION_ILLEGAL_INSTRUCTION exception.
         /// The <see cref="PAGE_WRITECOMBINE"/> flag cannot be specified with the <see cref="PAGE_NOACCESS"/>,
         /// <see cref="PAGE_GUARD"/>, and <see cref="PAGE_NOCACHE"/> flags.
         /// The <see cref="PAGE_WRITECOMBINE"/> flag can be used only when allocating private memory with the <see cref="VirtualAlloc"/>,
