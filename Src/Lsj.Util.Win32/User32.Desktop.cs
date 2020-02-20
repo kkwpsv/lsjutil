@@ -17,6 +17,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes an open handle to a desktop object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closedesktop
+        /// </para>
+        /// </summary>
+        /// <param name="hDesktop">
+        /// A handle to the desktop to be closed. This can be a handle returned by the <see cref="CreateDesktop"/>, <see cref="OpenDesktop"/>,
+        /// or <see cref="OpenInputDesktop"/> functions. Do not specify the handle returned by the <see cref="GetThreadDesktop"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CloseDesktop"/> function will fail if any thread in the calling process is using the specified desktop handle or if the handle refers to the initial desktop of the calling process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseDesktop", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseDesktop([In]IntPtr hDesktop);
+
+        /// <summary>
+        /// <para>
         /// Creates a new desktop, associates it with the current window station of the calling process, and assigns it to the calling thread.
         /// The calling process must have an associated window station, either assigned by the system at process creation time
         /// or set by the <see cref="SetProcessWindowStation"/> function.
