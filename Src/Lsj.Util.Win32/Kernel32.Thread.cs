@@ -236,7 +236,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", SetLastError = true)]
         public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,[In]UIntPtr dwStackSize,
+            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
             [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
 
@@ -339,5 +339,48 @@ namespace Lsj.Util.Win32
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
             [MarshalAs(UnmanagedType.FunctionPtr)][In] ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
+
+        /// <summary>
+        /// <para>
+        /// Ends the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitthread
+        /// </para>
+        /// </summary>
+        /// <param name="dwExitCode">
+        /// The exit code for the thread.
+        /// </param>
+        /// <remarks>
+        /// <see cref="ExitThread"/> is the preferred method of exiting a thread in C code.
+        /// However, in C++ code, the thread is exited before any destructors can be called or any other automatic cleanup can be performed.
+        /// Therefore, in C++ code, you should return from your thread function.
+        /// When this function is called (either explicitly or by returning from a thread procedure), the current thread's stack is deallocated,
+        /// all pending I/O initiated by the thread is canceled, and the thread terminates.
+        /// The entry-point function of all attached dynamic-link libraries (DLLs) is invoked with a value indicating
+        /// that the thread is detaching from the DLL.
+        /// If the thread is the last thread in the process when this function is called, the thread's process is also terminated.
+        /// The state of the thread object becomes signaled, releasing any other threads that had been waiting for the thread to terminate.
+        /// The thread's termination status changes from <see cref="STILL_ACTIVE"/> to the value of the <paramref name="dwExitCode"/> parameter.
+        /// Terminating a thread does not necessarily remove the thread object from the operating system.
+        /// A thread object is deleted when the last handle to the thread is closed.
+        /// The <see cref="ExitProcess"/>, <see cref="ExitThread"/>, <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/> functions,
+        /// and a process that is starting (as the result of a <see cref="CreateProcess"/> call) are serialized between each other within a process.
+        /// Only one of these events can happen in an address space at a time. This means the following restrictions hold:
+        /// During process startup and DLL initialization routines, new threads can be created,
+        /// but they do not begin execution until DLL initialization is done for the process.
+        /// Only one thread in a process can be in a DLL initialization or detach routine at a time.
+        /// <see cref="ExitProcess"/> does not return until no threads are in their DLL initialization or detach routines.
+        /// A thread in an executable that is linked to the static C run-time library (CRT) should use _beginthread and _endthread
+        /// for thread management rather than <see cref="CreateThread"/> and <see cref="ExitThread"/>.
+        /// Failure to do so results in small memory leaks when the thread calls <see cref="ExitThread"/>.
+        /// Another work around is to link the executable to the CRT in a DLL instead of the static CRT.
+        /// Note that this memory leak only occurs from a DLL if the DLL is linked to the static CRT and
+        /// a thread calls the <see cref="DisableThreadLibraryCalls"/> function.
+        /// Otherwise, it is safe to call <see cref="CreateThread"/> and <see cref="ExitThread"/> from a thread in a DLL that links to the static CRT.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit code.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", SetLastError = true)]
+        public static extern void ExitThread([In]uint dwExitCode);
     }
 }
