@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 
 namespace Lsj.Util.Win32
 {
