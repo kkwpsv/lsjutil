@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
@@ -12,6 +13,29 @@ namespace Lsj.Util.Win32
         /// CREATE_WAITABLE_TIMER_MANUAL_RESET
         /// </summary>
         public const uint CREATE_WAITABLE_TIMER_MANUAL_RESET = 1;
+
+        /// <summary>
+        /// <para>
+        /// Sets the specified waitable timer to the inactive state.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-cancelwaitabletimer
+        /// </para>
+        /// </summary>
+        /// <param name="hTimer">
+        /// A handle to the timer object.
+        /// The <see cref="CreateWaitableTimer"/> or OpenWaitableTimer<see cref="OpenWaitableTimer"/> function returns this handle.
+        /// The handle must have the <see cref="TIMER_MODIFY_STATE"/> access right.
+        /// For more information, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelWaitableTimer", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CancelWaitableTimer([In]IntPtr hTimer);
 
         /// <summary>
         /// <para>
