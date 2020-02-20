@@ -1,10 +1,11 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
+using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
-using Lsj.Util.Win32.Marshals;
 
 namespace Lsj.Util.Win32
 {
@@ -14,6 +15,37 @@ namespace Lsj.Util.Win32
         /// DLGWINDOWEXTRA
         /// </summary>
         public const int DLGWINDOWEXTRA = 30;
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the return value of a message processed in the dialog box procedure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw
+        /// </para>
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_MSGRESULT = 0;
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the pointer to the dialog box procedure, or a handle representing the pointer to the dialog box procedure.
+        /// You must use the <see cref="CallWindowProc"/> function to call the dialog box procedure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw
+        /// </para>
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_DLGPROC = DWLP_MSGRESULT + IntPtr.Size;
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extra information private to the application, such as handles or pointers.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowlongptrw
+        /// </para>
+        /// </summary>
+        public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + IntPtr.Size;
 
         /// <summary>
         /// <para>
