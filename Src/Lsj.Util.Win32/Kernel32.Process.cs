@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Userenv;
+using static Lsj.Util.Win32.Enums.DllMainReasons;
 
 namespace Lsj.Util.Win32
 {
