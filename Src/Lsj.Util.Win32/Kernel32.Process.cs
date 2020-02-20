@@ -972,6 +972,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Ends the calling process and all its threads.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-exitprocess
+        /// </para>
+        /// </summary>
+        /// <param name="uExitCode">
+        /// The exit code for the process and all threads.
+        /// </param>
+        /// <remarks>
+        /// Use the <see cref="GetExitCodeProcess"/> function to retrieve the process's exit value.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit value.
+        /// Exiting a process causes the following:
+        /// All of the threads in the process, except the calling thread, terminate their execution
+        /// without receiving a <see cref="DLL_THREAD_DETACH"/> notification.
+        /// The states of all of the threads terminated in step 1 become signaled.
+        /// The entry-point functions of all loaded dynamic-link libraries (DLLs) are called with <see cref="DLL_PROCESS_DETACH"/>.
+        /// After all attached DLLs have executed any process termination code, the <see cref="ExitProcess"/> function terminates the current process,
+        /// including the calling thread.
+        /// The state of the calling thread becomes signaled.
+        /// All of the object handles opened by the process are closed.
+        /// The termination status of the process changes from <see cref="STILL_ACTIVE"/> to the exit value of the process.
+        /// The state of the process object becomes signaled, satisfying any threads that had been waiting for the process to terminate.
+        /// If one of the terminated threads in the process holds a lock and the DLL detach code in one of the loaded DLLs
+        /// attempts to acquire the same lock, then calling <see cref="ExitProcess"/> results in a deadlock.
+        /// In contrast, if a process terminates by calling <see cref="TerminateProcess"/>, the DLLs that the process is attached to
+        /// are not notified of the process termination.
+        /// Therefore, if you do not know the state of all threads in your process,
+        /// it is better to call <see cref="TerminateProcess"/> than <see cref="ExitProcess"/>.
+        /// Note that returning from the main function of an application results in a call to <see cref="ExitProcess"/>.
+        /// Calling <see cref="ExitProcess"/> in a DLL can lead to unexpected application or system errors.
+        /// Be sure to call <see cref="ExitProcess"/> from a DLL only if you know which applications or system components
+        /// will load the DLL  and that it is safe to call <see cref="ExitProcess"/> in this context.
+        /// Exiting a process does not cause child processes to be terminated.
+        /// Exiting a process does not necessarily remove the process object from the operating system.
+        /// A process object is deleted when the last handle to the process is closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", SetLastError = true)]
+        public static extern void ExitProcess([In]uint uExitCode);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
