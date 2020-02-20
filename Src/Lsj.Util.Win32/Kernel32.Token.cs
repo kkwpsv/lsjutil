@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32
 {

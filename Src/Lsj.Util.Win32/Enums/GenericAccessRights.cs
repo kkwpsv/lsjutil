@@ -1,12 +1,15 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.FileAccessRights;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
     /// Generic Access Rights
     /// Securable objects use an access mask format in which the four high-order bits specify generic access rights.
     /// Each type of securable object maps these bits to a set of its standard and object-specific access rights.
-    /// For example, a Windows file object maps the <see cref="GENERIC_READ"/> bit to the <see cref="StandardAccessRights.READ_CONTROL"/>
-    /// and <see cref="StandardAccessRights.SYNCHRONIZE"/> standard access rights and to the <see cref="FILE_READ_DATA"/>,
+    /// For example, a Windows file object maps the <see cref="GENERIC_READ"/> bit to the <see cref="READ_CONTROL"/>
+    /// and <see cref="SYNCHRONIZE"/> standard access rights and to the <see cref="FILE_READ_DATA"/>,
     /// <see cref="FILE_READ_EA"/>, and <see cref="FILE_READ_ATTRIBUTES"/> object-specific access rights.
     /// Other types of objects map the <see cref="GENERIC_READ"/> bit to whatever set of access rights is appropriate for that type of object.
     /// You can use generic access rights to specify the type of access you need when you are opening a handle to an object.
