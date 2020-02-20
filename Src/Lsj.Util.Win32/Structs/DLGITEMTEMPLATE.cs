@@ -1,8 +1,8 @@
 ﻿using Lsj.Util.Win32.Enums;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.Enums.ButtonStyles;
+using static Lsj.Util.Win32.Enums.EditControlStyles;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -54,8 +54,8 @@ namespace Lsj.Util.Win32.Structs
     public struct DLGITEMTEMPLATE
     {
         /// <summary>
-        /// The style of the control. This member can be a combination of window style values (such as <see cref="WindowStyles.WS_BORDER"/>) and
-        /// one or more of the control style values (such as <see cref="ButtonStyles.BS_PUSHBUTTON"/> and <see cref="ES_LEFT"/>).
+        /// The style of the control. This member can be a combination of window style values (such as <see cref="WS_BORDER"/>) and
+        /// one or more of the control style values (such as <see cref="BS_PUSHBUTTON"/> and <see cref="ES_LEFT"/>).
         /// </summary>
         public WindowStyles style;
 

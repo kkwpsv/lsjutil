@@ -1,4 +1,7 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.EditControlStyles;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -30,7 +33,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Specifies a window that paints all descendants in bottom-to-top painting order using double-buffering.
-        /// This cannot be used if the window has a class style of either <see cref="ClassStyles.CS_OWNDC"/> or <see cref="ClassStyles.CS_CLASSDC"/>.
+        /// This cannot be used if the window has a class style of either <see cref="CS_OWNDC"/> or <see cref="CS_CLASSDC"/>.
         /// Windows 2000: This style is not supported.
         /// </summary>
         WS_EX_COMPOSITED = 0x02000000,
@@ -38,12 +41,12 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The title bar of the window includes a question mark. When the user clicks the question mark, 
         /// the cursor changes to a question mark with a pointer. If the user then clicks a child window,
-        /// the child receives a <see cref="WindowsMessages.WM_HELP"/> message.
+        /// the child receives a <see cref="WM_HELP"/> message.
         /// The child window should pass the message to the parent window procedure,
         /// which should call the <see cref="WinHelp"/> function using the <see cref="HELP_WM_HELP"/> command.
         /// The Help application displays a pop-up window that typically contains help for the child window.
         /// <see cref="WS_EX_CONTEXTHELP"/> cannot be used with
-        /// the <see cref="WindowStyles.WS_MAXIMIZEBOX"/> or <see cref="WindowStyles.WS_MINIMIZEBOX"/> styles.
+        /// the <see cref="WS_MAXIMIZEBOX"/> or <see cref="WS_MINIMIZEBOX"/> styles.
         /// </summary>
         WS_EX_CONTEXTHELP = 0x00000400,
 
@@ -56,14 +59,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The window has a double border; the window can, optionally,
-        /// be created with a title bar by specifying the <see cref="WindowStyles.WS_CAPTION"/> style in the dwStyle parameter.
+        /// be created with a title bar by specifying the <see cref="WS_CAPTION"/> style in the dwStyle parameter.
         /// </summary>
         WS_EX_DLGMODALFRAME = 0x00000001,
 
         /// <summary>
         /// The window is a layered window.
-        /// This style cannot be used if the window has a class style of either <see cref="ClassStyles.CS_OWNDC"/> 
-        /// or <see cref="ClassStyles.CS_CLASSDC"/>.
+        /// This style cannot be used if the window has a class style of either <see cref="CS_OWNDC"/> 
+        /// or <see cref="CS_CLASSDC"/>.
         /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
         /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
         /// </summary>
@@ -112,7 +115,7 @@ namespace Lsj.Util.Win32.Enums
         WS_EX_NOINHERITLAYOUT = 0x00100000,
 
         /// <summary>
-        /// The child window created with this style does not send the <see cref="WindowsMessages.WM_PARENTNOTIFY"/> message
+        /// The child window created with this style does not send the <see cref="WM_PARENTNOTIFY"/> message
         /// to its parent window when it is created or destroyed.
         /// </summary>
         WS_EX_NOPARENTNOTIFY = 0x00000004,
