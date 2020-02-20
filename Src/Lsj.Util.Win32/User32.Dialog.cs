@@ -302,6 +302,10 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxindirectw
         /// </para>
         /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the module which contains the dialog box template.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, then the current executable is used.
+        /// </param>
         /// <param name="lpTemplateName">
         /// The template that <see cref="DialogBoxIndirectParam"/> uses to create the dialog box.
         /// A dialog box template consists of a header that describes the dialog box, followed by one or more additional blocks 
@@ -340,7 +344,7 @@ namespace Lsj.Util.Win32
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// Use the <see cref="MultiByteToWideChar"/> function to generate Unicode strings from ANSI strings.
         /// </remarks>
-        public static IntPtr DialogBoxIndirect([In] IntPtr hInstance, [In]IntPtr lpTemplateName, [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc) =>
+        public static IntPtr DialogBoxIndirect([In]IntPtr hInstance, [In]IntPtr lpTemplateName, [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc) =>
             DialogBoxIndirectParam(hInstance, lpTemplateName, hWndParent, lpDialogFunc, IntPtr.Zero);
 
         /// <summary>
