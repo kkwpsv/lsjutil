@@ -288,5 +288,41 @@ namespace Lsj.Util.Win32
         public static extern IntPtr DialogBoxParam([In]IntPtr hInstance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
             [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
+
+        /// <summary>
+        /// <para>
+        /// Destroys a modal dialog box, causing the system to end any processing for the dialog box.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enddialog
+        /// </para>
+        /// </summary>
+        /// <param name="hDlg">
+        /// A handle to the dialog box to be destroyed.
+        /// </param>
+        /// <param name="nResult">
+        /// The value to be returned to the application from the function that created the dialog box.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Dialog boxes created by the <see cref="DialogBox"/>, <see cref="DialogBoxParam"/>, <see cref="DialogBoxIndirect"/>,
+        /// and <see cref="DialogBoxIndirectParam"/> functions must be destroyed using the <see cref="EndDialog"/> function.
+        /// An application calls <see cref="EndDialog"/> from within the dialog box procedure; the function must not be used for any other purpose.
+        /// A dialog box procedure can call <see cref="EndDialog"/> at any time, even during the processing of the <see cref="WM_INITDIALOG"/> message.
+        /// If your application calls the function while <see cref="WM_INITDIALOG"/> is being processed,
+        /// the dialog box is destroyed before it is shown and before the input focus is set.
+        /// <see cref="EndDialog"/> does not destroy the dialog box immediately.
+        /// Instead, it sets a flag and allows the dialog box procedure to return control to the system.
+        /// The system checks the flag before attempting to retrieve the next message from the application queue.
+        /// If the flag is set, the system ends the message loop, destroys the dialog box, and uses the value in <paramref name="nResult"/>
+        /// as the return value from the function that created the dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EndDialog([In]IntPtr hDlg, [In]IntPtr nResult);
     }
 }
