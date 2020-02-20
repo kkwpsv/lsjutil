@@ -1,11 +1,13 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
@@ -288,6 +290,124 @@ namespace Lsj.Util.Win32
         public static extern IntPtr DialogBoxParam([In]IntPtr hInstance,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
             [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
+
+        /// <summary>
+        /// <para>
+        /// Creates a modal dialog box from a dialog box template in memory.
+        /// <see cref="DialogBoxIndirect"/> does not return control until the specified callback function
+        /// terminates the modal dialog box by calling the <see cref="EndDialog"/> function.
+        /// <see cref="DialogBoxIndirect"/> is implemented as a call to the <see cref="DialogBoxIndirectParam"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxindirectw
+        /// </para>
+        /// </summary>
+        /// <param name="lpTemplateName">
+        /// The template that <see cref="DialogBoxIndirectParam"/> uses to create the dialog box.
+        /// A dialog box template consists of a header that describes the dialog box, followed by one or more additional blocks 
+        /// of data that describe each of the controls in the dialog box.
+        /// The template can use either the standard format or the extended format.
+        /// In a standard template for a dialog box, the header is a <see cref="DLGTEMPLATE"/> structure followed by additional variable-length arrays.
+        /// The data for each control consists of a <see cref="DLGITEMTEMPLATE"/> structure followed by additional variable-length arrays.
+        /// In an extended template for a dialog box, the header uses the <see cref="DLGTEMPLATEEX"/> format
+        /// and the control definitions use the <see cref="DLGITEMTEMPLATEEX"/> format.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the window that owns the dialog box.
+        /// </param>
+        /// <param name="lpDialogFunc">
+        /// A pointer to the dialog box procedure.
+        /// For more information about the dialog box procedure, see <see cref="DLGPROC"/>.
+        /// </param>
+        /// <remarks>
+        /// The <see cref="DialogBoxIndirect"/> macro uses the <see cref="CreateWindowEx"/> function to create the dialog box.
+        /// <see cref="DialogBoxIndirect"/> then sends a <see cref="WM_INITDIALOG"/> message to the dialog box procedure.
+        /// If the template specifies the <see cref="DS_SETFONT"/> or <see cref="DS_SHELLFONT"/> style,
+        /// the function also sends a <see cref="WM_SETFONT"/> message to the dialog box procedure.
+        /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WS_VISIBLE"/> style),
+        /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
+        /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxIndirect"/> destroys the dialog box,
+        /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
+        /// by the dialog box procedure when it called <see cref="EndDialog"/>.
+        /// In a standard dialog box template, the <see cref="DLGTEMPLATE"/> structure and each of the <see cref="DLGITEMTEMPLATE"/> structures
+        /// must be aligned on DWORD boundaries.
+        /// The creation data array that follows a <see cref="DLGITEMTEMPLATE"/> structure must also be aligned on a DWORD boundary.
+        /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
+        /// In an extended dialog box template, the <see cref="DLGTEMPLATEEX"/> header and each of the <see cref="DLGITEMTEMPLATEEX"/> control
+        /// definitions must be aligned on DWORD boundaries.
+        /// The creation data array, if any, that follows a <see cref="DLGITEMTEMPLATEEX"/> structure must also be aligned on a DWORD boundary.
+        /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
+        /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
+        /// Use the <see cref="MultiByteToWideChar"/> function to generate Unicode strings from ANSI strings.
+        /// </remarks>
+        public static IntPtr DialogBoxIndirect([In] IntPtr hInstance, [In]IntPtr lpTemplateName, [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc) =>
+            DialogBoxIndirectParam(hInstance, lpTemplateName, hWndParent, lpDialogFunc, IntPtr.Zero);
+
+        /// <summary>
+        /// <para>
+        /// Creates a modal dialog box from a dialog box template in memory.
+        /// Before displaying the dialog box, the function passes an application-defined value to the dialog box procedure
+        /// as the lParam parameter of the <see cref="WM_INITDIALOG"/> message.
+        /// An application can use this value to initialize dialog box controls.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-dialogboxindirectparamw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the module that creates the dialog box.
+        /// </param>
+        /// <param name="lpTemplateName">
+        /// The template that <see cref="DialogBoxIndirectParam"/> uses to create the dialog box.
+        /// A dialog box template consists of a header that describes the dialog box, followed by one or more additional blocks 
+        /// of data that describe each of the controls in the dialog box.
+        /// The template can use either the standard format or the extended format.
+        /// In a standard template for a dialog box, the header is a <see cref="DLGTEMPLATE"/> structure followed by additional variable-length arrays.
+        /// The data for each control consists of a <see cref="DLGITEMTEMPLATE"/> structure followed by additional variable-length arrays.
+        /// In an extended template for a dialog box, the header uses the <see cref="DLGTEMPLATEEX"/> format
+        /// and the control definitions use the <see cref="DLGITEMTEMPLATEEX"/> format.
+        /// </param>
+        /// <param name="hWndParent">
+        /// A handle to the window that owns the dialog box.
+        /// </param>
+        /// <param name="lpDialogFunc">
+        /// A pointer to the dialog box procedure.
+        /// For more information about the dialog box procedure, see <see cref="DLGPROC"/>.
+        /// </param>
+        /// <param name="dwInitParam">
+        /// The value to pass to the dialog box in the lParam parameter of the <see cref="WM_INITDIALOG"/> message.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the nResult parameter specified in the call to
+        /// the <see cref="EndDialog"/> function that was used to terminate the dialog box.
+        /// If the function fails because the <paramref name="hWndParent"/> parameter is invalid, the return value is <see cref="IntPtr.Zero"/>.
+        /// The function returns zero in this case for compatibility with previous versions of Windows.
+        /// If the function fails for any other reason, the return value is –1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DialogBoxIndirectParam"/> function uses the <see cref="CreateWindowEx"/> function to create the dialog box.
+        /// <see cref="DialogBoxIndirectParam"/> then sends a <see cref="WM_INITDIALOG"/> message to the dialog box procedure.
+        /// If the template specifies the <see cref="DS_SETFONT"/> or <see cref="DS_SHELLFONT"/> style,
+        /// the function also sends a <see cref="WM_SETFONT"/> message to the dialog box procedure.
+        /// The function displays the dialog box (regardless of whether the template specifies the <see cref="WS_VISIBLE"/> style),
+        /// disables the owner window, and starts its own message loop to retrieve and dispatch messages for the dialog box.
+        /// When the dialog box procedure calls the <see cref="EndDialog"/> function, <see cref="DialogBoxIndirectParam"/> destroys the dialog box,
+        /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
+        /// by the dialog box procedure when it called <see cref="EndDialog"/>.
+        /// In a standard dialog box template, the <see cref="DLGTEMPLATE"/> structure and each of the <see cref="DLGITEMTEMPLATE"/> structures
+        /// must be aligned on DWORD boundaries.
+        /// The creation data array that follows a <see cref="DLGITEMTEMPLATE"/> structure must also be aligned on a DWORD boundary.
+        /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
+        /// In an extended dialog box template, the <see cref="DLGTEMPLATEEX"/> header and each of the <see cref="DLGITEMTEMPLATEEX"/> control
+        /// definitions must be aligned on DWORD boundaries.
+        /// The creation data array, if any, that follows a <see cref="DLGITEMTEMPLATEEX"/> structure must also be aligned on a DWORD boundary.
+        /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
+        /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxIndirectParamW", SetLastError = true)]
+        public static extern IntPtr DialogBoxIndirectParam([In]IntPtr hInstance, [In]IntPtr lpTemplateName, [In]IntPtr hWndParent,
+            [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
         /// <summary>
         /// <para>
