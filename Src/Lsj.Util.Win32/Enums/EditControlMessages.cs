@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 
@@ -305,7 +306,7 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         [Obsolete("Intended for internal use; not recommended for use in applications." +
             "This message may not be supported in future versions of Windows.")]
-        EM_TAKEFOCUS = ECM_FIRST+8,
+        EM_TAKEFOCUS = ECM_FIRST + 8,
 
         /// <summary>
         /// This message undoes the last edit control operation in the control's undo queue.
