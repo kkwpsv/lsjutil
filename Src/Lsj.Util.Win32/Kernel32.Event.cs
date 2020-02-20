@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CreateEventExFlags;
+using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
