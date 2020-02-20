@@ -73,7 +73,34 @@ namespace Lsj.Util.Win32
         /// <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DrawFocusRect([In]IntPtr hDC, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
+
+        /// <summary>
+        /// <para>
+        /// The EndPaint function marks the end of painting in the specified window.
+        /// This function is required for each call to the <see cref="BeginPaint"/> function, but only after painting is complete.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-endpaint
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window that has been repainted.
+        /// </param>
+        /// <param name="lpPaint">
+        /// Pointer to a <see cref="PAINTSTRUCT"/> structure that contains the painting information retrieved by <see cref="BeginPaint"/>.
+        /// </param>
+        /// <returns>
+        /// The return value is always <see langword="true"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the caret was hidden by <see cref="BeginPaint"/>, <see cref="EndPaint"/> restores the caret to the screen.
+        /// <see cref="EndPaint"/> releases the display device context that <see cref="BeginPaint"/> retrieved.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EndPaint([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPStruct)][In]PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
