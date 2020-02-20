@@ -2,23 +2,20 @@
 using Lsj.Util.Win32.Extensions;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 
-namespace Lsj.Util.Win32.Macros
+namespace Lsj.Util.Win32
 {
-    /// <summary>
-    /// <para>
-    /// ComboxBox Control Macros
-    /// </para>
-    /// <para>
-    /// From: 
-    /// </para>
-    /// </summary>
-    public static class ComboxBoxControlMacros
+    public static partial class User32
     {
         /// <summary>
+        /// <para>
         /// Gets the cue banner text displayed in the edit control of a combo box.
-        /// Use this macro or send the <see cref="ComboBoxControlMessages.CB_GETCUEBANNER"/> message explicitly.
+        /// Use this macro or send the <see cref="CB_GETCUEBANNER"/> message explicitly.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-combobox_getcuebannertext
+        /// </para>
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the combo box.
@@ -35,11 +32,10 @@ namespace Lsj.Util.Win32.Macros
         public static bool ComboBox_GetCueBannerText(IntPtr hwnd, out string lpwText, int cchText)
         {
             var lparam = Marshal.AllocHGlobal(cchText * 2);
-            var result = SendMessage(hwnd, (WindowsMessages)ComboBoxControlMessages.CB_GETCUEBANNER, (UIntPtr)lparam.SafeToUIntPtr(), (IntPtr)cchText);
+            var result = SendMessage(hwnd, (WindowsMessages)CB_GETCUEBANNER, lparam.SafeToUIntPtr(), (IntPtr)cchText);
             lpwText = Marshal.PtrToStringUni(lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
         }
-
     }
 }
