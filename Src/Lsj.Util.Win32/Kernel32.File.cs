@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
 
@@ -1382,5 +1383,59 @@ namespace Lsj.Util.Win32
             [In]IntPtr lpFindFileData, [In]FINDEX_SEARCH_OPS fSearchOp, [In]IntPtr lpSearchFilter,
             [In]FindFirstFileExFlags dwAdditionalFlags, [In]IntPtr hTransaction);
 
+        /// <summary>
+        /// <para>
+        /// Enumerates the first stream in the specified file or directory as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The fully qualified file name.
+        /// The file must reside on the local computer; otherwise, the function fails and the last error code
+        /// is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="InfoLevel">
+        /// The information level of the returned data.
+        /// This parameter is one of the values in the <see cref="STREAM_INFO_LEVELS"/> enumeration type.
+        /// <see cref="FindStreamInfoStandard"/>: The data is returned in a <see cref="WIN32_FIND_STREAM_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFindStreamData">
+        /// A pointer to a buffer that receives the file data.
+        /// The format of this data depends on the value of the <paramref name="InfoLevel"/> parameter.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved for future use. This parameter must be zero.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle that can be used in subsequent calls to the <see cref="FindNextStreamW"/> function.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All files contain a default data stream.
+        /// On NTFS, files can also contain one or more named data streams.
+        /// On FAT file systems, files cannot have more that the default data stream, and therefore, this function will not return
+        /// valid results when used on FAT filesystem files.
+        /// This function works on all file systems that supports hard links; otherwise, the function returns <see cref="ERROR_STATUS_NOT_IMPLEMENTED"/>.
+        /// The <see cref="FindFirstStreamTransactedW"/> function opens a search handle and returns information about
+        /// the first stream in the specified file or directory.
+        /// For files, this is always the default data stream, ::$DATA.
+        /// After the search handle has been established, use it in the <see cref="FindNextStreamW"/> function to search for other streams
+        /// in the specified file or directory.
+        /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", SetLastError = true)]
+        public static extern IntPtr FindFirstStreamTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]STREAM_INFO_LEVELS InfoLevel,
+            [In]IntPtr lpFindStreamData, [In]uint dwFlags, [In]IntPtr hTransaction);
     }
 }
