@@ -762,6 +762,33 @@ namespace Lsj.Util.Win32
              out WNDCLASS lpWndClass);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the name of the class to which the specified window belongs.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassnamew
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window and, indirectly, the class to which the window belongs.
+        /// </param>
+        /// <param name="lpClassName">
+        /// The class name string.
+        /// </param>
+        /// <param name="nMaxCount">
+        /// The length of the <paramref name="lpClassName"/> buffer, in characters.
+        /// The buffer must be large enough to include the terminating null character;
+        /// otherwise, the class name string is truncated to <paramref name="nMaxCount"/>-1 characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of characters copied to the buffer, not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassName", SetLastError = true)]
+        public static extern int GetClassName([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpClassName, [In]int nMaxCount);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
