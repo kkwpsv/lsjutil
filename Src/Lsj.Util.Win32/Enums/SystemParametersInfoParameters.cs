@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
+using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
+using static Lsj.Util.Win32.Enums.FontSmotohingTypes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -441,7 +443,7 @@ namespace Lsj.Util.Win32.Enums
         /// Retrieves the type of font smoothing.
         /// The pvParam parameter must point to a <see cref="uint"/> that receives the information.
         /// The possible values are <see cref="FE_FONTSMOOTHINGSTANDARD"/> and <see cref="FE_FONTSMOOTHINGCLEARTYPE"/>.
-        /// Windows 2000:  This parameter is not supported.
+        /// Windows 2000:  This parameter is not supported. 
         /// </summary>
         SPI_GETFONTSMOOTHINGTYPE = 0x200A,
 
