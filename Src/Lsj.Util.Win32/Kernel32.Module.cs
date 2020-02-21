@@ -98,6 +98,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Decrements the reference count of a loaded dynamic-link library (DLL) by one,
+        /// then calls <see cref="ExitThread"/> to terminate the calling thread.
+        /// The function does not return.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibraryandexitthread
+        /// </para>
+        /// </summary>
+        /// <param name="hLibModule">
+        /// A handle to the DLL module whose reference count the function decrements.
+        /// The <see cref="LoadLibrary"/> or <see cref="GetModuleHandleEx"/> function returns this handle.
+        /// Do not call this function with a handle returned by the <see cref="GetModuleHandle"/> function,
+        /// since this function does not maintain a reference count for the module.
+        /// </param>
+        /// <param name="dwExitCode">
+        /// The exit code for the calling thread.
+        /// </param>
+        /// <remarks>
+        /// The <see cref="FreeLibraryAndExitThread"/> function allows threads that are executing within a DLL to safely free the DLL
+        /// in which they are executing and terminate themselves.
+        /// If they were to call <see cref="FreeLibrary"/> and <see cref="ExitThread"/> separately, a race condition would exist.
+        /// The library could be unloaded before <see cref="ExitThread"/> is called.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", SetLastError = true)]
+        public static extern void FreeLibraryAndExitThread([In]IntPtr hLibModule, [In]uint dwExitCode);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
         /// The module must have been loaded by the current process.
         /// To locate the file for a module that was loaded by another process, use the <see cref="GetModuleFileNameEx"/> function.
