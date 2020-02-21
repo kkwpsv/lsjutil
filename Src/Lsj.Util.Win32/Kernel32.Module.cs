@@ -52,6 +52,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
+        /// When the reference count reaches zero, the module is unloaded from the address space of the calling process and the handle is no longer valid.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freelibrary
+        /// </para>
+        /// </summary>
+        /// <param name="hLibModule">
+        /// A handle to the loaded library module.
+        /// The <see cref="LoadLibrary"/>, <see cref="LoadLibraryEx"/>, <see cref="GetModuleHandle"/>,
+        /// or <see cref="GetModuleHandleEx"/> function returns this handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, see <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system maintains a per-process reference count for each loaded module.
+        /// A module that was loaded at process initialization due to load-time dynamic linking has a reference count of one.
+        /// The reference count for a module is incremented each time the module is loaded by a call to <see cref="LoadLibrary"/>.
+        /// The reference count is also incremented by a call to <see cref="LoadLibraryEx"/> unless the module is being loaded for
+        /// the first time and is being loaded as a data or image file.
+        /// The reference count is decremented each time the <see cref="FreeLibrary"/>
+        /// or <see cref="FreeLibraryAndExitThread"/> function is called for the module.
+        /// When a module's reference count reaches zero or the process terminates, the system unloads the module from the address space of the process.
+        /// Before unloading a library module, the system enables the module to detach from the process by calling the module's DllMain function,
+        /// if it has one, with the <see cref="DLL_PROCESS_DETACH"/> value.
+        /// Doing so gives the library module an opportunity to clean up resources allocated on behalf of the current process.
+        /// After the entry-point function returns, the library module is removed from the address space of the current process.
+        /// It is not safe to call <see cref="FreeLibrary"/> from DllMain. For more information, see the Remarks section in DllMain.
+        /// Calling <see cref="FreeLibrary"/> does not affect other processes that are using the same module.
+        /// Use caution when calling <see cref="FreeLibrary"/> with a handle returned by <see cref="GetModuleHandle"/>.
+        /// The <see cref="GetModuleHandle"/> function does not increment a module's reference count,
+        /// so passing this handle to <see cref="FreeLibrary"/> can cause a module to be unloaded prematurely.
+        /// A thread that must unload the DLL in which it is executing and then terminate itself should call <see cref="FreeLibraryAndExitThread"/>
+        /// instead of calling <see cref="FreeLibrary"/> and <see cref="ExitThread"/> separately.
+        /// Otherwise, a race condition can occur.
+        /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeLibrary([In]IntPtr hLibModule);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
         /// The module must have been loaded by the current process.
         /// To locate the file for a module that was loaded by another process, use the <see cref="GetModuleFileNameEx"/> function.
