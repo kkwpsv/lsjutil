@@ -1511,6 +1511,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Continues a file search from a previous call to the <see cref="FindFirstFile"/>,
+        /// <see cref="FindFirstFileEx"/>, or <see cref="FindFirstFileTransacted"/> functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextfilew
+        /// </para>
+        /// </summary>
+        /// <param name="hFindFile">
+        /// The search handle returned by a previous call to the <see cref="FindFirstFile"/> or <see cref="FindFirstFileEx"/> function.
+        /// </param>
+        /// <param name="lpFindFileData">
+        /// A pointer to the <see cref="WIN32_FIND_DATA"/> structure that receives information about the found file or subdirectory.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and the <paramref name="lpFindFileData"/> parameter
+        /// contains information about the next file or directory found.
+        /// If the function fails, the return value is <see langword="false"/> and the contents of lpFindFileData are indeterminate.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function fails because no more matching files can be found,
+        /// the <see cref="GetLastError"/> function returns <see cref="ERROR_NO_MORE_FILES"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function uses the same search filters that were used to create the search handle passed in the <paramref name="hFindFile"/> parameter.
+        /// For additional information, see <see cref="FindFirstFile"/> and <see cref="FindFirstFileEx"/>.
+        /// The order in which the search returns the files, such as alphabetical order, is not guaranteed, and is dependent on the file system.
+        /// If the data must be sorted, the application must do the ordering after obtaining all the results.
+        /// In rare cases or on a heavily loaded system, file attribute information on NTFS file systems may not be current
+        /// at the time this function is called.
+        /// To be assured of getting the current NTFS file system file attributes, call the <see cref="GetFileInformationByHandle"/> function.
+        /// The order in which this function returns the file names is dependent on the file system type.
+        /// With the NTFS file system and CDFS file systems, the names are usually returned in alphabetical order.
+        /// With FAT file systems, the names are usually returned in the order the files were written to the disk,
+        /// which may or may not be in alphabetical order.
+        /// However, as stated previously, these behaviors are not guaranteed.
+        /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
+        /// If there is a transaction bound to the file enumeration handle,
+        /// then the files that are returned are subject to transaction isolation rules.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindNextFile([In]IntPtr hFindFile, [In][Out]ref WIN32_FIND_DATA lpFindFileData);
+
+        /// <summary>
+        /// <para>
         /// Continues enumerating the hard links to a file using the handle returned by a successful call to the <see cref="FindFirstFileNameW"/> function.
         /// </para>
         /// </summary>
