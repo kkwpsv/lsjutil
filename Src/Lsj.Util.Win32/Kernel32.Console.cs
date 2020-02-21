@@ -77,5 +77,31 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachConsole", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AttachConsole([In]uint dwProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Detaches the calling process from its console.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/freeconsole
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process can be attached to at most one console.
+        /// If the calling process is not already attached to a console, the error code returned is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// A process can use the <see cref="FreeConsole"/> function to detach itself from its console.
+        /// If other processes share the console, the console is not destroyed, but the process that called <see cref="FreeConsole"/> cannot refer to it.
+        /// A console is closed when the last process attached to it terminates or calls <see cref="FreeConsole"/>.
+        /// After a process calls <see cref="FreeConsole"/>, it can call the <see cref="AllocConsole"/> function to create a new console
+        /// or <see cref="AttachConsole"/> to attach to another console.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeConsole", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeConsole();
     }
 }
