@@ -1508,5 +1508,35 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextChangeNotification", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FindNextChangeNotification([In]IntPtr hChangeHandle);
+
+        /// <summary>
+        /// <para>
+        /// Continues enumerating the hard links to a file using the handle returned by a successful call to the <see cref="FindFirstFileNameW"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="hFindStream">
+        /// A handle to the enumeration that is returned by a successful call to <see cref="FindFirstFileNameW"/>.
+        /// </param>
+        /// <param name="StringLength">
+        /// The size of the <paramref name="LinkName"/> parameter, in characters.
+        /// If this call fails and the error is <see cref="ERROR_MORE_DATA"/>, the value that is returned by this parameter is the size
+        /// that <paramref name="LinkName"/> must be to contain all the data.
+        /// </param>
+        /// <param name="LinkName">
+        /// A pointer to a buffer to store the first link name found for <paramref name="hFindStream"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If no matching files can be found, the <see cref="GetLastError"/> function returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the function returns <see langword="true"/>, there are more hard links to enumerate.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileNameW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindNextFileNameW([In]IntPtr hFindStream, [In][Out]ref uint StringLength,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder LinkName);
     }
 }
