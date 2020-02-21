@@ -110,8 +110,7 @@ namespace Lsj.Util.Win32.Enums
         FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS = 0x00400000,
 
         /// <summary>
-        /// This attribute only appears in directory enumeration classes
-        /// (<see cref="FILE_DIRECTORY_INFORMATION"/>, <see cref="FILE_BOTH_DIR_INFORMATION"/>, etc.).
+        /// This attribute only appears in directory enumeration classes (FILE_DIRECTORY_INFORMATION, FILE_BOTH_DIR_INFORMATION, etc.).
         /// When this attribute is set, it means that the file or directory has no physical representation on the local system; the item is virtual.
         /// Opening the item will be more expensive than normal, e.g. it will cause at least some of it to be fetched from a remote store.
         /// </summary>
