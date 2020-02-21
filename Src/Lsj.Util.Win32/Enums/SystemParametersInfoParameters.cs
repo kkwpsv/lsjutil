@@ -62,7 +62,8 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Retrieves information about the FilterKeys accessibility feature.
         /// The pvParam parameter must point to a <see cref="FILTERKEYS"/> structure that receives the information.
-        /// Set the cbSize member of this structure and the uiParam parameter to <code>sizeof(FILTERKEYS)</code>.
+        /// Set the <see cref="FILTERKEYS.cbSize"/> member of this structure and the uiParam parameter
+        /// to <code>sizeof(<see cref="FILTERKEYS"/>)</code>.
         /// </summary>
         SPI_GETFILTERKEYS = 0x0032,
 
