@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -107,7 +108,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeviceIoControl([In]IntPtr hDevice, [In]uint dwIoControlCode, [In]IntPtr lpInBuffer, [In]uint nInBufferSize,
+        public static extern bool DeviceIoControl([In]IntPtr hDevice, [In]IoControlCodes dwIoControlCode, [In]IntPtr lpInBuffer, [In]uint nInBufferSize,
             [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesReturned, [In] IntPtr lpOverlapped);
     }
 }

@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
