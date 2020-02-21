@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
+using static Lsj.Util.Win32.Enums.FileSystemFlags;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
