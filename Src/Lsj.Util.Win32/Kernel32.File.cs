@@ -1582,5 +1582,29 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FindNextFileNameW([In]IntPtr hFindStream, [In][Out]ref uint StringLength,
             [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder LinkName);
+
+        /// <summary>
+        /// <para>
+        /// Continues a stream search started by a previous call to the <see cref="FindFirstStreamW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextstreamw
+        /// </para>
+        /// </summary>
+        /// <param name="hFindStream">
+        /// The search handle returned by a previous call to the <see cref="FindFirstStreamW"/> function.
+        /// </param>
+        /// <param name="lpFindStreamData">
+        /// A pointer to the <see cref="WIN32_FIND_STREAM_DATA"/> structure that receives information about the stream.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If no matching files can be found, the <see cref="GetLastError"/> function returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextStreamW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindNextStreamW([In]IntPtr hFindStream, [In]IntPtr lpFindStreamData);
     }
 }
