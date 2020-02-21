@@ -688,6 +688,80 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpszWindow);
 
         /// <summary>
+        /// <para>
+        /// Retrieves information about a window class.
+        /// The <see cref="GetClassInfo"/> function has been superseded by the <see cref="GetClassInfoEx"/> function.
+        /// You can still use <see cref="GetClassInfo"/>, however, if you do not need information about the class small icon.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfow
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the instance of the application that created the class. 
+        /// To retrieve information about classes defined by the system (such as buttons or list boxes), set this parameter to <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="lpClassName">
+        /// The class name.
+        /// The name must be that of a preregistered class or a class registered
+        /// by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// Alternatively, this parameter can be an atom. If so, it must be a class atom created by a previous call
+        /// to <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>.
+        /// The atom must be in the low-order word of <paramref name="lpClassName"/>; the high-order word must be zero.
+        /// </param>
+        /// <param name="lpWndClass">
+        /// A pointer to a <see cref="WNDCLASS"/> structure that receives the information about the class.
+        /// </param>
+        /// <returns>
+        /// If the function finds a matching class and successfully copies the data, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetClassInfo([In]IntPtr hInstance,
+             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpClassName,
+             out WNDCLASS lpWndClass);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about a window class, including a handle to the small icon associated with the window class.
+        /// The <see cref="GetClassInfo"/> function does not retrieve a handle to the small icon.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfoexw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the instance of the application that created the class.
+        /// To retrieve information about classes defined by the system (such as buttons or list boxes), set this parameter to <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="lpClassName">
+        /// The class name.
+        /// The name must be that of a preregistered class or a class registered by a previous call to
+        /// the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// Alternatively, this parameter can be a class atom created by a previous call to <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>.
+        /// The atom must be in the low-order word of <paramref name="lpszClass"/>; the high-order word must be zero.
+        /// </param>
+        /// <param name="lpWndClass">
+        /// A pointer to a <see cref="WNDCLASSEX"/> structure that receives the information about the class.
+        /// </param>
+        /// <returns>
+        /// If the function finds a matching class and successfully copies the data, the return value is <see langword="true"/>.
+        /// If the function does not find a matching class and successfully copy the data, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Class atoms are created using the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function,
+        /// not the <see cref="GlobalAddAtom"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoExW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetClassInfoEx([In]IntPtr hInstance,
+             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpszClass,
+             out WNDCLASS lpWndClass);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
