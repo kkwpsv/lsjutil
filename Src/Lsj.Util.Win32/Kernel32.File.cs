@@ -1607,5 +1607,50 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextStreamW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FindNextStreamW([In]IntPtr hFindStream, [In]IntPtr lpFindStreamData);
+
+        /// <summary>
+        /// <para>
+        /// Flushes the buffers of a specified file and causes all buffered data to be written to a file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the open file.
+        /// The file handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// If <paramref name="hFile"/> is a handle to a communications device, the function only flushes the transmit buffer.
+        /// If <paramref name="hFile"/> is a handle to the server end of a named pipe,
+        /// the function does not return until the client has read all buffered data from the pipe.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails if <paramref name="hFile"/> is a handle to the console output.
+        /// That is because the console output is not buffered.
+        /// The function returns <see langword="false"/>, and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_HANDLE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Typically the <see cref="WriteFile"/> and <see cref="WriteFileEx"/> functions write data to an internal buffer
+        /// that the operating system writes to a disk or communication pipe on a regular basis.
+        /// The <see cref="FlushFileBuffers"/> function writes all the buffered information for a specified file to the device or pipe.
+        /// Due to disk caching interactions within the system, the <see cref="FlushFileBuffers"/> function can be inefficient
+        /// when used after every write to a disk drive device when many writes are being performed separately.
+        /// If an application is performing multiple writes to disk and also needs to ensure critical data is written to persistent media,
+        /// the application should use unbuffered I/O instead of frequently calling <see cref="FlushFileBuffers"/>.
+        /// To open a file for unbuffered I/O, call the <see cref="CreateFile"/> function with
+        /// the <see cref="FILE_FLAG_NO_BUFFERING"/> and <see cref="FILE_FLAG_WRITE_THROUGH"/> flags.
+        /// This prevents the file contents from being cached and flushes the metadata to disk with each write.
+        /// For more information, see <see cref="CreateFile"/>.
+        /// To flush all open files on a volume, call <see cref="FlushFileBuffers"/> with a handle to the volume.
+        /// The caller must have administrative privileges. For more information, see Running with Special Privileges.
+        /// When opening a volume with <see cref="CreateFile"/>, the lpFileName string should be the following form: \.&lt;i&gt;x: or \?\Volume{GUID}.
+        /// Do not use a trailing backslash in the volume name, because that indicates the root directory of a drive.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushFileBuffers", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FlushFileBuffers([In]IntPtr hFile);
     }
 }
