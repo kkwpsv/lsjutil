@@ -1484,6 +1484,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the name of a mounted folder on the specified volume.
+        /// <see cref="FindFirstVolumeMountPoint"/> is used to begin scanning the mounted folders on a volume.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstvolumemountpointw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszRootPathName">
+        /// A volume GUID path for the volume to scan for mounted folders. A trailing backslash is required.
+        /// </param>
+        /// <param name="lpszVolumeMountPoint">
+        /// A pointer to a buffer that receives the name of the first mounted folder that is found.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the buffer that receives the path to the mounted folder, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle used in a subsequent call 
+        /// to the <see cref="FindNextVolumeMountPoint"/> and <see cref="FindVolumeMountPointClose"/> functions.
+        /// If the function fails to find a mounted folder on the volume, the return value is the <see cref="INVALID_HANDLE_VALUE"/> error code.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="FindFirstVolumeMountPoint"/> function opens a mounted folder search handle and returns information
+        /// about the first mounted folder that is found on the specified volume.
+        /// After the search handle is established, you can use the <see cref="FindNextVolumeMountPoint"/> function to search for other mounted folders.
+        /// When the search handle is no longer needed, close it with the <see cref="FindVolumeMountPointClose"/> function.
+        /// The <see cref="FindFirstVolumeMountPoint"/>, <see cref="FindNextVolumeMountPoint"/>,
+        /// and <see cref="FindVolumeMountPointClose"/> functions return paths to mounted folders for a specified volume.
+        /// They do not return drive letters or volume GUID paths.
+        /// For information about enumerating the volume GUID paths for a volume, see Enumerating Volume GUID Paths.
+        /// You should not assume any correlation between the order of the mounted folders that are returned by these functions
+        /// and the order of the mounted folders that are returned by other functions or tools.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeMountPointW", SetLastError = true)]
+        public static extern IntPtr FindFirstVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In]string lpszRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeMountPoint, [In]uint cchBufferLength);
+
+        /// <summary>
+        /// <para>
         /// Requests that the operating system signal a change notification handle the next time it detects an appropriate change.
         /// </para>
         /// <para>
