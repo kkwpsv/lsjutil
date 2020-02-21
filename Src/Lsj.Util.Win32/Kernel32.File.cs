@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
+using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
@@ -1009,5 +1010,106 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstChangeNotificationW", SetLastError = true)]
         public static extern IntPtr FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
             [In]bool bWatchSubtree, [In]FileNotifyFilters dwNotifyFilter);
+
+        /// <summary>
+        /// <para>
+        /// Searches a directory for a file or subdirectory with a name and attributes that match those specified.
+        /// For the most basic version of this function, see <see cref="FindFirstFile"/>.
+        /// To perform this operation as a transacted operation, use the <see cref="FindFirstFileTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The directory or path, and the file name. The file name can include wildcard characters, for example, an asterisk (*) or a question mark (?).
+        /// This parameter should not be <see langword="null"/>, an invalid string (for example, an empty string or a string
+        /// that is missing the terminating null character), or end in a trailing backslash().
+        /// If the string ends with a wildcard, period, or directory name, the user must have access to the root and all subdirectories on the path.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to approximately 32,000 wide characters, call the Unicode version of the function (<see cref="FindFirstFileExW"/>),
+        /// and prepend "\?" to the path.For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="FindFirstFileExW"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="fInfoLevelId">
+        /// The information level of the returned data.
+        /// This parameter is one of the <see cref="FINDEX_INFO_LEVELS"/> enumeration values.
+        /// </param>
+        /// <param name="lpFindFileData">
+        /// A pointer to the buffer that receives the file data.
+        /// The pointer type is determined by the level of information that is specified in the <paramref name="fInfoLevelId"/> parameter.
+        /// </param>
+        /// <param name="fSearchOp">
+        /// The type of filtering to perform that is different from wildcard matching.
+        /// This parameter is one of the <see cref="FINDEX_SEARCH_OPS"/> enumeration values.
+        /// </param>
+        /// <param name="lpSearchFilter">
+        /// A pointer to the search criteria if the specified <paramref name="fSearchOp"/> needs structured search information.
+        /// At this time, none of the supported <paramref name="fSearchOp"/> values require extended search information.
+        /// Therefore, this pointer must be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="dwAdditionalFlags">
+        /// Specifies additional flags that control the search.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle used in a subsequent call
+        /// to <see cref="FindNextFile"/> or <see cref="FindClose"/>, and the <paramref name="lpFindFileData"/> parameter contains information
+        /// about the first file or directory found.
+        /// If the function fails or fails to locate files from the search string in the <paramref name="lpFileName"/> parameter,
+        /// the return value is <see cref="INVALID_HANDLE_VALUE"/> and the contents of <paramref name="lpFindFileData"/> are indeterminate.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="FindFirstFileEx"/> function opens a search handle and returns information about the first file
+        /// that the file system finds with a name that matches the specified pattern.
+        /// This may or may not be the first file or directory that appears in a directory-listing application (such as the dir command)
+        /// when given the same file name string pattern.
+        /// This is because <see cref="FindFirstFileEx"/> does no sorting of the search results.
+        /// For additional information, see <see cref="FindNextFile"/>.
+        /// The following list identifies some other search characteristics:
+        /// The search is performed strictly on the name of the file, not on any attributes such as a date or a file type.
+        /// The search includes the long and short file names.
+        /// An attempt to open a search with a trailing backslash always fails.
+        /// Passing an invalid string, <see langword="null"/>, or empty string for the <paramref name="lpFileName"/> parameter is
+        /// not a valid use of this function.Results in this case are undefined.
+        /// Note In rare cases or on a heavily loaded system, file attribute information on NTFS file systems may not be current
+        /// at the time this function is called.
+        /// To be assured of getting the current NTFS file system file attributes, call the <see cref="GetFileInformationByHandle"/> function.
+        /// If the underlying file system does not support the specified type of filtering, other than directory filtering,
+        /// <see cref="FindFirstFileEx"/> fails with the error <see cref="ERROR_NOT_SUPPORTED"/>.
+        /// The application must use <see cref="FINDEX_SEARCH_OPS"/> type <see cref="FindExSearchNameMatch"/> and perform its own filtering.
+        /// After the search handle is established, use it in the <see cref="FindNextFile"/> function to search for other files
+        /// that match the same pattern with the same filtering that is being performed.
+        /// When the search handle is not needed, it should be closed by using the <see cref="FindClose"/> function.
+        /// As stated previously, you cannot use a trailing backslash () in the <paramref name="lpFileName"/> input string
+        /// for <see cref="FindFirstFileEx"/>, therefore it may not be obvious how to search root directories.
+        /// If you want to see files or get the attributes of a root directory, the following options would apply:
+        /// To examine files in a root directory, you can use "C:\*" and step through the directory by using <see cref="FindNextFile"/>.
+        /// To get the attributes of a root directory, use the <see cref="GetFileAttributes"/> function.
+        /// Note Prepending the string "\\?\" does not allow access to the root directory.
+        /// On network shares, you can use an <paramref name="lpFileName"/> in the form of the following: "\\server\service\*".
+        /// However, you cannot use an <paramref name="lpFileName"/> that points to the share itself; for example, "\\server\service" is not valid.
+        /// To examine a directory that is not a root directory, use the path to that directory, without a trailing backslash.
+        /// For example, an argument of "C:\Windows" returns information about the directory "C:\Windows", not about a directory or file in "C:\Windows".
+        /// To examine the files and directories in "C:\Windows", use an lpFileName of "C:\Windows*".
+        /// The following call:
+        /// <code>FindFirstFileEx(lpFileName, FindExInfoStandard, lpFindData, FindExSearchNameMatch, NULL, 0);</code>
+        /// s equivalent to the following call:
+        /// <code>FindFirstFile(lpFileName, lpFindData);</code>
+        /// Be aware that some other thread or process could create or delete a file with this name between the time you query for the result
+        /// and the time you act on the information. 
+        /// If this is a potential concern for your application, one possible solution is to use the <see cref="CreateFile"/> function
+        /// with <see cref="CREATE_NEW"/> (which fails if the file exists) or <see cref="OPEN_EXISTING"/> (which fails if the file does not exist).
+        /// If you are writing a 32-bit application to list all the files in a directory and the application may be run on a 64-bit computer,
+        /// you should call <see cref="Wow64DisableWow64FsRedirection"/> before calling <see cref="FindFirstFileEx"/>
+        /// and call <see cref="Wow64RevertWow64FsRedirection"/> after the last call to <see cref="FindNextFile"/>.
+        /// For more information, see File System Redirector.
+        /// If the path points to a symbolic link, the WIN32_FIND_DATA buffer contains information about the symbolic link, not the target.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileExW", SetLastError = true)]
+        public static extern IntPtr FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FINDEX_INFO_LEVELS fInfoLevelId,
+            [In]IntPtr lpFindFileData, [In]FINDEX_SEARCH_OPS fSearchOp, [In]IntPtr lpSearchFilter, [In]FindFirstFileExFlags dwAdditionalFlags);
     }
 }
