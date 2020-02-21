@@ -1437,5 +1437,46 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", SetLastError = true)]
         public static extern IntPtr FindFirstStreamTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]STREAM_INFO_LEVELS InfoLevel,
             [In]IntPtr lpFindStreamData, [In]uint dwFlags, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the first stream with a ::$DATA stream type in the specified file or directory.
+        /// To perform this operation as a transacted operation, use the <see cref="FindFirstStreamTransactedW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirststreamw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The fully qualified file name.
+        /// </param>
+        /// <param name="InfoLevel">
+        /// The information level of the returned data.
+        /// This parameter is one of the values in the <see cref="STREAM_INFO_LEVELS"/> enumeration type.
+        /// <see cref="FindStreamInfoStandard"/>: The data is returned in a <see cref="WIN32_FIND_STREAM_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFindStreamData">
+        /// A pointer to a buffer that receives the file data.
+        /// The format of this data depends on the value of the <paramref name="InfoLevel"/> parameter.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved for future use. This parameter must be zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle that can be used in subsequent calls to the <see cref="FindNextStreamW"/> function.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="FindFirstStreamW"/> function opens a search handle and returns information
+        /// about the first ::$DATA stream in the specified file or directory.
+        /// For files, this is always the default data stream, "::$DATA".
+        /// After the search handle has been established, use it in the <see cref="FindNextStreamW"/> function
+        /// to search for other streams in the specified file or directory.
+        /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", SetLastError = true)]
+        public static extern IntPtr FindFirstStreamW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In]STREAM_INFO_LEVELS InfoLevel,
+            [In]IntPtr lpFindStreamData, [In]uint dwFlags);
     }
 }
