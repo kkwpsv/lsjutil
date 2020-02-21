@@ -1692,6 +1692,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes the specified mounted folder search handle.
+        /// The <see cref="FindFirstVolumeMountPoint"/> and <see cref="FindNextVolumeMountPoint"/> functions
+        /// use this search handle to locate mounted folders on a specified volume.
+        /// </para>
+        /// </summary>
+        /// <param name="hFindVolumeMountPoint">
+        /// The mounted folder search handle to be closed.
+        /// This handle must have been previously opened by the <see cref="FindFirstVolumeMountPoint"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After the <see cref="FindVolumeMountPointClose"/> function is called,
+        /// the handle <paramref name="hFindVolumeMountPoint"/> cannot be used in subsequent calls to
+        /// either <see cref="FindNextVolumeMountPoint"/> or <see cref="FindVolumeMountPointClose"/>.
+        /// The <see cref="FindFirstVolumeMountPoint"/>, <see cref="FindNextVolumeMountPoint"/>,
+        /// and <see cref="FindVolumeMountPointClose"/> functions return paths to mounted folders for a specified volume.
+        /// They do not return drive letters or volume GUID paths.
+        /// For information about enumerating the volume GUID paths for a volume, see Enumerating Volume GUID Paths.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindVolumeMountPointClose", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindVolumeMountPointClose([In]IntPtr hFindVolumeMountPoint);
+
+        /// <summary>
+        /// <para>
         /// Flushes the buffers of a specified file and causes all buffered data to be written to a file.
         /// </para>
         /// <para>
