@@ -1,6 +1,8 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.Enums;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -103,5 +105,52 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeConsole", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FreeConsole();
+
+        /// <summary>
+        /// <para>
+        /// Sends a specified signal to a console process group that shares the console associated with the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/generateconsolectrlevent
+        /// </para>
+        /// </summary>
+        /// <param name="dwCtrlEvent">
+        /// The type of signal to be generated.
+        /// This parameter can be one of the following values.
+        /// <see cref="CTRL_C_EVENT"/>:
+        /// Generates a CTRL+C signal.
+        /// This signal cannot be generated for process groups.
+        /// If <paramref name="dwProcessGroupId"/> is nonzero, this function will succeed,
+        /// but the CTRL+C signal will not be received by processes within the specified process group.
+        /// <see cref="CTRL_BREAK_EVENT"/>:
+        /// Generates a CTRL+BREAK signal.
+        /// </param>
+        /// <param name="dwProcessGroupId">
+        /// The identifier of the process group to receive the signal.
+        /// A process group is created when the <see cref="CREATE_NEW_PROCESS_GROUP"/> flag is specified
+        /// in a call to the <see cref="CreateProcess"/> function.
+        /// The process identifier of the new process is also the process group identifier of a new process group.
+        /// The process group includes all processes that are descendants of the root process.
+        /// Only those processes in the group that share the same console as the calling process receive the signal.
+        /// In other words, if a process in the group creates a new console, that process does not receive the signal, nor do its descendants.
+        /// If this parameter is zero, the signal is generated in all processes that share the console of the calling process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GenerateConsoleCtrlEvent"/> causes the control handler functions of processes in the target group to be called.
+        /// All console processes have a default handler function that calls the <see cref="ExitProcess"/> function.
+        /// A console process can use the <see cref="SetConsoleCtrlHandler"/> function to install or remove other handler functions.
+        /// <see cref="SetConsoleCtrlHandler"/> can also enable an inheritable attribute that causes the calling process to ignore CTRL+C signals.
+        /// If <see cref="GenerateConsoleCtrlEvent"/> sends a CTRL+C signal to a process for which this attribute is enabled,
+        /// the handler functions for that process are not called.
+        /// CTRL+BREAK signals always cause the handler functions to be called.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GenerateConsoleCtrlEvent([In]CtrlEventFlags dwCtrlEvent, [In]uint dwProcessGroupId);
     }
 }
