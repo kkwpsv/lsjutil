@@ -633,6 +633,61 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
 
         /// <summary>
+        /// <para>
+        /// Retrieves a handle to a window whose class name and window name match the specified strings.
+        /// The function searches child windows, beginning with the one following the specified child window.
+        /// This function does not perform a case-sensitive search.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindowexw
+        /// </para>
+        /// </summary>
+        /// <param name="hWndParent">
+        /// A handle to the parent window whose child windows are to be searched.
+        /// If <paramref name="hWndParent"/> is <see cref="IntPtr.Zero"/>, the function uses the desktop window as the parent window.
+        /// The function searches among windows that are child windows of the desktop.
+        /// If <paramref name="hWndParent"/> is <see cref="HWND_MESSAGE"/>, the function searches all message-only windows.
+        /// </param>
+        /// <param name="hWndChildAfter">
+        /// A handle to a child window.
+        /// The search begins with the next child window in the Z order.
+        /// The child window must be a direct child window of <paramref name="hWndParent"/>, not just a descendant window.
+        /// If <paramref name="hWndChildAfter"/> is <see cref="IntPtr.Zero"/>, the search begins with the first child window of <paramref name="hWndParent"/>.
+        /// Note that if both <paramref name="hWndParent"/> and <paramref name="hWndChildAfter"/> are <see cref="IntPtr.Zero"/>,
+        /// the function searches all top-level and message-only windows.
+        /// </param>
+        /// <param name="lpszClass">
+        /// The class name or a class atom created by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// The atom must be placed in the low-order word of lpszClass; the high-order word must be zero.
+        /// If <paramref name="lpszClass"/> is a string, it specifies the window class name.
+        /// The class name can be any name registered with <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>,
+        /// or any of the predefined control-class names, or it can be MAKEINTATOM(0x8000).
+        /// In this latter case, 0x8000 is the atom for a menu class.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="lpszWindow">
+        /// The window name (the window's title). If this parameter is <see langword="null"/>, all window names match.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the window that has the specified class and window names.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lpszWindow"/> parameter is not <see langword="null"/>,
+        /// <see cref="FindWindowEx"/> calls the <see cref="GetWindowText"/> function to retrieve the window name for comparison.
+        /// For a description of a potential problem that can arise, see the Remarks section of <see cref="GetWindowText"/>.
+        /// An application can call this function in the following way.
+        /// FindWindowEx(NULL, NULL, MAKEINTATOM(0x8000), NULL);
+        /// Note that 0x8000 is the atom for a menu class.
+        /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", SetLastError = true)]
+        private static extern IntPtr FindWindowEx([In]IntPtr hWndParent, [In]IntPtr hWndChildAfter,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpszClass,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpszWindow);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
