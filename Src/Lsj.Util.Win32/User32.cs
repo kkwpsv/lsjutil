@@ -46,6 +46,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves an <see cref="AR_STATE"/> value containing the state of screen auto-rotation for the system,
+        /// for example whether auto-rotation is supported, and whether it is enabled by the user.
+        /// <see cref="GetAutoRotationState"/> provides a robust and diverse way of querying for auto-rotation state, and more.
+        /// For example, if you want your app to behave differently when multiple monitors are attached
+        /// then you can determine that from the <see cref="AR_STATE"/> returned.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getautorotationstate
+        /// </para>
+        /// </summary>
+        /// <param name="pState">
+        /// Pointer to a location in memory that will receive the current state of auto-rotation for the system.
+        /// </param>
+        /// <returns>
+        /// <see langword="true"/> if the method succeeds, otherwise <see langword="false"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetAutoRotationState([In][Out]ref AR_STATE pState);
+
+        /// <summary>
+        /// <para>
         /// Returns the dots per inch (dpi) value for the associated window.
         /// </para>
         /// <para>
@@ -58,8 +80,6 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", SetLastError = true)]
         public static extern uint GetDpiForWindow([In]IntPtr hwnd);
-
-
 
         /// <summary>
         /// <para>
