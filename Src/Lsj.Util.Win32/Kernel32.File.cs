@@ -936,5 +936,52 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindClose", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FindClose([In]IntPtr hFindFile);
+
+        /// <summary>
+        /// <para>
+        /// Creates a change notification handle and sets up initial change notification filter conditions.
+        /// A wait on a notification handle succeeds when a change matching the filter conditions occurs in the specified directory or subtree.
+        /// The function does not report changes to the specified directory itself.
+        /// This function does not indicate the change that satisfied the wait condition.
+        /// To retrieve information about the specific change as part of the notification, use the <see cref="ReadDirectoryChangesW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstchangenotificationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The full path of the directory to be watched.
+        /// This cannot be a relative path or an empty string.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// </param>
+        /// <param name="bWatchSubtree">
+        /// If this parameter is <see langword="true"/>, the function monitors the directory tree rooted at the specified directory;
+        /// if it is <see langword="false"/>, it monitors only the specified directory.
+        /// </param>
+        /// <param name="dwNotifyFilter">
+        /// The filter conditions that satisfy a change notification wait.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a find change notification object.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The wait functions can monitor the specified directory or subtree
+        /// by using the handle returned by the <see cref="FindFirstChangeNotification"/> function.
+        /// A wait is satisfied when one of the filter conditions occurs in the monitored directory or subtree.
+        /// After the wait has been satisfied, the application can respond to this condition and continue monitoring the directory
+        /// by calling the <see cref="FindNextChangeNotification"/> function and the appropriate wait function.
+        /// When the handle is no longer needed, it can be closed by using the <see cref="FindCloseChangeNotification"/> function.
+        /// Notifications may not be returned when calling <see cref="FindFirstChangeNotification"/> for a remote file system.
+        /// Symbolic link behavior—If the path points to a symbolic link, the notification handle is created for the target.
+        /// If an application has registered to receive change notifications for a directory that contains symbolic links,
+        /// the application is only notified when the symbolic links have been changed, not the target files.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstChangeNotificationW", SetLastError = true)]
+        public static extern IntPtr FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
+            [In]bool bWatchSubtree, [In]FileNotifyFilters dwNotifyFilter);
     }
 }
