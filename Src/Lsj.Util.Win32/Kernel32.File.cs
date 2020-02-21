@@ -1478,5 +1478,35 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", SetLastError = true)]
         public static extern IntPtr FindFirstStreamW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In]STREAM_INFO_LEVELS InfoLevel,
             [In]IntPtr lpFindStreamData, [In]uint dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Requests that the operating system signal a change notification handle the next time it detects an appropriate change.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextchangenotification
+        /// </para>
+        /// </summary>
+        /// <param name="hChangeHandle">
+        /// A handle to a change notification handle created by the <see cref="FindFirstChangeNotification"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After the <see cref="FindNextChangeNotification"/> function returns successfully,
+        /// the application can wait for notification that a change has occurred by using the wait functions.
+        /// If a change occurs after a call to <see cref="FindFirstChangeNotification"/> but before a call to <see cref="FindNextChangeNotification"/>,
+        /// the operating system records the change.
+        /// When <see cref="FindNextChangeNotification"/> is executed, the recorded change immediately satisfies a wait for the change notification.
+        /// <see cref="FindNextChangeNotification"/> should not be used more than once on the same handle without using one of the wait functions.
+        /// An application may miss a change notification if it uses <see cref="FindNextChangeNotification"/> when there is a change request outstanding.
+        /// When <paramref name="hChangeHandle"/> is no longer needed, close it by using the <see cref="FindCloseChangeNotification"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextChangeNotification", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindNextChangeNotification([In]IntPtr hChangeHandle);
     }
 }
