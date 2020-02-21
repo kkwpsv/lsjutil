@@ -736,7 +736,7 @@ namespace Lsj.Util.Win32
         /// A handle to the instance of the application that created the class.
         /// To retrieve information about classes defined by the system (such as buttons or list boxes), set this parameter to <see cref="IntPtr.Zero"/>.
         /// </param>
-        /// <param name="lpClassName">
+        /// <param name="lpszClass">
         /// The class name.
         /// The name must be that of a preregistered class or a class registered by a previous call to
         /// the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
