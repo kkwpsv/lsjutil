@@ -939,6 +939,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Stops change notification handle monitoring.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findclosechangenotification
+        /// </para>
+        /// </summary>
+        /// <param name="hChangeHandle">
+        /// A handle to a change notification handle created by the <see cref="FindFirstChangeNotification"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After the FindCloseChangeNotification function is called,
+        /// the handle specified by the <paramref name="hChangeHandle"/> parameter cannot be used in subsequent calls
+        /// to either the <see cref="FindNextChangeNotification"/> or <see cref="FindCloseChangeNotification"/> function.
+        /// Change notifications can also be used in the wait functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindCloseChangeNotification", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindCloseChangeNotification([In]IntPtr hChangeHandle);
+
+        /// <summary>
+        /// <para>
         /// Creates a change notification handle and sets up initial change notification filter conditions.
         /// A wait on a notification handle succeeds when a change matching the filter conditions occurs in the specified directory or subtree.
         /// The function does not report changes to the specified directory itself.
