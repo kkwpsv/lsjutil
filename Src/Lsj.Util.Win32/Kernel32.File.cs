@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
@@ -1027,9 +1028,9 @@ namespace Lsj.Util.Win32
         /// that is missing the terminating null character), or end in a trailing backslash().
         /// If the string ends with a wildcard, period, or directory name, the user must have access to the root and all subdirectories on the path.
         /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
-        /// To extend this limit to approximately 32,000 wide characters, call the Unicode version of the function (<see cref="FindFirstFileExW"/>),
+        /// To extend this limit to approximately 32,000 wide characters, call the Unicode version of the function (<see cref="FindFirstFileEx"/>),
         /// and prepend "\?" to the path.For more information, see Naming a File.
-        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="FindFirstFileExW"/>),
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="FindFirstFileEx"/>),
         /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
         /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </param>
@@ -1111,5 +1112,49 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileExW", SetLastError = true)]
         public static extern IntPtr FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FINDEX_INFO_LEVELS fInfoLevelId,
             [In]IntPtr lpFindFileData, [In]FINDEX_SEARCH_OPS fSearchOp, [In]IntPtr lpSearchFilter, [In]FindFirstFileExFlags dwAdditionalFlags);
+
+        /// <summary>
+        /// <para>
+        /// Creates an enumeration of all the hard links to the specified file as a transacted operation.
+        /// The function returns a handle to the enumeration that can be used on subsequent calls to the <see cref="FindNextFileNameW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirstfilenametransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// The file must reside on the local computer; otherwise, the function fails and
+        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved; specify zero (0).
+        /// </param>
+        /// <param name="StringLength">
+        /// The size of the buffer pointed to by the <paramref name="LinkName"/> parameter, in characters.
+        /// If this call fails and the error is <see cref="ERROR_MORE_DATA"/>, the value that is returned by this parameter is the size
+        /// that the buffer pointed to by <paramref name="LinkName"/> must be to contain all the data.
+        /// </param>
+        /// <param name="LinkName">
+        /// A pointer to a buffer to store the first link name found for <paramref name="lpFileName"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle that can be used with
+        /// the <see cref="FindNextFileNameW"/> function or closed with the <see cref="FindClose"/> function.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint dwFlags,
+            [In][Out]ref uint StringLength, [In][Out]StringBuilder LinkName, [In]IntPtr hTransaction);
     }
 }
