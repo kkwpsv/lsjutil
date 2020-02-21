@@ -1115,6 +1115,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an enumeration of all the hard links to the specified file.
+        /// The <see cref="FindFirstFileNameW"/> function returns a handle to the enumeration that can be used
+        /// on subsequent calls to the <see cref="FindNextFileNameW"/> function.
+        /// To perform this operation as a transacted operation, use the <see cref="FindFirstFileNameTransactedW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfilenamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// Starting with Windows 10, version 1607, you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved; specify zero (0).
+        /// </param>
+        /// <param name="StringLength">
+        /// The size of the buffer pointed to by the LinkName parameter, in characters.
+        /// If this call fails and the error returned from the <see cref="GetLastError"/> function is <see cref="ERROR_MORE_DATA"/>,
+        /// the value that is returned by this parameter is the size that the buffer pointed to
+        /// by <paramref name="LinkName"/> must be to contain all the data.
+        /// </param>
+        /// <param name="LinkName">
+        /// A pointer to a buffer to store the first link name found for <paramref name="lpFileName"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a search handle that can be used with
+        /// the <see cref="FindNextFileNameW"/> function or closed with the <see cref="FindClose"/> function.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameW", SetLastError = true)]
+        public static extern IntPtr FindFirstFileNameW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint dwFlags,
+            [In][Out]ref uint StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder LinkName);
+
+        /// <summary>
+        /// <para>
         /// Creates an enumeration of all the hard links to the specified file as a transacted operation.
         /// The function returns a handle to the enumeration that can be used on subsequent calls to the <see cref="FindNextFileNameW"/> function.
         /// </para>
@@ -1155,6 +1193,6 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint dwFlags,
-            [In][Out]ref uint StringLength, [In][Out]StringBuilder LinkName, [In]IntPtr hTransaction);
+            [In][Out]ref uint StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder LinkName, [In]IntPtr hTransaction);
     }
 }
