@@ -1274,8 +1274,7 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint dwFlags,
+        public static extern IntPtr FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint dwFlags,
             [In][Out]ref uint StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder LinkName, [In]IntPtr hTransaction);
 
         /// <summary>
