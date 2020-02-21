@@ -1652,6 +1652,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Continues a mounted folder search started by a call to the <see cref="FindFirstVolumeMountPoint"/> function.
+        /// <see cref="FindNextVolumeMountPoint"/> finds one mounted folder per call.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findnextvolumemountpointw
+        /// </para>
+        /// </summary>
+        /// <param name="hFindVolumeMountPoint">
+        /// A mounted folder search handle returned by a previous call to the <see cref="FindFirstVolumeMountPoint"/> function.
+        /// </param>
+        /// <param name="lpszVolumeMountPoint">
+        /// A pointer to a buffer that receives the name of the mounted folder that is found.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the buffer that receives the mounted folder name, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If no more mounted folders can be found, the <see cref="GetLastError"/> function returns the <see cref="ERROR_NO_MORE_FILES"/> error code.
+        /// In that case, close the search with the <see cref="FindVolumeMountPointClose"/> function.
+        /// </returns>
+        /// <remarks>
+        /// After the search handle is established by calling <see cref="FindFirstVolumeMountPoint"/>,
+        /// you can use the <see cref="FindNextVolumeMountPoint"/> function to search for other mounted folders.
+        /// The <see cref="FindFirstVolumeMountPoint"/>, <see cref="FindNextVolumeMountPoint"/>,
+        /// and <see cref="FindVolumeMountPointClose"/> functions return paths to mounted folders for a specified volume.
+        /// They do not return drive letters or volume GUID paths.
+        /// For information about enumerating the volume GUID paths for a volume, see Enumerating Volume GUID Paths.
+        /// You should not assume any correlation between the order of the mounted folders that are returned
+        /// with these functions and the order of the mounted folders that are returned by other functions or tools.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeMountPointW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FindNextVolumeMountPoint([In]IntPtr hFindVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeMountPoint, [In]uint cchBufferLength);
+
+        /// <summary>
+        /// <para>
         /// Flushes the buffers of a specified file and causes all buffered data to be written to a file.
         /// </para>
         /// <para>
