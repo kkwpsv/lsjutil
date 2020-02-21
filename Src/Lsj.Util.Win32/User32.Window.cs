@@ -595,6 +595,44 @@ namespace Lsj.Util.Win32
         public static extern bool EnumWindows([In]WNDENUMPROC lpEnumFunc, [In]IntPtr lParam);
 
         /// <summary>
+        /// <para>
+        /// Retrieves a handle to the top-level window whose class name and window name match the specified strings.
+        /// This function does not search child windows.
+        /// This function does not perform a case-sensitive search.
+        /// To search child windows, beginning with a specified child window, use the <see cref="FindWindowEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindoww
+        /// </para>
+        /// </summary>
+        /// <param name="lpClassName">
+        /// The class name or a class atom created by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// The atom must be in the low-order word of <paramref name="lpClassName"/>; the high-order word must be zero.
+        /// If <paramref name="lpClassName"/> points to a string, it specifies the window class name.
+        /// The class name can be any name registered with <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/>,
+        /// or any of the predefined control-class names.
+        /// If <paramref name="lpClassName"/> is <see langword="null"/>, it finds any window
+        /// whose title matches the <paramref name="lpClassName"/> parameter.
+        /// </param>
+        /// <param name="lpWindowName">
+        /// The window name (the window's title). If this parameter is <see langword="null"/>, all window names match.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the window that has the specified class name and window name.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lpClassName"/> parameter is not <see langword="null"/>,
+        /// <see cref="FindWindow"/> calls the <see cref="GetWindowText"/> function to retrieve the window name for comparison.
+        /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", SetLastError = true)]
+        private static extern IntPtr FindWindow(
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpClassName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
