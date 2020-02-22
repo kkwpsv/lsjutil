@@ -20,9 +20,6 @@ namespace Lsj.Util.Net.Sockets
         public static Task ConnectAsync(this Socket socket, EndPoint remoteEP) =>
             Task.Factory.FromAsync(socket.BeginConnect, socket.EndConnect, remoteEP, null);
 
-#endif
-#if NET40 || NET45 || NETSTANDARD2_0
-
         /// <summary>
         /// ConnectAsync
         /// </summary>
@@ -32,6 +29,9 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static Task ConnectAsync(this Socket socket, IPAddress address, int port) =>
             Task.Factory.FromAsync(socket.BeginConnect, socket.EndConnect, address, port, null);
+
+#endif
+#if NET40 || NET45 || NETSTANDARD2_0
 
         /// <summary>
         /// SendAsync
@@ -54,6 +54,7 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static Task<int> ReceiveAsync(this Socket socket, byte[] buffer, int offset, int size) =>
             Task.Factory.FromAsync(socket.BeginReceive, socket.EndReceive, buffer, offset, size, null);
+
 #endif
     }
 }
