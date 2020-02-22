@@ -9,7 +9,8 @@ namespace Lsj.Util.Net.Sockets
     /// </summary>
     public static class SocketAsyncExtensions
     {
-#if NET40 || NET45 || NETSTANDARD2_0
+#if NET40 || NET45
+
         /// <summary>
         /// ConnectAsync
         /// </summary>
@@ -18,6 +19,9 @@ namespace Lsj.Util.Net.Sockets
         /// <returns></returns>
         public static Task ConnectAsync(this Socket socket, EndPoint remoteEP) =>
             Task.Factory.FromAsync(socket.BeginConnect, socket.EndConnect, remoteEP, null);
+
+#endif
+#if NET40 || NET45 || NETSTANDARD2_0
 
         /// <summary>
         /// ConnectAsync
