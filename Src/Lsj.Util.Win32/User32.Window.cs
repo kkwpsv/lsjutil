@@ -369,7 +369,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Static Controls.
         /// For a table of the static control styles you can specify in the <paramref name="dwStyle"/> parameter, see Static Control Styles.
         /// </remarks>
-        public static IntPtr CreateWindow(StringOrIntPtrObject lpClassName, string lpWindowName, WindowStyles dwStyle,
+        public static IntPtr CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
             int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam) =>
             CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 
@@ -477,8 +477,7 @@ namespace Lsj.Util.Win32
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", SetLastError = true)]
-        public static extern IntPtr CreateWindowEx([In]WindowStylesEx dwExStyle,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpClassName,
+        public static extern IntPtr CreateWindowEx([In]WindowStylesEx dwExStyle, [In]StringHandle lpClassName,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName, [In]WindowStyles dwStyle, [In]int x, [In]int y, [In]int nWidth, [In]int nHeight,
             [In]IntPtr hWndParent, [In]IntPtr hMenu, [In]IntPtr hInstance, [In]IntPtr lpParam);
 
@@ -628,9 +627,7 @@ namespace Lsj.Util.Win32
         /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", SetLastError = true)]
-        private static extern IntPtr FindWindow(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpClassName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
+        private static extern IntPtr FindWindow([In]StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
 
         /// <summary>
         /// <para>
@@ -683,8 +680,7 @@ namespace Lsj.Util.Win32
         /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", SetLastError = true)]
-        private static extern IntPtr FindWindowEx([In]IntPtr hWndParent, [In]IntPtr hWndChildAfter,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpszClass,
+        private static extern IntPtr FindWindowEx([In]IntPtr hWndParent, [In]IntPtr hWndChildAfter, [In]StringHandle lpszClass,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpszWindow);
 
         /// <summary>
@@ -719,9 +715,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClassInfo([In]IntPtr hInstance,
-             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpClassName,
-             out WNDCLASS lpWndClass);
+        public static extern bool GetClassInfo([In]IntPtr hInstance, [In]StringHandle lpClassName, [Out]out WNDCLASS lpWndClass);
 
         /// <summary>
         /// <para>
@@ -757,9 +751,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoExW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClassInfoEx([In]IntPtr hInstance,
-             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpszClass,
-             out WNDCLASS lpWndClass);
+        public static extern bool GetClassInfoEx([In]IntPtr hInstance, [In]StringHandle lpszClass, out WNDCLASSEX lpWndClass);
 
         /// <summary>
         /// <para>

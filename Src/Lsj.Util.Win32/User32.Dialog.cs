@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// To support keyboard navigation and other dialog box functionality,
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
-        public static IntPtr CreateDialog(IntPtr hInstance, StringOrIntPtrObject lpName, IntPtr hWndParent, DLGPROC lpDialogFunc) =>
+        public static IntPtr CreateDialog(IntPtr hInstance, StringHandle lpName, IntPtr hWndParent, DLGPROC lpDialogFunc) =>
             CreateDialogParam(hInstance, lpName, hWndParent, lpDialogFunc, IntPtr.Zero);
 
         /// <summary>
@@ -189,9 +189,8 @@ namespace Lsj.Util.Win32
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", SetLastError = true)]
-        public static extern IntPtr CreateDialogParam([In]IntPtr hInstance,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
-            [In]IntPtr hWndParent, [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
+        public static extern IntPtr CreateDialogParam([In]IntPtr hInstance, [In]StringHandle lpTemplateName, [In]IntPtr hWndParent,
+            [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
         /// <summary>
         /// <para>
@@ -233,7 +232,7 @@ namespace Lsj.Util.Win32
         /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
-        public static IntPtr DialogBox(IntPtr hInstance, StringOrIntPtrObject lpTemplate, IntPtr hWndParent, DLGPROC lpDialogFunc) =>
+        public static IntPtr DialogBox(IntPtr hInstance, StringHandle lpTemplate, IntPtr hWndParent, DLGPROC lpDialogFunc) =>
             DialogBoxParam(hInstance, lpTemplate, hWndParent, lpDialogFunc, IntPtr.Zero);
 
         /// <summary>
@@ -287,8 +286,7 @@ namespace Lsj.Util.Win32
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", SetLastError = true)]
-        public static extern IntPtr DialogBoxParam([In]IntPtr hInstance,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StringOrIntPtrObjectMarshaler))][In]StringOrIntPtrObject lpTemplateName,
+        public static extern IntPtr DialogBoxParam([In]IntPtr hInstance, StringHandle lpTemplateName,
             [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
         /// <summary>
