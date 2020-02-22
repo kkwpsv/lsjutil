@@ -1015,6 +1015,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Flushes the instruction cache for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushinstructioncache
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process whose instruction cache is to be flushed.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base of the region to be flushed.
+        /// This parameter can be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region to be flushed if the <paramref name="lpBaseAddress"/> parameter is not <see cref="IntPtr.Zero"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Applications should call <see cref="FlushInstructionCache"/> if they generate or modify code in memory.
+        /// The CPU cannot detect the change, and may execute the old code it cached.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FlushInstructionCache([In]IntPtr hProcess, [In]IntPtr lpBaseAddress, [In]IntPtr dwSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
