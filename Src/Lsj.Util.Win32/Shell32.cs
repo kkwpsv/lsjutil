@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.Structs.HRESULT;
 
 namespace Lsj.Util.Win32
