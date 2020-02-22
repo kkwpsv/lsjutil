@@ -1,22 +1,19 @@
 ﻿using Lsj.Util.Net.Sockets;
-using Lsj.Util.Text;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Lsj.Util.Net.Socks5.Proxyer
 {
     /// <summary>
     /// Connect Proxyer (TCP)
     /// </summary>
-    public class ConnectProxyer : TcpAsyncClient, IProxyer
+    public class ConnectProxyer : IProxyer
     {
-        private Socks5Server server;
-        private Socks5ServerClient client;
-        private Socket handle;
+        private Socks5Server _server;
+        private Socks5ServerClient _client;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Net.Socks5.Proxyer.ConnectProxyer"/> class.
         /// </summary>
@@ -24,50 +21,57 @@ namespace Lsj.Util.Net.Socks5.Proxyer
         /// <param name="client"></param>
         public ConnectProxyer(Socks5Server server, Socks5ServerClient client)
         {
-            this.server = server;
-            this.client = client;
+            _server = server;
+            _client = client;
+            _client.handle = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
+
+        public IPAddress IP { get; set; }
+        public int Port { get; set; }
+
+        public async void Start()
+        {
+            await _client.handle.ConnectAsync(IP, Port);
+            _server.SendReply(_client, ReplyType.Succeeded, _client.handle.LocalEndPoint as IPEndPoint);
+            _ = Task.Factory.StartNew(Receive);
+        }
+
         /// <summary>
         /// Send
         /// </summary>
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
         /// <param name="count"></param>
-        public void Send(byte[] buffer, int offset, int count)
+        public async void Send(byte[] buffer, int offset, int count)
         {
-            this.Send(GetStateObject(handle, null), buffer, offset, count);
+#if NET40 || NET45 || NETSTANDARD2_0
+            await _client.handle.SendAsync(buffer, offset, count);
+#else
+            await _client.handle.SendAsync(buffer.AsMemory(offset, count), SocketFlags.None);
+#endif
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        protected override void AfterOnConnected(StateObject obj)
+
+        private async void Receive()
         {
-            this.handle = obj.handle;
-            obj.buffer = new byte[2048];
-            obj.offset = 0;
-            this.Receive(obj);
-            server.SendReply(client, ReplyType.Succeeded, handle.LocalEndPoint as IPEndPoint);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="received"></param>
-        protected override void AfterOnReceived(StateObject obj, int received)
-        {
-            if (received != 0)
+            while (true)
             {
-                var buffer = obj.buffer;
-                var temp = buffer.ConvertFromBytes();
-                server.SendData(client, obj.buffer, obj.offset, received);
-                obj.buffer = new byte[2048];
-                obj.offset = 0;
-                this.Receive(obj);
-            }
-            else if (!obj.handle.Connected)
-            {
-                server.DisconnectClient(client);
+                _client.buffer = new byte[2048];
+                _client.offset = 0;
+
+#if NET40 || NET45 || NETSTANDARD2_0
+                int received = await _client.handle.ReceiveAsync(_client.buffer, _client.offset, 2048);
+#else
+                int received = await _client.handle.ReceiveAsync(_client.buffer.AsMemory(), SocketFlags.None);
+#endif
+                if (received != 0)
+                {
+                    _server.SendData(_client, _client.buffer, _client.offset, received);
+                }
+                else if (!_client.handle.Connected)
+                {
+                    _server.DisconnectClient(_client);
+                    break;
+                }
             }
         }
     }

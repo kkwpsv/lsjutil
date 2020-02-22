@@ -10,11 +10,12 @@
     <LsjUtilDynamicVersionPrefix>4.0.0</LsjUtilDynamicVersionPrefix>
     <LsjUtilHtmlBuilderVersionPrefix>4.0.0</LsjUtilHtmlBuilderVersionPrefix>
     <LsjUtilJSONVersionPrefix>4.0.0</LsjUtilJSONVersionPrefix>
-    <LsjUtilNetVersionPrefix>4.0.0</LsjUtilNetVersionPrefix>
+    <LsjUtilNetVersionPrefix>4.0.1</LsjUtilNetVersionPrefix>
     <LsjUtilNetWebVersionPrefix>4.0.0</LsjUtilNetWebVersionPrefix>
+    <LsjUtilOfficeVersionPrefix>4.0.0</LsjUtilOfficeVersionPrefix>
     <LsjUtilProtobufVersionPrefix>4.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>4.0.0</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>4.0.0</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32VersionPrefix>4.0.1</LsjUtilWin32VersionPrefix>
     <LsjUtilWinFormVersionPrefix>4.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>4.0.0</LsjUtilWPFVersionPrefix>
   </PropertyGroup>

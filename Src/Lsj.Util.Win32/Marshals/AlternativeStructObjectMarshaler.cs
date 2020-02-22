@@ -34,10 +34,14 @@ namespace Lsj.Util.Win32.Marshals
                     marshaledIntPtr = MarshalExtensions.StructureToPtr(obj.T1Val);
                     return marshaledIntPtr.Value;
                 }
-                else
+                else if (obj.IsStruct2)
                 {
                     marshaledIntPtr = MarshalExtensions.StructureToPtr(obj.T2Val);
                     return marshaledIntPtr.Value;
+                }
+                else
+                {
+                    return IntPtr.Zero;
                 }
             }
             else

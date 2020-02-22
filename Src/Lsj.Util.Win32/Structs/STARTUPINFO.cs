@@ -57,16 +57,26 @@ namespace Lsj.Util.Win32.Structs
         /// A backslash in the string indicates that the string includes both the desktop and window station names.
         /// For more information, see Thread Connection to a Desktop.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpDesktop;
+        public IntPtr lpDesktop;
+
+        /// <summary>
+        /// The <see cref="string"/> value of <see cref="lpDesktop"/>,
+        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// </summary>
+        public unsafe string lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
 
         /// <summary>
         /// For console processes, this is the title displayed in the title bar if a new console window is created.
         /// If <see langword="null"/>, the name of the executable file is used as the window title instead.
         /// This parameter must be <see langword="null"/> for GUI or console processes that do not create a new console window.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpTitle;
+        public IntPtr lpTitle;
+
+        /// <summary>
+        /// The <see cref="string"/> value of <see cref="lpTitleString"/>,
+        /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
+        /// </summary>
+        public unsafe string lpTitleString => Marshal.PtrToStringUni(lpTitle);
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEPOSITION"/>,
@@ -117,12 +127,14 @@ namespace Lsj.Util.Win32.Structs
         public uint dwYCountChars;
 
         /// <summary>
-        /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USEFILLATTRIBUTE"/>,
+        /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEFILLATTRIBUTE"/>,
         /// this member is the initial text and background colors if a new console window is created in a console application.
         /// Otherwise, this member is ignored.
-        /// This value can be any combination of the following values: <see cref="FOREGROUND_BLUE"/>, <see cref="FOREGROUND_GREEN"/>,
-        /// <see cref="FOREGROUND_RED"/>, <see cref="FOREGROUND_INTENSITY"/>, <see cref="BACKGROUND_BLUE"/>, <see cref="BACKGROUND_GREEN"/>,
-        /// <see cref="BACKGROUND_RED"/>, and <see cref="BACKGROUND_INTENSITY"/>.
+        /// This value can be any combination of the following values: <see cref="ConsoleCharacterAttributes.FOREGROUND_BLUE"/>,
+        /// <see cref="ConsoleCharacterAttributes.FOREGROUND_GREEN"/>, <see cref="ConsoleCharacterAttributes.FOREGROUND_RED"/>,
+        /// <see cref="ConsoleCharacterAttributes.FOREGROUND_INTENSITY"/>, <see cref="ConsoleCharacterAttributes.BACKGROUND_BLUE"/>,
+        /// <see cref="ConsoleCharacterAttributes.BACKGROUND_GREEN"/>, <see cref="ConsoleCharacterAttributes.BACKGROUND_RED"/>,
+        /// and <see cref="ConsoleCharacterAttributes.BACKGROUND_INTENSITY"/>.
         /// For example, the following combination of values produces red text on a white background:
         /// <code>FOREGROUND_RED| BACKGROUND_RED| BACKGROUND_GREEN| BACKGROUND_BLUE</code>
         /// </summary>
@@ -142,8 +154,7 @@ namespace Lsj.Util.Win32.Structs
         /// In subsequent calls to <see cref="ShowWindow"/>, the <see cref="wShowWindow"/> member is used
         /// if the nCmdShow parameter of <see cref="ShowWindow"/> is set to <see cref="ShowWindowCommands.SW_SHOWDEFAULT"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U2)]
-        public ShowWindowCommands wShowWindow;
+        public ushort wShowWindow;
 
         /// <summary>
         /// Reserved for use by the C Run-time; must be zero.
@@ -153,7 +164,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved for use by the C Run-time; must be <see cref="IntPtr.Zero"/>.
         /// </summary>
-        IntPtr lpReserved2;
+        public IntPtr lpReserved2;
 
         /// <summary>
         /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>,

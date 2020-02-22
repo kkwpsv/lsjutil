@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
+using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
+using static Lsj.Util.Win32.Enums.FontSmotohingTypes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -60,7 +62,8 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Retrieves information about the FilterKeys accessibility feature.
         /// The pvParam parameter must point to a <see cref="FILTERKEYS"/> structure that receives the information.
-        /// Set the cbSize member of this structure and the uiParam parameter to <code>sizeof(FILTERKEYS)</code>.
+        /// Set the <see cref="FILTERKEYS.cbSize"/> member of this structure and the uiParam parameter
+        /// to <code>sizeof(<see cref="FILTERKEYS"/>)</code>.
         /// </summary>
         SPI_GETFILTERKEYS = 0x0032,
 
@@ -100,7 +103,7 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         /// <remarks>
         /// You should not use this value. It might be altered or unavailable in subsequent versions of Windows.
-        /// Instead, use the <see cref="GetScaleFactorForDevice"/> function or the <see cref="DisplayProperties"/> class 
+        /// Instead, use the <see cref="GetScaleFactorForDevice"/> function or the DisplayProperties class 
         /// to retrieve the preferred scaling factor.
         /// Desktop applications should use desktop logical DPI rather than scale factor.
         /// Desktop logical DPI can be retrieved through the <see cref="GetDeviceCaps"/> function.
@@ -441,7 +444,7 @@ namespace Lsj.Util.Win32.Enums
         /// Retrieves the type of font smoothing.
         /// The pvParam parameter must point to a <see cref="uint"/> that receives the information.
         /// The possible values are <see cref="FE_FONTSMOOTHINGSTANDARD"/> and <see cref="FE_FONTSMOOTHINGCLEARTYPE"/>.
-        /// Windows 2000:  This parameter is not supported.
+        /// Windows 2000:  This parameter is not supported. 
         /// </summary>
         SPI_GETFONTSMOOTHINGTYPE = 0x200A,
 

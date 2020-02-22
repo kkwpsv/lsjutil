@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Kernel32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -7925,6 +7927,14 @@
         /// The specified directory does not contain a resource manager.
         /// </summary>
         ERROR_DIRECTORY_NOT_RM = 0x1A93,
+
+        /// <summary>
+        /// For <see cref="FindFirstStreamTransactedW"/>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findfirststreamtransactedw
+        /// </para>
+        /// </summary>
+        ERROR_STATUS_NOT_IMPLEMENTED = 0x1A95,
 
         /// <summary>
         /// The remote server or share does not support transacted file operations.

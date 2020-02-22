@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32.Enums
         /// The nSize parameter specifies the minimum number of TCHARs to allocate for an output message buffer. 
         /// The caller should use the <see cref="LocalFree"/> function to free the buffer when it is no longer needed.
         /// If the length of the formatted message exceeds 128K bytes, then FormatMessage will fail and 
-        /// a subsequent call to <see cref="Marshal.GetLastWin32Error"/> will return ERROR_MORE_DATA.
+        /// a subsequent call to <see cref="GetLastError"/> will return ERROR_MORE_DATA.
         /// In previous versions of Windows, this value was not available for use when compiling Windows Store apps.
         /// As of Windows 10 this value can be used.
         /// Windows Server 2003 and Windows XP:
@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32.Enums
         /// If this flag is specified with <see cref="FORMAT_MESSAGE_FROM_HMODULE"/>, 
         /// the function searches the system message table if the message is not found in the module specified by lpSource. 
         /// This flag cannot be used with <see cref="FORMAT_MESSAGE_FROM_STRING"/>.
-        /// If this flag is specified, an application can pass the result of the <see cref="Marshal.GetLastWin32Error"/> function 
+        /// If this flag is specified, an application can pass the result of the <see cref="GetLastError"/> function 
         /// to retrieve the message text for a system-defined error.
         /// </summary>
         FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000,

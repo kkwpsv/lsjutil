@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using System;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -45,10 +46,26 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Retrieves the address of the window procedure, or a handle representing the address of the window procedure. 
-        /// You must use the CallWindowProc function to call the window procedure.
+        /// You must use the <see cref="CallWindowProc"/> function to call the window procedure.
         /// </summary>
         GWL_WNDPROC = -4,
 
-        //TODO: For dialog box.
+        /// <summary>
+        /// Retrieves the return value of a message processed in the dialog box procedure.
+        /// </summary>
+        DWL_MSGRESULT = 0,
+
+        /// <summary>
+        /// USE <see cref="DWLP_DLGPROC"/> FOR BOTH 32BIT AND 64BIT!
+        /// Retrieves the address of the dialog box procedure, or a handle representing the address of the dialog box procedure.
+        /// You must use the <see cref="CallWindowProc"/> function to call the dialog box procedure.
+        /// </summary>
+        DWL_DLGPROC = 4,
+
+        /// <summary>
+        /// USE <see cref="DWLP_USER"/> FOR BOTH 32BIT AND 64BIT!
+        /// Retrieves extra information private to the application, such as handles or pointers.
+        /// </summary>
+        DWL_USER = 8,
     }
 }
