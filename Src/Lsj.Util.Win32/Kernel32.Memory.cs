@@ -200,5 +200,59 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
         public static extern IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, LocalMemoryFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Changes the protection on a region of committed pages in the virtual address space of the calling process.
+        /// To change the access protection of any process, use the <see cref="VirtualProtectEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect
+        /// </para>
+        /// </summary>
+        /// <param name="lpAddress">
+        /// A pointer an address that describes the starting page of the region of pages whose access protection attributes are to be changed.
+        /// All pages in the specified region must be within the same reserved region allocated
+        /// when calling the <see cref="VirtualAlloc"/> or <see cref="VirtualAllocEx"/> function using <see cref="MEM_RESERVE"/>.
+        /// The pages cannot span adjacent reserved regions that were allocated by separate calls
+        /// to <see cref="VirtualAlloc"/> or <see cref="VirtualAllocEx"/> using <see cref="MEM_RESERVE"/>.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region whose access protection attributes are to be changed, in bytes.
+        /// The region of affected pages includes all pages containing one or more bytes in the range
+        /// from the <paramref name="lpAddress"/> parameter to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means that a 2-byte range straddling a page boundary causes the protection attributes of both pages to be changed.
+        /// </param>
+        /// <param name="flNewProtect">
+        /// The memory protection option. This parameter can be one of the memory protection constants.
+        /// For mapped views, this value must be compatible with the access protection specified when the view was mapped
+        /// (see <see cref="MapViewOfFile"/>, <see cref="MapViewOfFileEx"/>, and <see cref="MapViewOfFileExNuma"/>).
+        /// </param>
+        /// <param name="lpflOldProtect">
+        /// A pointer to a variable that receives the previous access protection value of the first page in the specified region of pages.
+        /// If this parameter is <see langword="null"/> or does not point to a valid variable, the function fails.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can set the access protection value on committed pages only.
+        /// If the state of any page in the specified region is not committed, the function fails and returns
+        /// without modifying the access protection of any pages in the specified region.
+        /// The <see cref="PAGE_GUARD"/> protection modifier establishes guard pages.
+        /// Guard pages act as one-shot access alarms. For more information, see Creating Guard Pages.
+        /// It is best to avoid using <see cref="VirtualProtect"/> to change page protections on memory blocks allocated by <see cref="GlobalAlloc"/>,
+        /// <see cref="HeapAlloc"/>, or <see cref="LocalAlloc"/>, because multiple memory blocks can exist on a single page.
+        /// The heap manager assumes that all pages in the heap grant at least read and write access.
+        /// When protecting a region that will be executable, the calling program bears responsibility for ensuring cache coherency 
+        /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
+        /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
+            [Out]out MemoryProtectionConstants lpflOldProtect);
     }
 }
