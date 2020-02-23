@@ -173,7 +173,66 @@ namespace Lsj.Util.Win32
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", SetLastError = true)]
-        public static extern uint GetModuleFileName([In]IntPtr hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, uint nSize);
+        public static extern uint GetModuleFileName([In]IntPtr hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]uint nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the fully qualified path for the file containing the specified module.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getmodulefilenameexw
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process that contains the module.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> and <see cref="PROCESS_VM_READ"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// The <see cref="GetModuleFileNameEx"/> function does not retrieve the path for modules
+        /// that were loaded using the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// </param>
+        /// <param name="hModule">
+        /// A handle to the module.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, <see cref="GetModuleFileNameEx"/> returns the path of the executable file of the process
+        /// specified in <paramref name="hProcess"/>.
+        /// </param>
+        /// <param name="lpFilename">
+        /// A pointer to a buffer that receives the fully qualified path to the module. 
+        /// If the size of the file name is larger than the value of the <paramref name="nSize"/> parameter,
+        /// the function succeeds but the file name is truncated and null-terminated.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpFilename"/> buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string that is copied to the buffer.
+        /// If the function fails, the return value is 0 (zero). To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetModuleFileNameEx"/> function is primarily designed for use by debuggers and similar applications
+        /// that must extract module information from another process.
+        /// If the module list in the target process is corrupted or is not yet initialized,
+        /// or if the module list changes during the function call as a result of DLLs being loaded or unloaded,
+        /// <see cref="GetModuleFileNameEx"/> may fail or return incorrect information.
+        /// To retrieve the name of a module in the current process, use the <see cref="GetModuleFileName"/> function.
+        /// This is more efficient and more reliable than calling <see cref="GetModuleFileNameEx"/> with a handle to the current process.
+        /// To retrieve the name of the main executable module for a remote process,
+        /// use the <see cref="GetProcessImageFileName"/> or <see cref="QueryFullProcessImageName"/> function.
+        /// This is more efficient and more reliable than calling the <see cref="GetModuleFileNameEx"/> function
+        /// with a <see cref="IntPtr.Zero"/> module handle.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32GetModuleFileNameEx in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as GetModuleFileNameEx in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32GetModuleFileNameEx.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="GetModuleFileNameEx"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", SetLastError = true)]
+        public static extern uint GetModuleFileNameEx([In]IntPtr hProcess, [In]IntPtr hModule,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]uint nSize);
 
         /// <summary>
         /// <para>
