@@ -110,5 +110,150 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeviceIoControl([In]IntPtr hDevice, [In]IoControlCodes dwIoControlCode, [In]IntPtr lpInBuffer, [In]uint nInBufferSize,
             [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesReturned, [In] IntPtr lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the results of an overlapped operation on the specified file, named pipe, or communications device.
+        /// To specify a timeout interval or wait on an alertable thread, use <see cref="GetOverlappedResultEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresult
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file, named pipe, or communications device.
+        /// This is the same handle that was specified when the overlapped operation was started by a call to the <see cref="ReadFile"/>,
+        /// <see cref="WriteFile"/>, <see cref="ConnectNamedPipe"/>, <see cref="TransactNamedPipe"/>,
+        /// <see cref="DeviceIoControl"/>, or <see cref="WaitCommEvent"/> function.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that was specified when the overlapped operation was started.
+        /// </param>
+        /// <param name="lpNumberOfBytesTransferred">
+        /// A pointer to a variable that receives the number of bytes that were actually transferred by a read or write operation.
+        /// For a <see cref="TransactNamedPipe"/> operation, this is the number of bytes that were read from the pipe.
+        /// For a <see cref="DeviceIoControl"/> operation, this is the number of bytes of output data returned by the device driver.
+        /// For a <see cref="ConnectNamedPipe"/> or <see cref="WaitCommEvent"/> operation, this value is undefined.
+        /// </param>
+        /// <param name="bWait">
+        /// If this parameter is <see langword="true"/>, and the Internal member of the <paramref name="lpOverlapped"/> structure
+        /// is <see cref="STATUS_PENDING"/>, the function does not return until the operation has been completed.
+        /// If this parameter is <see langword="false"/> and the operation is still pending,
+        /// the function returns <see langword="false"/> and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The results reported by the <see cref="GetOverlappedResult"/> function are those of the specified handle's last overlapped operation
+        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
+        /// A pending operation is indicated when the function that started the operation returns <see langword="false"/>,
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
+        /// When an I/O operation is pending, the function that started the operation resets
+        /// the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
+        /// Then when the pending operation has been completed, the system sets the event object to the signaled state.
+        /// If the <paramref name="bWait"/> parameter is <see langword="true"/>, <see cref="GetOverlappedResult"/> determines
+        /// whether the pending operation has been completed by waiting for the event object to be in the signaled state.
+        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="IntPtr"/>,
+        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
+        /// Use of file, named pipe, or communications-device handles for this purpose is discouraged.
+        /// It is safer to use an event object because of the confusion that can occur when multiple simultaneous overlapped operations
+        /// are performed on the same file, named pipe, or communications device.
+        /// In this situation, there is no way to know which operation caused the object's state to be signaled.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetOverlappedResult([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred, [In]bool bWait);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the results of an overlapped operation on the specified file, named pipe,
+        /// or communications device within the specified time-out interval.
+        /// The calling thread can perform an alertable wait.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getoverlappedresultex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file, named pipe, or communications device.
+        /// This is the same handle that was specified when the overlapped operation was started
+        /// by a call to the <see cref="ReadFile"/>, <see cref="WriteFile"/>, <see cref="ConnectNamedPipe"/>,
+        /// <see cref="TransactNamedPipe"/>, <see cref="DeviceIoControl"/>, or <see cref="WaitCommEvent"/> function.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that was specified when the overlapped operation was started.
+        /// </param>
+        /// <param name="lpNumberOfBytesTransferred">
+        /// A pointer to a variable that receives the number of bytes that were actually transferred by a read or write operation.
+        /// For a <see cref="TransactNamedPipe"/> operation, this is the number of bytes that were read from the pipe.
+        /// For a <see cref="DeviceIoControl"/> operation, this is the number of bytes of output data returned by the device driver.
+        /// For a <see cref="ConnectNamedPipe"/> or <see cref="WaitCommEvent"/> operation, this value is undefined.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
+        /// the function returns immediately and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// If <paramref name="dwMilliseconds"/> is nonzero and the operation is still in progress, the function waits until the object is signaled,
+        /// an I/O completion routine or APC is queued, or the interval elapses before returning.
+        /// Use <see cref="GetLastError"/> to get extended error information.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
+        /// the function returns only when the object is signaled or an I/O completion routine or APC is queued.
+        /// </param>
+        /// <param name="bAlertable">
+        /// If this parameter is <see langword="true"/> and the calling thread is in the waiting state,
+        /// the function returns when the system queues an I/O completion routine or APC.
+        /// The calling thread then runs the routine or function. Otherwise, the function does not return,
+        /// and the completion routine or APC function is not executed.
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function
+        /// in which it was specified has completed.
+        /// The function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>,
+        /// and the calling thread is the thread that initiated the read or write operation.
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// 
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Common error codes include the following:
+        /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_IO_INCOMPLETE"/>.
+        /// If <paramref name="dwMilliseconds"/> is nonzero, and an I/O completion routine or APC is queued,
+        /// GetLastError returns <see cref="WAIT_IO_COMPLETION"/>.
+        /// If <paramref name="dwMilliseconds"/> is nonzero and the specified timeout interval elapses,
+        /// <see cref="GetLastError"/> returns <see cref="WAIT_TIMEOUT"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetOverlappedResultEx"/> function differs from <see cref="GetOverlappedResult"/> in the following ways:
+        /// The <paramref name="dwMilliseconds"/> parameter can specify a timeout interval for the operation,
+        /// and the <paramref name="bAlertable"/> parameter can specify that the calling thread should perform an alertable wait.
+        /// The results reported by the <see cref="GetOverlappedResultEx"/> function are those of the specified handle's last overlapped operation
+        /// to which the specified <see cref="OVERLAPPED"/> structure was provided, and for which the operation's results were pending.
+        /// A pending operation is indicated when the function that started the operation returns <see langword="false"/>,
+        /// and the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>.
+        /// When an I/O operation is pending, the function that started the operation resets
+        /// the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to the nonsignaled state.
+        /// Then when the pending operation has been completed, the system sets the event object to the signaled state.
+        /// Specify a manual-reset event object in the <see cref="OVERLAPPED"/> structure.
+        /// If an auto-reset event object is used, the event handle must not be specified in any other wait operation in the interval
+        /// between starting the overlapped operation and the call to <see cref="GetOverlappedResultEx"/>.
+        /// For example, the event object is sometimes specified in one of the wait functions to wait for the operation's completion.
+        /// When the wait function returns, the system sets an auto-reset event's state to nonsignaled,
+        /// and a subsequent call to <see cref="GetOverlappedResultEx"/> with the <paramref name="dwMilliseconds"/> parameter
+        /// set to <see cref="INFINITE"/> causes the function to be blocked indefinitely.
+        /// If the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is <see cref="IntPtr.Zero"/>,
+        /// the system uses the state of the <paramref name="hFile"/> handle to signal when the operation has been completed.
+        /// Use of file, named pipe, or communications-device handles for this purpose is discouraged.
+        /// It is safer to use an event object because of the confusion that can occur
+        /// when multiple simultaneous overlapped operations are performed on the same file, named pipe, or communications device.
+        /// In this situation, there is no way to know which operation caused the object's state to be signaled.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetOverlappedResultEx([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred,
+            [In]uint dwMilliseconds, [In]bool bAlertable);
     }
 }
