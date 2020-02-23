@@ -223,5 +223,30 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumDesktopWindows([In]IntPtr hDesktop, [In]WNDENUMPROC lpfn, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the current window station for the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getprocesswindowstation
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the window station.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system associates a window station with a process when the process is created.
+        /// A process can use the <see cref="SetProcessWindowStation"/> function to change its window station.
+        /// The calling process can use the returned handle in calls to the <see cref="GetUserObjectInformation"/>,
+        /// <see cref="GetUserObjectSecurity"/>, <see cref="SetUserObjectInformation"/>, and <see cref="SetUserObjectSecurity"/> functions.
+        /// Do not close the handle returned by this function.
+        /// A service application is created with an associated window station and desktop,
+        /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWindowStation", SetLastError = true)]
+        public static extern IntPtr GetProcessWindowStation();
     }
 }

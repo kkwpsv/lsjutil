@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
+using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Ws2_32;
 
 namespace Lsj.Util.Win32
