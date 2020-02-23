@@ -2028,5 +2028,57 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileInformationByHandleEx([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
             [Out]out IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the date and time that a file or directory was created, last accessed, and last modified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletime
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or directory for which dates and times are to be retrieved.
+        /// The handle must have been created using the MSe CreateFile function with the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was created.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <param name="lpLastAccessTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was last accessed.
+        /// The last access time includes the last time the file or directory was written to, read from, or,
+        /// in the case of executable files, run.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <param name="lpLastWriteTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was last written to,
+        /// truncated, or overwritten (for example, with <see cref="WriteFile"/> or <see cref="SetEndOfFile"/>).
+        /// This date and time is not updated when file attributes or security descriptors are changed.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Not all file systems can record creation and last access times and not all file systems record them in the same manner.
+        /// For example, on FAT, create time has a resolution of 10 milliseconds, write time has a resolution of 2 seconds,
+        /// and access time has a resolution of 1 day (really, the access date).
+        /// Therefore, the <see cref="GetFileTime"/> function may not return the same file time information set using the <see cref="SetFileTime"/> function.
+        /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
+        /// NTFS also permits last access time updates to be disabled.
+        /// Last access time is not updated on NTFS volumes by default.
+        /// Windows Server 2003 and Windows XP:  Last access time is updated on NTFS volumes by default.
+        /// For more information, see File Times.
+        /// If you rename or delete a file, then restore it shortly thereafter, Windows searches the cache for file information to restore.
+        /// Cached information includes its short/long name pair and creation time.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
+            [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
     }
 }
