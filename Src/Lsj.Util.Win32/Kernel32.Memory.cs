@@ -10,6 +10,24 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Retrieves the minimum size of a large page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getlargepageminimum
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the processor supports large pages, the return value is the minimum size of a large page.
+        /// If the processor does not support large pages, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The minimum large page size varies, but it is typically 2 MB or greater.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargePageMinimum", SetLastError = true)]
+        public static extern IntPtr GetLargePageMinimum();
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>

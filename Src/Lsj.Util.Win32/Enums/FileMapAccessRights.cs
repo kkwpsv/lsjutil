@@ -1,6 +1,7 @@
 ﻿using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.SectionAccessRights;
 using static Lsj.Util.Win32.Enums.SectionAttributes;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {
