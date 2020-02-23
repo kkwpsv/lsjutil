@@ -1077,6 +1077,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the termination status of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpExitCode">
+        /// A pointer to a variable to receive the process termination status.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns immediately.
+        /// If the process has not terminated and the function succeeds, the status returned is <see cref="STILL_ACTIVE"/>.
+        /// If the process has terminated and the function succeeds, the status returned is one of the following values:
+        /// The exit value specified in the <see cref="ExitProcess"/> or <see cref="TerminateProcess"/> function.
+        /// The return value from the main or WinMain function of the process.
+        /// The exception value for an unhandled exception that caused the process to terminate.
+        /// The <see cref="GetExitCodeProcess"/> function returns a valid error code defined by the application only after the thread terminates.
+        /// Therefore, an application should not use <see cref="STILL_ACTIVE"/> as an error code.
+        /// If a thread returns <see cref="STILL_ACTIVE"/> as an error code, applications that test for this value could interpret it to mean
+        /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
+        /// which could put the application into an infinite loop.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetExitCodeProcess([In]IntPtr hProcess, [Out]out uint lpExitCode);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
