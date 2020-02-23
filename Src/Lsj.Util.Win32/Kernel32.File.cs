@@ -1763,5 +1763,51 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushFileBuffers", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FlushFileBuffers([In]IntPtr hFile);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file system attributes for a specified file or directory.
+        /// To get more attribute information, use the <see cref="GetFileAttributesEx"/> function.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributes"/>),
+        /// and prepend "\\?\" to the path.
+        /// For more information, see File Names, Paths, and Namespaces.
+        ///  Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFileAttributes"/>),
+        ///  you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        ///  See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value contains the attributes of the specified file or directory.
+        /// For a list of attribute values and their descriptions, see File Attribute Constants.
+        /// If the function fails, the return value is <see cref="INVALID_FILE_ATTRIBUTES"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When <see cref="GetFileAttributes"/> is called on a directory that is a mounted folder,
+        /// it returns the file system attributes of the directory,
+        /// not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the file attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributes"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// If you call <see cref="GetFileAttributes"/> for a network share, the function fails,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_BAD_NETPATH"/>.
+        /// You must specify a path to a subfolder on that share.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file before the transaction
+        /// is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesW", SetLastError = true)]
+        public static extern FileAttributes GetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
     }
 }
