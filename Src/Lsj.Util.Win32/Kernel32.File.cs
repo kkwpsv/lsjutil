@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.FileSystemFlags;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -1809,5 +1810,61 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesW", SetLastError = true)]
         public static extern FileAttributes GetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves attributes for a specified file or directory.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributesEx"/>),
+        /// and prepend "\\?\" to the path. For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFileAttributesEx"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="fInfoLevelId">
+        /// A class of attribute information to retrieve.
+        /// This parameter can be the following value from the <see cref="GET_FILEEX_INFO_LEVELS"/> enumeration.
+        /// <see cref="GetFileExInfoStandard"/>: The <paramref name="lpFileInformation"/> parameter is a <see cref="WIN32_FILE_ATTRIBUTE_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a buffer that receives the attribute information.
+        /// The type of attribute information that is stored into this buffer is determined by the value of <paramref name="fInfoLevelId"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetFileAttributes"/> function retrieves file system attribute information.
+        /// <see cref="GetFileAttributesEx"/> can obtain other sets of file or directory attribute information.
+        /// Currently, <see cref="GetFileAttributesEx"/> retrieves a set of standard attributes that is a superset of the file system attribute information.
+        /// When the <see cref="GetFileAttributesEx"/> function is called on a directory that is a mounted folder,
+        /// it returns the attributes of the directory, not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributesEx"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file
+        /// before the transaction is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesExW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation);
     }
 }
