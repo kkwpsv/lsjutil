@@ -12,6 +12,101 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Creates an input/output (I/O) completion port and associates it with a specified file handle,
+        /// or creates an I/O completion port that is not yet associated with a file handle, allowing association at a later time.
+        /// Associating an instance of an opened file handle with an I/O completion port allows a process to receive notification
+        /// of the completion of asynchronous I/O operations involving that file handle.
+        /// The term file handle as used here refers to a system abstraction that represents an overlapped I/O endpoint, not only a file on disk.
+        /// Any system objects that support overlapped I/O—such as network endpoints, TCP sockets, named pipes, and mail slots—can be used as file handles.
+        /// For additional information, see the Remarks section.
+        /// </para>
+        /// </summary>
+        /// <param name="FileHandle">
+        /// An open file handle or <see cref="INVALID_HANDLE_VALUE"/>.
+        /// The handle must be to an object that supports overlapped I/O.
+        /// If a handle is provided, it has to have been opened for overlapped I/O completion.
+        /// For example, you must specify the <see cref="FILE_FLAG_OVERLAPPED"/> flag when using the <see cref="CreateFile"/> function to obtain the handle.
+        /// If <see cref="INVALID_HANDLE_VALUE"/> is specified, the function creates an I/O completion port without associating it with a file handle.
+        /// In this case, the <paramref name="ExistingCompletionPort"/> parameter must be <see cref="IntPtr.Zero"/>
+        /// and the <paramref name="CompletionKey"/> parameter is ignored.
+        /// </param>
+        /// <param name="ExistingCompletionPort">
+        /// A handle to an existing I/O completion port or <see cref="IntPtr.Zero"/>.
+        /// If this parameter specifies an existing I/O completion port,
+        /// the function associates it with the handle specified by the <paramref name="FileHandle"/> parameter.
+        /// The function returns the handle of the existing I/O completion port if successful; it does not create a new I/O completion port.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, the function creates a new I/O completion port and,
+        /// if the <paramref name="FileHandle"/> parameter is valid, associates it with the new I/O completion port.
+        /// Otherwise no file handle association occurs.
+        /// The function returns the handle to the new I/O completion port if successful.
+        /// </param>
+        /// <param name="CompletionKey">
+        /// The per-handle user-defined completion key that is included in every I/O completion packet for the specified file handle.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="NumberOfConcurrentThreads">
+        /// The maximum number of threads that the operating system can allow to concurrently process I/O completion packets for the I/O completion port.
+        /// This parameter is ignored if the <paramref name="ExistingCompletionPort"/> parameter is not <see cref="IntPtr.Zero"/>.
+        /// If this parameter is zero, the system allows as many concurrently running threads as there are processors in the system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to an I/O completion port:
+        /// If the <paramref name="ExistingCompletionPort"/> parameter was <see cref="IntPtr.Zero"/>, the return value is a new handle.
+        /// If the <paramref name="ExistingCompletionPort"/> parameter was a valid I/O completion port handle, the return value is that same handle.
+        /// If the <paramref name="FileHandle"/> parameter was a valid handle, that file handle is now associated with the returned I/O completion port.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The I/O system can be instructed to send I/O completion notification packets to I/O completion ports, where they are queued.
+        /// The <see cref="CreateIoCompletionPort"/> function provides this functionality.
+        /// An I/O completion port and its handle are associated with the process that created it and is not sharable between processes.
+        /// However, a single handle is sharable between threads in the same process.
+        /// <see cref="CreateIoCompletionPort"/> can be used in three distinct modes:
+        /// Create only an I/O completion port without associating it with a file handle.
+        /// Associate an existing I/O completion port with a file handle.
+        /// Perform both creation and association in a single call.
+        /// To create an I/O completion port without associating it, set the <paramref name="FileHandle"/> parameter to <see cref="INVALID_HANDLE_VALUE"/>,
+        /// the <paramref name="ExistingCompletionPort"/> parameter to <see cref="IntPtr.Zero"/>,
+        /// and the <paramref name="CompletionKey"/> parameter to <see cref="IntPtr.Zero"/> (which is ignored in this case).
+        /// Set the <paramref name="NumberOfConcurrentThreads"/> parameter to the desired concurrency value for the new I/O completion port,
+        /// or zero for the default (the number of processors in the system).
+        /// The handle passed in the <paramref name="FileHandle"/> parameter can be any handle that supports overlapped I/O.
+        /// Most commonly, this is a handle opened by the <see cref="CreateFile"/> function
+        /// using the <see cref="FILE_FLAG_OVERLAPPED"/> flag (for example, files, mail slots, and pipes).
+        /// Objects created by other functions such as socket can also be associated with an I/O completion port.
+        /// For an example using sockets, see <see cref="AcceptEx"/>.
+        /// A handle can be associated with only one I/O completion port, and after the association is made,
+        /// the handle remains associated with that I/O completion port until it is closed.
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// Multiple file handles can be associated with a single I/O completion port by calling <see cref="CreateIoCompletionPort"/> multiple times
+        /// with the same I/O completion port handle in the <paramref name="ExistingCompletionPort"/> parameter
+        /// and a different file handle in the <paramref name="FileHandle"/> parameter each time.
+        /// Use the <paramref name="CompletionKey"/> parameter to help your application track which I/O operations have completed.
+        /// This value is not used by <see cref="CreateIoCompletionPort"/> for functional control; rather, it is attached to the file handle
+        /// specified in the <paramref name="FileHandle"/> parameter at the time of association with an I/O completion port.
+        /// This completion key should be unique for each file handle, and it accompanies the file handle throughout the internal completion queuing process.
+        /// It is returned in the <see cref="GetQueuedCompletionStatus"/> function call when a completion packet arrives.
+        /// The <paramref name="CompletionKey"/> parameter is also used
+        /// by the <see cref="PostQueuedCompletionStatus"/> function to queue your own special-purpose completion packets.
+        /// After an instance of an open handle is associated with an I/O completion port, it cannot be used
+        /// in the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function because these functions have their own asynchronous I/O mechanisms.
+        /// It is best not to share a file handle associated with an I/O completion port
+        /// by using either handle inheritance or a call to the <see cref="DuplicateHandle"/> function.
+        /// Operations performed with such duplicate handles generate completion notifications.
+        /// Careful consideration is advised.
+        /// The I/O completion port handle and every file handle associated with that particular I/O completion port are known
+        /// as references to the I/O completion port.
+        /// The I/O completion port is released when there are no more references to it.
+        /// Therefore, all of these handles must be properly closed to release the I/O completion port and its associated system resources.
+        /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", SetLastError = true)]
+        public static extern IntPtr CreateIoCompletionPort([In]IntPtr FileHandle, [In]IntPtr ExistingCompletionPort, [In]UIntPtr CompletionKey,
+            [In]uint NumberOfConcurrentThreads);
+
+        /// <summary>
+        /// <para>
         /// Sends a control code directly to a specified device driver, causing the corresponding device to perform the corresponding operation.
         /// </para>
         /// <para>
