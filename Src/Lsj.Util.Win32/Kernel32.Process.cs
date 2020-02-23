@@ -1117,6 +1117,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the priority class for the specified process.
+        /// This value, together with the priority value of each thread of the process, determines each thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getpriorityclass
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the priority class of the specified process.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The operating system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level will scheduling of threads at a lower level take place.
+        /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
+        /// Priority class is maintained by the executive, so all processes have a priority class that can be queried.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", SetLastError = true)]
+        public static extern ProcessPriorityClasses GetPriorityClass([In]IntPtr hProcess);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
