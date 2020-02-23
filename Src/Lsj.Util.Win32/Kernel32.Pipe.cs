@@ -482,5 +482,64 @@ namespace Lsj.Util.Win32
         public static extern bool GetNamedPipeHandleState([In]IntPtr hNamedPipe, [Out]PipeModes lpState, [Out]uint lpCurInstances,
             [Out]uint lpMaxCollectionCount, [Out]uint lpCollectDataTimeout,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpUserName, [In]uint nMaxUserNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the named pipe instance.
+        /// The handle must have <see cref="GENERIC_READ"/> access to the named pipe for a read-only or read/write pipe,
+        /// or it must have <see cref="GENERIC_WRITE"/> and <see cref="FILE_READ_ATTRIBUTES"/> access for a write-only pipe.
+        /// This parameter can also be a handle to an anonymous pipe, as returned by the CreatePipe function.
+        /// </param>
+        /// <param name="lpFlags">
+        /// A pointer to a variable that receives the type of the named pipe.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// Otherwise, this parameter can be one or more of the following values.
+        /// <see cref="PIPE_CLIENT_END"/>:
+        /// The handle refers to the client end of a named pipe instance. This is the default.
+        /// <see cref="PIPE_SERVER_END"/>:
+        /// The handle refers to the server end of a named pipe instance.
+        /// If this value is not specified, the handle refers to the client end of a named pipe instance.
+        /// <see cref="PIPE_TYPE_BYTE"/>:
+        /// The named pipe is a byte pipe. This is the default.
+        /// <see cref="PIPE_TYPE_MESSAGE"/>:
+        /// The named pipe is a message pipe. If this value is not specified, the pipe is a byte pipe.
+        /// </param>
+        /// <param name="lpOutBufferSize">
+        /// A pointer to a variable that receives the size of the buffer for outgoing data, in bytes.
+        /// If the buffer size is zero, the buffer is allocated as needed.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpInBufferSize">
+        /// A pointer to a variable that receives the size of the buffer for incoming data, in bytes.
+        /// If the buffer size is zero, the buffer is allocated as needed.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpMaxInstances">
+        /// A pointer to a variable that receives the maximum number of pipe instances that can be created.
+        /// If the variable is set to <see cref="PIPE_UNLIMITED_INSTANCES"/>,
+        /// the number of pipe instances that can be created is limited only by the availability of system resources.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetNamedPipeInfo([In]IntPtr hNamedPipe, [Out]uint lpFlags, [Out]uint lpOutBufferSize,
+            [Out]uint lpInBufferSize, [Out]uint lpMaxInstances);
     }
 }
