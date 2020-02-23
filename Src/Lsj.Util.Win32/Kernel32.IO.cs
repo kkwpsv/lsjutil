@@ -255,5 +255,145 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetOverlappedResultEx([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred,
             [In]uint dwMilliseconds, [In]bool bAlertable);
+
+        /// <summary>
+        /// <para>
+        /// Attempts to dequeue an I/O completion packet from the specified I/O completion port.
+        /// If there is no completion packet queued, the function waits for a pending I/O operation associated with the completion port to complete.
+        /// To dequeue multiple I/O completion packets at once, use the <see cref="GetQueuedCompletionStatusEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatus
+        /// </para>
+        /// </summary>
+        /// <param name="CompletionPort">
+        /// A handle to the completion port.
+        /// To create a completion port, use the <see cref="CreateIoCompletionPort"/> function.
+        /// </param>
+        /// <param name="lpNumberOfBytesTransferred">
+        /// A pointer to a variable that receives the number of bytes transferred in a completed I/O operation.
+        /// </param>
+        /// <param name="lpCompletionKey">
+        /// A pointer to a variable that receives the completion key value associated with the file handle whose I/O operation has completed.
+        /// A completion key is a per-file key that is specified in a call to <see cref="CreateIoCompletionPort"/>.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to a variable that receives the address of the <see cref="OVERLAPPED"/> structure
+        /// that was specified when the completed I/O operation was started.
+        /// Even if you have passed the function a file handle associated with a completion port and a valid <see cref="OVERLAPPED"/> structure,
+        /// an application can prevent completion port notification.
+        /// This is done by specifying a valid event handle for the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure,
+        /// and setting its low-order bit.
+        /// A valid event handle whose low-order bit is set keeps I/O completion from being queued to the completion port.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The number of milliseconds that the caller is willing to wait for a completion packet to appear at the completion port.
+        /// If a completion packet does not appear within the specified time, the function times out,
+        /// returns <see langword="false"/>, and sets <paramref name="lpOverlapped"/> to <see cref="IntPtr.Zero"/>.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will never time out.
+        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// </param>
+        /// <returns>
+        /// Returns <see langword="true"/> if successful or <see langword="false"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// For more information, see the Remarks section.
+        /// </returns>
+        /// <remarks>
+        /// This function associates a thread with the specified completion port.
+        /// A thread can be associated with at most one completion port.
+        /// If a call to <see cref="GetQueuedCompletionStatus"/> fails because the completion port handle associated with it is closed
+        /// while the call is outstanding, the function returns <see langword="false"/>, <paramref name="lpOverlapped"/> will be <see cref="IntPtr.Zero"/>,
+        /// and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
+        /// Windows Server 2003 and Windows XP:
+        /// Closing the completion port handle while a call is outstanding will not result in the previously stated behavior.
+        /// The function will continue to wait until an entry is removed from the port or until a time-out occurs,
+        /// if specified as a value other than <see cref="INFINITE"/>.
+        /// If the <see cref="GetQueuedCompletionStatus"/> function succeeds,
+        /// it dequeued a completion packet for a successful I/O operation from the completion port and has stored information
+        /// in the variables pointed to by the following parameters: <paramref name="lpNumberOfBytesTransferred"/>,
+        /// <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
+        /// Upon failure (the return value is <see langword="false"/>), those same parameters can contain particular value combinations as follows:
+        /// If <paramref name="lpOverlapped"/> is <see cref="IntPtr.Zero"/>, the function did not dequeue a completion packet from the completion port.
+        /// In this case, the function does not store information in the variables pointed to
+        /// by the <paramref name="lpNumberOfBytesTransferred"/> and <paramref name="lpCompletionKey"/> parameters, and their values are indeterminate.
+        /// If <paramref name="lpOverlapped"/> is not NULL and the function dequeues a completion packet for a failed I/O operation from the completion port,
+        /// the function stores information about the failed operation in the variables pointed to by <paramref name="lpNumberOfBytesTransferred"/>,
+        /// <paramref name="lpCompletionKey"/>, and <paramref name="lpOverlapped"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetQueuedCompletionStatus([In]IntPtr CompletionPort, [Out]out int lpNumberOfBytesTransferred,
+            [Out]out UIntPtr lpCompletionKey, [Out]out IntPtr lpOverlapped, [In]uint dwMilliseconds);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves multiple completion port entries simultaneously.
+        /// It waits for pending I/O operations that are associated with the specified completion port to complete.
+        /// To dequeue I/O completion packets one at a time, use the <see cref="GetQueuedCompletionStatus"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-getqueuedcompletionstatusex
+        /// </para>
+        /// </summary>
+        /// <param name="CompletionPort">
+        /// A handle to the completion port.
+        /// To create a completion port, use the <see cref="CreateIoCompletionPort"/> function.
+        /// </param>
+        /// <param name="lpCompletionPortEntries">
+        /// On input, points to a pre-allocated array of <see cref="OVERLAPPED_ENTRY"/> structures.
+        /// On output, receives an array of <see cref="OVERLAPPED_ENTRY"/> structures that hold the entries.
+        /// The number of array elements is provided by <paramref name="ulNumEntriesRemoved"/>.
+        /// The number of bytes transferred during each I/O, the completion key that indicates on which file each I/O occurred,
+        /// and the overlapped structure address used in each original I/O are all returned in the <paramref name="lpCompletionPortEntries"/> array.
+        /// </param>
+        /// <param name="ulCount">
+        /// The maximum number of entries to remove.
+        /// </param>
+        /// <param name="ulNumEntriesRemoved">
+        /// A pointer to a variable that receives the number of entries actually removed.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The number of milliseconds that the caller is willing to wait for a completion packet to appear at the completion port.
+        /// If a completion packet does not appear within the specified time, the function times out and returns <see langword="false"/>.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will never time out.
+        /// If <paramref name="dwMilliseconds"/> is zero and there is no I/O operation to dequeue, the function will time out immediately.
+        /// </param>
+        /// <param name="fAlertable">
+        /// If this parameter is <see langword="false"/>, the function does not return until the time-out period has elapsed or an entry is retrieved.
+        /// If the parameter is <see langword="true"/> and there are no available entries, the function performs an alertable wait.
+        /// The thread returns when the system queues an I/O completion routine or APC to the thread and the thread executes the function.
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed,
+        /// and the calling thread is the thread that initiated the operation.
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see langword="true"/> if successful or <see langword="false"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function associates a thread with the specified completion port.
+        /// A thread can be associated with at most one completion port.
+        /// This function returns <see langword="true"/> when at least one pending I/O is completed,
+        /// but it is possible that one or more I/O operations failed.
+        /// Note that it is up to the user of this function to check the list of returned entries in the <paramref name="lpCompletionPortEntries"/>
+        /// parameter to determine which of them correspond to any possible failed I/O operations by looking at the status
+        /// contained in the <see cref="lpOverlapped"/> member in each <see cref="OVERLAPPED_ENTRY"/>.
+        /// This function returns <see langword="false"/> when no I/O operation was dequeued.
+        /// This typically means that an error occurred while processing the parameters to this call,
+        /// or that the <paramref name="CompletionPort"/> handle was closed or is otherwise invalid.
+        /// The <see cref="GetLastError"/> function provides extended error information.
+        /// If a call to <see cref="GetQueuedCompletionStatusEx"/> fails because the handle associated with it is closed,
+        /// the function returns <see langword="false"/> and <see cref="GetLastError"/> will return <see cref="ERROR_ABANDONED_WAIT_0"/>.
+        /// Server applications may have several threads calling the <see cref="GetQueuedCompletionStatusEx"/> function for the same completion port.
+        /// As I/O operations complete, they are queued to this port in first-in-first-out order.
+        /// If a thread is actively waiting on this call, one or more queued requests complete the call for that thread only.
+        /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetQueuedCompletionStatusEx([In]IntPtr CompletionPort, [In]IntPtr lpCompletionPortEntries, [In]uint ulCount,
+            [Out]out uint ulNumEntriesRemoved, [In]uint dwMilliseconds, [In]bool fAlertable);
     }
 }
