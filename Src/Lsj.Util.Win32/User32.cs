@@ -111,6 +111,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
+        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", SetLastError = true)]
+        public static extern IntPtr GetSubMenu([In]IntPtr hMenu, [In]int nPos);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by <see cref="GetSystemMetrics"/> are in pixels.
         /// </para>
