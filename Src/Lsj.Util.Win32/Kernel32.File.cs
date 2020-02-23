@@ -26,6 +26,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
+        /// STORAGE_INFO_OFFSET_UNKNOWN 
+        /// </summary>
+        public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
+
+        /// <summary>
         /// <para>
         /// Creates a new directory.
         /// If the underlying file system supports security on files and directories,
