@@ -18,6 +18,7 @@ using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Ktmw32;
 
 namespace Lsj.Util.Win32
@@ -1922,5 +1923,105 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
             [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file information for the specified file.
+        /// For a more advanced version of this function, see <see cref="GetFileInformationByHandleEx"/>.
+        /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that contains the information to be retrieved.
+        /// This handle should not be a pipe handle.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a <see cref="BY_HANDLE_FILE_INFORMATION"/> structure that receives the file information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and file information data is contained in the buffer 
+        /// pointed to by the <paramref name="lpFileInformation"/> parameter.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Depending on the underlying network features of the operating system and the type of server connected to,
+        /// the <see cref="GetFileInformationByHandle"/> function may fail, return partial information, or full information for the given file.
+        /// You can compare the <see cref="BY_HANDLE_FILE_INFORMATION.dwVolumeSerialNumber"/> and
+        /// <see cref="BY_HANDLE_FILE_INFORMATION.nFileIndexHigh"/> <see cref="BY_HANDLE_FILE_INFORMATION.nFileIndexLow"/> members
+        /// returned in the <see cref="BY_HANDLE_FILE_INFORMATION"/> structure to determine if two paths map to the same target;
+        /// for example, you can compare two file paths and determine if they map to the same directory.
+        /// Transacted Operations
+        /// If there is a transaction bound to the thread at the time of the call,
+        /// then the function returns the compressed file size of the isolated file view.
+        /// For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandle", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileInformationByHandle([In]IntPtr hFile, [Out]out BY_HANDLE_FILE_INFORMATION lpFileInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file information for the specified file.
+        /// For a more basic version of this function for desktop apps, see <see cref="GetFileInformationByHandle"/>.
+        /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that contains the information to be retrieved.
+        /// This handle should not be a pipe handle.
+        /// </param>
+        /// <param name="FileInformationClass">
+        /// A <see cref="FILE_INFO_BY_HANDLE_CLASS"/> enumeration value that specifies the type of information to be retrieved.
+        /// For a table of valid values, see the Remarks section.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to the buffer that receives the requested file information.
+        /// The structure that is returned corresponds to the class that is specified by <paramref name="FileInformationClass"/>.
+        /// For a table of valid structure types, see the Remarks section.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of the <paramref name="lpFileInformation"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and file information data is contained in the buffer
+        /// pointed to by the <paramref name="lpFileInformation"/> parameter.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If <paramref name="FileInformationClass"/> is <see cref="FileStreamInfo"/> and the calls succeed but no streams are returned,
+        /// the error that is returned by <see cref="GetLastError"/> is <see cref="ERROR_HANDLE_EOF"/>.
+        /// Certain file information classes behave slightly differently on different operating system releases.
+        /// These classes are supported by the underlying drivers, and any information they return is subject to change between operating system releases.
+        /// The following table shows the valid file information class types and their corresponding data structure types for use with this function.
+        /// <see cref="FileBasicInfo"/>: <see cref="FILE_BASIC_INFO"/>
+        /// <see cref="FileStandardInfo"/>: <see cref="FILE_STANDARD_INFO"/>
+        /// <see cref="FileNameInfo"/>: <see cref="FILE_NAME_INFO"/>
+        /// <see cref="FileStreamInfo"/>: <see cref="FILE_STREAM_INFO"/>
+        /// <see cref="FileCompressionInfo"/>: <see cref="FILE_COMPRESSION_INFO"/>
+        /// <see cref="FileAttributeTagInfo"/>: <see cref="FILE_ATTRIBUTE_TAG_INFO"/>
+        /// <see cref="FileIdBothDirectoryInfo"/>: <see cref="FILE_ID_BOTH_DIR_INFO"/>
+        /// <see cref="FileIdBothDirectoryRestartInfo"/>: <see cref="FILE_ID_BOTH_DIR_INFO"/>
+        /// <see cref="FileRemoteProtocolInfo"/>: <see cref="FILE_REMOTE_PROTOCOL_INFO"/>
+        /// <see cref="FileFullDirectoryInfo"/>: <see cref="FILE_FULL_DIR_INFO"/>
+        /// <see cref="FileFullDirectoryRestartInfo"/>: <see cref="FILE_FULL_DIR_INFO"/>
+        /// <see cref="FileStorageInfo"/>: <see cref="FILE_STORAGE_INFO"/>
+        /// <see cref="FileAlignmentInfo"/>: <see cref="FILE_ALIGNMENT_INFO"/>
+        /// <see cref="FileIdInfo"/>: <see cref="FILE_ID_INFO"/>
+        /// <see cref="FileIdExtdDirectoryInfo"/>: <see cref="FILE_ID_EXTD_DIR_INFO"/>
+        /// <see cref="FileIdExtdDirectoryRestartInfo"/>: <see cref="FILE_ID_EXTD_DIR_INFO"/>
+        /// Transacted Operations
+        /// If there is a transaction bound to the thread at the time of the call,
+        /// then the function returns the compressed file size of the isolated file view.
+        /// For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandleEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileInformationByHandleEx([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+            [Out]out IntPtr lpFileInformation, [In]uint dwBufferSize);
     }
 }
