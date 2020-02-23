@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
@@ -169,6 +170,38 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GenerateConsoleCtrlEvent([In]CtrlEventFlags dwCtrlEvent, [In]uint dwProcessGroupId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/getconsolescreenbufferinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpConsoleScreenBufferInfo">
+        /// A pointer to a <see cref="CONSOLE_SCREEN_BUFFER_INFO"/> structure that receives the console screen buffer information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The rectangle returned in the <see cref="CONSOLE_SCREEN_BUFFER_INFO.srWindow"/> member of the <see cref="CONSOLE_SCREEN_BUFFER_INFO"/> structure
+        /// can be modified and then passed to the <see cref="SetConsoleWindowInfo"/> function to scroll the console screen buffer in the window,
+        /// to change the size of the window, or both.
+        /// All coordinates returned in the <see cref="CONSOLE_SCREEN_BUFFER_INFO"/> structure are in character-cell coordinates,
+        /// where the origin (0, 0) is at the upper-left corner of the console screen buffer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetConsoleScreenBufferInfo([In]IntPtr hConsoleOutput, [Out]out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
 
         /// <summary>
         /// <para>
