@@ -1866,5 +1866,61 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
             [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file system attributes for a specified file or directory as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileattributestransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName"></param>
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributesEx"/>),
+        /// and prepend "\\?\" to the path. For more information, see Naming a File.
+        /// The file or directory must reside on the local computer; otherwise,
+        /// the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// <param name="fInfoLevelId">
+        /// A class of attribute information to retrieve.
+        /// This parameter can be the following value from the <see cref="GET_FILEEX_INFO_LEVELS"/> enumeration.
+        /// <see cref="GetFileExInfoStandard"/>: The <paramref name="lpFileInformation"/> parameter is a <see cref="WIN32_FILE_ATTRIBUTE_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a buffer that receives the attribute information.
+        /// The type of attribute information that is stored into this buffer is determined by the value of <paramref name="fInfoLevelId"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction. This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When <see cref="GetFileAttributesTransacted"/> is called on a directory that is a mounted folder, it returns the attributes of the directory,
+        /// not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the file attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributesTransacted"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// Symbolic links:  If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// Conversely, if a file is open for modification outside of a transaction,
+        /// no transacted thread can open the file for modification until the non-transacted handle is closed.
+        /// If a non-transacted thread has a handle opened to modify a file,
+        /// a call to <see cref="GetFileAttributesTransacted"/> for that file will fail with an <see cref="ERROR_TRANSACTIONAL_CONFLICT"/> error.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesTransactedW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation, [In]IntPtr hTransaction);
     }
 }
