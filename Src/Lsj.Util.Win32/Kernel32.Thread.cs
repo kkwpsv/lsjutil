@@ -417,5 +417,48 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", SetLastError = true)]
         public static extern IntPtr GetCurrentThread();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the termination status of the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodethread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpExitCode">
+        /// A pointer to a variable to receive the thread termination status.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns immediately.
+        /// If the specified thread has not terminated and the function succeeds, the status returned is <see cref="STILL_ACTIVE"/>.
+        /// If the thread has terminated and the function succeeds, the status returned is one of the following values:
+        /// The exit value specified in the <see cref="ExitThread"/> or <see cref="TerminateThread"/> function.
+        /// The return value from the thread function.
+        /// The exit value of the thread's process.
+        /// The <see cref="GetExitCodeThread"/> function returns a valid error code defined by the application only after the thread terminates.
+        /// Therefore, an application should not use <see cref="STILL_ACTIVE"/> as an error code.
+        /// If a thread returns <see cref="STILL_ACTIVE"/> as an error code, applications that test for this value could interpret it to mean
+        /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
+        /// which could put the application into an infinite loop.
+        /// To avoid this problem, callers should call the <see cref="GetExitCodeThread"/> function only after the thread has been confirmed to have exited.
+        /// Use the <see cref="WaitForSingleObject"/> function with a wait duration of zero to determine whether a thread has exited.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetExitCodeThread([In]IntPtr hThread, [Out]out uint lpExitCode);
     }
 }
