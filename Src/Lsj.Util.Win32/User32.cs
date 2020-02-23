@@ -132,6 +132,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current color of the specified display element.
+        /// Display elements are the parts of a window and the display that appear on the system display screen.
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// The display element whose color is to be retrieved
+        /// </param>
+        /// <returns>
+        /// The function returns the red, green, blue (RGB) color value of the given element.
+        /// If the <paramref name="nIndex"/> parameter is out of range, the return value is zero.
+        /// Because zero is also a valid RGB value, you cannot use <see cref="GetSysColor"/> to determine 
+        /// whether a system color is supported by the current platform.
+        /// Instead, use the <see cref="GetSysColorBrush"/> function, which returns <see cref="IntPtr.Zero"/> if the color is not supported.
+        /// </returns>
+        /// <remarks>
+        /// To display the component of the RGB value, use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros.
+        /// System colors for monochrome displays are usually interpreted as shades of gray.
+        /// To paint with a system color brush, an application should use <see cref="GetSysColorBrush"/>(nIndex),
+        /// instead of <see cref="CreateSolidBrush"/>(<see cref="GetSysColor"/>(nIndex)),
+        /// because <see cref="GetSysColorBrush"/> returns a cached brush, instead of allocating a new one.
+        /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", SetLastError = true)]
+        public static extern uint GetSysColor([In]SystemColors nIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by <see cref="GetSystemMetrics"/> are in pixels.
         /// </para>
