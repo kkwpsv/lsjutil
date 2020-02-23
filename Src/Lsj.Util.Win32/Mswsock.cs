@@ -4,6 +4,7 @@ using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
+#pragma warning disable CS1574
     /// <summary>
     /// Mswsock.dll
     /// </summary>
@@ -161,3 +162,4 @@ namespace Lsj.Util.Win32
                 [In]uint dwLocalAddressLength, [In]uint dwRemoteAddressLength, [Out]out uint lpdwBytesReceived, [In]IntPtr lpOverlapped);
     }
 }
+#pragma warning restore CS1574
