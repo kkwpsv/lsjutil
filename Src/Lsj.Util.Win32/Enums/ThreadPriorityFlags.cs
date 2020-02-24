@@ -54,6 +54,6 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// 
         /// </summary>
-        THREAD_PRIORITY_ERROR_RETURN = int.MaxValue;
+        THREAD_PRIORITY_ERROR_RETURN = int.MaxValue,
     }
 }
