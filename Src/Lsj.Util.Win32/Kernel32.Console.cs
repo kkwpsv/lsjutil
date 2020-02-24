@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
