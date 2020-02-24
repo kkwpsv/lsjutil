@@ -2081,7 +2081,6 @@ namespace Lsj.Util.Win32
         public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
             [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
 
-
         /// <summary>
         /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
@@ -2167,5 +2166,42 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
             [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a volume GUID path for the volume that is associated with the specified volume mount point
+        /// ( drive letter, volume GUID path, or mounted folder).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumenameforvolumemountpointw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszVolumeMountPoint">
+        /// A pointer to a string that contains the path of a mounted folder (for example, "Y:\MountX\") or a drive letter (for example, "X:\").
+        /// The string must end with a trailing backslash ('\').
+        /// </param>
+        /// <param name="lpszVolumeName">
+        /// A pointer to a string that receives the volume GUID path.
+        /// This path is of the form "\\?\Volume{GUID}\" where GUID is a GUID that identifies the volume.
+        /// If there is more than one volume GUID path for the volume, only the first one in the mount manager's cache is returned.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the output buffer, in TCHARs.
+        /// A reasonable size for the buffer to accommodate the largest possible volume GUID path is 50 characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Use <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain a volume GUID path for use with functions
+        /// such as <see cref="SetVolumeMountPoint"/> and <see cref="FindFirstVolumeMountPoint"/> that require a volume GUID path as an input parameter.
+        /// For more information about volume GUID paths, see Naming A Volume.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In]string lpszVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeName, [In]uint cchBufferLength);
     }
 }
