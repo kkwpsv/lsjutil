@@ -3,11 +3,12 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32
 {
