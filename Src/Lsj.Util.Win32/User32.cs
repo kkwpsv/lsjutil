@@ -160,6 +160,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetSysColorBrush"/> function retrieves a handle identifying a logical brush that corresponds to the specified color index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsyscolorbrush
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// A color index.
+        /// This value corresponds to the color used to paint one of the window elements.
+        /// See <see cref="GetSysColor"/> for system color index values.
+        /// </param>
+        /// <returns>
+        /// The return value identifies a logical brush if the nIndex parameter is supported by the current platform.
+        /// Otherwise, it returns <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// An application can retrieve the current system colors by calling the <see cref="GetSysColor"/> function.
+        /// An application can set the current system colors by calling the <see cref="SetSysColors"/> function.
+        /// An application must not register a window class for a window using a system brush.
+        /// To register a window class with a system color, see the documentation of the <see cref="WNDCLASS.hbrBackground"/> member
+        /// of the <see cref="WNDCLASS"/> or <see cref="WNDCLASSEX"/> structures.
+        /// System color brushes track changes in system colors.
+        /// In other words, when the user changes a system color, the associated system color brush automatically changes to the new color.
+        /// To paint with a system color brush, an application should use <see cref="GetSysColorBrush"/> (nIndex) instead of
+        /// <see cref="CreateSolidBrush"/> ( <see cref="GetSysColor"/> (nIndex)),
+        /// because <see cref="GetSysColorBrush"/> returns a cached brush instead of allocating a new one.
+        /// System color brushes are owned by the system so you don't need to destroy them.
+        /// Although you don't need to delete the logical brush that <see cref="GetSysColorBrush"/> returns,
+        /// no harm occurs by calling <see cref="DeleteObject"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", SetLastError = true)]
+        public static extern IntPtr GetSysColorBrush([In]SystemColors nIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by <see cref="GetSystemMetrics"/> are in pixels.
         /// </para>
