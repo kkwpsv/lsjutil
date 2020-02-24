@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.DesktopAccessRights;
+using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32
 {
@@ -278,5 +279,44 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDesktop", SetLastError = true)]
         public static extern IntPtr GetThreadDesktop([In]uint dwThreadId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified window station or desktop object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to the window station or desktop object.
+        /// This handle is returned by the <see cref="CreateWindowStation"/>, <see cref="OpenWindowStation"/>,
+        /// <see cref="CreateDesktop"/>, or <see cref="OpenDesktop"/> function.
+        /// </param>
+        /// <param name="nIndex">
+        /// The information to be retrieved.
+        /// </param>
+        /// <param name="pvInfo">
+        /// A pointer to a buffer to receive the object information.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the buffer pointed to by the <paramref name="pvInfo"/> parameter, in bytes.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to a variable receiving the number of bytes required to store the requested information.
+        /// If this variable's value is greater than the value of the <paramref name="nLength"/> parameter when the function returns,
+        /// the function returns <see langword="false"/>, and none of the information is copied to the pvInfo buffer.
+        /// If the value of the variable pointed to by <paramref name="lpnLengthNeeded"/> is less than or equal to the value of <paramref name="nLength"/>,
+        /// the entire information block is copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="false"/>.
+        /// If the function fails, the return value is <see langword="true"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectInformation([In]IntPtr hObj, [In]GetUserObjectInformationIndexes nIndex, [In]IntPtr pvInfo,
+            [In]uint nLength, [Out]out uint lpnLengthNeeded);
     }
 }
