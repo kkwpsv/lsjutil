@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
@@ -39,7 +40,7 @@ namespace Lsj.Util.Win32.Enums
         /// The new token is a LUA token.
         /// Windows Server 2003 and Windows XP:  This value is not supported.
         /// </summary>
-        LUA_TOKEN =0x4,
+        LUA_TOKEN = 0x4,
 
         /// <summary>
         /// The new token contains restricting SIDs that are considered only when evaluating write access.
