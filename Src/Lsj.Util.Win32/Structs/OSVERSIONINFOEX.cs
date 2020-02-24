@@ -68,9 +68,9 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// Any additional information about the system.
-        /// This member can be one of <see cref="ProductTypes"/>.
+        /// This member can be one of <see cref="NTProductTypes"/>.
         /// </summary>
-        public ProductTypes wProductType;
+        public NTProductTypes wProductType;
 
         /// <summary>
         /// Reserved for future use. 
