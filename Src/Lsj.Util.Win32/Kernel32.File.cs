@@ -2135,14 +2135,14 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If all the requested information is retrieved, the return value is <see langword="true"/>.
         /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="<see langword="true"/>."/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// When a user attempts to get information about a floppy drive that does not have a floppy disk,
         /// or a CD-ROM drive that does not have a compact disc,
         /// the system displays a message box for the user to insert a floppy disk or a compact disc, respectively.
         /// To prevent the system from displaying this message box, call the <see cref="SetErrorMode"/> function with <see cref="SEM_FAILCRITICALERRORS"/>.
-        /// The <see cref="FILE_VOL_IS_COMPRESSED"/> flag is the only indicator of volume-based compression.
+        /// The <see cref="FILE_VOLUME_IS_COMPRESSED"/> flag is the only indicator of volume-based compression.
         /// The file system name is not altered to indicate compression, for example, this flag is returned set on a DoubleSpace volume.
         /// When compression is volume-based, an entire volume is compressed or not compressed.
         /// The <see cref="FILE_FILE_COMPRESSION"/> flag indicates whether a file system supports file-based compression.
