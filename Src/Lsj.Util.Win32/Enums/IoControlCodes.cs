@@ -19,8 +19,23 @@ namespace Lsj.Util.Win32.Enums
         FSCTL_ALLOW_EXTENDED_DASD_IO = 0x90083,
 
         /// <summary>
+        /// <para>
+        /// Retrieves the current compression state of a file or directory on a volume whose file system supports per-stream compression.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_get_compression
+        /// </para>
+        /// </summary>
+        FSCTL_GET_COMPRESSION = 0x9003c,
+
+        /// <summary>
+        /// <para>
         /// Creates a new miniversion for the specified file. Miniversions allow you to refer to a snapshot of the file during a transaction.
         /// Miniversions are discarded when a transaction is committed or rolled back.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_txfs_create_miniversion
+        /// </para>
         /// </summary>
         [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
             "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
