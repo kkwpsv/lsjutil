@@ -8,7 +8,7 @@
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-osversioninfoexw
     /// </para>
     /// </summary>
-    public enum ProductTypes : byte
+    public enum NTProductTypes : byte
     {
         /// <summary>
         /// The system is a domain controller and the operating system is Windows Server 2012 , Windows Server 2008 R2,
