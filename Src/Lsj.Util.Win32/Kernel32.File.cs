@@ -2080,5 +2080,92 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
             [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
+
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the file system and volume associated with the specified root directory.
+        /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandle"/> function.
+        /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// A pointer to a string that contains the root directory of the volume to be described.
+        /// If this parameter is <see langword="null"/>, the root of the current directory is used. A trailing backslash is required.
+        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare", or the C drive as "C:".
+        /// </param>
+        /// <param name="lpVolumeNameBuffer">
+        /// A pointer to a buffer that receives the name of a specified volume.
+        /// The buffer size is specified by the<paramref name="nVolumeNameSize"/> parameter.
+        /// </param>
+        /// <param name="nVolumeNameSize">
+        /// The length of a volume name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the volume name buffer is not supplied.
+        /// </param>
+        /// <param name="lpVolumeSerialNumber">
+        /// A pointer to a variable that receives the volume serial number.
+        /// This parameter can be <see langword="null"/> if the serial number is not required.
+        /// This function returns the volume serial number that the operating system assigns when a hard disk is formatted.
+        /// To programmatically obtain the hard disk's serial number that the manufacturer assigns,
+        /// use the Windows Management Instrumentation (WMI) Win32_PhysicalMedia property SerialNumber.
+        /// </param>
+        /// <param name="lpMaximumComponentLength">
+        /// A pointer to a variable that receives the maximum length, in TCHARs, of a file name component that a specified file system supports.
+        /// A file name component is the portion of a file name between backslashes.
+        /// The value that is stored in the variable that <paramref name="lpMaximumComponentLength"/> points to is used to indicate that
+        /// a specified file system supports long names.
+        /// For example, for a FAT file system that supports long names, the function stores the value 255, rather than the previous 8.3 indicator.
+        /// Long names can also be supported on systems that use the NTFS file system.
+        /// </param>
+        /// <param name="lpFileSystemFlags">
+        /// A pointer to a variable that receives flags associated with the specified file system.
+        /// This parameter can be one or more of <see cref="FileSystemFlags"/>.
+        /// However, <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> are mutually exclusive.
+        /// </param>
+        /// <param name="lpFileSystemNameBuffer">
+        /// A pointer to a buffer that receives the name of the file system, for example, the FAT file system or the NTFS file system.
+        /// The buffer size is specified by the <paramref name="nFileSystemNameSize"/> parameter.
+        /// </param>
+        /// <param name="nFileSystemNameSize">
+        /// The length of the file system name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the file system name buffer is not supplied.
+        /// </param>
+        /// <returns>
+        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
+        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="<see langword="true"/>."/>.
+        /// </returns>
+        /// <remarks>
+        /// When a user attempts to get information about a floppy drive that does not have a floppy disk,
+        /// or a CD-ROM drive that does not have a compact disc,
+        /// the system displays a message box for the user to insert a floppy disk or a compact disc, respectively.
+        /// To prevent the system from displaying this message box, call the <see cref="SetErrorMode"/> function with <see cref="SEM_FAILCRITICALERRORS"/>.
+        /// The <see cref="FILE_VOL_IS_COMPRESSED"/> flag is the only indicator of volume-based compression.
+        /// The file system name is not altered to indicate compression, for example, this flag is returned set on a DoubleSpace volume.
+        /// When compression is volume-based, an entire volume is compressed or not compressed.
+        /// The <see cref="FILE_FILE_COMPRESSION"/> flag indicates whether a file system supports file-based compression.
+        /// When compression is file-based, individual files can be compressed or not compressed.
+        /// The <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> flags are mutually exclusive.
+        /// Both bits cannot be returned set.
+        /// The maximum component length value that is stored in <paramref name="lpMaximumComponentLength"/> is the only indicator
+        /// that a volume supports longer-than-normal FAT file system (or other file system) file names.
+        /// The file system name is not altered to indicate support for long file names.
+        /// The <see cref="GetCompressedFileSize"/> function obtains the compressed size of a file.
+        /// The <see cref="GetFileAttributes"/> function can determine whether an individual file is compressed.
+        /// Symbolic link behavior—
+        /// If the path points to a symbolic link, the function returns volume information for the target.
+        /// Transacted Operations
+        /// If the volume supports file system transactions,
+        /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
+            [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
     }
 }
