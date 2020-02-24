@@ -1,17 +1,23 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.DesktopAccessRights;
+using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.StandardAccessRights;
-using static Lsj.Util.Win32.Enums.DesktopAccessRights;
-using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// CWF_CREATE_ONLY
+        /// </summary>
+        public const uint CWF_CREATE_ONLY = 0x00000001;
+
         /// <summary>
         /// DF_ALLOWOTHERACCOUNTHOOK
         /// </summary>
@@ -187,6 +193,56 @@ namespace Lsj.Util.Win32
             [In]uint dwFlags, [In]uint dwDesiredAccess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa, [In]uint ulHeapSize, [In]IntPtr pvoid);
+
+        /// <summary>
+        /// <para>
+        /// Creates a window station object, associates it with the calling process, and assigns it to the current session.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowstationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpwinsta">
+        /// The name of the window station to be created.
+        /// Window station names are case-insensitive and cannot contain backslash characters ().
+        /// Only members of the Administrators group are allowed to specify a name.
+        /// If lpwinsta is <see langword="null"/> or an empty string,
+        /// the system forms a window station name using the logon session identifier for the calling process.
+        /// To get this name, call the <see cref="GetUserObjectInformation"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// If this parameter is <see cref="CWF_CREATE_ONLY"/> and the window station already exists, the call fails.
+        /// If this flag is not specified and the window station already exists,
+        /// the function succeeds and returns a new handle to the existing window station.
+        /// Windows XP/2000:  This parameter is reserved and must be zero.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The type of access the returned handle has to the window station.
+        /// In addition, you can specify any of the standard access rights, such as <see cref="READ_CONTROL"/> or <see cref="WRITE_DAC"/>,
+        /// and a combination of the window station-specific access rights.
+        /// For more information, see Window Station Security and Access Rights.
+        /// </param>
+        /// <param name="lpsa">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether the returned handle can be inherited by child processes.
+        /// If lpsa is <see langword="null"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new window station.
+        /// If lpsa is <see langword="null"/>, the window station (and any desktops created within the window) gets a security descriptor
+        /// that grants <see cref="GENERIC_ALL"/> access to all users.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly created window station.
+        /// If the specified window station already exists, the function succeeds and returns a handle to the existing window station.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", SetLastError = true)]
+        public static extern IntPtr CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpwinsta, [In]uint dwFlags,
+            [In]uint dwDesiredAccess,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
+            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa);
 
         /// <summary>
         /// <para>
