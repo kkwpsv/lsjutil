@@ -1,5 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.Secur32;
 
 namespace Lsj.Util.Win32.Enums
 {
