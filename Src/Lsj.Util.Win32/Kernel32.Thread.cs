@@ -420,6 +420,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the thread identifier of the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the thread identifier of the calling thread.
+        /// </returns>
+        /// <remarks>
+        /// Until the thread terminates, the thread identifier uniquely identifies the thread throughout the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", SetLastError = true)]
+        public static extern uint GetCurrentThreadId();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the termination status of the specified thread.
         /// </para>
         /// <para>
