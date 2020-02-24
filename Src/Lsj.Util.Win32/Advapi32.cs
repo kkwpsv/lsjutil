@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
+#pragma warning disable CS1574
     /// <summary>
     /// Advapi32.dll
     /// </summary>
@@ -57,3 +58,4 @@ namespace Lsj.Util.Win32
             [In]IntPtr TokenInformation, [In]uint TokenInformationLength, [Out]out uint ReturnLength);
     }
 }
+#pragma warning restore CS1574

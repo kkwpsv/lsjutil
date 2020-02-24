@@ -4,6 +4,7 @@ using static Lsj.Util.Win32.Secur32;
 
 namespace Lsj.Util.Win32.Enums
 {
+#pragma warning disable CS1574
     /// <summary>
     /// <para>
     /// The <see cref="TOKEN_INFORMATION_CLASS"/> enumeration contains values that specify the type of information
@@ -283,3 +284,4 @@ namespace Lsj.Util.Win32.Enums
         MaxTokenInfoClass
     }
 }
+#pragma warning restore CS1574
