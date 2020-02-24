@@ -4,6 +4,8 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
+using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 
 namespace Lsj.Util.Win32
 {
@@ -477,5 +479,36 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetExitCodeThread([In]IntPtr hThread, [Out]out uint lpExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the priority value for the specified thread.
+        /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003:  The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's priority level.
+        /// If the function fails, the return value is <see cref="THREAD_PRIORITY_ERROR_RETURN"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the thread has the <see cref="REALTIME_PRIORITY_CLASS"/> base class,
+        /// this function can also return one of the following values: -7, -6, -5, -4, -3, 3, 4, 5, or 6.
+        /// For more information, see Scheduling Priorities.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base-priority level determined by the thread's priority value and the priority class of its process.
+        /// The operating system uses the base-priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level will scheduling of threads at a lower level take place.
+        /// For a table that shows the base-priority levels for each combination of priority class and thread priority value,
+        /// refer to the <see cref="SetPriorityClass"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
+        public static extern int GetThreadPriority([In]IntPtr hThread);
     }
 }
