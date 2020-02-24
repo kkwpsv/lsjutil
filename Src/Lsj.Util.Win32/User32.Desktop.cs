@@ -246,6 +246,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes an open window station handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation
+        /// </para>
+        /// </summary>
+        /// <param name="hWinSta">
+        /// A handle to the window station to be closed.
+        /// This handle is returned by the <see cref="CreateWindowStation"/> or <see cref="OpenWindowStation"/> function.
+        /// Do not specify the handle returned by the <see cref="GetProcessWindowStation"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Windows Server 2003 and Windows XP/2000:  This function does not set the last error code on failure.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CloseWindowStation"/> function will fail if the handle being closed is for the window station assigned to the calling process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindowStation", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseWindowStation([In]IntPtr hWinSta);
+
+        /// <summary>
+        /// <para>
         /// Enumerates all top-level windows associated with the specified desktop.
         /// It passes the handle to each window, in turn, to an application-defined callback function.
         /// </para>
