@@ -119,6 +119,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// </para>
+        /// </summary>
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static byte GetBValue(uint rgb) => (byte)((rgb >> 16) & 0xff);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetDeviceCaps"/> function retrieves device-specific information for the specified device.
         /// </para>
         /// <para>
@@ -133,6 +150,40 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", SetLastError = true)]
         public static extern int GetDeviceCaps([In]IntPtr hdc, [In]DeviceCapIndexes nIndex);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetGValue"/> macro retrieves an intensity value for the green component of a red, green, blue (RGB) value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// </para>
+        /// </summary>
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static byte GetGValue(uint rgb) => (byte)((rgb >> 8) & 0xff);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetRValue"/> macro retrieves an intensity value for the red component of a red, green, blue (RGB) value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// </para>
+        /// </summary>
+        /// <param name="rgb">
+        /// Specifies an RGB color value.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity value is in the range 0 through 255.
+        /// </remarks>
+        public static byte GetRValue(uint rgb) => (byte)(rgb & 0xff);
 
         /// <summary>
         /// <para>
