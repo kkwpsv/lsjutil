@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
