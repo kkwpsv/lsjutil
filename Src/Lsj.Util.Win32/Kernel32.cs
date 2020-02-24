@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -40,6 +41,69 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FileTimeToSystemTime([In]ref Structs.FILETIME lpFileTime, [In][Out]ref SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the product type for the operating system on the local computer,
+        /// and maps the type to the product types supported by the specified operating system.
+        /// To retrieve product type information on versions of Windows prior to the minimum supported operating systems specified
+        /// in the Requirements section, use the <see cref="GetVersionEx"/> function.
+        /// You can also use the OperatingSystemSKU property of the Win32_OperatingSystem WMI class.
+        /// </para>
+        /// </summary>
+        /// <param name="dwOSMajorVersion">
+        /// The major version number of the operating system. The minimum value is 6.
+        /// The combination of the <paramref name="dwOSMajorVersion"/>, <paramref name="dwOSMinorVersion"/>, <paramref name="dwSpMajorVersion"/>,
+        /// and <paramref name="dwSpMinorVersion"/> parameters describes the maximum target operating system version for the application.
+        /// For example, Windows Vista and Windows Server 2008 are version 6.0.0.0 and Windows 7 and Windows Server 2008 R2 are version 6.1.0.0.
+        /// All Windows 10 based releases will be listed as version 6.3.
+        /// </param>
+        /// <param name="dwOSMinorVersion">
+        /// The minor version number of the operating system. The minimum value is 0.
+        /// </param>
+        /// <param name="dwSpMajorVersion">
+        /// The major version number of the operating system service pack. The minimum value is 0.
+        /// </param>
+        /// <param name="dwSpMinorVersion">
+        /// The minor version number of the operating system service pack. The minimum value is 0.
+        /// </param>
+        /// <param name="pdwReturnedProductType">
+        /// The product type. This parameter cannot be <see cref="IntPtr.Zero"/>.
+        /// If the specified operating system is less than the current operating system,
+        /// this information is mapped to the types supported by the specified operating system.
+        /// If the specified operating system is greater than the highest supported operating system,
+        /// this information is mapped to the types supported by the current operating system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To detect whether a server role or feature is installed, use the Server Feature WMI provider.
+        /// Subsequent releases of Windows will map the product types it supports to the set of product types supported
+        /// by each supported previous release of Windows, back to version 6.0.0.0.
+        /// Therefore, an application that does an equality test for any of these values will continue to work on future releases,
+        /// even when new product types are added.
+        /// PRODUCT_*_SERVER_CORE values are not returned in Windows Server 2012, and later.
+        /// For example, the base server edition, Server Datacenter,
+        /// is used to build the two different installation options: "full server" and "core server".
+        /// With Windows Server 2012, <see cref="GetProductInfo"/> will return <see cref="PRODUCT_DATACENTER"/> regardless of
+        /// the option used during product installation.
+        /// As noted above, for Server Core installations of Windows Server 2012 and later, use the method Determining whether Server Core is running.
+        /// The following table indicates the product types that were introduced in 6.1.0.0,
+        /// and what they will map to if <see cref="GetProductInfo"/> is called with version 6.0.0.0 on a 6.1.0.0 system.
+        /// New for 6.1.0.0	Value                   returned with 6.0.0.0
+        /// <see cref="PRODUCT_PROFESSIONAL"/>      <see cref="PRODUCT_BUSINESS"/>
+        /// <see cref="PRODUCT_PROFESSIONAL_N"/>    <see cref="PRODUCT_BUSINESS_N"/>
+        /// <see cref="PRODUCT_STARTER_N"/>         <see cref="PRODUCT_STARTER"/>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProductInfo([In]uint dwOSMajorVersion, [In]uint dwOSMinorVersion, [In]uint dwSpMajorVersion,
+            [In]uint dwSpMinorVersion, [In][Out]ref ProductTypes pdwReturnedProductType);
 
         /// <summary>
         /// <para>
