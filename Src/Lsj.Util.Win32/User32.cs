@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
@@ -234,6 +235,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
         public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetUserObjectSecurity"/> function retrieves security information for the specified user object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to the user object for which to return security information.
+        /// </param>
+        /// <param name="pSIRequested">
+        /// A pointer to a <see cref="SECURITY_INFORMATION"/> value that specifies the security information being requested.
+        /// </param>
+        /// <param name="pSID">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure in self-relative format that contains the requested information
+        /// when the function returns. This buffer must be aligned on a 4-byte boundary.
+        /// </param>
+        /// <param name="nLength">
+        /// The length, in bytes, of the buffer pointed to by the <paramref name="pSID"/> parameter.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to a variable to receive the number of bytes required to store the complete security descriptor.
+        /// If this variable's value is greater than the value of the <paramref name="nLength"/> parameter when the function returns,
+        /// the function returns <see langword="false"/> and none of the security descriptor is copied to the buffer.
+        /// Otherwise, the entire security descriptor is copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To read the owner, group, or discretionary access control list (DACL) from the user object's security descriptor,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To read the system access control list (SACL) from the security descriptor,
+        /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
+        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectSecurity([In]IntPtr hObj, [In]IntPtr pSIRequested, [In]IntPtr pSID,
+            [In]uint nLength, [Out]out uint lpnLengthNeeded);
 
         /// <summary>
         /// <para>
