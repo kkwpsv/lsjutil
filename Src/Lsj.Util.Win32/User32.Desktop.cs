@@ -248,5 +248,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWindowStation", SetLastError = true)]
         public static extern IntPtr GetProcessWindowStation();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the desktop assigned to the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getthreaddesktop
+        /// </para>
+        /// </summary>
+        /// <param name="dwThreadId">
+        /// The thread identifier.
+        /// The <see cref="GetCurrentThreadId"/> and <see cref="CreateProcess"/> functions return thread identifiers.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the desktop associated with the specified thread.
+        /// You do not need to call the <see cref="CloseDesktop"/> function to close the returned handle.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system associates a desktop with a thread when that thread is created.
+        /// A thread can use the <see cref="SetThreadDesktop"/> function to change its desktop.
+        /// The desktop associated with a thread must be on the window station associated with the thread's process.
+        /// The calling process can use the returned handle in calls to the <see cref="GetUserObjectInformation"/>, <see cref="GetUserObjectSecurity"/>,
+        /// <see cref="SetUserObjectInformation"/>, and <see cref="SetUserObjectSecurity"/> functions.
+        /// A service application is created with an associated window station and desktop,
+        /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDesktop", SetLastError = true)]
+        public static extern IntPtr GetThreadDesktop([In]uint dwThreadId);
     }
 }
