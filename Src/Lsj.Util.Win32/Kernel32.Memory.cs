@@ -29,6 +29,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the default heap of the calling process.
+        /// This handle can then be used in subsequent calls to the heap functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-getprocessheap
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the calling process's heap.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetProcessHeap"/> function obtains a handle to the default heap for the calling process.
+        /// A process can use this handle to allocate memory from the process heap without having to first create a private heap
+        /// using the <see cref="HeapCreate"/> function.
+        /// Windows Server 2003 and Windows XP:
+        /// To enable the low-fragmentation heap for the default heap of the process,
+        /// call the <see cref="HeapSetInformation"/> function with the handle returned by <see cref="GetProcessHeap"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeap", SetLastError = true)]
+        public static extern IntPtr GetProcessHeap();
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>
