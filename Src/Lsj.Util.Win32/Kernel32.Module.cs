@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32
         /// Therefore, do not pass a handle returned by <see cref="GetModuleHandleEx"/>
         /// with <see cref="GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT"/> to the <see cref="FreeLibrary"/> function.
         /// Doing so can cause a DLL module to be unmapped prematurely.
-        /// If <paramref name="dwFlags"/> contains <see cref="GET_MODULE_HANDLE_EX_UNCHANGED_REFCOUNT"/>,
+        /// If <paramref name="dwFlags"/> contains <see cref="GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT"/>,
         /// this function must be used carefully in a multithreaded application.
         /// There is no guarantee that the module handle remains valid between the time this function returns the handle and the time it is used.
         /// For example, a thread retrieves a module handle, but before it uses the handle, a second thread frees the module.
