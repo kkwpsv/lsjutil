@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -280,5 +281,113 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", SetLastError = true)]
         public static extern uint GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+
+        /// <summary>
+        /// <para>
+        /// Adds a character string to the global atom table and returns a unique value (an atom) identifying the string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaladdatomw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The null-terminated string to be added.
+        /// The string can have a maximum size of 255 bytes.
+        /// Strings that differ only in case are considered identical.
+        /// The case of the first string of this name added to the table is preserved and returned by the <see cref="GlobalGetAtomName"/> function.
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// See the Remarks for more information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the newly created atom.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the string already exists in the global atom table,
+        /// the atom for the existing string is returned and the atom's reference count is incremented.
+        /// The string associated with the atom is not deleted from memory until its reference count is zero.
+        /// For more information, see the <see cref="GlobalDeleteAtom"/> function.
+        /// Global atoms are not deleted automatically when the application terminates.
+        /// For every call to the <see cref="GlobalAddAtom"/> function, there must be a corresponding call to the <see cref="GlobalDeleteAtom"/> function.
+        /// If the <paramref name="lpString"/> parameter has the form "#1234",
+        /// <see cref="GlobalAddAtom"/> returns an integer atom whose value is the 16-bit representation of the decimal number
+        /// specified in the string (0x04D2, in this example).
+        /// If the decimal value specified is 0x0000 or is greater than or equal to 0xC000, the return value is zero, indicating an error.
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
+        /// the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// If the low-order word is not in this range, the function fails.
+        /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtom", SetLastError = true)]
+        public static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a copy of the character string associated with the specified global atom.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalgetatomnamew
+        /// </para>
+        /// </summary>
+        /// <param name="nAtom">
+        /// The global atom associated with the character string to be retrieved.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The buffer for the character string.
+        /// </param>
+        /// <param name="nSize">
+        /// The size, in characters, of the buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer, in characters,
+        /// not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF) is a null-terminated string
+        /// in which the first character is a pound sign (#) and the remaining characters represent the unsigned integer atom value.
+        /// Security Considerations
+        /// Using this function incorrectly might compromise the security of your program.
+        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
+        /// Also, note that a global atom is accessible by anyone; thus, privacy and the integrity of its contents is not assured.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalGetAtomNameW", SetLastError = true)]
+        public static extern uint GlobalGetAtomName([In]ushort nAtom, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]int nSize);
+
+        /// <summary>
+        /// <para>
+        /// Decrements the reference count of a global string atom.
+        /// If the atom's reference count reaches zero, <see cref="GlobalDeleteAtom"/> removes the string associated with the atom
+        /// from the global atom table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldeleteatom
+        /// </para>
+        /// </summary>
+        /// <param name="nAtom">
+        /// The atom and character string to be deleted.
+        /// </param>
+        /// <returns>
+        /// The function always returns (ATOM) 0.
+        /// To determine whether the function has failed,
+        /// call <see cref="SetLastError"/> with <see cref="ERROR_SUCCESS"/> before calling <see cref="GlobalDeleteAtom"/>,
+        /// then call <see cref="GetLastError"/>.
+        /// If the last error code is still <see cref="ERROR_SUCCESS"/>, <see cref="GlobalDeleteAtom"/> has succeeded.
+        /// </returns>
+        /// <remarks>
+        /// A string atom's reference count specifies the number of times the string has been added to the atom table.
+        /// The <see cref="GlobalAddAtom"/> function increments the reference count of a string
+        /// that already exists in the global atom table each time it is called.
+        /// Each call to <see cref="GlobalAddAtom"/> should have a corresponding call to <see cref="GlobalDeleteAtom"/>.
+        /// Do not call <see cref="GlobalDeleteAtom"/> more times than you call <see cref="GlobalAddAtom"/>,
+        /// or you may delete the atom while other clients are using it.
+        /// Applications using Dynamic Data Exchange (DDE) should follow the rules on global atom management to prevent leaks and premature deletion.
+        /// <see cref="GlobalDeleteAtom"/> has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
+        /// The function always returns zero for an integer atom.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalDeleteAtom", SetLastError = true)]
+        public static extern ushort GlobalDeleteAtom([In]uint nAtom);
     }
 }
