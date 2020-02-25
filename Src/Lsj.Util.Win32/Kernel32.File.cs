@@ -33,6 +33,77 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Cancels all pending input and output (I/O) operations that are issued by the calling thread for the specified file.
+        /// The function does not cancel I/O operations that other threads issue for a file handle.
+        /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/fileio/cancelio
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The function cancels all pending I/O operations for this file handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="false"/>.
+        /// The cancel operation for all pending I/O operations issued by the calling thread for the specified file handle was successfully requested.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// If the function fails, the return value is <see langword="true"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If there are any pending I/O operations in progress for the specified file handle, and they are issued by the calling thread,
+        /// the <see cref="CancelIo"/> function cancels them.
+        /// <see cref="CancelIo"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
+        /// this means that you cannot rely on the state of the handle because you cannot know whether the operation was completed successfully or canceled.
+        /// The I/O operations must be issued as overlapped I/O.
+        /// If they are not, the I/O operations do not return to allow the thread to call the <see cref="CancelIo"/> function.
+        /// Calling the <see cref="CancelIo"/> function with a file handle that is not opened with <see cref="FILE_FLAG_OVERLAPPED"/> does nothing.
+        /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
+        /// and all completion notifications for the I/O operations occur normally.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CancelIo([In]IntPtr hFile);
+
+        /// <summary>
+        /// <para>
+        /// Marks any outstanding I/O operations for the specified file handle.
+        /// The function only cancels I/O operations in the current process, regardless of which thread created the I/O operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/fileio/cancelioex-func
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure that contains the data used for asynchronous I/O.
+        /// If this parameter is <see langword="null"/>, all I/O requests for the hFile parameter are canceled.
+        /// If this parameter is not <see langword="null"/>, only those specific I/O requests that were issued for
+        /// the file with the specified <paramref name="lpOverlapped"/> overlapped structure are marked as canceled,
+        /// meaning that you can cancel one or more requests,
+        /// while the <see cref="CancelIo"/> function cancels all outstanding requests on a file handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// The cancel operation for all pending I/O operations issued by the calling process for the specified file handle was successfully requested.
+        /// The application must not free or reuse the <see cref="OVERLAPPED"/> structure associated with the canceled I/O operations
+        /// until they have completed.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If this function cannot find a request to cancel, the return value is <see langword="false"/>,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CancelIoEx([In]IntPtr hFile, [In][Out]ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
         /// Creates a new directory.
         /// If the underlying file system supports security on files and directories,
         /// the function applies a specified security descriptor to the new directory.
