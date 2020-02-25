@@ -3,6 +3,7 @@ using System;
 using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
 using static Lsj.Util.Win32.Enums.FontSmotohingTypes;
 using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.GUIDs.PowerSettingGUIDs;
 using static Lsj.Util.Win32.Shcore;
 using static Lsj.Util.Win32.User32;
 
