@@ -143,6 +143,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the path of the shared Windows directory on a multi-user system.
+        /// This function is provided primarily for compatibility.
+        /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
+        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemwindowsdirectoryw
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the path.
+        /// This path does not end with a backslash unless the Windows directory is the root directory.
+        /// For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows.
+        /// If the system was installed in the root directory of drive C, the path retrieved is C:.
+        /// </param>
+        /// <param name="uSize">
+        /// The maximum size of the buffer specified by the lpBuffer parameter, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer, in TCHARs,
+        /// not including the terminating null character.
+        /// If the length is greater than the size of the buffer, the return value is the size of the buffer required to hold the path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// On a system that is running Terminal Services, each user has a unique Windows directory.
+        /// The system Windows directory is shared by all users,
+        /// so it is the directory where an application should store initialization and help files that apply to all users.
+        /// With Terminal Services, the <see cref="GetSystemWindowsDirectory"/> function retrieves the path of the system Windows directory,
+        /// while the <see cref="GetWindowsDirectory"/> function retrieves the path of a Windows directory that is private for each user.
+        /// On a single-user system, <see cref="GetSystemWindowsDirectory"/> is the same as <see cref="GetWindowsDirectory"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", SetLastError = true)]
+        public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+
+        /// <summary>
+        /// <para>
         /// With the release of Windows 8.1, the behavior of the <see cref="GetVersionEx"/> API has changed in the value
         /// it will return for the operating system version.
         /// The value returned by the <see cref="GetVersionEx"/> function now depends on how the application is manifested.
