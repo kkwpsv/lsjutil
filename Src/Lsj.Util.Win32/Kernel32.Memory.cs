@@ -208,6 +208,102 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a private heap object that can be used by the calling process.
+        /// The function reserves space in the virtual address space of the process and allocates physical storage
+        /// for a specified initial portion of this block.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapcreate
+        /// </para>
+        /// </summary>
+        /// <param name="flOptions">
+        /// The heap allocation options.
+        /// These options affect subsequent access to the new heap through calls to the heap functions.
+        /// This parameter can be 0 or one or more of the following values.
+        /// <see cref="HEAP_CREATE_ENABLE_EXECUTE"/>:
+        /// All memory blocks that are allocated from this heap allow code execution, if the hardware enforces data execution prevention.
+        /// Use this flag heap in applications that run code from the heap.
+        /// If <see cref="HEAP_CREATE_ENABLE_EXECUTE"/> is not specified and an application attempts to run code from a protected page,
+        /// the application receives an exception with the status code <see cref="STATUS_ACCESS_VIOLATION"/>.
+        /// <see cref="HEAP_GENERATE_EXCEPTIONS"/>:
+        /// The system raises an exception to indicate failure (for example, an out-of-memory condition)
+        /// for calls to <see cref="HeapAlloc"/> and <see cref="HeapReAlloc"/> instead of returning <see cref="IntPtr.Zero"/>.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access is not used when the heap functions access this heap.
+        /// This option applies to all subsequent heap function calls.
+        /// Alternatively, you can specify this option on individual heap function calls.
+        /// The low-fragmentation heap(LFH) cannot be enabled for a heap created with this option.
+        /// A heap created with this option cannot be locked.
+        /// For more information about serialized access, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="dwInitialSize">
+        /// The initial size of the heap, in bytes. This value determines the initial amount of memory that is committed for the heap.
+        /// The value is rounded up to a multiple of the system page size.
+        /// The value must be smaller than <paramref name="dwMaximumSize"/>.
+        /// If this parameter is 0, the function commits one page.
+        /// To determine the size of a page on the host computer, use the <see cref="GetSystemInfo"/> function.
+        /// </param>
+        /// <param name="dwMaximumSize">
+        /// The maximum size of the heap, in bytes.
+        /// The <see cref="HeapCreate"/> function rounds <paramref name="dwMaximumSize"/> up to a multiple of the system page size and
+        /// then reserves a block of that size in the process's virtual address space for the heap.
+        /// If allocation requests made by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> functions exceed
+        /// the size specified by <paramref name="dwInitialSize"/>, the system commits additional pages of memory for the heap,
+        /// up to the heap's maximum size.
+        /// If <paramref name="dwMaximumSize"/> is not zero, the heap size is fixed and cannot grow beyond the maximum size.
+        /// Also, the largest memory block that can be allocated from the heap is slightly less than 512 KB for a 32-bit process and
+        /// slightly less than 1,024 KB for a 64-bit process.
+        /// Requests to allocate larger blocks fail, even if the maximum size of the heap is large enough to contain the block.
+        /// If <paramref name="dwMaximumSize"/> is 0, the heap can grow in size. The heap's size is limited only by the available memory.
+        /// Requests to allocate memory blocks larger than the limit for a fixed-size heap do not automatically fail;
+        /// instead, the system calls the <see cref="VirtualAlloc"/> function to obtain the memory that is needed for large blocks.
+        /// Applications that need to allocate large memory blocks should set <paramref name="dwMaximumSize"/> to 0.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly created heap.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapCreate"/> function creates a private heap object from which the calling process can allocate memory blocks
+        /// by using the <see cref="HeapAlloc"/> function.
+        /// The initial size determines the number of committed pages that are allocated initially for the heap.
+        /// The maximum size determines the total number of reserved pages.
+        /// These pages create a block in the process's virtual address space into which the heap can grow.
+        /// If requests by <see cref="HeapAlloc"/> exceed the current size of committed pages,
+        /// additional pages are automatically committed from this reserved space, if the physical storage is available.
+        /// Windows Server 2003 and Windows XP:
+        /// By default, the newly created private heap is a standard heap.
+        /// To enable the low-fragmentation heap, call the <see cref="HeapSetInformation"/> function with a handle to the private heap.
+        /// The memory of a private heap object is accessible only to the process that created it.
+        /// If a dynamic-link library (DLL) creates a private heap, the heap is created in the address space of the process that calls the DLL,
+        /// and it is accessible only to that process.
+        /// The system uses memory from the private heap to store heap support structures,
+        /// so not all of the specified heap size is available to the process.
+        /// For example, if the <see cref="HeapAlloc"/> function requests 64 kilobytes (K) from a heap with a maximum size of 64K,
+        /// the request may fail because of system overhead.
+        /// If <see cref="HEAP_NO_SERIALIZE"/> is not specified (the simple default), the heap serializes access within the calling process.
+        /// Serialization ensures mutual exclusion when two or more threads attempt simultaneously to allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization, but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// The <see cref="HeapLock"/> and <see cref="HeapUnlock"/> functions can be used to block and permit access to a serialized heap.
+        /// Setting <see cref="HEAP_NO_SERIALIZE"/> eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// which may cause corruption in the heap.
+        /// Therefore, <see cref="HEAP_NO_SERIALIZE"/> can safely be used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// If the <see cref="HeapLock"/> and <see cref="HeapUnlock"/> functions are called on a heap created
+        /// with the <see cref="HEAP_NO_SERIALIZE"/> flag, the results are undefined.
+        /// To obtain a handle to the default heap for a process, use the <see cref="GetProcessHeap"/> function.
+        /// To obtain handles to the default heap and private heaps that are active for the calling process,
+        /// use the <see cref="GetProcessHeaps"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", SetLastError = true)]
+        public static extern IntPtr HeapCreate([In]HeapFlags flOptions, [In]IntPtr dwInitialSize, [In]IntPtr dwMaximumSize);
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>

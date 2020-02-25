@@ -24,5 +24,10 @@ namespace Lsj.Util.Win32.Enums
         /// HEAP_ZERO_MEMORY
         /// </summary>
         HEAP_ZERO_MEMORY = 0x00000008,
+
+        /// <summary>
+        /// HEAP_CREATE_ENABLE_EXECUTE
+        /// </summary>
+        HEAP_CREATE_ENABLE_EXECUTE= 0x00040000,
     }
 }
