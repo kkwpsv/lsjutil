@@ -10,6 +10,16 @@ namespace Lsj.Util.Win32
     public static class Constants
     {
         /// <summary>
+        /// ANYSIZE_ARRAY
+        /// </summary>
+        public const int ANYSIZE_ARRAY = 1;
+
+        /// <summary>
+        /// CACHE_FULLY_ASSOCIATIVE
+        /// </summary>
+        public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
+
+        /// <summary>
         /// MAX_PATH
         /// </summary>
         public const int MAX_PATH = 260;

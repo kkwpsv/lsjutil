@@ -4,11 +4,130 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Retrieves information about logical processors and related hardware.
+        /// To retrieve information about logical processors and related hardware, including processor groups,
+        /// use the <see cref="GetLogicalProcessorInformationEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation
+        /// </para>
+        /// </summary>
+        /// <param name="Buffer">
+        /// A pointer to a buffer that receives an array of <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION"/> structures.
+        /// If the function fails, the contents of this buffer are undefined.
+        /// </param>
+        /// <param name="ReturnedLength">
+        /// On input, specifies the length of the buffer pointed to by Buffer, in bytes.
+        /// If the buffer is large enough to contain all of the data, this function succeeds and
+        /// <paramref name="ReturnedLength"/> is set to the number of bytes returned.
+        /// If the buffer is not large enough to contain all of the data, the function fails,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// and <see cref="ReturnLength"/> is set to the buffer length required to contain all of the data.
+        /// If the function fails with an error other than <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// the value of <see cref="ReturnLength"/> is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and
+        /// at least one <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION"/> structure is written to the output buffer.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetLogicalProcessorInformation"/> can be used to get information about the relationship
+        /// between logical processors in the system, including:
+        /// The logical processors that are part of a NUMA node.
+        /// The logical processors that share resources. An example of this type of resource sharing would be hyperthreading scenarios.
+        /// Your application can use this information when affinitizing your threads and processes
+        /// to take best advantage of the hardware properties of the platform,
+        /// or to determine the number of logical and physical processors for licensing purposes.
+        /// Each of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION"/> structures returned in the buffer contains the following:
+        /// A logical processor affinity mask, which indicates the logical processors that the information in the structure applies to.
+        /// A logical processor mask of type <see cref="LOGICAL_PROCESSOR_RELATIONSHIP"/>,
+        /// which indicates the relationship between the logical processors in the mask.
+        /// Applications calling this function must be prepared to handle additional indicator values in the future.
+        /// Note that the order in which the structures are returned in the buffer may change between calls to this function.
+        /// The size of the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION"/> structure varies between processor architectures and versions of Windows.
+        /// For this reason, applications should first call this function to obtain the required buffer size,
+        /// then dynamically allocate memory for the buffer.
+        /// On systems with more than 64 logical processors, the <see cref="GetLogicalProcessorInformation"/> function retrieves
+        /// logical processor information about processors in the processor group to which the calling thread is currently assigned.
+        /// Use the <see cref="GetLogicalProcessorInformationEx"/> function to retrieve information about processors in all processor groups on the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetLogicalProcessorInformation([In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the relationships of logical processors and related hardware.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformationex
+        /// </para>
+        /// </summary>
+        /// <param name="RelationshipType">
+        /// The type of relationship to retrieve.
+        /// This parameter can be one of the following <see cref="LOGICAL_PROCESSOR_RELATIONSHIP"/> values.
+        /// <see cref="RelationCache"/>: Retrieves information about logical processors that share a cache.
+        /// <see cref="RelationNumaNode"/>: Retrieves information about logical processors that are part of the same NUMA node.
+        /// <see cref="RelationProcessorCore"/>: Retrieves information about logical processors that share a single processor core.
+        /// <see cref="RelationProcessorPackage"/>: Retrieves information about logical processors that share a physical package.
+        /// <see cref="RelationGroup"/>: Retrieves information about logical processors that share a processor group.
+        /// <see cref="RelationAll"/>: Retrieves information about logical processors for all relationship types
+        /// (cache, NUMA node, processor core, physical package, and processor group).
+        /// </param>
+        /// <param name="Buffer">
+        /// A pointer to a buffer that receives an array of <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structures.
+        /// If the function fails, the contents of this buffer are undefined.
+        /// </param>
+        /// <param name="ReturnedLength">
+        /// On input, specifies the length of the buffer pointed to by <paramref name="Buffer"/>, in bytes.
+        /// If the buffer is large enough to contain all of the data,
+        /// this function succeeds and <paramref name="ReturnedLength"/> is set to the number of bytes returned.
+        /// If the buffer is not large enough to contain all of the data,
+        /// the function fails, <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// and <paramref name="ReturnedLength"/> is set to the buffer length required to contain all of the data.
+        /// If the function fails with an error other than <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
+        /// the value of <paramref name="ReturnedLength"/> is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and
+        /// at least one <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is written to the output buffer.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a 32-bit process running under WOW64 calls this function on a system with more than 64 processors,
+        /// some of the processor affinity masks returned by the function may be incorrect.
+        /// This is because the high-order DWORD of the 64-bit <see cref="KAFFINITY"/> structure that represents all 64 processors is "folded"
+        /// into a 32-bit <see cref="KAFFINITY"/> structure in the caller's buffer.
+        /// As a result, the affinity masks for processors 32 through 63 are incorrectly represented as duplicates of the masks for processors 0 through 31.
+        /// In addition, the sum of all per-group <see cref="PROCESSOR_GROUP_INFO.ActiveProcessorCount"/> 
+        /// and <see cref="PROCESSOR_GROUP_INFO.MaximumProcessorCount"/> values
+        /// reported in <see cref="PROCESSOR_GROUP_INFO"/> structures may exclude some active logical processors.
+        /// When this function is called with a relationship type of <see cref="RelationProcessorCore"/>,
+        /// it returns a <see cref="PROCESSOR_RELATIONSHIP"/> structure for every active processor core in every processor group in the system.
+        /// This is by design, because an unaffinitized 32-bit thread can run on any logical processor in a given group,
+        /// including processors 32 through 63.
+        /// A 32-bit caller can use the total count of <see cref="PROCESSOR_RELATIONSHIP"/> structures to determine the actual number
+        /// of active processor cores on the system.
+        /// However, the affinity of a 32-bit thread cannot be explicitly set to logical processor 32 through 63 of any processor group.
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetLogicalProcessorInformationEx([In]LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
+            [In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
+
         /// <summary>
         /// <para>
         /// Retrieves the product type for the operating system on the local computer,
