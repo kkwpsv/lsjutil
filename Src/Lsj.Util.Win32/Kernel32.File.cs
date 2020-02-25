@@ -1773,6 +1773,113 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the actual number of bytes of disk storage used to store a specified file.
+        /// If the file is located on a volume that supports compression and the file is compressed,
+        /// the value obtained is the compressed size of the specified file.
+        /// If the file is located on a volume that supports sparse files and the file is a sparse file,
+        /// the value obtained is the sparse size of the specified file.
+        /// To perform this operation as a transacted operation, use the <see cref="GetCompressedFileSizeTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getcompressedfilesizew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// Do not specify the name of a file on a nonseeking device, such as a pipe or a communications device, as its file size has no meaning.
+        /// This parameter may include the path. In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="GetCompressedFileSize"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// The high-order DWORD of the compressed file size.
+        /// The function's return value is the low-order DWORD of the compressed file size.
+        /// This parameter can be NULL if the high-order DWORD of the compressed file size is not needed.
+        /// Files less than 4 gigabytes in size do not need the high-order DWORD.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order DWORD of the actual number of bytes of disk storage
+        /// used to store the specified file, and if <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the function puts the high-order DWORD of that actual value into the DWORD pointed to by that parameter.
+        /// This is the compressed file size for compressed files, the actual file size for noncompressed files.
+        /// If the function fails, and <paramref name="lpFileSizeHigh"/> is <see langword="null"/>, the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the return value is <see cref="INVALID_FILE_SIZE"/> and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded (value is <see cref="NO_ERROR"/>)
+        /// or failed (value is other than <see cref="NO_ERROR"/>).
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a volume is compressed by calling <see cref="GetVolumeInformation"/>,
+        /// then checking the status of the <see cref="FS_VOL_IS_COMPRESSED"/> flag in the DWORD value pointed to by
+        /// that function's lpFileSystemFlags parameter.
+        /// If the file is not located on a volume that supports compression or sparse files, or if the file is not compressed or a sparse file,
+        /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns the file size of the target.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeW", SetLastError = true)]
+        public static extern uint GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [Out]out uint lpFileSizeHigh);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the actual number of bytes of disk storage used to store a specified file as a transacted operation.
+        /// If the file is located on a volume that supports compression and the file is compressed,
+        /// the value obtained is the compressed size of the specified file.
+        /// If the file is located on a volume that supports sparse files and the file is a sparse file,
+        /// the value obtained is the sparse size of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcompressedfilesizetransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// Do not specify the name of a file on a nonseeking device, such as a pipe or a communications device, as its file size has no meaning.
+        /// The file must reside on the local computer; otherwise, the function fails and
+        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// A pointer to a variable that receives the high-order DWORD of the compressed file size.
+        /// The function's return value is the low-order DWORD of the compressed file size.
+        /// This parameter can be <see langword="null"/> if the high-order DWORD of the compressed file size is not needed.
+        /// Files less than 4 gigabytes in size do not need the high-order DWORD.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order DWORD of the actual number of bytes of disk storage
+        /// used to store the specified file, and if <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the function puts the high-order DWORD of that actual value into the DWORD pointed to by that parameter.
+        /// This is the compressed file size for compressed files, the actual file size for noncompressed files.
+        /// If the function fails, and <paramref name="lpFileSizeHigh"/> is <see langword="null"/>,
+        /// the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the return value is <see cref="INVALID_FILE_SIZE"/> and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded
+        /// (value is <see cref="NO_ERROR"/>) or failed (value is other than <see cref="NO_ERROR"/>).
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a volume is compressed by calling <see cref="GetVolumeInformation"/>,
+        /// then checking the status of the <see cref="FS_VOL_IS_COMPRESSED"/> flag in the DWORD value pointed to
+        /// by that function's lpFileSystemFlags parameter.
+        /// If the file is not located on a volume that supports compression or sparse files, or if the file is not compressed or a sparse file,
+        /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
+        /// Symbolic links:  If the path points to a symbolic link, the function returns the file size of the target.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeTransactedW", SetLastError = true)]
+        public static extern uint GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [Out]out uint lpFileSizeHigh, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
         /// Retrieves file system attributes for a specified file or directory.
         /// To get more attribute information, use the <see cref="GetFileAttributesEx"/> function.
         /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
@@ -2028,6 +2135,80 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileInformationByHandleEx([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
             [Out]out IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of the specified file, in bytes.
+        /// It is recommended that you use <see cref="GetFileSizeEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesize
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// A pointer to the variable where the high-order doubleword of the file size is returned.
+        /// This parameter can be <see langword="null"/> if the application does not require the high-order doubleword.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order doubleword of the file size, and,
+        /// if <paramref name="lpFileSizeHigh"/> is non-NULL, the function puts the high-order doubleword of the file size
+        /// into the variable pointed to by that parameter.
+        /// If the function fails and <paramref name="lpFileSizeHigh"/> is NULL, the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// When <paramref name="lpFileSizeHigh"/> is NULL, the results returned for large files are ambiguous,
+        /// and you will not be able to determine the actual size of the file.
+        /// It is recommended that you use <see cref="GetFileSizeEx"/> instead.
+        /// If the function fails and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the return value is <see cref="INVALID_FILE_SIZE"/> and <see cref="GetLastError"/> will return a value other than <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// You cannot use the <see cref="GetFileSize"/> function with a handle of a nonseeking device such as a pipe or a communications device.
+        /// To determine the file type for <paramref name="hFile"/>, use the <see cref="GetFileType"/> function.
+        /// The <see cref="GetFileSize"/> function retrieves the uncompressed size of a file.
+        /// Use the <see cref="GetCompressedFileSize"/> function to obtain the compressed size of a file.
+        /// Note that if the return value is <see cref="INVALID_FILE_SIZE"/>,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded or failed.
+        /// The reason the function may appear to fail when it has not is that <paramref name="lpFileSizeHigh"/> could be non-NULL
+        /// or the file size could be 0xffffffff.
+        /// In this case, <see cref="GetLastError"/> will return <see cref="NO_ERROR"/> upon success.
+        /// Because of this behavior, it is recommended that you use <see cref="GetFileSizeEx"/> instead.
+        /// Transacted Operations:  If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSize", SetLastError = true)]
+        public static extern uint GetFileSize([In]IntPtr hFile, [Out]out uint lpFileSizeHigh);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesizeex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The handle must have been created with the <see cref="FILE_READ_ATTRIBUTES"/> access right or equivalent,
+        /// or the caller must have sufficient permission on the directory that contains the file.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpFileSize">
+        /// A pointer to a <see cref="LARGE_INTEGER"/> structure that receives the file size, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Transacted Operations:
+        /// If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSizeEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileSizeEx([In]IntPtr hFile, [Out]out LARGE_INTEGER lpFileSize);
 
         /// <summary>
         /// <para>
