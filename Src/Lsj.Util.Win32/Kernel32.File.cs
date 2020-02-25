@@ -5,12 +5,14 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
+using static Lsj.Util.Win32.Enums.FileTypes;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
@@ -18,7 +20,6 @@ using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Ktmw32;
 
 namespace Lsj.Util.Win32
@@ -2261,6 +2262,28 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
             [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the file type of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletype
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <returns>
+        /// You can distinguish between a "valid" return of <see cref="FILE_TYPE_UNKNOWN"/> and its return due to a calling error
+        /// (for example, passing an invalid handle to <see cref="GetFileType"/>) by calling <see cref="GetLastError"/>.
+        /// If the function worked properly and <see cref="FILE_TYPE_UNKNOWN"/> was returned,
+        /// a call to <see cref="GetLastError"/> will return <see cref="NO_ERROR"/>.
+        /// If the function returned <see cref="FILE_TYPE_UNKNOWN"/> due to an error in calling <see cref="GetFileType"/>,
+        /// <see cref="GetLastError"/> will return the error code.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileType", SetLastError = true)]
+        public static extern FileTypes GetFileType([In]IntPtr hFile);
 
         /// <summary>
         /// <para>
