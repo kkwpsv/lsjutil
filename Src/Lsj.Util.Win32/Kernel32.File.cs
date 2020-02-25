@@ -2288,7 +2288,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
-        /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandle"/> function.
+        /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
         /// </para>
         /// <para>
@@ -2370,6 +2370,67 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
             [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the file system and volume associated with the specified file.
+        /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpVolumeNameBuffer">
+        /// A pointer to a buffer that receives the name of a specified volume.
+        /// The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// </param>
+        /// <param name="nVolumeNameSize">
+        /// The length of a volume name buffer, in WCHARs.
+        /// The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the volume name buffer is not supplied.
+        /// </param>
+        /// <param name="lpVolumeSerialNumber">
+        /// A pointer to a variable that receives the volume serial number.
+        /// This parameter can be <see langword="null"/> if the serial number is not required.
+        /// This function returns the volume serial number that the operating system assigns when a hard disk is formatted.
+        /// To programmatically obtain the hard disk's serial number that the manufacturer assigns,
+        /// use the Windows Management Instrumentation (WMI) Win32_PhysicalMedia property SerialNumber.
+        /// </param>
+        /// <param name="lpMaximumComponentLength">
+        /// A pointer to a variable that receives the maximum length, in WCHARs, of a file name component that a specified file system supports.
+        /// A file name component is the portion of a file name between backslashes.
+        /// The value that is stored in the variable that <paramref name="lpMaximumComponentLength"/> points to is used to indicate
+        /// that a specified file system supports long names.
+        /// For example, for a FAT file system that supports long names, the function stores the value 255, rather than the previous 8.3 indicator.
+        /// Long names can also be supported on systems that use the NTFS file system.
+        /// </param>
+        /// <param name="lpFileSystemFlags">
+        /// A pointer to a variable that receives flags associated with the specified file system.
+        /// This parameter can be one or more of <see cref="FileSystemFlags"/>.
+        /// However, <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> are mutually exclusive.
+        /// </param>
+        /// <param name="lpFileSystemNameBuffer">
+        /// A pointer to a buffer that receives the name of the file system, for example, the FAT file system or the NTFS file system.
+        /// The buffer size is specified by the <paramref name="nFileSystemNameSize"/> parameter.
+        /// </param>
+        /// <param name="nFileSystemNameSize">
+        /// The length of the file system name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the file system name buffer is not supplied.
+        /// </param>
+        /// <returns>
+        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
+        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationByHandleW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeInformationByHandleW([In]IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer,
+            [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber, [Out]out uint lpMaximumComponentLength,
+            [Out]out FileSystemFlags lpFileSystemFlags, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer,
+            [In]uint nFileSystemNameSize);
 
         /// <summary>
         /// <para>
