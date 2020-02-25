@@ -1,10 +1,13 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Extensions;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Mswsock;
 
@@ -12,6 +15,98 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Cancels all pending input and output (I/O) operations that are issued by the calling thread for the specified file.
+        /// The function does not cancel I/O operations that other threads issue for a file handle.
+        /// To cancel I/O operations from another thread, use the <see cref="CancelIoEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-cancelio
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The function cancels all pending I/O operations for this file handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="false"/>.
+        /// The cancel operation for all pending I/O operations issued by the calling thread for the specified file handle was successfully requested.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// If the function fails, the return value is <see langword="true"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If there are any pending I/O operations in progress for the specified file handle, and they are issued by the calling thread,
+        /// the <see cref="CancelIo"/> function cancels them.
+        /// <see cref="CancelIo"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
+        /// this means that you cannot rely on the state of the handle because you cannot know whether the operation was completed successfully or canceled.
+        /// The I/O operations must be issued as overlapped I/O.
+        /// If they are not, the I/O operations do not return to allow the thread to call the <see cref="CancelIo"/> function.
+        /// Calling the <see cref="CancelIo"/> function with a file handle that is not opened with <see cref="FILE_FLAG_OVERLAPPED"/> does nothing.
+        /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
+        /// and all completion notifications for the I/O operations occur normally.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CancelIo([In]IntPtr hFile);
+
+        /// <summary>
+        /// <para>
+        /// Marks any outstanding I/O operations for the specified file handle.
+        /// The function only cancels I/O operations in the current process, regardless of which thread created the I/O operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-cancelioex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure that contains the data used for asynchronous I/O.
+        /// If this parameter is <see langword="null"/>, all I/O requests for the hFile parameter are canceled.
+        /// If this parameter is not <see langword="null"/>, only those specific I/O requests that were issued for
+        /// the file with the specified <paramref name="lpOverlapped"/> overlapped structure are marked as canceled,
+        /// meaning that you can cancel one or more requests,
+        /// while the <see cref="CancelIo"/> function cancels all outstanding requests on a file handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// The cancel operation for all pending I/O operations issued by the calling process for the specified file handle was successfully requested.
+        /// The application must not free or reuse the <see cref="OVERLAPPED"/> structure associated with the canceled I/O operations
+        /// until they have completed.
+        /// The thread can use the <see cref="GetOverlappedResult"/> function to determine when the I/O operations themselves have been completed.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If this function cannot find a request to cancel, the return value is <see langword="false"/>,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CancelIoEx"/> function allows you to cancel requests in threads other than the calling thread.
+        /// The <see cref="CancelIo"/> function only cancels requests in the same thread that called the <see cref="CancelIo"/> function.
+        /// <see cref="CancelIoEx"/> cancels only outstanding I/O on the handle, it does not change the state of the handle;
+        /// this means that you cannot rely on the state of the handle because you cannot know whether the operation was completed successfully or canceled.
+        /// If there are any pending I/O operations in progress for the specified file handle,
+        /// the <see cref="CancelIoEx"/> function marks them for cancellation.
+        /// Most types of operations can be canceled immediately;
+        /// other operations can continue toward completion before they are actually canceled and the caller is notified.
+        /// The <see cref="CancelIoEx"/> function does not wait for all canceled operations to complete.
+        /// If the file handle is associated with a completion port,
+        /// an I/O completion packet is not queued to the port if a synchronous operation is successfully canceled.
+        /// For asynchronous operations still pending, the cancel operation will queue an I/O completion packet.
+        /// The operation being canceled is completed with one of three statuses;
+        /// you must check the completion status to determine the completion state.The three statuses are:
+        /// The operation completed normally.
+        /// This can occur even if the operation was canceled, because the cancel request might not have been submitted in time to cancel the operation.
+        /// The operation was canceled.
+        /// The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CancelIoEx([In]IntPtr hFile, [In][Out]ref OVERLAPPED lpOverlapped);
+
         /// <summary>
         /// <para>
         /// Creates an input/output (I/O) completion port and associates it with a specified file handle,
@@ -492,5 +587,28 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetQueuedCompletionStatusEx([In]IntPtr CompletionPort, [In]IntPtr lpCompletionPortEntries, [In]uint ulCount,
             [Out]out uint ulNumEntriesRemoved, [In]uint dwMilliseconds, [In]bool fAlertable);
+
+        /// <summary>
+        /// <para>
+        /// Provides a high performance test operation that can be used to poll for the completion of an outstanding I/O operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-hasoverlappediocompleted
+        /// </para>
+        /// </summary>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that was specified when the overlapped I/O operation was started.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Do not call this macro unless the call to <see cref="GetLastError"/> returns <see cref="ERROR_IO_PENDING"/>,
+        /// indicating that the overlapped I/O has started.
+        /// To cancel all pending asynchronous I/O operations, use the <see cref="CancelIo"/> function.
+        /// The <see cref="CancelIo"/> function only cancels operations issued by the calling thread for the specified file handle.
+        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// To get more details about a completed I/O operation,
+        /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
+        /// </remarks>
+        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => lpOverlapped.Internal.SafeToUInt32() != (uint)STATUS_PENDING;
     }
 }
