@@ -152,7 +152,7 @@ namespace Lsj.Util.Win32
         /// If the function fails and you have specified <see cref="HEAP_GENERATE_EXCEPTIONS"/>,
         /// the function may generate either of the exceptions listed in the following table.
         /// The particular exception depends upon the nature of the heap corruption.
-        /// For more information, see <see cref="GetExceptionCode"/>.
+        /// For more information, see <see cref="Marshal.GetExceptionCode"/>.
         /// <see cref="STATUS_NO_MEMORY"/>: The allocation attempt failed because of a lack of available memory or heap corruption.
         /// <see cref="STATUS_ACCESS_VIOLATION"/>: The allocation attempt failed because of heap corruption or improper function parameters.
         /// If the function fails, it does not call <see cref="SetLastError"/>.
