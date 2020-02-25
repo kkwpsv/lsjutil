@@ -194,5 +194,53 @@ namespace Lsj.Util.Win32
         public static extern bool GetVersionEx(
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<OSVERSIONINFO, OSVERSIONINFOEX>))]
           [In]AlternativeStructObject<OSVERSIONINFO, OSVERSIONINFOEX> lpVersionInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the path of the Windows directory.
+        /// This function is provided primarily for compatibility with legacy applications.
+        /// New applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
+        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the path.
+        /// This path does not end with a backslash unless the Windows directory is the root directory.
+        /// For example, if the Windows directory is named Windows on drive C, the path of the Windows directory retrieved by this function is C:\Windows.
+        /// If the system was installed in the root directory of drive C, the path retrieved is C:.
+        /// </param>
+        /// <param name="uSize">
+        /// The maximum size of the buffer specified by the lpBuffer parameter, in TCHARs.
+        /// This value should be set to <see cref="MAX_PATH"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer, in TCHARs,
+        /// not including the terminating null character.
+        /// If the length is greater than the size of the buffer, the return value is the size of the buffer required to hold the path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The Windows directory is the directory where some legacy applications store initialization and help files.
+        /// New applications should not store files in the Windows directory;
+        /// instead, they should store system-wide data in the application's installation directory, and user-specific data in the user's profile.
+        /// If the user is running a shared version of the system, the Windows directory is guaranteed to be private for each user.
+        /// If an application creates other files that it wants to store on a per-user basis,
+        /// it should place them in the directory specified by the HOMEPATH environment variable.
+        /// This directory will be different for each user, if so specified by an administrator, through the User Manager administrative tool.
+        /// HOMEPATH always specifies either the user's home directory, which is guaranteed to be private for each user, or a default directory
+        /// (for example, C:\USERS\DEFAULT) where the user will have all access.
+        /// Terminal Services:
+        /// If the application is running in a Terminal Services environment, each user has a private Windows directory.
+        /// There is also a shared Windows directory for the system.
+        /// If the application is Terminal-Services-aware (has the <see cref="IMAGE_DLLCHARACTERISTICS_TERMINAL_SERVER_AWARE"/> flag set in the image header),
+        /// this function returns the path of the system Windows directory, just as the <see cref="GetSystemWindowsDirectory"/> function does.
+        /// Otherwise, it retrieves the path of the private Windows directory for the user.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", SetLastError = true)]
+        public static extern uint GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
     }
 }
