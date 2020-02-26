@@ -1,7 +1,9 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.FacilityCodes;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
@@ -203,6 +205,21 @@ namespace Lsj.Util.Win32
         /// To convert a system error into an HRESULT value, use the <see cref="HRESULT_FROM_WIN32"/> macro.
         /// </remarks>
         public static SystemErrorCodes GetLastError() => (SystemErrorCodes)Marshal.GetLastWin32Error();
+
+        /// <summary>
+        /// <para>
+        /// Maps a system error code to an <see cref="HRESULT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-hresult_from_win32
+        /// </para>
+        /// </summary>
+        /// <param name="x">
+        /// The system error code.
+        /// </param>
+        /// <returns></returns>
+        public static HRESULT HRESULT_FROM_WIN32(SystemErrorCodes x) =>
+            unchecked((int)x) <= 0 ? (HRESULT)(uint)x : (HRESULT)((((uint)x) & 0x0000FFFF) | ((int)FACILITY_WIN32 << 16) | 0x80000000);
 
         /// <summary>
         /// <para>
