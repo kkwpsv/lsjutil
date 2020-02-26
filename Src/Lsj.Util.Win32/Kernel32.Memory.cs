@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
@@ -660,6 +661,56 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapUnlock([In]IntPtr hHeap);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the memory blocks in the specified heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapwalk
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A pointer to a <see cref="PROCESS_HEAP_ENTRY"/> structure that maintains state information for a particular heap enumeration.
+        /// </param>
+        /// <param name="lpEntry">
+        /// If the <see cref="HeapWalk"/> function succeeds, returning the value <see langword="true"/>,
+        /// this structure's members contain information about the next memory block in the heap.
+        /// To initiate a heap enumeration, set the <see cref="PROCESS_HEAP_ENTRY.lpData"/> field
+        /// of the <see cref="PROCESS_HEAP_ENTRY"/> structure to <see cref="IntPtr.Zero"/>.
+        /// To continue a particular heap enumeration, call the <see cref="HeapWalk"/> function repeatedly,
+        /// with no changes to <see cref="PROCESS_HEAP_ENTRY.hHeap"/>, <see cref="PROCESS_HEAP_ENTRY.lpEntry"/>,
+        /// or any of the members of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the heap enumeration terminates successfully by reaching the end of the heap, the function returns <see langword="false"/>,
+        /// and <see cref="GetLastError"/> returns the error code <see cref="ERROR_NO_MORE_ITEMS"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapWalk"/> function is primarily useful for debugging because enumerating a heap is a potentially time-consuming operation.
+        /// Locking the heap during enumeration blocks other threads from accessing the heap and can degrade performance, 
+        /// especially on symmetric multiprocessing (SMP) computers.
+        /// The side effects can last until the heap is unlocked.
+        /// Use the <see cref="HeapLock"/> and <see cref="HeapUnlock"/> functions to control heap locking during heap enumeration.
+        /// To initiate a heap enumeration, call <see cref="PROCESS_HEAP_ENTRY"/>
+        /// with the <see cref="PROCESS_HEAP_ENTRY.lpData"/> field of the <see cref="PROCESS_HEAP_ENTRY"/> structure pointed to
+        /// by <paramref name="lpEntry"/> set to <see cref="IntPtr.Zero"/>.
+        /// To continue a heap enumeration, call <see cref="HeapWalk"/> with the same <see cref="PROCESS_HEAP_ENTRY.hHeap"/>
+        /// and <see cref="PROCESS_HEAP_ENTRY.lpEntry"/> values, and with the <see cref="PROCESS_HEAP_ENTRY"/> structure unchanged
+        /// from the preceding call to <see cref="HeapWalk"/>.
+        /// Repeat this process until you have no need for further enumeration, or until the function returns <see langword="false"/>
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NO_MORE_ITEMS"/>,
+        /// indicating that all of the heap's memory blocks have been enumerated.
+        /// No special call of <see cref="HeapWalk"/> is needed to terminate the heap enumeration,
+        /// since no enumeration state data is maintained outside the contents of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
+        /// <see cref="HeapWalk"/> can fail in a multithreaded application if the heap is not locked during the heap enumeration.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapWalk([In]IntPtr hHeap, [In][Out]ref PROCESS_HEAP_ENTRY lpEntry);
 
         /// <summary>
         /// <para>
