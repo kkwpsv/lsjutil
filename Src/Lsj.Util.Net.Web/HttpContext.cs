@@ -49,14 +49,13 @@ namespace Lsj.Util.Net.Web
         Disposing,
 
     }
+
     /// <summary>
     /// HttpContext
     /// </summary>
     /// 
     internal class HttpContext : DisposableClass, IContext, IDisposable
     {
-
-
         /// <summary>
         /// Create a Context
         /// </summary>
@@ -68,80 +67,86 @@ namespace Lsj.Util.Net.Web
         {
             return new HttpContext(socket, log, server);
         }
-        static ObjectPool<byte[]> buffers = new ObjectPool<byte[]>(() => new byte[10240]);//10K
+
+        static ObjectPool<byte[]> _buffers = new ObjectPool<byte[]>(() => new byte[10240]);//10K
+
         protected HttpContext(Socket socket, LogProvider log, WebServer server)
         {
-            this.socket = socket;
-            this.Log = log;
-            this.buffer = buffers.Dequeue();
-            this.server = server;
+            _socket = socket;
+            Log = log;
+            _server = server;
+            _buffer = _buffers.Dequeue();
         }
 
-        Socket socket;
+        Socket _socket;
         public LogProvider Log
         {
             get;
             private set;
         }
-        byte[] buffer;
+        byte[] _buffer;
 
         MemoryStream content;
 
-        WebServer server;
+        WebServer _server;
 
         public IHttpRequest Request
         {
             get;
             private set;
         }
+
         public IHttpResponse Response
         {
             get;
             private set;
         }
+
         public ContextStatus Status
         {
             get;
             private set;
         } = ContextStatus.Created;
-        bool IsTimeOut = false;
+
+        bool _IsTimeOut = false;
 
 
         public void Start() => Read();
+
         void Read()
         {
-            this.Request = new HttpRequest();
-            ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
-            this.Stream = CreateStream(socket);
+            Request = new HttpRequest();
+            ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)_socket.RemoteEndPoint).Address.ToString();
+            this.Stream = CreateStream(_socket);
             this.Status = ContextStatus.Listening;
 
 #if NET40
-            this.Stream.BeginRead(buffer, OnReceived);
+            this.Stream.BeginRead(_buffer, OnReceived);
             this.ReceiveTimer = new Timer(60 * 1000);
             ReceiveTimer.AutoReset = false;
             ReceiveTimer.Elapsed += (o, e) =>
             {
                 if (!Request.IsReadFinish)
                 {
-                    this.IsTimeOut = true;
+                    this._IsTimeOut = true;
                     this.Status = ContextStatus.Processing;
-                    this.Response = ErrorHelper.Build(408, 0, this.server.Name);
+                    this.Response = ErrorHelper.Build(408, 0, this._server.Name);
                     this.DoResponse();
                 }
             };
 #else
             new Thread(() =>
             {
-                var read = this.Stream.Read(buffer, 0, buffer.Length);
+                var read = this.Stream.Read(_buffer, 0, _buffer.Length);
                 OnReceived(read);
             }).Start();
             this.ReceiveTimer = new Timer((o) =>
             {
                 if (!Request.IsReadFinish)
                 {
-                    this.IsTimeOut = true;
+                    this._IsTimeOut = true;
                     this.Status = ContextStatus.Processing;
-                    this.Response = ErrorHelper.Build(408, 0, this.server.Name);
+                    this.Response = ErrorHelper.Build(408, 0, this._server.Name);
                     this.DoResponse();
                 }
             }, null, 60 * 1000, Timeout.Infinite);
@@ -164,7 +169,7 @@ namespace Lsj.Util.Net.Web
         void OnReceived(int byteleft)
 #endif
         {
-            if (IsTimeOut)
+            if (_IsTimeOut)
             {
                 return;
             }
@@ -180,7 +185,7 @@ namespace Lsj.Util.Net.Web
                 if (byteleft == 0)//如果未读取到。。断开连接
                 {
 
-                    this.socket.Disconnect();
+                    this._socket.Disconnect();
                     this.Status = ContextStatus.Disposing;
                     return;
                 }
@@ -207,19 +212,19 @@ namespace Lsj.Util.Net.Web
 
 
 
-                        content.Write(buffer, read, byteleft);//写入Content
+                        content.Write(_buffer, read, byteleft);//写入Content
 
                         if (contentread < x)
                         {
 #if NETSTANDARD
                             new Thread(() =>
                             {
-                                var aa = this.Stream.Read(buffer, 0, buffer.Length);
+                                var aa = this.Stream.Read(_buffer, 0, _buffer.Length);
                                 OnReceivedContent(aa);
                             }).Start();
 #else
                             //如果未读取完继续读取
-                            Stream.BeginRead(buffer, OnReceivedContent);
+                            Stream.BeginRead(_buffer, OnReceivedContent);
 #endif
                         }
                         else
@@ -238,11 +243,11 @@ namespace Lsj.Util.Net.Web
                     //如果未收完Header
                     Move(read, byteleft);//移动
 #if NET40
-                    Stream.BeginRead(buffer, byteleft, OnReceived);//继续读取
+                    Stream.BeginRead(_buffer, byteleft, OnReceived);//继续读取
 #else
                     new Thread(() =>
                     {
-                        var aa = this.Stream.Read(buffer, byteleft, buffer.Length);
+                        var aa = this.Stream.Read(_buffer, byteleft, _buffer.Length);
                         OnReceived(aa);
                     }).Start();
 #endif
@@ -263,7 +268,7 @@ namespace Lsj.Util.Net.Web
         void OnReceivedContent(IAsyncResult ar)
 #endif
         {
-            if (IsTimeOut)
+            if (_IsTimeOut)
             {
                 return;
             }
@@ -284,7 +289,7 @@ namespace Lsj.Util.Net.Web
 
             //写入
             contentread += read;
-            content.Write(buffer, 0, read);
+            content.Write(_buffer, 0, read);
 
             if (contentread < len)
             {
@@ -292,11 +297,11 @@ namespace Lsj.Util.Net.Web
 #if NETSTANDARD
                 new Thread(() =>
                 {
-                    var aa = this.Stream.Read(buffer, 0, buffer.Length);
+                    var aa = this.Stream.Read(_buffer, 0, _buffer.Length);
                     OnReceivedContent(aa);
                 }).Start();
 #else
-                Stream.BeginRead(buffer, OnReceivedContent);
+                Stream.BeginRead(_buffer, OnReceivedContent);
 #endif
             }
             else
@@ -308,25 +313,25 @@ namespace Lsj.Util.Net.Web
         }
         void Move(int offset, int length)
         {
-            UnsafeHelper.Copy(buffer, offset, buffer, 0, length);
+            UnsafeHelper.Copy(_buffer, offset, _buffer, 0, length);
         }
         bool Parse(int length, ref int read)
         {
-            return Request.Read(buffer, 0, length, ref read);
+            return Request.Read(_buffer, 0, length, ref read);
         }
 
 
         void Process()
         {
             this.Status = ContextStatus.Processing;
-            server.OnParsed(this);
+            _server.OnParsed(this);
             if (Request.IsError)
             {
-                this.Response = ErrorHelper.Build(Request.ErrorCode, Request.ExtraErrorCode, this.server.Name);
+                this.Response = ErrorHelper.Build(Request.ErrorCode, Request.ExtraErrorCode, this._server.Name);
             }
             else
             {
-                this.Response = server.OnProcess(this);
+                this.Response = _server.OnProcess(this);
 
             }
             DoResponse();
@@ -341,7 +346,7 @@ namespace Lsj.Util.Net.Web
                 this.ReceiveTimer = null;
             }
             this.Status = ContextStatus.Sending;
-            Response.Headers.Add(HttpHeader.Server, this.server.Name);
+            Response.Headers.Add(HttpHeader.Server, this._server.Name);
             var a = Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII).ToList().Concat(this.Response.Content.ReadAll()).Concat(new byte[] { ASCIIChar.CR, ASCIIChar.LF }).ToArray();
 
 #if NET40
@@ -356,14 +361,14 @@ namespace Lsj.Util.Net.Web
                         KeepaliveTimer.AutoReset = false;
                         KeepaliveTimer.Elapsed += (o, e) =>
                         {
-                            this.socket.Close();
+                            this._socket.Close();
                             this.Status = ContextStatus.Disposing;
                         };
                         this.Read();
                     }
                     else
                     {
-                        this.socket.Close();
+                        this._socket.Close();
                         this.Status = ContextStatus.Disposing;
                     }
                 }
@@ -385,14 +390,14 @@ namespace Lsj.Util.Net.Web
                     {
                         this.KeepaliveTimer = new Timer((o) =>
                         {
-                            this.socket.Shutdown();
+                            this._socket.Shutdown();
                             this.Status = ContextStatus.Disposing;
                         }, null, 120 * 1000, Timeout.Infinite);
                         this.Read();
                     }
                     else
                     {
-                        this.socket.Shutdown();
+                        this._socket.Shutdown();
                         this.Status = ContextStatus.Disposing;
                     }
                 }
@@ -403,15 +408,15 @@ namespace Lsj.Util.Net.Web
                 catch (SocketException)
                 {
                 }
-            }).Start();            
+            }).Start();
 #endif
 
         }
 
         protected override void CleanUpManagedResources()
         {
-            buffers.Enqueue(buffer);
-            if (socket == null)
+            _buffers.Enqueue(_buffer);
+            if (_socket == null)
             {
                 return;
             }
@@ -429,8 +434,8 @@ namespace Lsj.Util.Net.Web
                 }
                 try
                 {
-                    socket.Dispose();
-                    socket = null;
+                    _socket.Dispose();
+                    _socket = null;
                 }
                 catch (SocketException se)
                 {
