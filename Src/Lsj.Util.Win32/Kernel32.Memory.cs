@@ -420,7 +420,7 @@ namespace Lsj.Util.Win32
         /// Such threads will remain blocked until the thread that owns the heap lock calls the <see cref="HeapUnlock"/> function.
         /// The <see cref="HeapLock"/> function is primarily useful for preventing the allocation and
         /// release of heap memory by other threads while the calling thread uses the <see cref="HeapWalk"/> function.
-        /// If the <see cref="HeapLock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZATION"/> flag, the results are undefined.
+        /// If the <see cref="HeapLock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZE"/> flag, the results are undefined.
         /// Each successful call to <see cref="HeapLock"/> must be matched by a corresponding call to <see cref="HeapUnlock"/>.
         /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
         /// </remarks>
