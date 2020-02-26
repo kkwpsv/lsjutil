@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
@@ -339,6 +340,62 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", SetLastError = true)]
         public static extern IntPtr HeapCreate([In]HeapFlags flOptions, [In]IntPtr dwInitialSize, [In]IntPtr dwMaximumSize);
+
+        /// <summary>
+        /// <para>
+        /// Frees a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapfree
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap whose memory block is to be freed.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap free options.
+        /// Specifying the following value overrides the corresponding value specified in the flOptions parameter 
+        /// when the heap was created by using the <see cref="HeapCreate"/> function.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used. For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function,
+        /// specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// Do not specify this value when accessing the process heap.
+        /// The system may create additional threads within the application's process,
+        /// such as a CTRL+C handler, that simultaneously access the process heap.
+        /// </param>
+        /// <param name="lpMem">
+        /// A pointer to the memory block to be freed.
+        /// This pointer is returned by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// If this pointer is <see cref="IntPtr.Zero"/>, the behavior is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// An application can call <see cref="GetLastError"/> for extended error information.
+        /// </returns>
+        /// <remarks>
+        /// You should not refer in any way to memory that has been freed by <see cref="HeapFree"/>.
+        /// After that memory is freed, any information that may have been in it is gone forever.
+        /// If you require information, do not free memory containing the information.
+        /// Function calls that return information about memory (such as HeapSize) may not be used with freed memory, as they may return bogus data.
+        /// Calling <see cref="HeapFree"/> twice with the same pointer can cause heap corruption,
+        /// resulting in subsequent calls to <see cref="HeapAlloc"/> returning the same pointer twice.
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization, but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapFree([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem);
 
         /// <summary>
         /// <para>
