@@ -429,6 +429,62 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapqueryinformation
+        /// </para>
+        /// </summary>
+        /// <param name="HeapHandle">
+        /// A handle to the heap whose information is to be retrieved.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="HeapInformationClass">
+        /// The class of information to be retrieved.
+        /// This parameter can be the following value from the <see cref="HEAP_INFORMATION_CLASS"/> enumeration type.
+        /// <see cref="HeapCompatibilityInformation"/>:
+        /// Indicates the heap features that are enabled.
+        /// The <paramref name="HeapInformation"/> parameter is a pointer to a ULONG variable.
+        /// If <paramref name="HeapInformation"/> is 0, the heap is a standard heap that does not support look-aside lists.
+        /// If <paramref name="HeapInformation"/> is 1, the heap supports look-aside lists. For more information, see Remarks.
+        /// If <paramref name="HeapInformation"/> is 2, the low-fragmentation heap (LFH) has been enabled for the heap.
+        /// Enabling the LFH disables look-aside lists.
+        /// </param>
+        /// <param name="HeapInformation">
+        /// A pointer to a buffer that receives the heap information.
+        /// The format of this data depends on the value of the <paramref name="HeapInformationClass"/> parameter.
+        /// </param>
+        /// <param name="HeapInformationLength">
+        /// The size of the heap information being queried, in bytes.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the length of data written to the HeapInformation buffer.
+        /// If the buffer is too small, the function fails and <paramref name="ReturnLength"/> specifies the minimum size required for the buffer.
+        /// If you do not want to receive this information, specify <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enable the LFH or the terminate-on-corruption feature, use the <see cref="HeapSetInformation"/> function.
+        /// Windows XP and Windows Server 2003:   A look-aside list is a fast memory allocation mechanism that contains only fixed-sized blocks.
+        /// Look-aside lists are enabled by default for heaps that support them.Starting with Windows Vista,
+        /// look-aside lists are not used and the LFH is enabled by default.
+        /// Look-aside lists are faster than general pool allocations that vary in size,
+        /// because the system does not search for free memory that fits the allocation.
+        /// In addition, access to look-aside lists is generally synchronized using fast atomic processor exchange instructions
+        /// instead of mutexes or spinlocks.
+        /// Look-aside lists can be created by the system or drivers.They can be allocated from paged or nonpaged pool.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapQueryInformation", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapQueryInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength, [Out]out IntPtr ReturnLength);
+
+        /// <summary>
+        /// <para>
         /// Reallocates a block of memory from a heap.
         /// This function enables you to resize a memory block and change other memory block properties.
         /// The allocated memory is not movable.
