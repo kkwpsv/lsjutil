@@ -944,7 +944,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// After the <see cref="FindClose"/> function is called, the handle specified
-        /// by the <see cref="hFindFile"/> parameter cannot be used in subsequent calls to the <see cref="FindNextFile"/>,
+        /// by the <paramref name="hFindFile"/> parameter cannot be used in subsequent calls to the <see cref="FindNextFile"/>,
         /// <see cref="FindNextFileNameW"/>, <see cref="FindNextStreamW"/>, or <see cref="FindClose"/> functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindClose", SetLastError = true)]

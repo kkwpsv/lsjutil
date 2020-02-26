@@ -678,9 +678,8 @@ namespace Lsj.Util.Win32
         /// this structure's members contain information about the next memory block in the heap.
         /// To initiate a heap enumeration, set the <see cref="PROCESS_HEAP_ENTRY.lpData"/> field
         /// of the <see cref="PROCESS_HEAP_ENTRY"/> structure to <see cref="IntPtr.Zero"/>.
-        /// To continue a particular heap enumeration, call the <see cref="HeapWalk"/> function repeatedly,
-        /// with no changes to <see cref="PROCESS_HEAP_ENTRY.hHeap"/>, <see cref="PROCESS_HEAP_ENTRY.lpEntry"/>,
-        /// or any of the members of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
+        /// To continue a particular heap enumeration, call the <see cref="HeapWalk"/> function repeatedly, with no changes to <paramref name="hHeap"/>,
+        /// <paramref name="lpEntry"/>, or any of the members of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
@@ -698,9 +697,8 @@ namespace Lsj.Util.Win32
         /// To initiate a heap enumeration, call <see cref="PROCESS_HEAP_ENTRY"/>
         /// with the <see cref="PROCESS_HEAP_ENTRY.lpData"/> field of the <see cref="PROCESS_HEAP_ENTRY"/> structure pointed to
         /// by <paramref name="lpEntry"/> set to <see cref="IntPtr.Zero"/>.
-        /// To continue a heap enumeration, call <see cref="HeapWalk"/> with the same <see cref="PROCESS_HEAP_ENTRY.hHeap"/>
-        /// and <see cref="PROCESS_HEAP_ENTRY.lpEntry"/> values, and with the <see cref="PROCESS_HEAP_ENTRY"/> structure unchanged
-        /// from the preceding call to <see cref="HeapWalk"/>.
+        /// To continue a heap enumeration, call <see cref="HeapWalk"/> with the same <paramref name="hHeap"/> and <paramref name="lpEntry"/> values,
+        /// and with the <see cref="PROCESS_HEAP_ENTRY"/> structure unchanged from the preceding call to <see cref="HeapWalk"/>.
         /// Repeat this process until you have no need for further enumeration, or until the function returns <see langword="false"/>
         /// and <see cref="GetLastError"/> returns <see cref="ERROR_NO_MORE_ITEMS"/>,
         /// indicating that all of the heap's memory blocks have been enumerated.
