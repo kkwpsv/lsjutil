@@ -399,6 +399,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Attempts to acquire the critical section object, or lock, that is associated with a specified heap.
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be locked.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// An application can call <see cref="GetLastError"/> for extended error information.
+        /// </returns>
+        /// <remarks>
+        /// If the function succeeds, the calling thread owns the heap lock.
+        /// Only the calling thread will be able to allocate or release memory from the heap.
+        /// The execution of any other thread of the calling process will be blocked if that thread attempts to allocate or release memory from the heap.
+        /// Such threads will remain blocked until the thread that owns the heap lock calls the <see cref="HeapUnlock"/> function.
+        /// The <see cref="HeapLock"/> function is primarily useful for preventing the allocation and
+        /// release of heap memory by other threads while the calling thread uses the <see cref="HeapWalk"/> function.
+        /// If the <see cref="HeapLock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZATION"/> flag, the results are undefined.
+        /// Each successful call to <see cref="HeapLock"/> must be matched by a corresponding call to <see cref="HeapUnlock"/>.
+        /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapLock([In]IntPtr hHeap);
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>
