@@ -130,6 +130,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the current system to an application running under WOW64.
+        /// If the function is called from a 64-bit application, or on a 64-bit system that does not have an Intel64 or x64 processor (such as ARM64),
+        /// it is equivalent to the <see cref="GetSystemInfo"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemInfo">
+        /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
+        /// </param>
+        /// <remarks>
+        /// To determine whether a Win32-based application is running under WOW64, call the <see cref="IsWow64Process2"/> function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", SetLastError = true)]
+        public static extern void GetNativeSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the product type for the operating system on the local computer,
         /// and maps the type to the product types supported by the specified operating system.
         /// To retrieve product type information on versions of Windows prior to the minimum supported operating systems specified
@@ -194,7 +211,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Retrieves information about the current system.
-        /// To retrieve accurate information for an application running on WOW64, call the GetNativeSystemInfo function.
+        /// To retrieve accurate information for an application running on WOW64, call the <see cref="GetNativeSystemInfo"/> function.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo
