@@ -29,5 +29,10 @@ namespace Lsj.Util.Win32.Enums
         /// HEAP_CREATE_ENABLE_EXECUTE
         /// </summary>
         HEAP_CREATE_ENABLE_EXECUTE= 0x00040000,
+
+        /// <summary>
+        /// HEAP_REALLOC_IN_PLACE_ONLY
+        /// </summary>
+        HEAP_REALLOC_IN_PLACE_ONLY = 0x00000010,
     }
 }
