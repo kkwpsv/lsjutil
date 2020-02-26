@@ -15,7 +15,8 @@ namespace Lsj.Util.Win32.Structs
     /// To convert a <see cref="FILETIME"/> structure into a time that is easy to display to a user, use the <see cref="FileTimeToSystemTime"/> function.
     /// It is not recommended that you add and subtract values from the <see cref="FILETIME"/> structure to obtain relative times.
     /// Instead, you should copy the low- and high-order parts of the file time to a <see cref="ULARGE_INTEGER"/> structure,
-    /// perform 64-bit arithmetic on the <see cref="QuadPart"/> member, and copy the <see cref="LowPart"/> and <see cref="HighPart"/> members
+    /// perform 64-bit arithmetic on the <see cref="ULARGE_INTEGER.QuadPart"/> member,
+    /// and copy the <see cref="ULARGE_INTEGER.LowPart"/> and <see cref="ULARGE_INTEGER.HighPart"/> members
     /// into the <see cref="FILETIME"/> structure.
     /// Do not cast a pointer to a <see cref="FILETIME"/> structure to either a <see cref="ULARGE_INTEGER"/>* or __int64* value
     /// because it can cause alignment faults on 64-bit Windows.
