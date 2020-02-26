@@ -1,14 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Lsj.Util.Text;
-using Lsj.Util.Net.Web.Cookie;
-using Lsj.Util.Net.Web.Interfaces;
+﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Static;
+using Lsj.Util.Text;
+using System.IO;
+using System.Text;
 
 
 namespace Lsj.Util.Net.Web.Message
@@ -20,32 +14,31 @@ namespace Lsj.Util.Net.Web.Message
             get;
             protected set;
         } = HttpMethod.UnParsed;
+
         public URI Uri
         {
             get;
             protected set;
         }
+
         public int ExtraErrorCode
         {
             get;
             set;
         } = 0;
 
-
-        protected MemoryStream m_content;
+        protected MemoryStream _content;
         public override Stream Content
         {
             get
             {
-                if (m_content == null)
+                if (_content == null)
                 {
-                    m_content = new MemoryStream(ContentLength);
+                    _content = new MemoryStream(ContentLength);
                 }
-                return m_content;
+                return _content;
             }
         }
-
-
 
         //Fucking Pointer.....
         unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
@@ -188,8 +181,6 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
-
-
         public override string GetHttpHeader()
         {
             var sb = new StringBuilder();
@@ -202,26 +193,16 @@ namespace Lsj.Util.Net.Web.Message
             return sb.ToString();
         }
 
-
-        public bool IsReadFinish => this.Content.Length >= this.ContentLength;
+        public bool IsReadFinish => Content.Length >= ContentLength;
 
         public string UserHostAddress
         {
-            get
-            {
-                return userhostaddress;
-            }
-            internal set
-            {
-                userhostaddress = value;
-            }
+            get; internal set;
         }
-        string userhostaddress;
-
 
         protected override void CleanUpManagedResources()
         {
-            m_content.Dispose();
+            _content.Dispose();
             base.CleanUpManagedResources();
         }
     }

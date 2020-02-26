@@ -9,7 +9,7 @@ namespace Lsj.Util.Net.Web.Message
         public HttpRequestForClient()
         {
             this.HttpVersion = new Version(1, 1);
-            this.m_content = new MemoryStream();
+            this._content = new MemoryStream();
         }
         public void SetMethod(HttpMethod method)
         {
@@ -21,7 +21,7 @@ namespace Lsj.Util.Net.Web.Message
         }
         public override void Write(byte[] buffer)
         {
-            this.m_content.Write(buffer);
+            this._content.Write(buffer);
         }
         public override string GetHttpHeader()
         {

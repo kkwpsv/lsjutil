@@ -12,7 +12,6 @@ namespace Lsj.Util.Net.Web.Interfaces
     /// </summary>
     public interface IHttpRequest : IHttpMessage
     {
-
         /// <summary>
         /// Method
         /// </summary>
@@ -20,6 +19,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
         /// <summary>
         /// Uri
         /// </summary>
@@ -28,7 +28,6 @@ namespace Lsj.Util.Net.Web.Interfaces
             get;
         }
 
-
         /// <summary>
         /// ExtraErrorCode
         /// </summary>
@@ -36,6 +35,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
         /// <summary>
         /// IsReadFinish
         /// </summary>
@@ -43,6 +43,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
         /// <summary>
         /// UserHostAddress
         /// </summary>
