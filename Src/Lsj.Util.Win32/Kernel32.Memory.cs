@@ -632,6 +632,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases ownership of the critical section object, or lock, that is associated with a specified heap.
+        /// It reverses the action of the <see cref="HeapLock"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapunlock
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be unlocked.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapLock"/> function is primarily useful for preventing the allocation
+        /// and release of heap memory by other threads while the calling thread uses the <see cref="HeapWalk"/> function.
+        /// The <see cref="HeapUnlock"/> function is the inverse of <see cref="HeapLock"/>.
+        /// Each call to <see cref="HeapLock"/> must be matched by a corresponding call to the <see cref="HeapUnlock"/> function.
+        /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
+        /// If the <see cref="HeapUnlock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZE"/> flag,
+        /// the results are undefined.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapUnlock([In]IntPtr hHeap);
+
+        /// <summary>
+        /// <para>
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>
