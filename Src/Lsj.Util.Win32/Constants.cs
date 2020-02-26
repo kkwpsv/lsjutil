@@ -20,6 +20,11 @@ namespace Lsj.Util.Win32
         public const byte CACHE_FULLY_ASSOCIATIVE = 0xFF;
 
         /// <summary>
+        /// HOVER_DEFAULT
+        /// </summary>
+        public const uint HOVER_DEFAULT = 0xFFFFFFFF;
+
+        /// <summary>
         /// MAX_PATH
         /// </summary>
         public const int MAX_PATH = 260;
