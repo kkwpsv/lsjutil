@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
+using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 
 namespace Lsj.Util.Win32
 {
@@ -506,6 +507,72 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", SetLastError = true)]
         public static extern IntPtr HeapReAlloc([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem, [In]IntPtr dwBytes);
+
+        /// <summary>
+        /// <para>
+        /// Enables features for a specified heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsetinformation
+        /// </para>
+        /// </summary>
+        /// <param name="HeapHandle">
+        /// A handle to the heap where information is to be set.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="HeapInformationClass">
+        /// The class of information to be set.
+        /// This parameter can be one of the following values from the <see cref="HEAP_INFORMATION_CLASS"/> enumeration type.
+        /// <see cref="HeapCompatibilityInformation"/>:
+        /// Enables heap features. Only the low-fragmentation heap (LFH) is supported.
+        /// However, it is not necessary for applications to enable the LFH because the system uses the LFH as needed to service memory allocation requests.
+        /// Windows XP and Windows Server 2003:
+        /// The LFH is not enabled by default. To enable the LFH for the specified heap, set the variable pointed to by the HeapInformation parameter to 2.
+        /// After the LFH is enabled for a heap, it cannot be disabled.
+        /// The LFH cannot be enabled for heaps created with <see cref="HEAP_NO_SERIALIZE"/> or for heaps created with a fixed size.
+        /// The LFH also cannot be enabled if you are using the heap debugging tools in Debugging Tools for Windows or Microsoft Application Verifier.
+        /// When a process is run under any debugger, certain heap debug options are automatically enabled for all heaps in the process.
+        /// These heap debug options prevent the use of the LFH.
+        /// To enable the low-fragmentation heap when running under a debugger, set the _NO_DEBUG_HEAP environment variable to 1.
+        /// <see cref="HeapEnableTerminationOnCorruption"/>:
+        /// Enables the terminate-on-corruption feature.
+        /// If the heap manager detects an error in any heap used by the process, it calls the Windows Error Reporting service and terminates the process.
+        /// After a process enables this feature, it cannot be disabled.
+        /// Windows Server 2003 and Windows XP:
+        /// This value is not supported until Windows Vista and Windows XP with SP3.
+        /// The function succeeds but the <see cref="HeapEnableTerminationOnCorruption"/> value is ignored.
+        /// <see cref="HeapOptimizeResources"/>
+        /// If <see cref="HeapSetInformation"/> is called with <paramref name="HeapHandle"/> set to <see cref="IntPtr.Zero"/>,
+        /// then all heaps in the process with a low-fragmentation heap (LFH) will have their caches optimized,
+        /// and the memory will be decommitted if possible.
+        /// If a heap pointer is supplied in <paramref name="HeapHandle"/>, then only that heap will be optimized.
+        /// Note that the <see cref="HEAP_OPTIMIZE_RESOURCES_INFORMATION"/> structure passed in HeapInformation must be properly initialized.
+        /// Note This value was added in Windows 8.1.
+        /// </param>
+        /// <param name="HeapInformation">
+        /// The heap information buffer. The format of this data depends on the value of the <paramref name="HeapInformationClass"/> parameter.
+        /// If the <paramref name="HeapInformationClass"/> parameter is <see cref="HeapCompatibilityInformation"/>,
+        /// the <paramref name="HeapInformation"/> parameter is a pointer to a ULONG variable.
+        /// If the <paramref name="HeapInformationClass"/> parameter is <see cref="HeapEnableTerminationOnCorruption"/>,
+        /// the <paramref name="HeapInformation"/> parameter should be <see cref="IntPtr.Zero"/> and <paramref name="HeapInformationLength"/> should be 0
+        /// </param>
+        /// <param name="HeapInformationLength">
+        /// The size of the <paramref name="HeapInformation"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve the current settings for the heap, use the <see cref="HeapQueryInformation"/> function.
+        /// Setting the <see cref="HeapEnableTerminationOnCorruption"/> option is strongly recommended
+        /// because it reduces an application's exposure to security exploits that take advantage of a corrupted heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSetInformation", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool HeapSetInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength);
 
         /// <summary>
         /// <para>
