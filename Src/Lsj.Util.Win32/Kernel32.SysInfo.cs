@@ -193,6 +193,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the current system.
+        /// To retrieve accurate information for an application running on WOW64, call the GetNativeSystemInfo function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemInfo">
+        /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", SetLastError = true)]
+        public static extern void GetSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the path of the system directory.
         /// The system directory contains system files such as dynamic-link libraries and drivers.
         /// This function is provided primarily for compatibility.
