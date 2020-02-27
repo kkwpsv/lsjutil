@@ -1,9 +1,9 @@
 ﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Text;
+using System;
 using System.IO;
 using System.Text;
-
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -40,8 +40,23 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
+        private bool _isReadHeader;
+
+        protected override unsafe bool InternalRead(byte* pts, int offset, int count, ref int read)
+        {
+            if (!_isReadHeader)
+            {
+                _isReadHeader = InternalReadImp(pts, offset, count, ref read);
+                return _isReadHeader;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
         //Fucking Pointer.....
-        unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
+        private unsafe bool InternalReadImp(byte* pts, int offset, int count, ref int read)
         {
             byte* start = pts;                      //开始位置
             byte* end = pts + offset + count - 1;   //结束位置
@@ -193,7 +208,7 @@ namespace Lsj.Util.Net.Web.Message
             return sb.ToString();
         }
 
-        public bool IsReadFinish => Content.Length >= ContentLength;
+        public bool IsReadFinish => _isReadHeader && Content.Length >= ContentLength;
 
         public string UserHostAddress
         {
@@ -207,5 +222,3 @@ namespace Lsj.Util.Net.Web.Message
         }
     }
 }
-
-

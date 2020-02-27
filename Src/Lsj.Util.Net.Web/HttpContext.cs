@@ -1,23 +1,18 @@
-﻿using System;
-using System.IO;
-using System.Net.Sockets;
-using System.Text;
-using System.Net;
-using System.Linq;
-using Lsj.Util.Text;
-using Lsj.Util.Collections;
+﻿using Lsj.Util.Collections;
 using Lsj.Util.Logs;
+using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
-using Lsj.Util.Net.Sockets;
 using Lsj.Util.Net.Web.Protocol;
-#if NET40
-using System.Timers;
-#else
+using Lsj.Util.Text;
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
-#endif
+using System.Threading.Tasks;
 
 namespace Lsj.Util.Net.Web
 {
@@ -86,7 +81,8 @@ namespace Lsj.Util.Net.Web
         }
         byte[] _buffer;
 
-        MemoryStream content;
+        Stream _content;
+        int _contentread;
 
         WebServer _server;
 
@@ -108,53 +104,14 @@ namespace Lsj.Util.Net.Web
             private set;
         } = ContextStatus.Created;
 
-        bool _IsTimeOut = false;
-
-
-        public void Start() => Read();
-
-        void Read()
+        public void Start()
         {
-            Request = new HttpRequest();
-            ((HttpRequest)Request).UserHostAddress = ((IPEndPoint)_socket.RemoteEndPoint).Address.ToString();
-            this.Stream = CreateStream(_socket);
-            this.Status = ContextStatus.Listening;
-
-#if NET40
-            this.Stream.BeginRead(_buffer, OnReceived);
-            this.ReceiveTimer = new Timer(60 * 1000);
-            ReceiveTimer.AutoReset = false;
-            ReceiveTimer.Elapsed += (o, e) =>
-            {
-                if (!Request.IsReadFinish)
-                {
-                    this._IsTimeOut = true;
-                    this.Status = ContextStatus.Processing;
-                    this.Response = ErrorHelper.Build(408, 0, this._server.Name);
-                    this.DoResponse();
-                }
-            };
-#else
-            new Thread(() =>
-            {
-                var read = this.Stream.Read(_buffer, 0, _buffer.Length);
-                OnReceived(read);
-            }).Start();
-            this.ReceiveTimer = new Timer((o) =>
-            {
-                if (!Request.IsReadFinish)
-                {
-                    this._IsTimeOut = true;
-                    this.Status = ContextStatus.Processing;
-                    this.Response = ErrorHelper.Build(408, 0, this._server.Name);
-                    this.DoResponse();
-                }
-            }, null, 60 * 1000, Timeout.Infinite);
-#endif
-
+            Stream = CreateStream(_socket);
+            ProcessNextRequest();
         }
 
         protected virtual Stream CreateStream(Socket socket) => new NetworkStream(socket, true);
+
         /// <summary>
         /// NetWorkStream
         /// </summary>
@@ -163,254 +120,165 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
-#if NET40
-        void OnReceived(IAsyncResult ar)
-#else
-        void OnReceived(int byteleft)
-#endif
+
+        private void ProcessNextRequest(int timeout = 60 * 1000)
         {
-            if (_IsTimeOut)
+            Request = new HttpRequest
             {
-                return;
-            }
-            this.KeepaliveTimer = null;
-            try
-            {
+                UserHostAddress = ((IPEndPoint)_socket.RemoteEndPoint).Address.ToString()
+            };
+            Status = ContextStatus.Listening;
 #if NET40
-                var byteleft = Stream.EndRead(ar);//剩余字节数  =  读取的字节数
-#endif
-
-
-
-                if (byteleft == 0)//如果未读取到。。断开连接
-                {
-
-                    this._socket.Disconnect();
-                    this.Status = ContextStatus.Disposing;
-                    return;
-                }
-                int read = 0;
-
-
-
-                bool IsEnd = Parse(byteleft, ref read);//尝试Parse
-
-
-
-                byteleft -= read;//减掉处理过的
-
-                if (IsEnd)
-                {
-                    //收完Header
-                    var x = Request.ContentLength;//获取ContentLength
-
-                    if (x > 0)
-                    {
-                        this.content = Request.Content as MemoryStream;//Content流
-                        this.contentread = byteleft;//读取的Content
-
-
-
-
-                        content.Write(_buffer, read, byteleft);//写入Content
-
-                        if (contentread < x)
-                        {
-#if NETSTANDARD
-                            new Thread(() =>
-                            {
-                                var aa = this.Stream.Read(_buffer, 0, _buffer.Length);
-                                OnReceivedContent(aa);
-                            }).Start();
+            TaskEx.Run(async () =>
 #else
-                            //如果未读取完继续读取
-                            Stream.BeginRead(_buffer, OnReceivedContent);
+            Task.Run(async () =>
 #endif
-                        }
-                        else
-                        {
-                            //读取完处理
-                            Process();
-                        }
+            {
+                var source = new CancellationTokenSource();
+#if NET40
+                await TaskEx.WhenAny(TaskEx.Delay(timeout), Read(source.Token));
+#else
+                await Task.WhenAny(Task.Delay(timeout), Read(source.Token));
+#endif
+                Status = ContextStatus.Processing;
+                if (!Request.IsReadFinish)
+                {
+                    source.Cancel();
+                    if (_socket.Connected)
+                    {
+                        Response = ErrorHelper.Build(408, 0, _server.Name);
+                        await DoResponse();
                     }
                     else
                     {
-                        Process();
+                        Status = ContextStatus.Disposing;
                     }
                 }
                 else
                 {
-                    //如果未收完Header
-                    Move(read, byteleft);//移动
-#if NET40
-                    Stream.BeginRead(_buffer, byteleft, OnReceived);//继续读取
-#else
-                    new Thread(() =>
+                    await Process();
+                }
+            });
+        }
+
+        private async Task Read(CancellationToken cancellationToken)
+        {
+            var byteLeft = 0;
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var read = await Stream.ReadAsync(_buffer, 0, _buffer.Length);
+                if (read == 0)//如果未读取到。。直接返回
+                {
+                    return;
+                }
+                else
+                {
+                    byteLeft += read;
+
+                    bool IsEndHeader = Parse(byteLeft, ref read);//尝试Parse
+                    byteLeft -= read;//减掉处理过的
+                    if (IsEndHeader)
                     {
-                        var aa = this.Stream.Read(_buffer, byteleft, _buffer.Length);
-                        OnReceived(aa);
-                    }).Start();
-#endif
+                        var contentLength = Request.ContentLength;
+                        if (!Request.IsError && contentLength > 0)
+                        {
+                            _content = Request.Content;//Content流
+                            _contentread = byteLeft > contentLength ? contentLength : byteLeft;//读取的Content长度
+                            await _content.WriteAsync(_buffer, read, _contentread);//写入Content
+                            if (_contentread < contentLength)
+                            {
+                                await ReadContent(cancellationToken);
+                            }
+                        }
+                        else
+                        {
+                            //没有请求体或有错误
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        Move(read, byteLeft);
+                    }
                 }
             }
-            catch (Exception e)
-            {
-                this.Log.Error(e);
-            }
-
         }
-        int contentread;
-        Timer ReceiveTimer;
-        Timer KeepaliveTimer;
-#if NETSTANDARD
-        void OnReceivedContent(int read)
-#else
-        void OnReceivedContent(IAsyncResult ar)
-#endif
+
+        private async Task ReadContent(CancellationToken cancellationToken)
         {
-            if (_IsTimeOut)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                return;
-            }
-#if NETSTANDARD
-#else
-            var read = Stream.EndRead(ar);//读取字节数
-#endif
-            if (read == 0)
-            {
-                //如果未读取到。。返回。。等待超时处理
-                return;
-            }
-            var len = Request.ContentLength;//长度
-            if (contentread + read > len)//超长截断处理
-            {
-                read = len - contentread;
-            }
-
-            //写入
-            contentread += read;
-            content.Write(_buffer, 0, read);
-
-            if (contentread < len)
-            {
-                //不足继续读取
-#if NETSTANDARD
-                new Thread(() =>
+                var read = await Stream.ReadAsync(_buffer, 0, _buffer.Length);
+                if (read == 0)//如果未读取到。。直接返回
                 {
-                    var aa = this.Stream.Read(_buffer, 0, _buffer.Length);
-                    OnReceivedContent(aa);
-                }).Start();
-#else
-                Stream.BeginRead(_buffer, OnReceivedContent);
-#endif
+                    _socket.Disconnect();
+                    Status = ContextStatus.Disposing;
+                    return;
+                }
+                else
+                {
+                    var contentLength = Request.ContentLength;//长度
+                    if (_contentread + read > contentLength)//超长截断处理
+                    {
+                        read = contentLength - _contentread;
+                    }
+                    _contentread += read;
+                    await _content.WriteAsync(_buffer, 0, read);
+                    if (_contentread == contentLength)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        private async Task Process()
+        {
+            Status = ContextStatus.Processing;
+            _server.OnParsed(this);
+            if (Request.IsError)
+            {
+                Response = ErrorHelper.Build(Request.ErrorCode, Request.ExtraErrorCode, _server.Name);
             }
             else
             {
-                //处理
-                Process();
-            }
+                Response = _server.OnProcess(this);
 
+            }
+            await DoResponse();
         }
+
+        private async Task DoResponse()
+        {
+            if (_socket.Connected)
+            {
+                Status = ContextStatus.Sending;
+                Response.Headers.Add(HttpHeader.Server, _server.Name);
+
+                await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
+                await Response.Content.CopyToAsync(Stream);
+                await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
+
+                if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
+                {
+                    ProcessNextRequest(120 * 1000);
+                }
+                else
+                {
+                    _socket.Shutdown();
+                    Status = ContextStatus.Disposing;
+                }
+            }
+        }
+
         void Move(int offset, int length)
         {
             UnsafeHelper.Copy(_buffer, offset, _buffer, 0, length);
         }
+
         bool Parse(int length, ref int read)
         {
             return Request.Read(_buffer, 0, length, ref read);
-        }
-
-
-        void Process()
-        {
-            this.Status = ContextStatus.Processing;
-            _server.OnParsed(this);
-            if (Request.IsError)
-            {
-                this.Response = ErrorHelper.Build(Request.ErrorCode, Request.ExtraErrorCode, this._server.Name);
-            }
-            else
-            {
-                this.Response = _server.OnProcess(this);
-
-            }
-            DoResponse();
-        }
-
-
-        void DoResponse()
-        {
-            if (ReceiveTimer != null)
-            {
-                this.ReceiveTimer.Dispose();
-                this.ReceiveTimer = null;
-            }
-            this.Status = ContextStatus.Sending;
-            Response.Headers.Add(HttpHeader.Server, this._server.Name);
-            var a = Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII).ToList().Concat(this.Response.Content.ReadAll()).Concat(new byte[] { ASCIIChar.CR, ASCIIChar.LF }).ToArray();
-
-#if NET40
-            this.Stream.BeginWrite(a, (x) =>
-            {
-                try
-                {
-                    this.Stream.EndWrite(x);
-                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
-                    {
-                        this.KeepaliveTimer = new Timer(120 * 1000);
-                        KeepaliveTimer.AutoReset = false;
-                        KeepaliveTimer.Elapsed += (o, e) =>
-                        {
-                            this._socket.Close();
-                            this.Status = ContextStatus.Disposing;
-                        };
-                        this.Read();
-                    }
-                    else
-                    {
-                        this._socket.Close();
-                        this.Status = ContextStatus.Disposing;
-                    }
-                }
-                catch (IOException)
-                {
-
-                }
-                catch (SocketException)
-                {
-                }
-            });           
-#else
-            new Thread(() =>
-            {
-                try
-                {
-                    this.Stream.Write(a);
-                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
-                    {
-                        this.KeepaliveTimer = new Timer((o) =>
-                        {
-                            this._socket.Shutdown();
-                            this.Status = ContextStatus.Disposing;
-                        }, null, 120 * 1000, Timeout.Infinite);
-                        this.Read();
-                    }
-                    else
-                    {
-                        this._socket.Shutdown();
-                        this.Status = ContextStatus.Disposing;
-                    }
-                }
-                catch (IOException)
-                {
-
-                }
-                catch (SocketException)
-                {
-                }
-            }).Start();
-#endif
-
         }
 
         protected override void CleanUpManagedResources()
@@ -422,16 +290,6 @@ namespace Lsj.Util.Net.Web
             }
             else
             {
-                if (KeepaliveTimer != null)
-                {
-                    KeepaliveTimer.Dispose();
-                    KeepaliveTimer = null;
-                }
-                if (ReceiveTimer != null)
-                {
-                    ReceiveTimer.Dispose();
-                    ReceiveTimer = null;
-                }
                 try
                 {
                     _socket.Dispose();

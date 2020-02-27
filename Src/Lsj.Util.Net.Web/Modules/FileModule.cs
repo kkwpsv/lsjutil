@@ -37,30 +37,38 @@ namespace Lsj.Util.Net.Web.Modules
         public void Process(object o, ProcessEventArgs args)
         {
             args.IsProcessed = true;
-            var path = "";
             var website = o as Website;
             var rootpath = website.Path;
             var request = args.Request;
 
-            var uri = request.Uri.ToString();
-
-            //var z = uri.Substring(1);
-            if (uri.EndsWith(@"/"))
+            var filePath = request.Uri.ToString().Replace('/', Path.DirectorySeparatorChar);
+            if (filePath.StartsWith(Path.DirectorySeparatorChar.ToString()))
             {
-                foreach (var a in DefaultPage)
+                filePath = filePath.Substring(1);
+            }
+
+            var path = Path.Combine(rootpath, filePath);
+            bool found = false;
+
+            if (path.EndsWith(@"/") && Directory.Exists(path))
+            {
+                foreach (var page in DefaultPage)
                 {
-                    if (File.Exists(rootpath + uri + a))
+                    var tempPath = Path.Combine(path, page);
+                    if (File.Exists(tempPath))
                     {
-                        path = rootpath + uri + a;
+                        path = tempPath;
+                        found = true;
                         break;
                     }
                 }
             }
-            else if (File.Exists(rootpath + uri))
+            else if (File.Exists(path))
             {
-                path = rootpath + uri;
+                found = true;
             }
-            if (path != "")
+
+            if (found)
             {
                 args.Response = new FileResponse(path, request);
             }

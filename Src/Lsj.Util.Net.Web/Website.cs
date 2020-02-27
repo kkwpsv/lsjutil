@@ -4,6 +4,7 @@ using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Modules;
 using Lsj.Util.Net.Web.Error;
+using System.IO;
 
 namespace Lsj.Util.Net.Web
 {
@@ -29,7 +30,7 @@ namespace Lsj.Util.Net.Web
         {
             get;
             set;
-        } = "./";
+        } = Environment.CurrentDirectory;
 
 
 
