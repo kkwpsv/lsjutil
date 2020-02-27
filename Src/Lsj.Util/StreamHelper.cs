@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Lsj.Util
 {
@@ -93,6 +94,27 @@ namespace Lsj.Util
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
         public static void Write(this Stream stream, byte[] buffer, int offset) => stream.Write(buffer, offset, buffer.Length - offset);
+
+#if NET45 || NETSTANDARD2_0
+        /// <summary>
+        /// WriteAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static Task WriteAsync(this Stream stream, byte[] buffer) => stream.WriteAsync(buffer, 0, buffer.Length);
+#endif
+
+#if NET40
+        /// <summary>
+        /// WriteAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static Task WriteAsync(this Stream stream, byte[] buffer) =>
+            Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, buffer, 0, buffer.Length, null);
+#endif
 
         /// <summary>
         /// BeginRead
