@@ -14,6 +14,7 @@ namespace Lsj.Util.Net
     public class URI
     {
         private string raw;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Net.URI"/> class.
         /// </summary>
@@ -22,6 +23,7 @@ namespace Lsj.Util.Net
         {
             this.raw = uri;
         }
+
         /// <summary>
         /// ToString
         /// </summary>
@@ -30,6 +32,7 @@ namespace Lsj.Util.Net
         {
             return raw;
         }
+
         string filename;
         /// <summary>
         /// FileName
@@ -90,6 +93,7 @@ namespace Lsj.Util.Net
                 return queryString;
             }
         }
+
         string scheme;
         /// <summary>
         /// Scheme
@@ -113,9 +117,11 @@ namespace Lsj.Util.Net
                 return scheme;
             }
         }
+
         string host;
         int? port;
         string localpath;
+
         /// <summary>
         /// Host
         /// </summary>
@@ -130,6 +136,7 @@ namespace Lsj.Util.Net
                 return host;
             }
         }
+
         /// <summary>
         /// Port
         /// </summary>
@@ -156,6 +163,7 @@ namespace Lsj.Util.Net
                 return port.Value;
             }
         }
+
         /// <summary>
         /// LoaclPath
         /// </summary>
