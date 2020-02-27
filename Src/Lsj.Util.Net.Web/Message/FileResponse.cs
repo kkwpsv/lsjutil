@@ -67,9 +67,6 @@ namespace Lsj.Util.Net.Web.Message
                 }
             }
         }
-
-
-
     }
 
 }
