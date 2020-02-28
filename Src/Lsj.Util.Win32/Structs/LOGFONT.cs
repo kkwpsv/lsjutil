@@ -1,6 +1,12 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Enums.ClipPrecisions;
+using static Lsj.Util.Win32.Enums.FamilyFont;
+using static Lsj.Util.Win32.Enums.FontQualities;
+using static Lsj.Util.Win32.Enums.FontWeights;
+using static Lsj.Util.Win32.Enums.OutPrecisions;
+using static Lsj.Util.Win32.Enums.PitchFont;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -76,7 +82,7 @@ namespace Lsj.Util.Win32.Structs
         /// The weight of the font in the range 0 through 1000. For example, 400 is normal and 700 is bold.
         /// If this value is zero, a default weight is used.
         /// The following values are defined for convenience.
-        /// <see cref="FW_DONTCARE"/>:  0
+        /// <see cref="FW_DONTCARE"/>: 0
         /// <see cref="FW_THIN"/>: 100
         /// <see cref="FW_EXTRALIGHT"/>: 200
         /// <see cref="FW_ULTRALIGHT"/>: 200
