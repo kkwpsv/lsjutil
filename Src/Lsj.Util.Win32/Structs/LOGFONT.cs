@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Enums.FontQualities;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.OutPrecisions;
 using static Lsj.Util.Win32.Enums.PitchFont;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
 {
