@@ -455,6 +455,65 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpoint32w
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to a buffer that specifies the text string.
+        /// The string does not need to be null-terminated, because the c parameter specifies the length of the string.
+        /// </param>
+        /// <param name="c">
+        /// The length of the string pointed to by lpString.
+        /// </param>
+        /// <param name="psizl">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTextExtentPoint32"/> function uses the currently selected font to compute the dimensions of the string.
+        /// The width and height, in logical units, are computed without considering any clipping.
+        /// Because some devices kern characters, the sum of the extents of the characters in a string may not be equal to the extent of the string.
+        /// The calculated string width takes into account the intercharacter spacing set by the <see cref="SetTextCharacterExtra"/> function
+        /// and the justification set by <see cref="SetTextJustification"/>.
+        /// This is true for both displaying on a screen and for printing.
+        /// However, if lpDx is set in <see cref="ExtTextOut"/>, <see cref="GetTextExtentPoint32"/> does not take into account
+        /// either intercharacter spacing or justification.
+        /// In addition, for EMF, the print result always takes both intercharacter spacing and justification into account.
+        /// When dealing with text displayed on a screen, the calculated string width takes into account the intercharacter spacing set
+        /// by the <see cref="SetTextCharacterExtra"/> function and the justification set by <see cref="SetTextJustification"/>.
+        /// However, if lpDx is set in <see cref="ExtTextOut"/>, <see cref="GetTextExtentPoint32"/> does not take into account
+        /// either intercharacter spacing or justification. However, when printing with EMF:
+        /// The print result ignores intercharacter spacing, although <see cref="GetTextExtentPoint32"/> takes it into account.
+        /// The print result takes justification into account, although <see cref="GetTextExtentPoint32"/> ignores it.
+        /// When this function returns the text extent, it assumes that the text is horizontal, that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text.
+        /// Even if you use a font that specifies a nonzero escapement, this function doesn't use the angle while it computes the text extent.
+        /// The app must convert it explicitly.
+        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/> and the character orientation is 90 degrees from the print orientation,
+        /// the values that this function return do not follow this rule.
+        /// When the character orientation and the print orientation match for a given string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
+        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
+        /// <see cref="GetTextExtentPoint32"/> doesn't consider "\n" (new line) or "\r\n" (carriage return and new line) characters
+        /// when it computes the height of a text string.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTextExtentPoint32([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString,
+            [In] int c, [Out]out SIZE psizl);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectObject"/> function selects an object into the specified device context (DC).
         /// The new object replaces the previous object of the same type.
         /// </para> 
