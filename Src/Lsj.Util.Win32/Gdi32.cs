@@ -168,6 +168,51 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="EnumFontFamilies"/> function enumerates the fonts in a specified font family that are available on a specified device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context from which to enumerate the fonts.
+        /// </param>
+        /// <param name="lpLogfont">
+        /// A pointer to a null-terminated string that specifies the family name of the desired fonts.
+        /// If <paramref name="lpLogfont"/> is NULL, <see cref="EnumFontFamilies"/> selects and enumerates one font of each available type family.
+        /// </param>
+        /// <param name="lpProc">
+        /// A pointer to the application defined callback function. For information, see <see cref="FONTENUMPROC"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// A pointer to application-supplied data. The data is passed to the callback function along with the font information.
+        /// </param>
+        /// <returns>
+        /// The return value is the last value returned by the callback function. Its meaning is implementation specific.
+        /// </returns>
+        /// <remarks>
+        /// For each font having the typeface name specified by the <paramref name="lpLogfont"/> parameter,
+        /// the <see cref="EnumFontFamilies"/> function retrieves information about that font and passes it to the function
+        /// pointed to by the <paramref name="lpProc"/> parameter.
+        /// The application defined callback function can process the font information as desired.
+        /// Enumeration continues until there are no more fonts or the callback function returns zero.
+        /// When the graphics mode on the device context is set to ,<see cref="GM_ADVANCED"/> using the <see cref="SetGraphicsMode"/> function
+        /// and the <see cref="DEVICE_FONTTYPE"/> flag is passed to the FontType parameter,
+        /// this function returns a list of type 1 and OpenType fonts on the system.
+        /// When the graphics mode is not set to <see cref="GM_ADVANCED"/>, this function returns a list of type 1,
+        /// OpenType, and TrueType fonts on the system.
+        /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
+        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
+        /// if the system locale does not match the language of the font.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            " Applications should use the EnumFontFamiliesEx function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesW", SetLastError = true)]
+        public static extern int EnumFontFamilies([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpLogfont,
+            [In]FONTENUMPROC lpProc, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="EnumFontFamiliesEx"/> function enumerates all uniquely-named fonts in the system
         /// that match the font characteristics specified by the <see cref="LOGFONT"/> structure.
         /// <see cref="EnumFontFamiliesEx"/> enumerates fonts based on typeface name, character set, or both.
