@@ -168,6 +168,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The EnumFonts function enumerates the fonts available on a specified device.
+        /// For each font with the specified typeface name, the <see cref="EnumFonts"/> function retrieves information about that font
+        /// and passes it to the application defined callback function.
+        /// This callback function can process the font information as desired.
+        /// Enumeration continues until there are no more fonts or the callback function returns zero.
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context from which to enumerate the fonts.
+        /// </param>
+        /// <param name="lpLogfont">
+        /// A pointer to a null-terminated string that specifies the typeface name of the desired fonts.
+        /// If <paramref name="lpLogfont"/> is NULL, <see cref="EnumFonts"/> randomly selects and enumerates one font of each available typeface.
+        /// </param>
+        /// <param name="lpProc">
+        /// A pointer to the application definedcallback function. For more information, see <see cref="FONTENUMPROC"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// A pointer to any application-defined data. The data is passed to the callback function along with the font information.
+        /// </param>
+        /// <returns>
+        /// The return value is the last value returned by the callback function. Its meaning is defined by the application.
+        /// </returns>
+        /// <remarks>
+        /// Use <see cref="EnumFontFamiliesEx"/> instead of <see cref="EnumFonts"/>.
+        /// The <see cref="EnumFontFamiliesEx"/> function differs from the <see cref="EnumFonts"/> function in that
+        /// it retrieves the style names associated with a TrueType font.
+        /// With <see cref="EnumFontFamiliesEx"/>, you can retrieve information about font styles
+        /// that cannot be enumerated using the <see cref="EnumFonts"/> function.
+        /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
+        /// <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name 
+        /// if the system locale does not match the language of the font.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            " Applications should use the EnumFontFamiliesEx function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontsW", SetLastError = true)]
+        public static extern int EnumFonts([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpLogfont,
+            [In]FONTENUMPROC lpProc, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="EnumFontFamilies"/> function enumerates the fonts in a specified font family that are available on a specified device.
         /// </para>
         /// <para>
