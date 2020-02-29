@@ -19,6 +19,26 @@ namespace Lsj.Util.Win32
         public static readonly IntPtr HGDI_ERROR = new IntPtr(-1);
 
         /// <summary>
+        /// LF_FACESIZE
+        /// </summary>
+        public const int LF_FACESIZE = 32;
+
+        /// <summary>
+        /// LF_FULLFACESIZE
+        /// </summary>
+        public const int LF_FULLFACESIZE = 64;
+
+        /// <summary>
+        /// MM_MAX_NUMAXES
+        /// </summary>
+        public const int MM_MAX_NUMAXES = 16;
+
+        /// <summary>
+        /// MM_MAX_AXES_NAMELEN
+        /// </summary>
+        public const int MM_MAX_AXES_NAMELEN = 16;
+
+        /// <summary>
         /// <para>
         /// The EnumFontFamExProc function is an application defined callback function used with the <see cref="EnumFontFamiliesEx"/> function.
         /// It is used to process the fonts. It is called once for each enumerated font.
