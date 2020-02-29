@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -62,7 +63,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ENUMLOGFONTEX"/> structure includes the localized name of the script (character set) and
         /// the <see cref="NEWTEXTMETRICEX"/> structure includes a font-coverage signature.
         /// </remarks>
-        public delegate int FONTENUMPROC([In]IntPtr lpelfe, [In]IntPtr lpntme, [In]uint FontType, [In]IntPtr lParam);
+        public delegate int FONTENUMPROC([In]IntPtr lpelfe, [In]IntPtr lpntme, [In]FontTypes FontType, [In]IntPtr lParam);
 
         /// <summary>
         /// <para>
