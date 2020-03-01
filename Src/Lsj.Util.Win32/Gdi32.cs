@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -385,6 +386,87 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", SetLastError = true)]
         public static extern int EnumFontFamiliesEx([In]IntPtr hdc, [In]ref LOGFONT lpLogfont, [In]FONTENUMPROC lpProc,
             [In]IntPtr lParam, [In]uint dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ExtTextOut"/> function draws text using the currently selected font, background color, and text color.
+        /// You can optionally provide dimensions to be used for clipping, opaquing, or both.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-exttextoutw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical coordinates, of the reference point used to position the string.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical coordinates, of the reference point used to position the string.
+        /// </param>
+        /// <param name="options">
+        /// Specifies how to use the application-defined rectangle.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="ETO_CLIPPED"/>, <see cref="ETO_GLYPH_INDEX"/>, <see cref="ETO_IGNORELANGUAGE"/>, <see cref="ETO_NUMERICSLATIN"/>,
+        /// <see cref="ETO_NUMERICSLOCAL"/>, <see cref="ETO_OPAQUE"/>, <see cref="ETO_PDY"/>, <see cref="ETO_RTLREADING"/>
+        /// The <see cref="ETO_GLYPH_INDEX"/> and <see cref="ETO_RTLREADING"/> values cannot be used together.
+        /// Because <see cref="ETO_GLYPH_INDEX"/> implies that all language processing has been completed,
+        /// the function ignores the <see cref="ETO_RTLREADING"/> flag if also specified.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to an optional <see cref="RECT"/> structure that specifies the dimensions, in logical coordinates,
+        /// of a rectangle that is used for clipping, opaquing, or both.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to a string that specifies the text to be drawn
+        /// The string does not need to be zero-terminated, since <paramref name="c"/> specifies the length of the string.
+        /// </param>
+        /// <param name="c">
+        /// The length of the string pointed to by <paramref name="lpString"/>.
+        /// This value may not exceed 8192.
+        /// </param>
+        /// <param name="lpDx">
+        /// A pointer to an optional array of values that indicate the distance between origins of adjacent character cells.
+        /// For example, lpDx[i] logical units separate the origins of character cell i and character cell i + 1.
+        /// </param>
+        /// <returns>
+        /// If the string is drawn, the return value is <see langword="true"/>.
+        /// However, if the ANSI version of <see cref="ExtTextOut"/> is called with <see cref="ETO_GLYPH_INDEX"/>,
+        /// the function returns <see langword="true"/> even though the function does nothing.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// The current text-alignment settings for the specified device context determine how the reference point is used to position the text.
+        /// The text-alignment settings are retrieved by calling the <see cref="GetTextAlign"/> function.
+        /// The text-alignment settings are altered by calling the <see cref="SetTextAlign"/> function.
+        /// You can use the following values for text alignment.
+        /// Only one flag can be chosen from those that affect horizontal and vertical alignment.
+        /// In addition, only one of the two flags that alter the current position can be chosen.
+        /// <see cref="TA_BASELINE"/>, <see cref="TA_BOTTOM"/>, <see cref="TA_TOP"/>, <see cref="TA_CENTER"/>, <see cref="TA_LEFT"/>,
+        /// <see cref="TA_RIGHT"/>, <see cref="TA_NOUPDATECP"/>, <see cref="TA_RTLREADING"/>, <see cref="TA_UPDATECP"/>
+        /// If the <paramref name="lpDx"/> parameter is <see cref="IntPtr.Zero"/>,
+        /// the <see cref="ExtTextOut"/> function uses the default spacing between characters.
+        /// The character-cell origins and the contents of the array pointed to by the <paramref name="lpDx"/> parameter are specified in logical units.
+        /// A character-cell origin is defined as the upper-left corner of the character cell.
+        /// By default, the current position is not used or updated by this function.
+        /// However, an application can call the <see cref="SetTextAlign"/> function with the fMode parameter set to <see cref="TA_UPDATECP"/>
+        /// to permit the system to use and update the current position each time
+        /// the application calls <see cref="ExtTextOut"/> for a specified device context.
+        /// When this flag is set, the system ignores the X and Y parameters on subsequent <see cref="ExtTextOut"/> calls.
+        /// For the ANSI version of <see cref="ExtTextOut"/>, the <paramref name="lpDx"/> array has the same number of INT values
+        /// as there are bytes in <paramref name="lpString"/>.
+        /// For DBCS characters, you can apportion the dx in the <paramref name="lpDx"/> entries between the lead byte and the trail byte,
+        /// as long as the sum of the two bytes adds up to the desired dx.
+        /// For DBCS characters with the Unicode version of <see cref="ExtTextOut"/>, each Unicode glyph gets a single pdx entry.
+        /// Note, the alpDx values from <see cref="GetTextExtentExPoint"/> are not the same as
+        /// the <paramref name="lpDx"/> values for <see cref="ExtTextOut"/>.
+        /// To use the alpDx values in <paramref name="lpDx"/>, you must first process them.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ExtTextOut([In]IntPtr hdc, [In]int x, [In]int y, [In]ExtTextOutFlags options,
+            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In]uint c, [In]IntPtr lpDx);
 
         /// <summary>
         /// <para>
