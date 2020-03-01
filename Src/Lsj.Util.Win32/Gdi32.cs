@@ -4,6 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.FontTypes;
+using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
