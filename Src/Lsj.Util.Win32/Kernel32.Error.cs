@@ -262,7 +262,8 @@ namespace Lsj.Util.Win32
         /// you can use the __unaligned keyword to indicate that the type must be read one byte at a time.
         /// For more information, see Windows Data Alignment.
         /// Windows 7:
-        /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/> since it is less disruptive to the normal behavior of the system.
+        /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
+        /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", SetLastError = true)]
         public static extern uint SetErrorMode([In]ErrorModes uMode);
