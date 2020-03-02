@@ -223,6 +223,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Controls whether the system will handle the specified types of serious errors or whether the process will handle them.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-seterrormode
+        /// </para>
+        /// </summary>
+        /// <param name="uMode">
+        /// The process error mode. This parameter can be one or more of the following values.
+        /// 0: Use the system default, which is to display all error dialog boxes.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>, <see cref="SEM_NOALIGNMENTFAULTEXCEPT"/>,
+        /// <see cref="SEM_NOGPFAULTERRORBOX"/>, <see cref="SEM_NOOPENFILEERRORBOX"/>
+        /// </param>
+        /// <returns>
+        /// The return value is the previous state of the error-mode bit flags.
+        /// </returns>
+        /// <remarks>
+        /// Each process has an associated error mode that indicates to the system how the application is going to respond to serious errors.
+        /// A child process inherits the error mode of its parent process.
+        /// To retrieve the process error mode, use the <see cref="GetErrorMode"/> function.
+        /// Because the error mode is set for the entire process, you must ensure that multi-threaded applications do not set different error-mode flags.
+        /// Doing so can lead to inconsistent error handling.
+        /// The system does not make alignment faults visible to an application on all processor architectures.
+        /// Therefore, specifying <see cref="SEM_NOALIGNMENTFAULTEXCEPT"/> is not an error on such architectures,
+        /// but the system is free to silently ignore the request.
+        /// This means that code sequences such as the following are not always valid on x86 computers:
+        /// <code>
+        /// SetErrorMode(SEM_NOALIGNMENTFAULTEXCEPT); 
+        /// fuOldErrorMode = SetErrorMode(0); 
+        /// ASSERT(fuOldErrorMode == SEM_NOALIGNMENTFAULTEXCEPT);
+        /// </code>
+        /// Itanium:
+        /// An application must explicitly call <see cref="SetErrorMode"/> with <see cref="SEM_NOALIGNMENTFAULTEXCEPT"/>
+        /// to have the system automatically fix alignment faults.
+        /// The default setting is for the system to make alignment faults visible to an application.
+        /// Visual Studio 2005:
+        /// When declaring a pointer to a structure that may not have aligned data,
+        /// you can use the __unaligned keyword to indicate that the type must be read one byte at a time.
+        /// For more information, see Windows Data Alignment.
+        /// Windows 7:
+        /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/> since it is less disruptive to the normal behavior of the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", SetLastError = true)]
+        public static extern uint SetErrorMode([In]ErrorModes uMode);
+
+        /// <summary>
+        /// <para>
         /// Sets the last-error code for the calling thread.
         /// </para>
         /// <para>
