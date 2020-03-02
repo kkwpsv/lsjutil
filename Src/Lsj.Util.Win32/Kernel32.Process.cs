@@ -1156,7 +1156,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", SetLastError = true)]
         public static extern uint GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer, [In]uint nSize);
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint nSize);
 
         /// <summary>
         /// <para>
