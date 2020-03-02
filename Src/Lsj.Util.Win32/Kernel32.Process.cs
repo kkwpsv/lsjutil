@@ -1109,6 +1109,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current directory for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcurrentdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The length of the buffer for the current directory string, in TCHARs.
+        /// The buffer length must include room for a terminating null character.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer that receives the current directory string.
+        /// This null-terminated string specifies the absolute path to the current directory.
+        /// To determine the required buffer size, set this parameter to <see langword="null"/> and the <paramref name="nBufferLength"/> parameter to 0.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of characters that are written to the buffer,
+        /// not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the buffer that is pointed to by <paramref name="lpBuffer"/> is not large enough,
+        /// the return value specifies the required size of the buffer, in characters, including the null-terminating character.
+        /// </returns>
+        /// <remarks>
+        /// Each process has a single current directory that consists of two parts:
+        /// A disk designator that is either a drive letter followed by a colon, or a server name followed by a share name (\\servername\sharename)
+        /// A directory on the disk designator
+        /// To set the current directory, use the <see cref="SetCurrentDirectory"/> function.
+        /// Multithreaded applications and shared library code should not use the <see cref="GetCurrentDirectory"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="SetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", SetLastError = true)]
+        public static extern uint GetCurrentDirectory([In]uint nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pseudo handle for the current process.
         /// </para>
         /// <para>
