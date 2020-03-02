@@ -1078,6 +1078,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the environment variables for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentstringsw
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the environment block of the current process.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetEnvironmentStrings"/> function returns a pointer to a block of memory
+        /// that contains the environment variables of the calling process (both the system and the user environment variables).
+        /// Each environment block contains the environment variables in the following format:
+        /// Var1 Value1 Var2 Value2 Var3 Value3 VarN ValueN Treat this memory as read-only; do not modify it directly.
+        /// To add or change an environment variable, use the <see cref="GetEnvironmentVariable"/> and <see cref="SetEnvironmentVariable"/> functions.
+        /// When the block returned by <see cref="GetEnvironmentStrings"/> is no longer needed,
+        /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
+        /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", SetLastError = true)]
+        public static extern IntPtr GetEnvironmentStrings();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the termination status of the specified process.
         /// </para>
         /// <para>
