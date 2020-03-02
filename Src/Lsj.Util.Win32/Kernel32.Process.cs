@@ -1016,6 +1016,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Expands environment-variable strings and replaces them with the values defined for the current user.
+        /// To specify the environment block for a particular user or the system, use the ExpandEnvironmentStringsForUser function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpSrc">
+        /// A buffer that contains one or more environment-variable strings in the form: %variableName%.
+        /// For each such reference, the %variableName% portion is replaced with the current value of that environment variable.
+        /// Case is ignored when looking up the environment-variable name.
+        /// If the name is not found, the %variableName% portion is left unexpanded.
+        /// Note that this function does not support all the features that Cmd.exe supports.
+        /// For example, it does not support %variableName:str1= str2 % or % variableName:~offset,length%.
+        /// </param>
+        /// <param name="lpDst">
+        /// A pointer to a buffer that receives the result of expanding the environment variable strings in the <paramref name="lpSrc"/> buffer.
+        /// Note that this buffer cannot be the same as the <paramref name="lpSrc"/> buffer.
+        /// </param>
+        /// <param name="nSize">
+        /// The maximum number of characters that can be stored in the buffer pointed to by the <paramref name="lpDst"/> parameter.
+        /// When using ANSI strings, the buffer size should be the string length, plus terminating null character, plus one.
+        /// When using Unicode strings, the buffer size should be the string length plus the terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of TCHARs stored in the destination buffer, including the terminating null character.
+        /// If the destination buffer is too small to hold the expanded string, the return value is the required buffer size, in characters.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of the <paramref name="lpSrc"/> and <paramref name="lpDst"/> buffers is limited to 32K.
+        /// To replace folder names in a fully qualified path with their associated environment-variable strings,
+        /// use the <see cref="PathUnExpandEnvStrings"/> function.
+        /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", SetLastError = true)]
+        public static extern uint ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In]string lpSrc,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpDst, [In]uint nSize);
+
+        /// <summary>
+        /// <para>
         /// Flushes the instruction cache for the specified process.
         /// </para>
         /// <para>
