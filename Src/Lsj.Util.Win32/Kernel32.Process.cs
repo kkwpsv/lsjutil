@@ -1047,6 +1047,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Frees a block of environment strings.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-freeenvironmentstringsw
+        /// </para>
+        /// </summary>
+        /// <param name="penv"></param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you used the ANSI version of <see cref="GetEnvironmentStrings"/>, be sure to use the ANSI version of <see cref="FreeEnvironmentStrings"/>.
+        /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
+        /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeEnvironmentStrings([In]IntPtr penv);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pseudo handle for the current process.
         /// </para>
         /// <para>
