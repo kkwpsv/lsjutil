@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
 using System;
 using System.IO;
@@ -34,11 +35,16 @@ namespace Lsj.Util.Net.Web.Message
             {
                 if (_content == null)
                 {
-                    _content = new MemoryStream(ContentLength);
+                    _content = new MemoryStream();
                 }
                 return _content;
             }
         }
+
+        /// <summary>
+        /// ContentLength
+        /// </summary>
+        public virtual int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
 
         private bool _isReadHeader;
 
@@ -67,38 +73,40 @@ namespace Lsj.Util.Net.Web.Message
             {
                 if (*ptr == ASCIIChar.CR && (long)(++ptr) <= (long)end && *ptr == ASCIIChar.LF)//判断是否为行尾
                 {
-                    #region When End Header
+                    var length = (int)(ptr - start) + 1;//读取长度
+                    bool isEnd = false;
                     if ((long)(ptr + 2) <= (long)end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
                     {
-                        var length = (int)(ptr - start) + 1;//读取长度
-                        ParseLine(start, length - 2);
-                        read += length;
-                        read += 2;
-                        return true;
+                        isEnd = true;
                     }
-                    #endregion When End Header
+
+                    if (Method == HttpMethod.UnParsed)//判断是否Parse首行
+                    {
+                        if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
+                        {
+                            ErrorCode = 400;
+                            return true;
+                        }
+                        read += length;//读取字节数增加
+                    }
                     else
                     {
-                        var length = (int)(ptr - start) + 1;//读取长度
-                        if (this.Method == HttpMethod.UnParsed)//判断是否Parse首行
+                        if (!ParseLine(start, length - 2, out var errorcode))
                         {
-                            if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
-                            {
-                                this.ErrorCode = 400;
-                                return true;
-                            }
-                            read += length;//读取字节数增加
+                            ErrorCode = errorcode;
+                            return true;
                         }
-                        else
-                        {
-                            if (!ParseLine(start, length - 2))
-                            {
-                                this.ErrorCode = 400;
-                                return true;
-                            }
-                            read += length;
-                        }
+                        read += length;
+                    }
+
+                    if (!isEnd)
+                    {
                         start = ++ptr;//开始位置和当前位置后移
+                    }
+                    else
+                    {
+                        read += 2;
+                        return true;
                     }
                 }
             }
@@ -193,6 +201,26 @@ namespace Lsj.Util.Net.Web.Message
             else
             {
                 return false;
+            }
+        }
+
+        protected override bool ValidateHeader(string name, string content, out int errorcode)
+        {
+            errorcode = 200;
+            switch (name)
+            {
+                case "Content-Length":
+                    if (content.ConvertToLong(long.MaxValue) < int.MaxValue)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        errorcode = 413;
+                        return false;
+                    }
+                default:
+                    return base.ValidateHeader(name, content, out errorcode);
             }
         }
 

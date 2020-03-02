@@ -50,7 +50,14 @@ namespace Lsj.Util.Net.Web.Interfaces
         string UserHostAddress
         {
             get;
+        }
 
+        /// <summary>
+        /// ContentLength
+        /// </summary>
+        int ContentLength
+        {
+            get;
         }
     }
 }

@@ -4,15 +4,20 @@ using System.IO.Compression;
 using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
+using Lsj.Util.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
     class FileResponse : HttpResponse
     {
+        public override long ContentLength => Headers[HttpHeader.ContentLength].ConvertToLong();
+
+        public override Stream Content => content;
+
         public FileResponse(string path, IHttpRequest request) : base()
         {
             var file = new FileInfo(path);
-            using var fileStream = file.OpenRead();
+            var fileStream = file.OpenRead();
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
             Headers[HttpHeader.ContentType] = MIME.GetContentTypeByExtension(System.IO.Path.GetExtension(path));
             Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
@@ -26,7 +31,7 @@ namespace Lsj.Util.Net.Web.Message
                 (long start, long length) fileRange = (0, fileStream.Length);
 
                 var range = request.Headers[HttpHeader.Range]?.Trim();
-                if (range != null)
+                if (!range.IsNullOrEmpty())
                 {
                     if (range.StartsWith("bytes="))
                     {
@@ -52,7 +57,7 @@ namespace Lsj.Util.Net.Web.Message
                 Headers[HttpHeader.ContentRange] = $"bytes {fileRange.start}-{fileRange.start + fileRange.length - 1}/{fileStream.Length}";
                 this.ErrorCode = is206 ? 206 : 200;
 
-                if (request.Headers[HttpHeader.AcceptEncoding].Contains("gzip"))
+                if (request.Headers[HttpHeader.AcceptEncoding].Contains("gzip") && fileRange.length < 10 * 1024 * 1024)
                 {
                     using (var compress = new GZipStream(content, CompressionMode.Compress, true))
                     {
@@ -63,9 +68,14 @@ namespace Lsj.Util.Net.Web.Message
                 else
                 {
                     Headers[HttpHeader.ContentLength] = fileRange.length.ToString();
-                    fileStream.CopyToWithCount(content, fileRange.length);
+                    this.content = fileStream;
                 }
             }
+        }
+
+        protected override void CleanUpUnmanagedResources()
+        {
+            content.Dispose();
         }
     }
 

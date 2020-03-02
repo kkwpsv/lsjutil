@@ -15,24 +15,25 @@ namespace Lsj.Util.Net.Web.Message
     /// </summary>
     public class HttpResponse : HttpMessageBase, IHttpResponse
     {
-        bool parsefirst = false;
-        /// <summary>
-        /// ContentLength
-        /// </summary>
-        public override int ContentLength => content.Length.ConvertToInt();
-
-        Stream IHttpMessage.Content
-        {
-            get
-            {
-                return new MemoryStream(content.ReadAll(), false);
-            }
-        }
-
         /// <summary>
         /// Content
         /// </summary>
-        public Stream content;
+        protected Stream content;
+
+        /// <summary>
+        /// ContentLength
+        /// </summary>
+        public virtual long ContentLength => content.Length;
+
+        public override Stream Content
+        {
+            get
+            {
+                content.Seek(0, SeekOrigin.Begin);
+                return content;
+            }
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Lsj.Util.Net.Web.Message.HttpResponse"/> class.
         /// </summary>
@@ -41,6 +42,8 @@ namespace Lsj.Util.Net.Web.Message
             this.content = new MemoryStream();
             this.HttpVersion = new Version(1, 1);
         }
+
+        //Fucking Pointer.....
         /// <summary>
         /// 
         /// </summary>
@@ -49,7 +52,6 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="count"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        //Fucking Pointer.....
         unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
             read = 0;
@@ -64,45 +66,50 @@ namespace Lsj.Util.Net.Web.Message
                         read += 2;
                         return true;
                     }
-                    #region When End Header
+                    int length = (int)(ptr - start) + 1;
+                    bool IsEnd = false;
+
                     if (i + 1 < count && *(ptr + 1) == ASCIIChar.CR && i + 2 < count && *(ptr + 2) == ASCIIChar.LF)
+                    {
+                        IsEnd = true;
+                    }
+
+                    if (!parsefirst)
+                    {
+                        if (!ParseFirstLine(start, length - 2))
+                        {
+                            return true;
+                        }
+                        read += length;
+                    }
+                    else
+                    {
+                        if (!ParseLine(start, length - 2, out var errorCode))
+                        {
+                            ErrorCode = errorCode;
+                            return true;
+                        }
+                        read += length;
+                    }
+
+
+                    if (!IsEnd)
+                    {
+                        start = ptr + 1;
+                    }
+                    else
                     {
                         ptr = ptr + 2;
                         i = i + 2;
-                        int length = (int)(ptr - start) + 1;
-                        ParseLine(start, length - 2);
-                        read += length;
+
                         return true;
-                    }
-                    #endregion When End Header
-                    else
-                    {
-                        #region ParseHeader
-                        var length = (int)(ptr - start) + 1;
-                        if (!parsefirst)
-                        {
-                            if (!ParseFirstLine(start, length - 2))
-                            {
-                                return true;
-                            }
-                            read += length;
-                        }
-                        else
-                        {
-                            if (!ParseLine(start, length - 2))
-                            {
-                                this.ErrorCode = 400;
-                                return true;
-                            }
-                            read += length;
-                        }
-                        #endregion ParseHeader
-                        start = ptr + 1;
                     }
                 }
             }
             return false;
         }
+
+        bool parsefirst = false;
 
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {
@@ -162,6 +169,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             this.content.Write(buffer);
         }
+
         /// <summary>
         /// Write 
         /// </summary>
@@ -175,6 +183,7 @@ namespace Lsj.Util.Net.Web.Message
             }
             this.Write(str.ConvertToBytes(Encoding.UTF8));
         }
+
         /// <summary>
         /// Write 304
         /// </summary>
@@ -182,6 +191,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             this.ErrorCode = 304;
         }
+
         /// <summary>
         /// Get HttpHeader
         /// </summary>
@@ -215,6 +225,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             Write(@"<script language=""javascript"" charset=""utf-8""> alert(""" + str + @""");document.location.href=""" + url + @""";</script>");
         }
+
         /// <summary>
         /// Redirect the specified url
         /// </summary>

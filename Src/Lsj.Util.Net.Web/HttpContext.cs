@@ -141,7 +141,11 @@ namespace Lsj.Util.Net.Web
                 await Task.WhenAny(Task.Delay(timeout), Read(source.Token));
 #endif
                 Status = ContextStatus.Processing;
-                if (!Request.IsReadFinish)
+                if (Request.IsReadFinish || Request.IsError)
+                {
+                    await Process();
+                }
+                else
                 {
                     source.Cancel();
                     if (_socket.Connected)
@@ -153,10 +157,6 @@ namespace Lsj.Util.Net.Web
                     {
                         Status = ContextStatus.Disposing;
                     }
-                }
-                else
-                {
-                    await Process();
                 }
             });
         }
@@ -250,24 +250,51 @@ namespace Lsj.Util.Net.Web
 
         private async Task DoResponse()
         {
-            if (_socket.Connected)
+            try
             {
-                Status = ContextStatus.Sending;
-                Response.Headers.Add(HttpHeader.Server, _server.Name);
 
-                await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
-                await Response.Content.CopyToAsync(Stream);
-                await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
+                if (_socket.Connected)
+                {
+                    Status = ContextStatus.Sending;
+                    Response.Headers.Add(HttpHeader.Server, _server.Name);
 
-                if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
-                {
-                    ProcessNextRequest(120 * 1000);
+                    await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
+
+                    var length = Response.ContentLength;
+                    if (length != 0)
+                    {
+                        await Response.Content.CopyToAsyncWithCount(Stream, length);
+                    }
+                    else
+                    {
+                        await Response.Content.CopyToAsync(Stream);
+                    }
+
+                    await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
+
+                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
+                    {
+                        ProcessNextRequest(120 * 1000);
+                    }
+                    else
+                    {
+                        _socket.Shutdown();
+                        Status = ContextStatus.Disposing;
+                    }
                 }
-                else
-                {
-                    _socket.Shutdown();
-                    Status = ContextStatus.Disposing;
-                }
+            }
+            catch (Exception e) when (e is IOException || e is SocketException)
+            {
+                LogProvider.Default.Debug(e);
+            }
+            catch (Exception e)
+            {
+                LogProvider.Default.Warn(e);
+            }
+            finally
+            {
+                Response.Dispose();
+                Response = null;
             }
         }
 

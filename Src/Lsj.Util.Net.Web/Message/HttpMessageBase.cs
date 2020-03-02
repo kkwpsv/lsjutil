@@ -54,11 +54,6 @@ namespace Lsj.Util.Net.Web.Message
         }
 
         /// <summary>
-        /// ContentLength
-        /// </summary>
-        public virtual int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
-
-        /// <summary>
         /// IsError
         /// </summary>
         public bool IsError => ErrorCode >= 400;
@@ -125,7 +120,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        protected unsafe bool ParseLine(byte* start, int length)
+        protected unsafe bool ParseLine(byte* start, int length, out int errorcode)
         {
             byte* ptr = start;
             for (int i = 0; i < length; i++, ptr++)
@@ -136,24 +131,33 @@ namespace Lsj.Util.Net.Web.Message
                     if (*(++ptr) == ASCIIChar.SPACE)
                     {
                         var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
-                        if (name != Header.GetNameByHeader(HttpHeader.Cookie))
+                        if (ValidateHeader(name, content, out errorcode))
                         {
-                            Headers.Add(name, content);
+                            if (name != Header.GetNameByHeader(HttpHeader.Cookie))
+                            {
+                                Headers.Add(name, content);
+                            }
+                            else
+                            {
+                                Cookies.Add(content);
+                            }
+                            return true;
                         }
                         else
                         {
-                            Cookies.Add(content);
+                            return false;
                         }
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
             }
+            errorcode = 400;
             return false;
+        }
+
+        protected virtual bool ValidateHeader(string name, string content, out int errorcode)
+        {
+            errorcode = 200;
+            return true;
         }
 
         /// <summary>
