@@ -1338,5 +1338,36 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", SetLastError = true)]
         public static extern void GetStartupInfo([Out]out STARTUPINFO lpStartupInfo);
+
+        /// <summary>
+        /// <para>
+        /// Sets the contents of the specified environment variable for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setenvironmentvariablew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the environment variable.
+        /// The operating system creates the environment variable if it does not exist and <paramref name="lpValue"/> is not <see langword="null"/>.
+        /// </param>
+        /// <param name="lpValue">
+        /// The contents of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters.
+        /// For more information, see Environment Variables.
+        /// Windows Server 2003 and Windows XP:  The total size of the environment block for a process may not exceed 32,767 characters.
+        /// If this parameter is <see langword="null"/>, the variable is deleted from the current process's environment.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function has no effect on the system environment variables or the environment variables of other processes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpValue);
     }
 }
