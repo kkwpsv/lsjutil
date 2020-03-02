@@ -37,6 +37,32 @@ namespace Lsj.Util
         }
 
         /// <summary>
+        /// CopyToAsync with Count 
+        /// </summary>
+        /// <param name="src">Source Stream.</param>
+        /// <param name="des">Destination Stream.</param>
+        /// <param name="count">Copy Count.</param>
+        public static async Task<long> CopyToAsyncWithCount(this Stream src, Stream des, long count)
+        {
+            var bufferSize = 81920;
+            var buffer = new byte[bufferSize];
+            var copied = 0L;
+
+            while (count != 0)
+            {
+                var bytesRead = await src.ReadAsync(buffer, 0, bufferSize);
+                if (bytesRead == 0)
+                {
+                    break;
+                }
+                copied += bytesRead;
+                await des.WriteAsync(buffer, 0, bytesRead);
+                count -= bytesRead;
+            }
+            return copied;
+        }
+
+        /// <summary>
         /// ReadAll (Seek Before Read)
         /// </summary>
         /// <param name="stream"></param>
@@ -79,6 +105,19 @@ namespace Lsj.Util
             }
             return result.ToArray();
         }
+
+#if NET40
+        /// <summary>
+        /// ReadAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static Task<int> ReadAsync(this Stream stream, byte[] buffer, int offset, int length) =>
+            Task<int>.Factory.FromAsync(stream.BeginRead, stream.EndRead, buffer, offset, length, null);
+#endif
 
         /// <summary>
         /// Write
