@@ -1126,6 +1126,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the contents of the specified variable from the environment block of the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the environment variable.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the contents of the specified environment variable as a null-terminated string.
+        /// An environment variable has a maximum size limit of 32,767 characters, including the null-terminating character.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter, including the null-terminating character, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of characters stored in the buffer pointed to by <paramref name="lpBuffer"/>,
+        /// not including the terminating null character.
+        /// If <paramref name="lpBuffer"/> is not large enough to hold the data, the return value is the buffer size, in characters,
+        /// required to hold the string and its terminating null character and the contents of <paramref name="lpBuffer"/> are undefined.
+        /// If the function fails, the return value is zero.
+        /// If the specified environment variable was not found in the environment block,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_ENVVAR_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function can retrieve either a system environment variable or a user environment variable.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", SetLastError = true)]
+        public static extern uint GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer, [In]uint nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the termination status of the specified process.
         /// </para>
         /// <para>
