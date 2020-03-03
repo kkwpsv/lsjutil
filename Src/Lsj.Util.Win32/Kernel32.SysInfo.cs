@@ -300,6 +300,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// With the release of Windows 8.1, the behavior of the <see cref="GetVersion"/> API has changed in the value
+        /// it will return for the operating system version.
+        /// The value returned by the <see cref="GetVersion"/> function now depends on how the application is manifested.
+        /// Applications not manifested for Windows 8.1 or Windows 10 will return the Windows 8 OS version value (6.2).
+        /// Once an application is manifested for a given operating system version,
+        /// <see cref="GetVersion"/> will always return the version that the application is manifested for in future releases.
+        /// To manifest your applications for Windows 8.1 or Windows 10, refer to Targeting your application for Windows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value includes the major and minor version numbers of the operating system in the low-order word,
+        /// and information about the operating system platform in the high-order word.
+        /// For all platforms, the low-order word contains the version number of the operating system.
+        /// The low-order byte of this word specifies the major version number, in hexadecimal notation.
+        /// The high-order byte specifies the minor version (revision) number, in hexadecimal notation.
+        /// The high-order bit is zero, the next 7 bits represent the build number, and the low-order byte is 5.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetVersionEx"/> function was developed because many existing applications err when examining
+        /// the packed DWORD value returned by <see cref="GetVersion"/>, transposing the major and minor version numbers.
+        /// <see cref="GetVersionEx"/> forces applications to explicitly examine each element of version information.
+        /// <see cref="VerifyVersionInfo"/> eliminates further potential for error
+        /// by comparing the required system version with the current system version for you.
+        /// </remarks>
+        [Obsolete("GetVersion may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersion", SetLastError = true)]
+        public static extern uint GetVersion();
+
+        /// <summary>
+        /// <para>
         /// With the release of Windows 8.1, the behavior of the <see cref="GetVersionEx"/> API has changed in the value
         /// it will return for the operating system version.
         /// The value returned by the <see cref="GetVersionEx"/> function now depends on how the application is manifested.
