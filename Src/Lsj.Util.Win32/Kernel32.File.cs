@@ -2287,6 +2287,83 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the full path and file name of the specified file.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFullPathNameTransacted"/> function.
+        /// For more information about file and path names, see File Names, Paths, and Namespaces.
+        /// The <see cref="GetFullPathName"/> function is not recommended for multithreaded applications or shared library code.
+        /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfullpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// This parameter can be a short (the 8.3 form) or long file name. This string can also be a share or volume name.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFullPathName"/>),
+        /// and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFullPathName"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer to receive the null-terminated string for the drive and path, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the null-terminated string for the drive and path.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to a buffer that receives the address (within <paramref name="lpBuffer"/>) of the final file name component in the path.
+        /// This parameter can be <see cref="IntPtr.Zero"/>.
+        /// If <paramref name="lpBuffer"/> refers to a directory and not a file, <paramref name="lpFilePart"/> receives zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs, of the string copied to <paramref name="lpBuffer"/>,
+        /// not including the terminating null character.
+        /// If the <paramref name="lpBuffer"/> buffer is too small to contain the path, the return value is the size, in TCHARs
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetFullPathName"/> merges the name of the current drive and directory with a specified file name
+        /// to determine the full path and file name of a specified file.
+        /// It also calculates the address of the file name portion of the full path and file name.
+        /// This function does not verify that the resulting path and file name are valid, or that they see an existing file on the associated volume.
+        /// Note that the <paramref name="lpFilePart"/> parameter does not require string buffer space, but only enough for a single address.
+        /// This is because it simply returns an address within the buffer that already exists for <paramref name="lpBuffer"/>.
+        /// Share and volume names are valid input for <paramref name="lpFileName"/>.
+        /// For example, the following list identities the returned path and file names if test-2 is a remote computer and U: is a network mapped drive
+        /// whose current directory is the root of the volume:
+        /// If you specify "\\test-2\q$\lh" the path returned is "\\test-2\q$\lh"
+        /// If you specify "\\?\UNC\test-2\q$\lh" the path returned is "\\?\UNC\test-2\q$\lh"
+        /// If you specify "U:" the path returned is the current directory on the "U:\" drive
+        /// <see cref="GetFullPathName"/> does not convert the specified file name, <paramref name="lpFileName"/>.
+        /// If the specified file name exists, you can use <see cref="GetLongPathName"/> or <see cref="GetShortPathName"/>
+        /// to convert to long or short path names, respectively.
+        /// If the return value is greater than or equal to the value specified in <paramref name="nBufferLength"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case in addition to using zero-length buffer for dynamic allocation, see the Example Code section.
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// Multithreaded applications and shared library code should not use the <see cref="GetFullPathName"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="SetCurrentDirectory"/> and <see cref="GetCurrentDirectory"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", SetLastError = true)]
+        public static extern uint GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint nBufferLength,
+            [In]IntPtr lpBuffer, [In]IntPtr lpFilePart);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
         /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
