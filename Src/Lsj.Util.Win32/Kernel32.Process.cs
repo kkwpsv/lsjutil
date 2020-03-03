@@ -1384,6 +1384,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Changes the current directory for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcurrentdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The path to the new current directory.
+        /// This parameter may specify a relative path or a full path.
+        /// In either case, the full path of the specified directory is calculated and stored as the current directory.
+        /// For more information, see File Names, Paths, and Namespaces.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// The final character before the null character must be a backslash ('').
+        /// If you do not specify the backslash, it will be added for you; therefore, specify <see cref="MAX_PATH"/>-2 characters
+        /// for the path unless you include the trailing backslash, in which case, specify <see cref="MAX_PATH"/>-1 characters for the path.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SetCurrentDirectory"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each process has a single current directory made up of two parts:
+        /// A disk designator that is either a drive letter followed by a colon, or a server name and share name (\\servername\sharename)
+        /// A directory on the disk designator
+        /// Multithreaded applications and shared library code should not use the <see cref="SetCurrentDirectory"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="GetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
+
+        /// <summary>
+        /// <para>
         /// Sets the contents of the specified environment variable for the current process.
         /// </para>
         /// <para>
