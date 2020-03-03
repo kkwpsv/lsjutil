@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 
 namespace Lsj.Util.Win32
 {
@@ -432,5 +433,45 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", SetLastError = true)]
         public static extern uint GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+
+        /// <summary>
+        /// <para>
+        /// Compares a set of operating system version requirements to the corresponding values for the currently running version of the system.
+        /// This function is subject to manifest-based behavior.
+        /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-verifyversioninfow
+        /// </para>
+        /// </summary>
+        /// <param name="lpVersionInformation">
+        /// A pointer to an <see cref="OSVERSIONINFOEX"/> structure containing the operating system version requirements to compare.
+        /// The <paramref name="dwTypeMask"/> parameter indicates the members of this structure that contain information to compare.
+        /// You must set the <see cref="OSVERSIONINFOEX.dwOSVersionInfoSize"/> member of this structure to sizeof(<see cref="OSVERSIONINFOEX"/>).
+        /// You must also specify valid data for the members indicated by <paramref name="dwTypeMask"/>.
+        /// The function ignores structure members for which the corresponding <paramref name="dwTypeMask"/> bit is not set.
+        /// </param>
+        /// <param name="dwTypeMask">
+        /// A mask that indicates the members of the <see cref="OSVERSIONINFOEX"/> structure to be tested.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="VER_BUILDNUMBER"/>, <see cref="VER_MAJORVERSION"/>, <see cref="VER_MINORVERSION"/>, <see cref="VER_PLATFORMID"/>,
+        /// <see cref="VER_SERVICEPACKMAJOR"/>, <see cref="VER_SERVICEPACKMINOR"/>, <see cref="VER_SUITENAME"/>, <see cref="VER_PRODUCT_TYPE"/>
+        /// </param>
+        /// <param name="dwlConditionMask">
+        /// The type of comparison to be used for each lpVersionInfo member being compared
+        /// To build this value, call the <see cref="VerSetConditionMask"/> function
+        /// or the <see cref="VER_SET_CONDITION"/> macro once for each <see cref="OSVERSIONINFOEX"/> member being compared.
+        /// </param>
+        /// <returns>
+        /// If the currently running operating system satisfies the specified requirements, the return value is <see langword="true"/>.
+        /// If the current system does not satisfy the requirements, the return value is <see langword="false"/>
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_OLD_WIN_VERSION"/>.
+        /// If the function fails, the return value is <see langword="false"/>
+        /// and <see cref="GetLastError"/> returns an error code other than <see cref="ERROR_OLD_WIN_VERSION"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool VerifyVersionInfo([MarshalAs(UnmanagedType.LPStruct)]OSVERSIONINFOEX lpVersionInformation,
+            [In]VerifyVersionInfoTypeMasks dwTypeMask, [In]ulong dwlConditionMask);
     }
 }
