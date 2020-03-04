@@ -562,5 +562,54 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
         public static extern int GetThreadPriority([In]IntPtr hThread);
+
+        /// <summary>
+        /// <para>
+        /// Terminates a thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread to be terminated.
+        /// The handle must have the <see cref="THREAD_TERMINATE"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="dwExitCode">
+        /// The exit code for the thread.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="TerminateThread"/> is used to cause a thread to exit.
+        /// When this occurs, the target thread has no chance to execute any user-mode code.
+        /// DLLs attached to the thread are not notified that the thread is terminating.
+        /// The system frees the thread's initial stack.
+        /// Windows Server 2003 and Windows XP:  The target thread's initial stack is not freed, causing a resource leak.
+        /// <see cref="TerminateThread"/> is a dangerous function that should only be used in the most extreme cases.
+        /// You should call <see cref="TerminateThread"/> only if you know exactly what the target thread is doing,
+        /// and you control all of the code that the target thread could possibly be running at the time of the termination.
+        /// For example, <see cref="TerminateThread"/> can result in the following problems:
+        /// If the target thread owns a critical section, the critical section will not be released.
+        /// If the target thread is allocating memory from the heap, the heap lock will not be released.
+        /// If the target thread is executing certain kernel32 calls when it is terminated, the kernel32 state for the thread's process could be inconsistent.
+        /// If the target thread is manipulating the global state of a shared DLL, the state of the DLL could be destroyed, affecting other users of the DLL
+        /// A thread cannot protect itself against <see cref="TerminateThread"/>, other than by controlling access to its handles.
+        /// The thread handle returned by the <see cref="CreateThread"/> and <see cref="CreateProcess"/> functions has <see cref="THREAD_TERMINATE"/> access,
+        /// so any caller holding one of these handles can terminate your thread.
+        /// If the target thread is the last thread of a process when this function is called, the thread's process is also terminated.
+        /// The state of the thread object becomes signaled, releasing any other threads that had been waiting for the thread to terminate.
+        /// The thread's termination status changes from <see cref="STILL_ACTIVE"/> to the value of the dwExitCode parameter.
+        /// Terminating a thread does not necessarily remove the thread object from the system.
+        /// A thread object is deleted when the last thread handle is closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TerminateThread([In]IntPtr hThread, [In]uint dwExitCode);
     }
 }
