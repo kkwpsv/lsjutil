@@ -136,7 +136,10 @@ namespace Lsj.Util.JSON
                     }
                     else
                     {
-                        var properties = val.GetType().GetProperties().Where(x => !x.HasAttribute<NotSerializeAttribute>() && !x.GetIndexParameters().Any());
+                        var notSerializeProperties = val.GetType().GetAttribute<NotSerializePropertyAttribute>()?.Properties;
+                        var properties = val.GetType().GetProperties().
+                            Where(x => !x.HasAttribute<NotSerializeAttribute>() && !x.GetIndexParameters().Any() &&
+                            (notSerializeProperties == null || !notSerializeProperties.Contains(x.Name)));
                         foreach (var property in properties)
                         {
                             flag = true;
