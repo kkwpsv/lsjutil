@@ -21,7 +21,21 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
+        public static int SafeToInt32(this UIntPtr ptr) => unchecked((int)ptr.SafeToUInt32());
+
+        /// <summary>
+        /// Safe Convert To <see cref="uint"/>
+        /// </summary>
+        /// <param name="ptr"></param>
+        /// <returns></returns>
         public static uint SafeToUInt32(this IntPtr ptr) => unchecked((uint)ptr.SafeToInt32());
+
+        /// <summary>
+        /// Safe Convert To <see cref="uint"/>
+        /// </summary>
+        /// <param name="ptr"></param>
+        /// <returns></returns>
+        public static uint SafeToUInt32(this UIntPtr ptr) => UIntPtr.Size == 8 ? (uint)ptr.ToUInt64() : ptr.ToUInt32();
 
         /// <summary>
         /// Safe Convert To <see cref="long"/>

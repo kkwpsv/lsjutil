@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -12,8 +14,8 @@
     {
         /// <summary>
         /// <para>
-        /// Power setting change event sent with a <see cref="WindowsMessages.WM_POWERBROADCAST"/> window message or
-        /// in a <see cref="HandlerEx"/> notification callback for services.
+        /// Power setting change event sent with a <see cref="WM_POWERBROADCAST"/> window message or
+        /// in a HandlerEx notification callback for services.
         /// </para>
         /// </summary>
         PBT_POWERSETTINGCHANGE = 0x8013

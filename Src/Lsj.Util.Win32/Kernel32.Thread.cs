@@ -4,6 +4,8 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
+using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 
 namespace Lsj.Util.Win32
 {
@@ -382,5 +384,131 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", SetLastError = true)]
         public static extern void ExitThread([In]uint dwExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pseudo handle for the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthread
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a pseudo handle for the current thread.
+        /// </returns>
+        /// <remarks>
+        /// A pseudo handle is a special constant that is interpreted as the current thread handle.
+        /// The calling thread can use this handle to specify itself whenever a thread handle is required.
+        /// Pseudo handles are not inherited by child processes.
+        /// This handle has the <see cref="THREAD_ALL_ACCESS"/> access right to the thread object.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// This handle has the maximum access allowed by the security descriptor of the thread to the primary token of the process.
+        /// The function cannot be used by one thread to create a handle that can be used by other threads to refer to the first thread.
+        /// The handle is always interpreted as referring to the thread that is using it.
+        /// A thread can create a "real" handle to itself that can be used by other threads, or inherited by other processes,
+        /// by specifying the pseudo handle as the source handle in a call to the <see cref="DuplicateHandle"/> function.
+        /// The pseudo handle need not be closed when it is no longer needed.
+        /// Calling the <see cref="CloseHandle"/> function with this handle has no effect.
+        /// If the pseudo handle is duplicated by <see cref="DuplicateHandle"/>, the duplicate handle must be closed.
+        /// Do not create a thread while impersonating a security context.
+        /// The call will succeed, however the newly created thread will have reduced access rights to itself when calling <see cref="GetCurrentThread"/>.
+        /// The access rights granted this thread will be derived from the access rights the impersonated user has to the process.
+        /// Some access rights including <see cref="THREAD_SET_THREAD_TOKEN"/> and <see cref="THREAD_GET_CONTEXT"/> may not be present,
+        /// leading to unexpected failures.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", SetLastError = true)]
+        public static extern IntPtr GetCurrentThread();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the thread identifier of the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the thread identifier of the calling thread.
+        /// </returns>
+        /// <remarks>
+        /// Until the thread terminates, the thread identifier uniquely identifies the thread throughout the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", SetLastError = true)]
+        public static extern uint GetCurrentThreadId();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the termination status of the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodethread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpExitCode">
+        /// A pointer to a variable to receive the thread termination status.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns immediately.
+        /// If the specified thread has not terminated and the function succeeds, the status returned is <see cref="STILL_ACTIVE"/>.
+        /// If the thread has terminated and the function succeeds, the status returned is one of the following values:
+        /// The exit value specified in the <see cref="ExitThread"/> or <see cref="TerminateThread"/> function.
+        /// The return value from the thread function.
+        /// The exit value of the thread's process.
+        /// The <see cref="GetExitCodeThread"/> function returns a valid error code defined by the application only after the thread terminates.
+        /// Therefore, an application should not use <see cref="STILL_ACTIVE"/> as an error code.
+        /// If a thread returns <see cref="STILL_ACTIVE"/> as an error code, applications that test for this value could interpret it to mean
+        /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
+        /// which could put the application into an infinite loop.
+        /// To avoid this problem, callers should call the <see cref="GetExitCodeThread"/> function only after the thread has been confirmed to have exited.
+        /// Use the <see cref="WaitForSingleObject"/> function with a wait duration of zero to determine whether a thread has exited.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetExitCodeThread([In]IntPtr hThread, [Out]out uint lpExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the priority value for the specified thread.
+        /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003:  The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's priority level.
+        /// If the function fails, the return value is <see cref="THREAD_PRIORITY_ERROR_RETURN"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the thread has the <see cref="REALTIME_PRIORITY_CLASS"/> base class,
+        /// this function can also return one of the following values: -7, -6, -5, -4, -3, 3, 4, 5, or 6.
+        /// For more information, see Scheduling Priorities.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base-priority level determined by the thread's priority value and the priority class of its process.
+        /// The operating system uses the base-priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level will scheduling of threads at a lower level take place.
+        /// For a table that shows the base-priority levels for each combination of priority class and thread priority value,
+        /// refer to the <see cref="SetPriorityClass"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
+        public static extern int GetThreadPriority([In]IntPtr hThread);
     }
 }

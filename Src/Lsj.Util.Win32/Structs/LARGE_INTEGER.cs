@@ -31,12 +31,12 @@ namespace Lsj.Util.Win32.Structs
         /// 
         /// </summary>
         [FieldOffset(4)]
-        public uint HighPart;
+        public int HighPart;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public ulong QuadPart;
+        public long QuadPart;
     }
 }

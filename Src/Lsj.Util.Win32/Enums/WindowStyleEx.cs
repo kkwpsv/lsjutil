@@ -2,6 +2,7 @@
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.WinHelpCommand;
 
 namespace Lsj.Util.Win32.Enums
 {

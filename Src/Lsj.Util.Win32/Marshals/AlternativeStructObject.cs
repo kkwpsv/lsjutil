@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Marshals
         /// <param name="val"></param>
         public AlternativeStructObject(T2 val)
         {
-            IsStruct2 = false;
+            IsStruct2 = true;
             T2Val = val;
         }
 

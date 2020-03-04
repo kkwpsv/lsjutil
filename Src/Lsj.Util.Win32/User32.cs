@@ -2,7 +2,9 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -111,6 +113,90 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
+        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", SetLastError = true)]
+        public static extern IntPtr GetSubMenu([In]IntPtr hMenu, [In]int nPos);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current color of the specified display element.
+        /// Display elements are the parts of a window and the display that appear on the system display screen.
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// The display element whose color is to be retrieved
+        /// </param>
+        /// <returns>
+        /// The function returns the red, green, blue (RGB) color value of the given element.
+        /// If the <paramref name="nIndex"/> parameter is out of range, the return value is zero.
+        /// Because zero is also a valid RGB value, you cannot use <see cref="GetSysColor"/> to determine 
+        /// whether a system color is supported by the current platform.
+        /// Instead, use the <see cref="GetSysColorBrush"/> function, which returns <see cref="IntPtr.Zero"/> if the color is not supported.
+        /// </returns>
+        /// <remarks>
+        /// To display the component of the RGB value, use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros.
+        /// System colors for monochrome displays are usually interpreted as shades of gray.
+        /// To paint with a system color brush, an application should use <see cref="GetSysColorBrush"/>(nIndex),
+        /// instead of <see cref="CreateSolidBrush"/>(<see cref="GetSysColor"/>(nIndex)),
+        /// because <see cref="GetSysColorBrush"/> returns a cached brush, instead of allocating a new one.
+        /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", SetLastError = true)]
+        public static extern uint GetSysColor([In]SystemColors nIndex);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetSysColorBrush"/> function retrieves a handle identifying a logical brush that corresponds to the specified color index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsyscolorbrush
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// A color index.
+        /// This value corresponds to the color used to paint one of the window elements.
+        /// See <see cref="GetSysColor"/> for system color index values.
+        /// </param>
+        /// <returns>
+        /// The return value identifies a logical brush if the nIndex parameter is supported by the current platform.
+        /// Otherwise, it returns <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// An application can retrieve the current system colors by calling the <see cref="GetSysColor"/> function.
+        /// An application can set the current system colors by calling the <see cref="SetSysColors"/> function.
+        /// An application must not register a window class for a window using a system brush.
+        /// To register a window class with a system color, see the documentation of the <see cref="WNDCLASS.hbrBackground"/> member
+        /// of the <see cref="WNDCLASS"/> or <see cref="WNDCLASSEX"/> structures.
+        /// System color brushes track changes in system colors.
+        /// In other words, when the user changes a system color, the associated system color brush automatically changes to the new color.
+        /// To paint with a system color brush, an application should use <see cref="GetSysColorBrush"/> (nIndex) instead of
+        /// <see cref="CreateSolidBrush"/> ( <see cref="GetSysColor"/> (nIndex)),
+        /// because <see cref="GetSysColorBrush"/> returns a cached brush instead of allocating a new one.
+        /// System color brushes are owned by the system so you don't need to destroy them.
+        /// Although you don't need to delete the logical brush that <see cref="GetSysColorBrush"/> returns,
+        /// no harm occurs by calling <see cref="DeleteObject"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", SetLastError = true)]
+        public static extern IntPtr GetSysColorBrush([In]SystemColors nIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the specified system metric or system configuration setting.
         /// Note that all dimensions retrieved by <see cref="GetSystemMetrics"/> are in pixels.
         /// </para>
@@ -149,6 +235,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
         public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetUserObjectSecurity"/> function retrieves security information for the specified user object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to the user object for which to return security information.
+        /// </param>
+        /// <param name="pSIRequested">
+        /// A pointer to a <see cref="SECURITY_INFORMATION"/> value that specifies the security information being requested.
+        /// </param>
+        /// <param name="pSID">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure in self-relative format that contains the requested information
+        /// when the function returns. This buffer must be aligned on a 4-byte boundary.
+        /// </param>
+        /// <param name="nLength">
+        /// The length, in bytes, of the buffer pointed to by the <paramref name="pSID"/> parameter.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to a variable to receive the number of bytes required to store the complete security descriptor.
+        /// If this variable's value is greater than the value of the <paramref name="nLength"/> parameter when the function returns,
+        /// the function returns <see langword="false"/> and none of the security descriptor is copied to the buffer.
+        /// Otherwise, the entire security descriptor is copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To read the owner, group, or discretionary access control list (DACL) from the user object's security descriptor,
+        /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
+        /// To read the system access control list (SACL) from the security descriptor,
+        /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
+        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectSecurity([In]IntPtr hObj, [In]IntPtr pSIRequested, [In]IntPtr pSID,
+            [In]uint nLength, [Out]out uint lpnLengthNeeded);
 
         /// <summary>
         /// <para>

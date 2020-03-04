@@ -9,11 +9,96 @@ using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Userenv;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
+using System.Text;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// The lpValue parameter is a pointer to a <see cref="GROUP_AFFINITY"/> structure that specifies the processor group affinity for the new thread.
+        /// Windows Server 2008 and Windows Vista:  This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY = (UIntPtr)0x30003;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a list of handles to be inherited by the child process.
+        /// These handles must be created as inheritable handles and must not include pseudo handles such as those returned
+        /// by the <see cref="GetCurrentProcess"/> or <see cref="GetCurrentThread"/> function.
+        /// Note
+        /// if you use this attribute, pass in a value of <see langword="true"/> for the bInheritHandles parameter of the <see cref="CreateProcess"/> function.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_HANDLE_LIST = (UIntPtr)0x20002;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a <see cref="PROCESSOR_NUMBER"/> structure that specifies the ideal processor for the new thread.
+        /// Windows Server 2008 and Windows Vista:  This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR = (UIntPtr)0x30005;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a DWORD or DWORD64 that specifies the exploit mitigation policy for the child process.
+        /// Starting in Windows 10, version 1703, this parameter can also be a pointer to a two-element DWORD64 array.
+        /// The specified policy overrides the policies set for the application and the system and cannot be changed after the child process starts running.
+        /// Windows Server 2008 and Windows Vista:  This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// The DWORD or DWORD64 pointed to by lpValue can be one or more of the values listed in the remarks.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = (UIntPtr)0x20007;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a handle to a process to use instead of the calling process as the parent for the process being created.
+        /// The process to use must have the <see cref="PROCESS_CREATE_PROCESS"/> access right.
+        /// Attributes inherited from the specified process include handles, the device map, processor affinity, priority,
+        /// quotas, the process token, and job object.
+        /// (Note that some attributes such as the debug port will come from the creating process, not the process specified by this handle.)
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = (UIntPtr)0x20000;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to the node number of the preferred NUMA node for the new process.
+        /// Windows Server 2008 and Windows Vista:  This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PREFERRED_NODE = (UIntPtr)0x20004;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a <see cref="UMS_CREATE_THREAD_ATTRIBUTES"/> structure
+        /// that specifies a user-mode scheduling (UMS) thread context and a UMS completion list to associate with the thread.
+        /// After the UMS thread is created, the system queues it to the specified completion list.
+        /// The UMS thread runs only when an application's UMS scheduler retrieves the UMS thread from the completion list and selects it to run.
+        /// For more information, see User-Mode Scheduling.
+        /// Windows Server 2008 and Windows Vista:  This value is not supported until Windows 7 and Windows Server 2008 R2.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_UMS_THREAD = (UIntPtr)0x30006;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a <see cref="SECURITY_CAPABILITIES"/> structure that defines the security capabilities of an app container.
+        /// If this attribute is set the new process will be created as an AppContainer process.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008 and Windows Vista:  This value is not supported until Windows 8 and Windows Server 2012.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES = (UIntPtr)0x20009;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a DWORD value of <see cref="PROTECTION_LEVEL_SAME"/>.
+        /// This specifies the protection level of the child process to be the same as the protection level of its parent process.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL = (UIntPtr)0x2000B;
+
+        /// <summary>
+        /// The lpValue parameter is a pointer to a DWORD or DWORD64 value that specifies the child process policy.
+        /// The policy specifies whether to allow a child process to be created.
+        /// For information on the possible values for the DWORD or DWORD64 to which lpValue points, see Remarks.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY = (UIntPtr)0x2000E;
+
+        /// <summary>
+        /// This attribute is relevant only to win32 applications that have been converted to UWP packages by using the Desktop Bridge.
+        /// The lpValue parameter is a pointer to a DWORD value that specifies the desktop app policy.
+        /// The policy specifies whether descendant processes should continue to run in the desktop environment.
+        /// For information about the possible values for the DWORD to which lpValue points, see Remarks.
+        /// </summary>
+        public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = (UIntPtr)0x20012;
+
+
         /// <summary>
         /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the calling process.
@@ -1015,6 +1100,356 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Expands environment-variable strings and replaces them with the values defined for the current user.
+        /// To specify the environment block for a particular user or the system, use the ExpandEnvironmentStringsForUser function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpSrc">
+        /// A buffer that contains one or more environment-variable strings in the form: %variableName%.
+        /// For each such reference, the %variableName% portion is replaced with the current value of that environment variable.
+        /// Case is ignored when looking up the environment-variable name.
+        /// If the name is not found, the %variableName% portion is left unexpanded.
+        /// Note that this function does not support all the features that Cmd.exe supports.
+        /// For example, it does not support %variableName:str1= str2 % or % variableName:~offset,length%.
+        /// </param>
+        /// <param name="lpDst">
+        /// A pointer to a buffer that receives the result of expanding the environment variable strings in the <paramref name="lpSrc"/> buffer.
+        /// Note that this buffer cannot be the same as the <paramref name="lpSrc"/> buffer.
+        /// </param>
+        /// <param name="nSize">
+        /// The maximum number of characters that can be stored in the buffer pointed to by the <paramref name="lpDst"/> parameter.
+        /// When using ANSI strings, the buffer size should be the string length, plus terminating null character, plus one.
+        /// When using Unicode strings, the buffer size should be the string length plus the terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of TCHARs stored in the destination buffer, including the terminating null character.
+        /// If the destination buffer is too small to hold the expanded string, the return value is the required buffer size, in characters.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of the <paramref name="lpSrc"/> and <paramref name="lpDst"/> buffers is limited to 32K.
+        /// To replace folder names in a fully qualified path with their associated environment-variable strings,
+        /// use the <see cref="PathUnExpandEnvStrings"/> function.
+        /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", SetLastError = true)]
+        public static extern uint ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In]string lpSrc,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpDst, [In]uint nSize);
+
+        /// <summary>
+        /// <para>
+        /// Flushes the instruction cache for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-flushinstructioncache
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process whose instruction cache is to be flushed.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base of the region to be flushed.
+        /// This parameter can be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region to be flushed if the <paramref name="lpBaseAddress"/> parameter is not <see cref="IntPtr.Zero"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Applications should call <see cref="FlushInstructionCache"/> if they generate or modify code in memory.
+        /// The CPU cannot detect the change, and may execute the old code it cached.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FlushInstructionCache([In]IntPtr hProcess, [In]IntPtr lpBaseAddress, [In]IntPtr dwSize);
+
+        /// <summary>
+        /// <para>
+        /// Frees a block of environment strings.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-freeenvironmentstringsw
+        /// </para>
+        /// </summary>
+        /// <param name="penv"></param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you used the ANSI version of <see cref="GetEnvironmentStrings"/>, be sure to use the ANSI version of <see cref="FreeEnvironmentStrings"/>.
+        /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
+        /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FreeEnvironmentStrings([In]IntPtr penv);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current directory for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcurrentdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The length of the buffer for the current directory string, in TCHARs.
+        /// The buffer length must include room for a terminating null character.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer that receives the current directory string.
+        /// This null-terminated string specifies the absolute path to the current directory.
+        /// To determine the required buffer size, set this parameter to <see langword="null"/> and the <paramref name="nBufferLength"/> parameter to 0.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of characters that are written to the buffer,
+        /// not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the buffer that is pointed to by <paramref name="lpBuffer"/> is not large enough,
+        /// the return value specifies the required size of the buffer, in characters, including the null-terminating character.
+        /// </returns>
+        /// <remarks>
+        /// Each process has a single current directory that consists of two parts:
+        /// A disk designator that is either a drive letter followed by a colon, or a server name followed by a share name (\\servername\sharename)
+        /// A directory on the disk designator
+        /// To set the current directory, use the <see cref="SetCurrentDirectory"/> function.
+        /// Multithreaded applications and shared library code should not use the <see cref="GetCurrentDirectory"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="SetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", SetLastError = true)]
+        public static extern uint GetCurrentDirectory([In]uint nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pseudo handle for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a pseudo handle to the current process.
+        /// </returns>
+        /// <remarks>
+        /// A pseudo handle is a special constant, currently -1, that is interpreted as the current process handle.
+        /// For compatibility with future operating systems, it is best to call <see cref="GetCurrentProcess"/> instead of hard-coding this constant value.
+        /// The calling process can use a pseudo handle to specify its own process whenever a process handle is required.
+        /// Pseudo handles are not inherited by child processes.
+        /// This handle has the <see cref="PROCESS_ALL_ACCESS"/> access right to the process object.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// This handle has the maximum access allowed by the security descriptor of the process to the primary token of the process.
+        /// A process can create a "real" handle to itself that is valid in the context of other processes,
+        /// or that can be inherited by other processes,
+        /// by specifying the pseudo handle as the source handle in a call to the <see cref="DuplicateHandle"/> function.
+        /// A process can also use the <see cref="OpenProcess"/> function to open a real handle to itself.
+        /// The pseudo handle need not be closed when it is no longer needed.
+        /// Calling the <see cref="CloseHandle"/> function with a pseudo handle has no effect.
+        /// If the pseudo handle is duplicated by <see cref="DuplicateHandle"/>, the duplicate handle must be closed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", SetLastError = true)]
+        public static extern IntPtr GetCurrentProcess();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the environment variables for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentstringsw
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the environment block of the current process.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetEnvironmentStrings"/> function returns a pointer to a block of memory
+        /// that contains the environment variables of the calling process (both the system and the user environment variables).
+        /// Each environment block contains the environment variables in the following format:
+        /// Var1 Value1 Var2 Value2 Var3 Value3 VarN ValueN Treat this memory as read-only; do not modify it directly.
+        /// To add or change an environment variable, use the <see cref="GetEnvironmentVariable"/> and <see cref="SetEnvironmentVariable"/> functions.
+        /// When the block returned by <see cref="GetEnvironmentStrings"/> is no longer needed,
+        /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
+        /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", SetLastError = true)]
+        public static extern IntPtr GetEnvironmentStrings();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the contents of the specified variable from the environment block of the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getenvironmentvariablew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the environment variable.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the contents of the specified environment variable as a null-terminated string.
+        /// An environment variable has a maximum size limit of 32,767 characters, including the null-terminating character.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter, including the null-terminating character, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of characters stored in the buffer pointed to by <paramref name="lpBuffer"/>,
+        /// not including the terminating null character.
+        /// If <paramref name="lpBuffer"/> is not large enough to hold the data, the return value is the buffer size, in characters,
+        /// required to hold the string and its terminating null character and the contents of <paramref name="lpBuffer"/> are undefined.
+        /// If the function fails, the return value is zero.
+        /// If the specified environment variable was not found in the environment block,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_ENVVAR_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function can retrieve either a system environment variable or a user environment variable.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", SetLastError = true)]
+        public static extern uint GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the termination status of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpExitCode">
+        /// A pointer to a variable to receive the process termination status.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns immediately.
+        /// If the process has not terminated and the function succeeds, the status returned is <see cref="STILL_ACTIVE"/>.
+        /// If the process has terminated and the function succeeds, the status returned is one of the following values:
+        /// The exit value specified in the <see cref="ExitProcess"/> or <see cref="TerminateProcess"/> function.
+        /// The return value from the main or WinMain function of the process.
+        /// The exception value for an unhandled exception that caused the process to terminate.
+        /// The <see cref="GetExitCodeProcess"/> function returns a valid error code defined by the application only after the thread terminates.
+        /// Therefore, an application should not use <see cref="STILL_ACTIVE"/> as an error code.
+        /// If a thread returns <see cref="STILL_ACTIVE"/> as an error code, applications that test for this value could interpret it to mean
+        /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
+        /// which could put the application into an infinite loop.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetExitCodeProcess([In]IntPtr hProcess, [Out]out uint lpExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the priority class for the specified process.
+        /// This value, together with the priority value of each thread of the process, determines each thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getpriorityclass
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the priority class of the specified process.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The operating system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level will scheduling of threads at a lower level take place.
+        /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
+        /// Priority class is maintained by the executive, so all processes have a priority class that can be queried.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", SetLastError = true)]
+        public static extern ProcessPriorityClasses GetPriorityClass([In]IntPtr hProcess);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the name of the executable file for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getprocessimagefilenamew
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpImageFileName">
+        /// A pointer to a buffer that receives the full path to the executable file.
+        /// </param>
+        /// <param name="nSize">
+        /// The size of the <paramref name="lpImageFileName"/> buffer, in characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the length of the string copied to the buffer.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The file Psapi.dll is installed in the %windir%\System32 directory.
+        /// If there is another copy of this DLL on your computer, it can lead to the following error when running applications on your system:
+        /// "The procedure entry point GetProcessImageFileName could not be located in the dynamic link library PSAPI.DLL."
+        /// To work around this problem, locate any versions that are not in the %windir%\System32 directory and delete or rename them, then restart.
+        /// The GetProcessImageFileName function returns the path in device form, rather than drive letters.
+        /// For example, the file name C:\Windows\System32\Ctype.nls would look as follows in device form:
+        /// \Device\Harddisk0\Partition1\Windows\System32\Ctype.nls
+        /// To retrieve the module name of the current process,
+        /// use the <see cref="GetModuleFileName"/> function with a <see cref="IntPtr.Zero"/> module handle.
+        /// This is more efficient than calling the <see cref="GetProcessImageFileName"/> function with a handle to the current process.
+        /// To retrieve the name of the main executable module for a remote process in win32 path format,
+        /// use the <see cref="QueryFullProcessImageName"/> function.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32GetProcessImageFileName in Psapi.h and
+        /// exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as GetProcessImageFileName in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32GetProcessImageFileName.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions should always 
+        /// call this function as <see cref="GetProcessImageFileName"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", SetLastError = true)]
+        public static extern uint GetProcessImageFileName([In]IntPtr hProcess, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpImageFileName,
+            [In]uint nSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
@@ -1030,5 +1465,330 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", SetLastError = true)]
         public static extern void GetStartupInfo([Out]out STARTUPINFO lpStartupInfo);
+
+        /// <summary>
+        /// <para>
+        /// Initializes the specified list of attributes for process and thread creation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-initializeprocthreadattributelist
+        /// </para>
+        /// </summary>
+        /// <param name="lpAttributeList">
+        /// The attribute list.
+        /// This parameter can be <see cref="IntPtr.Zero"/> to determine the buffer size required to support the specified number of attributes.
+        /// </param>
+        /// <param name="dwAttributeCount">
+        /// The count of attributes to be added to the list.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter is reserved and must be zero.
+        /// </param>
+        /// <param name="lpSize">
+        /// If <paramref name="lpAttributeList"/> is not <see cref="IntPtr.Zero"/>,
+        /// this parameter specifies the size in bytes of the <paramref name="lpAttributeList"/> buffer on input.
+        /// On output, this parameter receives the size in bytes of the initialized attribute list.
+        /// If <paramref name="lpAttributeList"/> is <see cref="IntPtr.Zero"/>, this parameter receives the required buffer size in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// First, call this function with the <paramref name="dwAttributeCount"/> parameter set to the maximum number of attributes
+        /// you will be using and the <paramref name="lpAttributeList"/> to <see cref="IntPtr.Zero"/>.
+        /// The function returns the required buffer size in bytes in the <paramref name="lpSize"/> parameter.
+        /// This initial call will return an error by design. This is expected behavior.
+        /// Allocate enough space for the data in the lpAttributeList buffer and call the function again to initialize the buffer.
+        /// To add attributes to the list, call the <see cref="UpdateProcThreadAttribute"/> function.
+        /// To specify these attributes when creating a process, specify <see cref="EXTENDED_STARTUPINFO_PRESENT"/> in the dwCreationFlag parameter
+        /// and a <see cref="STARTUPINFOEX"/> structure in the lpStartupInfo parameter.
+        /// Note that you can specify the same <see cref="STARTUPINFOEX"/> structure to multiple child processes.
+        /// When you have finished using the list, call the <see cref="DeleteProcThreadAttributeList"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeProcThreadAttributeList", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool InitializeProcThreadAttributeList([In]IntPtr lpAttributeList, [In]uint dwAttributeCount,
+            [In]uint dwFlags, [In][Out]ref IntPtr lpSize);
+
+        /// <summary>
+        /// <para>
+        /// Changes the current directory for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcurrentdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The path to the new current directory.
+        /// This parameter may specify a relative path or a full path.
+        /// In either case, the full path of the specified directory is calculated and stored as the current directory.
+        /// For more information, see File Names, Paths, and Namespaces.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// The final character before the null character must be a backslash ('').
+        /// If you do not specify the backslash, it will be added for you; therefore, specify <see cref="MAX_PATH"/>-2 characters
+        /// for the path unless you include the trailing backslash, in which case, specify <see cref="MAX_PATH"/>-1 characters for the path.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SetCurrentDirectory"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each process has a single current directory made up of two parts:
+        /// A disk designator that is either a drive letter followed by a colon, or a server name and share name (\\servername\sharename)
+        /// A directory on the disk designator
+        /// Multithreaded applications and shared library code should not use the <see cref="SetCurrentDirectory"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="GetCurrentDirectory"/> and <see cref="GetFullPathName"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
+
+        /// <summary>
+        /// <para>
+        /// Sets the contents of the specified environment variable for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-setenvironmentvariablew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// The name of the environment variable.
+        /// The operating system creates the environment variable if it does not exist and <paramref name="lpValue"/> is not <see langword="null"/>.
+        /// </param>
+        /// <param name="lpValue">
+        /// The contents of the environment variable. The maximum size of a user-defined environment variable is 32,767 characters.
+        /// For more information, see Environment Variables.
+        /// Windows Server 2003 and Windows XP:  The total size of the environment block for a process may not exceed 32,767 characters.
+        /// If this parameter is <see langword="null"/>, the variable is deleted from the current process's environment.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function has no effect on the system environment variables or the environment variables of other processes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpValue);
+
+        /// <summary>
+        /// <para>
+        /// Updates the specified attribute in a list of attributes for process and thread creation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute
+        /// </para>
+        /// </summary>
+        /// <param name="lpAttributeList">
+        /// A pointer to an attribute list created by the <see cref="InitializeProcThreadAttributeList"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter is reserved and must be zero.
+        /// </param>
+        /// <param name="Attribute">
+        /// The attribute key to update in the attribute list. This parameter can be one of the following values.
+        /// <see cref="PROC_THREAD_ATTRIBUTE_GROUP_AFFINITY"/>, <see cref="PROC_THREAD_ATTRIBUTE_HANDLE_LIST"/>,
+        /// <see cref="PROC_THREAD_ATTRIBUTE_IDEAL_PROCESSOR"/>, <see cref="PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY"/>,
+        /// <see cref="PROC_THREAD_ATTRIBUTE_PARENT_PROCESS"/>, <see cref="PROC_THREAD_ATTRIBUTE_PREFERRED_NODE"/>,
+        /// <see cref="PROC_THREAD_ATTRIBUTE_UMS_THREAD"/>, <see cref="PROC_THREAD_ATTRIBUTE_SECURITY_CAPABILITIES"/>,
+        /// <see cref="PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL"/>, <see cref="PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY"/>,
+        /// <see cref="PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY"/>.
+        /// </param>
+        /// <param name="lpValue">
+        /// A pointer to the attribute value.
+        /// This value should persist until the attribute is destroyed using the <see cref="DeleteProcThreadAttributeList"/> function.
+        /// </param>
+        /// <param name="cbSize">
+        /// The size of the attribute value specified by the <paramref name="lpValue"/> parameter.
+        /// </param>
+        /// <param name="lpPreviousValue">
+        /// This parameter is reserved and must be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <param name="lpReturnSize">
+        /// This parameter is reserved and must be <see cref="IntPtr.Zero"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An attribute list is an opaque structure that consists of a series of key/value pairs, one for each attribute.
+        /// A process can update only the attribute keys described in this topic.
+        /// The DWORD or DWORD64 pointed to by <paramref name="lpValue"/> can be one or more of the following values
+        /// when you specify <see cref="PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY"/> for the <paramref name="Attribute"/> parameter:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE "/>:
+        /// Enables data execution prevention (DEP) for the child process. For more information, see Data Execution Prevention.
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ATL_THUNK_ENABLE "/>:
+        /// Enables DEP-ATL thunk emulation for the child process.
+        /// DEP-ATL thunk emulation causes the system to intercept NX faults that originate from the Active Template Library (ATL) thunk layer.
+        /// This value can be specified only with <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE"/>.
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_SEHOP_ENABLE"/>:
+        /// Enables structured exception handler overwrite protection (SEHOP) for the child process.
+        /// SEHOP blocks exploits that use the structured exception handler (SEH) overwrite technique.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008 and Windows Vista:
+        /// The following values are not supported until Windows 8 and Windows Server 2012.
+        /// The force Address Space Layout Randomization(ASLR) policy, if enabled, forcibly rebases images
+        /// that are not dynamic base compatible by acting as though an image base collision happened at load time.
+        /// If relocations are required, images that do not have a base relocation section will not be loaded.
+        /// The following mitigation options are available for mandatory ASLR policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FORCE_RELOCATE_IMAGES_ALWAYS_ON"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FORCE_RELOCATE_IMAGES_ALWAYS_OFF"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FORCE_RELOCATE_IMAGES_ALWAYS_ON_REQ_RELOCS "/>,
+        /// The heap terminate on corruption policy, if enabled, causes the heap to terminate if it becomes corrupt.
+        /// Note that 'always off' does not override the default opt-in for binaries with current subsystem versions set in the image header.
+        /// Heap terminate on corruption is user mode enforced.
+        /// The following mitigation options are available for heap terminate on corruption policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_HEAP_TERMINATE_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_HEAP_TERMINATE_ALWAYS_OFF "/>
+        /// The bottom-up randomization policy, which includes stack randomization options, causes a random location to be used as the lowest user address.
+        /// The following mitigation options are available for the bottom-up randomization policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BOTTOM_UP_ASLR_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BOTTOM_UP_ASLR_ALWAYS_OFF "/>
+        /// The high-entropy bottom-up randomization policy, if enabled, causes up to 1TB of bottom-up variance to be used.
+        /// Note that high-entropy bottom-up randomization is effective if and only if bottom-up ASLR is also enabled;
+        /// high-entropy bottom-up randomization is only meaningful for native 64-bit processes.
+        /// The following mitigation options are available for the high-entropy bottom-up randomization policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_HIGH_ENTROPY_ASLR_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_HIGH_ENTROPY_ASLR_ALWAYS_OFF "/>
+        /// The strict handle checking enforcement policy, if enabled, causes an exception to be raised immediately on a bad handle reference.
+        /// If this policy is not enabled, a failure status will be returned from the handle reference instead.
+        /// The following mitigation options are available for the strict handle checking enforcement policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_STRICT_HANDLE_CHECKS_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_STRICT_HANDLE_CHECKS_ALWAYS_OFF "/>
+        /// The Win32k system call disable policy, if enabled, prevents a process from making Win32k calls.
+        /// The following mitigation options are available for the Win32k system call disable policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_WIN32K_SYSTEM_CALL_DISABLE_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_WIN32K_SYSTEM_CALL_DISABLE_ALWAYS_OFF "/>
+        /// The Extension Point Disable policy, if enabled, prevents certain built-in third party extension points from being used.
+        /// This policy blocks the following extension points:
+        /// AppInit DLLs
+        /// Winsock Layered Service Providers (LSPs)
+        /// Globoal Windows Hooks
+        /// Legacy Input Method Editors (IMEs)
+        /// Local hooks still work with the Extension Point Disable policy enabled.
+        /// This behavior is used to prevent legacy extension points from being loaded into a process that does not use them.
+        /// The following mitigation options are available for the extension point disable policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_EXTENSION_POINT_DISABLE_ALWAYS_ON"/>
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_EXTENSION_POINT_DISABLE_ALWAYS_OFF"/>
+        /// The Control Flow Guard (CFG) policy, if turned on, places additional restrictions on indirect calls in code that has been built with CFG enabled.
+        /// The following mitigation options are available for controlling the CFG policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_CONTROL_FLOW_GUARD_MASK "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_CONTROL_FLOW_GUARD_DEFER "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_CONTROL_FLOW_GUARD_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_CONTROL_FLOW_GUARD_ALWAYS_OFF "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_CONTROL_FLOW_GUARD_EXPORT_SUPPRESSION "/>
+        /// In addition, the following policy can be specified to enforce that EXEs/DLLs must enable CFG.
+        /// If an attempt is made to load an EXE/DLL that does not enable CFG, the load will fail:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_STRICT_CONTROL_FLOW_GUARD_MASK"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_STRICT_CONTROL_FLOW_GUARD_DEFER"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_STRICT_CONTROL_FLOW_GUARD_ALWAYS_ON"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_STRICT_CONTROL_FLOW_GUARD_ALWAYS_OFF"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_STRICT_CONTROL_FLOW_GUARD_RESERVED"/>
+        /// The dynamic code policy, if turned on, prevents a process from generating dynamic code or modifying executable code.
+        /// The following mitigation options are available for the dynamic code policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_PROHIBIT_DYNAMIC_CODE_MASK"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_PROHIBIT_DYNAMIC_CODE_DEFER"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_PROHIBIT_DYNAMIC_CODE_ALWAYS_ON"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_PROHIBIT_DYNAMIC_CODE_ALWAYS_OFF"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_PROHIBIT_DYNAMIC_CODE_ALWAYS_ON_ALLOW_OPT_OUT"/>
+        /// The binary signature policy requires EXEs/DLLs to be properly signed.
+        /// The following mitigation options are available for the binary signature policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_MASK"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_DEFER"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_OFF"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALLOW_STORE"/>
+        /// The font loading prevention policy for the process determines whether non-system fonts can be loaded for a process.
+        /// When the policy is turned on, the process is prevented from loading non-system fonts.
+        /// The following mitigation options are available for the font loading prevention policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FONT_DISABLE_MASK"/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FONT_DISABLE_DEFER "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FONT_DISABLE_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_FONT_DISABLE_ALWAYS_OFF "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_AUDIT_NONSYSTEM_FONTS "/>
+        /// The image loading policy of the process determines the types of executable images that can be mapped into the process.
+        /// When the policy is turned on, images cannot be loaded from some locations, such as remove devices or files that have the Low mandatory label.
+        /// The following mitigation options are available for the image loading policy:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_REMOTE_MASK "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_REMOTE_DEFER "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_REMOTE_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_REMOTE_ALWAYS_OFF "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_REMOTE_RESERVED "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_LOW_LABEL_MASK "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_LOW_LABEL_DEFER "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_LOW_LABEL_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_LOW_LABEL_ALWAYS_OFF "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_NO_LOW_LABEL_RESERVED "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_PREFER_SYSTEM32_MASK "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_PREFER_SYSTEM32_DEFER "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_PREFER_SYSTEM32_ALWAYS_ON "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_PREFER_SYSTEM32_ALWAYS_OFF "/>,
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_IMAGE_LOAD_PREFER_SYSTEM32_RESERVED "/>,
+        /// Windows 10, version 1709:
+        /// The following value is available only in Windows 10, version 1709 or later and only with the January 2018 Windows security updates
+        /// and any applicable firmware updates from the OEM device manufacturer.
+        /// See Windows Client Guidance for IT Pros to protect against speculative execution side-channel vulnerabilities.
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_RESTRICT_INDIRECT_BRANCH_PREDICTION_ALWAYS_ON"/>,
+        /// This flag can be used by processes to protect against sibling hardware threads (hyperthreads) from interfering with indirect branch predictions.
+        /// Processes that have sensitive information in their address space should consider enabling this flag to protect against attacks
+        /// involving indirect branch prediction (such as CVE-2017-5715).
+        /// Windows 10, version 1809:  The following value is available only in Windows 10, version 1809 or later.
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY2_SPECULATIVE_STORE_BYPASS_DISABLE_ALWAYS_ON "/>,
+        /// This flag can be used by processes to disable the Speculative Store Bypass (SSB) feature of CPUs
+        /// that may be vulnerable to speculative execution side channel attacks involving SSB (CVE-2018-3639).
+        /// This flag is only supported by certain Intel CPUs that have the requisite hardware features.
+        /// On CPUs that do not support this feature, the flag has no effect.
+        /// The DWORD or DWORD64 pointed to by <paramref name="lpValue"/> can be one or more of the following values
+        /// when you specify <see cref="PROC_THREAD_ATTRIBUTE_CHILD_PROCESS_POLICY"/> for the <paramref name="Attribute"/> parameter:
+        /// <see cref="PROCESS_CREATION_CHILD_PROCESS_RESTRICTED"/>
+        /// The process being created is not allowed to create child processes.
+        /// This restriction becomes a property of the token as which the process runs.
+        /// It should be noted that this restriction is only effective in sandboxed applications (such as AppContainer)
+        /// which ensure privileged process handles are not accessible to the process.
+        /// For example, if a process restricting child process creation is able to access another process handle
+        /// with <see cref="PROCESS_CREATE_PROCESS"/> or <see cref="PROCESS_VM_WRITE"/> access rights,
+        /// then it may be possible to bypass the child process restriction.
+        /// <see cref="PROCESS_CREATION_CHILD_PROCESS_OVERRIDE "/>
+        /// The process being created is allowed to create a child process, if it would otherwise be restricted.
+        /// You can only specify this value if the process that is creating the new process is not restricted.
+        /// The DWORD pointed to by <paramref name="lpValue"/> can be one or more of the following values
+        /// when you specify <see cref="PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY"/> for the <paramref name="Attribute"/> parameter:
+        /// <see cref="PROCESS_CREATION_DESKTOP_APP_BREAKAWAY_ENABLE_PROCESS_TREE "/>
+        /// The process being created will create any child processes outside of the desktop app runtime environment.
+        /// This behavior is the default for processes for which no policy has been set.
+        /// <see cref="PROCESS_CREATION_DESKTOP_APP_BREAKAWAY_DISABLE_PROCESS_TREE "/>
+        /// The process being created will create any child processes inside of the desktop app runtime environment.
+        /// This policy is inherited by the descendant processes until it is overridden
+        /// by creating a process with <see cref="PROCESS_CREATION_DESKTOP_APP_BREAKAWAY_ENABLE_PROCESS_TREE"/>.
+        /// <see cref="PROCESS_CREATION_DESKTOP_APP_BREAKAWAY_OVERRIDE "/>
+        /// The process being created will run inside the desktop app runtime environment.
+        /// This policy applies only to the process being created, not its descendants.
+        /// In order to launch the child process with the same protection level as the parent,
+        /// the parent process must specify the <see cref="PROC_THREAD_ATTRIBUTE_PROTECTION_LEVEL"/> attribute for the child process.
+        /// This can be used for both protected and unprotected processes.
+        /// For example, when this flag is used by an unprotected process, the system will launch a child process at unprotected level.
+        /// The <see cref="CREATE_PROTECTED_PROCESS"/> flag must be specified in both cases.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool UpdateProcThreadAttribute([In]IntPtr lpAttributeList, [In]uint dwFlags, [In]UIntPtr Attribute,
+            [In]IntPtr lpValue, [In]UIntPtr cbSize, [In]IntPtr lpPreviousValue, [In]IntPtr lpReturnSize);
     }
 }

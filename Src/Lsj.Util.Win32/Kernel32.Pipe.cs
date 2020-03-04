@@ -1,7 +1,9 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -411,5 +413,133 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DisconnectNamedPipe([In]IntPtr hNamedPipe);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about a specified named pipe.
+        /// The information returned can vary during the lifetime of an instance of the named pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnamedpipehandlestatea
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the named pipe for which information is wanted.
+        /// The handle must have <see cref="GENERIC_READ"/> access for a read-only or read/write pipe,
+        /// or it must have <see cref="GENERIC_WRITE"/> and <see cref="FILE_READ_ATTRIBUTES"/> access for a write-only pipe.
+        /// This parameter can also be a handle to an anonymous pipe, as returned by the <see cref="CreatePipe"/> function.
+        /// </param>
+        /// <param name="lpState">
+        /// A pointer to a variable that indicates the current state of the handle.
+        /// This parameter can be <see langword="null"/> if this information is not needed.
+        /// Either or both of the following values can be specified.
+        /// <see cref="PIPE_NOWAIT"/>:
+        /// The pipe handle is in nonblocking mode. If this flag is not specified, the pipe handle is in blocking mode.
+        /// <see cref="PIPE_READMODE_MESSAGE"/>:
+        /// The pipe handle is in message-read mode. If this flag is not specified, the pipe handle is in byte-read mode.
+        /// </param>
+        /// <param name="lpCurInstances">
+        /// A pointer to a variable that receives the number of current pipe instances.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpMaxCollectionCount">
+        /// A pointer to a variable that receives the maximum number of bytes to be collected on the client's computer before transmission to the server.
+        /// This parameter must be <see langword="null"/> if the specified pipe handle is to the server end of a named pipe or 
+        /// if client and server processes are on the same computer.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpCollectDataTimeout">
+        /// A pointer to a variable that receives the maximum time, in milliseconds,
+        /// that can pass before a remote named pipe transfers information over the network.
+        /// This parameter must be <see langword="null"/> if the specified pipe handle is to the server end of a named pipe or 
+        /// if client and server processes are on the same computer.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpUserName">
+        /// A pointer to a buffer that receives the user name string associated with the client application.
+        /// The server can only retrieve this information if the client opened the pipe with <see cref="SECURITY_IMPERSONATION"/> access.
+        /// This parameter must be <see langword="null"/> if the specified pipe handle is to the client end of a named pipe.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="nMaxUserNameSize">
+        /// The size of the buffer specified by the <paramref name="lpUserName"/> parameter, in TCHARs.
+        /// This parameter is ignored if <paramref name="lpUserName"/> is <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNamedPipeHandleState"/> function returns successfully even if all of the pointers passed to it are <see langword="null"/>.
+        /// To set the pipe handle state, use the <see cref="SetNamedPipeHandleState"/> function.
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetNamedPipeHandleState([In]IntPtr hNamedPipe, [Out]PipeModes lpState, [Out]uint lpCurInstances,
+            [Out]uint lpMaxCollectionCount, [Out]uint lpCollectDataTimeout,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpUserName, [In]uint nMaxUserNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified named pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-getnamedpipeinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the named pipe instance.
+        /// The handle must have <see cref="GENERIC_READ"/> access to the named pipe for a read-only or read/write pipe,
+        /// or it must have <see cref="GENERIC_WRITE"/> and <see cref="FILE_READ_ATTRIBUTES"/> access for a write-only pipe.
+        /// This parameter can also be a handle to an anonymous pipe, as returned by the CreatePipe function.
+        /// </param>
+        /// <param name="lpFlags">
+        /// A pointer to a variable that receives the type of the named pipe.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// Otherwise, this parameter can be one or more of the following values.
+        /// <see cref="PIPE_CLIENT_END"/>:
+        /// The handle refers to the client end of a named pipe instance. This is the default.
+        /// <see cref="PIPE_SERVER_END"/>:
+        /// The handle refers to the server end of a named pipe instance.
+        /// If this value is not specified, the handle refers to the client end of a named pipe instance.
+        /// <see cref="PIPE_TYPE_BYTE"/>:
+        /// The named pipe is a byte pipe. This is the default.
+        /// <see cref="PIPE_TYPE_MESSAGE"/>:
+        /// The named pipe is a message pipe. If this value is not specified, the pipe is a byte pipe.
+        /// </param>
+        /// <param name="lpOutBufferSize">
+        /// A pointer to a variable that receives the size of the buffer for outgoing data, in bytes.
+        /// If the buffer size is zero, the buffer is allocated as needed.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpInBufferSize">
+        /// A pointer to a variable that receives the size of the buffer for incoming data, in bytes.
+        /// If the buffer size is zero, the buffer is allocated as needed.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <param name="lpMaxInstances">
+        /// A pointer to a variable that receives the maximum number of pipe instances that can be created.
+        /// If the variable is set to <see cref="PIPE_UNLIMITED_INSTANCES"/>,
+        /// the number of pipe instances that can be created is limited only by the availability of system resources.
+        /// This parameter can be <see langword="null"/> if this information is not required.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetNamedPipeInfo([In]IntPtr hNamedPipe, [Out]uint lpFlags, [Out]uint lpOutBufferSize,
+            [Out]uint lpInBufferSize, [Out]uint lpMaxInstances);
     }
 }

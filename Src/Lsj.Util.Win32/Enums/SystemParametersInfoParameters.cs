@@ -1,7 +1,11 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FontSmoothingOrientations;
 using static Lsj.Util.Win32.Enums.FontSmotohingTypes;
+using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.GUIDs.PowerSettingGUIDs;
+using static Lsj.Util.Win32.Shcore;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -639,7 +643,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Retrieves the input locale identifier for the system default input language.
-        /// The pvParam parameter must point to an <see cref="HKL"/> variable that receives this value.
+        /// The pvParam parameter must point to an HKL variable that receives this value.
         /// For more information, see Languages, Locales, and Keyboard Layouts.
         /// </summary>
         SPI_GETDEFAULTINPUTLANG = 0x0059,
@@ -810,7 +814,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Sets the default input language for the system shell and applications.
         /// The specified language must be displayable using the current system character set.
-        /// The pvParam parameter must point to an <see cref="HKL"/> variable that contains the input locale identifier for the default language.
+        /// The pvParam parameter must point to an HKL variable that contains the input locale identifier for the default language.
         /// For more information, see Languages, Locales, and Keyboard Layouts.
         /// </summary>
         SPI_SETDEFAULTINPUTLANG = 0x005A,

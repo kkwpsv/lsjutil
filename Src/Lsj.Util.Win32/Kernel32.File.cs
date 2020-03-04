@@ -5,15 +5,18 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
+using static Lsj.Util.Win32.Enums.FileTypes;
 using static Lsj.Util.Win32.Enums.FINDEX_SEARCH_OPS;
 using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -23,6 +26,11 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// STORAGE_INFO_OFFSET_UNKNOWN 
+        /// </summary>
+        public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
+
         /// <summary>
         /// <para>
         /// Creates a new directory.
@@ -936,7 +944,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// After the <see cref="FindClose"/> function is called, the handle specified
-        /// by the <see cref="hFindFile"/> parameter cannot be used in subsequent calls to the <see cref="FindNextFile"/>,
+        /// by the <paramref name="hFindFile"/> parameter cannot be used in subsequent calls to the <see cref="FindNextFile"/>,
         /// <see cref="FindNextFileNameW"/>, <see cref="FindNextStreamW"/>, or <see cref="FindClose"/> functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindClose", SetLastError = true)]
@@ -1763,5 +1771,779 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushFileBuffers", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FlushFileBuffers([In]IntPtr hFile);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the actual number of bytes of disk storage used to store a specified file.
+        /// If the file is located on a volume that supports compression and the file is compressed,
+        /// the value obtained is the compressed size of the specified file.
+        /// If the file is located on a volume that supports sparse files and the file is a sparse file,
+        /// the value obtained is the sparse size of the specified file.
+        /// To perform this operation as a transacted operation, use the <see cref="GetCompressedFileSizeTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getcompressedfilesizew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// Do not specify the name of a file on a nonseeking device, such as a pipe or a communications device, as its file size has no meaning.
+        /// This parameter may include the path. In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="GetCompressedFileSize"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// The high-order DWORD of the compressed file size.
+        /// The function's return value is the low-order DWORD of the compressed file size.
+        /// This parameter can be NULL if the high-order DWORD of the compressed file size is not needed.
+        /// Files less than 4 gigabytes in size do not need the high-order DWORD.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order DWORD of the actual number of bytes of disk storage
+        /// used to store the specified file, and if <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the function puts the high-order DWORD of that actual value into the DWORD pointed to by that parameter.
+        /// This is the compressed file size for compressed files, the actual file size for noncompressed files.
+        /// If the function fails, and <paramref name="lpFileSizeHigh"/> is <see langword="null"/>, the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the return value is <see cref="INVALID_FILE_SIZE"/> and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded (value is <see cref="NO_ERROR"/>)
+        /// or failed (value is other than <see cref="NO_ERROR"/>).
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a volume is compressed by calling <see cref="GetVolumeInformation"/>,
+        /// then checking the status of the <see cref="FS_VOL_IS_COMPRESSED"/> flag in the DWORD value pointed to by
+        /// that function's lpFileSystemFlags parameter.
+        /// If the file is not located on a volume that supports compression or sparse files, or if the file is not compressed or a sparse file,
+        /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns the file size of the target.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeW", SetLastError = true)]
+        public static extern uint GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [Out]out uint lpFileSizeHigh);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the actual number of bytes of disk storage used to store a specified file as a transacted operation.
+        /// If the file is located on a volume that supports compression and the file is compressed,
+        /// the value obtained is the compressed size of the specified file.
+        /// If the file is located on a volume that supports sparse files and the file is a sparse file,
+        /// the value obtained is the sparse size of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcompressedfilesizetransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// Do not specify the name of a file on a nonseeking device, such as a pipe or a communications device, as its file size has no meaning.
+        /// The file must reside on the local computer; otherwise, the function fails and
+        /// the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// A pointer to a variable that receives the high-order DWORD of the compressed file size.
+        /// The function's return value is the low-order DWORD of the compressed file size.
+        /// This parameter can be <see langword="null"/> if the high-order DWORD of the compressed file size is not needed.
+        /// Files less than 4 gigabytes in size do not need the high-order DWORD.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order DWORD of the actual number of bytes of disk storage
+        /// used to store the specified file, and if <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the function puts the high-order DWORD of that actual value into the DWORD pointed to by that parameter.
+        /// This is the compressed file size for compressed files, the actual file size for noncompressed files.
+        /// If the function fails, and <paramref name="lpFileSizeHigh"/> is <see langword="null"/>,
+        /// the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the return value is <see cref="INVALID_FILE_SIZE"/> and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded
+        /// (value is <see cref="NO_ERROR"/>) or failed (value is other than <see cref="NO_ERROR"/>).
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a volume is compressed by calling <see cref="GetVolumeInformation"/>,
+        /// then checking the status of the <see cref="FS_VOL_IS_COMPRESSED"/> flag in the DWORD value pointed to
+        /// by that function's lpFileSystemFlags parameter.
+        /// If the file is not located on a volume that supports compression or sparse files, or if the file is not compressed or a sparse file,
+        /// the value obtained is the actual file size, the same as the value returned by a call to <see cref="GetFileSize"/>.
+        /// Symbolic links:  If the path points to a symbolic link, the function returns the file size of the target.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeTransactedW", SetLastError = true)]
+        public static extern uint GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [Out]out uint lpFileSizeHigh, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file system attributes for a specified file or directory.
+        /// To get more attribute information, use the <see cref="GetFileAttributesEx"/> function.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributes"/>),
+        /// and prepend "\\?\" to the path.
+        /// For more information, see File Names, Paths, and Namespaces.
+        ///  Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFileAttributes"/>),
+        ///  you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        ///  See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value contains the attributes of the specified file or directory.
+        /// For a list of attribute values and their descriptions, see File Attribute Constants.
+        /// If the function fails, the return value is <see cref="INVALID_FILE_ATTRIBUTES"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When <see cref="GetFileAttributes"/> is called on a directory that is a mounted folder,
+        /// it returns the file system attributes of the directory,
+        /// not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the file attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributes"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// If you call <see cref="GetFileAttributes"/> for a network share, the function fails,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_BAD_NETPATH"/>.
+        /// You must specify a path to a subfolder on that share.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file before the transaction
+        /// is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesW", SetLastError = true)]
+        public static extern FileAttributes GetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves attributes for a specified file or directory.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributesEx"/>),
+        /// and prepend "\\?\" to the path. For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFileAttributesEx"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="fInfoLevelId">
+        /// A class of attribute information to retrieve.
+        /// This parameter can be the following value from the <see cref="GET_FILEEX_INFO_LEVELS"/> enumeration.
+        /// <see cref="GetFileExInfoStandard"/>: The <paramref name="lpFileInformation"/> parameter is a <see cref="WIN32_FILE_ATTRIBUTE_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a buffer that receives the attribute information.
+        /// The type of attribute information that is stored into this buffer is determined by the value of <paramref name="fInfoLevelId"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetFileAttributes"/> function retrieves file system attribute information.
+        /// <see cref="GetFileAttributesEx"/> can obtain other sets of file or directory attribute information.
+        /// Currently, <see cref="GetFileAttributesEx"/> retrieves a set of standard attributes that is a superset of the file system attribute information.
+        /// When the <see cref="GetFileAttributesEx"/> function is called on a directory that is a mounted folder,
+        /// it returns the attributes of the directory, not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributesEx"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// Symbolic link behavior—If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file
+        /// before the transaction is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesExW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file system attributes for a specified file or directory as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileattributestransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName"></param>
+        /// The name of the file or directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFileAttributesEx"/>),
+        /// and prepend "\\?\" to the path. For more information, see Naming a File.
+        /// The file or directory must reside on the local computer; otherwise,
+        /// the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// <param name="fInfoLevelId">
+        /// A class of attribute information to retrieve.
+        /// This parameter can be the following value from the <see cref="GET_FILEEX_INFO_LEVELS"/> enumeration.
+        /// <see cref="GetFileExInfoStandard"/>: The <paramref name="lpFileInformation"/> parameter is a <see cref="WIN32_FILE_ATTRIBUTE_DATA"/> structure.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a buffer that receives the attribute information.
+        /// The type of attribute information that is stored into this buffer is determined by the value of <paramref name="fInfoLevelId"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction. This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When <see cref="GetFileAttributesTransacted"/> is called on a directory that is a mounted folder, it returns the attributes of the directory,
+        /// not those of the root directory in the volume that the mounted folder associates with the directory.
+        /// To obtain the file attributes of the associated volume,
+        /// call <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain the name of the associated volume.
+        /// Then use the resulting name in a call to <see cref="GetFileAttributesTransacted"/>.
+        /// The results are the attributes of the root directory on the associated volume.
+        /// Symbolic links:  If the path points to a symbolic link, the function returns attributes for the symbolic link.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// Conversely, if a file is open for modification outside of a transaction,
+        /// no transacted thread can open the file for modification until the non-transacted handle is closed.
+        /// If a non-transacted thread has a handle opened to modify a file,
+        /// a call to <see cref="GetFileAttributesTransacted"/> for that file will fail with an <see cref="ERROR_TRANSACTIONAL_CONFLICT"/> error.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            " Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesTransactedW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [In]GET_FILEEX_INFO_LEVELS fInfoLevelId, [In]IntPtr lpFileInformation, [In]IntPtr hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file information for the specified file.
+        /// For a more advanced version of this function, see <see cref="GetFileInformationByHandleEx"/>.
+        /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that contains the information to be retrieved.
+        /// This handle should not be a pipe handle.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to a <see cref="BY_HANDLE_FILE_INFORMATION"/> structure that receives the file information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and file information data is contained in the buffer 
+        /// pointed to by the <paramref name="lpFileInformation"/> parameter.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Depending on the underlying network features of the operating system and the type of server connected to,
+        /// the <see cref="GetFileInformationByHandle"/> function may fail, return partial information, or full information for the given file.
+        /// You can compare the <see cref="BY_HANDLE_FILE_INFORMATION.dwVolumeSerialNumber"/> and
+        /// <see cref="BY_HANDLE_FILE_INFORMATION.nFileIndexHigh"/> <see cref="BY_HANDLE_FILE_INFORMATION.nFileIndexLow"/> members
+        /// returned in the <see cref="BY_HANDLE_FILE_INFORMATION"/> structure to determine if two paths map to the same target;
+        /// for example, you can compare two file paths and determine if they map to the same directory.
+        /// Transacted Operations
+        /// If there is a transaction bound to the thread at the time of the call,
+        /// then the function returns the compressed file size of the isolated file view.
+        /// For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandle", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileInformationByHandle([In]IntPtr hFile, [Out]out BY_HANDLE_FILE_INFORMATION lpFileInformation);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves file information for the specified file.
+        /// For a more basic version of this function for desktop apps, see <see cref="GetFileInformationByHandle"/>.
+        /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that contains the information to be retrieved.
+        /// This handle should not be a pipe handle.
+        /// </param>
+        /// <param name="FileInformationClass">
+        /// A <see cref="FILE_INFO_BY_HANDLE_CLASS"/> enumeration value that specifies the type of information to be retrieved.
+        /// For a table of valid values, see the Remarks section.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to the buffer that receives the requested file information.
+        /// The structure that is returned corresponds to the class that is specified by <paramref name="FileInformationClass"/>.
+        /// For a table of valid structure types, see the Remarks section.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of the <paramref name="lpFileInformation"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and file information data is contained in the buffer
+        /// pointed to by the <paramref name="lpFileInformation"/> parameter.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If <paramref name="FileInformationClass"/> is <see cref="FileStreamInfo"/> and the calls succeed but no streams are returned,
+        /// the error that is returned by <see cref="GetLastError"/> is <see cref="ERROR_HANDLE_EOF"/>.
+        /// Certain file information classes behave slightly differently on different operating system releases.
+        /// These classes are supported by the underlying drivers, and any information they return is subject to change between operating system releases.
+        /// The following table shows the valid file information class types and their corresponding data structure types for use with this function.
+        /// <see cref="FileBasicInfo"/>: <see cref="FILE_BASIC_INFO"/>
+        /// <see cref="FileStandardInfo"/>: <see cref="FILE_STANDARD_INFO"/>
+        /// <see cref="FileNameInfo"/>: <see cref="FILE_NAME_INFO"/>
+        /// <see cref="FileStreamInfo"/>: <see cref="FILE_STREAM_INFO"/>
+        /// <see cref="FileCompressionInfo"/>: <see cref="FILE_COMPRESSION_INFO"/>
+        /// <see cref="FileAttributeTagInfo"/>: <see cref="FILE_ATTRIBUTE_TAG_INFO"/>
+        /// <see cref="FileIdBothDirectoryInfo"/>: <see cref="FILE_ID_BOTH_DIR_INFO"/>
+        /// <see cref="FileIdBothDirectoryRestartInfo"/>: <see cref="FILE_ID_BOTH_DIR_INFO"/>
+        /// <see cref="FileRemoteProtocolInfo"/>: <see cref="FILE_REMOTE_PROTOCOL_INFO"/>
+        /// <see cref="FileFullDirectoryInfo"/>: <see cref="FILE_FULL_DIR_INFO"/>
+        /// <see cref="FileFullDirectoryRestartInfo"/>: <see cref="FILE_FULL_DIR_INFO"/>
+        /// <see cref="FileStorageInfo"/>: <see cref="FILE_STORAGE_INFO"/>
+        /// <see cref="FileAlignmentInfo"/>: <see cref="FILE_ALIGNMENT_INFO"/>
+        /// <see cref="FileIdInfo"/>: <see cref="FILE_ID_INFO"/>
+        /// <see cref="FileIdExtdDirectoryInfo"/>: <see cref="FILE_ID_EXTD_DIR_INFO"/>
+        /// <see cref="FileIdExtdDirectoryRestartInfo"/>: <see cref="FILE_ID_EXTD_DIR_INFO"/>
+        /// Transacted Operations
+        /// If there is a transaction bound to the thread at the time of the call,
+        /// then the function returns the compressed file size of the isolated file view.
+        /// For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandleEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileInformationByHandleEx([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+            [Out]out IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of the specified file, in bytes.
+        /// It is recommended that you use <see cref="GetFileSizeEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesize
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpFileSizeHigh">
+        /// A pointer to the variable where the high-order doubleword of the file size is returned.
+        /// This parameter can be <see langword="null"/> if the application does not require the high-order doubleword.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the low-order doubleword of the file size, and,
+        /// if <paramref name="lpFileSizeHigh"/> is non-NULL, the function puts the high-order doubleword of the file size
+        /// into the variable pointed to by that parameter.
+        /// If the function fails and <paramref name="lpFileSizeHigh"/> is NULL, the return value is <see cref="INVALID_FILE_SIZE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// When <paramref name="lpFileSizeHigh"/> is NULL, the results returned for large files are ambiguous,
+        /// and you will not be able to determine the actual size of the file.
+        /// It is recommended that you use <see cref="GetFileSizeEx"/> instead.
+        /// If the function fails and <paramref name="lpFileSizeHigh"/> is non-NULL,
+        /// the return value is <see cref="INVALID_FILE_SIZE"/> and <see cref="GetLastError"/> will return a value other than <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// You cannot use the <see cref="GetFileSize"/> function with a handle of a nonseeking device such as a pipe or a communications device.
+        /// To determine the file type for <paramref name="hFile"/>, use the <see cref="GetFileType"/> function.
+        /// The <see cref="GetFileSize"/> function retrieves the uncompressed size of a file.
+        /// Use the <see cref="GetCompressedFileSize"/> function to obtain the compressed size of a file.
+        /// Note that if the return value is <see cref="INVALID_FILE_SIZE"/>,
+        /// an application must call <see cref="GetLastError"/> to determine whether the function has succeeded or failed.
+        /// The reason the function may appear to fail when it has not is that <paramref name="lpFileSizeHigh"/> could be non-NULL
+        /// or the file size could be 0xffffffff.
+        /// In this case, <see cref="GetLastError"/> will return <see cref="NO_ERROR"/> upon success.
+        /// Because of this behavior, it is recommended that you use <see cref="GetFileSizeEx"/> instead.
+        /// Transacted Operations:  If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSize", SetLastError = true)]
+        public static extern uint GetFileSize([In]IntPtr hFile, [Out]out uint lpFileSizeHigh);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfilesizeex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The handle must have been created with the <see cref="FILE_READ_ATTRIBUTES"/> access right or equivalent,
+        /// or the caller must have sufficient permission on the directory that contains the file.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpFileSize">
+        /// A pointer to a <see cref="LARGE_INTEGER"/> structure that receives the file size, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Transacted Operations:
+        /// If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSizeEx", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileSizeEx([In]IntPtr hFile, [Out]out LARGE_INTEGER lpFileSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the date and time that a file or directory was created, last accessed, and last modified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletime
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or directory for which dates and times are to be retrieved.
+        /// The handle must have been created using the MSe CreateFile function with the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was created.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <param name="lpLastAccessTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was last accessed.
+        /// The last access time includes the last time the file or directory was written to, read from, or,
+        /// in the case of executable files, run.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <param name="lpLastWriteTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the date and time the file or directory was last written to,
+        /// truncated, or overwritten (for example, with <see cref="WriteFile"/> or <see cref="SetEndOfFile"/>).
+        /// This date and time is not updated when file attributes or security descriptors are changed.
+        /// This parameter can be <see langword="null"/> if the application does not require this information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Not all file systems can record creation and last access times and not all file systems record them in the same manner.
+        /// For example, on FAT, create time has a resolution of 10 milliseconds, write time has a resolution of 2 seconds,
+        /// and access time has a resolution of 1 day (really, the access date).
+        /// Therefore, the <see cref="GetFileTime"/> function may not return the same file time information set using the <see cref="SetFileTime"/> function.
+        /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
+        /// NTFS also permits last access time updates to be disabled.
+        /// Last access time is not updated on NTFS volumes by default.
+        /// Windows Server 2003 and Windows XP:  Last access time is updated on NTFS volumes by default.
+        /// For more information, see File Times.
+        /// If you rename or delete a file, then restore it shortly thereafter, Windows searches the cache for file information to restore.
+        /// Cached information includes its short/long name pair and creation time.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
+            [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the file type of the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletype
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <returns>
+        /// You can distinguish between a "valid" return of <see cref="FILE_TYPE_UNKNOWN"/> and its return due to a calling error
+        /// (for example, passing an invalid handle to <see cref="GetFileType"/>) by calling <see cref="GetLastError"/>.
+        /// If the function worked properly and <see cref="FILE_TYPE_UNKNOWN"/> was returned,
+        /// a call to <see cref="GetLastError"/> will return <see cref="NO_ERROR"/>.
+        /// If the function returned <see cref="FILE_TYPE_UNKNOWN"/> due to an error in calling <see cref="GetFileType"/>,
+        /// <see cref="GetLastError"/> will return the error code.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileType", SetLastError = true)]
+        public static extern FileTypes GetFileType([In]IntPtr hFile);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the full path and file name of the specified file.
+        /// To perform this operation as a transacted operation, use the <see cref="GetFullPathNameTransacted"/> function.
+        /// For more information about file and path names, see File Names, Paths, and Namespaces.
+        /// The <see cref="GetFullPathName"/> function is not recommended for multithreaded applications or shared library code.
+        /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfullpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// This parameter can be a short (the 8.3 form) or long file name. This string can also be a share or volume name.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="GetFullPathName"/>),
+        /// and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="GetFullPathName"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer to receive the null-terminated string for the drive and path, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the null-terminated string for the drive and path.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to a buffer that receives the address (within <paramref name="lpBuffer"/>) of the final file name component in the path.
+        /// This parameter can be <see cref="IntPtr.Zero"/>.
+        /// If <paramref name="lpBuffer"/> refers to a directory and not a file, <paramref name="lpFilePart"/> receives zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs, of the string copied to <paramref name="lpBuffer"/>,
+        /// not including the terminating null character.
+        /// If the <paramref name="lpBuffer"/> buffer is too small to contain the path, the return value is the size, in TCHARs
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetFullPathName"/> merges the name of the current drive and directory with a specified file name
+        /// to determine the full path and file name of a specified file.
+        /// It also calculates the address of the file name portion of the full path and file name.
+        /// This function does not verify that the resulting path and file name are valid, or that they see an existing file on the associated volume.
+        /// Note that the <paramref name="lpFilePart"/> parameter does not require string buffer space, but only enough for a single address.
+        /// This is because it simply returns an address within the buffer that already exists for <paramref name="lpBuffer"/>.
+        /// Share and volume names are valid input for <paramref name="lpFileName"/>.
+        /// For example, the following list identities the returned path and file names if test-2 is a remote computer and U: is a network mapped drive
+        /// whose current directory is the root of the volume:
+        /// If you specify "\\test-2\q$\lh" the path returned is "\\test-2\q$\lh"
+        /// If you specify "\\?\UNC\test-2\q$\lh" the path returned is "\\?\UNC\test-2\q$\lh"
+        /// If you specify "U:" the path returned is the current directory on the "U:\" drive
+        /// <see cref="GetFullPathName"/> does not convert the specified file name, <paramref name="lpFileName"/>.
+        /// If the specified file name exists, you can use <see cref="GetLongPathName"/> or <see cref="GetShortPathName"/>
+        /// to convert to long or short path names, respectively.
+        /// If the return value is greater than or equal to the value specified in <paramref name="nBufferLength"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case in addition to using zero-length buffer for dynamic allocation, see the Example Code section.
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// Multithreaded applications and shared library code should not use the <see cref="GetFullPathName"/> function
+        /// and should avoid using relative path names.
+        /// The current directory state written by the <see cref="SetCurrentDirectory"/> function is stored as a global variable in each process,
+        /// therefore multithreaded applications cannot reliably use this value without possible data corruption from other threads
+        /// that may also be reading or setting this value.
+        /// This limitation also applies to the <see cref="SetCurrentDirectory"/> and <see cref="GetCurrentDirectory"/> functions.
+        /// The exception being when the application is guaranteed to be running in a single thread,
+        /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
+        /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", SetLastError = true)]
+        public static extern uint GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]uint nBufferLength,
+            [In]IntPtr lpBuffer, [In]IntPtr lpFilePart);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the file system and volume associated with the specified root directory.
+        /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
+        /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// A pointer to a string that contains the root directory of the volume to be described.
+        /// If this parameter is <see langword="null"/>, the root of the current directory is used. A trailing backslash is required.
+        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare", or the C drive as "C:".
+        /// </param>
+        /// <param name="lpVolumeNameBuffer">
+        /// A pointer to a buffer that receives the name of a specified volume.
+        /// The buffer size is specified by the<paramref name="nVolumeNameSize"/> parameter.
+        /// </param>
+        /// <param name="nVolumeNameSize">
+        /// The length of a volume name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the volume name buffer is not supplied.
+        /// </param>
+        /// <param name="lpVolumeSerialNumber">
+        /// A pointer to a variable that receives the volume serial number.
+        /// This parameter can be <see langword="null"/> if the serial number is not required.
+        /// This function returns the volume serial number that the operating system assigns when a hard disk is formatted.
+        /// To programmatically obtain the hard disk's serial number that the manufacturer assigns,
+        /// use the Windows Management Instrumentation (WMI) Win32_PhysicalMedia property SerialNumber.
+        /// </param>
+        /// <param name="lpMaximumComponentLength">
+        /// A pointer to a variable that receives the maximum length, in TCHARs, of a file name component that a specified file system supports.
+        /// A file name component is the portion of a file name between backslashes.
+        /// The value that is stored in the variable that <paramref name="lpMaximumComponentLength"/> points to is used to indicate that
+        /// a specified file system supports long names.
+        /// For example, for a FAT file system that supports long names, the function stores the value 255, rather than the previous 8.3 indicator.
+        /// Long names can also be supported on systems that use the NTFS file system.
+        /// </param>
+        /// <param name="lpFileSystemFlags">
+        /// A pointer to a variable that receives flags associated with the specified file system.
+        /// This parameter can be one or more of <see cref="FileSystemFlags"/>.
+        /// However, <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> are mutually exclusive.
+        /// </param>
+        /// <param name="lpFileSystemNameBuffer">
+        /// A pointer to a buffer that receives the name of the file system, for example, the FAT file system or the NTFS file system.
+        /// The buffer size is specified by the <paramref name="nFileSystemNameSize"/> parameter.
+        /// </param>
+        /// <param name="nFileSystemNameSize">
+        /// The length of the file system name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the file system name buffer is not supplied.
+        /// </param>
+        /// <returns>
+        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
+        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a user attempts to get information about a floppy drive that does not have a floppy disk,
+        /// or a CD-ROM drive that does not have a compact disc,
+        /// the system displays a message box for the user to insert a floppy disk or a compact disc, respectively.
+        /// To prevent the system from displaying this message box, call the <see cref="SetErrorMode"/> function with <see cref="SEM_FAILCRITICALERRORS"/>.
+        /// The <see cref="FILE_VOLUME_IS_COMPRESSED"/> flag is the only indicator of volume-based compression.
+        /// The file system name is not altered to indicate compression, for example, this flag is returned set on a DoubleSpace volume.
+        /// When compression is volume-based, an entire volume is compressed or not compressed.
+        /// The <see cref="FILE_FILE_COMPRESSION"/> flag indicates whether a file system supports file-based compression.
+        /// When compression is file-based, individual files can be compressed or not compressed.
+        /// The <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> flags are mutually exclusive.
+        /// Both bits cannot be returned set.
+        /// The maximum component length value that is stored in <paramref name="lpMaximumComponentLength"/> is the only indicator
+        /// that a volume supports longer-than-normal FAT file system (or other file system) file names.
+        /// The file system name is not altered to indicate support for long file names.
+        /// The <see cref="GetCompressedFileSize"/> function obtains the compressed size of a file.
+        /// The <see cref="GetFileAttributes"/> function can determine whether an individual file is compressed.
+        /// Symbolic link behavior—
+        /// If the path points to a symbolic link, the function returns volume information for the target.
+        /// Transacted Operations
+        /// If the volume supports file system transactions,
+        /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
+            [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the file system and volume associated with the specified file.
+        /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationbyhandlew
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="lpVolumeNameBuffer">
+        /// A pointer to a buffer that receives the name of a specified volume.
+        /// The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// </param>
+        /// <param name="nVolumeNameSize">
+        /// The length of a volume name buffer, in WCHARs.
+        /// The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the volume name buffer is not supplied.
+        /// </param>
+        /// <param name="lpVolumeSerialNumber">
+        /// A pointer to a variable that receives the volume serial number.
+        /// This parameter can be <see langword="null"/> if the serial number is not required.
+        /// This function returns the volume serial number that the operating system assigns when a hard disk is formatted.
+        /// To programmatically obtain the hard disk's serial number that the manufacturer assigns,
+        /// use the Windows Management Instrumentation (WMI) Win32_PhysicalMedia property SerialNumber.
+        /// </param>
+        /// <param name="lpMaximumComponentLength">
+        /// A pointer to a variable that receives the maximum length, in WCHARs, of a file name component that a specified file system supports.
+        /// A file name component is the portion of a file name between backslashes.
+        /// The value that is stored in the variable that <paramref name="lpMaximumComponentLength"/> points to is used to indicate
+        /// that a specified file system supports long names.
+        /// For example, for a FAT file system that supports long names, the function stores the value 255, rather than the previous 8.3 indicator.
+        /// Long names can also be supported on systems that use the NTFS file system.
+        /// </param>
+        /// <param name="lpFileSystemFlags">
+        /// A pointer to a variable that receives flags associated with the specified file system.
+        /// This parameter can be one or more of <see cref="FileSystemFlags"/>.
+        /// However, <see cref="FILE_FILE_COMPRESSION"/> and <see cref="FILE_VOLUME_IS_COMPRESSED"/> are mutually exclusive.
+        /// </param>
+        /// <param name="lpFileSystemNameBuffer">
+        /// A pointer to a buffer that receives the name of the file system, for example, the FAT file system or the NTFS file system.
+        /// The buffer size is specified by the <paramref name="nFileSystemNameSize"/> parameter.
+        /// </param>
+        /// <param name="nFileSystemNameSize">
+        /// The length of the file system name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
+        /// This parameter is ignored if the file system name buffer is not supplied.
+        /// </param>
+        /// <returns>
+        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
+        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationByHandleW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeInformationByHandleW([In]IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer,
+            [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber, [Out]out uint lpMaximumComponentLength,
+            [Out]out FileSystemFlags lpFileSystemFlags, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer,
+            [In]uint nFileSystemNameSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a volume GUID path for the volume that is associated with the specified volume mount point
+        /// ( drive letter, volume GUID path, or mounted folder).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumenameforvolumemountpointw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszVolumeMountPoint">
+        /// A pointer to a string that contains the path of a mounted folder (for example, "Y:\MountX\") or a drive letter (for example, "X:\").
+        /// The string must end with a trailing backslash ('\').
+        /// </param>
+        /// <param name="lpszVolumeName">
+        /// A pointer to a string that receives the volume GUID path.
+        /// This path is of the form "\\?\Volume{GUID}\" where GUID is a GUID that identifies the volume.
+        /// If there is more than one volume GUID path for the volume, only the first one in the mount manager's cache is returned.
+        /// </param>
+        /// <param name="cchBufferLength">
+        /// The length of the output buffer, in TCHARs.
+        /// A reasonable size for the buffer to accommodate the largest possible volume GUID path is 50 characters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Use <see cref="GetVolumeNameForVolumeMountPoint"/> to obtain a volume GUID path for use with functions
+        /// such as <see cref="SetVolumeMountPoint"/> and <see cref="FindFirstVolumeMountPoint"/> that require a volume GUID path as an input parameter.
+        /// For more information about volume GUID paths, see Naming A Volume.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In]string lpszVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeName, [In]uint cchBufferLength);
     }
 }

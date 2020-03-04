@@ -1,15 +1,10 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Lsj.Util.Text;
-using Lsj.Util.Net.Web.Cookie;
-using Lsj.Util.Net.Web.Interfaces;
+﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Static;
-
+using Lsj.Util.Text;
+using System;
+using System.IO;
+using System.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -20,35 +15,54 @@ namespace Lsj.Util.Net.Web.Message
             get;
             protected set;
         } = HttpMethod.UnParsed;
+
         public URI Uri
         {
             get;
             protected set;
         }
+
         public int ExtraErrorCode
         {
             get;
             set;
         } = 0;
 
-
-        protected MemoryStream m_content;
+        protected MemoryStream _content;
         public override Stream Content
         {
             get
             {
-                if (m_content == null)
+                if (_content == null)
                 {
-                    m_content = new MemoryStream(ContentLength);
+                    _content = new MemoryStream();
                 }
-                return m_content;
+                return _content;
             }
         }
 
+        /// <summary>
+        /// ContentLength
+        /// </summary>
+        public virtual int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
 
+        private bool _isReadHeader;
+
+        protected override unsafe bool InternalRead(byte* pts, int offset, int count, ref int read)
+        {
+            if (!_isReadHeader)
+            {
+                _isReadHeader = InternalReadImp(pts, offset, count, ref read);
+                return _isReadHeader;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
         //Fucking Pointer.....
-        unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
+        private unsafe bool InternalReadImp(byte* pts, int offset, int count, ref int read)
         {
             byte* start = pts;                      //开始位置
             byte* end = pts + offset + count - 1;   //结束位置
@@ -59,38 +73,40 @@ namespace Lsj.Util.Net.Web.Message
             {
                 if (*ptr == ASCIIChar.CR && (long)(++ptr) <= (long)end && *ptr == ASCIIChar.LF)//判断是否为行尾
                 {
-                    #region When End Header
+                    var length = (int)(ptr - start) + 1;//读取长度
+                    bool isEnd = false;
                     if ((long)(ptr + 2) <= (long)end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
                     {
-                        var length = (int)(ptr - start) + 1;//读取长度
-                        ParseLine(start, length - 2);
-                        read += length;
-                        read += 2;
-                        return true;
+                        isEnd = true;
                     }
-                    #endregion When End Header
+
+                    if (Method == HttpMethod.UnParsed)//判断是否Parse首行
+                    {
+                        if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
+                        {
+                            ErrorCode = 400;
+                            return true;
+                        }
+                        read += length;//读取字节数增加
+                    }
                     else
                     {
-                        var length = (int)(ptr - start) + 1;//读取长度
-                        if (this.Method == HttpMethod.UnParsed)//判断是否Parse首行
+                        if (!ParseLine(start, length - 2, out var errorcode))
                         {
-                            if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
-                            {
-                                this.ErrorCode = 400;
-                                return true;
-                            }
-                            read += length;//读取字节数增加
+                            ErrorCode = errorcode;
+                            return true;
                         }
-                        else
-                        {
-                            if (!ParseLine(start, length - 2))
-                            {
-                                this.ErrorCode = 400;
-                                return true;
-                            }
-                            read += length;
-                        }
+                        read += length;
+                    }
+
+                    if (!isEnd)
+                    {
                         start = ++ptr;//开始位置和当前位置后移
+                    }
+                    else
+                    {
+                        read += 2;
+                        return true;
                     }
                 }
             }
@@ -188,7 +204,25 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
-
+        protected override bool ValidateHeader(string name, string content, out int errorcode)
+        {
+            errorcode = 200;
+            switch (name)
+            {
+                case "Content-Length":
+                    if (content.ConvertToLong(long.MaxValue) < int.MaxValue)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        errorcode = 413;
+                        return false;
+                    }
+                default:
+                    return base.ValidateHeader(name, content, out errorcode);
+            }
+        }
 
         public override string GetHttpHeader()
         {
@@ -202,29 +236,17 @@ namespace Lsj.Util.Net.Web.Message
             return sb.ToString();
         }
 
-
-        public bool IsReadFinish => this.Content.Length >= this.ContentLength;
+        public bool IsReadFinish => _isReadHeader && Content.Length >= ContentLength;
 
         public string UserHostAddress
         {
-            get
-            {
-                return userhostaddress;
-            }
-            internal set
-            {
-                userhostaddress = value;
-            }
+            get; internal set;
         }
-        string userhostaddress;
-
 
         protected override void CleanUpManagedResources()
         {
-            m_content.Dispose();
+            _content.Dispose();
             base.CleanUpManagedResources();
         }
     }
 }
-
-

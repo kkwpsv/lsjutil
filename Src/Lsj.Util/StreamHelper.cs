@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Lsj.Util
 {
@@ -30,6 +31,32 @@ namespace Lsj.Util
                 }
                 copied += bytesRead;
                 des.Write(buffer, 0, bytesRead);
+                count -= bytesRead;
+            }
+            return copied;
+        }
+
+        /// <summary>
+        /// CopyToAsync with Count 
+        /// </summary>
+        /// <param name="src">Source Stream.</param>
+        /// <param name="des">Destination Stream.</param>
+        /// <param name="count">Copy Count.</param>
+        public static async Task<long> CopyToAsyncWithCount(this Stream src, Stream des, long count)
+        {
+            var bufferSize = 81920;
+            var buffer = new byte[bufferSize];
+            var copied = 0L;
+
+            while (count != 0)
+            {
+                var bytesRead = await src.ReadAsync(buffer, 0, bufferSize);
+                if (bytesRead == 0)
+                {
+                    break;
+                }
+                copied += bytesRead;
+                await des.WriteAsync(buffer, 0, bytesRead);
                 count -= bytesRead;
             }
             return copied;
@@ -79,6 +106,19 @@ namespace Lsj.Util
             return result.ToArray();
         }
 
+#if NET40
+        /// <summary>
+        /// ReadAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static Task<int> ReadAsync(this Stream stream, byte[] buffer, int offset, int length) =>
+            Task<int>.Factory.FromAsync(stream.BeginRead, stream.EndRead, buffer, offset, length, null);
+#endif
+
         /// <summary>
         /// Write
         /// </summary>
@@ -93,6 +133,27 @@ namespace Lsj.Util
         /// <param name="buffer"></param>
         /// <param name="offset"></param>
         public static void Write(this Stream stream, byte[] buffer, int offset) => stream.Write(buffer, offset, buffer.Length - offset);
+
+#if NET45 || NETSTANDARD2_0
+        /// <summary>
+        /// WriteAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static Task WriteAsync(this Stream stream, byte[] buffer) => stream.WriteAsync(buffer, 0, buffer.Length);
+#endif
+
+#if NET40
+        /// <summary>
+        /// WriteAsync
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static Task WriteAsync(this Stream stream, byte[] buffer) =>
+            Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, buffer, 0, buffer.Length, null);
+#endif
 
         /// <summary>
         /// BeginRead

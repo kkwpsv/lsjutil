@@ -446,5 +446,50 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EndDialog([In]IntPtr hDlg, [In]IntPtr nResult);
+
+        /// <summary>
+        /// <para>
+        /// Translates the text of a specified control in a dialog box into an integer value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdlgitemint
+        /// </para>
+        /// </summary>
+        /// <param name="hDlg">
+        /// A handle to the dialog box that contains the control of interest.
+        /// </param>
+        /// <param name="nIDDlgItem">
+        /// The identifier of the control whose text is to be translated.
+        /// </param>
+        /// <param name="lpTranslated">
+        /// Indicates success or failure (<see langword="true"/> indicates success, <see langword="false"/>  indicates failure).
+        /// If this parameter is <see langword="null"/>, the function returns no information about success or failure.
+        /// </param>
+        /// <param name="bSigned">
+        /// Indicates whether the function should examine the text for a minus sign at the beginning and return a signed integer value
+        /// if it finds one (<see langword="true"/> specifies this should be done, <see langword="false"/> that it should not).
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the variable pointed to by <paramref name="lpTranslated"/> is set to <see langword="true"/>,
+        /// and the return value is the translated value of the control text.
+        /// If the function fails, the variable pointed to by <paramref name="lpTranslated"/> is set to <see langword="false"/>,
+        /// and the return value is zero.
+        /// Note that, because zero is a possible translated value, a return value of zero does not by itself indicate failure.
+        /// If <paramref name="lpTranslated"/> is <see langword="null"/>, the function returns no information about success or failure.
+        /// Note that, if the <paramref name="bSigned"/> parameter is <see langword="true"/> and there is a minus sign (–) at the beginning of the text,
+        /// <see cref="GetDlgItemInt"/> translates the text into a signed integer value.
+        /// Otherwise, the function creates an unsigned integer value.
+        /// To obtain the proper value in this case, cast the return value to an int type.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetDlgItemInt"/> function retrieves the text of the specified control by sending the control a <see cref="WM_GETTEXT"/> message.
+        /// The function translates the retrieved text by stripping any extra spaces at the beginning of the text and then converting the decimal digits.
+        /// The function stops translating when it reaches the end of the text or encounters a nonnumeric character.
+        /// The <see cref="GetDlgItemInt"/> function returns zero if the translated value is
+        /// greater than <see cref="int.MaxValue"/> (for signed numbers) or <see cref="uint.MaxValue"/> (for unsigned numbers).
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemInt", SetLastError = true)]
+        public static extern uint GetDlgItemInt([In]IntPtr hDlg, [In]IntPtr nIDDlgItem, [Out]out bool lpTranslated, [In]bool bSigned);
     }
 }

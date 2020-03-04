@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Net.Web.Cookie;
+﻿using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
+using System;
+using System.IO;
+using System.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
     /// <summary>
     /// HttpMessage Base
     /// </summary>
-    public abstract class HttpMessageBase : DisposableClass, IDisposable, IHttpMessage
+    public abstract class HttpMessageBase : DisposableClass, IHttpMessage
     {
         /// <summary>
         /// Headers
@@ -23,6 +21,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             get;
         } = new HttpHeaders();
+
         /// <summary>
         /// ErrorCode
         /// </summary>
@@ -31,10 +30,12 @@ namespace Lsj.Util.Net.Web.Message
             get;
             set;
         } = 200;
+
         /// <summary>
         /// Content
         /// </summary>
         public virtual Stream Content => Stream.Null;
+
         /// <summary>
         /// Cookies
         /// </summary>
@@ -42,6 +43,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             get;
         } = new HttpCookies();
+
         /// <summary>
         /// HttpVersion
         /// </summary>
@@ -51,16 +53,10 @@ namespace Lsj.Util.Net.Web.Message
             protected set;
         }
 
-
-        /// <summary>
-        /// ContentLength
-        /// </summary>
-        public virtual int ContentLength => Headers[HttpHeader.ContentLength].ConvertToInt(0);
         /// <summary>
         /// IsError
         /// </summary>
         public bool IsError => ErrorCode >= 400;
-
 
         /// <summary>
         /// Read
@@ -69,6 +65,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="read"></param>
         /// <returns></returns>
         public bool Read(byte[] buffer, ref int read) => Read(buffer, 0, ref read);
+
         /// <summary>
         /// Read
         /// </summary>
@@ -77,6 +74,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="read"></param>
         /// <returns></returns>
         public bool Read(byte[] buffer, int offset, ref int read) => InternalRead(buffer, offset, buffer.Length - offset, ref read);
+
         /// <summary>
         /// Read
         /// </summary>
@@ -86,6 +84,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="read"></param>
         /// <returns></returns>
         public bool Read(byte[] buffer, int offset, int length, ref int read) => InternalRead(buffer, offset, length, ref read);
+
         /// <summary>
         /// InternalRead
         /// </summary>
@@ -101,6 +100,7 @@ namespace Lsj.Util.Net.Web.Message
                 return InternalRead(pts, offset, length, ref read);
             }
         }
+
         /// <summary>
         /// InternalRead
         /// </summary>
@@ -111,15 +111,16 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         unsafe protected virtual bool InternalRead(byte* pts, int offset, int count, ref int read)
         {
-            return false;
+            throw new NotImplementedException();
         }
+
         /// <summary>
         /// Parse Line
         /// </summary>
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        protected unsafe bool ParseLine(byte* start, int length)
+        protected unsafe bool ParseLine(byte* start, int length, out int errorcode)
         {
             byte* ptr = start;
             for (int i = 0; i < length; i++, ptr++)
@@ -130,25 +131,35 @@ namespace Lsj.Util.Net.Web.Message
                     if (*(++ptr) == ASCIIChar.SPACE)
                     {
                         var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
-                        if (name != Header.GetNameByHeader(HttpHeader.Cookie))
+                        if (ValidateHeader(name, content, out errorcode))
                         {
-                            Headers.Add(name, content);
+                            if (name != Header.GetNameByHeader(HttpHeader.Cookie))
+                            {
+                                Headers.Add(name, content);
+                            }
+                            else
+                            {
+                                Cookies.Add(content);
+                            }
+                            return true;
                         }
                         else
                         {
-                            Cookies.Add(content);
+                            return false;
                         }
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
             }
+            errorcode = 400;
             return false;
         }
+
+        protected virtual bool ValidateHeader(string name, string content, out int errorcode)
+        {
+            errorcode = 200;
+            return true;
+        }
+
         /// <summary>
         /// Write
         /// </summary>
@@ -157,6 +168,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             Write(str.ConvertToBytes(Encoding.UTF8));
         }
+
         /// <summary>
         /// Write
         /// </summary>
@@ -165,6 +177,7 @@ namespace Lsj.Util.Net.Web.Message
         {
             throw new NotImplementedException();
         }
+
         /// <summary>
         /// GetHttpHeader
         /// </summary>

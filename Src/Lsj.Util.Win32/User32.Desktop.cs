@@ -1,16 +1,23 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.DesktopAccessRights;
+using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Enums.StandardAccessRights;
-using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 
 namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// CWF_CREATE_ONLY
+        /// </summary>
+        public const uint CWF_CREATE_ONLY = 0x00000001;
+
         /// <summary>
         /// DF_ALLOWOTHERACCOUNTHOOK
         /// </summary>
@@ -189,6 +196,82 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a window station object, associates it with the calling process, and assigns it to the current session.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowstationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpwinsta">
+        /// The name of the window station to be created.
+        /// Window station names are case-insensitive and cannot contain backslash characters ().
+        /// Only members of the Administrators group are allowed to specify a name.
+        /// If lpwinsta is <see langword="null"/> or an empty string,
+        /// the system forms a window station name using the logon session identifier for the calling process.
+        /// To get this name, call the <see cref="GetUserObjectInformation"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// If this parameter is <see cref="CWF_CREATE_ONLY"/> and the window station already exists, the call fails.
+        /// If this flag is not specified and the window station already exists,
+        /// the function succeeds and returns a new handle to the existing window station.
+        /// Windows XP/2000:  This parameter is reserved and must be zero.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The type of access the returned handle has to the window station.
+        /// In addition, you can specify any of the standard access rights, such as <see cref="READ_CONTROL"/> or <see cref="WRITE_DAC"/>,
+        /// and a combination of the window station-specific access rights.
+        /// For more information, see Window Station Security and Access Rights.
+        /// </param>
+        /// <param name="lpsa">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether the returned handle can be inherited by child processes.
+        /// If lpsa is <see langword="null"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new window station.
+        /// If lpsa is <see langword="null"/>, the window station (and any desktops created within the window) gets a security descriptor
+        /// that grants <see cref="GENERIC_ALL"/> access to all users.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly created window station.
+        /// If the specified window station already exists, the function succeeds and returns a handle to the existing window station.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", SetLastError = true)]
+        public static extern IntPtr CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpwinsta, [In]uint dwFlags,
+            [In]uint dwDesiredAccess,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
+            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa);
+
+        /// <summary>
+        /// <para>
+        /// Closes an open window station handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation
+        /// </para>
+        /// </summary>
+        /// <param name="hWinSta">
+        /// A handle to the window station to be closed.
+        /// This handle is returned by the <see cref="CreateWindowStation"/> or <see cref="OpenWindowStation"/> function.
+        /// Do not specify the handle returned by the <see cref="GetProcessWindowStation"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Windows Server 2003 and Windows XP/2000:  This function does not set the last error code on failure.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CloseWindowStation"/> function will fail if the handle being closed is for the window station assigned to the calling process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindowStation", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CloseWindowStation([In]IntPtr hWinSta);
+
+        /// <summary>
+        /// <para>
         /// Enumerates all top-level windows associated with the specified desktop.
         /// It passes the handle to each window, in turn, to an application-defined callback function.
         /// </para>
@@ -223,5 +306,99 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumDesktopWindows([In]IntPtr hDesktop, [In]WNDENUMPROC lpfn, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the current window station for the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getprocesswindowstation
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the window station.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system associates a window station with a process when the process is created.
+        /// A process can use the <see cref="SetProcessWindowStation"/> function to change its window station.
+        /// The calling process can use the returned handle in calls to the <see cref="GetUserObjectInformation"/>,
+        /// <see cref="GetUserObjectSecurity"/>, <see cref="SetUserObjectInformation"/>, and <see cref="SetUserObjectSecurity"/> functions.
+        /// Do not close the handle returned by this function.
+        /// A service application is created with an associated window station and desktop,
+        /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWindowStation", SetLastError = true)]
+        public static extern IntPtr GetProcessWindowStation();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the desktop assigned to the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getthreaddesktop
+        /// </para>
+        /// </summary>
+        /// <param name="dwThreadId">
+        /// The thread identifier.
+        /// The <see cref="GetCurrentThreadId"/> and <see cref="CreateProcess"/> functions return thread identifiers.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the desktop associated with the specified thread.
+        /// You do not need to call the <see cref="CloseDesktop"/> function to close the returned handle.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system associates a desktop with a thread when that thread is created.
+        /// A thread can use the <see cref="SetThreadDesktop"/> function to change its desktop.
+        /// The desktop associated with a thread must be on the window station associated with the thread's process.
+        /// The calling process can use the returned handle in calls to the <see cref="GetUserObjectInformation"/>, <see cref="GetUserObjectSecurity"/>,
+        /// <see cref="SetUserObjectInformation"/>, and <see cref="SetUserObjectSecurity"/> functions.
+        /// A service application is created with an associated window station and desktop,
+        /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDesktop", SetLastError = true)]
+        public static extern IntPtr GetThreadDesktop([In]uint dwThreadId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified window station or desktop object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw
+        /// </para>
+        /// </summary>
+        /// <param name="hObj">
+        /// A handle to the window station or desktop object.
+        /// This handle is returned by the <see cref="CreateWindowStation"/>, <see cref="OpenWindowStation"/>,
+        /// <see cref="CreateDesktop"/>, or <see cref="OpenDesktop"/> function.
+        /// </param>
+        /// <param name="nIndex">
+        /// The information to be retrieved.
+        /// </param>
+        /// <param name="pvInfo">
+        /// A pointer to a buffer to receive the object information.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the buffer pointed to by the <paramref name="pvInfo"/> parameter, in bytes.
+        /// </param>
+        /// <param name="lpnLengthNeeded">
+        /// A pointer to a variable receiving the number of bytes required to store the requested information.
+        /// If this variable's value is greater than the value of the <paramref name="nLength"/> parameter when the function returns,
+        /// the function returns <see langword="false"/>, and none of the information is copied to the pvInfo buffer.
+        /// If the value of the variable pointed to by <paramref name="lpnLengthNeeded"/> is less than or equal to the value of <paramref name="nLength"/>,
+        /// the entire information block is copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="false"/>.
+        /// If the function fails, the return value is <see langword="true"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetUserObjectInformation([In]IntPtr hObj, [In]GetUserObjectInformationIndexes nIndex, [In]IntPtr pvInfo,
+            [In]uint nLength, [Out]out uint lpnLengthNeeded);
     }
 }

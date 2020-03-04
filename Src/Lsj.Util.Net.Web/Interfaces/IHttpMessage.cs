@@ -6,9 +6,6 @@ using System.IO;
 using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Message;
 
-
-
-
 namespace Lsj.Util.Net.Web.Interfaces
 {
     /// <summary>
@@ -39,6 +36,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
+
         /// <summary>
         /// Cookies
         /// </summary>
@@ -47,7 +45,6 @@ namespace Lsj.Util.Net.Web.Interfaces
             get;
         }
 
-
         /// <summary>
         /// Read
         /// </summary>
@@ -55,6 +52,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="read"></param>
         /// <returns></returns>
         bool Read(byte[] buffer, ref int read);
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,6 +61,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="read"></param>
         /// <returns></returns>
         bool Read(byte[] buffer, int offset, ref int read);
+
         /// <summary>
         /// 
         /// </summary>
@@ -73,19 +72,12 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <returns></returns>
         bool Read(byte[] buffer, int offset, int length, ref int read);
 
-
-        /// <summary>
-        /// ContentLength
-        /// </summary>
-        int ContentLength
-        {
-            get;
-        }
         /// <summary>
         /// Write
         /// </summary>
         /// <param name="buffer"></param>
         void Write(byte[] buffer);
+
         /// <summary>
         /// Write
         /// </summary>
@@ -97,6 +89,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// </summary>
         /// <returns></returns>
         string GetHttpHeader();
+
         /// <summary>
         /// IsError
         /// </summary>
@@ -104,7 +97,5 @@ namespace Lsj.Util.Net.Web.Interfaces
         {
             get;
         }
-
-
     }
 }

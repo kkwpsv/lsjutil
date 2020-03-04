@@ -4,6 +4,7 @@ using static Lsj.Util.Win32.Enums.NetworkEvents;
 
 namespace Lsj.Util.Win32
 {
+#pragma warning disable CS1574
     /// <summary>
     /// Ws2_32.dll
     /// </summary>
@@ -168,3 +169,4 @@ namespace Lsj.Util.Win32
         public static extern int closesocket([In]UIntPtr s);
     }
 }
+#pragma warning restore CS1574
