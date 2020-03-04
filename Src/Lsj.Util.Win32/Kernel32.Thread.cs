@@ -482,6 +482,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process identifier of the process associated with the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessidofthread
+        /// </para>
+        /// </summary>
+        /// <param name="Thread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003:  The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the process identifier of the process associated with the specified thread.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Until a process terminates, its process identifier uniquely identifies it on the system.
+        /// For more information about access rights, see Thread Security and Access Rights.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIdOfThread", SetLastError = true)]
+        public static extern uint GetProcessIdOfThread([In]IntPtr Thread);
+
+        /// <summary>
+        /// <para>
         /// A handle to the thread.
         /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
         /// For more information about access rights, see Thread Security and Access Rights.
