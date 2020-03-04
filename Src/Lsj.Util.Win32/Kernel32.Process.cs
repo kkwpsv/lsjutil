@@ -1611,6 +1611,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Terminates the specified process and all of its threads.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process to be terminated.
+        /// The handle must have the <see cref="PROCESS_TERMINATE"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="uExitCode">
+        /// The exit code to be used by the process and threads terminated as a result of this call.
+        /// Use the <see cref="GetExitCodeProcess"/> function to retrieve a process's exit value.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="TerminateProcess"/> function is used to unconditionally cause a process to exit.
+        /// The state of global data maintained by dynamic-link libraries (DLLs) may be compromised
+        /// if <see cref="TerminateProcess"/> is used rather than <see cref="ExitProcess"/>.
+        /// This function stops execution of all threads within the process and requests cancellation of all pending I/O.
+        /// The terminated process cannot exit until all pending I/O has been completed or canceled.
+        /// When a process terminates, its kernel object is not destroyed until all processes that have open handles to the process have released those handles.
+        /// <see cref="TerminateProcess"/> is asynchronous; it initiates termination and returns immediately.
+        /// If you need to be sure the process has terminated, call the <see cref="WaitForSingleObject"/> function with a handle to the process.
+        /// A process cannot prevent itself from being terminated.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TerminateProcess([In]IntPtr hProcess, [In]uint uExitCode);
+
+        /// <summary>
+        /// <para>
         /// Updates the specified attribute in a list of attributes for process and thread creation.
         /// </para>
         /// <para>
