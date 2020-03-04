@@ -482,6 +482,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information about access rights, see Thread Security and Access Rights.
+        /// Windows Server 2003:  The handle must have the THREAD_QUERY_INFORMATION access right.
+        /// </para>
+        /// </summary>
+        /// <param name="Thread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information about access rights, see Thread Security and Access Rights.
+        /// Windows Server 2003:  The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns>
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Until a thread terminates, its thread identifier uniquely identifies it on the system.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", SetLastError = true)]
+        public static extern uint GetThreadId([In]IntPtr Thread);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority value for the specified thread.
         /// This value, together with the priority class of the thread's process, determines the thread's base-priority level.
         /// </para>
