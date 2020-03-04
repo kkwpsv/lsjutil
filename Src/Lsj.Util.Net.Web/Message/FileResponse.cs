@@ -39,10 +39,12 @@ namespace Lsj.Util.Net.Web.Message
                         var rangeSplit = range.Split(new char[] { '-' }, StringSplitOptions.None);
                         if (rangeSplit.Length == 2)
                         {
-                            var start = 0L;
-                            var end = fileStream.Length - 1;
-                            if (long.TryParse(rangeSplit[0], out start) || long.TryParse(rangeSplit[1], out end))
+                            if (long.TryParse(rangeSplit[0], out var start))
                             {
+                                if (!long.TryParse(rangeSplit[1], out var end))
+                                {
+                                    end = fileStream.Length - 1;
+                                }
                                 if (start >= 0 && end < fileStream.Length && start < end)
                                 {
                                     fileRange = (start, end - start + 1);
