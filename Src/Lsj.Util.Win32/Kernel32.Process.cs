@@ -1397,6 +1397,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process identifier of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocessid
+        /// </para>
+        /// </summary>
+        /// <param name="Process">
+        /// A handle to the process. The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/>
+        /// or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Until a process terminates, its process identifier uniquely identifies it on the system.
+        /// For more information about access rights, see Process Security and Access Rights.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessId", SetLastError = true)]
+        public static extern uint GetProcessId([In]IntPtr Process);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the name of the executable file for the specified process.
         /// </para>
         /// <para>
