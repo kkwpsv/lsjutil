@@ -32,6 +32,6 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <summary>
         /// Result
         /// </summary>
-        public abstract TResult Result { get; protected set; }
+        public virtual TResult Result { get; protected set; }
     }
 }
