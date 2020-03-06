@@ -48,6 +48,9 @@ dotnet build -c Release || exit -1
 cd ..\Lsj.Util.Win32
 dotnet build -c Release || exit -1
 
+cd ..\Lsj.Util.Win32.NativeUI
+dotnet build -c Release || exit -1
+
 cd ..\Lsj.Util.WinForm
 dotnet build -c Release || exit -1
 
