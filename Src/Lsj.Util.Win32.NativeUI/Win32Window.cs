@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
-namespace Lsj.Util.Win32.Extensions
+namespace Lsj.Util.Win32.NativeUI
 {
     /// <summary>
     /// Native Win32 Window

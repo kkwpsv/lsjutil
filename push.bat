@@ -14,6 +14,7 @@ nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://api.nuget.org
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.SQLBuilder\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
+nuget push src\Lsj.Util.Win32.NativeUI\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.WinForm\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.WPF\bin\Release\*.nupkg -Source https://api.nuget.org/v3/index.json -ApiKey %NugetKey% -SkipDuplicate
 
@@ -33,6 +34,7 @@ nuget push Src\Lsj.Util.Office\bin\Release\*.nupkg -Source https://nuget.sdlsj.n
 nuget push Src\Lsj.Util.Protobuf\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.SQLBuilder\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push src\Lsj.Util.Win32\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
+nuget push src\Lsj.Util.Win32.NativeUI\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.WinForm\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 nuget push Src\Lsj.Util.WPF\bin\Release\*.nupkg -Source https://nuget.sdlsj.net/v3/index.json -ApiKey %MyNugetKey% -SkipDuplicate
 

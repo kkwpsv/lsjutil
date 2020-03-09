@@ -50,6 +50,9 @@ dotnet pack -c Release --include-source || exit -1
 cd ..\Lsj.Util.Win32
 dotnet pack -c Release --include-source || exit -1
 
+cd ..\Lsj.Util.Win32.NativeUI
+dotnet pack -c Release --include-source || exit -1
+
 cd ..\Lsj.Util.WinForm
 dotnet pack -c Release --include-source || exit -1
 
