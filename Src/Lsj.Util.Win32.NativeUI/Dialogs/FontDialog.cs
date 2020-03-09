@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 {
                     return ShowDialogResult.Cancel;
                 }
-#if NET40
+#if NET40 || NET45
                 var logFontStruct = (LOGFONT)Marshal.PtrToStructure(chooseFont.lpLogFont, typeof(LOGFONT));
 #else
                 var logFontStruct = Marshal.PtrToStructure<LOGFONT>(chooseFont.lpLogFont);
