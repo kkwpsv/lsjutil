@@ -7,7 +7,12 @@ using static Lsj.Util.Win32.ComInterfaces.IIDs;
 namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
-    /// 
+    /// <para>
+    /// Exposes methods that initialize, show, and get results from the common file dialog.
+    /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ifiledialog
+    /// </para>
     /// </summary>
     [ComImport]
     [Guid(IID_IFileDialog)]
