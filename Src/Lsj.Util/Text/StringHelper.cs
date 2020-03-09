@@ -634,5 +634,12 @@ namespace Lsj.Util.Text
             end = end >= length ? length - 1 : end;
             return new string(str, start, end - start + 1);
         }
+
+        /// <summary>
+        /// To <see cref="Guid"/>
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static Guid ToGuid(this string str) => new Guid(str);
     }
 }
