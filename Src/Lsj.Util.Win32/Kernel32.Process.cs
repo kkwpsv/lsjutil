@@ -1472,6 +1472,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves timing information for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose timing information is sought. 
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the creation time of the process.
+        /// </param>
+        /// <param name="lpExitTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the exit time of the process.
+        /// If the process has not exited, the content of this structure is undefined.
+        /// </param>
+        /// <param name="lpKernelTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the process has executed in kernel mode.
+        /// The time that each of the threads of the process has executed in kernel mode is determined,
+        /// and then all of those times are summed together to obtain this value.
+        /// </param>
+        /// <param name="lpUserTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the process has executed in user mode.
+        /// The time that each of the threads of the process has executed in user mode is determined,
+        /// and then all of those times are summed together to obtain this value.
+        /// Note that this value can exceed the amount of real time elapsed (between <paramref name="lpCreationTime"/> and <paramref name="lpExitTime"/>)
+        /// if the process executes across multiple CPU cores.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All times are expressed using <see cref="FILETIME"/> data structures.
+        /// Such a structure contains two 32-bit values that combine to form a 64-bit count of 100-nanosecond time units.
+        /// Process creation and exit times are points in time expressed as the amount of time that has elapsed
+        /// since midnight on January 1, 1601 at Greenwich, England.
+        /// There are several functions that an application can use to convert such values to more generally useful forms.
+        /// Process kernel mode and user mode times are amounts of time.
+        /// For example, if a process has spent one second in kernel mode, this function will fill the <see cref="FILETIME"/> structure
+        /// specified by <paramref name="lpKernelTime"/> with a 64-bit value of ten million.
+        /// That is the number of 100-nanosecond units in one second.
+        /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out FILETIME lpCreationTime, [Out]out FILETIME lpExitTime,
+            [Out]out FILETIME lpKernelTime, [Out]out FILETIME lpUserTime);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
@@ -1565,7 +1620,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess,[Out]out IntPtr TokenHandle);
+        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
 
         /// <summary>
         /// <para>
