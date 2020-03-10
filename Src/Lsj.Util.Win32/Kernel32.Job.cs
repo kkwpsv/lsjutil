@@ -183,5 +183,46 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessInJob", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsProcessInJob([In]IntPtr ProcessHandle, [In]IntPtr JobHandle, [Out]out bool Result);
+
+        /// <summary>
+        /// <para>
+        /// Opens an existing job object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-openjobobjectw
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the job object.
+        /// This parameter can be one or more of the job object access rights.
+        /// This access right is checked against any security descriptor for the object.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see langword="true"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the job to be opened.
+        /// Name comparisons are case sensitive.
+        /// This function can open objects in a private namespace.
+        /// For more information, see Object Namespaces.
+        /// Terminal Services:
+        /// The name can have a "Global" or "Local" prefix to explicitly open the object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the job.
+        /// The handle provides the requested access to the job.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To associate a process with a job, use the <see cref="AssignProcessToJobObject"/> function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenJobObjectW", SetLastError = true)]
+        public static extern IntPtr OpenJobObject([In]uint dwDesiredAccess, [In]bool bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
     }
 }
