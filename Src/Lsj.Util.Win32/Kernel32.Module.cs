@@ -98,6 +98,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process identifier for each process object in the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocesses
+        /// </para>
+        /// </summary>
+        /// <param name="lpidProcess">
+        /// A pointer to an array that receives the list of process identifiers.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lpidProcess"/> array, in bytes.
+        /// </param>
+        /// <param name="lpcbNeeded">
+        /// The number of bytes returned in the <paramref name="lpidProcess"/> array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, see <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// It is a good idea to use a large array, because it is hard to predict how many processes there will be
+        /// at the time you call <see cref="EnumProcesses"/>.
+        /// To determine how many processes were enumerated, divide the <paramref name="lpcbNeeded"/> value by sizeof(DWORD).
+        /// There is no indication given when the buffer is too small to store all process identifiers.
+        /// Therefore, if <paramref name="lpcbNeeded"/> equals cb, consider retrying the call with a larger array.
+        /// To obtain process handles for the processes whose identifiers you have just obtained, call the <see cref="OpenProcess"/> function.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcesses in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="EnumProcesses"/> in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32EnumProcesses.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="EnumProcesses"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out]uint[] lpidProcess,
+            [In]uint cb, [Out]out uint lpcbNeeded);
+
+        /// <summary>
+        /// <para>
         /// Decrements the reference count of a loaded dynamic-link library (DLL) by one,
         /// then calls <see cref="ExitThread"/> to terminate the calling thread.
         /// The function does not return.
