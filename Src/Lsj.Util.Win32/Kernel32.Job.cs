@@ -144,5 +144,44 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
         [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpJobAttributes,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the process is running in the specified job.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi/nf-jobapi-isprocessinjob
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessHandle">
+        /// A handle to the process to be tested.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="JobHandle">
+        /// A handle to the job.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, the function tests if the process is running under any job.
+        /// If this parameter is not <see cref="IntPtr.Zero"/>, the handle must have the <see cref="JOB_OBJECT_QUERY"/> access right.
+        /// For more information, see Job Object Security and Access Rights.
+        /// </param>
+        /// <param name="Result">
+        /// A pointer to a value that receives <see langword="true"/> if the process is running in the job, and <see langword="false"/> otherwise.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application cannot obtain a handle to the job object in which it is running unless it has the name of the job object.
+        /// However, an application can call the <see cref="QueryInformationJobObject"/> function
+        /// with <see cref="IntPtr.Zero"/> to obtain information about the job object.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessInJob", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsProcessInJob([In]IntPtr ProcessHandle, [In]IntPtr JobHandle, [Out]out bool Result);
     }
 }
