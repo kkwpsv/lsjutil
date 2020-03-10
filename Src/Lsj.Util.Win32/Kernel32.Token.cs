@@ -115,6 +115,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreateWellKnownSid"/> function creates a SID for predefined aliases.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid
+        /// </para>
+        /// </summary>
+        /// <param name="WellKnownSidType">
+        /// Member of the <see cref="WELL_KNOWN_SID_TYPE"/> enumeration that specifies what the SID will identify.
+        /// </param>
+        /// <param name="DomainSid">
+        /// A pointer to a SID that identifies the domain to use when creating the SID.
+        /// Pass <see cref="IntPtr"/> to use the local computer.
+        /// </param>
+        /// <param name="pSid">
+        /// A pointer to memory where <see cref="CreateWellKnownSid"/> will store the new SID.
+        /// </param>
+        /// <param name="cbSid">
+        /// A pointer to a DWORD that contains the number of bytes available at <paramref name="pSid"/>.
+        /// The <see cref="CreateWellKnownSid"/> function stores the number of bytes actually used at this location.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWellKnownSid", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateWellKnownSid([In]WELL_KNOWN_SID_TYPE WellKnownSidType, [In]IntPtr DomainSid,
+            [In]IntPtr pSid, [Out]out uint cbSid);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
         /// </para>
         /// <para>
