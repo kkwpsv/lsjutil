@@ -324,5 +324,44 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetInformationJobObject([In]IntPtr hJob, [In]JOBOBJECTINFOCLASS JobObjectInformationClass,
             [In]IntPtr lpJobObjectInformation, [In]uint cbJobObjectInformationLength);
+
+        /// <summary>
+        /// <para>
+        /// Terminates all processes currently associated with the job.
+        /// If the job is nested, this function terminates all processes currently associated with the job and all of its child jobs in the hierarchy.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-terminatejobobject
+        /// </para>
+        /// </summary>
+        /// <param name="hJob">
+        /// A handle to the job whose processes will be terminated.
+        /// The <see cref="CreateJobObject"/> or <see cref="OpenJobObject"/> function returns this handle.
+        /// This handle must have the <see cref="JOB_OBJECT_TERMINATE"/> access right.
+        /// For more information, see Job Object Security and Access Rights.
+        /// The handle for each process in the job object must have the <see cref="PROCESS_TERMINATE"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="uExitCode">
+        /// The exit code to be used by all processes and threads in the job object.
+        /// Use the <see cref="GetExitCodeProcess"/> function to retrieve each process's exit value.
+        /// Use the <see cref="GetExitCodeThread"/> function to retrieve each thread's exit value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// It is not possible for any of the processes associated with the job to postpone or handle the termination.
+        /// It is as if <see cref="TerminateProcess"/> were called for each process associated with the job.
+        /// Terminating a nested job additionally terminates all child job objects.
+        /// Resources used by the terminated jobs are charged up the parent job chain in the hierarchy.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateJobObject", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool TerminateJobObject([In]IntPtr hJob, [In]uint uExitCode);
     }
 }
