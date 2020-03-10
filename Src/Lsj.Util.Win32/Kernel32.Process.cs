@@ -1536,6 +1536,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessHandle">
+        /// A handle to the process whose access token is opened.
+        /// The process must have the <see cref="PROCESS_QUERY_INFORMATION"/> access permission.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Specifies an access mask that specifies the requested types of access to the access token.
+        /// These requested access types are compared with the discretionary access control list (DACL) of the token
+        /// to determine which accesses are granted or denied.
+        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </param>
+        /// <param name="TokenHandle">
+        /// A pointer to a handle that identifies the newly opened access token when the function returns.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess,[Out]out IntPtr TokenHandle);
+
+        /// <summary>
+        /// <para>
         /// Changes the current directory for the current process.
         /// </para>
         /// <para>
