@@ -98,6 +98,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = (UIntPtr)0x20012;
 
+        /// <summary>
+        /// PROCESS_NAME_NATIVE
+        /// </summary>
+        public const uint PROCESS_NAME_NATIVE = 0x00000001;
+
 
         /// <summary>
         /// <para>
@@ -1621,6 +1626,45 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the full name of the executable image for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must be created with the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one of the following values.
+        /// 0: The name should use the Win32 path format.
+        /// <see cref="PROCESS_NAME_NATIVE"/>: The name should use the native system path format.
+        /// </param>
+        /// <param name="lpExeName">
+        /// The path to the executable image.
+        /// If the function succeeds, this string is null-terminated.
+        /// </param>
+        /// <param name="lpdwSize">
+        /// On input, specifies the size of the <paramref name="lpExeName"/> buffer, in characters.
+        /// On success, receives the number of characters written to the buffer, not including the null-terminating character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
 
         /// <summary>
         /// <para>
