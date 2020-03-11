@@ -651,6 +651,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Suspends the specified thread.
+        /// A 64-bit application can suspend a WOW64 thread using the <see cref="Wow64SuspendThread"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-suspendthread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread that is to be suspended.
+        /// The handle must have the <see cref="THREAD_SUSPEND_RESUME"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's previous suspend count; otherwise, it is (DWORD) -1.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If the function succeeds, execution of the specified thread is suspended and the thread's suspend count is incremented. 
+        /// Suspending a thread causes the thread to stop executing user-mode (application) code.
+        /// This function is primarily designed for use by debuggers. It is not intended to be used for thread synchronization.
+        /// Calling <see cref="SuspendThread"/> on a thread that owns a synchronization object, such as a mutex or critical section,
+        /// can lead to a deadlock if the calling thread tries to obtain a synchronization object owned by a suspended thread.
+        /// To avoid this situation, a thread within an application that is not a debugger should signal the other thread to suspend itself.
+        /// The target thread must be designed to watch for this signal and respond appropriately.
+        /// Each thread has a suspend count (with a maximum value of <see cref="MAXIMUM_SUSPEND_COUNT"/>).
+        /// If the suspend count is greater than zero, the thread is suspended; otherwise, the thread is not suspended and is eligible for execution.
+        /// Calling <see cref="SuspendThread"/> causes the target thread's suspend count to be incremented.
+        /// Attempting to increment past the maximum suspend count causes an error without incrementing the count.
+        /// The ResumeThread function decrements the suspend count of a suspended thread.
+        /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", SetLastError = true)]
+        public static extern uint SuspendThread([In]IntPtr hThread);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
