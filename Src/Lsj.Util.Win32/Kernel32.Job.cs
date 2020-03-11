@@ -228,6 +228,107 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves limit and job state information from the job object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject
+        /// </para>
+        /// </summary>
+        /// <param name="hJob">
+        /// A handle to the job whose information is being queried.
+        /// The <see cref="CreateJobObject"/> or <see cref="OpenJobObject"/> function returns this handle.
+        /// The handle must have the <see cref="JOB_OBJECT_QUERY"/> access right.
+        /// For more information, see Job Object Security and Access Rights.
+        /// If this value is <see cref="IntPtr.Zero"/> and the calling process is associated with a job,
+        /// the job associated with the calling process is used.
+        /// If the job is nested, the immediate job of the calling process is used.
+        /// </param>
+        /// <param name="JobObjectInformationClass">
+        /// The information class for the limits to be queried.
+        /// This parameter can be one of the following values.
+        /// <see cref="JobObjectBasicAccountingInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_ACCOUNTING_INFORMATION"/> structure.
+        /// <see cref="JobObjectBasicAndIoAccountingInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_AND_IO_ACCOUNTING_INFORMATION"/> structure.
+        /// <see cref="JobObjectBasicLimitInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_LIMIT_INFORMATION"/> structure.
+        /// <see cref="JobObjectBasicProcessIdList"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_PROCESS_ID_LIST"/> structure.
+        /// <see cref="JobObjectBasicUIRestrictions"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_BASIC_UI_RESTRICTIONS"/> structure.
+        /// <see cref="JobObjectCpuRateControlInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_CPU_RATE_CONTROL_INFORMATION"/> structure.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectEndOfJobTimeInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_END_OF_JOB_TIME_INFORMATION"/> structure.
+        /// <see cref="JobObjectExtendedLimitInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_EXTENDED_LIMIT_INFORMATION"/> structure.
+        /// <see cref="JobObjectGroupInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a buffer
+        /// that receives the list of processor groups to which the job is currently assigned.
+        /// The variable pointed to by the <paramref name="lpReturnLength"/> parameter is set to the size of the group data.
+        /// Divide this value by sizeof(USHORT) to determine the number of groups.
+        /// Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectGroupInformationEx"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a buffer that receives an array of <see cref="GROUP_AFFINITY"/> structures
+        /// that indicate the affinity of the job in the processor groups to which the job is currently assigned.
+        /// The variable pointed to by the <paramref name="lpReturnLength"/> parameter is set to the size of the group affinity data.
+        /// Divide this value by sizeof(<see cref="GROUP_AFFINITY"/>) to determine the number of groups.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectLimitViolationInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION"/> structure.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectLimitViolationInformation2"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION_2"/> structure.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008,
+        /// Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectNetRateControlInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_NET_RATE_CONTROL_INFORMATION"/> structure.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008,
+        /// Windows Vista, Windows Server 2003 and Windows XP:  This flag is not supported.
+        /// <see cref="JobObjectNotificationLimitInformation"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION"/> structure.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectNotificationLimitInformation2"/>:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_NOTIFICATION_LIMIT_INFORMATION_2"/> structure.
+        /// Windows 8.1, Windows Server 2012 R2, Windows 8, Windows Server 2012, Windows 7, Windows Server 2008 R2, Windows Server 2008,
+        /// Windows Vista, Windows Server 2003 and Windows XP: This flag is not supported.
+        /// <see cref="JobObjectSecurityLimitInformation"/>:
+        /// This flag is not supported. Applications must set security limits individually for each process.
+        /// Windows Server 2003 and Windows XP:
+        /// The <paramref name="lpJobObjectInformation"/> parameter is a pointer to a <see cref="JOBOBJECT_SECURITY_LIMIT_INFORMATION"/> structure.
+        /// </param>
+        /// <param name="lpJobObjectInformation">
+        /// The limit or job state information.
+        /// The format of this data depends on the value of the <paramref name="JobObjectInformationClass"/> parameter.
+        /// </param>
+        /// <param name="cbJobObjectInformationLength">
+        /// The count of the job information being queried, in bytes.
+        /// This value depends on the value of the <paramref name="JobObjectInformationClass"/> parameter.
+        /// </param>
+        /// <param name="lpReturnLength">
+        /// A pointer to a variable that receives the length of data written to the structure
+        /// pointed to by the <paramref name="lpJobObjectInformation"/> parameter.
+        /// Specify <see cref="IntPtr.Zero"/> to not receive this information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Use <see cref="QueryInformationJobObject"/> to obtain the current limits and modify them.
+        /// Use the <see cref="SetInformationJobObject"/> function to set new limits.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryInformationJobObject", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryInformationJobObject([In]IntPtr hJob, [In]JOBOBJECTINFOCLASS JobObjectInformationClass,
+            [In]IntPtr lpJobObjectInformation, [In]uint cbJobObjectInformationLength, [Out]out uint lpReturnLength);
+
+        /// <summary>
+        /// <para>
         /// Sets limits for a job object.
         /// </para>
         /// <para>
