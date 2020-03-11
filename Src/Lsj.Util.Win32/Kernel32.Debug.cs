@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Enums;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -54,5 +55,41 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEvent", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WaitForDebugEvent([In]IntPtr lpDebugEvent, [In]uint dwMilliseconds);
+
+        /// <summary>
+        /// <para>
+        /// Enables a debugger to continue a thread that previously reported a debugging event.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-continuedebugevent
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The process identifier of the process to continue.
+        /// </param>
+        /// <param name="dwThreadId">
+        /// The thread identifier of the thread to continue.
+        /// The combination of process identifier and thread identifier must identify a thread that has previously reported a debugging event.
+        /// </param>
+        /// <param name="dwContinueStatus">
+        /// The options to continue the thread that reported the debugging event.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Only the thread that created dwProcessId with the <see cref="CreateProcess"/> function can call <see cref="ContinueDebugEvent"/>.
+        /// After the <see cref="ContinueDebugEvent"/> function succeeds, the specified thread continues.
+        /// Depending on the debugging event previously reported by the thread, different actions occur.
+        /// If the continued thread previously reported an <see cref="EXIT_THREAD_DEBUG_EVENT"/> debugging event,
+        /// <see cref="ContinueDebugEvent"/> closes the handle the debugger has to the thread.
+        /// If the continued thread previously reported an <see cref="EXIT_PROCESS_DEBUG_EVENT"/> debugging event,
+        /// <see cref="ContinueDebugEvent"/> closes the handles the debugger has to the process and to the thread.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ContinueDebugEvent([In]uint dwProcessId, [In]uint dwThreadId, [In]DebugContinueStatus dwContinueStatus);
     }
 }
