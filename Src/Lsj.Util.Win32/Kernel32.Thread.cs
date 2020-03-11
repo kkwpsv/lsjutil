@@ -565,6 +565,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves timing information for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadtimes
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose timing information is sought.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the creation time of the thread.
+        /// </param>
+        /// <param name="lpExitTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the exit time of the thread.
+        /// If the thread has not exited, the content of this structure is undefined.
+        /// </param>
+        /// <param name="lpKernelTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the thread has executed in kernel mode.
+        /// </param>
+        /// <param name="lpUserTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the thread has executed in user mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All times are expressed using <see cref="FILETIME"/> data structures.
+        /// Such a structure contains two 32-bit values that combine to form a 64-bit count of 100-nanosecond time units.
+        /// Thread creation and exit times are points in time expressed as the amount of time that has elapsed
+        /// since midnight on January 1, 1601 at Greenwich, England.
+        /// There are several functions that an application can use to convert such values to more generally useful forms; see Time Functions.
+        /// Thread kernel mode and user mode times are amounts of time.
+        /// For example, if a thread has spent one second in kernel mode, this function will fill the <see cref="FILETIME"/> structure
+        /// specified by <paramref name="lpKernelTime"/> with a 64-bit value of ten million.
+        /// That is the number of 100-nanosecond units in one second.
+        /// To retrieve the number of CPU clock cycles used by the threads, use the <see cref="QueryThreadCycleTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetThreadTimes([In]IntPtr hThread, [Out]out FILETIME lpCreationTime, [Out]out FILETIME lpExitTime,
+            [Out]out FILETIME lpKernelTime, [Out]out FILETIME lpUserTime);
+
+        /// <summary>
+        /// <para>
         /// Decrements a thread's suspend count.
         /// When the suspend count is decremented to zero, the execution of the thread is resumed.
         /// </para>
