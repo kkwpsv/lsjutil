@@ -602,6 +602,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
+        /// Each thread of a process has its own slot for each TLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsgetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value stored in the calling thread's TLS slot associated with the specified index.
+        /// If <paramref name="dwTlsIndex"/> is a valid index allocated by a successful call to <see cref="TlsAlloc"/>, this function always succeeds.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The data stored in a TLS slot can have a value of 0 because it still has its initial value or 
+        /// because the thread called the <see cref="TlsSetValue"/> function with 0.
+        /// Therefore, if the return value is 0, you must check whether <see cref="GetLastError"/> returns <see cref="ERROR_SUCCESS"/>
+        /// before determining that the function has failed.
+        /// If <see cref="GetLastError"/> returns <see cref="ERROR_SUCCESS"/>, then the function has succeeded and the data stored in the TLS slot is 0.
+        /// Otherwise, the function has failed.
+        /// Functions that return indications of failure call <see cref="SetLastError"/> when they fail.
+        /// They generally do not call <see cref="SetLastError"/> when they succeed.
+        /// The <see cref="TlsGetValue"/> function is an exception to this general rule.
+        /// The <see cref="TlsGetValue"/> function calls <see cref="SetLastError"/> to clear a thread's last error when it succeeds.
+        /// That allows checking for the error-free retrieval of zero values.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", SetLastError = true)]
+        public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
+
+        /// <summary>
+        /// <para>
         /// Terminates a thread.
         /// </para>
         /// <para>
