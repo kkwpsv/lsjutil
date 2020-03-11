@@ -614,6 +614,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Opens an existing thread object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthread
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the thread object.
+        /// This access right is checked against the security descriptor for the thread.
+        /// This parameter can be one or more of the thread access rights.
+        /// If the caller has enabled the <see cref="SeDebugPrivilege"/> privilege,
+        /// the requested access is granted regardless of the contents of the security descriptor.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see langword="true"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwThreadId">
+        /// The identifier of the thread to be opened.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified thread.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The handle returned by <see cref="OpenThread"/> can be used in any function that requires a handle to a thread,
+        /// such as the wait functions, provided you requested the appropriate access rights.
+        /// The handle is granted access to the thread object only to the extent it was specified in the <paramref name="dwDesiredAccess"/> parameter.
+        /// When you are finished with the handle, be sure to close it by using the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", SetLastError = true)]
+        public static extern IntPtr OpenThread([In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]uint dwThreadId);
+
+        /// <summary>
+        /// <para>
         /// Decrements a thread's suspend count.
         /// When the suspend count is decremented to zero, the execution of the thread is resumed.
         /// </para>
