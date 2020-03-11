@@ -629,6 +629,24 @@ namespace Lsj.Util.Win32
         /// The <see cref="TlsGetValue"/> function calls <see cref="SetLastError"/> to clear a thread's last error when it succeeds.
         /// That allows checking for the error-free retrieval of zero values.
         /// </returns>
+        /// <remarks>
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsGetValue"/>.
+        /// Refer to <see cref="FlsGetValue"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsGetValue"/>.
+        /// TLS indexes are typically allocated by the <see cref="TlsAlloc"/> function during process or DLL initialization.
+        /// After a TLS index is allocated, each thread of the process can use it to access its own TLS slot for that index.
+        /// A thread specifies a TLS index in a call to <see cref="TlsSetValue"/> to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/> to retrieve the stored value.
+        /// <see cref="TlsGetValue"/> was implemented with speed as the primary goal.
+        /// The function performs minimal parameter validation and error checking.
+        /// In particular, it succeeds if <paramref name="dwTlsIndex"/> is in the range 0 through (<see cref="TLS_MINIMUM_AVAILABLE"/>– 1).
+        /// It is up to the programmer to ensure that the index is valid and
+        /// that the thread calls <see cref="TlsSetValue"/> before calling <see cref="TlsGetValue"/>.
+        /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", SetLastError = true)]
         public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
 
