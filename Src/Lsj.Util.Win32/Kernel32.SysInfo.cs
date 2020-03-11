@@ -357,6 +357,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the number of milliseconds that have elapsed since the system was started.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The number of milliseconds.
+        /// </returns>
+        /// <remarks>
+        /// The resolution of the <see cref="GetTickCount64"/> function is limited to the resolution of the system timer,
+        /// which is typically in the range of 10 milliseconds to 16 milliseconds.
+        /// The resolution of the <see cref="GetTickCount64"/> function is not affected by adjustments made
+        /// by the <see cref="GetSystemTimeAdjustment"/> function.
+        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
+        /// To obtain the time the system has spent in the working state since it was started, use the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// because the interrupt-time count and tick count are advanced by approximately 49 days.
+        /// This helps to identify bugs that might not occur until the system has been running for a long time.
+        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", SetLastError = true)]
+        public static extern ulong GetTickCount64();
+
+        /// <summary>
+        /// <para>
         /// With the release of Windows 8.1, the behavior of the <see cref="GetVersion"/> API has changed in the value
         /// it will return for the operating system version.
         /// The value returned by the <see cref="GetVersion"/> function now depends on how the application is manifested.
