@@ -184,5 +184,30 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current value of the performance counter, which is a high resolution (&lt;1us) time stamp
+        /// that can be used for time-interval measurements.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancecounter
+        /// </para>
+        /// </summary>
+        /// <param name="lpPerformanceCount">
+        /// A pointer to a variable that receives the current performance-counter value, in counts.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// On systems that run Windows XP or later, the function will always succeed and will thus never return zero.
+        /// </returns>
+        /// <remarks>
+        /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryPerformanceCounter([Out]out LARGE_INTEGER lpPerformanceCount);
     }
 }
