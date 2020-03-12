@@ -681,7 +681,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle,[Out]out ulong CycleTime);
+        public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle, [Out]out ulong CycleTime);
 
         /// <summary>
         /// <para>
