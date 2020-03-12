@@ -1527,8 +1527,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out FILETIME lpCreationTime, [Out]out FILETIME lpExitTime,
-            [Out]out FILETIME lpKernelTime, [Out]out FILETIME lpUserTime);
+        public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
+            [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
 
         /// <summary>
         /// <para>
