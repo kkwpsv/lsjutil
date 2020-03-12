@@ -1668,6 +1668,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the sum of the cycle time of all threads of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessHandle">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="CycleTime">
+        /// The number of CPU clock cycles used by the threads of the process.
+        /// This value includes cycles spent in both user mode and kernel mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate the processes in the system, use the <see cref="EnumProcesses"/> function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryProcessCycleTime([In]IntPtr ProcessHandle, [Out]out ulong CycleTime);
+
+        /// <summary>
+        /// <para>
         /// Changes the current directory for the current process.
         /// </para>
         /// <para>
