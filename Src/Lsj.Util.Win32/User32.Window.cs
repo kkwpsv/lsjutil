@@ -951,6 +951,48 @@ namespace Lsj.Util.Win32
         public static extern ushort RegisterClassEx([In] ref WNDCLASSEX Arg1);
 
         /// <summary>
+        /// <para>
+        /// Brings the thread that created the specified window into the foreground and activates the window.
+        /// Keyboard input is directed to the window, and various visual cues are changed for the user.
+        /// The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that should be activated and brought to the foreground.
+        /// </param>
+        /// <returns>
+        /// If the window was brought to the foreground, the return value is <see langword="true"/>.
+        /// If the window was not brought to the foreground, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system restricts which processes can set the foreground window.
+        /// A process can set the foreground window only if one of the following conditions is true:
+        /// The process is the foreground process.
+        /// The process was started by the foreground process.
+        /// The process received the last input event.
+        /// There is no foreground process.
+        /// The process is being debugged.
+        /// The foreground process is not a Modern Application or the Start Screen.
+        /// The foreground is not locked (see <see cref="LockSetForegroundWindow"/>).
+        /// The foreground lock time-out has expired (see <see cref="SPI_GETFOREGROUNDLOCKTIMEOUT"/> in <see cref="SystemParametersInfo"/>).
+        /// No menus are active.
+        /// An application cannot force a window to the foreground while the user is working with another window
+        /// Instead, Windows flashes the taskbar button of the window to notify the user.
+        /// A process that can set the foreground window can enable another process to set the foreground window
+        /// by calling the <see cref="AllowSetForegroundWindow"/> function.
+        /// The process specified by dwProcessId loses the ability to set the foreground window the next time the user generates input,
+        /// unless the input is directed at that process, or the next time a process calls <see cref="AllowSetForegroundWindow"/>,
+        /// unless that process is specified.
+        /// The foreground process can disable calls to <see cref="SetForegroundWindow"/> by calling the <see cref="LockSetForegroundWindow"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetForegroundWindow([In]IntPtr hWnd);
+
+        /// <summary>
         /// Changes an attribute of the specified window.
         /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
         /// </summary>
