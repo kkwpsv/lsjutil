@@ -791,6 +791,78 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the priority value for the specified thread.
+        /// This value, together with the priority class of the thread's process, determines the thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose priority value is to be set.
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> or <see cref="THREAD_SET_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003: The handle must have the <see cref="THREAD_SET_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="nPriority">
+        /// The priority value for the thread. This parameter can be one of the following values.
+        /// <see cref="THREAD_MODE_BACKGROUND_BEGIN"/>, <see cref="THREAD_MODE_BACKGROUND_END"/>, <see cref="THREAD_PRIORITY_ABOVE_NORMAL"/>,
+        /// <see cref="THREAD_PRIORITY_BELOW_NORMAL"/>, <see cref="THREAD_PRIORITY_HIGHEST"/>, <see cref="THREAD_PRIORITY_IDLE"/>,
+        /// <see cref="THREAD_PRIORITY_LOWEST"/>, <see cref="THREAD_PRIORITY_NORMAL"/>, <see cref="THREAD_PRIORITY_TIME_CRITICAL"/>
+        /// </param>
+        /// <returns>
+        /// If the context was set, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level does scheduling of threads at a lower level take place.
+        /// The <see cref="SetThreadPriority"/> function enables setting the base priority level of a thread relative to the priority class of its process.
+        /// For example, specifying <see cref="THREAD_PRIORITY_HIGHEST"/> in a call to <see cref="SetThreadPriority"/> for a thread
+        /// of an <see cref="IDLE_PRIORITY_CLASS"/> process sets the thread's base priority level to 6.
+        /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
+        /// For <see cref="IDLE_PRIORITY_CLASS"/>, <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>, <see cref="NORMAL_PRIORITY_CLASS"/>,
+        /// <see cref="ABOVE_NORMAL_PRIORITY_CLASS"/>, and <see cref="HIGH_PRIORITY_CLASS"/> processes,
+        /// the system dynamically boosts a thread's base priority level when events occur that are important to the thread.
+        /// <see cref="REALTIME_PRIORITY_CLASS"/> processes do not receive dynamic boosts.
+        /// All threads initially start at <see cref="THREAD_PRIORITY_NORMAL"/>.
+        /// Use the <see cref="GetPriorityClass"/> and <see cref="SetPriorityClass"/> functions to get and set the priority class of a process.
+        /// Use the <see cref="GetThreadPriority"/> function to get the priority value of a thread.
+        /// Use the priority class of a process to differentiate between applications that are time critical and those
+        /// that have normal or below normal scheduling requirements.
+        /// Use thread priority values to differentiate the relative priorities of the tasks of a process.
+        /// For example, a thread that handles input for a window could have a higher priority level than a thread
+        /// that performs intensive calculations for the CPU.
+        /// When manipulating priorities, be very careful to ensure that a high-priority thread does not consume all of the available CPU time.
+        /// A thread with a base priority level above 11 interferes with the normal operation of the operating system.
+        /// Using <see cref="REALTIME_PRIORITY_CLASS"/> may cause disk caches to not flush, cause the mouse to stop responding, and so on.
+        /// The THREAD_PRIORITY_* values affect the CPU scheduling priority of the thread.
+        /// For threads that perform background work such as file I/O, network I/O, or data processing,
+        /// it is not sufficient to adjust the CPU scheduling priority;
+        /// even an idle CPU priority thread can easily interfere with system responsiveness when it uses the disk and memory.
+        /// Threads that perform background work should use the <see cref="THREAD_MODE_BACKGROUND_BEGIN"/> and <see cref="THREAD_MODE_BACKGROUND_END"/> values
+        /// to adjust their resource scheduling priorities; threads that interact with the user should not use <see cref="THREAD_MODE_BACKGROUND_BEGIN"/>.
+        /// When a thread is in background processing mode, it should minimize sharing resources such as critical sections, heaps,
+        /// and handles with other threads in the process, otherwise priority inversions can occur.
+        /// If there are threads executing at high priority, a thread in background processing mode may not be scheduled promptly, but it will never be starved.
+        /// Windows Server 2008 and Windows Vista:
+        /// While the system is starting, the <see cref="SetThreadPriority"/> function returns a success return value but does not change thread priority
+        /// for applications that are started from the system Startup folder or listed in
+        /// the HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run registry key.
+        /// These applications run at reduced priority for a short time (approximately 60 seconds) to
+        /// make the system more responsive to user actions during startup.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps.
+        /// Windows Phone 8.1:Windows Phone Store apps may call this function but it has no effect.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetThreadPriority([In]IntPtr hThread, ThreadPriorityFlags nPriority);
+
+        /// <summary>
+        /// <para>
         /// Suspends the execution of the current thread until the time-out interval elapses.
         /// To enter an alertable wait state, use the <see cref="SleepEx"/> function.
         /// </para>
