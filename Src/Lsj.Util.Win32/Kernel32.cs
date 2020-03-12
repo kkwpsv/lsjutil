@@ -209,5 +209,33 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryPerformanceCounter([Out]out LARGE_INTEGER lpPerformanceCount);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the frequency of the performance counter.
+        /// The frequency of the performance counter is fixed at system boot and is consistent across all processors.
+        /// Therefore, the frequency need only be queried upon application initialization, and the result can be cached.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency
+        /// </para>
+        /// </summary>
+        /// <param name="lpFrequency">
+        /// A pointer to a variable that receives the current performance-counter frequency, in counts per second.
+        /// If the installed hardware doesn't support a high-resolution performance counter, this parameter can be zero
+        /// (this will not occur on systems that run Windows XP or later).
+        /// </param>
+        /// <returns>
+        /// If the installed hardware supports a high-resolution performance counter, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// On systems that run Windows XP or later, the function will always succeed and will thus never return zero.
+        /// </returns>
+        /// <remarks>
+        /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryPerformanceFrequency([Out]out LARGE_INTEGER lpFrequency);
     }
 }
