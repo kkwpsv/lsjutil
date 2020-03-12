@@ -1773,6 +1773,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the priority class for the specified process.
+        /// This value together with the priority value of each thread of the process determines each thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwPriorityClass">
+        /// The priority class for the process.
+        /// This parameter can be one of the following values.
+        /// <see cref="ABOVE_NORMAL_PRIORITY_CLASS"/>, <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>, <see cref="HIGH_PRIORITY_CLASS"/>,
+        /// <see cref="IDLE_PRIORITY_CLASS"/>, <see cref="NORMAL_PRIORITY_CLASS"/>, <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/>,
+        /// <see cref="PROCESS_MODE_BACKGROUND_END"/>, <see cref="REALTIME_PRIORITY_CLASS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// The <see cref="SetThreadPriority"/> function enables setting the base priority level of a thread relative to the priority class of its process.
+        /// For more information, see Scheduling Priorities.
+        /// The *_PRIORITY_CLASS values affect the CPU scheduling priority of the process.
+        /// For processes that perform background work such as file I/O, network I/O, or data processing,
+        /// it is not sufficient to adjust the CPU scheduling priority;
+        /// even an idle CPU priority process can easily interfere with system responsiveness when it uses the disk and memory.
+        /// Processes that perform background work should use the <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/> and
+        /// <see cref="PROCESS_MODE_BACKGROUND_END"/> values to adjust their resource scheduling priorities;
+        /// processes that interact with the user should not use <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/>.
+        /// If a process is in background processing mode, the new threads it creates will also be in background processing mode.
+        /// When a thread is in background processing mode, it should minimize sharing resources such as critical sections, heaps,
+        /// and handles with other threads in the process, otherwise priority inversions can occur.
+        /// If there are threads executing at high priority, a thread in background processing mode may not be scheduled promptly, but it will never be starved.
+        /// Each thread can enter background processing mode independently using <see cref="SetThreadPriority"/>.
+        /// Do not call <see cref="SetPriorityClass"/> to enter background processing mode after a thread in the process
+        /// has called <see cref="SetThreadPriority"/> to enter background processing mode.
+        /// After a process ends background processing mode, it resets all threads in the process;
+        /// however, it is not possible for the process to know which threads were already in background processing mode.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetPriorityClass([In]int hProcess, [In]ProcessPriorityClasses dwPriorityClass);
+
+        /// <summary>
+        /// <para>
         /// Terminates the specified process and all of its threads.
         /// </para>
         /// <para>
