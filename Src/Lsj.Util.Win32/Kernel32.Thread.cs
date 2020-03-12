@@ -508,6 +508,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the context of the specified thread.
+        /// A 64-bit application can retrieve the context of a WOW64 thread using the <see cref="Wow64GetThreadContext"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be retrieved. The handle must have <see cref="THREAD_GET_CONTEXT"/> access to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// WOW64: The handle must also have <see cref="THREAD_QUERY_INFORMATION"/> access.
+        /// </param>
+        /// <param name="lpContext">
+        /// A pointer to a <see cref="CONTEXT"/> structure that receives the appropriate context of the specified thread.
+        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
+        /// The <see cref="CONTEXT"/> structure is highly processor specific.
+        /// Refer to the WinNT.h header file for processor-specific definitions of this structures and any alignment requirements.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is used to retrieve the thread context of the specified thread.
+        /// The function retrieves a selective context based on the value of the <see cref="ContextFlags"/> member of the context structure. 
+        /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate when the thread is not being debugged.
+        /// You cannot get a valid context for a running thread.
+        /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="GetThreadContext"/>.
+        /// If you call <see cref="GetThreadContext"/> for the current thread, the function returns successfully; however, the context returned is not valid.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+
+        /// <summary>
+        /// <para>
         /// A handle to the thread.
         /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
         /// For more information about access rights, see Thread Security and Access Rights.
