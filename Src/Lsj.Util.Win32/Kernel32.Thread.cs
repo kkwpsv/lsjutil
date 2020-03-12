@@ -650,6 +650,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the cycle time for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-querythreadcycletime
+        /// </para>
+        /// </summary>
+        /// <param name="ThreadHandle">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="CycleTime">
+        /// The number of CPU clock cycles used by the thread. This value includes cycles spent in both user mode and kernel mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate the threads of the process, use the <see cref="Thread32First"/> and <see cref="Thread32Next"/> functions.
+        /// To get the thread handle for a thread identifier, use the <see cref="OpenThread"/> function.
+        /// Do not attempt to convert the CPU clock cycles returned by <see cref="QueryThreadCycleTime"/> to elapsed time.
+        /// This function uses timer services provided by the CPU, which can vary in implementation.
+        /// For example, some CPUs will vary the frequency of the timer when changing the frequency at which the CPU runs
+        /// and others will leave it at a fixed rate.
+        /// The behavior of each CPU is described in the documentation provided by the CPU vendor.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle,[Out]out ulong CycleTime);
+
+        /// <summary>
+        /// <para>
         /// Decrements a thread's suspend count.
         /// When the suspend count is decremented to zero, the execution of the thread is resumed.
         /// </para>
