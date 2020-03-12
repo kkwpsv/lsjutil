@@ -757,6 +757,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the context for the specified thread.
+        /// A 64-bit application can set the context of a WOW64 thread using the <see cref="Wow64SetThreadContext"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be set.
+        /// The handle must have the <see cref="THREAD_SET_CONTEXT"/> access right to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="lpContext">
+        /// A pointer to a <see cref="CONTEXT"/> structure that contains the context to be set in the specified thread.
+        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
+        /// Some values in the <see cref="CONTEXT"/> structure that cannot be specified are silently set to the correct value.
+        /// This includes bits in the CPU status register that specify the privileged processor mode, global enabling bits in the debugging register,
+        /// and other states that must be controlled by the operating system.
+        /// </param>
+        /// <returns>
+        /// If the context was set, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function sets the thread context based on the value of the <see cref="ContextFlags"/> member of the context structure.
+        /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate even when the thread is not being debugged.
+        /// Do not try to set the context for a running thread; the results are unpredictable.
+        /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="SetThreadContext"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+
+        /// <summary>
+        /// <para>
         /// Suspends the execution of the current thread until the time-out interval elapses.
         /// To enter an alertable wait state, use the <see cref="SleepEx"/> function.
         /// </para>
