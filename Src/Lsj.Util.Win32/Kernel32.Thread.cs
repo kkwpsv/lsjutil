@@ -861,6 +861,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a preferred processor for a thread. The system schedules threads on their preferred processors whenever possible.
+        /// On a system with more than 64 processors, this function sets the preferred processor to a logical processor in the processor group
+        /// to which the calling thread is assigned.
+        /// Use the <see cref="SetThreadIdealProcessorEx"/> function to specify a processor group and preferred processor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose preferred processor is to be set.
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="dwIdealProcessor">
+        /// The number of the preferred processor for the thread. This value is zero-based.
+        /// If this parameter is <see cref="MAXIMUM_PROCESSORS"/>, the function returns the current ideal processor without changing it.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous preferred processor.
+        /// If the function fails, the return value is (DWORD)-1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can use the <see cref="GetSystemInfo"/> function to determine the number of processors on the computer.
+        /// You can also use the <see cref="GetProcessAffinityMask"/> function to check the processors on which the thread is allowed to run.
+        /// Note that <see cref="GetProcessAffinityMask"/> returns a bitmask
+        /// whereas <see cref="SetThreadIdealProcessor"/> uses an integer value to represent the processor.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", SetLastError = true)]
+        public static extern uint SetThreadIdealProcessor([In]IntPtr hThread, [In]uint dwIdealProcessor);
+
+        /// <summary>
+        /// <para>
         /// Sets the priority value for the specified thread.
         /// This value, together with the priority class of the thread's process, determines the thread's base priority level.
         /// </para>
