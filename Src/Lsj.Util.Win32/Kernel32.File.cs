@@ -2545,5 +2545,62 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In]string lpszVolumeMountPoint,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeName, [In]uint cchBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Sets the file information for the specified file.
+        /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfileinformationbyhandle
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file for which to change information.
+        /// This handle must be opened with the appropriate permissions for the requested change.
+        /// For more information, see the Remarks and Example Code sections.
+        /// This handle should not be a pipe handle.
+        /// </param>
+        /// <param name="FileInformationClass">
+        /// A <see cref="FILE_INFO_BY_HANDLE_CLASS"/> enumeration value that specifies the type of information to be changed.
+        /// For a table of valid values, see the Remarks section.
+        /// </param>
+        /// <param name="lpFileInformation">
+        /// A pointer to the buffer that contains the information to change for the specified file information class.
+        /// The structure that this parameter points to corresponds to the class that is specified by <paramref name="FileInformationClass"/>.
+        /// For a table of valid structure types, see the Remarks section.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of <paramref name="lpFileInformation"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// Returns <see langword="true"/> if successful or <see langword="false"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Certain file information classes behave slightly differently on different operating system releases. 
+        /// These classes are supported by the underlying drivers, and any information they return is subject to change between operating system releases.
+        /// The following table shows the valid file information classes and their corresponding data structure types for use with this function.
+        /// <see cref="FileBasicInfo"/>: <see cref="FILE_BASIC_INFO"/>
+        /// <see cref="FileRenameInfo"/>: <see cref="FILE_RENAME_INFO"/>
+        /// <see cref="FileDispositionInfo"/>: <see cref="FILE_DISPOSITION_INFO"/>
+        /// <see cref="FileAllocationInfo"/>: <see cref="FILE_ALLOCATION_INFO"/>
+        /// <see cref="FileEndOfFileInfo"/>: <see cref="FILE_END_OF_FILE_INFO"/>
+        /// <see cref="FileIoPriorityHintInfo"/>: <see cref="FILE_IO_PRIORITY_HINT_INFO"/>
+        /// You must specify appropriate access flags when creating the file handle for use with <see cref="SetFileInformationByHandle"/>.
+        /// For example, if the application is using <see cref="FILE_DISPOSITION_INFO"/> with the <see cref="DeleteFile"/> member set to <see langword="true"/>,
+        /// the file would need <see cref="DELETE"/> access requested in the call to the <see cref="CreateFile"/> function.
+        /// To see an example of this, see the Example Code section.
+        /// For more information about file permissions, see File Security and Access Rights.
+        /// If there is a transaction bound to the handle, then the changes made will be transacted for the information classes <see cref="FileBasicInfo"/>,
+        /// <see cref="FileRenameInfo"/>, <see cref="FileAllocationInfo"/>, <see cref="FileEndOfFileInfo"/>, and <see cref="FileDispositionInfo"/>.
+        /// If <see cref="FileDispositionInfo"/> is specified, only the delete operation is transacted if a <see cref="DeleteFile"/> operation was requested.
+        /// In this case, if the transaction is not committed before the handle is closed, the deletion will not occur.
+        /// For more information about TxF, see Transactional NTFS (TxF).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileInformationByHandle", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+          [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
     }
 }
