@@ -1854,6 +1854,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a processor affinity mask for the threads of the specified process.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose affinity mask is to be set.
+        /// This handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwProcessAffinityMask">
+        /// The affinity mask for the threads of the process.
+        /// On a system with more than 64 processors, the affinity mask must specify processors in a single processor group.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the process affinity mask requests a processor that is not configured in the system, the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// On a system with more than 64 processors, if the calling process contains threads in more than one processor group,
+        /// the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process affinity mask is a bit vector in which each bit represents a logical processor on which the threads of the process are allowed to run.
+        /// The value of the process affinity mask must be a subset of the system affinity mask values obtained
+        /// by the <see cref="GetProcessAffinityMask"/> function.
+        /// A process is only allowed to run on the processors configured into a system.
+        /// Therefore, the process affinity mask cannot specify a 1 bit for a processor when the system affinity mask specifies a 0 bit for that processor.
+        /// Process affinity is inherited by any child process or newly instantiated local process.
+        /// Do not call <see cref="SetProcessAffinityMask"/> in a DLL that may be called by processes other than your own.
+        /// On a system with more than 64 processors, the <see cref="SetProcessAffinityMask"/> function can be used to set the process affinity mask only
+        /// for processes with threads in a single processor group.
+        /// Use the <see cref="SetThreadAffinityMask"/> function to set the affinity mask for individual threads in multiple groups.
+        /// This effectively changes the group assignment of the process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetProcessAffinityMask([In]IntPtr hProcess, [In]UIntPtr dwProcessAffinityMask);
+
+        /// <summary>
+        /// <para>
         /// Disables or enables the ability of the system to temporarily boost the priority of the threads of the specified process.
         /// </para>
         /// <para>
