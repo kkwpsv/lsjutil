@@ -786,6 +786,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets a processor affinity mask for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose affinity mask is to be set.
+        /// This handle must have the <see cref="THREAD_SET_INFORMATION"/> or <see cref="THREAD_SET_LIMITED_INFORMATION"/> access right
+        /// and the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> and <see cref="THREAD_QUERY_INFORMATION"/> access rights.
+        /// </param>
+        /// <param name="dwThreadAffinityMask">
+        /// The affinity mask for the thread.
+        /// On a system with more than 64 processors, the affinity mask must specify processors in the thread's current processor group.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's previous affinity mask.
+        /// If the function fails, the return value is <see cref="UIntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the thread affinity mask requests a processor that is not selected for the process affinity mask,
+        /// the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </returns>
+        /// <remarks>
+        /// A thread affinity mask is a bit vector in which each bit represents a logical processor that a thread is allowed to run on.
+        /// A thread affinity mask must be a subset of the process affinity mask for the containing process of a thread.
+        /// A thread can only run on the processors its process can run on.
+        /// Therefore, the thread affinity mask cannot specify a 1 bit for a processor when the process affinity mask specifies a 0 bit for that processor.
+        /// Setting an affinity mask for a process or thread can result in threads receiving less processor time,
+        /// as the system is restricted from running the threads on certain processors.
+        /// In most cases, it is better to let the system select an available processor.
+        /// If the new thread affinity mask does not specify the processor that is currently running the thread,
+        /// the thread is rescheduled on one of the allowable processors.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", SetLastError = true)]
+        public static extern UIntPtr SetThreadAffinityMask([In]IntPtr hThread, [In]UIntPtr dwThreadAffinityMask);
+
+        /// <summary>
+        /// <para>
         /// Sets the context for the specified thread.
         /// A 64-bit application can set the context of a WOW64 thread using the <see cref="Wow64SetThreadContext"/> function.
         /// </para>
