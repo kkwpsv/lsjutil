@@ -600,6 +600,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the priority boost control state of the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriorityboost
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="pDisablePriorityBoost">
+        /// A pointer to a variable that receives the priority boost control state.
+        /// A value of <see langword="true"/> indicates that dynamic boosting is disabled.
+        /// A value of <see langword="false"/> indicates normal behavior.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// In that case, the variable pointed to by the <paramref name="pDisablePriorityBoost"/> parameter receives the priority boost control state.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetThreadPriorityBoost([In]IntPtr hThread, [Out]out bool pDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
         /// Retrieves timing information for the specified thread.
         /// </para>
         /// <para>
