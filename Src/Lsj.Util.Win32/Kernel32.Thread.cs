@@ -508,6 +508,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the context of the specified thread.
+        /// A 64-bit application can retrieve the context of a WOW64 thread using the <see cref="Wow64GetThreadContext"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be retrieved. The handle must have <see cref="THREAD_GET_CONTEXT"/> access to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// WOW64: The handle must also have <see cref="THREAD_QUERY_INFORMATION"/> access.
+        /// </param>
+        /// <param name="lpContext">
+        /// A pointer to a <see cref="CONTEXT"/> structure that receives the appropriate context of the specified thread.
+        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
+        /// The <see cref="CONTEXT"/> structure is highly processor specific.
+        /// Refer to the WinNT.h header file for processor-specific definitions of this structures and any alignment requirements.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is used to retrieve the thread context of the specified thread.
+        /// The function retrieves a selective context based on the value of the <see cref="ContextFlags"/> member of the context structure. 
+        /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate when the thread is not being debugged.
+        /// You cannot get a valid context for a running thread.
+        /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="GetThreadContext"/>.
+        /// If you call <see cref="GetThreadContext"/> for the current thread, the function returns successfully; however, the context returned is not valid.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+
+        /// <summary>
+        /// <para>
         /// A handle to the thread.
         /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
         /// For more information about access rights, see Thread Security and Access Rights.
@@ -562,6 +597,442 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
         public static extern int GetThreadPriority([In]IntPtr hThread);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves timing information for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadtimes
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose timing information is sought.
+        /// The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> or <see cref="THREAD_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="THREAD_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the creation time of the thread.
+        /// </param>
+        /// <param name="lpExitTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the exit time of the thread.
+        /// If the thread has not exited, the content of this structure is undefined.
+        /// </param>
+        /// <param name="lpKernelTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the thread has executed in kernel mode.
+        /// </param>
+        /// <param name="lpUserTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the thread has executed in user mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All times are expressed using <see cref="FILETIME"/> data structures.
+        /// Such a structure contains two 32-bit values that combine to form a 64-bit count of 100-nanosecond time units.
+        /// Thread creation and exit times are points in time expressed as the amount of time that has elapsed
+        /// since midnight on January 1, 1601 at Greenwich, England.
+        /// There are several functions that an application can use to convert such values to more generally useful forms; see Time Functions.
+        /// Thread kernel mode and user mode times are amounts of time.
+        /// For example, if a thread has spent one second in kernel mode, this function will fill the <see cref="FILETIME"/> structure
+        /// specified by <paramref name="lpKernelTime"/> with a 64-bit value of ten million.
+        /// That is the number of 100-nanosecond units in one second.
+        /// To retrieve the number of CPU clock cycles used by the threads, use the <see cref="QueryThreadCycleTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetThreadTimes([In]IntPtr hThread, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
+            [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
+
+        /// <summary>
+        /// <para>
+        /// Opens an existing thread object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthread
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the thread object.
+        /// This access right is checked against the security descriptor for the thread.
+        /// This parameter can be one or more of the thread access rights.
+        /// If the caller has enabled the <see cref="SeDebugPrivilege"/> privilege,
+        /// the requested access is granted regardless of the contents of the security descriptor.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see langword="true"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwThreadId">
+        /// The identifier of the thread to be opened.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified thread.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The handle returned by <see cref="OpenThread"/> can be used in any function that requires a handle to a thread,
+        /// such as the wait functions, provided you requested the appropriate access rights.
+        /// The handle is granted access to the thread object only to the extent it was specified in the <paramref name="dwDesiredAccess"/> parameter.
+        /// When you are finished with the handle, be sure to close it by using the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", SetLastError = true)]
+        public static extern IntPtr OpenThread([In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]uint dwThreadId);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the cycle time for the specified thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-querythreadcycletime
+        /// </para>
+        /// </summary>
+        /// <param name="ThreadHandle">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="CycleTime">
+        /// The number of CPU clock cycles used by the thread. This value includes cycles spent in both user mode and kernel mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate the threads of the process, use the <see cref="Thread32First"/> and <see cref="Thread32Next"/> functions.
+        /// To get the thread handle for a thread identifier, use the <see cref="OpenThread"/> function.
+        /// Do not attempt to convert the CPU clock cycles returned by <see cref="QueryThreadCycleTime"/> to elapsed time.
+        /// This function uses timer services provided by the CPU, which can vary in implementation.
+        /// For example, some CPUs will vary the frequency of the timer when changing the frequency at which the CPU runs
+        /// and others will leave it at a fixed rate.
+        /// The behavior of each CPU is described in the documentation provided by the CPU vendor.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle, [Out]out ulong CycleTime);
+
+        /// <summary>
+        /// <para>
+        /// Decrements a thread's suspend count.
+        /// When the suspend count is decremented to zero, the execution of the thread is resumed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-resumethread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread to be restarted.
+        /// This handle must have the <see cref="THREAD_SUSPEND_RESUME"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's previous suspend count.
+        /// If the function fails, the return value is (DWORD) -1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ResumeThread"/> function checks the suspend count of the subject thread.
+        /// If the suspend count is zero, the thread is not currently suspended. Otherwise, the subject thread's suspend count is decremented.
+        /// If the resulting value is zero, then the execution of the subject thread is resumed.
+        /// If the return value is zero, the specified thread was not suspended.
+        /// If the return value is 1, the specified thread was suspended but was restarted.
+        /// If the return value is greater than 1, the specified thread is still suspended.
+        /// Note that while reporting debug events, all threads within the reporting process are frozen.
+        /// Debuggers are expected to use the <see cref="SuspendThread"/> and <see cref="ResumeThread"/> functions
+        /// to limit the set of threads that can execute within a process.
+        /// By suspending all threads in a process except for the one reporting a debug event, it is possible to "single step" a single thread.
+        /// The other threads are not released by a continue operation if they are suspended.
+        /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
+        public static extern uint ResumeThread([In]IntPtr hThread);
+
+        /// <summary>
+        /// <para>
+        /// Sets the context for the specified thread.
+        /// A 64-bit application can set the context of a WOW64 thread using the <see cref="Wow64SetThreadContext"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose context is to be set.
+        /// The handle must have the <see cref="THREAD_SET_CONTEXT"/> access right to the thread.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <param name="lpContext">
+        /// A pointer to a <see cref="CONTEXT"/> structure that contains the context to be set in the specified thread.
+        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
+        /// Some values in the <see cref="CONTEXT"/> structure that cannot be specified are silently set to the correct value.
+        /// This includes bits in the CPU status register that specify the privileged processor mode, global enabling bits in the debugging register,
+        /// and other states that must be controlled by the operating system.
+        /// </param>
+        /// <returns>
+        /// If the context was set, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function sets the thread context based on the value of the <see cref="ContextFlags"/> member of the context structure.
+        /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
+        /// but the function can also operate even when the thread is not being debugged.
+        /// Do not try to set the context for a running thread; the results are unpredictable.
+        /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="SetThreadContext"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+
+        /// <summary>
+        /// <para>
+        /// Sets the priority value for the specified thread.
+        /// This value, together with the priority class of the thread's process, determines the thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose priority value is to be set.
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> or <see cref="THREAD_SET_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003: The handle must have the <see cref="THREAD_SET_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="nPriority">
+        /// The priority value for the thread. This parameter can be one of the following values.
+        /// <see cref="THREAD_MODE_BACKGROUND_BEGIN"/>, <see cref="THREAD_MODE_BACKGROUND_END"/>, <see cref="THREAD_PRIORITY_ABOVE_NORMAL"/>,
+        /// <see cref="THREAD_PRIORITY_BELOW_NORMAL"/>, <see cref="THREAD_PRIORITY_HIGHEST"/>, <see cref="THREAD_PRIORITY_IDLE"/>,
+        /// <see cref="THREAD_PRIORITY_LOWEST"/>, <see cref="THREAD_PRIORITY_NORMAL"/>, <see cref="THREAD_PRIORITY_TIME_CRITICAL"/>
+        /// </param>
+        /// <returns>
+        /// If the context was set, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// Threads are scheduled in a round-robin fashion at each priority level,
+        /// and only when there are no executable threads at a higher level does scheduling of threads at a lower level take place.
+        /// The <see cref="SetThreadPriority"/> function enables setting the base priority level of a thread relative to the priority class of its process.
+        /// For example, specifying <see cref="THREAD_PRIORITY_HIGHEST"/> in a call to <see cref="SetThreadPriority"/> for a thread
+        /// of an <see cref="IDLE_PRIORITY_CLASS"/> process sets the thread's base priority level to 6.
+        /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
+        /// For <see cref="IDLE_PRIORITY_CLASS"/>, <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>, <see cref="NORMAL_PRIORITY_CLASS"/>,
+        /// <see cref="ABOVE_NORMAL_PRIORITY_CLASS"/>, and <see cref="HIGH_PRIORITY_CLASS"/> processes,
+        /// the system dynamically boosts a thread's base priority level when events occur that are important to the thread.
+        /// <see cref="REALTIME_PRIORITY_CLASS"/> processes do not receive dynamic boosts.
+        /// All threads initially start at <see cref="THREAD_PRIORITY_NORMAL"/>.
+        /// Use the <see cref="GetPriorityClass"/> and <see cref="SetPriorityClass"/> functions to get and set the priority class of a process.
+        /// Use the <see cref="GetThreadPriority"/> function to get the priority value of a thread.
+        /// Use the priority class of a process to differentiate between applications that are time critical and those
+        /// that have normal or below normal scheduling requirements.
+        /// Use thread priority values to differentiate the relative priorities of the tasks of a process.
+        /// For example, a thread that handles input for a window could have a higher priority level than a thread
+        /// that performs intensive calculations for the CPU.
+        /// When manipulating priorities, be very careful to ensure that a high-priority thread does not consume all of the available CPU time.
+        /// A thread with a base priority level above 11 interferes with the normal operation of the operating system.
+        /// Using <see cref="REALTIME_PRIORITY_CLASS"/> may cause disk caches to not flush, cause the mouse to stop responding, and so on.
+        /// The THREAD_PRIORITY_* values affect the CPU scheduling priority of the thread.
+        /// For threads that perform background work such as file I/O, network I/O, or data processing,
+        /// it is not sufficient to adjust the CPU scheduling priority;
+        /// even an idle CPU priority thread can easily interfere with system responsiveness when it uses the disk and memory.
+        /// Threads that perform background work should use the <see cref="THREAD_MODE_BACKGROUND_BEGIN"/> and <see cref="THREAD_MODE_BACKGROUND_END"/> values
+        /// to adjust their resource scheduling priorities; threads that interact with the user should not use <see cref="THREAD_MODE_BACKGROUND_BEGIN"/>.
+        /// When a thread is in background processing mode, it should minimize sharing resources such as critical sections, heaps,
+        /// and handles with other threads in the process, otherwise priority inversions can occur.
+        /// If there are threads executing at high priority, a thread in background processing mode may not be scheduled promptly, but it will never be starved.
+        /// Windows Server 2008 and Windows Vista:
+        /// While the system is starting, the <see cref="SetThreadPriority"/> function returns a success return value but does not change thread priority
+        /// for applications that are started from the system Startup folder or listed in
+        /// the HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run registry key.
+        /// These applications run at reduced priority for a short time (approximately 60 seconds) to
+        /// make the system more responsive to user actions during startup.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps.
+        /// Windows Phone 8.1:Windows Phone Store apps may call this function but it has no effect.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetThreadPriority([In]IntPtr hThread, ThreadPriorityFlags nPriority);
+
+        /// <summary>
+        /// <para>
+        /// Suspends the execution of the current thread until the time-out interval elapses.
+        /// To enter an alertable wait state, use the <see cref="SleepEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleep
+        /// </para>
+        /// </summary>
+        /// <param name="dwMilliseconds">
+        /// The time interval for which execution is to be suspended, in milliseconds.
+        /// A value of zero causes the thread to relinquish the remainder of its time slice to any other thread that is ready to run.
+        /// If there are no other threads ready to run, the function returns immediately, and the thread continues execution.
+        /// Windows XP: 
+        /// A value of zero causes the thread to relinquish the remainder of its time slice to any other thread of equal priority that is ready to run. 
+        /// If there are no other threads of equal priority ready to run, the function returns immediately, and the thread continues execution.
+        /// This behavior changed starting with Windows Server 2003.
+        /// A value of <see cref="INFINITE"/> indicates that the suspension should not time out.
+        /// </param>
+        /// <remarks>
+        /// This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval
+        /// based on the value of <paramref name="dwMilliseconds"/>.
+        /// The system clock "ticks" at a constant rate.
+        /// If <paramref name="dwMilliseconds"/> is less than the resolution of the system clock,
+        /// the thread may sleep for less than the specified length of time.
+        /// If <paramref name="dwMilliseconds"/> is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.
+        /// To increase the accuracy of the sleep interval, call the <see cref="timeGetDevCaps"/> function to determine the supported minimum timer resolution
+        /// and the <see cref="timeBeginPeriod"/> function to set the timer resolution to its minimum.
+        /// Use caution when calling <see cref="timeBeginPeriod"/>, as frequent calls can significantly affect the system clock,
+        /// system power usage,and the scheduler.
+        /// If you call <see cref="timeBeginPeriod"/>, call it one time early in the application and
+        /// be sure to call the <see cref="timeEndPeriod"/> function at the very end of the application.
+        /// After the sleep interval has passed, the thread is ready to run.
+        /// If you specify 0 milliseconds, the thread will relinquish the remainder of its time slice but remain ready.
+        /// Note that a ready thread is not guaranteed to run immediately.
+        /// Consequently, the thread may not run until some time after the sleep interval elapses.
+        /// For more information, see Scheduling Priorities.
+        /// Be careful when using Sleep in the following scenarios:
+        /// Code that directly or indirectly creates windows (for example, DDE and COM <see cref="CoInitialize"/>).
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// If you have a thread that uses <see cref="Sleep"/> with infinite delay, the system will deadlock.
+        /// Threads that are under concurrency control.
+        /// For example, an I/O completion port or thread pool limits the number of associated threads that can run.
+        /// If the maximum number of threads is already running, no additional associated thread can run until a running thread finishes.
+        /// If a thread uses <see cref="Sleep"/> with an interval of zero to wait for one of the additional associated threads
+        /// to accomplish some work, the process might deadlock.
+        /// For these scenarios, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="Sleep"/>.
+        /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", SetLastError = true)]
+        public static extern void Sleep([In]uint dwMilliseconds);
+
+        /// <summary>
+        /// <para>
+        /// Suspends the specified thread.
+        /// A 64-bit application can suspend a WOW64 thread using the <see cref="Wow64SuspendThread"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-suspendthread
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread that is to be suspended.
+        /// The handle must have the <see cref="THREAD_SUSPEND_RESUME"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the thread's previous suspend count; otherwise, it is (DWORD) -1.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If the function succeeds, execution of the specified thread is suspended and the thread's suspend count is incremented. 
+        /// Suspending a thread causes the thread to stop executing user-mode (application) code.
+        /// This function is primarily designed for use by debuggers. It is not intended to be used for thread synchronization.
+        /// Calling <see cref="SuspendThread"/> on a thread that owns a synchronization object, such as a mutex or critical section,
+        /// can lead to a deadlock if the calling thread tries to obtain a synchronization object owned by a suspended thread.
+        /// To avoid this situation, a thread within an application that is not a debugger should signal the other thread to suspend itself.
+        /// The target thread must be designed to watch for this signal and respond appropriately.
+        /// Each thread has a suspend count (with a maximum value of <see cref="MAXIMUM_SUSPEND_COUNT"/>).
+        /// If the suspend count is greater than zero, the thread is suspended; otherwise, the thread is not suspended and is eligible for execution.
+        /// Calling <see cref="SuspendThread"/> causes the target thread's suspend count to be incremented.
+        /// Attempting to increment past the maximum suspend count causes an error without incrementing the count.
+        /// The ResumeThread function decrements the suspend count of a suspended thread.
+        /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", SetLastError = true)]
+        public static extern uint SuspendThread([In]IntPtr hThread);
+
+        /// <summary>
+        /// <para>
+        /// Causes the calling thread to yield execution to another thread that is ready to run on the current processor.
+        /// The operating system selects the next thread to be executed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-switchtothread
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If calling the <see cref="SwitchToThread"/> function causes the operating system to switch execution to another thread,
+        /// the return value is <see langword="true"/>.
+        /// If there are no other threads ready to execute, the operating system does not switch execution to another thread,
+        /// and the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// The yield of execution is in effect for up to one thread-scheduling time slice on the processor of the calling thread.
+        /// The operating system will not switch execution to another processor, even if that processor is idle or is running a thread of lower priority.
+        /// After the yielding thread's time slice elapses, the operating system reschedules execution for the yielding thread.
+        /// The rescheduling is determined by the priority of the yielding thread and the status of other threads that are available to run.
+        /// Note that the operating system will not switch to a thread that is being prevented from running only by concurrency control.
+        /// For example, an I/O completion port or thread pool limits the number of associated threads that can run.
+        /// If the maximum number of threads is already running, no additional associated thread can run until a running thread finishes.
+        /// If a thread uses <see cref="SwitchToThread"/> to wait for one of the additional associated threads to accomplish some work,
+        /// the process might deadlock.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SwitchToThread();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
+        /// Each thread of a process has its own slot for each TLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsgetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value stored in the calling thread's TLS slot associated with the specified index.
+        /// If <paramref name="dwTlsIndex"/> is a valid index allocated by a successful call to <see cref="TlsAlloc"/>, this function always succeeds.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The data stored in a TLS slot can have a value of 0 because it still has its initial value or 
+        /// because the thread called the <see cref="TlsSetValue"/> function with 0.
+        /// Therefore, if the return value is 0, you must check whether <see cref="GetLastError"/> returns <see cref="ERROR_SUCCESS"/>
+        /// before determining that the function has failed.
+        /// If <see cref="GetLastError"/> returns <see cref="ERROR_SUCCESS"/>, then the function has succeeded and the data stored in the TLS slot is 0.
+        /// Otherwise, the function has failed.
+        /// Functions that return indications of failure call <see cref="SetLastError"/> when they fail.
+        /// They generally do not call <see cref="SetLastError"/> when they succeed.
+        /// The <see cref="TlsGetValue"/> function is an exception to this general rule.
+        /// The <see cref="TlsGetValue"/> function calls <see cref="SetLastError"/> to clear a thread's last error when it succeeds.
+        /// That allows checking for the error-free retrieval of zero values.
+        /// </returns>
+        /// <remarks>
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsGetValue"/>.
+        /// Refer to <see cref="FlsGetValue"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsGetValue"/>.
+        /// TLS indexes are typically allocated by the <see cref="TlsAlloc"/> function during process or DLL initialization.
+        /// After a TLS index is allocated, each thread of the process can use it to access its own TLS slot for that index.
+        /// A thread specifies a TLS index in a call to <see cref="TlsSetValue"/> to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/> to retrieve the stored value.
+        /// <see cref="TlsGetValue"/> was implemented with speed as the primary goal.
+        /// The function performs minimal parameter validation and error checking.
+        /// In particular, it succeeds if <paramref name="dwTlsIndex"/> is in the range 0 through (<see cref="TLS_MINIMUM_AVAILABLE"/>– 1).
+        /// It is up to the programmer to ensure that the index is valid and
+        /// that the thread calls <see cref="TlsSetValue"/> before calling <see cref="TlsGetValue"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", SetLastError = true)]
+        public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
 
         /// <summary>
         /// <para>

@@ -98,6 +98,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly UIntPtr PROC_THREAD_ATTRIBUTE_DESKTOP_APP_POLICY = (UIntPtr)0x20012;
 
+        /// <summary>
+        /// PROCESS_NAME_NATIVE
+        /// </summary>
+        public const uint PROCESS_NAME_NATIVE = 0x00000001;
+
 
         /// <summary>
         /// <para>
@@ -1472,6 +1477,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves timing information for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesstimes
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose timing information is sought. 
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the creation time of the process.
+        /// </param>
+        /// <param name="lpExitTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the exit time of the process.
+        /// If the process has not exited, the content of this structure is undefined.
+        /// </param>
+        /// <param name="lpKernelTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the process has executed in kernel mode.
+        /// The time that each of the threads of the process has executed in kernel mode is determined,
+        /// and then all of those times are summed together to obtain this value.
+        /// </param>
+        /// <param name="lpUserTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the amount of time that the process has executed in user mode.
+        /// The time that each of the threads of the process has executed in user mode is determined,
+        /// and then all of those times are summed together to obtain this value.
+        /// Note that this value can exceed the amount of real time elapsed (between <paramref name="lpCreationTime"/> and <paramref name="lpExitTime"/>)
+        /// if the process executes across multiple CPU cores.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All times are expressed using <see cref="FILETIME"/> data structures.
+        /// Such a structure contains two 32-bit values that combine to form a 64-bit count of 100-nanosecond time units.
+        /// Process creation and exit times are points in time expressed as the amount of time that has elapsed
+        /// since midnight on January 1, 1601 at Greenwich, England.
+        /// There are several functions that an application can use to convert such values to more generally useful forms.
+        /// Process kernel mode and user mode times are amounts of time.
+        /// For example, if a process has spent one second in kernel mode, this function will fill the <see cref="FILETIME"/> structure
+        /// specified by <paramref name="lpKernelTime"/> with a 64-bit value of ten million.
+        /// That is the number of 100-nanosecond units in one second.
+        /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
+            [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the contents of the <see cref="STARTUPINFO"/> structure that was specified when the calling process was created.
         /// </para>
         /// <para>
@@ -1533,6 +1593,108 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InitializeProcThreadAttributeList([In]IntPtr lpAttributeList, [In]uint dwAttributeCount,
             [In]uint dwFlags, [In][Out]ref IntPtr lpSize);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessHandle">
+        /// A handle to the process whose access token is opened.
+        /// The process must have the <see cref="PROCESS_QUERY_INFORMATION"/> access permission.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Specifies an access mask that specifies the requested types of access to the access token.
+        /// These requested access types are compared with the discretionary access control list (DACL) of the token
+        /// to determine which accesses are granted or denied.
+        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </param>
+        /// <param name="TokenHandle">
+        /// A pointer to a handle that identifies the newly opened access token when the function returns.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the full name of the executable image for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-queryfullprocessimagenamew
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must be created with the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one of the following values.
+        /// 0: The name should use the Win32 path format.
+        /// <see cref="PROCESS_NAME_NATIVE"/>: The name should use the native system path format.
+        /// </param>
+        /// <param name="lpExeName">
+        /// The path to the executable image.
+        /// If the function succeeds, this string is null-terminated.
+        /// </param>
+        /// <param name="lpdwSize">
+        /// On input, specifies the size of the <paramref name="lpExeName"/> buffer, in characters.
+        /// On success, receives the number of characters written to the buffer, not including the null-terminating character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the sum of the cycle time of all threads of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryprocesscycletime
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessHandle">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="CycleTime">
+        /// The number of CPU clock cycles used by the threads of the process.
+        /// This value includes cycles spent in both user mode and kernel mode.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate the processes in the system, use the <see cref="EnumProcesses"/> function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool QueryProcessCycleTime([In]IntPtr ProcessHandle, [Out]out ulong CycleTime);
 
         /// <summary>
         /// <para>
@@ -1608,6 +1770,58 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpValue);
+
+        /// <summary>
+        /// <para>
+        /// Sets the priority class for the specified process.
+        /// This value together with the priority value of each thread of the process determines each thread's base priority level.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwPriorityClass">
+        /// The priority class for the process.
+        /// This parameter can be one of the following values.
+        /// <see cref="ABOVE_NORMAL_PRIORITY_CLASS"/>, <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>, <see cref="HIGH_PRIORITY_CLASS"/>,
+        /// <see cref="IDLE_PRIORITY_CLASS"/>, <see cref="NORMAL_PRIORITY_CLASS"/>, <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/>,
+        /// <see cref="PROCESS_MODE_BACKGROUND_END"/>, <see cref="REALTIME_PRIORITY_CLASS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Every thread has a base priority level determined by the thread's priority value and the priority class of its process.
+        /// The system uses the base priority level of all executable threads to determine which thread gets the next slice of CPU time.
+        /// The <see cref="SetThreadPriority"/> function enables setting the base priority level of a thread relative to the priority class of its process.
+        /// For more information, see Scheduling Priorities.
+        /// The *_PRIORITY_CLASS values affect the CPU scheduling priority of the process.
+        /// For processes that perform background work such as file I/O, network I/O, or data processing,
+        /// it is not sufficient to adjust the CPU scheduling priority;
+        /// even an idle CPU priority process can easily interfere with system responsiveness when it uses the disk and memory.
+        /// Processes that perform background work should use the <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/> and
+        /// <see cref="PROCESS_MODE_BACKGROUND_END"/> values to adjust their resource scheduling priorities;
+        /// processes that interact with the user should not use <see cref="PROCESS_MODE_BACKGROUND_BEGIN"/>.
+        /// If a process is in background processing mode, the new threads it creates will also be in background processing mode.
+        /// When a thread is in background processing mode, it should minimize sharing resources such as critical sections, heaps,
+        /// and handles with other threads in the process, otherwise priority inversions can occur.
+        /// If there are threads executing at high priority, a thread in background processing mode may not be scheduled promptly, but it will never be starved.
+        /// Each thread can enter background processing mode independently using <see cref="SetThreadPriority"/>.
+        /// Do not call <see cref="SetPriorityClass"/> to enter background processing mode after a thread in the process
+        /// has called <see cref="SetThreadPriority"/> to enter background processing mode.
+        /// After a process ends background processing mode, it resets all threads in the process;
+        /// however, it is not possible for the process to know which threads were already in background processing mode.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetPriorityClass([In]int hProcess, [In]ProcessPriorityClasses dwPriorityClass);
 
         /// <summary>
         /// <para>

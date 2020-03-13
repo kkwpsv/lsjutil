@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -85,5 +86,36 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", SetLastError = true)]
         public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out]string AppID);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about system-defined Shell icons.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-shgetstockiconinfo
+        /// </para>
+        /// </summary>
+        /// <param name="siid">
+        /// One of the values from the <see cref="SHSTOCKICONID"/> enumeration that specifies which icon should be retrieved.
+        /// </param>
+        /// <param name="uFlags">
+        /// A combination of zero or more of the following flags that specify which information is requested.
+        /// </param>
+        /// <param name="psii">
+        /// A pointer to a <see cref="SHSTOCKICONINFO"/> structure.
+        /// When this function is called, the <see cref="cbSize"/> member of this structure needs to be
+        /// set to the size of the <see cref="SHSTOCKICONINFO"/> structure.
+        /// When this function returns, contains a pointer to a <see cref="SHSTOCKICONINFO"/> structure that contains the requested information.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// If this function returns an icon handle in the <see cref="hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure
+        /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", SetLastError = true)]
+        public static extern HRESULT SHGetStockIconInfo([In]SHSTOCKICONID siid, [In]SHGetStockIconInfoFlags uFlags, [Out]out SHSTOCKICONINFO psii);
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
+using System.Runtime;
 
 namespace Lsj.Util.Win32
 {
@@ -212,21 +213,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves information about the current system.
-        /// To retrieve accurate information for an application running on WOW64, call the <see cref="GetNativeSystemInfo"/> function.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo
-        /// </para>
-        /// </summary>
-        /// <param name="lpSystemInfo">
-        /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
-        /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", SetLastError = true)]
-        public static extern void GetSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
-
-        /// <summary>
-        /// <para>
         /// Retrieves the path of the system directory.
         /// The system directory contains system files such as dynamic-link libraries and drivers.
         /// This function is provided primarily for compatibility.
@@ -260,6 +246,76 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", SetLastError = true)]
         public static extern uint GetSystemDirectory([Out]StringBuilder lpBuffer, [In]uint uSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current system.
+        /// To retrieve accurate information for an application running on WOW64, call the <see cref="GetNativeSystemInfo"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemInfo">
+        /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", SetLastError = true)]
+        public static extern void GetSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the system is applying periodic time adjustments to its time-of-day clock,
+        /// and obtains the value and period of any such adjustments.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtimeadjustment
+        /// </para>
+        /// </summary>
+        /// <param name="lpTimeAdjustment">
+        /// A pointer to a variable that the function sets to the number of <paramref name="lpTimeIncrement"/> 100-nanosecond units
+        /// added to the time-of-day clock for every period of time which actually passes as counted by the system.
+        /// This value only has meaning if <paramref name="lpTimeAdjustmentDisabled"/> is <see langword="false"/>.
+        /// </param>
+        /// <param name="lpTimeIncrement">
+        /// A pointer to a variable that the function sets to the interval in 100-nanosecond units
+        /// at which the system will add <paramref name="lpTimeAdjustment"/> to the time-of-day clock.
+        /// This value only has meaning if <paramref name="lpTimeAdjustmentDisabled"/> is <see langword="false"/>.
+        /// </param>
+        /// <param name="lpTimeAdjustmentDisabled">
+        /// A pointer to a variable that the function sets to indicate whether periodic time adjustment is in effect.
+        /// A value of <see langword="true"/> indicates that periodic time adjustment is disabled, and the system time-of-day clock advances at the normal rate.
+        /// In this mode, the system may adjust the time of day using its own internal time synchronization mechanisms.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation,
+        /// which can include noticeable jumps in time as deemed necessary by the system.
+        /// A value of <see langword="false"/> indicates that periodic time adjustment is being used to adjust the time-of-day clock.
+        /// For each <paramref name="lpTimeIncrement"/> period of time that actually passes, <paramref name="lpTimeAdjustment"/> will be added to the time of day.
+        /// If the <paramref name="lpTimeAdjustment"/> value is smaller than <paramref name="lpTimeIncrement"/>,
+        /// the system time-of-day clock will advance at a rate slower than normal.
+        /// If the <paramref name="lpTimeAdjustment"/> value is larger than <paramref name="lpTimeIncrement"/>,
+        /// the time-of-day clock will advance at a rate faster than normal.
+        /// If <paramref name="lpTimeAdjustment"/> equals <paramref name="lpTimeIncrement"/>, the time-of-day clock will advance at its normal speed.
+        /// The <paramref name="lpTimeAdjustment"/> value can be set by calling <see cref="SetSystemTimeAdjustment"/>.
+        /// The <paramref name="lpTimeIncrement"/> value is fixed by the system upon start, and does not change during system operation.
+        /// In this mode, the system will not interfere with the time adjustment scheme,
+        /// and will not attempt to synchronize time of day on its own via other techniques.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetSystemTimeAdjustment"/> and <see cref="SetSystemTimeAdjustment"/> functions can be used to support algorithms
+        /// that want to synchronize the time-of-day clock, reported by <see cref="GetSystemTime"/> and <see cref="GetLocalTime"/>,
+        /// with another time source by using a periodic time adjustment.
+        /// The <see cref="GetSystemTimeAdjustment"/> function lets a caller determine whether periodic time adjustment is enabled,
+        /// and if it is, obtain the amount of each adjustment and the time between adjustments.
+        /// The <see cref="SetSystemTimeAdjustment"/> function lets a caller enable or disable periodic time adjustment,
+        /// and set the value of the adjusting increment.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetSystemTimeAdjustment([Out]out uint lpTimeAdjustment, [Out]out uint lpTimeIncrement, [Out]out bool lpTimeAdjustmentDisabled);
 
         /// <summary>
         /// <para>
@@ -298,6 +354,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", SetLastError = true)]
         public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the number of milliseconds that have elapsed since the system was started.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The number of milliseconds.
+        /// </returns>
+        /// <remarks>
+        /// The resolution of the <see cref="GetTickCount64"/> function is limited to the resolution of the system timer,
+        /// which is typically in the range of 10 milliseconds to 16 milliseconds.
+        /// The resolution of the <see cref="GetTickCount64"/> function is not affected by adjustments made
+        /// by the <see cref="GetSystemTimeAdjustment"/> function.
+        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
+        /// To obtain the time the system has spent in the working state since it was started, use the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// because the interrupt-time count and tick count are advanced by approximately 49 days.
+        /// This helps to identify bugs that might not occur until the system has been running for a long time.
+        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", SetLastError = true)]
+        public static extern ulong GetTickCount64();
 
         /// <summary>
         /// <para>

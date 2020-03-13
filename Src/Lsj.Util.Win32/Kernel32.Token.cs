@@ -16,6 +16,51 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="CheckTokenMembership"/> function determines whether a specified security identifier (SID) is enabled in an access token.
+        /// If you want to determine group membership for app container tokens, you need to use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token.
+        /// The handle must have <see cref="TOKEN_QUERY"/> access to the token.
+        /// The token must be an impersonation token.
+        /// If <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>,
+        /// <see cref="CheckTokenMembership"/> uses the impersonation token of the calling thread.
+        /// If the thread is not impersonating, the function duplicates the thread's primary token to create an impersonation token.
+        /// </param>
+        /// <param name="SidToCheck">
+        /// A pointer to a <see cref="SID"/> structure.
+        /// The <see cref="CheckTokenMembership"/> function checks for the presence of this SID in the user and group SIDs of the access token.
+        /// </param>
+        /// <param name="IsMember">
+        /// A pointer to a variable that receives the results of the check
+        /// If the <see cref="SID"/> is present and has the <see cref="SE_GROUP_ENABLED"/> attribute,
+        /// IsMember returns <see langword="true"/>; otherwise, it returns <see langword="false"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CheckTokenMembership"/> function simplifies the process of determining whether a SID is both present and enabled in an access token.
+        /// Even if a SID is present in the token, the system may not use the SID in an access check.
+        /// The SID may be disabled or have the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// The system uses only enabled SIDs to grant access when performing an access check.
+        /// For more information, see SID Attributes in an Access Token.
+        /// If <paramref name="TokenHandle"/> is a restricted token, or if <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>
+        /// and the current effective token of the calling thread is a restricted token,
+        /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CheckTokenMembership([In]IntPtr TokenHandle, [In]IntPtr SidToCheck, [Out]out bool IsMember);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateRestrictedToken"/> function creates a new access token that is a restricted version of an existing access token.
         /// The restricted token can have disabled security identifiers (SIDs), deleted privileges, and a list of restricting SIDs.
         /// For more information, see Restricted Tokens.
@@ -112,6 +157,38 @@ namespace Lsj.Util.Win32
         public static extern bool CreateRestrictedToken([In]IntPtr ExistingTokenHandle, [In]CreateRestrictedTokenFlags Flags, [In]uint DisableSidCount,
             [In]IntPtr SidsToDisable, [In]uint DeletePrivilegeCount, [In]IntPtr PrivilegesToDelete, [In]uint RestrictedSidCount,
             [In]IntPtr SidsToRestrict, [Out]out IntPtr NewTokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateWellKnownSid"/> function creates a SID for predefined aliases.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid
+        /// </para>
+        /// </summary>
+        /// <param name="WellKnownSidType">
+        /// Member of the <see cref="WELL_KNOWN_SID_TYPE"/> enumeration that specifies what the SID will identify.
+        /// </param>
+        /// <param name="DomainSid">
+        /// A pointer to a SID that identifies the domain to use when creating the SID.
+        /// Pass <see cref="IntPtr"/> to use the local computer.
+        /// </param>
+        /// <param name="pSid">
+        /// A pointer to memory where <see cref="CreateWellKnownSid"/> will store the new SID.
+        /// </param>
+        /// <param name="cbSid">
+        /// A pointer to a DWORD that contains the number of bytes available at <paramref name="pSid"/>.
+        /// The <see cref="CreateWellKnownSid"/> function stores the number of bytes actually used at this location.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWellKnownSid", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool CreateWellKnownSid([In]WELL_KNOWN_SID_TYPE WellKnownSidType, [In]IntPtr DomainSid,
+            [In]IntPtr pSid, [Out]out uint cbSid);
 
         /// <summary>
         /// <para>
@@ -216,5 +293,50 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTokenAttributes, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
             [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
+        /// The calling process must have appropriate access rights to obtain the information.
+        /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
+        /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token from which information is retrieved.
+        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
+        /// For all other <see cref="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="TokenInformationClass">
+        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
+        /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify
+        /// that the caller token is not an identify level impersonation token.
+        /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
+        /// </param>
+        /// <param name="TokenInformation">
+        /// A pointer to a buffer the function fills with the requested information.
+        /// The structure put into this buffer depends upon the type of information specified by the <paramref name="TokenInformationClass"/> parameter.
+        /// </param>
+        /// <param name="TokenInformationLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <see cref="TokenInformation"/> parameter.
+        /// If <see cref="TokenInformation"/> is <see cref="IntPtr.Zero"/>, this parameter must be zero.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
+        /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
+        /// the function fails and stores no data in the buffer.
+        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenInformationLength"/> and the token has no default DACL,
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof(<see cref="TOKEN_DEFAULT_DACL"/>) and
+        /// sets the <see cref="DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to NULL.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTokenInformation([In]IntPtr TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In]IntPtr TokenInformation, [In]uint TokenInformationLength, [Out]out uint ReturnLength);
     }
 }
