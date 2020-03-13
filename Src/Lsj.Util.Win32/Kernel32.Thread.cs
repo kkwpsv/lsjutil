@@ -811,7 +811,7 @@ namespace Lsj.Util.Win32
         /// <see cref="THREAD_PRIORITY_LOWEST"/>, <see cref="THREAD_PRIORITY_NORMAL"/>, <see cref="THREAD_PRIORITY_TIME_CRITICAL"/>
         /// </param>
         /// <returns>
-        /// If the context was set, the return value is <see langword="true"/>.
+        /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
@@ -860,6 +860,40 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetThreadPriority([In]IntPtr hThread, ThreadPriorityFlags nPriority);
+
+        /// <summary>
+        /// <para>
+        /// Disables or enables the ability of the system to temporarily boost the priority of a thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriorityboost
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread whose priority is to be boosted.
+        /// The handle must have the <see cref="THREAD_SET_INFORMATION"/> or <see cref="THREAD_SET_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Thread Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="THREAD_SET_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="bDisablePriorityBoost">
+        /// If this parameter is <see langword="true"/>, dynamic boosting is disabled.
+        /// If the parameter is <see langword="false"/>, dynamic boosting is enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a thread is running in one of the dynamic priority classes,
+        /// the system temporarily boosts the thread's priority when it is taken out of a wait state.
+        /// If <see cref="SetThreadPriorityBoost"/> is called with the <paramref name="bDisablePriorityBoost"/> parameter set to <see langword="true"/>,
+        /// the thread's priority is not boosted.
+        /// To restore normal behavior, call <see cref="SetThreadPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriorityBoost", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetThreadPriorityBoost([In]IntPtr hThread, [In]bool bDisablePriorityBoost);
 
         /// <summary>
         /// <para>
