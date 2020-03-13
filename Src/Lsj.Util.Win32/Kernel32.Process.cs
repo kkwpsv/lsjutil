@@ -1402,6 +1402,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process affinity mask for the specified process and the system affinity mask for the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprocessaffinitymask
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose affinity mask is desired.
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpProcessAffinityMask">
+        /// A pointer to a variable that receives the affinity mask for the specified process.
+        /// </param>
+        /// <param name="lpSystemAffinityMask">
+        /// A pointer to a variable that receives the affinity mask for the system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and the function sets the variables pointed to
+        /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> to the appropriate affinity masks.
+        /// On a system with more than 64 processors, if the threads of the calling process are in a single processor group,
+        /// the function sets the variables pointed to by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/>
+        /// to the process affinity mask and the processor mask of active logical processors for that group.
+        /// If the calling process contains threads in multiple groups, the function returns zero for both affinity masks.
+        /// If the function fails, the return value is <see langword="false"/>, and the values of the variables pointed to
+        /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
+        /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessAffinityMask([In]IntPtr hProcess, [Out]UIntPtr lpProcessAffinityMask, [Out]UIntPtr lpSystemAffinityMask);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the process identifier of the specified process.
         /// </para>
         /// <para>
