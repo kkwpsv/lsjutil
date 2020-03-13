@@ -1825,6 +1825,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Disables or enables the ability of the system to temporarily boost the priority of the threads of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocesspriorityboost
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="bDisablePriorityBoost">
+        /// If this parameter is <see langword="true"/>, dynamic boosting is disabled.
+        /// If the parameter is <see langword="false"/>, dynamic boosting is enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a thread is running in one of the dynamic priority classes,
+        /// the system temporarily boosts the thread's priority when it is taken out of a wait state.
+        /// If <see cref="SetProcessPriorityBoost"/> is called with the <paramref name="bDisablePriorityBoost"/> parameter set to <see langword="true"/>,
+        /// its threads' priorities are not boosted.
+        /// This setting affects all existing threads and any threads subsequently created by the process.
+        /// To restore normal behavior, call <see cref="SetProcessPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetProcessPriorityBoost([In]IntPtr hProcess,[In]bool bDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
         /// Terminates the specified process and all of its threads.
         /// </para>
         /// <para>
