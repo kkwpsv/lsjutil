@@ -25,6 +25,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public const string IID_IFileOpenDialog = "d57c7288-d4ad-4768-be02-9d969532d960";
 
         /// <summary>
+        /// IID_IMalloc
+        /// </summary>
+        public const string IID_IMalloc = "00000002-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IModalWindow
         /// </summary>
         public const string IID_IModalWindow = "b4db1657-70d7-485e-8e3e-6fcb5a5c1802";
