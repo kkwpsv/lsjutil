@@ -20,6 +20,11 @@ namespace Lsj.Util.Win32
     public static partial class User32
     {
         /// <summary>
+        /// ASFW_ANY
+        /// </summary>
+        public const uint ASFW_ANY = unchecked((uint)-1);
+
+        /// <summary>
         /// CW_USEDEFAULT
         /// </summary>
         public const int CW_USEDEFAULT = unchecked((int)0x80000000);
@@ -99,6 +104,48 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool WNDENUMPROC([In]IntPtr hWnd, [In]IntPtr lParam);
 
+
+        /// <summary>
+        /// <para>
+        /// Enables the specified process to set the foreground window using the <see cref="SetForegroundWindow"/> function.
+        /// The calling process must already be able to set the foreground window.
+        /// For more information, see Remarks later in this topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-allowsetforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The identifier of the process that will be enabled to set the foreground window.
+        /// If this parameter is <see cref="ASFW_ANY"/>, all processes will be enabled to set the foreground window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// The function will fail if the calling process cannot set the foreground window.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system restricts which processes can set the foreground window.
+        /// A process can set the foreground window only if one of the following conditions is true:
+        /// The process is the foreground process.
+        /// The process was started by the foreground process.
+        /// The process received the last input event.
+        /// There is no foreground process.
+        /// The foreground process is being debugged.
+        /// The foreground is not locked (see LockSetForegroundWindow).
+        /// The foreground lock time-out has expired (see SPI_GETFOREGROUNDLOCKTIMEOUT in SystemParametersInfo).
+        /// No menus are active.
+        /// A process that can set the foreground window can enable another process
+        /// to set the foreground window by calling <see cref="AllowSetForegroundWindow"/>.
+        /// The process specified by <paramref name="dwProcessId"/> loses the ability to set the foreground window
+        /// the next time the user generates input, unless the input is directed at that process,
+        /// or the next time a process calls <see cref="AllowSetForegroundWindow"/>, unless that process is specified.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllowSetForegroundWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllowSetForegroundWindow([In]uint dwProcessId);
+
         /// <summary>
         /// <para>
         /// Enables you to produce special effects when showing or hiding windows.
@@ -148,8 +195,8 @@ namespace Lsj.Util.Win32
         /// <see cref="AnimateWindow"/> supports RTL windows.
         /// Avoid animating a window that has a drop shadow because it produces visually distracting, jerky animations.
         /// </remarks>
-        [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AnimateWindow([In]IntPtr hWnd, [In]uint dwTime, [In]AnimateWindowFlags dwFlags);
 
         /// <summary>
