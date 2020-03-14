@@ -40,6 +40,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public const string IID_IMoniker = "0000000f-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IOleLink
+        /// </summary>
+        public const string IID_IOleLink = "0000011d-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IShellFolder
         /// </summary>
         public const string IID_IShellFolder = "000214E6-0000-0000-C000-000000000046";
