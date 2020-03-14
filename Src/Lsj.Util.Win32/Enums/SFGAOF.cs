@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Lsj.Util.Win32.ComInterfaces;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -145,7 +144,7 @@ namespace Lsj.Util.Win32.Enums
         /// Not supported.
         /// </summary>
         [Obsolete]
-        SFGAO_CANMONIKER= 0x00400000,
+        SFGAO_CANMONIKER = 0x00400000,
 
         /// <summary>
         /// Not supported.
