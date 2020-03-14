@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="psii">
         /// A pointer to a <see cref="SHSTOCKICONINFO"/> structure.
-        /// When this function is called, the <see cref="cbSize"/> member of this structure needs to be
+        /// When this function is called, the <see cref="SHSTOCKICONINFO.cbSize"/> member of this structure needs to be
         /// set to the size of the <see cref="SHSTOCKICONINFO"/> structure.
         /// When this function returns, contains a pointer to a <see cref="SHSTOCKICONINFO"/> structure that contains the requested information.
         /// </param>
