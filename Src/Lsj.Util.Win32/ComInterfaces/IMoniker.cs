@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Enums.BIND_FLAGS;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -167,7 +168,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it should use the pbc parameter to call <see cref="IBindCtx.RegisterObjectBound"/> to store a reference to the bound object in the bind context.
         /// This ensures that the bound object remains running until the bind context is released,
         /// which can avoid the expense of having a subsequent binding operation load it again later.
-        /// If the bind context's <see cref="BIND_OPTS"/> structure specifies the <see cref="BINDFLAGS_JUSTTESTEXISTENCE"/> flag,
+        /// If the bind context's <see cref="BIND_OPTS"/> structure specifies the <see cref="BIND_JUSTTESTEXISTENCE"/> flag,
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvResult"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
@@ -235,7 +236,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Such objects comprise some portion of the internal state of its container as, for example, a range of cells in a spreadsheet.
         /// If your moniker class identifies this type of object,
         /// your implementation of <see cref="BindToStorage"/> should return the error <see cref="MK_E_NOSTORAGE"/>.
-        /// If the bind context's <see cref="BIND_OPTS"/> structure specifies the <see cref="BINDFLAGS_JUSTTESTEXISTENCE"/> flag,
+        /// If the bind context's <see cref="BIND_OPTS"/> structure specifies the <see cref="BIND_JUSTTESTEXISTENCE"/> flag,
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvObj"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
