@@ -125,12 +125,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </summary>
         /// <param name="sfgaoMask">
         /// Specifies the attributes to retrieve.
-        /// One or more of the <see cref="SFGAO"/> values.
+        /// One or more of the <see cref="SFGAOF"/> values.
         /// Use a bitwise OR operator to determine the attributes to retrieve.
         /// </param>
         /// <param name="psfgaoAttribs">
         /// A pointer to a value that, when this method returns successfully, contains the requested attributes.
-        /// One or more of the <see cref="SFGAO"/> values.
+        /// One or more of the <see cref="SFGAOF"/> values.
         /// Only those attributes specified by sfgaoMask are returned; other attribute values are undefined.
         /// </param>
         /// <returns>
