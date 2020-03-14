@@ -3,6 +3,8 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.GUIDs.BHIDs;
+using static Lsj.Util.Win32.Structs.HRESULT;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -28,10 +30,10 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Binds to a handler for an item as specified by the handler ID value (BHID).
         /// </summary>
         /// <param name="pbc">
-        /// A pointer to an IBindCtx interface on a bind context object.
+        /// A pointer to an <see cref="IBindCtx"/> interface on a bind context object.
         /// Used to pass optional parameters to the handler.
         /// The contents of the bind context are handler-specific.
-        /// For example, when binding to BHID_Stream, the <see cref="STGM"/> flags in the bind context
+        /// For example, when binding to <see cref="BHID_Stream"/>, the <see cref="STGM"/> flags in the bind context
         /// indicate the mode of access desired (read or read/write).
         /// </param>
         /// <param name="bhid">
@@ -113,7 +115,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </returns>
         /// <remarks>
         /// It is the responsibility of the caller to free the string pointed to by <paramref name="ppszName"/> when it is no longer needed.
-        /// Call <see cref="CoTaskMemFree"/> on <see cref="ppszName"/> to free the memory.
+        /// Call <see cref="CoTaskMemFree"/> on <paramref name="ppszName"/> to free the memory.
         /// </remarks>
         [PreserveSig]
         HRESULT GetDisplayName([In]SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)][Out]out string ppszName);
