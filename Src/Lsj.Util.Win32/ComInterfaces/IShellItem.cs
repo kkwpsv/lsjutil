@@ -39,9 +39,9 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="bhid">
         /// Reference to a GUID that specifies which handler will be created.
         /// One of the following values defined in Shlguid.h:
-        /// <see cref="BHID_SFObject"/>: Restricts usage to <see cref="BindToObject"/>.
-        /// <see cref="BHID_SFUIObject"/>: Restricts usage to <see cref="GetUIObjectOf"/>.
-        /// <see cref="BHID_SFViewObject"/>: Restricts usage to <see cref="CreateViewObject"/>.
+        /// <see cref="BHID_SFObject"/>: Restricts usage to <see cref="IShellFolder.BindToObject"/>.
+        /// <see cref="BHID_SFUIObject"/>: Restricts usage to <see cref="IShellFolder.GetUIObjectOf"/>.
+        /// <see cref="BHID_SFViewObject"/>: Restricts usage to <see cref="IShellFolder.CreateViewObject"/>.
         /// <see cref="BHID_Storage"/>: Attempts to retrieve the storage RIID, but defaults to Shell implementation on failure.
         /// <see cref="BHID_Stream"/>: Restricts usage to IStream.
         /// <see cref="BHID_LinkTargetItem"/>:
