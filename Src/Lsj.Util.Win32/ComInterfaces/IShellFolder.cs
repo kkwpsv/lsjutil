@@ -243,7 +243,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </returns>
         /// <remarks>
         /// Namespace extensions have the option of allowing applications to bind to an object that represents an item's storage.
-        /// If this option is supported, <see cref="IShellFolder.BindToStorage"/> returns a specified interface pointer
+        /// If this option is supported, <see cref="BindToStorage"/> returns a specified interface pointer
         /// that can then be used to access the contents of object.
         /// See the <see cref="IMoniker.BindToStorage"/> reference for further discussion.
         /// </remarks>
