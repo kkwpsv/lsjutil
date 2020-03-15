@@ -1,10 +1,9 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Enums.ADVF;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
