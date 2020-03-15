@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lsj.Util.Win32.ComInterfaces
+﻿namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// IIDs
@@ -13,6 +9,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IUnknown
         /// </summary>
         public const string IID_IUnknown = "00000000-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IDataAdviseHolder
+        /// </summary>
+        public const string IID_IDataAdviseHolder = "00000110-0000-0000-C000-000000000046"
 
         /// <summary>
         /// IID_IFileDialog
