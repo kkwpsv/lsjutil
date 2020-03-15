@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    public interface IDataObject
+    public interface IEnumSTATDATA
     {
     }
 }
