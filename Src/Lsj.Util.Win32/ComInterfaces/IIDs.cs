@@ -51,6 +51,11 @@
         public const string IID_IOleAdviseHolder = "00000111-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IOleCache
+        /// </summary>
+        public const string IID_IOleCache = "0000011e-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IOleObject
         /// </summary>
         public const string IID_IOleObject = "00000112-0000-0000-C000-000000000046";

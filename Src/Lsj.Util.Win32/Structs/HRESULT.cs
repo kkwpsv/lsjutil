@@ -14,6 +14,16 @@ namespace Lsj.Util.Win32.Structs
         public static readonly HRESULT CACHE_E_NOCACHE_UPDATED = new HRESULT { value = unchecked((int)0x80040170) };
 
         /// <summary>
+        /// CACHE_S_FORMATETC_NOTSUPPORTED
+        /// </summary>
+        public static readonly HRESULT CACHE_S_FORMATETC_NOTSUPPORTED = new HRESULT { value = unchecked((int)0x00040170) };
+
+        /// <summary>
+        /// CACHE_S_SAMECACHE
+        /// </summary>
+        public static readonly HRESULT CACHE_S_SAMECACHE = new HRESULT { value = unchecked((int)0x00040171) };
+
+        /// <summary>
         /// CACHE_S_SOMECACHES_NOTUPDATED
         /// </summary>
         public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { value = unchecked((int)0x00040172) };
