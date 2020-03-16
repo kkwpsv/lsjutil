@@ -1,8 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.Enums.Compression;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -76,51 +74,51 @@ namespace Lsj.Util.Win32.Structs
         /// 0:
         /// The number of bits-per-pixel is specified or is implied by the JPEG or PNG format.
         /// 1:
-        /// The bitmap is monochrome, and the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> contains two entries.
+        /// The bitmap is monochrome, and the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> contains two entries.
         /// Each bit in the bitmap array represents a pixel.
-        /// If the bit is clear, the pixel is displayed with the color of the first entry in the <see cref="bmiColors"/> table;
+        /// If the bit is clear, the pixel is displayed with the color of the first entry in the <see cref="BITMAPINFO.bmiColors"/> table;
         /// if the bit is set, the pixel has the color of the second entry in the table.
         /// 4:
-        /// The bitmap has a maximum of 16 colors, and the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> contains up to 16 entries.
+        /// The bitmap has a maximum of 16 colors, and the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> contains up to 16 entries.
         /// Each pixel in the bitmap is represented by a 4-bit index into the color table.
         /// For example, if the first byte in the bitmap is 0x1F, the byte represents two pixels.
         /// The first pixel contains the color in the second table entry, and the second pixel contains the color in the sixteenth table entry.
         /// 8:
-        /// The bitmap has a maximum of 256 colors, and the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> contains up to 256 entries.
+        /// The bitmap has a maximum of 256 colors, and the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> contains up to 256 entries.
         /// In this case, each byte in the array represents a single pixel.
         /// 16:
         /// The bitmap has a maximum of 2^16 colors.
         /// If the <see cref="bV5Compression"/> member of the <see cref="BITMAPV5HEADER"/> is <see cref="BI_RGB"/>,
-        /// the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
+        /// the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
         /// Each WORD in the bitmap array represents a single pixel.
         /// The relative intensities of red, green, and blue are represented with five bits for each color component.
         /// The value for blue is in the least significant five bits, followed by five bits each for green and red.
         /// The most significant bit is not used.
-        /// The <see cref="bmiColors"/> color table is used for optimizing colors used on palette-based devices,
+        /// The <see cref="BITMAPINFO.bmiColors"/> color table is used for optimizing colors used on palette-based devices,
         /// and must contain the number of entries specified by the <see cref="bV5ClrUsed"/> member of the <see cref="BITMAPINFOHEADER"/>.
         /// If the <see cref="bV5Compression"/> member of the <see cref="BITMAPINFOHEADER"/> is <see cref="BI_BITFIELDS"/>,
-        /// the <see cref="bmiColors"/> member contains three DWORD color masks that specify the red, green, and blue components,
+        /// the <see cref="BITMAPINFO.bmiColors"/> member contains three DWORD color masks that specify the red, green, and blue components,
         /// respectively, of each pixel.
         /// Each WORD in the bitmap array represents a single pixel.
         /// When the <see cref="bV5Compression"/> member is <see cref="BI_BITFIELDS"/>,
         /// bits set in each DWORD mask must be contiguous and should not overlap the bits of another mask.
         /// All the bits in the pixel do not have to be used.
         /// 24:
-        /// The bitmap has a maximum of 2^24 colors, and the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
+        /// The bitmap has a maximum of 2^24 colors, and the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
         /// Each 3-byte triplet in the bitmap array represents the relative intensities of blue, green, and red, respectively, for a pixel.
-        /// The <see cref="bmiColors"/> color table is used for optimizing colors used on palette-based devices,
+        /// The <see cref="BITMAPINFO.bmiColors"/> color table is used for optimizing colors used on palette-based devices,
         /// and must contain the number of entries specified by the <see cref="bV5ClrUsed"/> member of the <see cref="BITMAPV5HEADER "/>.
         /// 32:
         /// The bitmap has a maximum of 2^32 colors.
         /// If the <see cref="bV5ClrUsed"/> member of the <see cref="BITMAPV5HEADER"/> is <see cref="BI_RGB"/>,
-        /// the <see cref="bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
+        /// the <see cref="BITMAPINFO.bmiColors"/> member of <see cref="BITMAPINFO"/> is <see langword="null"/>.
         /// Each DWORD in the bitmap array represents the relative intensities of blue, green, and red for a pixel.
         /// The value for blue is in the least significant 8 bits, followed by 8 bits each for green and red.
         /// The high byte in each DWORD is not used.
-        /// The <see cref="bmiColors"/> color table is used for optimizing colors used on palette-based devices,
+        /// The <see cref="BITMAPINFO.bmiColors"/> color table is used for optimizing colors used on palette-based devices,
         /// and must contain the number of entries specified by the <see cref="bV5ClrUsed "/> member of the <see cref="BITMAPV5HEADER"/>.
         /// If the <see cref="bV5Compression "/> member of the <see cref="BITMAPV5HEADER"/> is <see cref="BI_BITFIELDS"/>,
-        /// the <see cref="bmiColors"/> member contains three DWORD color masks that specify the red, green, and blue components,
+        /// the <see cref="BITMAPINFO.bmiColors"/> member contains three DWORD color masks that specify the red, green, and blue components,
         /// respectively, of each pixel.
         /// Each DWORD in the bitmap array represents a single pixel.
         /// </summary>

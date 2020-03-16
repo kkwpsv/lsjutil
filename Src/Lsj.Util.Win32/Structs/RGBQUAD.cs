@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="bmiColors"/> member of the <see cref="BITMAPINFO"/> structure consists of an array of <see cref="RGBQUAD"/> structures.
+    /// The <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure consists of an array of <see cref="RGBQUAD"/> structures.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct RGBQUAD
