@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Structs.HRESULT;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -365,7 +366,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <returns>
         /// This method returns <see cref="S_OK"/> on success. Other possible return values include the following.
-        /// <see cref="CACHE_E_NOCACHE_UPDATE"/>: The bind operation worked but no caches were updated.
+        /// <see cref="CACHE_E_NOCACHE_UPDATED"/>: The bind operation worked but no caches were updated.
         /// <see cref="CACHE_S_SOMECACHES_NOTUPDATED"/>: The bind operation worked but not all caches were updated.
         /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>: Unable to bind to the link source.
         /// </returns>
