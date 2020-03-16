@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// <see cref="CreateBindCtx"/> creates a bind context object that supports the system implementation of <see cref="IBindContext"/>.
         /// The <paramref name="pmk"/> parameter is actually a pointer to the <see cref="IMoniker"/> implementation on a moniker object
-        /// This implementation's <see cref="BindToObject"/> method supplies the pointer to the requested interface pointer.
+        /// This implementation's <see cref="IMoniker.BindToObject"/> method supplies the pointer to the requested interface pointer.
         /// If you have several monikers to bind in quick succession and if you know that those monikers will activate the same object,
         /// it may be more efficient to call the <see cref="IMoniker.BindToObject"/> method directly,
         /// which enables you to use the same bind context object for all the monikers.

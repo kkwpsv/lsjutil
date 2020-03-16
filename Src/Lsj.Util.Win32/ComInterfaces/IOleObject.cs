@@ -442,7 +442,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The link object returns the latter error when the link source is located on a network drive
         /// that is not currently connected to the caller's computer.
         /// The only way to connect a link under these conditions is to first call IUnknown::QueryInterface,
-        /// ask for <see cref="IOleLink"/>, allocate a bind context, and run the link source by calling <see cref="BindToSource"/>.
+        /// ask for <see cref="IOleLink"/>, allocate a bind context, and run the link source by calling <see cref="IOleLink.BindToSource"/>.
         /// Container applications that do not support general in-place activation can still use the <paramref name="hwndParent"/>
         /// and <paramref name="lprcPosRect"/> parameters to support in-place playback of multimedia files.
         /// Containers must pass valid <paramref name="hwndParent"/> and lprcPosRect parameters to <see cref="DoVerb"/>.
