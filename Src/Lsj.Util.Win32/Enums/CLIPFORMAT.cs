@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Structs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
