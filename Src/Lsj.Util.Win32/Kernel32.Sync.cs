@@ -583,6 +583,99 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Signals one object and waits on another object as a single operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-signalobjectandwait
+        /// </para>
+        /// </summary>
+        /// <param name="hObjectToSignal">
+        /// A handle to the object to be signaled. This object can be a semaphore, a mutex, or an event.
+        /// If the handle is a semaphore, the <see cref="SEMAPHORE_MODIFY_STATE"/> access right is required.
+        /// If the handle is an event, the <see cref="EVENT_MODIFY_STATE"/> access right is required.
+        /// If the handle is a mutex and the caller does not own the mutex, the function fails with <see cref="ERROR_NOT_OWNER"/>.
+        /// </param>
+        /// <param name="hObjectToWaitOn">
+        /// A handle to the object to wait on.
+        /// The <see cref="SYNCHRONIZE"/> access right is required; for more information, see Synchronization Object Security and Access Rights.
+        /// For a list of the object types whose handles you can specify, see the Remarks section.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// The function returns if the interval elapses, even if the object's state is nonsignaled and
+        /// no completion or asynchronous procedure call (APC) objects are queued.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function tests the object's state,
+        /// checks for queued completion routines or APCs, and returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function's time-out interval never elapses.
+        /// </param>
+        /// <param name="bAlertable">
+        /// If this parameter is <see langword="true"/>, the function returns when the system queues an I/O completion routine or APC function,
+        /// and the thread calls the function.
+        /// If <see langword="false"/>, the function does not return, and the thread does not call the completion routine or APC function.
+        /// A completion routine is queued when the function call that queued the APC has completed.
+        /// This function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>,
+        /// and the calling thread is the thread that queued the APC.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value indicates the event that caused the function to return.
+        /// It can be one of the following values.
+        /// <see cref="WAIT_ABANDONED"/>:
+        /// The specified object is a mutex object that was not released by the thread that owned the mutex object before the owning thread terminated.
+        /// Ownership of the mutex object is granted to the calling thread, and the mutex is set to nonsignaled.
+        /// If the mutex was protecting persistent state information, you should check it for consistency.
+        /// <see cref="WAIT_IO_COMPLETION"/>:
+        /// The wait was ended by one or more user-mode asynchronous procedure calls (APC) queued to the thread.
+        /// <see cref="WAIT_OBJECT_0"/>:
+        /// The state of the specified object is signaled.
+        /// <see cref="WAIT_TIMEOUT"/>:
+        /// The time-out interval elapsed, and the object's state is nonsignaled.
+        /// <see cref="WAIT_FAILED"/>:
+        /// The function has failed.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SignalObjectAndWait"/> function provides a more efficient way to signal one object and then wait on another compared
+        /// to separate function calls such as <see cref="SetEvent"/> followed by <see cref="WaitForSingleObject"/>.
+        /// The <see cref="SignalObjectAndWait"/> function can wait for the following objects:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
+        /// For more information, see Synchronization Objects.
+        /// A thread can use the <see cref="SignalObjectAndWait"/> function to ensure that a worker thread is in a wait state before signaling an object.
+        /// For example, a thread and a worker thread may use handles to event objects to synchronize their work.
+        /// The thread executes code such as the following:
+        /// <code>
+        /// dwRet = WaitForSingleObject(hEventWorkerDone, INFINITE);
+        /// if( WAIT_OBJECT_0 == dwRet)
+        ///     SetEvent(hEventMoreWorkToDo);
+        /// </code>
+        /// The worker thread executes code such as the following:
+        /// <code>
+        /// dwRet = SignalObjectAndWait(hEventWorkerDone, hEventMoreWorkToDo, INFINITE, FALSE);
+        /// </code>
+        /// Note that the "signal" and "wait" are not guaranteed to be performed as an atomic operation.
+        /// Threads executing on other processors can observe the signaled state of the first object before the thread 
+        /// calling <see cref="SignalObjectAndWait"/> begins its wait on the second object.
+        /// Use extreme caution when using <see cref="SignalObjectAndWait"/> and <see cref="PulseEvent"/> with Windows 7,
+        /// since using these APIs among multiple threads can cause an application to deadlock.
+        /// Threads that are signaled by <see cref="SignalObjectAndWait"/> call <see cref="PulseEvent"/>
+        /// to signal the waiting object of the <see cref="SignalObjectAndWait"/> call.
+        /// In some circumstances, the caller of <see cref="SignalObjectAndWait"/> can't receive signal state
+        /// of the waiting object in time, causing a deadlock.
+        /// Use caution when using the wait functions and code that directly or indirectly creates windows.
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// A thread that uses a wait function with no time-out interval may cause the system to become deadlocked.
+        /// Two examples of code that indirectly creates windows are DDE and COM <see cref="CoInitialize"/>.
+        /// Therefore, if you have a thread that creates windows, be sure to call <see cref="SignalObjectAndWait"/> from a different thread.
+        /// If this is not possible, you can use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
+        /// but the functionality is not equivalent.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", SetLastError = true)]
+        public static extern uint SignalObjectAndWait([In]IntPtr hObjectToSignal, [In]IntPtr hObjectToWaitOn, [In]uint dwMilliseconds, [In]bool bAlertable);
+
+        /// <summary>
+        /// <para>
         /// Sleeps on the specified condition variable and releases the specified critical section as an atomic operation.
         /// </para>
         /// <para>

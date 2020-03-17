@@ -1058,6 +1058,88 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Suspends the current thread until the specified condition is met.
+        /// Execution resumes when one of the following occurs:
+        /// An I/O completion callback function is called.
+        /// An asynchronous procedure call(APC) is queued to the thread.
+        /// The time-out interval elapses.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepex
+        /// </para>
+        /// </summary>
+        /// <param name="dwMilliseconds">
+        /// The time interval for which execution is to be suspended, in milliseconds.
+        /// A value of zero causes the thread to relinquish the remainder of its time slice to any other thread that is ready to run.
+        /// If there are no other threads ready to run, the function returns immediately, and the thread continues execution.
+        /// Windows XP:
+        /// A value of zero causes the thread to relinquish the remainder of its time slice to any other thread of equal priority that is ready to run.
+        /// If there are no other threads of equal priority ready to run, the function returns immediately, and the thread continues execution.
+        /// This behavior changed starting with Windows Server 2003.
+        /// A value of <see cref="INFINITE"/> indicates that the suspension should not time out.
+        /// </param>
+        /// <param name="bAlertable">
+        /// If this parameter is <see langword="false"/>, the function does not return until the time-out period has elapsed.
+        /// If an I/O completion callback occurs, the function does not return and the I/O completion function is not executed.
+        /// If an APC is queued to the thread, the function does not return and the APC function is not executed.
+        /// If the parameter is <see langword="true"/> and the thread that called this function is the same thread that called the extended I/O function
+        /// (<see cref="ReadFileEx"/> or <see cref="WriteFileEx"/>), the function returns when either the time-out period has elapsed
+        /// or when an I/O completion callback function occurs.
+        /// If an I/O completion callback occurs, the I/O completion function is called.
+        /// If an APC is queued to the thread (<see cref="QueueUserAPC"/>),
+        /// the function returns when either the timer-out period has elapsed or when the APC function is called.
+        /// </param>
+        /// <returns>
+        /// The return value is zero if the specified time interval expired.
+        /// The return value is <see cref="WAIT_IO_COMPLETION"/> if the function returned due to one or more I/O completion callback functions.
+        /// This can happen only if <paramref name="bAlertable"/> is <see langword="true"/>,
+        /// and if the thread that called the <see cref="SleepEx"/> function is the same thread that called the extended I/O function.
+        /// </returns>
+        /// <remarks>
+        /// This function causes a thread to relinquish the remainder of its time slice and become unrunnable for an interval
+        /// based on the value of <paramref name="dwMilliseconds"/>.
+        /// The system clock "ticks" at a constant rate.
+        /// If <paramref name="dwMilliseconds"/> is less than the resolution of the system clock,
+        /// the thread may sleep for less than the specified length of time.
+        /// If <paramref name="dwMilliseconds"/> is greater than one tick but less than two, the wait can be anywhere between one and two ticks, and so on.
+        /// To increase the accuracy of the sleep interval, call the <see cref="timeGetDevCaps"/> function
+        /// to determine the supported minimum timer resolution and the <see cref="timeBeginPeriod"/> function to set the timer resolution to its minimum.
+        /// Use caution when calling <see cref="timeBeginPeriod"/>, as frequent calls can significantly affect the system clock,
+        /// system power usage, and the scheduler.
+        /// If you call <see cref="timeBeginPeriod"/>, call it one time early in the application and be sure
+        /// to call the <see cref="timeEndPeriod"/> function at the very end of the application.
+        /// After the sleep interval has passed, the thread is ready to run.
+        /// If you specify 0 milliseconds, the thread will relinquish the remainder of its time slice but remain ready.
+        /// Note that a ready thread is not guaranteed to run immediately.
+        /// Consequently, the thread may not run until some time after the sleep interval elapses.
+        /// For more information, see Scheduling Priorities.
+        /// This function can be used with the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> functions to suspend a thread
+        /// until an I/O operation has been completed.
+        /// These functions specify a completion routine that is to be executed when the I/O operation has been completed.
+        /// For the completion routine to be executed, the thread that called the I/O function must be in an alertable wait state
+        /// when the completion callback function occurs.
+        /// A thread goes into an alertable wait state by calling either <see cref="SleepEx"/>, <see cref="MsgWaitForMultipleObjectsEx"/>,
+        /// <see cref="WaitForSingleObjectEx"/>, or <see cref="WaitForMultipleObjectsEx"/>,
+        /// with the function's <paramref name="bAlertable"/> parameter set to <see langword="true"/>.
+        /// Be careful when using <see cref="SleepEx"/> in the following scenarios:
+        /// Code that directly or indirectly creates windows (for example, DDE and COM <see cref="CoInitialize"/>).
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// If you have a thread that uses <see cref="SleepEx"/> with infinite delay, the system will deadlock.
+        /// Threads that are under concurrency control.
+        /// For example, an I/O completion port or thread pool limits the number of associated threads that can run.
+        /// If the maximum number of threads is already running, no additional associated thread can run until a running thread finishes.
+        /// If a thread uses <see cref="SleepEx"/> with an interval of zero to wait for one of the additional associated threads to accomplish some work,
+        /// the process might deadlock.
+        /// For these scenarios, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="SleepEx"/>.
+        /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", SetLastError = true)]
+        public static extern uint SleepEx([In]uint dwMilliseconds, [In]bool bAlertable);
+
+        /// <summary>
+        /// <para>
         /// Suspends the specified thread.
         /// A 64-bit application can suspend a WOW64 thread using the <see cref="Wow64SuspendThread"/> function.
         /// </para>

@@ -926,6 +926,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts a file time to system time format. System time is based on Coordinated Universal Time (UTC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/timezoneapi/nf-timezoneapi-filetimetosystemtime
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileTime">
+        /// A pointer to a <see cref="FILETIME"/> structure containing the file time to be converted to system (UTC) date and time format.
+        /// This value must be less than 0x8000000000000000. Otherwise, the function fails.
+        /// </param>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the converted file time.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool FileTimeToSystemTime([In]ref Structs.FILETIME lpFileTime, [In][Out]ref SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
         /// Closes a file search handle opened by the <see cref="FindFirstFile"/>, <see cref="FindFirstFileEx"/>,
         /// <see cref="FindFirstFileNameW"/>, <see cref="FindFirstFileNameTransactedW"/>, <see cref="FindFirstFileTransacted"/>,
         /// <see cref="FindFirstStreamTransactedW"/>, or <see cref="FindFirstStreamW"/> functions.
@@ -2545,6 +2569,36 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In]string lpszVolumeMountPoint,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpszVolumeName, [In]uint cchBufferLength);
+
+        /// <summary>
+        /// <para>
+        /// Converts a local file time to a file time based on the Coordinated Universal Time (UTC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-localfiletimetofiletime
+        /// </para>
+        /// </summary>
+        /// <param name="lpLocalFileTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that specifies the local file time to be converted into a UTC-based file time.
+        /// </param>
+        /// <param name="lpFileTime">
+        /// A pointer to a <see cref="FILETIME"/> structure to receive the converted UTC-based file time.
+        /// This parameter cannot be the same as the <paramref name="lpLocalFileTime"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="LocalFileTimeToFileTime"/> uses the current settings for the time zone and daylight saving time.
+        /// Therefore, if it is daylight saving time, this function will take daylight saving time into account,
+        /// even if the time you are converting is in standard time.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LocalFileTimeToFileTime([MarshalAs(UnmanagedType.LPStruct)][In]Structs.FILETIME lpLocalFileTime,
+            [Out]out Structs.FILETIME lpFileTime);
 
         /// <summary>
         /// <para>
