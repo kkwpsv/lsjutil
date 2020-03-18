@@ -1091,6 +1091,56 @@ namespace Lsj.Util.Win32
         public static extern bool SetForegroundWindow([In]IntPtr hWnd);
 
         /// <summary>
+        /// <para>
+        /// Changes the parent window of the specified child window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setparent
+        /// </para>
+        /// </summary>
+        /// <param name="hWndChild">
+        /// A handle to the child window.
+        /// </param>
+        /// <param name="hWndNewParent">
+        /// A handle to the new parent window.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, the desktop window becomes the new parent window.
+        /// If this parameter is <see cref="HWND_MESSAGE"/>, the child window becomes a message-only window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the previous parent window.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can use the <see cref="SetParent"/> function to set the parent window of a pop-up, overlapped, or child window.
+        /// If the window identified by the <paramref name="hWndChild"/> parameter is visible,
+        /// the system performs the appropriate redrawing and repainting.
+        /// For compatibility reasons, SetParent does not modify the <see cref="WS_CHILD"/> or <see cref="WS_POPUP"/> window styles
+        /// of the window whose parent is being changed.
+        /// Therefore, if <paramref name="hWndNewParent"/> is <see cref="IntPtr.Zero"/>,
+        /// you should also clear the <see cref="WS_CHILD"/> bit and set the <see cref="WS_POPUP"/> style after calling <see cref="SetParent"/>.
+        /// Conversely, if <paramref name="hWndNewParent"/> is not <see cref="IntPtr.Zero"/> and the window was previously a child of the desktop,
+        /// you should clear the <see cref="WS_POPUP"/> style and set the <see cref="WS_CHILD"/> style before calling <see cref="SetParent"/>.
+        /// When you change the parent of a window, you should synchronize the UISTATE of both windows.
+        /// For more information, see <see cref="WM_CHANGEUISTATE"/> and <see cref="WM_UPDATEUISTATE"/>.
+        /// Unexpected behavior or errors may occur if <paramref name="hWndNewParent"/> and <paramref name="hWndChild"/> are running
+        /// in different DPI awareness modes.
+        /// The table below outlines this behavior:
+        /// <see cref="SetParent"/> (In-Proc):
+        /// Windows 8.1: N/A
+        /// Windows 10 (1607 and earlier): Forced reset (of current process)
+        /// Windows 10 (1703 and later): Fail (<see cref="ERROR_INVALID_STATE"/>)
+        /// <see cref="SetParent"/> (Cross-Proc):
+        /// Windows 8.1: Forced reset (of child window's process)
+        /// Windows 10 (1607 and earlier): Forced reset (of child window's process)
+        /// Windows 10 (1703 and later): Forced reset (of child window's process)
+        /// For more information on DPI awareness, see the Windows High DPI documentation.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern IntPtr SetParent([In]IntPtr hWndChild, [In]IntPtr hWndNewParent);
+
+        /// <summary>
         /// Changes an attribute of the specified window.
         /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
         /// </summary>
