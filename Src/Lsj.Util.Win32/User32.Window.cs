@@ -978,6 +978,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Changes the position and dimensions of the specified window.
+        /// For a top-level window, the position and dimensions are relative to the upper-left corner of the screen.
+        /// For a child window, they are relative to the upper-left corner of the parent window's client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-movewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window.
+        /// </param>
+        /// <param name="X">
+        /// The new position of the left side of the window.
+        /// </param>
+        /// <param name="Y">
+        /// The new position of the top of the window.
+        /// </param>
+        /// <param name="nWidth">
+        /// The new width of the window.
+        /// </param>
+        /// <param name="nHeight">
+        /// The new height of the window.
+        /// </param>
+        /// <param name="bRepaint">
+        /// Indicates whether the window is to be repainted.
+        /// If this parameter is <see langword="true"/>, the window receives a message.
+        /// If the parameter is <see langword="false"/>, no repainting of any kind occurs.
+        /// This applies to the client area, the nonclient area (including the title bar and scroll bars),
+        /// and any part of the parent window uncovered as a result of moving a child window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="bRepaint"/> parameter is <see langword="true"/>,
+        /// the system sends the <see cref="WM_PAINT"/> message to the window procedure immediately after moving the window 
+        /// (that is, the <see cref="MoveWindow"/> function calls the <see cref="UpdateWindow"/> function).
+        /// If <paramref name="bRepaint"/> is <see langword="false"/>,
+        /// the application must explicitly invalidate or redraw any parts of the window and parent window that need redrawing.
+        /// <see cref="MoveWindow"/> sends the <see cref="WM_WINDOWPOSCHANGING"/>, <see cref="WM_WINDOWPOSCHANGED"/>,
+        /// <see cref="WM_MOVE"/>, <see cref="WM_SIZE"/>, and <see cref="WM_NCCALCSIZE"/> messages to the window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool MoveWindow([In]IntPtr hWnd, [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight,
+            [MarshalAs(UnmanagedType.Bool)][In]bool bRepaint);
+
+        /// <summary>
+        /// <para>
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
