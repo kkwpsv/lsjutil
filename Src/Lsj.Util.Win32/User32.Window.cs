@@ -20,6 +20,11 @@ namespace Lsj.Util.Win32
     public static partial class User32
     {
         /// <summary>
+        /// ASFW_ANY
+        /// </summary>
+        public const uint ASFW_ANY = unchecked((uint)-1);
+
+        /// <summary>
         /// CW_USEDEFAULT
         /// </summary>
         public const int CW_USEDEFAULT = unchecked((int)0x80000000);
@@ -99,6 +104,48 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool WNDENUMPROC([In]IntPtr hWnd, [In]IntPtr lParam);
 
+
+        /// <summary>
+        /// <para>
+        /// Enables the specified process to set the foreground window using the <see cref="SetForegroundWindow"/> function.
+        /// The calling process must already be able to set the foreground window.
+        /// For more information, see Remarks later in this topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-allowsetforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The identifier of the process that will be enabled to set the foreground window.
+        /// If this parameter is <see cref="ASFW_ANY"/>, all processes will be enabled to set the foreground window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// The function will fail if the calling process cannot set the foreground window.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system restricts which processes can set the foreground window.
+        /// A process can set the foreground window only if one of the following conditions is true:
+        /// The process is the foreground process.
+        /// The process was started by the foreground process.
+        /// The process received the last input event.
+        /// There is no foreground process.
+        /// The foreground process is being debugged.
+        /// The foreground is not locked (see LockSetForegroundWindow).
+        /// The foreground lock time-out has expired (see SPI_GETFOREGROUNDLOCKTIMEOUT in SystemParametersInfo).
+        /// No menus are active.
+        /// A process that can set the foreground window can enable another process
+        /// to set the foreground window by calling <see cref="AllowSetForegroundWindow"/>.
+        /// The process specified by <paramref name="dwProcessId"/> loses the ability to set the foreground window
+        /// the next time the user generates input, unless the input is directed at that process,
+        /// or the next time a process calls <see cref="AllowSetForegroundWindow"/>, unless that process is specified.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllowSetForegroundWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool AllowSetForegroundWindow([In]uint dwProcessId);
+
         /// <summary>
         /// <para>
         /// Enables you to produce special effects when showing or hiding windows.
@@ -148,8 +195,8 @@ namespace Lsj.Util.Win32
         /// <see cref="AnimateWindow"/> supports RTL windows.
         /// Avoid animating a window that has a drop shadow because it produces visually distracting, jerky animations.
         /// </remarks>
-        [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AnimateWindow([In]IntPtr hWnd, [In]uint dwTime, [In]AnimateWindowFlags dwFlags);
 
         /// <summary>
@@ -931,6 +978,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Changes the position and dimensions of the specified window.
+        /// For a top-level window, the position and dimensions are relative to the upper-left corner of the screen.
+        /// For a child window, they are relative to the upper-left corner of the parent window's client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-movewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window.
+        /// </param>
+        /// <param name="X">
+        /// The new position of the left side of the window.
+        /// </param>
+        /// <param name="Y">
+        /// The new position of the top of the window.
+        /// </param>
+        /// <param name="nWidth">
+        /// The new width of the window.
+        /// </param>
+        /// <param name="nHeight">
+        /// The new height of the window.
+        /// </param>
+        /// <param name="bRepaint">
+        /// Indicates whether the window is to be repainted.
+        /// If this parameter is <see langword="true"/>, the window receives a message.
+        /// If the parameter is <see langword="false"/>, no repainting of any kind occurs.
+        /// This applies to the client area, the nonclient area (including the title bar and scroll bars),
+        /// and any part of the parent window uncovered as a result of moving a child window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="bRepaint"/> parameter is <see langword="true"/>,
+        /// the system sends the <see cref="WM_PAINT"/> message to the window procedure immediately after moving the window 
+        /// (that is, the <see cref="MoveWindow"/> function calls the <see cref="UpdateWindow"/> function).
+        /// If <paramref name="bRepaint"/> is <see langword="false"/>,
+        /// the application must explicitly invalidate or redraw any parts of the window and parent window that need redrawing.
+        /// <see cref="MoveWindow"/> sends the <see cref="WM_WINDOWPOSCHANGING"/>, <see cref="WM_WINDOWPOSCHANGED"/>,
+        /// <see cref="WM_MOVE"/>, <see cref="WM_SIZE"/>, and <see cref="WM_NCCALCSIZE"/> messages to the window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool MoveWindow([In]IntPtr hWnd, [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight,
+            [MarshalAs(UnmanagedType.Bool)][In]bool bRepaint);
+
+        /// <summary>
+        /// <para>
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
@@ -991,6 +1089,56 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetForegroundWindow([In]IntPtr hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Changes the parent window of the specified child window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setparent
+        /// </para>
+        /// </summary>
+        /// <param name="hWndChild">
+        /// A handle to the child window.
+        /// </param>
+        /// <param name="hWndNewParent">
+        /// A handle to the new parent window.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, the desktop window becomes the new parent window.
+        /// If this parameter is <see cref="HWND_MESSAGE"/>, the child window becomes a message-only window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the previous parent window.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can use the <see cref="SetParent"/> function to set the parent window of a pop-up, overlapped, or child window.
+        /// If the window identified by the <paramref name="hWndChild"/> parameter is visible,
+        /// the system performs the appropriate redrawing and repainting.
+        /// For compatibility reasons, SetParent does not modify the <see cref="WS_CHILD"/> or <see cref="WS_POPUP"/> window styles
+        /// of the window whose parent is being changed.
+        /// Therefore, if <paramref name="hWndNewParent"/> is <see cref="IntPtr.Zero"/>,
+        /// you should also clear the <see cref="WS_CHILD"/> bit and set the <see cref="WS_POPUP"/> style after calling <see cref="SetParent"/>.
+        /// Conversely, if <paramref name="hWndNewParent"/> is not <see cref="IntPtr.Zero"/> and the window was previously a child of the desktop,
+        /// you should clear the <see cref="WS_POPUP"/> style and set the <see cref="WS_CHILD"/> style before calling <see cref="SetParent"/>.
+        /// When you change the parent of a window, you should synchronize the UISTATE of both windows.
+        /// For more information, see <see cref="WM_CHANGEUISTATE"/> and <see cref="WM_UPDATEUISTATE"/>.
+        /// Unexpected behavior or errors may occur if <paramref name="hWndNewParent"/> and <paramref name="hWndChild"/> are running
+        /// in different DPI awareness modes.
+        /// The table below outlines this behavior:
+        /// <see cref="SetParent"/> (In-Proc):
+        /// Windows 8.1: N/A
+        /// Windows 10 (1607 and earlier): Forced reset (of current process)
+        /// Windows 10 (1703 and later): Fail (<see cref="ERROR_INVALID_STATE"/>)
+        /// <see cref="SetParent"/> (Cross-Proc):
+        /// Windows 8.1: Forced reset (of child window's process)
+        /// Windows 10 (1607 and earlier): Forced reset (of child window's process)
+        /// Windows 10 (1703 and later): Forced reset (of child window's process)
+        /// For more information on DPI awareness, see the Windows High DPI documentation.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern IntPtr SetParent([In]IntPtr hWndChild, [In]IntPtr hWndNewParent);
 
         /// <summary>
         /// Changes an attribute of the specified window.

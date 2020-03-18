@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Comdlg32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -28,7 +30,7 @@ namespace Lsj.Util.Win32.Enums
         /// To limit font selections to all scripts except those that use the OEM or Symbol character sets, use <see cref="CF_SCRIPTSONLY"/>.
         /// To get the original <see cref="CF_ANSIONLY"/> behavior, use <see cref="CF_SELECTSCRIPT"/> and
         /// specify <see cref="ANSI_CHARSET"/> in the <see cref="LOGFONT.lfCharSet"/> member
-        /// of the <see cref="LOGFONT"/> structure pointed to by <see cref="lpLogFont"/>.
+        /// of the <see cref="LOGFONT"/> structure pointed to by <see cref="CHOOSEFONT.lpLogFont"/>.
         /// </summary>
         [Obsolete]
         CF_ANSIONLY = 0x00000400,
@@ -36,34 +38,34 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// This flag is ignored for font enumeration.
         /// Windows Vista and Windows XP/2000:  Causes the dialog box to list the available printer and screen fonts.
-        /// The <see cref="hDC"/> member is a handle to the device context or information context associated with the printer.
+        /// The <see cref="CHOOSEFONT.hDC"/> member is a handle to the device context or information context associated with the printer.
         /// This flag is a combination of the <see cref="CF_SCREENFONTS"/> and <see cref="CF_PRINTERFONTS"/> flags.
         /// </summary>
         CF_BOTH = 0x00000003,
 
         /// <summary>
         /// Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and text color options.
-        /// If this flag is set, you can use the <see cref="rgbColors"/> member to specify the initial text color.
-        /// You can use the <see cref="lfStrikeOut"/> and <see cref="lfUnderline"/> members of the structure pointed to
-        /// by <see cref="lpLogFont"/> to specify the initial settings of the strikeout and underline check boxes.
+        /// If this flag is set, you can use the <see cref="CHOOSEFONT.rgbColors"/> member to specify the initial text color.
+        /// You can use the <see cref="CHOOSEFONT.lfStrikeOut"/> and <see cref="CHOOSEFONT.lfUnderline"/> members of the structure pointed to
+        /// by <see cref="CHOOSEFONT.lpLogFont"/> to specify the initial settings of the strikeout and underline check boxes.
         /// <see cref="ChooseFont"/> can use these members to return the user's selections.
         /// </summary>
         CF_EFFECTS = 0x00000100,
 
         /// <summary>
-        /// Enables the hook procedure specified in the <see cref="lpfnHook"/> member of this structure.
+        /// Enables the hook procedure specified in the <see cref="CHOOSEFONT.lpfnHook"/> member of this structure.
         /// </summary>
         CF_ENABLEHOOK = 0x00000008,
 
         /// <summary>
-        /// Indicates that the <see cref="hInstance"/> and <see cref="lpTemplateName"/> members specify a dialog box template
+        /// Indicates that the <see cref="CHOOSEFONT.hInstance"/> and <see cref="CHOOSEFONT.lpTemplateName"/> members specify a dialog box template
         /// to use in place of the default template.
         /// </summary>
         CF_ENABLETEMPLATE = 0x00000010,
 
         /// <summary>
-        /// Indicates that the <see cref="hInstance"/> member identifies a data block that contains a preloaded dialog box template.
-        /// The system ignores the <see cref="lpTemplateName"/> member if this flag is specified.
+        /// Indicates that the <see cref="CHOOSEFONT.hInstance"/> member identifies a data block that contains a preloaded dialog box template.
+        /// The system ignores the <see cref="CHOOSEFONT.lpTemplateName"/> member if this flag is specified.
         /// </summary>
         CF_ENABLETEMPLATEHANDLE = 0x00000020,
 
@@ -84,12 +86,14 @@ namespace Lsj.Util.Win32.Enums
         CF_INACTIVEFONTS = 0x02000000,
 
         /// <summary>
-        /// <see cref="ChooseFont"/> should use the structure pointed to by the <see cref="lpLogFont"/> member to initialize the dialog box controls.
+        /// <see cref="ChooseFont"/> should use the structure pointed to
+        /// by the <see cref="CHOOSEFONT.lpLogFont"/> member to initialize the dialog box controls.
         /// </summary>
         CF_INITTOLOGFONTSTRUCT = 0x00000040,
 
         /// <summary>
-        /// <see cref="ChooseFont"/> should select only font sizes within the range specified by the <see cref="nSizeMin"/> and <see cref="nSizeMax"/> members.
+        /// <see cref="ChooseFont"/> should select only font sizes within the range specified by the <see cref="CHOOSEFONT.nSizeMin"/>
+        /// and <see cref="CHOOSEFONT.nSizeMax"/> members.
         /// </summary>
         CF_LIMITSIZE = 0x00002000,
 
@@ -107,7 +111,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Disables the Script combo box.
-        /// When this flag is set, the <see cref="lfCharSet"/> member of the <see cref="LOGFONT"/> structure
+        /// When this flag is set, the <see cref="LOGFONT.lfCharSet"/> member of the <see cref="LOGFONT"/> structure
         /// is set to <see cref="DEFAULT_CHARSET"/> when <see cref="ChooseFont"/> returns.
         /// This flag is used only to initialize the dialog box.
         /// </summary>
@@ -146,7 +150,7 @@ namespace Lsj.Util.Win32.Enums
         /// This flag is ignored for font enumeration.
         /// Windows Vista and Windows XP/2000:
         /// Causes the dialog box to list only the fonts supported by the printer associated with the device context or information context
-        /// identified by the <see cref="hDC"/> member.
+        /// identified by the <see cref="CHOOSEFONT.hDC"/> member.
         /// It also causes the font type description label to appear at the bottom of the Font dialog box.
         /// </summary>
         CF_PRINTERFONTS = 0x00000002,
@@ -170,7 +174,7 @@ namespace Lsj.Util.Win32.Enums
         CF_SCRIPTSONLY = 0x00000400,
 
         /// <summary>
-        /// When specified on input, only fonts with the character set identified in the <see cref="lfCharSet"/> member
+        /// When specified on input, only fonts with the character set identified in the <see cref="LOGFONT.lfCharSet"/> member
         /// of the <see cref="LOGFONT"/> structure are displayed.
         /// The user will not be allowed to change the character set specified in the Scripts combo box.
         /// </summary>
@@ -178,7 +182,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Causes the dialog box to display the Help button.
-        /// The <see cref="hwndOwner"/> member must specify the window to receive the <see cref="HELPMSGSTRING"/> registered messages
+        /// The <see cref="CHOOSEFONT.hwndOwner"/> member must specify the window to receive the <see cref="HELPMSGSTRING"/> registered messages
         /// that the dialog box sends when the user clicks the Help button.
         /// </summary>
         CF_SHOWHELP = 0x00000004,
@@ -189,11 +193,11 @@ namespace Lsj.Util.Win32.Enums
         CF_TTONLY = 0x00040000,
 
         /// <summary>
-        /// The <see cref="lpszStyle"/> member is a pointer to a buffer that contains style data
+        /// The <see cref="CHOOSEFONT.lpszStyle"/> member is a pointer to a buffer that contains style data
         /// that <see cref="ChooseFont"/> should use to initialize the Font Style combo box.
         /// When the user closes the dialog box, ChooseFont copies style data for the user's selection to this buffer.
-        /// To globalize your application, you should specify the style by using the <see cref="lfWeight"/> and <see cref="lfItalic"/> members
-        /// of the <see cref="LOGFONT"/> structure pointed to by <see cref="lpLogFont"/>.
+        /// To globalize your application, you should specify the style by using the <see cref="LOGFONT.lfWeight"/>
+        /// and <see cref="LOGFONT.lfItalic"/> members of the <see cref="LOGFONT"/> structure pointed to by <see cref="CHOOSEFONT.lpLogFont"/>.
         /// The style name may change depending on the system user interface language.
         /// </summary>
         CF_USESTYLE = 0x00000080,
@@ -202,7 +206,8 @@ namespace Lsj.Util.Win32.Enums
         /// Obsolete. <see cref="ChooseFont"/> ignores this flag.
         /// Windows Vista and Windows XP/2000:
         /// <see cref="ChooseFont"/> should allow only the selection of fonts available on both the printer and the display.
-        /// If this flag is specified, the <see cref="CF_SCREENSHOTS"/> and <see cref="CF_PRINTERFONTS"/>, or <see cref="CF_BOTH"/> flags should also be specified.
+        /// If this flag is specified, the CF_SCREENSHOTS and <see cref="CF_PRINTERFONTS"/>, or <see cref="CF_BOTH"/> flags
+        /// should also be specified.
         /// </summary>
         [Obsolete]
         CF_WYSIWYG = 0x00008000,

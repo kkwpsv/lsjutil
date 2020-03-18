@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,6 +12,53 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Ole32
     {
+        /// <summary>
+        /// Locates an object by means of its moniker, activates the object if it is inactive,
+        /// and retrieves a pointer to the specified interface on that object.
+        /// </summary>
+        /// <param name="pmk">
+        /// A pointer to the object's moniker. See <see cref="IMoniker"/>.
+        /// </param>
+        /// <param name="grfOpt">
+        /// This parameter is reserved for future use and must be 0.
+        /// </param>
+        /// <param name="iidResult">
+        /// The interface identifier to be used to communicate with the object.
+        /// </param>
+        /// <param name="ppvResult">
+        /// The address of pointer variable that receives the interface pointer requested in <paramref name="iidResult"/>.
+        /// Upon successful return, <paramref name="ppvResult"/> contains the requested interface pointer.
+        /// If an error occurs, <paramref name="ppvResult"/> is <see langword="null"/>.
+        /// If the call is successful, the caller is responsible for releasing the pointer with a call to the object's IUnknown::Release method.
+        /// </param>
+        /// <returns>
+        /// This function can return the following error codes, or any of the error values returned by the <see cref="IMoniker.BindToObject"/> method.
+        /// <see cref="S_OK"/>: The object was located and activated, if necessary, and a pointer to the requested interface was returned.
+        /// <see cref="MK_E_NOOBJECT"/>: The object that the moniker object identified could not be found.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="BindMoniker"/> is a helper function supplied as a convenient way for a client that has the moniker of an object
+        /// to obtain a pointer to one of that object's interfaces. <see cref="BindMoniker"/> packages the following calls:
+        /// <code>
+        /// CreateBindCtx(0, &amp;pbc); 
+        /// pmk-&gt;BindToObject(pbc, NULL, riid, ppvObj);
+        /// </code>
+        /// <see cref="CreateBindCtx"/> creates a bind context object that supports the system implementation of <see cref="IBindContext"/>.
+        /// The <paramref name="pmk"/> parameter is actually a pointer to the <see cref="IMoniker"/> implementation on a moniker object
+        /// This implementation's <see cref="IMoniker.BindToObject"/> method supplies the pointer to the requested interface pointer.
+        /// If you have several monikers to bind in quick succession and if you know that those monikers will activate the same object,
+        /// it may be more efficient to call the <see cref="IMoniker.BindToObject"/> method directly,
+        /// which enables you to use the same bind context object for all the monikers.
+        /// See the <see cref="IBindCtx"/> interface for more information.
+        /// Container applications that allow their documents to contain linked objects are a special client
+        /// that generally does not make direct calls to <see cref="IMoniker"/> methods.
+        /// Instead, the client manipulates the linked objects through the <see cref="IOleLink"/> interface.
+        /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", SetLastError = true)]
+        public static extern HRESULT BindMoniker([In]IMoniker pmk, [In]uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In]Guid iidResult,
+            [MarshalAs(UnmanagedType.IUnknown)][Out]object ppvResult);
+
         /// <summary>
         /// <para>
         /// Creates a single uninitialized object of the class associated with a specified CLSID.
@@ -80,7 +128,7 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves a pointer to the default OLE task memory allocator (which supports the system implementation of the IMalloc interface)
+        /// Retrieves a pointer to the default OLE task memory allocator (which supports the system implementation of the <see cref="IMalloc"/> interface)
         /// so applications can call its methods to manage memory.
         /// </para>
         /// <para>

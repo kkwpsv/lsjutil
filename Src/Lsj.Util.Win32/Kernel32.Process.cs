@@ -1402,6 +1402,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process affinity mask for the specified process and the system affinity mask for the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getprocessaffinitymask
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose affinity mask is desired.
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP:  The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="lpProcessAffinityMask">
+        /// A pointer to a variable that receives the affinity mask for the specified process.
+        /// </param>
+        /// <param name="lpSystemAffinityMask">
+        /// A pointer to a variable that receives the affinity mask for the system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/> and the function sets the variables pointed to
+        /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> to the appropriate affinity masks.
+        /// On a system with more than 64 processors, if the threads of the calling process are in a single processor group,
+        /// the function sets the variables pointed to by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/>
+        /// to the process affinity mask and the processor mask of active logical processors for that group.
+        /// If the calling process contains threads in multiple groups, the function returns zero for both affinity masks.
+        /// If the function fails, the return value is <see langword="false"/>, and the values of the variables pointed to
+        /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
+        /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessAffinityMask([In]IntPtr hProcess, [Out]UIntPtr lpProcessAffinityMask, [Out]UIntPtr lpSystemAffinityMask);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the process identifier of the specified process.
         /// </para>
         /// <para>
@@ -1474,6 +1509,35 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", SetLastError = true)]
         public static extern uint GetProcessImageFileName([In]IntPtr hProcess, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpImageFileName,
             [In]uint nSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the priority boost control state of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getprocesspriorityboost
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// Windows Server 2003 and Windows XP: The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// </param>
+        /// <param name="pDisablePriorityBoost">
+        /// A pointer to a variable that receives the priority boost control state.
+        /// A value of <see langword="true"/> indicates that dynamic boosting is disabled.
+        /// A value of <see langword="false"/> indicates normal behavior.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// In that case, the variable pointed to by the <paramref name="pDisablePriorityBoost"/> parameter receives the priority boost control state.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetProcessPriorityBoost([In]IntPtr hProcess, [Out]out bool pDisablePriorityBoost);
 
         /// <summary>
         /// <para>
@@ -1822,6 +1886,82 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetPriorityClass([In]int hProcess, [In]ProcessPriorityClasses dwPriorityClass);
+
+        /// <summary>
+        /// <para>
+        /// Sets a processor affinity mask for the threads of the specified process.
+        /// </para>
+        /// <para>
+        /// https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose affinity mask is to be set.
+        /// This handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwProcessAffinityMask">
+        /// The affinity mask for the threads of the process.
+        /// On a system with more than 64 processors, the affinity mask must specify processors in a single processor group.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the process affinity mask requests a processor that is not configured in the system, the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// On a system with more than 64 processors, if the calling process contains threads in more than one processor group,
+        /// the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process affinity mask is a bit vector in which each bit represents a logical processor on which the threads of the process are allowed to run.
+        /// The value of the process affinity mask must be a subset of the system affinity mask values obtained
+        /// by the <see cref="GetProcessAffinityMask"/> function.
+        /// A process is only allowed to run on the processors configured into a system.
+        /// Therefore, the process affinity mask cannot specify a 1 bit for a processor when the system affinity mask specifies a 0 bit for that processor.
+        /// Process affinity is inherited by any child process or newly instantiated local process.
+        /// Do not call <see cref="SetProcessAffinityMask"/> in a DLL that may be called by processes other than your own.
+        /// On a system with more than 64 processors, the <see cref="SetProcessAffinityMask"/> function can be used to set the process affinity mask only
+        /// for processes with threads in a single processor group.
+        /// Use the <see cref="SetThreadAffinityMask"/> function to set the affinity mask for individual threads in multiple groups.
+        /// This effectively changes the group assignment of the process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetProcessAffinityMask([In]IntPtr hProcess, [In]UIntPtr dwProcessAffinityMask);
+
+        /// <summary>
+        /// <para>
+        /// Disables or enables the ability of the system to temporarily boost the priority of the threads of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setprocesspriorityboost
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// This handle must have the <see cref="PROCESS_SET_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="bDisablePriorityBoost">
+        /// If this parameter is <see langword="true"/>, dynamic boosting is disabled.
+        /// If the parameter is <see langword="false"/>, dynamic boosting is enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a thread is running in one of the dynamic priority classes,
+        /// the system temporarily boosts the thread's priority when it is taken out of a wait state.
+        /// If <see cref="SetProcessPriorityBoost"/> is called with the <paramref name="bDisablePriorityBoost"/> parameter set to <see langword="true"/>,
+        /// its threads' priorities are not boosted.
+        /// This setting affects all existing threads and any threads subsequently created by the process.
+        /// To restore normal behavior, call <see cref="SetProcessPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetProcessPriorityBoost([In]IntPtr hProcess, [In]bool bDisablePriorityBoost);
 
         /// <summary>
         /// <para>

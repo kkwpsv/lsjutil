@@ -1,5 +1,4 @@
-﻿using Lsj.Util.Win32.Structs;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 
@@ -7,8 +6,8 @@ namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// <para>
-    /// Enables clients to get pointers to other interfaces on a given object through the <see cref="QueryInterface"/> method,
-    /// and manage the existence of the object through the <see cref="AddRef"/> and <see cref="Release"/> methods.
+    /// Enables clients to get pointers to other interfaces on a given object through the QueryInterface method,
+    /// and manage the existence of the object through the AddRef and Release methods.
     /// All other COM interfaces are inherited, directly or indirectly, from <see cref="IUnknown"/>.
     /// Therefore, the three methods in <see cref="IUnknown"/> are the first entries in the vtable for every interface.
     /// </para>

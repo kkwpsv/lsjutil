@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.NativeUI
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = hInstance,
-                hIcon = LoadIcon(hInstance, SystemIcons.IDI_APPLICATION),
+                hIcon = LoadIcon(IntPtr.Zero, SystemIcons.IDI_APPLICATION),
                 hCursor = LoadCursor(IntPtr.Zero, SystemCursors.IDC_ARROW),
                 hbrBackground = (IntPtr)BackgroundColors.COLOR_WINDOW,
                 lpszMenuName = IntPtr.Zero,
