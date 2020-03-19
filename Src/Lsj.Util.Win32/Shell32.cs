@@ -5,7 +5,8 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
-using static Lsj.Util.Win32.Structs.HRESULT;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using Lsj.Util.Win32.BaseTypes;
 
 namespace Lsj.Util.Win32
 {
