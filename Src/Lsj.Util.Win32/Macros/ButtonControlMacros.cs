@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -161,7 +162,7 @@ namespace Lsj.Util.Win32.Macros
         /// <remarks>
         /// The macro expands to a call to <see cref="GetWindowText"/>.
         /// </remarks>
-        public static int Button_GetText(IntPtr hwndCtl, StringBuilder lpch, int cchMax) => GetWindowText(hwndCtl, lpch, cchMax);
+        public static int Button_GetText(HWND hwndCtl, StringBuilder lpch, int cchMax) => GetWindowText(hwndCtl, lpch, cchMax);
 
         /// <summary>
         /// Gets the margins used to draw text in a button control.

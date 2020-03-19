@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
@@ -16,9 +16,9 @@ namespace Lsj.Util.Win32.Extensions
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>
         /// </summary>
         /// <returns></returns>
-        public static IntPtr[] GetAllTopLevelWindowHandle()
+        public static HWND[] GetAllTopLevelWindowHandle()
         {
-            var result = new List<IntPtr>();
+            var result = new List<HWND>();
             EnumWindows((handle, _) =>
             {
                 result.Add(handle);
@@ -32,9 +32,9 @@ namespace Lsj.Util.Win32.Extensions
         /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>
         /// </summary>
         /// <returns></returns>
-        public static (IntPtr WindowHandle, string Text)[] GetAllTopLevelWindowHandleWithText()
+        public static (HWND WindowHandle, string Text)[] GetAllTopLevelWindowHandleWithText()
         {
-            var result = new List<(IntPtr, string)>();
+            var result = new List<(HWND, string)>();
             EnumWindows((handle, _) =>
             {
                 SetLastError(0);
