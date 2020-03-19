@@ -5,14 +5,14 @@ namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// <para>
-    /// A handle to a window.
+    /// A handle to a menu.
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HWND
+    public struct HMENU
     {
         private HANDLE _value;
 
@@ -23,24 +23,24 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HANDLE(HWND val) => val._value;
+        public static implicit operator HANDLE(HMENU val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HWND(HANDLE val) => new HWND { _value = val };
+        public static implicit operator HMENU(HANDLE val) => new HMENU { _value = val };
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(HWND val) => val._value;
+        public static implicit operator IntPtr(HMENU val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HWND(IntPtr val) => new HWND { _value = val };
+        public static implicit operator HMENU(IntPtr val) => new HMENU { _value = val };
     }
 }

@@ -416,8 +416,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Static Controls.
         /// For a table of the static control styles you can specify in the <paramref name="dwStyle"/> parameter, see Static Control Styles.
         /// </remarks>
-        public static IntPtr CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
-            int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam) =>
+        public static HWND CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
+            int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam) =>
             CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 
         /// <summary>
@@ -524,9 +524,9 @@ namespace Lsj.Util.Win32
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", SetLastError = true)]
-        public static extern IntPtr CreateWindowEx([In]WindowStylesEx dwExStyle, [In]StringHandle lpClassName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName, [In]WindowStyles dwStyle, [In]int x, [In]int y, [In]int nWidth, [In]int nHeight,
-            [In]IntPtr hWndParent, [In]IntPtr hMenu, [In]IntPtr hInstance, [In]IntPtr lpParam);
+        public static extern HWND CreateWindowEx([In]WindowStylesEx dwExStyle, [In]StringHandle lpClassName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName, [In]WindowStyles dwStyle, [In]int x, [In]int y, [In]int nWidth, [In]int nHeight,
+            [In]HWND hWndParent, [In]HMENU hMenu, [In]HINSTANCE hInstance, [In]LPVOID lpParam);
 
         /// <summary>
         /// <para>

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -14,12 +15,12 @@ namespace Lsj.Util.Win32.NativeUI
     /// </summary>
     public class Win32Window
     {
-        private readonly IntPtr _window;
+        private readonly HWND _window;
 
         /// <summary>
         /// Window Handle
         /// </summary>
-        public IntPtr Handle => _window;
+        public HWND Handle => _window;
 
         /// <summary>
         /// 
