@@ -83,6 +83,6 @@ namespace Lsj.Util.Win32.Marshals
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public T4 Struct3;
+        public T4 Struct4;
     }
 }
