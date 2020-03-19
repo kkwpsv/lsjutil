@@ -806,67 +806,6 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TryEnterCriticalSection([In][Out]ref CRITICAL_SECTION lpCriticalSection);
 
-        /// <summary>
-        /// <para>
-        /// Waits until the specified object is in the signaled state or the time-out interval elapses.
-        /// To enter an alertable wait state, use the <see cref="WaitForSingleObjectEx"/> function.
-        /// To wait for multiple objects, use <see cref="WaitForMultipleObjects"/>.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject
-        /// </para>
-        /// </summary>
-        /// <param name="hHandle">
-        /// A handle to the object.
-        /// For a list of the object types whose handles can be specified, see the following Remarks section.
-        /// If this handle is closed while the wait is still pending, the function's behavior is undefined.
-        /// The handle must have the <see cref="SYNCHRONIZE"/> access right.
-        /// For more information, see Standard Access Rights.
-        /// </param>
-        /// <param name="dwMilliseconds">
-        /// The time-out interval, in milliseconds.
-        /// If a nonzero value is specified, the function waits until the object is signaled or the interval elapses.
-        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the object is not signaled; it always returns immediately.
-        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only when the object is signaled.
-        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008 and Windows Server 2008 R2:
-        /// The <paramref name="dwMilliseconds"/> value does include time spent in low-power states.
-        /// For example, the timeout does keep counting down while the computer is asleep.
-        /// Windows 8, Windows Server 2012, Windows 8.1, Windows Server 2012 R2, Windows 10 and Windows Server 2016:
-        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
-        /// For example, the timeout does not keep counting down while the computer is asleep.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value indicates the event that caused the function to return.
-        /// It can be one of the following values.
-        /// <see cref="WAIT_ABANDONED"/>:
-        /// The specified object is a mutex object that was not released by the thread that owned the mutex object before the owning thread terminated.
-        /// Ownership of the mutex object is granted to the calling thread and the mutex state is set to nonsignaled.
-        /// If the mutex was protecting persistent state information, you should check it for consistency.
-        /// <see cref="WAIT_OBJECT_0"/>:
-        /// The state of the specified object is signaled.
-        /// <see cref="WAIT_TIMEOUT"/>:
-        /// The time-out interval elapsed, and the object's state is nonsignaled.
-        /// <see cref="WAIT_FAILED"/>:
-        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="WaitForSingleObject"/> function checks the current state of the specified object.
-        /// If the object's state is nonsignaled, the calling thread enters the wait state until the object is signaled or the time-out interval elapses.
-        /// The function modifies the state of some types of synchronization objects.
-        /// Modification occurs only for the object whose signaled state caused the function to return.
-        /// For example, the count of a semaphore object is decreased by one.
-        /// The <see cref="WaitForSingleObject"/> function can wait for the following objects:
-        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
-        /// Use caution when calling the wait functions and code that directly or indirectly creates windows.
-        /// If a thread creates any windows, it must process messages.
-        /// Message broadcasts are sent to all windows in the system.
-        /// A thread that uses a wait function with no time-out interval may cause the system to become deadlocked.
-        /// Two examples of code that indirectly creates windows are DDE and the <see cref="CoInitialize"/> function.
-        /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
-        /// rather than <see cref="WaitForSingleObject"/>.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", SetLastError = true)]
-        public static extern uint WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -963,6 +902,245 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjects", SetLastError = true)]
         public static extern uint WaitForMultipleObjects([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
             [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds);
+
+        /// <summary>
+        /// <para>
+        /// Waits until one or all of the specified objects are in the signaled state,
+        /// an I/O completion routine or asynchronous procedure call (APC) is queued to the thread, or the time-out interval elapses.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitformultipleobjectsex
+        /// </para>
+        /// </summary>
+        /// <param name="nCount">
+        /// The number of object handles in the array pointed to by <paramref name="lpHandles"/>.
+        /// The maximum number of object handles is <see cref="MAXIMUM_WAIT_OBJECTS"/>.
+        /// This parameter cannot be zero.
+        /// </param>
+        /// <param name="lpHandles">
+        /// An array of object handles.
+        /// For a list of the object types whose handles can be specified, see the following Remarks section.
+        /// The array can contain handles to objects of different types.
+        /// It may not contain multiple copies of the same handle.
+        /// If one of these handles is closed while the wait is still pending, the function's behavior is undefined.
+        /// The handles must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </param>
+        /// <param name="bWaitAll">
+        /// If this parameter is <see langword="true"/>, the function returns when the state of all objects
+        /// in the <paramref name="lpHandles"/> array is signaled.
+        /// If <see langword="false"/>, the function returns when the state of any one of the objects is set to signaled.
+        /// In the latter case, the return value indicates the object whose state caused the function to return.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If a nonzero value is specified, the function waits until the specified objects are signaled or the interval elapses.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the specified objects are not signaled;
+        /// it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only when the specified objects are signaled.
+        /// </param>
+        /// <param name="bAlertable">
+        /// If this parameter is <see langword="true"/> and the thread is in the waiting state,
+        /// the function returns when the system queues an I/O completion routine or APC, and the thread runs the routine or function.
+        /// Otherwise, the function does not return and the completion routine or APC function is not executed.
+        /// A completion routine is queued when the ReadFileEx or WriteFileEx function in which it was specified has completed.
+        /// The wait function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>
+        /// and the calling thread is the thread that initiated the read or write operation.
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value indicates the event that caused the function to return.
+        /// It can be one of the following values.
+        /// (Note that <see cref="WAIT_OBJECT_0"/> is defined as 0 and <see cref="WAIT_ABANDONED_0"/> is defined as 0x00000080L.)
+        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>– 1):
+        /// If <paramref name="bWaitAll"/> is <see langword="true"/>, the return value indicates that the state of all specified objects is signaled.
+        /// If <paramref name="bWaitAll"/> is <see langword="false"/>, the return value minus <see cref="WAIT_OBJECT_0"/>
+        /// indicates the <paramref name="lpHandles"/> array index of the object that satisfied the wait.
+        /// If more than one object became signaled during the call,
+        /// this is the array index of the signaled object with the smallest index value of all the signaled objects.
+        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0 "/> + <paramref name="nCount"/>– 1):
+        /// If <paramref name="bWaitAll"/> is <see langword="true"/>, the return value indicates that the state of all specified objects is
+        /// signaled and at least one of the objects is an abandoned mutex object.
+        /// If <paramref name="bWaitAll"/> is <see langword="false"/>, the return value minus <see cref="WAIT_ABANDONED_0"/> indicates
+        /// the <paramref name="lpHandles"/> array index of an abandoned mutex object that satisfied the wait.
+        /// Ownership of the mutex object is granted to the calling thread, and the mutex is set to nonsignaled.
+        /// If a mutex was protecting persistent state information, you should check it for consistency.
+        /// <see cref="WAIT_TIMEOUT"/>:
+        /// The time-out interval elapsed and the conditions specified by the <paramref name="bWaitAll"/> parameter are not satisfied.
+        /// <see cref="WAIT_FAILED"/>:
+        /// The function has failed.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WaitForMultipleObjectsEx"/> function determines whether the wait criteria have been met.
+        /// If the criteria have not been met, the calling thread enters the wait state until the conditions of the wait criteria
+        /// have been met or the time-out interval elapses.
+        /// When <paramref name="bWaitAll"/> is <see langword="true"/>, the function's wait operation is completed only
+        /// when the states of all objects have been set to signaled.
+        /// The function does not modify the states of the specified objects until the states of all objects have been set to signaled.
+        /// For example, a mutex can be signaled, but the thread does not get ownership until the states of the other objects are also set to signaled.
+        /// In the meantime, some other thread may get ownership of the mutex, thereby setting its state to nonsignaled.
+        /// When <paramref name="bWaitAll"/> is <see langword="false"/>, this function checks the handles in the array in order starting with index 0,
+        /// until one of the objects is signaled.
+        /// If multiple objects become signaled, the function returns the index of the first handle in the array whose object was signaled.
+        /// The function modifies the state of some types of synchronization objects.
+        /// Modification occurs only for the object or objects whose signaled state caused the function to return.
+        /// For example, the count of a semaphore object is decreased by one.
+        /// For more information, see the documentation for the individual synchronization objects.
+        /// To wait on more than <see cref="MAXIMUM_WAIT_OBJECTS"/> handles, use one of the following methods:
+        /// Create a thread to wait on <see cref="MAXIMUM_WAIT_OBJECTS"/> handles, then wait on that thread plus the other handles.
+        /// Use this technique to break the handles into groups of <see cref="MAXIMUM_WAIT_OBJECTS"/>.
+        /// Call <see cref="RegisterWaitForSingleObject"/> to wait on each handle.
+        /// A wait thread from the thread pool waits on <see cref="MAXIMUM_WAIT_OBJECTS"/> registered objects and assigns a worker thread
+        /// after the object is signaled or the time-out interval expires.
+        /// The <see cref="WaitForMultipleObjectsEx"/> function can specify handles of any of the following object types
+        /// in the <paramref name="lpHandles"/> array:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer.
+        /// Use caution when calling the wait functions and code that directly or indirectly creates windows.
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// A thread that uses a wait function with no time-out interval may cause the system to become deadlocked.
+        /// Two examples of code that indirectly creates windows are DDE and the <see cref="CoInitialize"/> function.
+        /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
+        /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjectsEx"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", SetLastError = true)]
+        public static extern uint WaitForMultipleObjectsEx([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
+            [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds, [In]bool bAlertable);
+
+        /// <summary>
+        /// <para>
+        /// Waits until the specified object is in the signaled state or the time-out interval elapses.
+        /// To enter an alertable wait state, use the <see cref="WaitForSingleObjectEx"/> function.
+        /// To wait for multiple objects, use <see cref="WaitForMultipleObjects"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject
+        /// </para>
+        /// </summary>
+        /// <param name="hHandle">
+        /// A handle to the object.
+        /// For a list of the object types whose handles can be specified, see the following Remarks section.
+        /// If this handle is closed while the wait is still pending, the function's behavior is undefined.
+        /// The handle must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If a nonzero value is specified, the function waits until the object is signaled or the interval elapses.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the object is not signaled; it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only when the object is signaled.
+        /// Windows XP, Windows Server 2003, Windows Vista, Windows 7, Windows Server 2008 and Windows Server 2008 R2:
+        /// The <paramref name="dwMilliseconds"/> value does include time spent in low-power states.
+        /// For example, the timeout does keep counting down while the computer is asleep.
+        /// Windows 8, Windows Server 2012, Windows 8.1, Windows Server 2012 R2, Windows 10 and Windows Server 2016:
+        /// The <paramref name="dwMilliseconds"/> value does not include time spent in low-power states.
+        /// For example, the timeout does not keep counting down while the computer is asleep.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value indicates the event that caused the function to return.
+        /// It can be one of the following values.
+        /// <see cref="WAIT_ABANDONED"/>:
+        /// The specified object is a mutex object that was not released by the thread that owned the mutex object before the owning thread terminated.
+        /// Ownership of the mutex object is granted to the calling thread and the mutex state is set to nonsignaled.
+        /// If the mutex was protecting persistent state information, you should check it for consistency.
+        /// <see cref="WAIT_OBJECT_0"/>:
+        /// The state of the specified object is signaled.
+        /// <see cref="WAIT_TIMEOUT"/>:
+        /// The time-out interval elapsed, and the object's state is nonsignaled.
+        /// <see cref="WAIT_FAILED"/>:
+        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WaitForSingleObject"/> function checks the current state of the specified object.
+        /// If the object's state is nonsignaled, the calling thread enters the wait state until the object is signaled or the time-out interval elapses.
+        /// The function modifies the state of some types of synchronization objects.
+        /// Modification occurs only for the object whose signaled state caused the function to return.
+        /// For example, the count of a semaphore object is decreased by one.
+        /// The <see cref="WaitForSingleObject"/> function can wait for the following objects:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
+        /// Use caution when calling the wait functions and code that directly or indirectly creates windows.
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// A thread that uses a wait function with no time-out interval may cause the system to become deadlocked.
+        /// Two examples of code that indirectly creates windows are DDE and the <see cref="CoInitialize"/> function.
+        /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or <see cref="MsgWaitForMultipleObjectsEx"/>,
+        /// rather than <see cref="WaitForSingleObject"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", SetLastError = true)]
+        public static extern uint WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
+
+        /// <summary>
+        /// <para>
+        /// Waits until the specified object is in the signaled state,
+        /// an I/O completion routine or asynchronous procedure call (APC) is queued to the thread, or the time-out interval elapses.
+        /// To wait for multiple objects, use the WaitForMultipleObjectsEx.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobjectex
+        /// </para>
+        /// </summary>
+        /// <param name="hHandle">
+        /// A handle to the object. 
+        /// For a list of the object types whose handles can be specified, see the following Remarks section.
+        /// If this handle is closed while the wait is still pending, the function's behavior is undefined.
+        /// The handle must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If a nonzero value is specified, the function waits until the object is signaled,
+        /// an I/O completion routine or APC is queued, or the interval elapses.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the criteria is not met;
+        /// it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>,
+        /// the function will return only when the object is signaled or an I/O completion routine or APC is queued.
+        /// </param>
+        /// <param name="bAlertable">
+        /// If this parameter is <see langword="true"/> and the thread is in the waiting state,
+        /// the function returns when the system queues an I/O completion routine or APC, and the thread runs the routine or function.
+        /// Otherwise, the function does not return, and the completion routine or APC function is not executed.
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed.
+        /// The wait function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>,
+        /// and the calling thread is the thread that initiated the read or write operation.
+        /// An APC is queued when you call <see cref="QueueUserAPC"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value indicates the event that caused the function to return.
+        /// It can be one of the following values.
+        /// <see cref="WAIT_ABANDONED"/>:
+        /// The specified object is a mutex object that was not released by the thread that owned the mutex object before the owning thread terminated.
+        /// Ownership of the mutex object is granted to the calling thread and the mutex is set to nonsignaled.
+        /// If the mutex was protecting persistent state information, you should check it for consistency.
+        /// <see cref="WAIT_IO_COMPLETION"/>:
+        /// The wait was ended by one or more user-mode asynchronous procedure calls (APC) queued to the thread.
+        /// <see cref="WAIT_OBJECT_0"/>:
+        /// The state of the specified object is signaled.
+        /// <see cref="WAIT_TIMEOUT"/>:
+        /// The time-out interval elapsed, and the object's state is nonsignaled.
+        /// <see cref="WAIT_FAILED"/>:
+        /// The function has failed.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WaitForSingleObjectEx"/> function determines whether the wait criteria have been met.
+        /// If the criteria have not been met, the calling thread enters the wait state until the conditions of the wait criteria
+        /// have been met or the time-out interval elapses.
+        /// The function modifies the state of some types of synchronization objects.
+        /// Modification occurs only for the object whose signaled state caused the function to return.
+        /// For example, the count of a semaphore object is decreased by one.
+        /// The WaitForSingleObjectEx function can wait for the following objects:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
+        /// Use caution when calling the wait functions and code that directly or indirectly creates windows.
+        /// If a thread creates any windows, it must process messages.
+        /// Message broadcasts are sent to all windows in the system.
+        /// A thread that uses a wait function with no time-out interval may cause the system to become deadlocked.
+        /// Two examples of code that indirectly creates windows are DDE and the <see cref="CoInitialize"/> function.
+        /// Therefore, if you have a thread that creates windows, use <see cref="MsgWaitForMultipleObjects"/> or
+        /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForSingleObjectEx"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObjectEx", SetLastError = true)]
+        public static extern uint WaitForSingleObjectEx([In]IntPtr hHandle, [In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
         /// <para>
