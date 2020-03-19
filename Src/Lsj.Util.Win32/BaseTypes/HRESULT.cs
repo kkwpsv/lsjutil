@@ -3,7 +3,17 @@
 namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
-    /// HRESULT
+    /// <para>
+    /// An <see cref="HRESULT"/> is a 32-bit value that is used to describe an error or warning and contains the following fields:
+    /// A 1-bit code that indicates severity, where 0 represents success and 1 represents failure.
+    /// A 4-bit reserved value.
+    /// An 11-bit code, also known as a facility code, that indicates responsibility for the error or warning.
+    /// A 16-bit code that describes the error or warning.
+    /// For details on HRESULT values, see [MS-ERREF].
+    /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct HRESULT
@@ -16,17 +26,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <summary>
         /// CACHE_S_FORMATETC_NOTSUPPORTED
         /// </summary>
-        public static readonly HRESULT CACHE_S_FORMATETC_NOTSUPPORTED = new HRESULT { _value = unchecked((int)0x00040170) };
+        public static readonly HRESULT CACHE_S_FORMATETC_NOTSUPPORTED = new HRESULT { _value = 0x00040170 };
 
         /// <summary>
         /// CACHE_S_SAMECACHE
         /// </summary>
-        public static readonly HRESULT CACHE_S_SAMECACHE = new HRESULT { _value = unchecked((int)0x00040171) };
+        public static readonly HRESULT CACHE_S_SAMECACHE = new HRESULT { _value = 0x00040171 };
 
         /// <summary>
         /// CACHE_S_SOMECACHES_NOTUPDATED
         /// </summary>
-        public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { _value = unchecked((int)0x00040172) };
+        public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { _value = 0x00040172 };
 
         /// <summary>
         /// E_OUTOFMEMORY
