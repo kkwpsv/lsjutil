@@ -8,7 +8,7 @@ using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
 using static Lsj.Util.Win32.Enums.SIGDN;
 using static Lsj.Util.Win32.Ole32;
-using static Lsj.Util.Win32.Structs.HRESULT;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 
 namespace Lsj.Util.Win32.NativeUI.Dialogs
 {
