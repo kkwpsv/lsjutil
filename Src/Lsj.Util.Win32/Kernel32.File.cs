@@ -2603,6 +2603,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Posts an I/O completion packet to an I/O completion port.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/fileio/postqueuedcompletionstatus
+        /// </para>
+        /// </summary>
+        /// <param name="CompletionPort">
+        /// A handle to an I/O completion port to which the I/O completion packet is to be posted.
+        /// </param>
+        /// <param name="dwNumberOfBytesTransferred">
+        /// The value to be returned through the lpNumberOfBytesTransferred parameter of the <see cref="GetQueuedCompletionStatus"/> function.
+        /// </param>
+        /// <param name="dwCompletionKey">
+        /// The value to be returned through the lpCompletionKey parameter of the <see cref="GetQueuedCompletionStatus"/> function.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// The value to be returned through the <paramref name="lpOverlapped"/> parameter of the <see cref="GetQueuedCompletionStatus"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The I/O completion packet will satisfy an outstanding call to the <see cref="GetQueuedCompletionStatus"/> function.
+        /// This function returns with the three values passed as the second, third,
+        /// and fourth parameters of the call to <see cref="PostQueuedCompletionStatus"/>.
+        /// The system does not use or validate these values.
+        /// In particular, the <paramref name="lpOverlapped"/> parameter need not point to an <see cref="OVERLAPPED"/> structure.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQueuedCompletionStatus", SetLastError = true)]
+        public static extern BOOL PostQueuedCompletionStatus([In]HANDLE CompletionPort, [In]DWORD dwNumberOfBytesTransferred,
+            [In]ULONG_PTR dwCompletionKey, [In][Out]ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
         /// Sets the file information for the specified file.
         /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
         /// </para>
