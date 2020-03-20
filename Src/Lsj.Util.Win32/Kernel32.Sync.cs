@@ -722,9 +722,9 @@ namespace Lsj.Util.Win32
         /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function's time-out interval never elapses.
         /// </param>
         /// <param name="bAlertable">
-        /// If this parameter is <see langword="true"/>, the function returns when the system queues an I/O completion routine or APC function,
+        /// If this parameter is <see cref="BOOL.TRUE"/>, the function returns when the system queues an I/O completion routine or APC function,
         /// and the thread calls the function.
-        /// If <see langword="false"/>, the function does not return, and the thread does not call the completion routine or APC function.
+        /// If <see cref="BOOL.FALSE"/>, the function does not return, and the thread does not call the completion routine or APC function.
         /// A completion routine is queued when the function call that queued the APC has completed.
         /// This function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>,
         /// and the calling thread is the thread that queued the APC.
@@ -785,7 +785,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", SetLastError = true)]
-        public static extern uint SignalObjectAndWait([In]IntPtr hObjectToSignal, [In]IntPtr hObjectToWaitOn, [In]uint dwMilliseconds, [In]bool bAlertable);
+        public static extern DWORD SignalObjectAndWait([In]HANDLE hObjectToSignal, [In]HANDLE hObjectToWaitOn, [In]DWORD dwMilliseconds, [In]BOOL bAlertable);
 
         /// <summary>
         /// <para>
