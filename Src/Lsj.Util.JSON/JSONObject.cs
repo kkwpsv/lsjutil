@@ -24,8 +24,6 @@ namespace Lsj.Util.JSON
             this.data[name] = value;
         }
 
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -40,10 +38,21 @@ namespace Lsj.Util.JSON
                 result = this.data[name];
                 return true;
             }
-            else
+
+            // IgnoreCase
+            if (binder.IgnoreCase)
             {
-                return base.TryGetMember(binder, out result);
+                foreach (var keyValuePair in data)
+                {
+                    if (keyValuePair.Key.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        result = keyValuePair.Value;
+                        return true;
+                    }
+                }
             }
+
+            return base.TryGetMember(binder, out result);
         }
         /// <summary>
         /// 
