@@ -1,13 +1,13 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
-using System.Runtime;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", SetLastError = true)]
-        public static extern uint GetSystemDirectory([Out]StringBuilder lpBuffer, [In]uint uSize);
+        public static extern UINT GetSystemDirectory([Out]StringBuilder lpBuffer, [In]UINT uSize);
 
         /// <summary>
         /// <para>
@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("GetVersion may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersion", SetLastError = true)]
-        public static extern uint GetVersion();
+        public static extern DWORD GetVersion();
 
         /// <summary>
         /// <para>
@@ -516,7 +516,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", SetLastError = true)]
-        public static extern uint GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+        public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]UINT uSize);
 
         /// <summary>
         /// <para>
