@@ -10,6 +10,25 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Transfers execution control to the debugger.
+        /// The behavior of the debugger thereafter is specific to the type of debugger used.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-fatalexit
+        /// </para>
+        /// </summary>
+        /// <param name="ExitCode">
+        /// The error code associated with the exit.
+        /// </param>
+        /// <remarks>
+        /// An application should only use <see cref="FatalExit"/> for debugging purposes.
+        /// It should not call the function in a retail version of the application because doing so will terminate the application.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalExit", SetLastError = true)]
+        public static extern void FatalExit([In]int ExitCode);
+
+        /// <summary>
+        /// <para>
         /// Waits for a debugging event to occur in a process being debugged.
         /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
         /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
