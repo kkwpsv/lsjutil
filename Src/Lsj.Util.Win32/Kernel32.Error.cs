@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32
         /// The null-terminated string that is displayed in the message box.
         /// </param>
         /// <remarks>
-        /// An application calls FatalAppExit only when it is not capable of terminating any other way.
+        /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", SetLastError = true)]
         public static extern void FatalAppExit([In]UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessageText);
