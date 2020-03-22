@@ -357,6 +357,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the number of milliseconds that have elapsed since the system was started, up to 49.7 days.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the number of milliseconds that have elapsed since the system was started.
+        /// </returns>
+        /// <remarks>
+        /// The resolution of the <see cref="GetTickCount"/> function is limited to the resolution of the system timer,
+        /// which is typically in the range of 10 milliseconds to 16 milliseconds.
+        /// The resolution of the <see cref="GetTickCount"/> function is not affected by adjustments made by the <see cref="GetSystemTimeAdjustment"/> function.
+        /// The elapsed time is stored as a <see cref="DWORD"/> value.
+        /// Therefore, the time will wrap around to zero if the system is run continuously for 49.7 days.
+        /// To avoid this problem, use the <see cref="GetTickCount64"/> function.
+        /// Otherwise, check for an overflow condition when comparing times.
+        /// If you need a higher resolution timer, use a multimedia timer or a high-resolution timer.
+        /// To obtain the time elapsed since the computer was started, retrieve the System Up Time counter in the performance data
+        /// in the registry key HKEY_PERFORMANCE_DATA.
+        /// The value returned is an 8-byte value. For more information, see Performance Counters.
+        /// To obtain the time the system has spent in the working state since it was started, use the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// Note The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// because the interrupt-time count and tick count are advanced by approximately 49 days.
+        /// This helps to identify bugs that might not occur until the system has been running for a long time.
+        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount", SetLastError = true)]
+        public static extern DWORD GetTickCount();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the number of milliseconds that have elapsed since the system was started.
         /// </para>
         /// <para>
