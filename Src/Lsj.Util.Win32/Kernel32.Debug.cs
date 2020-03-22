@@ -10,6 +10,23 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Causes a breakpoint exception to occur in the current process.
+        /// This allows the calling thread to signal the debugger to handle the exception.
+        /// To cause a breakpoint exception in another process, use the <see cref="DebugBreakProcess"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugbreak
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// If the process is not being debugged, the function uses the search logic of a standard exception handler.
+        /// In most cases, this causes the calling process to terminate because of an unhandled breakpoint exception.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreak", SetLastError = true)]
+        public static extern void DebugBreak();
+
+        /// <summary>
+        /// <para>
         /// Transfers execution control to the debugger.
         /// The behavior of the debugger thereafter is specific to the type of debugger used.
         /// </para>
