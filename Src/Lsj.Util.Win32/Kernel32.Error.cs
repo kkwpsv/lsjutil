@@ -290,7 +290,7 @@ namespace Lsj.Util.Win32
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", SetLastError = true)]
-        public static extern uint SetErrorMode([In]ErrorModes uMode);
+        public static extern UINT SetErrorMode([In]ErrorModes uMode);
 
         /// <summary>
         /// <para>
