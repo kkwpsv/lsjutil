@@ -150,7 +150,11 @@ namespace Lsj.Util.Win32
         /// This behavior is by design, as a debugging aid.
         /// </returns>
         /// <remarks>
-        /// 
+        /// In a preemptive multitasking environment, it is possible for some other thread to change the process's access to the memory being tested.
+        /// Even when the function indicates that the process has read access to the specified memory,
+        /// you should use structured exception handling when attempting to access the memory.
+        /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
+        /// giving the process an opportunity to handle the exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", SetLastError = true)]
         public static extern BOOL IsBadCodePtr([In]FARPROC lpfn);
