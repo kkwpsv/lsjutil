@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -385,5 +386,43 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetModuleHandleEx([In]GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName,
             [Out]out IntPtr phModule);
+
+        /// <summary>
+        /// <para>
+        /// Loads and executes an application or creates a new instance of an existing application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-loadmodule
+        /// </para>
+        /// </summary>
+        /// <param name="lpModuleName">
+        /// The file name of the application to be run.
+        /// When specifying a path, be sure to use backslashes (\), not forward slashes (/).
+        /// If the <paramref name="lpModuleName"/> parameter does not contain a directory path, the system searches for the executable file in this order:
+        /// The directory from which the application loaded.
+        /// The current directory.
+        /// The system directory. Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
+        /// The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched.
+        /// The name of this directory is System.
+        /// The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// The directories that are listed in the PATH environment variable.
+        /// </param>
+        /// <param name="lpParameterBlock">
+        /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
+        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="lpCmdLine"/>,
+        /// which must point to a null-terminated string if it is not used.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is greater than 31.
+        /// If the function fails, the return value is an error value, which may be one of the following values.
+        /// 0: The system is out of memory or resources.
+        /// <see cref="ERROR_BAD_FORMAT"/>: The .exe file is invalid.
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
+        /// </returns>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows.Applications should use the CreateProcess function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", SetLastError = true)]
+        public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName, [In]LPVOID lpParameterBlock);
     }
 }
