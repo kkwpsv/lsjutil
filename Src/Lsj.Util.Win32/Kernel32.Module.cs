@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", SetLastError = true)]
-        public static extern uint GetModuleFileName([In]IntPtr hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]uint nSize);
+        public static extern uint GetModuleFileName([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -321,7 +321,7 @@ namespace Lsj.Util.Win32
         /// Therefore, the first thread would have a handle to a different module than the one intended.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", SetLastError = true)]
-        public static extern IntPtr GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName);
+        public static extern HMODULE GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName);
 
         /// <summary>
         /// <para>
