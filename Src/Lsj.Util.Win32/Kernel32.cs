@@ -127,6 +127,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the calling process has read access to the memory at the specified address.
+        /// Important
+        /// This function is obsolete and should not be used. Despite its name,
+        /// it does not guarantee that the pointer is valid or that the memory pointed to is safe to use.
+        /// For more information, see Remarks on this page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadcodeptr
+        /// </para>
+        /// </summary>
+        /// <param name="lpfn">
+        /// A pointer to a memory address.
+        /// </param>
+        /// <returns>
+        /// If the calling process has read access to the specified memory, the return value is <see cref="BOOL.FALSE"/>.
+        /// If the calling process does not have read access to the specified memory, the return value is <see cref="BOOL.TRUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the application is compiled as a debugging version, and the process does not have read access to the specified memory location,
+        /// the function causes an assertion and breaks into the debugger.
+        /// Leaving the debugger, the function continues as usual, and returns a <see cref="BOOL.FALSE"/> value.
+        /// This behavior is by design, as a debugging aid.
+        /// </returns>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", SetLastError = true)]
+        public static extern BOOL IsBadCodePtr([In]FARPROC lpfn);
+
+        /// <summary>
+        /// <para>
         /// Verifies that the calling process has read access to the specified range of memory.
         /// Important This function is obsolete and should not be used.
         /// Despite its name, it does not guarantee that the pointer is valid or that the memory pointed to is safe to use.
