@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -392,5 +393,61 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryPerformanceFrequency([Out]out LARGE_INTEGER lpFrequency);
+
+        /// <summary>
+        /// <para>
+        /// Runs the specified application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-winexec
+        /// </para>
+        /// </summary>
+        /// <param name="lpCmdLine">
+        /// The command line (file name plus optional parameters) for the application to be executed.
+        /// If the name of the executable file in the <paramref name="lpCmdLine"/> parameter does not contain a directory path,
+        /// the system searches for the executable file in this sequence:
+        /// The directory from which the application loaded.
+        /// The current directory.
+        /// The Windows system directory. The <see cref="GetSystemDirectory"/> function retrieves the path of this directory.
+        /// The Windows directory. The <see cref="GetWindowsDirectory"/> function retrieves the path of this directory.
+        /// The directories listed in the PATH environment variable.
+        /// </param>
+        /// <param name="uCmdShow">
+        /// The display options.
+        /// For a list of the acceptable values, see the description of the nCmdShow parameter of the <see cref="ShowWindow"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is greater than 31.
+        /// If the function fails, the return value is one of the following error values.
+        /// 0: The system is out of memory or resources.
+        /// <see cref="ERROR_BAD_FORMAT"/>: The .exe file is invalid.
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
+        /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WinExec"/> function returns when the started process calls the <see cref="GetMessage"/> function or a time-out limit is reached.
+        /// To avoid waiting for the time out delay, call the <see cref="GetMessage"/> function as soon as possible
+        /// in any process started by a call to <see cref="WinExec"/>.
+        /// Security Remarks
+        /// The executable name is treated as the first white space-delimited string in <paramref name="lpCmdLine"/>.
+        /// If the executable or path name has a space in it, there is a risk that a different executable could be run
+        /// because of the way the function parses spaces. The following example is dangerous because the function will attempt to run "Program.exe",
+        /// if it exists, instead of "MyApp.exe".
+        /// <code>
+        /// WinExec("C:\\Program Files\\MyApp", ...)
+        /// </code>
+        /// If a malicious user were to create an application called "Program.exe" on a system,
+        /// any program that incorrectly calls <see cref="WinExec"/> using the Program Files directory will run this application
+        /// instead of the intended application.
+        /// To avoid this problem, use <see cref="CreateProcess"/> rather than <see cref="WinExec"/>.
+        /// However, if you must use <see cref="WinExec"/> for legacy reasons, make sure the application name is enclosed in quotation marks
+        /// as shown in the example below.
+        /// <code>
+        /// WinExec("\"C:\\Program Files\\MyApp.exe\" -L -S", ...)
+        /// </code>
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", SetLastError = true)]
+        public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In]string lpCmdLine, [In]ShowWindowCommands uCmdShow);
     }
 }
