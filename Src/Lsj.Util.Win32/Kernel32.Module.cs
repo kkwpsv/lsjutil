@@ -66,8 +66,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="GetModuleHandleEx"/> function returns this handle.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, see <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -94,8 +94,7 @@ namespace Lsj.Util.Win32
         /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FreeLibrary([In]IntPtr hLibModule);
+        public static extern BOOL FreeLibrary([In]HMODULE hLibModule);
 
         /// <summary>
         /// <para>
