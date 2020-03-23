@@ -160,11 +160,64 @@ namespace Lsj.Util.Win32
         /// Dereferencing potentially invalid pointers can disable stack expansion in other threads.
         /// A thread exhausting its stack, when stack expansion has been disabled, results in the immediate termination of the parent process,
         /// with no pop-up error window or diagnostic information.
-        /// If the calling process has read access to some, but not all, of the bytes in the specified memory range, the return value is <see cref="BOOL.TRUE"/>.
-        /// In a preemptive multitasking environment, it is possible for some other thread to change the process's access to the memory being tested. Even when the function indicates that the process has read access to the specified memory, you should use structured exception handling when attempting to access the memory. Use of structured exception handling enables the system to notify the process if an access violation exception occurs, giving the process an opportunity to handle the exception.
+        /// If the calling process has read access to some, but not all, of the bytes in the specified memory range,
+        /// the return value is <see cref="BOOL.TRUE"/>.
+        /// In a preemptive multitasking environment, it is possible for some other thread to change the process's access to the memory being tested.
+        /// Even when the function indicates that the process has read access to the specified memory,
+        /// you should use structured exception handling when attempting to access the memory.
+        /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
+        /// giving the process an opportunity to handle the exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", SetLastError = true)]
         public static extern BOOL IsBadReadPtr([In]IntPtr lp, [In]UINT_PTR ucb);
+
+        /// <summary>
+        /// <para>
+        /// Verifies that the calling process has write access to the specified range of memory.
+        /// Important This function is obsolete and should not be used. Despite its name,
+        /// it does not guarantee that the pointer is valid or that the memory pointed to is safe to use.
+        /// For more information, see Remarks on this page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadwriteptr
+        /// </para>
+        /// </summary>
+        /// <param name="lp">
+        /// A pointer to the first byte of the memory block.
+        /// </param>
+        /// <param name="ucb">
+        /// The size of the memory block, in bytes. If this parameter is zero, the return value is <see cref="BOOL.FALSE"/>.
+        /// </param>
+        /// <returns>
+        /// If the calling process has write access to all bytes in the specified memory range, the return value is <see cref="BOOL.FALSE"/>.
+        /// If the calling process does not have write access to all bytes in the specified memory range, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the application is run under a debugger and the process does not have write access to all bytes in the specified memory range,
+        /// the function causes a first chance STATUS_ACCESS_VIOLATION exception.
+        /// The debugger can be configured to break for this condition.
+        /// After resuming process execution in the debugger, the function continues as usual and returns a <see cref="BOOL.TRUE"/> value.
+        /// This behavior is by design and serves as a debugging aid.
+        /// </returns>
+        /// <remarks>
+        /// This function is typically used when working with pointers returned from third-party libraries,
+        /// where you cannot determine the memory management behavior in the third-party DLL.
+        /// Threads in a process are expected to cooperate in such a way that one will not free memory that the other needs.
+        /// Use of this function does not negate the need to do this. If this is not done, the application may fail in an unpredictable manner.
+        /// Dereferencing potentially invalid pointers can disable stack expansion in other threads. A thread exhausting its stack,
+        /// when stack expansion has been disabled, results in the immediate termination of the parent process,
+        /// with no pop-up error window or diagnostic information.
+        /// If the calling process has write access to some, but not all, of the bytes in the specified memory range,
+        /// the return value is <see cref="BOOL.TRUE"/>.
+        /// In a preemptive multitasking environment, it is possible for some other thread to change the process's access to the memory being tested.
+        /// Even when the function indicates that the process has write access to the specified memory,
+        /// you should use structured exception handling when attempting to access the memory.
+        /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
+        /// giving the process an opportunity to handle the exception.
+        /// <see cref="IsBadWritePtr"/> is not multithread safe. To use it properly on a pointer shared by multiple threads,
+        /// call it inside a critical region of code that allows only one thread to access the memory being checked.
+        /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", SetLastError = true)]
+        public static extern BOOL IsBadWritePtr([In]LPVOID lp, [In]UINT_PTR ucb);
 
         /// <summary>
         /// <para>
