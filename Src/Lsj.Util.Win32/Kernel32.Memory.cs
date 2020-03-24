@@ -1172,7 +1172,7 @@ namespace Lsj.Util.Win32
         /// <param name="cbNewSize"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", SetLastError = true)]
         public static extern SIZE_T LocalShrink([In]HLOCAL hMem, [In]UINT cbNewSize);
 
         /// <summary>
