@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", SetLastError = true)]
-        public static extern IntPtr GlobalLock(IntPtr hMem);
+        public static extern LPVOID GlobalLock(HGLOBAL hMem);
 
         /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
