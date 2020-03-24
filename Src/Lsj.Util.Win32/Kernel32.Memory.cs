@@ -1096,6 +1096,44 @@ namespace Lsj.Util.Win32
         public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
 
         /// <summary>
+        /// <para>
+        /// Decrements the lock count associated with a memory object that was allocated with <see cref="LMEM_MOVEABLE"/>.
+        /// This function has no effect on memory objects allocated with <see cref="LMEM_FIXED"/>.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localunlock
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the memory object is still locked after decrementing the lock count, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the memory object is unlocked after decrementing the lock count,
+        /// the function returns <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns <see cref="NO_ERROR"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The internal data structures for each memory object include a lock count that is initially zero.
+        /// For movable memory objects, the <see cref="LocalLock"/> function increments the count by one,
+        /// and <see cref="LocalUnlock"/> decrements the count by one.
+        /// For each call that a process makes to <see cref="LocalLock"/> for an object, it must eventually call <see cref="LocalUnlock"/>.
+        /// Locked memory will not be moved or discarded unless the memory object is reallocated by using the <see cref="LocalReAlloc"/> function.
+        /// The memory block of a locked memory object remains locked until its lock count is decremented to zero, at which time it can be moved or discarded.
+        /// If the memory object is already unlocked, <see cref="LocalUnlock"/> returns <see cref="BOOL.FALSE"/>
+        /// and <see cref="GetLastError"/> reports <see cref="ERROR_NOT_LOCKED"/>.
+        /// Memory objects allocated with <see cref="LMEM_FIXED"/> always have a lock count of zero and cause the <see cref="ERROR_NOT_LOCKED"/> error.
+        /// A process should not rely on the return value to determine the number of times
+        /// it must subsequently call <see cref="LocalUnlock"/> for the memory block.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", SetLastError = true)]
+        public static extern BOOL LocalUnlock([In]HLOCAL hMem);
+
+        /// <summary>
         /// 
         /// </summary>
         [Obsolete]
