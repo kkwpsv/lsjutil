@@ -31,5 +31,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator UINT(uint val) => new UINT { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator int(UINT val) => unchecked((int)val._value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator UINT(int val) => new UINT { _value = unchecked((uint)val) };
     }
 }

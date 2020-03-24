@@ -132,6 +132,15 @@ namespace Lsj.Util.Win32
         public static extern HGLOBAL GlobalAlloc(GlobalMemoryFlags uFlags, SIZE_T dwBytes);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dwMinFree"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", SetLastError = true)]
+        public static extern SIZE_T GlobalCompact([In]DWORD dwMinFree);
+
+        /// <summary>
         /// <para>
         /// Discards the specified global memory block. The lock count of the memory object must be zero.
         /// Note 
@@ -154,6 +163,14 @@ namespace Lsj.Util.Win32
         /// allocate another global memory block identified by the same handle.
         /// </remarks>
         public static HGLOBAL GlobalDiscard(HGLOBAL h) => GlobalReAlloc(h, 0, GMEM_MOVEABLE);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", SetLastError = true)]
+        public static extern void GlobalFix([In]HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -270,6 +287,22 @@ namespace Lsj.Util.Win32
         public static extern LPVOID GlobalLock(HGLOBAL hMem);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static HANDLE GlobalLRUNewest(HGLOBAL hMem) => hMem;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static HANDLE GlobalLRUOldest(HGLOBAL hMem) => hMem;
+
+        /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
         /// </summary>
         /// <param name="hMem">
@@ -326,6 +359,14 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", SetLastError = true)]
         public static extern SIZE_T GlobalSize([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", SetLastError = true)]
+        public static extern void GlobalUnfix([In]HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -1032,6 +1073,12 @@ namespace Lsj.Util.Win32
         public static extern IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, LocalMemoryFlags uFlags);
 
         /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
+        public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
+
+        /// <summary>
         /// <para>
         /// Changes the protection on a region of committed pages in the virtual address space of the calling process.
         /// To change the access protection of any process, use the <see cref="VirtualProtectEx"/> function.
@@ -1084,5 +1131,11 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
             [Out]out MemoryProtectionConstants lpflOldProtect);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
+        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
     }
 }
