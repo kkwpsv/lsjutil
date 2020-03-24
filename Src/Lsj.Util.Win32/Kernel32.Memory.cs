@@ -368,6 +368,24 @@ namespace Lsj.Util.Win32
         public static extern BOOL GlobalUnlock([In]HGLOBAL hMem);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", SetLastError = true)]
+        public static extern BOOL GlobalUnWire([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", SetLastError = true)]
+        public static extern LPVOID GlobalWire([In]HGLOBAL hMem);
+
+        /// <summary>
         /// <para>
         /// Allocates a block of memory from a heap. The allocated memory is not movable.
         /// </para>
