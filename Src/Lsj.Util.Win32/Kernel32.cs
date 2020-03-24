@@ -20,6 +20,68 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the DLL module that contains the function or variable.
+        /// The <see cref="LoadLibrary"/>, <see cref="LoadLibraryEx"/>, <see cref="LoadPackagedLibrary"/>,
+        /// or <see cref="GetModuleHandle"/> function returns this handle.
+        /// The <see cref="GetProcAddress"/> function does not retrieve addresses from modules
+        /// that were loaded using the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// </param>
+        /// <param name="lpProcName">
+        /// The function or variable name, or the function's ordinal value.
+        /// If this parameter is an ordinal value, it must be in the low-order word; the high-order word must be zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the address of the exported function or variable.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The spelling and case of a function name pointed to by <paramref name="lpProcName"/> must be identical to that
+        /// in the EXPORTS statement of the source DLL's module-definition (.def) file.
+        /// The exported names of functions may differ from the names you use when calling these functions in your code.
+        /// This difference is hidden by macros used in the SDK header files.
+        /// For more information, see Conventions for Function Prototypes.
+        /// The <paramref name="lpProcName"/> parameter can identify the DLL function by specifying an ordinal value
+        /// associated with the function in the EXPORTS statement.
+        /// <see cref="GetProcAddress"/> verifies that the specified ordinal is in the range 1 through the highest ordinal value exported in the .def file.
+        /// The function then uses the ordinal as an index to read the function's address from a function table.
+        /// If the .def file does not number the functions consecutively from 1 to N (where N is the number of exported functions),
+        /// an error can occur where <see cref="GetProcAddress"/> returns an invalid, non-NULL address,
+        /// even though there is no function with the specified ordinal.
+        /// If the function might not exist in the DLL module—for example, if the function is available only on Windows Vista
+        /// but the application might be running on Windows XP—specify the function by name rather than by ordinal value
+        /// and design your application to handle the case when the function is not available, as shown in the following code fragment.
+        /// <code>
+        /// typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
+        /// // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
+        /// PGNSI pGNSI;
+        /// SYSTEM_INFO si;
+        /// ZeroMemory(&si, sizeof(SYSTEM_INFO));
+        /// pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+        /// if(NULL != pGNSI)
+        /// {
+        ///     pGNSI(&amp;si);
+        /// }
+        /// else 
+        /// {
+        ///     GetSystemInfo(&amp;si);
+        /// }
+        /// </code>
+        /// For the complete example that contains this code fragment, see Getting the System Version.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern FARPROC GetProcAddress([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In]string lpProcName);
+
+        /// <summary>
+        /// <para>
         /// Adds a character string to the global atom table and returns a unique value (an atom) identifying the string.
         /// </para>
         /// <para>
