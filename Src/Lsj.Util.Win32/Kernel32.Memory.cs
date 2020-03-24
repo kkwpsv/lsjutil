@@ -1043,6 +1043,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the handle associated with the specified pointer to a local memory object.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localhandle
+        /// </para>
+        /// </summary>
+        /// <param name="pMem">
+        /// A pointer to the first byte of the local memory object.
+        /// This pointer is returned by the <see cref="LocalLock"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified local memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the <see cref="LocalAlloc"/> function allocates a local memory object with <see cref="LMEM_MOVEABLE"/>, it returns a handle to the object.
+        /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block, and <see cref="LocalHandle"/> converts the pointer back into a handle.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", SetLastError = true)]
+        public static extern HLOCAL LocalHandle([In]LPCVOID pMem);
+
+        /// <summary>
+        /// <para>
         /// Locks a local memory object and returns a pointer to the first byte of the object's memory block.
         /// </para>
         /// <para>
@@ -1094,6 +1121,34 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
         public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current size of the specified local memory object, in bytes.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localsize
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by the <see cref="LocalAlloc"/>, <see cref="LocalReAlloc"/>, or <see cref="LocalHandle"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the size of the specified local memory object, in bytes.
+        /// If the specified handle is not valid or if the object has been discarded, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of a memory block may be larger than the size requested when the memory was allocated.
+        /// To verify that the specified object's memory block has not been discarded,
+        /// call the <see cref="LocalFlags"/> function before calling <see cref="LocalSize"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", SetLastError = true)]
+        public static extern SIZE_T LocalSize([In]HLOCAL hMem);
 
         /// <summary>
         /// <para>
