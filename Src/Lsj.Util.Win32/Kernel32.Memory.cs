@@ -999,6 +999,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Discards the specified local memory object. The lock count of the memory object must be zero.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nf-minwinbase-localdiscard
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Although LocalDiscard discards the object's memory block, the handle to the object remains valid.
+        /// A process can subsequently pass the handle to the <see cref="LocalReAlloc"/> function
+        /// to allocate another local memory object identified by the same handle.
+        /// </remarks>
+        public static HLOCAL LocalDiscard(HLOCAL h) => LocalReAlloc(h, 0, LMEM_MOVEABLE);
+
+        /// <summary>
+        /// <para>
         /// Frees the specified local memory object and invalidates its handle.
         /// </para>
         /// <para>
