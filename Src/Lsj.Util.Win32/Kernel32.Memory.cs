@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", SetLastError = true)]
-        public static extern IntPtr GlobalReAlloc(IntPtr hMem, IntPtr dwBytes, GlobalMemoryFlags uFlags);
+        public static extern HGLOBAL GlobalReAlloc(HGLOBAL hMem, SIZE_T dwBytes, GlobalMemoryFlags uFlags);
 
         /// <summary>
         /// <para>
