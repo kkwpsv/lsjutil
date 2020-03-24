@@ -45,6 +45,13 @@ namespace Lsj.Util.Win32.Extensions
         public static long SafeToInt64(this IntPtr ptr) => ptr.ToInt64();
 
         /// <summary>
+        /// Safe Convert To <see cref="long"/>
+        /// </summary>
+        /// <param name="ptr"></param>
+        /// <returns></returns>
+        public static long SafeToInt64(this UIntPtr ptr) => unchecked((long)ptr.ToUInt64());
+
+        /// <summary>
         /// Safe Convert To <see cref="ulong"/>
         /// </summary>
         /// <param name="ptr"></param>
@@ -53,6 +60,20 @@ namespace Lsj.Util.Win32.Extensions
 
         /// <summary>
         /// Safe Convert To <see cref="ulong"/>
+        /// </summary>
+        /// <param name="ptr"></param>
+        /// <returns></returns>
+        public static ulong SafeToUInt64(this UIntPtr ptr) => ptr.ToUInt64();
+
+        /// <summary>
+        /// Safe Convert To <see cref="IntPtr"/>
+        /// </summary>
+        /// <param name="ptr"></param>
+        /// <returns></returns>
+        public static IntPtr SafeToIntPtr(this UIntPtr ptr) => (IntPtr)ptr.SafeToInt64();
+
+        /// <summary>
+        /// Safe Convert To <see cref="UIntPtr"/>
         /// </summary>
         /// <param name="ptr"></param>
         /// <returns></returns>
