@@ -998,6 +998,15 @@ namespace Lsj.Util.Win32
         public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uMinFree"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", SetLastError = true)]
+        public static extern SIZE_T LocalCompact([In]UINT uMinFree);
+
+        /// <summary>
         /// <para>
         /// Discards the specified local memory object. The lock count of the memory object must be zero.
         /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
@@ -1046,7 +1055,9 @@ namespace Lsj.Util.Win32
         /// The lock count of memory objects allocated with <see cref="LMEM_FIXED"/> is always zero.
         /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
         /// It can be zero or <see cref="LMEM_DISCARDABLE"/>.
-        /// The local functions have greater overhead and provide fewer features than other memory management functions. New applications should use the heap functions unless documentation states that a local function should be used. For more information, see Global and Local Functions.
+        /// The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
         public static extern LocalMemoryFlags LocalFlags([In]HLOCAL hMem);
@@ -1153,6 +1164,16 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
         public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <param name="cbNewSize"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
+        public static extern SIZE_T LocalShrink([In]HLOCAL hMem, [In]UINT cbNewSize);
 
         /// <summary>
         /// <para>
