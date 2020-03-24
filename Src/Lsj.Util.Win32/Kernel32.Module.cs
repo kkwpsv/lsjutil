@@ -169,6 +169,14 @@ namespace Lsj.Util.Win32
         public static extern void FreeLibraryAndExitThread([In]IntPtr hLibModule, [In]uint dwExitCode);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hLibModule"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static BOOL FreeModule(HINSTANCE hLibModule) => FreeLibrary(hLibModule);
+
+        /// <summary>
         /// <para>
         /// Retrieves the fully qualified path for the file that contains the specified module.
         /// The module must have been loaded by the current process.

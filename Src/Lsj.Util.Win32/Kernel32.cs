@@ -19,6 +19,16 @@ namespace Lsj.Util.Win32
         public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lpProc"></param>
+        [Obsolete]
+        public static void FreeProcInstance(FARPROC lpProc)
+        {
+
+        }
+
+        /// <summary>
         /// <para>
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </para>
@@ -402,6 +412,15 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
+
+        /// <summary>
+        /// MakeProcInstance
+        /// </summary>
+        /// <param name="lpProc"></param>
+        /// <param name="hInstance"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static FARPROC MakeProcInstance(FARPROC lpProc, HINSTANCE hInstance) => lpProc;
 
         /// <summary>
         /// <para>
