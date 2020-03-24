@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,6 +12,29 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Displays a message box and terminates the application when the message box is closed.
+        /// If the system is running with a debug version of Kernel32.dll,
+        /// the message box gives the user the opportunity to terminate the application or to cancel the message box and return to the application
+        /// that called <see cref="FatalAppExit"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-fatalappexitw
+        /// </para>
+        /// </summary>
+        /// <param name="uAction">
+        /// This parameter must be zero.
+        /// </param>
+        /// <param name="lpMessageText">
+        /// The null-terminated string that is displayed in the message box.
+        /// </param>
+        /// <remarks>
+        /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", SetLastError = true)]
+        public static extern void FatalAppExit([In]UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessageText);
+
         /// <summary>
         /// <para>
         /// Formats a message string. The function requires a message definition as input. 
@@ -266,7 +290,7 @@ namespace Lsj.Util.Win32
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", SetLastError = true)]
-        public static extern uint SetErrorMode([In]ErrorModes uMode);
+        public static extern UINT SetErrorMode([In]ErrorModes uMode);
 
         /// <summary>
         /// <para>

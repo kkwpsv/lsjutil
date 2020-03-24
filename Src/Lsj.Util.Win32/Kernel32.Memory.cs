@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using Lsj.Util.Win32.BaseTypes;
 
 namespace Lsj.Util.Win32
 {
@@ -128,7 +129,147 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAlloc", SetLastError = true)]
-        public static extern IntPtr GlobalAlloc(GlobalMemoryFlags uFlags, IntPtr dwBytes);
+        public static extern HGLOBAL GlobalAlloc(GlobalMemoryFlags uFlags, SIZE_T dwBytes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dwMinFree"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", SetLastError = true)]
+        public static extern SIZE_T GlobalCompact([In]DWORD dwMinFree);
+
+        /// <summary>
+        /// <para>
+        /// Discards the specified global memory block. The lock count of the memory object must be zero.
+        /// Note 
+        /// The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldiscard
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Although <see cref="GlobalDiscard"/> discards the object's memory block, the handle to the object remains valid.
+        /// The process can subsequently pass the handle to the <see cref="GlobalReAlloc"/> function to
+        /// allocate another global memory block identified by the same handle.
+        /// </remarks>
+        public static HGLOBAL GlobalDiscard(HGLOBAL h) => GlobalReAlloc(h, 0, GMEM_MOVEABLE);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", SetLastError = true)]
+        public static extern void GlobalFix([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified global memory object.
+        /// Note
+        /// This function is provided only for compatibility with 16-bit versions of Windows.
+        /// New applications should use the heap functions.
+        /// For more information, see Remarks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalflags
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the allocation values and the lock count for the memory object.
+        /// If the function fails, the return value is <see cref="GMEM_INVALID_HANDLE"/>, indicating that the global handle is not valid.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The low-order byte of the low-order word of the return value contains the lock count of the object.
+        /// To retrieve the lock count from the return value, use the <see cref="GMEM_LOCKCOUNT"/> mask with the bitwise AND (&amp;) operator.
+        /// The lock count of memory objects allocated with <see cref="GMEM_FIXED"/> is always zero.
+        /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
+        /// It can be zero or <see cref="GMEM_DISCARDED"/>.
+        /// The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", SetLastError = true)]
+        public static extern UINT GlobalFlags([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Frees the specified global memory object and invalidates its handle.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalfree
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// It is not safe to free memory allocated with <see cref="LocalAlloc"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="IntPtr.Zero"/>.
+        /// If the function fails, the return value is equal to a handle to the global memory object.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the process examines or modifies the memory after it has been freed,
+        /// heap corruption may occur or an access violation exception (EXCEPTION_ACCESS_VIOLATION) may be generated.
+        /// The <see cref="GlobalFree"/> function will free a locked memory object.
+        /// A locked memory object has a lock count greater than zero.
+        /// The <see cref="GlobalLock"/> function locks a global memory object and increments the lock count by one.
+        /// The <see cref="GlobalUnlock"/> function unlocks it and decrements the lock count by one.
+        /// To get the lock count of a global memory object, use the <see cref="GlobalFlags"/> function.
+        /// If an application is running under a debug version of the system,
+        /// <see cref="GlobalFree"/> will issue a message that tells you that a locked object is being freed.
+        /// If you are debugging the application, <see cref="GlobalFree"/> will enter a breakpoint just before freeing a locked object.
+        /// This allows you to verify the intended behavior, then continue execution.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFree", SetLastError = true)]
+        public static extern HGLOBAL GlobalFree(HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the handle associated with the specified pointer to a global memory block.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalhandle
+        /// </para>
+        /// </summary>
+        /// <param name="pMem">
+        /// A pointer to the first byte of the global memory block.
+        /// This pointer is returned by the <see cref="GlobalLock"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified global memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the <see cref="GlobalAlloc"/> function allocates a memory object with <see cref="GMEM_MOVEABLE"/>, it returns a handle to the object.
+        /// The <see cref="GlobalLock"/> function converts this handle into a pointer to the memory block,
+        /// and <see cref="GlobalHandle"/> converts the pointer back into a handle.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", SetLastError = true)]
+        public static extern HGLOBAL GlobalHandle([In]LPCVOID pMem);
 
         /// <summary>
         /// Locks a global memory object and returns a pointer to the first byte of the object's memory block.
@@ -143,7 +284,23 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", SetLastError = true)]
-        public static extern IntPtr GlobalLock(IntPtr hMem);
+        public static extern LPVOID GlobalLock(HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static HANDLE GlobalLRUNewest(HGLOBAL hMem) => hMem;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static HANDLE GlobalLRUOldest(HGLOBAL hMem) => hMem;
 
         /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
@@ -173,7 +330,101 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", SetLastError = true)]
-        public static extern IntPtr GlobalReAlloc(IntPtr hMem, IntPtr dwBytes, GlobalMemoryFlags uFlags);
+        public static extern HGLOBAL GlobalReAlloc(HGLOBAL hMem, SIZE_T dwBytes, GlobalMemoryFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current size of the specified global memory object, in bytes.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalsize
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the size of the specified global memory object, in bytes.
+        /// If the specified handle is not valid or if the object has been discarded, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of a memory block may be larger than the size requested when the memory was allocated.
+        /// To verify that the specified object's memory block has not been discarded,
+        /// use the <see cref="GlobalFlags"/> function before calling <see cref="GlobalSize"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", SetLastError = true)]
+        public static extern SIZE_T GlobalSize([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", SetLastError = true)]
+        public static extern void GlobalUnfix([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Decrements the lock count associated with a memory object that was allocated with <see cref="GMEM_MOVEABLE"/>.
+        /// This function has no effect on memory objects allocated with <see cref="GMEM_FIXED"/>.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalunlock
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the memory object is still locked after decrementing the lock count, the return value is a <see cref="BOOL.TRUE"/> value.
+        /// If the memory object is unlocked after decrementing the lock count,
+        /// the function returns <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns <see cref="NO_ERROR"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/> and
+        /// <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The internal data structures for each memory object include a lock count that is initially zero.
+        /// For movable memory objects, the <see cref="GlobalLock"/> function increments the count by one,
+        /// and <see cref="GlobalUnlock"/> decrements the count by one.
+        /// For each call that a process makes to <see cref="GlobalLock"/> for an object, it must eventually call <see cref="GlobalUnlock"/>.
+        /// Locked memory will not be moved or discarded, unless the memory object is reallocated by using the <see cref="GlobalReAlloc"/> function.
+        /// The memory block of a locked memory object remains locked until its lock count is decremented to zero, at which time it can be moved or discarded.
+        /// Memory objects allocated with <see cref="GMEM_FIXED"/> always have a lock count of zero.
+        /// If the specified memory block is fixed memory, this function returns <see cref="BOOL.TRUE"/>.
+        /// If the memory object is already unlocked, <see cref="GlobalUnlock"/> returns <see cref="BOOL.FALSE"/>
+        /// and <see cref="GetLastError"/> reports <see cref="ERROR_NOT_LOCKED"/>.
+        /// A process should not rely on the return value to determine the number of times
+        /// it must subsequently call <see cref="GlobalUnlock"/> for a memory object.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnlock", SetLastError = true)]
+        public static extern BOOL GlobalUnlock([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", SetLastError = true)]
+        public static extern BOOL GlobalUnWire([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", SetLastError = true)]
+        public static extern LPVOID GlobalWire([In]HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -744,7 +995,72 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", SetLastError = true)]
-        public static extern IntPtr LocalAlloc(LocalMemoryFlags uFlags, IntPtr uBytes);
+        public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uMinFree"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", SetLastError = true)]
+        public static extern SIZE_T LocalCompact([In]UINT uMinFree);
+
+        /// <summary>
+        /// <para>
+        /// Discards the specified local memory object. The lock count of the memory object must be zero.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nf-minwinbase-localdiscard
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Although LocalDiscard discards the object's memory block, the handle to the object remains valid.
+        /// A process can subsequently pass the handle to the <see cref="LocalReAlloc"/> function
+        /// to allocate another local memory object identified by the same handle.
+        /// </remarks>
+        public static HLOCAL LocalDiscard(HLOCAL h) => LocalReAlloc(h, 0, LMEM_MOVEABLE);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified local memory object.
+        /// Note This function is provided only for compatibility with 16-bit versions of Windows.
+        /// New applications should use the heap functions.
+        /// For more information, see Remarks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localflags
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the allocation values and the lock count for the memory object.
+        /// If the function fails, the return value is <see cref="LMEM_INVALID_HANDLE"/>, indicating that the local handle is not valid.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The low-order byte of the low-order word of the return value contains the lock count of the object.
+        /// To retrieve the lock count from the return value, use the <see cref="LMEM_LOCKCOUNT"/> mask with the bitwise AND (&amp;) operator.
+        /// The lock count of memory objects allocated with <see cref="LMEM_FIXED"/> is always zero.
+        /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
+        /// It can be zero or <see cref="LMEM_DISCARDABLE"/>.
+        /// The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
+        public static extern LocalMemoryFlags LocalFlags([In]HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -765,7 +1081,35 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
-        public static extern IntPtr LocalFree([In]IntPtr hMem);
+        public static extern HLOCAL LocalFree([In]HLOCAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the handle associated with the specified pointer to a local memory object.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localhandle
+        /// </para>
+        /// </summary>
+        /// <param name="pMem">
+        /// A pointer to the first byte of the local memory object.
+        /// This pointer is returned by the <see cref="LocalLock"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified local memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the <see cref="LocalAlloc"/> function allocates a local memory object with <see cref="LMEM_MOVEABLE"/>, it returns a handle to the object.
+        /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block,
+        /// and <see cref="LocalHandle"/> converts the pointer back into a handle.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", SetLastError = true)]
+        public static extern HLOCAL LocalHandle([In]LPCVOID pMem);
 
         /// <summary>
         /// <para>
@@ -784,7 +1128,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", SetLastError = true)]
-        public static extern IntPtr LocalLock(IntPtr hMem);
+        public static extern LPVOID LocalLock(HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -819,7 +1163,89 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
-        public static extern IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, LocalMemoryFlags uFlags);
+        public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMem"></param>
+        /// <param name="cbNewSize"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", SetLastError = true)]
+        public static extern SIZE_T LocalShrink([In]HLOCAL hMem, [In]UINT cbNewSize);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current size of the specified local memory object, in bytes.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localsize
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by the <see cref="LocalAlloc"/>, <see cref="LocalReAlloc"/>, or <see cref="LocalHandle"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the size of the specified local memory object, in bytes.
+        /// If the specified handle is not valid or if the object has been discarded, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of a memory block may be larger than the size requested when the memory was allocated.
+        /// To verify that the specified object's memory block has not been discarded,
+        /// call the <see cref="LocalFlags"/> function before calling <see cref="LocalSize"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", SetLastError = true)]
+        public static extern SIZE_T LocalSize([In]HLOCAL hMem);
+
+        /// <summary>
+        /// <para>
+        /// Decrements the lock count associated with a memory object that was allocated with <see cref="LMEM_MOVEABLE"/>.
+        /// This function has no effect on memory objects allocated with <see cref="LMEM_FIXED"/>.
+        /// Note The local functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a local function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localunlock
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the memory object is still locked after decrementing the lock count, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the memory object is unlocked after decrementing the lock count,
+        /// the function returns <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns <see cref="NO_ERROR"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The internal data structures for each memory object include a lock count that is initially zero.
+        /// For movable memory objects, the <see cref="LocalLock"/> function increments the count by one,
+        /// and <see cref="LocalUnlock"/> decrements the count by one.
+        /// For each call that a process makes to <see cref="LocalLock"/> for an object, it must eventually call <see cref="LocalUnlock"/>.
+        /// Locked memory will not be moved or discarded unless the memory object is reallocated by using the <see cref="LocalReAlloc"/> function.
+        /// The memory block of a locked memory object remains locked until its lock count is decremented to zero, at which time it can be moved or discarded.
+        /// If the memory object is already unlocked, <see cref="LocalUnlock"/> returns <see cref="BOOL.FALSE"/>
+        /// and <see cref="GetLastError"/> reports <see cref="ERROR_NOT_LOCKED"/>.
+        /// Memory objects allocated with <see cref="LMEM_FIXED"/> always have a lock count of zero and cause the <see cref="ERROR_NOT_LOCKED"/> error.
+        /// A process should not rely on the return value to determine the number of times
+        /// it must subsequently call <see cref="LocalUnlock"/> for the memory block.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", SetLastError = true)]
+        public static extern BOOL LocalUnlock([In]HLOCAL hMem);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
+        public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
 
         /// <summary>
         /// <para>
@@ -874,5 +1300,11 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
             [Out]out MemoryProtectionConstants lpflOldProtect);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
+        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
     }
 }

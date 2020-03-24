@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -101,8 +102,7 @@ namespace Lsj.Util.Win32
         /// <param name="hWnd">A handle to a top-level window.</param>
         /// <param name="lParam">The application-defined value given in <see cref="EnumWindows"/> or <see cref="EnumDesktopWindows"/>.</param>
         /// <returns></returns>
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool WNDENUMPROC([In]IntPtr hWnd, [In]IntPtr lParam);
+        public delegate BOOL WNDENUMPROC([In]HWND hWnd, [In]LPARAM lParam);
 
 
         /// <summary>
@@ -416,8 +416,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Static Controls.
         /// For a table of the static control styles you can specify in the <paramref name="dwStyle"/> parameter, see Static Control Styles.
         /// </remarks>
-        public static IntPtr CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
-            int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam) =>
+        public static HWND CreateWindow(StringHandle lpClassName, string lpWindowName, WindowStyles dwStyle,
+            int x, int y, int nWidth, int nHeight, HWND hWndParent, HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam) =>
             CreateWindowEx(0, lpClassName, lpWindowName, dwStyle, x, y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 
         /// <summary>
@@ -524,9 +524,9 @@ namespace Lsj.Util.Win32
         /// or its window window procedure fails <see cref="WM_CREATE"/> or <see cref="WM_NCCREATE"/>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowExW", SetLastError = true)]
-        public static extern IntPtr CreateWindowEx([In]WindowStylesEx dwExStyle, [In]StringHandle lpClassName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName, [In]WindowStyles dwStyle, [In]int x, [In]int y, [In]int nWidth, [In]int nHeight,
-            [In]IntPtr hWndParent, [In]IntPtr hMenu, [In]IntPtr hInstance, [In]IntPtr lpParam);
+        public static extern HWND CreateWindowEx([In]WindowStylesEx dwExStyle, [In]StringHandle lpClassName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName, [In]WindowStyles dwStyle, [In]int x, [In]int y, [In]int nWidth, [In]int nHeight,
+            [In]HWND hWndParent, [In]HMENU hMenu, [In]HINSTANCE hInstance, [In]LPVOID lpParam);
 
         /// <summary>
         /// <para>
@@ -620,25 +620,28 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Enumerates all top-level windows on the screen by passing the handle to each window, in turn, to an application-defined callback function.
-        /// EnumWindows continues until the last top-level window is enumerated or the callback function returns <see langword="false"/>.
+        /// EnumWindows continues until the last top-level window is enumerated or the callback function returns <see cref="BOOL.FALSE"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumwindows
         /// </para>
         /// </summary>
-        /// <param name="lpEnumFunc">A pointer to an application-defined callback function. For more information, see <see cref="WNDENUMPROC"/>.</param>
-        /// <param name="lParam">An application-defined value to be passed to the callback function.</param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to an application-defined callback function. For more information, see <see cref="WNDENUMPROC"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to be passed to the callback function.
+        /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If <see cref="WNDENUMPROC"/> returns <see langword="false"/>, the return value is also <see langword="false"/>. 
+        /// If <see cref="WNDENUMPROC"/> returns <see cref="BOOL.FALSE"/>, the return value is also <see cref="BOOL.FALSE"/>. 
         /// In this case, the callback function should call <see cref="SetLastError"/> to obtain a meaningful error code
         /// to be returned to the caller of <see cref="EnumWindows"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumWindows", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumWindows([In]WNDENUMPROC lpEnumFunc, [In]IntPtr lParam);
+        public static extern BOOL EnumWindows([In]WNDENUMPROC lpEnumFunc, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -939,7 +942,7 @@ namespace Lsj.Util.Win32
         /// This function cannot retrieve the text of an edit control in another application.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextW", SetLastError = true)]
-        public static extern int GetWindowText([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpString, [In]int nMaxCount);
+        public static extern int GetWindowText([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpString, [In]int nMaxCount);
 
         /// <summary>
         /// <para>
@@ -974,7 +977,7 @@ namespace Lsj.Util.Win32
         /// or <see cref="CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLength", SetLastError = true)]
-        public static extern int GetWindowTextLength([In]IntPtr hWnd);
+        public static extern int GetWindowTextLength([In]HWND hWnd);
 
         /// <summary>
         /// <para>

@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     [Flags]
-    public enum QueueStatus
+    public enum QueueStatus : uint
     {
         /// <summary>
         /// An input, <see cref="WindowsMessages.WM_TIMER"/>, <see cref="WindowsMessages.WM_PAINT"/>,

@@ -1,9 +1,12 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemShutdownReasonCodes;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -18,6 +21,100 @@ namespace Lsj.Util.Win32
         /// HWND_MESSAGE
         /// </summary>
         public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+        /// <summary>
+        /// <para>
+        /// Calls the <see cref="ExitWindowsEx"/> function to log off the interactive user.
+        /// Applications should call <see cref="ExitWindowsEx"/> directly.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindows
+        /// </para>
+        /// </summary>
+        /// <param name="dwReserved">
+        /// This parameter must be zero.
+        /// </param>
+        /// <param name="Code">
+        /// This parameter must be zero.
+        /// </param>
+        /// <remarks>
+        /// The system sends a <see cref="WM_QUERYENDSESSION"/> to the main window of each running application.
+        /// An application agrees to terminate by returning <see cref="BOOL.TRUE"/> when it receives this message
+        /// (or by allowing the <see cref="DefWindowProc"/> function to process the message).
+        /// If any application returns <see cref="BOOL.FALSE"/> when it receives the <see cref="WM_QUERYENDSESSION"/> message, the logoff is canceled.
+        /// After the system processes the results of the <see cref="WM_QUERYENDSESSION"/> message,
+        /// it sends the <see cref="WM_ENDSESSION"/> message with the wParam parameter set to <see cref="BOOL.TRUE"/> if the system is shutting down
+        /// and to <see cref="BOOL.FALSE"/> if it is not.
+        /// </remarks>
+        public static void ExitWindows(DWORD dwReserved, UINT Code) => ExitWindowsEx(EWX_LOGOFF, (SystemShutdownReasonCodes)0xFFFFFFFF);
+
+        /// <summary>
+        /// <para>
+        /// Logs off the interactive user, shuts down the system, or shuts down and restarts the system.
+        /// It sends the <see cref="WM_QUERYENDSESSION"/> message to all applications to determine if they can be terminated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindowsex
+        /// </para>
+        /// </summary>
+        /// <param name="uFlags">
+        /// The shutdown type. This parameter must include one of the following values.
+        /// <see cref="EWX_HYBRID_SHUTDOWN"/>, <see cref="EWX_LOGOFF"/>, <see cref="EWX_POWEROFF"/>, <see cref="EWX_REBOOT"/>,
+        /// <see cref="EWX_RESTARTAPPS"/>, <see cref="EWX_SHUTDOWN"/>
+        /// This parameter can optionally include one of the following values.
+        /// <see cref="EWX_FORCE"/>, <see cref="EWX_FORCEIFHUNG"/>
+        /// </param>
+        /// <param name="dwReason">
+        /// The reason for initiating the shutdown. This parameter must be one of the <see cref="SystemShutdownReasonCodes"/>.
+        /// If this parameter is zero, the <see cref="SHTDN_REASON_FLAG_PLANNED"/> reason code will not be set and
+        /// therefore the default action is an undefined shutdown that is logged as "No title for this reason could be found".
+        /// By default, it is also an unplanned shutdown.
+        /// Depending on how the system is configured, an unplanned shutdown triggers the creation of a file that contains the system state information,
+        /// which can delay shutdown. Therefore, do not use zero for this parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// Because the function executes asynchronously, a nonzero return value indicates that the shutdown has been initiated.
+        /// It does not indicate whether the shutdown will succeed.
+        /// It is possible that the system, the user, or another application will abort the shutdown.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ExitWindowsEx"/> function returns as soon as it has initiated the shutdown process.
+        /// The shutdown or logoff then proceeds asynchronously. The function is designed to stop all processes in the caller's logon session.
+        /// Therefore, if you are not the interactive user, the function can succeed without actually shutting down the computer.
+        /// If you are not the interactive user, use the <see cref="InitiateSystemShutdown"/> or <see cref="InitiateSystemShutdownEx"/> function.
+        /// A non-zero return value does not mean the logoff was or will be successful.
+        /// The shutdown is an asynchronous process, and it can occur long after the API call has returned, or not at all.
+        /// Even if the timeout value is zero, the shutdown can still be aborted by applications, services, or even the system.
+        /// The non-zero return value indicates that the validation of the rights and parameters was successful and
+        /// that the system accepted the shutdown request.
+        /// When this function is called, the caller must specify whether or not applications with unsaved changes should be forcibly closed.
+        /// If the caller chooses not to force these applications to close and an application with unsaved changes is running on the console session,
+        /// the shutdown will remain in progress until the user logged into the console session aborts the shutdown, saves changes,
+        /// closes the application, or forces the application to close.
+        /// During this period, the shutdown may not be aborted except by the console user, and another shutdown may not be initiated.
+        /// Calling this function with the value of the <paramref name="uFlags"/> parameter set to <see cref="EWX_FORCE"/> avoids this situation.
+        /// Remember that doing this may result in loss of data.
+        /// To set a shutdown priority for an application relative to other applications in the system,
+        /// use the <see cref="SetProcessShutdownParameters"/> function.
+        /// During a shutdown or log-off operation, running applications are allowed a specific amount of time to respond to the shutdown request.
+        /// If this time expires before all applications have stopped, the system displays a user interface that allows
+        /// the user to forcibly shut down the system or to cancel the shutdown request.
+        /// If the <see cref="EWX_FORCE"/> value is specified, the system forces running applications to stop when the time expires.
+        /// If the <see cref="EWX_FORCEIFHUNG"/> value is specified, the system forces hung applications to close and does not display the dialog box.
+        /// Console processes receive a separate notification message, <see cref="CTRL_SHUTDOWN_EVENT"/>
+        /// or <see cref="CTRL_LOGOFF_EVENT"/>, as the situation warrants.
+        /// A console process routes these messages to its <see cref="HandlerRoutine"/> function.
+        /// <see cref="ExitWindowsEx"/> sends these notification messages asynchronously; thus, an application cannot assume
+        /// that the console notification messages have been handled when a call to <see cref="ExitWindowsEx"/> returns.
+        /// To shut down or restart the system, the calling process must use the <see cref="AdjustTokenPrivileges"/> function
+        /// to enable the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// For more information, see Running with Special Privileges.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", SetLastError = true)]
+        public static extern BOOL ExitWindowsEx([In]ExitWindowsExFlags uFlags, [In]SystemShutdownReasonCodes dwReason);
 
         /// <summary>
         /// <para>

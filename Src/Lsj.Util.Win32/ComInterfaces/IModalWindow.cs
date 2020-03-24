@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

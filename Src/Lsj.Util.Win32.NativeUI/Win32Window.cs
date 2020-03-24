@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -6,6 +7,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.SystemColors;
+using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 
 namespace Lsj.Util.Win32.NativeUI
 {
@@ -14,12 +19,12 @@ namespace Lsj.Util.Win32.NativeUI
     /// </summary>
     public class Win32Window
     {
-        private readonly IntPtr _window;
+        private readonly HWND _window;
 
         /// <summary>
         /// Window Handle
         /// </summary>
-        public IntPtr Handle => _window;
+        public HWND Handle => _window;
 
         /// <summary>
         /// 
@@ -42,21 +47,21 @@ namespace Lsj.Util.Win32.NativeUI
             var wndclass = new WNDCLASSEX
             {
                 cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
-                style = ClassStyles.CS_DBLCLKS,
+                style = CS_DBLCLKS,
                 lpfnWndProc = WindowProc,
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = hInstance,
                 hIcon = LoadIcon(IntPtr.Zero, SystemIcons.IDI_APPLICATION),
                 hCursor = LoadCursor(IntPtr.Zero, SystemCursors.IDC_ARROW),
-                hbrBackground = (IntPtr)BackgroundColors.COLOR_WINDOW,
+                hbrBackground = COLOR_WINDOW,
                 lpszMenuName = IntPtr.Zero,
                 lpszClassName = marshal.GetPtr(),
             };
             if (RegisterClassEx(ref wndclass) != 0)
             {
-                _window = CreateWindowEx(WindowStylesEx.WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WindowStyles.WS_TILEDWINDOW,
-                    CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
+                _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+                    CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
                 if (_window == IntPtr.Zero)
                 {
                     throw new Win32Exception(Marshal.GetLastWin32Error());

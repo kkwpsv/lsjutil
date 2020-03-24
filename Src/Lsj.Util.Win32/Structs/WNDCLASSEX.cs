@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
@@ -23,7 +24,7 @@ namespace Lsj.Util.Win32.Structs
         /// The size, in bytes, of this structure. Set this member to sizeof(WNDCLASSEX).
         /// Be sure to set this member before calling the <see cref="GetClassInfoEx"/> function.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
         /// The class style(s). This member can be any combination of the <see cref="ClassStyles"/>.
@@ -52,20 +53,20 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A handle to the instance that contains the window procedure for the class.
         /// </summary>
-        public IntPtr hInstance;
+        public HINSTANCE hInstance;
 
         /// <summary>
         /// A handle to the class icon. This member must be a handle to an icon resource.
         /// If this member is <see cref="IntPtr.Zero"/>, the system provides a default icon.
         /// </summary>
-        public IntPtr hIcon;
+        public HICON hIcon;
 
         /// <summary>
         /// A handle to the class cursor. This member must be a handle to a cursor resource.
         /// If this member is <see cref="IntPtr.Zero"/>,
         /// an application must explicitly set the cursor shape whenever the mouse moves into the application's window.
         /// </summary>
-        public IntPtr hCursor;
+        public HCURSOR hCursor;
 
         /// <summary>
         /// A handle to the class background brush.
@@ -78,7 +79,7 @@ namespace Lsj.Util.Win32.Structs
         /// the <see cref="WindowsMessages.WM_ERASEBKGND"/> message or test the fErase member of the <see cref="PAINTSTRUCT"/> structure
         /// filled by the <see cref="BeginPaint"/> function.
         /// </summary>
-        public IntPtr hbrBackground;
+        public HBRUSH hbrBackground;
 
         /// <summary>
         /// Pointer to a null-terminated character string that specifies the resource name of the class menu, as the name appears in the resource file.
@@ -105,7 +106,7 @@ namespace Lsj.Util.Win32.Structs
         /// If this member is NULL, the system searches the icon resource specified by the hIcon member fo
         /// r an icon of the appropriate size to use as the small icon.
         /// </summary>
-        public IntPtr hIconSm;
+        public HICON hIconSm;
     }
 
 

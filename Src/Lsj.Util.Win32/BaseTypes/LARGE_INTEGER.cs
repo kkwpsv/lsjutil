@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
-namespace Lsj.Util.Win32.Structs
+namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// <para>
@@ -25,18 +22,18 @@ namespace Lsj.Util.Win32.Structs
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public uint LowPart;
+        public DWORD LowPart;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(4)]
-        public int HighPart;
+        public LONG HighPart;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public long QuadPart;
+        public LONGLONG QuadPart;
     }
 }

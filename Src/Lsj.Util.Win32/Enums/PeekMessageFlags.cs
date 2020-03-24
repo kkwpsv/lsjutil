@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// </summary>
     [Flags]
-    public enum PeekMessageFlags
+    public enum PeekMessageFlags : uint
     {
         /// <summary>
         /// Messages are not removed from the queue after processing by <see cref="PeekMessage"/>.
@@ -48,6 +48,6 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Process all sent messages.
         /// </summary>
-        PM_QS_SENDMESSAGE = QueueStatus.QS_SENDMESSAGE<<16,
+        PM_QS_SENDMESSAGE = QueueStatus.QS_SENDMESSAGE << 16,
     }
 }
