@@ -157,6 +157,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified global memory object.
+        /// Note
+        /// This function is provided only for compatibility with 16-bit versions of Windows.
+        /// New applications should use the heap functions.
+        /// For more information, see Remarks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalflags
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the allocation values and the lock count for the memory object.
+        /// If the function fails, the return value is <see cref="GMEM_INVALID_HANDLE"/>, indicating that the global handle is not valid.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The low-order byte of the low-order word of the return value contains the lock count of the object.
+        /// To retrieve the lock count from the return value, use the <see cref="GMEM_LOCKCOUNT"/> mask with the bitwise AND (&amp;) operator.
+        /// The lock count of memory objects allocated with <see cref="GMEM_FIXED"/> is always zero.
+        /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
+        /// It can be zero or <see cref="GMEM_DISCARDED"/>.
+        /// The global functions have greater overhead and provide fewer features than other memory management functions. New applications should use the heap functions unless documentation states that a global function should be used. For more information, see Global and Local Functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", SetLastError = true)]
+        public static extern UINT GlobalFlags([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
         /// Frees the specified global memory object and invalidates its handle.
         /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
         /// New applications should use the heap functions unless documentation states that a global function should be used.
