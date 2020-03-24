@@ -193,6 +193,34 @@ namespace Lsj.Util.Win32
         public static extern HGLOBAL GlobalFree(HGLOBAL hMem);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the handle associated with the specified pointer to a global memory block.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalhandle
+        /// </para>
+        /// </summary>
+        /// <param name="pMem">
+        /// A pointer to the first byte of the global memory block.
+        /// This pointer is returned by the <see cref="GlobalLock"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified global memory object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the <see cref="GlobalAlloc"/> function allocates a memory object with <see cref="GMEM_MOVEABLE"/>, it returns a handle to the object.
+        /// The <see cref="GlobalLock"/> function converts this handle into a pointer to the memory block,
+        /// and <see cref="GlobalHandle"/> converts the pointer back into a handle.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", SetLastError = true)]
+        public static extern HGLOBAL GlobalHandle([In]LPCVOID pMem);
+
+        /// <summary>
         /// Locks a global memory object and returns a pointer to the first byte of the object's memory block.
         /// </summary>
         /// <param name="hMem">
