@@ -182,7 +182,9 @@ namespace Lsj.Util.Win32
         /// The lock count of memory objects allocated with <see cref="GMEM_FIXED"/> is always zero.
         /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
         /// It can be zero or <see cref="GMEM_DISCARDED"/>.
-        /// The global functions have greater overhead and provide fewer features than other memory management functions. New applications should use the heap functions unless documentation states that a global function should be used. For more information, see Global and Local Functions.
+        /// The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", SetLastError = true)]
         public static extern UINT GlobalFlags([In]HGLOBAL hMem);
