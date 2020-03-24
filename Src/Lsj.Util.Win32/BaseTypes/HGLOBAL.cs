@@ -31,5 +31,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator HGLOBAL(HANDLE val) => new HGLOBAL { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IntPtr(HGLOBAL val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HGLOBAL(IntPtr val) => new HGLOBAL { _value = val };
     }
 }

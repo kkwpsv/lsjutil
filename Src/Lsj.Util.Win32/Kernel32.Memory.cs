@@ -132,6 +132,30 @@ namespace Lsj.Util.Win32
         public static extern HGLOBAL GlobalAlloc(GlobalMemoryFlags uFlags, SIZE_T dwBytes);
 
         /// <summary>
+        /// <para>
+        /// Discards the specified global memory block. The lock count of the memory object must be zero.
+        /// Note 
+        /// The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldiscard
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Although <see cref="GlobalDiscard"/> discards the object's memory block, the handle to the object remains valid.
+        /// The process can subsequently pass the handle to the <see cref="GlobalReAlloc"/> function to
+        /// allocate another global memory block identified by the same handle.
+        /// </remarks>
+        public static HGLOBAL GlobalDiscard(HGLOBAL h) => GlobalReAlloc(h, 0, GMEM_MOVEABLE);
+
+        /// <summary>
         /// Locks a global memory object and returns a pointer to the first byte of the object's memory block.
         /// </summary>
         /// <param name="hMem">
