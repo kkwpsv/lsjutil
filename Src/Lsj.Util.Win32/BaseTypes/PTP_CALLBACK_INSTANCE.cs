@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_CALLBACK_INSTANCE(IntPtr val) => new PTP_TIMER { _value = val };
+        public static implicit operator PTP_CALLBACK_INSTANCE(IntPtr val) => new PTP_CALLBACK_INSTANCE { _value = val };
     }
 }
