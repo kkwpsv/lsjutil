@@ -239,6 +239,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current size of the specified global memory object, in bytes.
+        /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
+        /// New applications should use the heap functions unless documentation states that a global function should be used.
+        /// For more information, see Global and Local Functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalsize
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the global memory object.
+        /// This handle is returned by either the <see cref="GlobalAlloc"/> or <see cref="GlobalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the size of the specified global memory object, in bytes.
+        /// If the specified handle is not valid or if the object has been discarded, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The size of a memory block may be larger than the size requested when the memory was allocated.
+        /// To verify that the specified object's memory block has not been discarded,
+        /// use the <see cref="GlobalFlags"/> function before calling <see cref="GlobalSize"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", SetLastError = true)]
+        public static extern SIZE_T GlobalSize([In]HGLOBAL hMem);
+
+        /// <summary>
+        /// <para>
         /// Decrements the lock count associated with a memory object that was allocated with <see cref="GMEM_MOVEABLE"/>.
         /// This function has no effect on memory objects allocated with <see cref="GMEM_FIXED"/>.
         /// Note The global functions have greater overhead and provide fewer features than other memory management functions.
