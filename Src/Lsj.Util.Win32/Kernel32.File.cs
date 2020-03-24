@@ -28,6 +28,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
+        /// OFS_MAXPATHNAME
+        /// </summary>
+        public const int OFS_MAXPATHNAME = 128;
+
+        /// <summary>
         /// STORAGE_INFO_OFFSET_UNKNOWN 
         /// </summary>
         public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
@@ -2600,6 +2605,65 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LocalFileTimeToFileTime([MarshalAs(UnmanagedType.LPStruct)][In]Structs.FILETIME lpLocalFileTime,
             [Out]out Structs.FILETIME lpFileTime);
+
+        /// <summary>
+        /// <para>
+        /// Creates, opens, reopens, or deletes a file.
+        /// Note This function has limited capabilities and is not recommended. For new application development, use the <see cref="CreateFile"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// The string must consist of characters from the 8-bit Windows character set.
+        /// The <see cref="OpenFile"/> function does not support Unicode file names or opening named pipes.
+        /// </param>
+        /// <param name="lpReOpenBuff">
+        /// A pointer to the <see cref="OFSTRUCT"/> structure that receives information about a file when it is first opened.
+        /// The structure can be used in subsequent calls to the OpenFile function to see an open file.
+        /// The <see cref="OFSTRUCT"/> structure contains a path string member with a length that is limited to <see cref="OFS_MAXPATHNAME"/> characters,
+        /// which is 128 characters.
+        /// Because of this, you cannot use the <see cref="OpenFile"/> function to open a file with a path length that exceeds 128 characters.
+        /// The <see cref="CreateFile"/> function does not have this path length limitation.
+        /// </param>
+        /// <param name="uStyle">
+        /// The action to be taken.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="OF_CANCEL"/>, <see cref="OF_CREATE"/>, <see cref="OF_DELETE"/>, <see cref="OF_EXIST"/>, <see cref="OF_PARSE"/>,
+        /// <see cref="OF_PROMPT"/>, <see cref="OF_READ"/>, <see cref="OF_READWRITE"/>, <see cref="OF_REOPEN"/>, <see cref="OF_SHARE_COMPAT"/>,
+        /// <see cref="OF_SHARE_DENY_NONE"/>, <see cref="OF_SHARE_DENY_READ"/>, <see cref="OF_SHARE_DENY_WRITE"/>, <see cref="OF_SHARE_EXCLUSIVE"/>,
+        /// <see cref="OF_VERIFY"/>, <see cref="OF_WRITE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies a file handle to use when performing file I/O.
+        /// To close the file, call the <see cref="CloseHandle"/> function using this handle.
+        /// If the function fails, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lpFileName"/> parameter specifies a file name and extension only,
+        /// this function searches for a matching file in the following directories and the order shown:
+        /// The directory where an application is loaded.
+        /// The current directory.
+        /// The Windows system directory.
+        /// Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
+        /// The 16-bit Windows system directory.
+        /// There is not a function that retrieves the path of this directory, but it is searched.
+        /// The Windows directory.
+        /// Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// The directories that are listed in the PATH environment variable.
+        /// The lpFileName parameter cannot contain wildcard characters.
+        /// The <see cref="OpenFile"/> function does not support the <see cref="OF_SEARCH"/> flag that the 16-bit Windows <see cref="OpenFile"/> function supports.
+        /// The <see cref="OF_SEARCH"/> flag directs the system to search for a matching file even when a file name includes a full path.
+        /// Use the <see cref="SearchPath"/> function to search for a file.
+        /// A sharing violation occurs if an attempt is made to open a file or directory for deletion on a remote machine
+        /// when the value of the <paramref name="uStyle"/> parameter is the <see cref="OF_DELETE"/> access flag OR'ed with any other access flag,
+        /// and the remote file or directory has not been opened with <see cref="FILE_SHARE_DELETE"/> share access.
+        /// To avoid the sharing violation in this scenario, open the remote file or directory with <see cref="OF_DELETE"/> access only,
+        /// or call <see cref="DeleteFile"/> without first opening the file or directory for deletion.
+        /// </remarks>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "OpenFile", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE OpenFile([MarshalAs(UnmanagedType.LPStr)][In]string lpFileName, [In][Out]ref OFSTRUCT lpReOpenBuff, [In]OpenFileFlags uStyle);
 
         /// <summary>
         /// <para>
