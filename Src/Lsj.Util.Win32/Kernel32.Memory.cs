@@ -995,7 +995,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", SetLastError = true)]
-        public static extern IntPtr LocalAlloc(LocalMemoryFlags uFlags, IntPtr uBytes);
+        public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
 
         /// <summary>
         /// <para>
@@ -1039,7 +1039,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
-        public static extern IntPtr LocalFree([In]IntPtr hMem);
+        public static extern HLOCAL LocalFree([In]HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -1058,7 +1058,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", SetLastError = true)]
-        public static extern IntPtr LocalLock(IntPtr hMem);
+        public static extern LPVOID LocalLock(HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -1093,7 +1093,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
-        public static extern IntPtr LocalReAlloc(IntPtr hMem, IntPtr uBytes, LocalMemoryFlags uFlags);
+        public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
 
         /// <summary>
         /// 
