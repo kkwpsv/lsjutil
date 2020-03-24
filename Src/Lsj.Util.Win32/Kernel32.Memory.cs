@@ -1022,6 +1022,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified local memory object.
+        /// Note This function is provided only for compatibility with 16-bit versions of Windows.
+        /// New applications should use the heap functions.
+        /// For more information, see Remarks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localflags
+        /// </para>
+        /// </summary>
+        /// <param name="hMem">
+        /// A handle to the local memory object.
+        /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the allocation values and the lock count for the memory object.
+        /// If the function fails, the return value is <see cref="LMEM_INVALID_HANDLE"/>, indicating that the local handle is not valid.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The low-order byte of the low-order word of the return value contains the lock count of the object.
+        /// To retrieve the lock count from the return value, use the <see cref="LMEM_LOCKCOUNT"/> mask with the bitwise AND (&amp;) operator.
+        /// The lock count of memory objects allocated with <see cref="LMEM_FIXED"/> is always zero.
+        /// The high-order byte of the low-order word of the return value indicates the allocation values of the memory object.
+        /// It can be zero or <see cref="LMEM_DISCARDABLE"/>.
+        /// The local functions have greater overhead and provide fewer features than other memory management functions. New applications should use the heap functions unless documentation states that a local function should be used. For more information, see Global and Local Functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
+        public static extern LocalMemoryFlags LocalFlags([In]HLOCAL hMem);
+
+        /// <summary>
+        /// <para>
         /// Frees the specified local memory object and invalidates its handle.
         /// </para>
         /// <para>
@@ -1063,7 +1094,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// When the <see cref="LocalAlloc"/> function allocates a local memory object with <see cref="LMEM_MOVEABLE"/>, it returns a handle to the object.
-        /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block, and <see cref="LocalHandle"/> converts the pointer back into a handle.
+        /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block,
+        /// and <see cref="LocalHandle"/> converts the pointer back into a handle.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", SetLastError = true)]
         public static extern HLOCAL LocalHandle([In]LPCVOID pMem);
