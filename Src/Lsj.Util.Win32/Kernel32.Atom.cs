@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -94,6 +95,39 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindAtomW", SetLastError = true)]
         public static extern ATOM FindAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a copy of the character string associated with the specified local atom.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getatomnamew
+        /// </para>
+        /// </summary>
+        /// <param name="nAtom">
+        /// The local atom that identifies the character string to be retrieved.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The character string.
+        /// </param>
+        /// <param name="nSize">
+        /// The size, in characters, of the buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length of the string copied to the buffer, in characters,
+        /// not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF) is a null-terminated string
+        /// in which the first character is a pound sign (#) and the remaining characters represent the unsigned integer atom value.
+        /// Security Considerations
+        /// Using this function incorrectly might compromise the security of your program.
+        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAtomNameW", SetLastError = true)]
+        public static extern UINT GetAtomName([In]ATOM nAtom, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer, [In] int nSize);
 
         /// <summary>
         /// <para>
