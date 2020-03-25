@@ -2757,5 +2757,35 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+#pragma warning disable IDE1006
+        /// <summary>
+        /// <para>
+        /// The <see cref="_lopen"/> function opens an existing file and sets the file pointer to the beginning of the file.
+        /// This function is provided for compatibility with 16-bit versions of Windows.
+        /// Win32-based applications should use the <see cref="CreateFile"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lopen
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// Pointer to a null-terminated string that names the file to open.
+        /// The string must consist of characters from the Windows ANSI character set.
+        /// </param>
+        /// <param name="iReadWrite">
+        /// Specifies the modes in which to open the file.
+        /// This parameter consists of one access mode and an optional share mode.
+        /// The access mode must be one of the following values: <see cref="OF_READ"/>, <see cref="OF_READWRITE"/>, <see cref="OF_WRITE"/>
+        /// The share mode can be one of the following values: <see cref="OF_SHARE_COMPAT"/>, <see cref="OF_SHARE_DENY_NONE"/>,
+        /// <see cref="OF_SHARE_DENY_READ"/>, <see cref="OF_SHARE_DENY_WRITE"/>, <see cref="OF_SHARE_EXCLUSIVE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a file handle.
+        /// </returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE _lopen([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]OpenFileFlags iReadWrite);
+#pragma warning restore IDE1006
     }
 }
