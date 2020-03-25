@@ -2761,6 +2761,30 @@ namespace Lsj.Util.Win32
 #pragma warning disable IDE1006
         /// <summary>
         /// <para>
+        /// 
+        /// </para>
+        /// </summary>
+        /// <param name="hFile"></param>
+        /// <param name="lpBuffer"></param>
+        /// <param name="lBytes"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern long _hread([In]HFILE hFile, [In]LPVOID lpBuffer, [In]long lBytes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hFile"></param>
+        /// <param name="lpBuffer"></param>
+        /// <param name="lBytes"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern long _hwrite([In]HFILE hFile, [In]LPCCH lpBuffer, [In]long lBytes);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="_lclose"/> function closes the specified file so that it is no longer available for reading or writing.
         /// </para>
         /// <para>
