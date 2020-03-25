@@ -172,5 +172,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockResource", SetLastError = true)]
         public static extern LPVOID LockResource([In]HGLOBAL hResData);
+
+        /// <summary>
+        /// <para>
+        /// Converts an integer value to a resource type compatible with the resource-management functions.
+        /// This macro is used in place of a string containing the name of the resource.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-makeintresourcew
+        /// </para>
+        /// </summary>
+        /// <param name="i">
+        /// The integer value to be converted.
+        /// </param>
+        /// <returns>
+        /// The return value should be passed only to functions which explicitly indicate that they accept <see cref="MAKEINTRESOURCE"/> as a parameter.
+        /// For example, the resource management functions allow the return value of <see cref="MAKEINTRESOURCE"/>
+        /// to be passed as the lpType or lpName parameters.
+        /// </returns>
+        public static IntPtr MAKEINTRESOURCE(WORD i) => (IntPtr)(int)i;
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size, in bytes, of the specified resource.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-sizeofresource
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the module whose executable file contains the resource.
+        /// </param>
+        /// <param name="hResInfo">
+        /// A handle to the resource.
+        /// This handle must be created by using the <see cref="FindResource"/> or <see cref="FindResourceEx"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes in the resource.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SizeofResource", SetLastError = true)]
+        public static extern DWORD SizeofResource([In]HMODULE hModule, [In]HRSRC hResInfo);
     }
 }
