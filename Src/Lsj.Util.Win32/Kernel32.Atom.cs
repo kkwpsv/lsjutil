@@ -39,6 +39,33 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAtomW", SetLastError = true)]
         public static extern ATOM AddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
+        /// <summary>
+        /// <para>
+        /// Decrements the reference count of a local string atom.
+        /// If the atom's reference count is reduced to zero, <see cref="DeleteAtom"/> removes the string associated with the atom from the local atom table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deleteatom
+        /// </para>
+        /// </summary>
+        /// <param name="nAtom">
+        /// The atom to be deleted.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is zero.
+        /// If the function fails, the return value is the <paramref name="nAtom"/> parameter.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A string atom's reference count specifies the number of times the atom has been added to the atom table.
+        /// The <see cref="AddAtom"/> function increments the count on each call.
+        /// The <see cref="DeleteAtom"/> function decrements the count on each call but removes the string only if the atom's reference count is zero.
+        /// Each call to <see cref="AddAtom"/> should have a corresponding call to <see cref="DeleteAtom"/>.
+        /// Do not call <see cref="DeleteAtom"/> more times than you call <see cref="AddAtom"/>, or you may delete the atom while other clients are using it.
+        /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF). The function always returns zero for an integer atom.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteAtom", SetLastError = true)]
+        public static extern ATOM DeleteAtom([In]ATOM nAtom);
 
         /// <summary>
         /// <para>
