@@ -2762,8 +2762,6 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// The <see cref="_lopen"/> function opens an existing file and sets the file pointer to the beginning of the file.
-        /// This function is provided for compatibility with 16-bit versions of Windows.
-        /// Win32-based applications should use the <see cref="CreateFile"/> function.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lopen
@@ -2783,9 +2781,42 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// If the function succeeds, the return value is a file handle.
         /// </returns>
-        [Obsolete]
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE _lopen([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]OpenFileFlags iReadWrite);
+
+        /// <summary>
+        /// <para>
+        /// Creates or opens the specified file. This documentation is included only for troubleshooting existing code.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lcreat
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The name of the file. The string must consist of characters from the Windows ANSI character set.
+        /// </param>
+        /// <param name="iAttribute">
+        /// This parameter must be set to one of the following values.
+        /// 0: Normal. Can be read from or written to without restriction.
+        /// 1: Read-only. Cannot be opened for write.
+        /// 2: Hidden. Not found by directory search.
+        /// 4: System. Not found by directory search.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a file handle. Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If the file does not exist, <see cref="_lcreat"/> creates and opens a new file for writing.
+        /// If the file does exist, <see cref="_lcreat"/> truncates the file size to zero and opens it for reading and writing.
+        /// When the function opens a file, the pointer is set to the beginning of the file.
+        /// Use the <see cref="_lcreat"/> function with care.
+        /// It can open any file, even one already opened by another function.
+        /// </remarks>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lcreat", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE _lcreat([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]int iAttribute);
 #pragma warning restore IDE1006
     }
 }
