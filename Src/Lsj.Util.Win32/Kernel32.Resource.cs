@@ -69,6 +69,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Decrements (decreases by one) the reference count of a loaded resource.
+        /// When the reference count reaches zero, the memory occupied by the resource is freed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-freeresource
+        /// </para>
+        /// </summary>
+        /// <param name="hResData">
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.FALSE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.TRUE"/>, which indicates that the resource has not been freed.
+        /// </returns>
+        /// <remarks>
+        /// For resources loaded with other functions, <see cref="FreeResource"/> has been replaced by the following functions:
+        /// Accelerator: <see cref="DestroyAcceleratorTable"/>
+        /// Bitmap: <see cref="DeleteObject"/>
+        /// Cursor: <see cref="DestroyCursor"/>
+        /// Icon: <see cref="DestroyIcon"/>
+        /// Menu: <see cref="DestroyMenu"/>
+        /// The reference count for a resource is incremented (increased by one) each time an application
+        /// calls the <see cref="LoadResource"/> function for the resource.
+        /// The system automatically deletes these resources when the process that created them terminates.
+        /// However, calling the appropriate function saves memory.
+        /// For more information, see <see cref="LoadResource"/>.
+        /// </remarks>
+        [Obsolete("This function is obsolete and is only supported for backward compatibility with 16-bit Windows." +
+            "For 32-bit Windows applications, it is not necessary to free the resources loaded using LoadResource." +
+            "If used on 32 or 64-bit Windows systems, this function will return FALSE.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeResource", SetLastError = true)]
+        public static extern BOOL FreeResource([In]HGLOBAL hResData);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle that can be used to obtain a pointer to the first byte of the specified resource in memory.
         /// </para>
         /// <para>
