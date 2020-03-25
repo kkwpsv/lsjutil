@@ -142,5 +142,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadResource", SetLastError = true)]
         public static extern HGLOBAL LoadResource([In]HMODULE hModule, [In]HRSRC hResInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pointer to the specified resource in memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-lockresource
+        /// </para>
+        /// </summary>
+        /// <param name="hResData">
+        /// A handle to the resource to be accessed.
+        /// The <see cref="LoadResource"/> function returns this handle.
+        /// Note that this parameter is listed as an <see cref="HGLOBAL"/> variable only for backward compatibility.
+        /// Do not pass any value as a parameter other than a successful return value from the <see cref="LoadResource"/> function.
+        /// </param>
+        /// <returns>
+        /// If the loaded resource is available, the return value is a pointer to the first byte of the resource; otherwise, it is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The pointer returned by <see cref="LockResource"/> is valid until the module containing the resource is unloaded.
+        /// It is not necessary to unlock resources because the system automatically deletes them when the process that created them terminates.
+        /// Do not try to lock a resource by using the handle returned by the <see cref="FindResource"/> or <see cref="FindResourceEx"/> function.
+        /// Such a handle points to random data.
+        /// Note
+        /// <see cref="LockResource"/> does not actually lock memory; it is just used to obtain a pointer to the memory containing the resource data.
+        /// The name of the function comes from versions prior to Windows XP,
+        /// when it was used to lock a global memory block allocated by <see cref="LoadResource"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockResource", SetLastError = true)]
+        public static extern LPVOID LockResource([In]HGLOBAL hResData);
     }
 }
