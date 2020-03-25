@@ -2813,6 +2813,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Repositions the file pointer for the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_llseek
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to an open file. This handle is created by <see cref="_lcreat"/>.
+        /// </param>
+        /// <param name="lOffset">
+        /// The number of bytes that the file pointer is to be moved.
+        /// </param>
+        /// <param name="iOrigin">
+        /// The starting point and the direction that the pointer will be moved.
+        /// This parameter must be set to one of the following values.
+        /// 0: Moves the pointer from the beginning of the file.
+        /// 1: Moves the file from its current location.
+        /// 2: Moves the pointer from the end of the file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the new offset.
+        /// Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// When a file is initially opened, the file pointer is set to the beginning of the file.
+        /// The <see cref="_llseek"/> function moves the pointer without reading data, which allows random access to the content of the file.
+        /// </remarks>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the SetFilePointer function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_llseek", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern LONG _llseek([In]HFILE hFile, [In]LONG lOffset, [In]int iOrigin);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="_lopen"/> function opens an existing file and sets the file pointer to the beginning of the file.
         /// </para>
         /// <para>
