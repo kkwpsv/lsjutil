@@ -2791,6 +2791,15 @@ namespace Lsj.Util.Win32
             [In]ULONG_PTR dwCompletionKey, [In][Out]ref OVERLAPPED lpOverlapped);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uNumber"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", SetLastError = true)]
+        public static extern UINT SetHandleCount([In]uint uNumber);
+
+        /// <summary>
         /// <para>
         /// Sets the file information for the specified file.
         /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
