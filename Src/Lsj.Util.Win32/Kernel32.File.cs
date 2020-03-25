@@ -1911,6 +1911,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
+        /// To determine whether a drive is a USB-type drive,
+        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the <see cref="SPDRP_REMOVAL_POLICY"/> property.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdrivetypew
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// The root directory for the drive.
+        /// A trailing backslash is required.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current directory.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the type of drive, which can be one of the following values.
+        /// <see cref="DRIVE_UNKNOWN"/>, <see cref="DRIVE_NO_ROOT_DIR"/>, <see cref="DRIVE_REMOVABLE"/>, <see cref="DRIVE_FIXED"/>,
+        /// <see cref="DRIVE_REMOTE"/>, <see cref="DRIVE_CDROM"/>, <see cref="DRIVE_RAMDISK"/>
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDriveTypeW", SetLastError = true)]
+        public static extern DriveTypes GetDriveType([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName);
+
+        /// <summary>
+        /// <para>
         /// Retrieves file system attributes for a specified file or directory.
         /// To get more attribute information, use the <see cref="GetFileAttributesEx"/> function.
         /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
