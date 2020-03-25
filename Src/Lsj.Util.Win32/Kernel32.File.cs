@@ -2870,6 +2870,56 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern HFILE _lopen([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]OpenFileFlags iReadWrite);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="_lread"/> function reads data from the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lread
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// Identifies the specified file.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// Pointer to a buffer that contains the data read from the file.
+        /// </param>
+        /// <param name="uBytes">
+        /// Specifies the number of bytes to be read from the file.
+        /// </param>
+        /// <returns>
+        /// The return value indicates the number of bytes actually read from the file.
+        /// If the number of bytes read is less than <paramref name="uBytes"/>,
+        /// the function has reached the end of file (EOF) before reading the specified number of bytes.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the ReadFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern UINT _lread([In]HFILE hFile, [In]LPVOID lpBuffer, [In]UINT uBytes);
+
+        /// <summary>
+        /// <para>
+        /// Writes data to the specified file.
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that receives the data.
+        /// This handle is created by <see cref="_lcreat"/>.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The buffer that contains the data to be added.
+        /// </param>
+        /// <param name="uBytes">
+        /// The number of bytes to write to the file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes written to the file.
+        /// Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the WriteFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern UINT _lwrite([In]HFILE hFile, [In]LPCCH lpBuffer, [In]UINT uBytes);
 #pragma warning restore IDE1006
     }
 }
