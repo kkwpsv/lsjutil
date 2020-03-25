@@ -2394,6 +2394,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a name for a temporary file.
+        /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettempfilenamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The directory path for the file name.
+        /// Applications typically specify a period (.) for the current directory or the result of the <see cref="GetTempPath"/> function.
+        /// The string cannot be longer than <see cref="MAX_PATH"/>–14 characters or <see cref="GetTempFileName"/> will fail.
+        /// If this parameter is <see langword="null"/>, the function fails.
+        /// </param>
+        /// <param name="lpPrefixString">
+        /// The null-terminated prefix string.
+        /// The function uses up to the first three characters of this string as the prefix of the file name.
+        /// This string must consist of characters in the OEM-defined character set.
+        /// </param>
+        /// <param name="uUnique">
+        /// An unsigned integer to be used in creating the temporary file name.
+        /// For more information, see Remarks.
+        /// If <paramref name="uUnique"/> is zero, the function attempts to form a unique file name using the current system time.
+        /// If the file already exists, the number is increased by one and the functions tests if this file already exists.
+        /// This continues until a unique filename is found; the function creates a file by that name and closes it.
+        /// Note that the function does not attempt to verify the uniqueness of the file name when <paramref name="uUnique"/> is nonzero.
+        /// </param>
+        /// <param name="lpTempFileName">
+        /// A pointer to the buffer that receives the temporary file name.
+        /// This buffer should be <see cref="MAX_PATH"/> characters to accommodate the path plus the terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the unique numeric value used in the temporary file name.
+        /// If the <paramref name="uUnique"/> parameter is nonzero, the return value specifies that same number.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following is a possible return value.
+        /// <see cref="ERROR_BUFFER_OVERFLOW"/>:
+        /// The length of the string pointed to by the <paramref name="lpPathName"/> parameter is more than <see cref="MAX_PATH"/>–14 characters.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTempFileName"/> function creates a temporary file name of the following form:
+        /// &lt;path&gt;&lt;i&gt;&lt;pre&gt;&lt;uuuu&gt;.TMP
+        /// The following table describes the file name syntax.
+        /// &lt;path&gt;: Path specified by the <paramref name="lpPathName"/> parameter
+        /// &lt;pre&gt;: First three letters of the <paramref name="lpPrefixString"/> string
+        /// &lt;uuuu&gt;: Hexadecimal value of <paramref name="uUnique"/>
+        /// If <paramref name="uUnique"/> is zero, <see cref="GetTempFileName"/> creates an empty file and closes it.
+        /// If <paramref name="uUnique"/> is not zero, you must create the file yourself.
+        /// Only a file name is created, because <see cref="GetTempFileName"/> is not able to guarantee that the file name is unique.
+        /// Only the lower 16 bits of the uUnique parameter are used.
+        /// This limits <see cref="GetTempFileName"/> to a maximum of 65,535 unique file names
+        /// if the <paramref name="lpPathName"/> and <paramref name="lpPrefixString"/> parameters remain the same.
+        /// Due to the algorithm used to generate file names, <see cref="GetTempFileName"/> can perform poorly
+        /// when creating a large number of files with the same prefix.
+        /// In such cases, it is recommended that you construct unique file names based on GUIDs.
+        /// Temporary files whose names have been created by this function are not automatically deleted.
+        /// To delete these files call <see cref="DeleteFile"/>.
+        /// To avoid problems resulting when converting an ANSI string, an application should call
+        /// the <see cref="CreateFile"/> function to create a temporary file.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", SetLastError = true)]
+        public static extern UINT GetTempFileName([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpPrefixString, [In]UINT uUnique, [Out]StringBuilder lpTempFileName);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
         /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
