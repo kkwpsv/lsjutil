@@ -48,5 +48,10 @@ namespace Lsj.Util.Win32
         /// INVALID_HANDLE_VALUE
         /// </summary>
         public readonly static IntPtr INVALID_HANDLE_VALUE = (IntPtr)(-1);
+
+        /// <summary>
+        /// NULL
+        /// </summary>
+        public readonly static IntPtr NULL = IntPtr.Zero;
     }
 }
