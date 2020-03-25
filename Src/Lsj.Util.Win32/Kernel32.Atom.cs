@@ -62,10 +62,38 @@ namespace Lsj.Util.Win32
         /// The <see cref="DeleteAtom"/> function decrements the count on each call but removes the string only if the atom's reference count is zero.
         /// Each call to <see cref="AddAtom"/> should have a corresponding call to <see cref="DeleteAtom"/>.
         /// Do not call <see cref="DeleteAtom"/> more times than you call <see cref="AddAtom"/>, or you may delete the atom while other clients are using it.
-        /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF). The function always returns zero for an integer atom.
+        /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
+        /// The function always returns zero for an integer atom.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteAtom", SetLastError = true)]
         public static extern ATOM DeleteAtom([In]ATOM nAtom);
+
+        /// <summary>
+        /// <para>
+        /// Searches the local atom table for the specified character string and retrieves the atom associated with that string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findatomw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The character string for which to search.
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// See Remarks for more information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the atom associated with the given string.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Even though the system preserves the case of a string in an atom table,
+        /// the search performed by the <see cref="FindAtom"/> function is not case sensitive.
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// If the low-order word is not in this range, the function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindAtomW", SetLastError = true)]
+        public static extern ATOM FindAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
         /// <para>
