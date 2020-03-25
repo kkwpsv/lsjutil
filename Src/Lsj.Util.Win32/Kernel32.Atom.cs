@@ -7,6 +7,41 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Adds a character string to the local atom table and returns a unique value (an atom) identifying the string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-addatomw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The null-terminated string to be added.
+        /// The string can have a maximum size of 255 bytes. Strings differing only in case are considered identical.
+        /// The case of the first string added is preserved and returned by the <see cref="GetAtomName"/> function.
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// See the Remarks for more information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the newly created atom.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AddAtom"/> function stores no more than one copy of a given string in the atom table.
+        /// If the string is already in the table, the function returns the existing atom and, in the case of a string atom,
+        /// increments the string's reference count.
+        /// If <paramref name="lpString"/> has the form "#1234", AddAtom returns an integer atom whose value is the 16-bit representation of the decimal number
+        /// specified in the string (0x04D2, in this example).
+        /// If the decimal value specified is 0x0000 or is greater than or equal to 0xC000, the return value is zero, indicating an error.
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// If the low-order word is not in this range, the function fails.
+        /// If <paramref name="lpString"/> has any other form, <see cref="AddAtom"/> returns a string atom.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAtomW", SetLastError = true)]
+        public static extern ATOM AddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+
+        /// <summary>
+        /// <para>
         /// Initializes the local atom table and sets the number of hash buckets to the specified size.
         /// </para>
         /// <para>
