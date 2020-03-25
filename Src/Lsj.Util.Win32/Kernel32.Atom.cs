@@ -206,6 +206,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Searches the global atom table for the specified character string and retrieves the global atom associated with that string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalfindatomw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The null-terminated character string for which to search.
+        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
+        /// See the Remarks for more information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the global atom associated with the given string.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Even though the system preserves the case of a string in an atom table as it was originally entered,
+        /// the search performed by <see cref="GlobalFindAtom"/> is not case sensitive.
+        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
+        /// If the low-order word is not in this range, the function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFindAtomW", SetLastError = true)]
+        public static extern ATOM GlobalFindAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a copy of the character string associated with the specified global atom.
         /// </para>
         /// <para>
