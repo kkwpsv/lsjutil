@@ -270,6 +270,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines if a specified character is a lead byte for the system default Windows ANSI code page (<see cref="CP_ACP"/>).
+        /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
+        /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte
+        /// </para>
+        /// </summary>
+        /// <param name="TestChar">
+        /// The character to test.
+        /// </param>
+        /// <returns>
+        /// Returns a <see cref="BOOL.TRUE"/> value if the test character is potentially a lead byte.
+        /// The function returns <see cref="BOOL.FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function does not validate the presence or validity of a trail byte.
+        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence that the application
+        /// using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
+        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
+        /// potentially leading to unexpected errors or buffer size mismatches.
+        /// In general, instead of attempting low-level manipulation of code page data,
+        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// Lead byte values are specific to each distinct DBCS.
+        /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
+        /// To make sense of a DBCS string, an application normally starts at the beginning of a string and scans forward,
+        /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
+        /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", SetLastError = true)]
+        public static extern BOOL IsDBCSLeadByte([In]BYTE TestChar);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the specified process is running under WOW64 or an Intel64 of x64 processor.
         /// </para>
         /// <para>
