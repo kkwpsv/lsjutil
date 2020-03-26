@@ -457,6 +457,24 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", SetLastError = true)]
         public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Determines the length of the specified string (not including the terminating null character).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrlenw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The null-terminated string to be checked.
+        /// </param>
+        /// <returns>
+        /// The function returns the length of the string, in characters.
+        /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", SetLastError = true)]
+        public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 #pragma warning restore IDE1006
 
         /// <summary>
