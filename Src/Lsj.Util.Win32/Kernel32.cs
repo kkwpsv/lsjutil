@@ -304,6 +304,49 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
 
+#pragma warning disable IDE1006
+        /// <summary>
+        /// <para>
+        /// Compares two character strings. The comparison is case-sensitive.
+        /// To perform a comparison that is not case-sensitive, use the lstrcmpi function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string to be compared.
+        /// </param>
+        /// <param name="lpString2">
+        /// The second null-terminated string to be compared.
+        /// </param>
+        /// <returns>
+        /// If the string pointed to by <paramref name="lpString1"/> is less than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is negative.
+        /// If the string pointed to by <paramref name="lpString1"/> is greater than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is positive.
+        /// If the strings are equal, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="lstrcmp"/> function compares two strings by checking the first characters against each other,
+        /// the second characters against each other, and so on until it finds an inequality or reaches the ends of the strings.
+        /// Note that the <paramref name="lpString1"/> and <paramref name="lpString2"/> parameters must be null-terminated,
+        /// otherwise the string comparison can be incorrect.
+        /// The function calls <see cref="CompareStringEx"/>, using the current thread locale, and subtracts 2 from the result,
+        /// to maintain the C run-time conventions for comparing strings.
+        /// The language (user locale) selected by the user at setup time, or through Control Panel,
+        /// determines which string is greater (or whether the strings are the same).
+        /// If no language (user locale) is selected, the system performs the comparison by using default values.
+        /// With a double-byte character set (DBCS) version of the system, this function can compare two DBCS strings.
+        /// The <see cref="lstrcmp"/> function uses a word sort, rather than a string sort.
+        /// A word sort treats hyphens and apostrophes differently than it treats other symbols that are not alphanumeric,
+        /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
+        /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", SetLastError = true)]
+        public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+#pragma warning restore IDE1006
+
         /// <summary>
         /// MakeProcInstance
         /// </summary>
