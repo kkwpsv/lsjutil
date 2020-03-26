@@ -313,28 +313,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
-        /// that has the largest area of intersection with the bounding rectangle of a specified window.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
-        /// </para>
-        /// </summary>
-        /// <param name="hwnd">A handle to the window of interest.</param>
-        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
-        /// <returns>
-        /// If the window intersects one or more display monitor rectangles,
-        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
-        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
-        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="GetUserObjectSecurity"/> function retrieves security information for the specified user object.
         /// </para>
         /// <para>
@@ -377,6 +355,48 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetUserObjectSecurity([In]IntPtr hObj, [In]IntPtr pSIRequested, [In]IntPtr pSID,
             [In]uint nLength, [Out]out uint lpnLengthNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a character is an alphabetical character.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphaw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is alphabetical, the return value is <see langword="true"/>.
+        /// If the character is not alphabetical, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", SetLastError = true)]
+        public static extern BOOL IsCharAlpha([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
+        /// that has the largest area of intersection with the bounding rectangle of a specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">A handle to the window of interest.</param>
+        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
+        /// <returns>
+        /// If the window intersects one or more display monitor rectangles,
+        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
+        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
 
         /// <summary>
         /// <para>
