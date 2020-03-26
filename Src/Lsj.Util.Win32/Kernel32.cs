@@ -306,6 +306,30 @@ namespace Lsj.Util.Win32
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
 
 #pragma warning disable IDE1006
+
+        /// <summary>
+        /// <para>
+        /// Appends one string to another.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcatw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string. This buffer must be large enough to contain both strings.
+        /// </param>
+        /// <param name="lpString2">
+        /// The null-terminated string to be appended to the string specified in the <paramref name="lpString1"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", SetLastError = true)]
+        public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
         /// <summary>
         /// <para>
         /// Compares two character strings. The comparison is case-sensitive.
