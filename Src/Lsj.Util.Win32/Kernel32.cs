@@ -460,6 +460,60 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Copies a specified number of characters from a source string into a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpynw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The destination buffer, which receives the copied characters.
+        /// The buffer must be large enough to contain the number of TCHAR values specified by <paramref name="iMaxLength"/>,
+        /// including room for a terminating null character.
+        /// </param>
+        /// <param name="lpString2">
+        /// The source string from which the function is to copy characters.
+        /// </param>
+        /// <param name="iMaxLength">
+        /// The number of TCHAR values to be copied from the string pointed to by <paramref name="lpString2"/>
+        /// into the buffer pointed to by <paramref name="lpString1"/>, including a terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// The function can succeed even if the source string is greater than <paramref name="iMaxLength"/> characters.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        /// <remarks>
+        /// The buffer pointed to by <paramref name="lpString1"/> must be large enough to include a terminating null character,
+        /// and the string length value specified by <paramref name="iMaxLength"/> includes room for a terminating null character.
+        /// The <see cref="lstrcpyn"/> function has an undefined behavior if source and destination buffers overlap.
+        /// Security Warning
+        /// Using this function incorrectly can compromise the security of your application.
+        /// This function uses structured exception handling (SEH) to catch access violations and other errors.
+        /// When this function catches SEH errors, it returns NULL without null-terminating the string and without notifying the caller of the error.
+        /// The caller is not safe to assume that insufficient space is the error condition.
+        /// If the buffer pointed to by <paramref name="lpString1"/> is not large enough to contain the copied string, a buffer overrun can occur.
+        /// When copying an entire string, note that sizeof returns the number of bytes.
+        /// For example, if <paramref name="lpString1"/> points to a buffer szString1 which is declared as TCHAR szString[100],
+        /// then sizeof(szString1) gives the size of the buffer in bytes rather than WCHAR,
+        /// which could lead to a buffer overflow for the Unicode version of the function.
+        /// Buffer overflow situations are the cause of many security problems in applications and can cause a denial of service attack
+        /// against the application if an access violation occurs.
+        /// In the worst case, a buffer overrun may allow an attacker to inject executable code into your process,
+        /// especially if lpString1 is a stack-based buffer.
+        /// Using sizeof(szString1)/sizeof(szString1[0]) gives the proper size of the buffer.
+        /// Consider using <see cref="StringCchCopy"/> instead; use either <code>StringCchCopy(buffer, sizeof(buffer)/sizeof(buffer[0]), src);</code>,
+        /// being aware that buffer must not be a pointer or use <code>StringCchCopy(buffer, ARRAYSIZE(buffer), src);</code>,
+        /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
+        /// Review Security Considerations: Windows User Interface before continuing.
+        /// </remarks>
+        [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", SetLastError = true)]
+        public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2, [In]int iMaxLength);
+
+        /// <summary>
+        /// <para>
         /// Determines the length of the specified string (not including the terminating null character).
         /// </para>
         /// <para>
