@@ -398,6 +398,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a character is uppercase.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarupperw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is uppercase, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the character is not uppercase, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", SetLastError = true)]
+        public static extern BOOL IsCharUpperW([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
         /// that has the largest area of intersection with the bounding rectangle of a specified window.
         /// </para>
