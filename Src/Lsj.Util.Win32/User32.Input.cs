@@ -76,7 +76,12 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// The format of the key-name string depends on the current keyboard layout. The keyboard driver maintains a list of names in the form of character strings for keys with names longer than a single character. The key name is translated according to the layout of the currently installed keyboard, thus the function may give different results for different input locales. The name of a character key is the character itself. The names of dead keys are spelled out in full.
+        /// The format of the key-name string depends on the current keyboard layout.
+        /// The keyboard driver maintains a list of names in the form of character strings for keys with names longer than a single character.
+        /// The key name is translated according to the layout of the currently installed keyboard,
+        /// thus the function may give different results for different input locales.
+        /// The name of a character key is the character itself.
+        /// The names of dead keys are spelled out in full.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", SetLastError = true)]
         public static extern int GetKeyNameText([In]LONG lParam, [MarshalAs(UnmanagedType.LPWStr)[In]StringBuilder lpString, [In]int cchSize);
@@ -195,6 +200,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", SetLastError = true)]
         public static extern DWORD OemKeyScan([In]WORD wOemChar);
+
+        /// <summary>
+        /// <para>
+        /// Translates the specified virtual-key code and keyboard state to the corresponding character or characters.
+        /// The function translates the code using the input language and physical keyboard layout identified by the keyboard layout handle.
+        /// To specify a handle to the keyboard layout to use to translate the specified code, use the <see cref="ToAsciiEx"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="uVirtKey">
+        /// The virtual-key code to be translated. See Virtual-Key Codes.
+        /// </param>
+        /// <param name="uScanCode">
+        /// The hardware scan code of the key to be translated. The high-order bit of this value is set if the key is up (not pressed).
+        /// </param>
+        /// <param name="lpKeyState">
+        /// A pointer to a 256-byte array that contains the current keyboard state.
+        /// Each element (byte) in the array contains the state of one key.
+        /// If the high-order bit of a byte is set, the key is down (pressed).
+        /// The low bit, if set, indicates that the key is toggled on.
+        /// In this function, only the toggle bit of the CAPS LOCK key is relevant.
+        /// The toggle state of the NUM LOCK and SCROLL LOCK keys is ignored.
+        /// </param>
+        /// <param name="lpChar">
+        /// The buffer that receives the translated character or characters.
+        /// </param>
+        /// <param name="uFlags">
+        /// This parameter must be 1 if a menu is active, or 0 otherwise.
+        /// </param>
+        /// <returns>
+        /// If the specified key is a dead key, the return value is negative. Otherwise, it is one of the following values.
+        /// 0: 	The specified virtual key has no translation for the current state of the keyboard.
+        /// 1: One character was copied to the buffer.
+        /// 2: Two characters were copied to the buffer. This usually happens when a dead-key character (accent or diacritic) stored
+        /// in the keyboard layout cannot be composed with the specified virtual key to form a single character.
+        /// </returns>
+        /// <remarks>
+        /// The parameters supplied to the <see cref="ToAscii"/> function might not be sufficient to translate the virtual-key code,
+        /// because a previous dead key is stored in the keyboard layout.
+        /// Typically, <see cref="ToAscii"/> performs the translation based on the virtual-key code.
+        /// In some cases, however, bit 15 of the <paramref name="uScanCode"/> parameter may be used to distinguish between a key press and a key release.
+        /// The scan code is used for translating ALT+ number key combinations.
+        /// Although NUM LOCK is a toggle key that affects keyboard behavior,
+        /// <see cref="ToAscii"/> ignores the toggle setting (the low bit) of <paramref name="lpKeyState"/> (VK_NUMLOCK)
+        /// because the <paramref name="uVirtKey"/> parameter alone is sufficient to distinguish the cursor movement keys
+        /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on) from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", SetLastError = true)]
+        public static extern int ToAscii([In]UINT uVirtKey, [In]UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState,
+            [Out]out WORD lpChar, [In]UINT uFlags);
 
         /// <summary>
         /// <para>
