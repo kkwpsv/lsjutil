@@ -46,6 +46,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a string that represents the name of a key.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeynametextw
+        /// </para>
+        /// </summary>
+        /// <param name="lParam">
+        /// The second parameter of the keyboard message (such as <see cref="WM_KEYDOWN"/>) to be processed.
+        /// The function interprets the following bit positions in the <paramref name="lParam"/>.
+        /// Bits    Meaning
+        /// 16-23   Scan code.
+        /// 24      Extended-key flag. Distinguishes some keys on an enhanced keyboard.
+        /// 25      "Do not care" bit.
+        /// The application calling this function sets this bit to indicate that the function should not distinguish between left and right CTRL and SHIFT keys,
+        /// for example.
+        /// </param>
+        /// <param name="lpString">
+        /// The buffer that will receive the key name.
+        /// </param>
+        /// <param name="cchSize">
+        /// The maximum length, in characters, of the key name, including the terminating null character.
+        /// (This parameter should be equal to the size of the buffer pointed to by the <paramref name="lpString"/> parameter.)
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, a null-terminated string is copied into the specified buffer, and the return value is the length of the string,
+        /// in characters, not counting the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The format of the key-name string depends on the current keyboard layout. The keyboard driver maintains a list of names in the form of character strings for keys with names longer than a single character. The key name is translated according to the layout of the currently installed keyboard, thus the function may give different results for different input locales. The name of a character key is the character itself. The names of dead keys are spelled out in full.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", SetLastError = true)]
+        public static extern int GetKeyNameText([In]LONG lParam, [MarshalAs(UnmanagedType.LPWStr)[In]StringBuilder lpString, [In]int cchSize);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the current keyboard.
         /// </para>
         /// <para>
