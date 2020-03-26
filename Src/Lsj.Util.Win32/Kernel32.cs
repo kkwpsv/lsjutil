@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -390,6 +391,48 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", SetLastError = true)]
         public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Copies a string to a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpyw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// A buffer to receive the contents of the string pointed to by the <paramref name="lpString2"/> parameter.
+        /// The buffer must be large enough to contain the string, including the terminating null character.
+        /// </param>
+        /// <param name="lpString2">
+        /// The null-terminated string to be copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        /// <remarks>
+        /// With a double-byte character set (DBCS) version of the system, this function can be used to copy a DBCS string.
+        /// The lstrcpy function has an undefined behavior if source and destination buffers overlap.
+        /// Security Remarks
+        /// Using this function incorrectly can compromise the security of your application.
+        /// This function uses structured exception handling (SEH) to catch access violations and other errors.
+        /// When this function catches SEH errors, it returns <see cref="IntPtr.Zero"/> without null-terminating the string
+        /// and without notifying the caller of the error.
+        /// The caller is not safe to assume that insufficient space is the error condition.
+        /// <paramref name="lpString1"/> must be large enough to hold <paramref name="lpString2"/> and the closing '\0', otherwise a buffer overrun may occur.
+        /// Buffer overflow situations are the cause of many security problems in applications and can cause a denial of service attack
+        /// against the application if an access violation occurs.
+        /// In the worst case, a buffer overrun may allow an attacker to inject executable code into your process,
+        /// especially if <paramref name="lpString1"/> is a stack-based buffer.
+        /// Consider using <see cref="StringCchCopy"/> instead; use either <code>StringCchCopy(buffer, sizeof(buffer)/sizeof(buffer[0]), src);</code>,
+        /// being aware that buffer must not be a pointer or use <code>StringCchCopy(buffer, ARRAYSIZE(buffer), src);</code>,
+        /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
+        /// </remarks>
+        [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", SetLastError = true)]
+        public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 #pragma warning restore IDE1006
 
         /// <summary>
