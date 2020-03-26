@@ -201,6 +201,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreateIC"/> function creates an information context for the specified device.
+        /// The information context provides a fast way to get information about the device without creating a device context (DC).
+        /// However, GDI drawing functions cannot accept a handle to an information context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createicw
+        /// </para>
+        /// </summary>
+        /// <param name="pszDriver">
+        /// A pointer to a null-terminated character string that specifies the name of the device driver (for example, Epson).
+        /// </param>
+        /// <param name="pszDevice">
+        /// A pointer to a null-terminated character string that specifies the name of the specific output device being used,
+        /// as shown by the Print Manager (for example, Epson FX-80).
+        /// It is not the printer model name.
+        /// The <paramref name="pszDevice"/> parameter must be used.
+        /// </param>
+        /// <param name="pszPort">
+        /// This parameter is ignored and should be set to <see langword="null"/>.
+        /// It is provided only for compatibility with 16-bit Windows.
+        /// </param>
+        /// <param name="pdm">
+        /// A pointer to a <see cref="DEVMODE"/> structure containing device-specific initialization data for the device driver.
+        /// The <see cref="DocumentProperties"/> function retrieves this structure filled in for a specified device.
+        /// The <see cref="lpdvmInit"/> parameter must be <see langword="null""/> if the device driver is to use the default initialization
+        /// (if any) specified by the user.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to an information context.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", SetLastError = true)]
+        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateSolidBrush"/> function creates a logical brush that has the specified solid color.
         /// </para>
         /// <para>
