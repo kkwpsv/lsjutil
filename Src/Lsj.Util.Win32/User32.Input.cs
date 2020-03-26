@@ -29,6 +29,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current code page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkbcodepage
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is an OEM code-page identifier, or it is the default identifier if the registry value is not readable.
+        /// For a list of OEM code-page identifiers, see Code Page Identifiers.
+        /// </returns>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the GetOEMCP function to retrieve the OEM code-page identifier for the system.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", SetLastError = true)]
+        public static extern UINT GetKBCodePage();
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the current keyboard.
         /// </para>
         /// <para>
