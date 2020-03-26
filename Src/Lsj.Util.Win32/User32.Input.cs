@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -69,6 +70,41 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", SetLastError = true)]
         public static extern int GetKeyboardType([In]int nTypeFlag);
+
+        /// <summary>
+        /// <para>
+        /// Translates (maps) a virtual-key code into a scan code or character value, or translates a scan code into a virtual-key code.
+        /// To specify a handle to the keyboard layout to use for translating the specified code, use the <see cref="MapVirtualKeyEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapvirtualkeyw
+        /// </para>
+        /// </summary>
+        /// <param name="uCode">
+        /// The virtual key code or scan code for a key.
+        /// How this value is interpreted depends on the value of the <paramref name="uMapType"/> parameter.
+        /// </param>
+        /// <param name="uMapType">
+        /// <see cref="MAPVK_VK_TO_CHAR"/>, <see cref="MAPVK_VK_TO_VSC"/>, <see cref="MAPVK_VSC_TO_VK"/>, <see cref="MAPVK_VSC_TO_VK_EX"/>
+        /// </param>
+        /// <returns>
+        /// The return value is either a scan code, a virtual-key code, or a character value,
+        /// depending on the value of <paramref name="uCode"/> and <paramref name="uMapType"/>.
+        /// If there is no translation, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// An application can use <see cref="MapVirtualKey"/> to translate scan codes to the virtual-key code constants <see cref="VK_SHIFT"/>,
+        /// <see cref="VK_CONTROL"/>, and <see cref="VK_MENU"/>, and vice versa.
+        /// These translations do not distinguish between the left and right instances of the SHIFT, CTRL, or ALT keys.
+        /// An application can get the scan code corresponding to the left or right instance of one of these keys
+        /// by calling <see cref="MapVirtualKey"/> with <paramref name="uCode"/> set to one of the following virtual-key code constants.
+        /// <see cref="VK_LSHIFT"/>, <see cref="VK_RSHIFT"/>, <see cref="VK_LCONTROL"/>,
+        /// <see cref="VK_RCONTROL"/>, <see cref="VK_LMENU"/>, <see cref="VK_RMENU"/>
+        /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
+        /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", SetLastError = true)]
+        public static extern UINT MapVirtualKey([In]UINT uCode, [In]MapVirtualKeyTypes uMapType);
 
         /// <summary>
         /// <para>
