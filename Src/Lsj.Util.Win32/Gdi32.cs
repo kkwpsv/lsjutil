@@ -713,6 +713,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SaveDC"/> function saves the current state of the specified device context (DC) by copying data describing selected objects
+        /// and graphic modes (such as the bitmap, brush, palette, font, pen, region, drawing mode, and mapping mode) to a context stack.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-savedc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose state is to be saved.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies the saved state.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SaveDC"/> function can be used any number of times to save any number of instances of the DC state.
+        /// A saved state can be restored by using the <see cref="RestoreDC"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", SetLastError = true)]
+        public static extern int SaveDC([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectObject"/> function selects an object into the specified device context (DC).
         /// The new object replaces the previous object of the same type.
         /// </para> 
