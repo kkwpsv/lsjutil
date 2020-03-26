@@ -378,6 +378,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a character is either an alphabetical or a numeric character.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphanumericw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is alphanumeric, the return value is <see langword="true"/>.
+        /// If the character is not alphanumeric, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", SetLastError = true)]
+        public static extern BOOL IsCharAlphaNumeric([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
         /// that has the largest area of intersection with the bounding rectangle of a specified window.
         /// </para>
