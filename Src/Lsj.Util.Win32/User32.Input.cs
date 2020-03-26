@@ -28,6 +28,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the current keyboard.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardtype
+        /// </para>
+        /// </summary>
+        /// <param name="nTypeFlag">
+        /// The type of keyboard information to be retrieved. This parameter can be one of the following values.
+        /// 0: Keyboard type
+        /// 1: Keyboard subtype
+        /// 2: The number of function keys on the keyboard
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the requested information.
+        /// If the function fails and <paramref name="nTypeFlag"/> is not one, the return value is zero;
+        /// zero is a valid return value when <paramref name="nTypeFlag"/> is one (keyboard subtype).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The type may be one of the following values.
+        /// 1: IBM PC/XT or compatible (83-key) keyboard
+        /// 2: Olivetti "ICO" (102-key) keyboard
+        /// 3: IBM PC/AT (84-key) or similar keyboard
+        /// 4: IBM enhanced (101- or 102-key) keyboard
+        /// 5: Nokia 1050 and similar keyboards
+        /// 6: Nokia 9140 and similar keyboards
+        /// 7: Japanese keyboard
+        /// The subtype is an original equipment manufacturer (OEM)-dependent value.
+        /// The application can also determine the number of function keys on a keyboard from the keyboard type.
+        /// Following are the number of function keys for each keyboard type.
+        /// 1: 10
+        /// 2: 12 (sometimes 18)
+        /// 3: 10
+        /// 4: 12
+        /// 5: 10
+        /// 6: 24
+        /// 7: Hardware dependent and specified by the OEM
+        /// When a single USB keyboard is connected to the computer, this function returns the code 81.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", SetLastError = true)]
+        public static extern int GetKeyboardType([In]int nTypeFlag);
+
+        /// <summary>
+        /// <para>
         /// Maps OEMASCII codes 0 through 0x0FF into the OEM scan codes and shift states.
         /// The function provides information that allows a program to send OEM text to another program by simulating keyboard input.
         /// </para>
