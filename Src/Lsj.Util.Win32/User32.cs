@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -435,6 +436,52 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", SetLastError = true)]
         public static extern BOOL IsCharUpper([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Loads a string resource from the executable file associated with a specified module and either copies the string
+        /// into a buffer with a terminating null character or returns a read-only pointer to the string resource itself.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadstringw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to an instance of the module whose executable file contains the string resource.
+        /// To get the handle to the application itself, call the <see cref="GetModuleHandle"/> function with <see cref="NULL"/>.
+        /// </param>
+        /// <param name="uID">
+        /// The identifier of the string to be loaded.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The buffer to receive the string (if <paramref name="cchBufferMax"/> is non-zero) or
+        /// a read-only pointer to the string resource itself (if <paramref name="cchBufferMax"/> is zero).
+        /// Must be of sufficient length to hold a pointer (8 bytes).
+        /// </param>
+        /// <param name="cchBufferMax">
+        /// The size of the buffer, in characters.
+        /// The string is truncated and null-terminated if it is longer than the number of characters specified.
+        /// If this parameter is 0, then <paramref name="lpBuffer"/> receives a read-only pointer to the string resource itself.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is one of the following:
+        /// The number of characters copied into the buffer (if <paramref name="cchBufferMax"/> is non-zero), not including the terminating null character.
+        /// The number of characters in the string resource that lpBuffer points to (if <paramref name="cchBufferMax"/> is zero).
+        /// The string resource is not guaranteed to be null-terminated in the module's resource table,
+        /// and you can use this value to determine where the string resource ends.
+        /// Zero if the string resource does not exist.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you pass 0 to <paramref name="cchBufferMax"/> to return a read-only pointer to the string resource in the <paramref name="lpBuffer"/> parameter,
+        /// use the number of characters in the return value to determine the length of the string resource.
+        /// String resources are not guaranteed to be null-terminated in the module's resource table.
+        /// However, resource tables can contain null characters.
+        /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", SetLastError = true)]
+        public static extern int LoadString([In]HINSTANCE hInstance, [In]UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
+            [In]int cchBufferMax);
 
         /// <summary>
         /// <para>
