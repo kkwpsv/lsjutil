@@ -130,10 +130,10 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is the handle to a memory DC.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", SetLastError = true)]
-        public static extern IntPtr CreateCompatibleDC([In]IntPtr hdc);
+        public static extern HDC CreateCompatibleDC([In]HDC hdc);
 
         /// <summary>
         /// <para>
@@ -279,12 +279,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteDC([In]IntPtr hdc);
+        public static extern BOOL DeleteDC([In]HDC hdc);
 
         /// <summary>
         /// <para>
