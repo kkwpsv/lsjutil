@@ -7,6 +7,8 @@ using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 
 namespace Lsj.Util.Win32
 {
@@ -19,6 +21,16 @@ namespace Lsj.Util.Win32
         /// HGDI_ERROR
         /// </summary>
         public static readonly IntPtr HGDI_ERROR = new IntPtr(-1);
+
+        /// <summary>
+        /// CCHDEVICENAME
+        /// </summary>
+        public const int CCHDEVICENAME = 32;
+
+        /// <summary>
+        /// CCHFORMNAME
+        /// </summary>
+        public const int CCHFORMNAME = 32;
 
         /// <summary>
         /// LF_FACESIZE
@@ -122,6 +134,70 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", SetLastError = true)]
         public static extern IntPtr CreateCompatibleDC([In]IntPtr hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDC"/> function creates a device context (DC) for a device using the specified name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdcw
+        /// </para>
+        /// </summary>
+        /// <param name="pwszDriver">
+        /// A pointer to a null-terminated character string that specifies either DISPLAY or the name of a specific display device.
+        /// For printing, we recommend that you pass <see langword="null""/> to <paramref name="pwszDriver"/>
+        /// because GDI ignores <paramref name="pwszDriver"/> for printer devices.
+        /// </param>
+        /// <param name="pwszDevice">
+        /// A pointer to a null-terminated character string that specifies the name of the specific output device being used,
+        /// as shown by the Print Manager (for example, Epson FX-80).
+        /// It is not the printer model name. The <paramref name="pwszDevice"/> parameter must be used.
+        /// To obtain valid names for displays, call <see cref="EnumDisplayDevices"/>.
+        /// If <paramref name="pwszDriver"/> is DISPLAY or the device name of a specific display device,
+        /// then <paramref name="pwszDevice"/> must be <see langword="null"/> or that same device name.
+        /// If <paramref name="pwszDevice"/> is NULL, then a DC is created for the primary display device.
+        /// If there are multiple monitors on the system, calling <code>CreateDC(TEXT("DISPLAY"),NULL,NULL,NULL)</code>
+        /// will create a DC covering all the monitors.
+        /// </param>
+        /// <param name="pszPort">
+        /// This parameter is ignored and should be set to <see langword="null"/>.
+        /// It is provided only for compatibility with 16-bit Windows.
+        /// </param>
+        /// <param name="pdm">
+        /// A pointer to a <see cref="DEVMODE"/> structure containing device-specific initialization data for the device driver.
+        /// The <see cref="DocumentProperties"/> function retrieves this structure filled in for a specified device.
+        /// The <paramref name="pdm"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
+        /// (if any) specified by the user.
+        /// If <paramref name="pwszDriver"/> is DISPLAY, <paramref name="pdm"/> must be <see langword="null"/>;
+        /// GDI then uses the display device's current <see cref="DEVMODE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to a DC for the specified device.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note that the handle to the DC can only be used by a single thread at any one time.
+        /// For parameters <paramref name="pwszDriver"/> and <paramref name="pwszDevice"/>,
+        /// call <see cref="EnumDisplayDevices"/> to obtain valid names for displays.
+        /// When you no longer need the DC, call the <see cref="DeleteDC"/> function.
+        /// If <paramref name="pwszDriver"/> or <paramref name="pwszDevice"/> is DISPLAY,
+        /// the thread that calls <see cref="CreateDC"/> owns the HDC that is created.
+        /// When this thread is destroyed, the <see cref="HDC"/> is no longer valid.
+        /// Thus, if you create the HDC and pass it to another thread, then exit the first thread, the second thread will not be able to use the HDC.
+        /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a display device, you must pass to <paramref name="pdm"/>
+        /// either <see langword="null"/> or a pointer to <see cref="DEVMODE"/> that
+        /// matches the current <see cref="DEVMODE"/> of the display device that <paramref name="pwszDevice"/> specifies.
+        /// We recommend to pass <see langword="null"/> and not to try to exactly match the <see cref="DEVMODE"/> for the current display device.
+        /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a printer device, the printer driver validates the <see cref="DEVMODE"/>.
+        /// If the printer driver determines that the <see cref="DEVMODE"/> is invalid (that is, printer driver can’t convert or consume the <see cref="DEVMODE"/>),
+        /// the printer driver provides a default <see cref="DEVMODE"/> to create the <see cref="HDC"/> for the printer device.
+        /// ICM: To enable ICM, set the <see cref="dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
+        /// (pointed to by the <see cref="pInitData"/> parameter) to the appropriate value.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", SetLastError = true)]
+        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
 
         /// <summary>
         /// <para>
