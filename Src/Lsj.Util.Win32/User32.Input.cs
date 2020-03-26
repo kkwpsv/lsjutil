@@ -61,5 +61,40 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", SetLastError = true)]
         public static extern DWORD OemKeyScan([In]WORD wOemChar);
+
+        /// <summary>
+        /// <para>
+        /// Translates a character to the corresponding virtual-key code and shift state for the current keyboard.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-vkkeyscanw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be translated into a virtual-key code.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the low-order byte of the return value contains the virtual-key code and the high-order byte contains the shift state,
+        /// which can be a combination of the following flag bits.
+        /// 1: Either SHIFT key is pressed.
+        /// 2: Either CTRL key is pressed.
+        /// 4: Either ALT key is pressed.
+        /// 8: The Hankaku key is pressed.
+        /// 16: Reserved (defined by the keyboard layout driver).
+        /// 32: Reserved (defined by the keyboard layout driver).
+        /// If the function finds no key that translates to the passed character code, both the low-order and high-order bytes contain –1.
+        /// </returns>
+        /// <remarks>
+        /// For keyboard layouts that use the right-hand ALT key as a shift key (for example, the French keyboard layout),
+        /// the shift state is represented by the value 6, because the right-hand ALT key is converted internally into CTRL+ALT.
+        /// Translations for the numeric keypad (<see cref="VK_NUMPAD0"/> through <see cref="VK_DIVIDE"/>) are ignored.
+        /// This function is intended to translate characters into keystrokes from the main keyboard section only. 
+        /// For example, the character "7" is translated into <see cref="VK_7"/>, not <see cref="VK_NUMPAD7"/>.
+        /// <see cref="VkKeyScan"/> is used by applications that send characters by using the <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages.
+        /// </remarks>
+        [Obsolete("This function has been superseded by the VkKeyScanEx function." +
+            "You can still use VkKeyScan, however, if you do not need to specify a keyboard layout.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", SetLastError = true)]
+        public static extern SHORT VkKeyScan([In]WCHAR ch);
     }
 }
