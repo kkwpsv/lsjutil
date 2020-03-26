@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", SetLastError = true)]
-        public static extern BOOL IsCharUpperW([In]WCHAR ch);
+        public static extern BOOL IsCharUpper([In]WCHAR ch);
 
         /// <summary>
         /// <para>
