@@ -398,6 +398,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a character is lowercase.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarlowerw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is lowercase, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the character is not lowercase, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", SetLastError = true)]
+        public static extern BOOL IsCharLower([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
         /// Determines whether a character is uppercase.
         /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
         /// </para>
