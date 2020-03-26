@@ -244,7 +244,8 @@ namespace Lsj.Util.Win32
         /// Although NUM LOCK is a toggle key that affects keyboard behavior,
         /// <see cref="ToAscii"/> ignores the toggle setting (the low bit) of <paramref name="lpKeyState"/> (VK_NUMLOCK)
         /// because the <paramref name="uVirtKey"/> parameter alone is sufficient to distinguish the cursor movement keys
-        /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on) from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
+        /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on)
+        /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", SetLastError = true)]
         public static extern int ToAscii([In]UINT uVirtKey, [In]UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState,
