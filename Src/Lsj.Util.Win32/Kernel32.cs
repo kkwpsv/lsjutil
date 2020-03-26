@@ -345,6 +345,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", SetLastError = true)]
         public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Compares two character strings. The comparison is not case-sensitive.
+        /// To perform a comparison that is case-sensitive, use the <see cref="lstrcmp"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpiw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string to be compared.
+        /// </param>
+        /// <param name="lpString2">
+        /// The second null-terminated string to be compared.
+        /// </param>
+        /// <returns>
+        /// If the string pointed to by <paramref name="lpString1"/> is less than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is negative.
+        /// If the string pointed to by <paramref name="lpString1"/> is greater than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is positive.
+        /// If the strings are equal, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="lstrcmpi"/> function compares two strings by checking the first characters against each other,
+        /// the second characters against each other, and so on until it finds an inequality or reaches the ends of the strings.
+        /// Note that the <paramref name="lpString1"/> and <paramref name="lpString2"/> parameters must be null-terminated,
+        /// otherwise the string comparison can be incorrect.
+        /// The function calls <see cref="CompareStringEx"/>, using the current thread locale, and subtracts 2 from the result,
+        /// to maintain the C run-time conventions for comparing strings.
+        /// For some locales, the lstrcmpi function may be insufficient.
+        /// If this occurs, use <see cref="CompareStringEx"/> to ensure proper comparison.
+        /// For example, in Japan call with the NORM_IGNORECASE, NORM_IGNOREKANATYPE, and NORM_IGNOREWIDTH values
+        /// to achieve the most appropriate non-exact string comparison.
+        /// The NORM_IGNOREKANATYPE and NORM_IGNOREWIDTH values are ignored in non-Asian locales, so you can set these values
+        /// for all locales and be guaranteed to have a culturally correct "insensitive" sorting regardless of the locale.
+        /// Note that specifying these values slows performance, so use them only when necessary.
+        /// With a double-byte character set (DBCS) version of the system, this function can compare two DBCS strings.
+        /// The lstrcmpi function uses a word sort, rather than a string sort.
+        /// A word sort treats hyphens and apostrophes differently than it treats other symbols that are not alphanumeric,
+        /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
+        /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", SetLastError = true)]
+        public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 #pragma warning restore IDE1006
 
         /// <summary>
