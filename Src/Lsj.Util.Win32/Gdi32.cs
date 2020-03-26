@@ -713,6 +713,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RestoreDC"/> function restores a device context (DC) to the specified state.
+        /// The DC is restored by popping state information off a stack created by earlier calls to the <see cref="SaveDC"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-restoredc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="nSavedDC">
+        /// The saved state to be restored.
+        /// If this parameter is positive, <paramref name="nSavedDC"/> represents a specific instance of the state to be restored.
+        /// If this parameter is negative, <paramref name="nSavedDC"/> represents an instance relative to the current state.
+        /// For example, -1 restores the most recently saved state.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each DC maintains a stack of saved states.
+        /// The <see cref="SaveDC"/> function pushes the current state of the DC onto its stack of saved states.
+        /// That state can be restored only to the same DC from which it was created.
+        /// After a state is restored, the saved state is destroyed and cannot be reused.
+        /// Furthermore, any states saved after the restored state was created are also destroyed and cannot be used.
+        /// In other words, the <see cref="RestoreDC"/> function pops the restored state (and any subsequent states) from the state information stack.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RestoreDC", SetLastError = true)]
+        public static extern BOOL RestoreDC([In]HDC hdc, [In]int nSavedDC);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SaveDC"/> function saves the current state of the specified device context (DC) by copying data describing selected objects
         /// and graphic modes (such as the bitmap, brush, palette, font, pen, region, drawing mode, and mapping mode) to a context stack.
         /// </para>
