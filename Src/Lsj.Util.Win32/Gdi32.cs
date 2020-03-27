@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", SetLastError = true)]
-        public static extern BOOL GetWindowExtEx([In]HDC hdc,[Out]out SIZE lpsize);
+        public static extern BOOL GetWindowExtEx([In]HDC hdc, [Out]out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -1091,5 +1091,34 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", SetLastError = true)]
         public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetwindoworgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal offset, in logical units.
+        /// </param>
+        /// <param name="y">
+        /// The vertical offset, in logical units.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure.
+        /// The logical coordinates of the previous window origin are placed in this structure.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous origin is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
+        public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
     }
 }
