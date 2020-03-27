@@ -298,12 +298,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the specified handle is not valid or is currently selected into a DC, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteObject([In]IntPtr hObject);
+        public static extern BOOL DeleteObject([In]HGDIOBJ hObject);
 
         /// <summary>
         /// <para>
@@ -1241,18 +1240,43 @@ namespace Lsj.Util.Win32
         ///  From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectobject
         /// </para>
         /// </summary>
-        /// <param name="hdc">A handle to the DC.</param>
-        /// <param name="hgdiobj">A handle to the object to be selected.</param>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="hgdiobj">
+        /// A handle to the object to be selected.
+        /// The specified object must have been created by using one of the following functions.
+        /// Bitmap:
+        /// <see cref="CreateBitmap"/>, <see cref="CreateBitmapIndirect"/>, <see cref="CreateCompatibleBitmap"/>,
+        /// <see cref="CreateDIBitmap"/>, <see cref="CreateDIBSection"/>
+        /// Bitmaps can only be selected into memory DC's.
+        /// A single bitmap cannot be selected into more than one DC at the same time.
+        /// Brush:
+        /// <see cref="CreateBrushIndirect"/>, <see cref="CreateDIBPatternBrush"/>, <see cref="CreateDIBPatternBrushPt"/>,
+        /// <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>, <see cref="CreateSolidBrush"/>
+        /// Font:
+        /// <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>
+        /// Pen:
+        /// <see cref="CreatePen"/>, <see cref="CreatePenIndirect"/>
+        /// Region:
+        /// <see cref="CombineRgn"/>, <see cref="CreateEllipticRgn"/>, <see cref="CreateEllipticRgnIndirect"/>,
+        /// <see cref="CreatePolygonRgn"/>, <see cref="CreatePolygonRgn"/>, <see cref="CreateRectRgnIndirect"/>
+        /// </param>
         /// <returns>
         /// If the selected object is not a region and the function succeeds, the return value is a handle to the object being replaced.
         /// If the selected object is a region and the function succeeds, 
-        /// the return value is one of the following values: <see cref="RegionFlags.SIMPLEREGION"/>, <see cref="RegionFlags.COMPLEXREGION"/>,
-        /// <see cref="RegionFlags.NULLREGION" />
-        /// If an error occurs and the selected object is not a region, the return value is <see cref="IntPtr.Zero"/>.
+        /// the return value is one of the following values: <see cref="SIMPLEREGION"/>, <see cref="COMPLEXREGION"/>, <see cref="NULLREGION" />
+        /// If an error occurs and the selected object is not a region, the return value is <see cref="NULL"/>.
         /// Otherwise, it is <see cref="HGDI_ERROR"/>.
         /// </returns>
+        /// <remarks>
+        /// This function returns the previously selected object of the specified type.
+        /// An application should always replace a new object with the original, default object after it has finished drawing with the new object.
+        /// An application cannot select a single bitmap into more than one DC at a time.
+        /// ICM: If the object being selected is a brush or a pen, color management is performed.
+        /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", SetLastError = true)]
-        public static extern IntPtr SelectObject([In]IntPtr hdc, [In]IntPtr hgdiobj);
+        public static extern HGDIOBJ SelectObject([In]HDC hdc, [In]HGDIOBJ hgdiobj);
 
         /// <summary>
         /// <para>
