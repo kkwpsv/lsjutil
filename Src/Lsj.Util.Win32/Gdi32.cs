@@ -831,6 +831,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetwindoworgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal offset, in logical units.
+        /// </param>
+        /// <param name="y">
+        /// The vertical offset, in logical units.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure.
+        /// The logical coordinates of the previous window origin are placed in this structure.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous origin is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
+        public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RestoreDC"/> function restores a device context (DC) to the specified state.
         /// The DC is restored by popping state information off a stack created by earlier calls to the <see cref="SaveDC"/> function.
         /// </para>
@@ -884,6 +913,50 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", SetLastError = true)]
         public static extern int SaveDC([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ScaleWindowExtEx"/> function modifies the window for a device context
+        /// using the ratios formed by the specified multiplicands and divisors.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scalewindowextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="xn">
+        /// The amount by which to multiply the current horizontal extent.
+        /// </param>
+        /// <param name="xd">
+        /// The amount by which to divide the current horizontal extent.
+        /// </param>
+        /// <param name="yn">
+        /// The amount by which to multiply the current vertical extent.
+        /// </param>
+        /// <param name="yd">
+        /// The amount by which to divide the current vertical extent.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous window extents, in logical units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The window extents are modified as follows:
+        /// <code>
+        /// xNewWE = (xOldWE * Xnum) / Xdenom 
+        /// yNewWE = (yOldWE* Ynum) / Ydenom
+        /// </code>
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", SetLastError = true)]
+        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+
 
         /// <summary>
         /// <para>
@@ -1095,59 +1168,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
+        /// The <see cref="SetViewportExtEx"/> function sets the horizontal and vertical extents of the viewport for a device context
+        /// by using the specified values.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetwindoworgex
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportextex
         /// </para>
         /// </summary>
         /// <param name="hdc">
         /// A handle to the device context.
         /// </param>
         /// <param name="x">
-        /// The horizontal offset, in logical units.
+        /// The horizontal extent, in device units, of the viewport.
         /// </param>
         /// <param name="y">
-        /// The vertical offset, in logical units.
-        /// </param>
-        /// <param name="lppt">
-        /// A pointer to a <see cref="POINT"/> structure.
-        /// The logical coordinates of the previous window origin are placed in this structure.
-        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous origin is not returned.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
-        /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
-        public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="ScaleWindowExtEx"/> function modifies the window for a device context
-        /// using the ratios formed by the specified multiplicands and divisors.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scalewindowextex
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to the device context.
-        /// </param>
-        /// <param name="xn">
-        /// The amount by which to multiply the current horizontal extent.
-        /// </param>
-        /// <param name="xd">
-        /// The amount by which to divide the current horizontal extent.
-        /// </param>
-        /// <param name="yn">
-        /// The amount by which to multiply the current vertical extent.
-        /// </param>
-        /// <param name="yd">
-        /// The amount by which to divide the current vertical extent.
+        /// The vertical extent, in device units, of the viewport.
         /// </param>
         /// <param name="lpsz">
-        /// A pointer to a <see cref="SIZE"/> structure that receives the previous window extents, in logical units.
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
         /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
         /// </param>
         /// <returns>
@@ -1155,14 +1193,23 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         /// <remarks>
-        /// The window extents are modified as follows:
-        /// <code>
-        /// xNewWE = (xOldWE * Xnum) / Xdenom 
-        /// yNewWE = (yOldWE* Ynum) / Ydenom
-        /// </code>
+        /// The viewport refers to the device coordinate system of the device space.
+        /// The extent is the maximum value of an axis.
+        /// This function sets the maximum values for the horizontal and vertical axes of the viewport in device coordinates (or pixels).
+        /// When mapping between page space and device space, <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/>
+        /// determine the scaling factor between the window and the viewport.
+        /// For more information, see Transformation of Coordinate Spaces.
+        /// When the following mapping modes are set, calls to the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions are ignored.
+        /// <see cref="MM_HIENGLISH"/>, <see cref="MM_HIMETRIC"/>, <see cref="MM_LOENGLISH"/>, <see cref="MM_LOMETRIC"/>,
+        /// <see cref="MM_TEXT"/>, <see cref="MM_TWIPS"/>
+        /// When <see cref="MM_ISOTROPIC"/> mode is set, an application must call the <see cref="SetWindowExtEx"/> function
+        /// before it calls <see cref="SetViewportExtEx"/>.
+        /// Note that for the <see cref="MM_ISOTROPIC"/> mode certain portions of a nonsquare screen may not be available for display
+        /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", SetLastError = true)]
-        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", SetLastError = true)]
+        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+
     }
 }
