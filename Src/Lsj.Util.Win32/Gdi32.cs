@@ -904,6 +904,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="LPtoDP"/> function converts logical coordinates into device coordinates.
+        /// The conversion depends on the mapping mode of the device context, the settings of the origins and extents for the window and viewport,
+        /// and the world transformation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lptodp
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to an array of <see cref="POINT"/> structures.
+        /// The x-coordinates and y-coordinates contained in each of the <see cref="POINT"/> structures will be transformed.
+        /// </param>
+        /// <param name="c">
+        /// The number of points in the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LPtoDP"/> function fails if the logical coordinates exceed 32 bits, or if the converted device coordinates exceed 27 bits.
+        /// In the case of such an overflow, the results for all the points are undefined.
+        /// <see cref="LPtoDP"/> calculates complex floating-point arithmetic, and it has a caching system for efficiency.
+        /// Therefore, the conversion result of an initial call to <see cref="LPtoDP"/> might not exactly match
+        /// the conversion result of a later call to <see cref="LPtoDP"/>.
+        /// We recommend not to write code that relies on the exact match of the conversion results
+        /// from multiple calls to <see cref="LPtoDP"/> even if the parameters that are passed to each call are identical.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", SetLastError = true)]
+        public static extern BOOL LPtoDP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
         /// </para>
         /// <para>
