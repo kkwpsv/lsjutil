@@ -987,6 +987,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetWindowExtEx"/> function sets the horizontal and vertical extents of the window for a device context by using the specified values.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindowextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The window's horizontal extent in logical units.
+        /// </param>
+        /// <param name="y">
+        /// The window's vertical extent in logical units.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous window extents, in logical units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// </returns>
+        /// <remarks>
+        /// The window refers to the logical coordinate system of the page space.
+        /// The extent is the maximum value of an axis.
+        /// This function sets the maximum values for the horizontal and vertical axes of the window (in logical coordinates).
+        /// When mapping between page space and device space, <see cref="SetViewportExtEx"/> and <see cref="SetWindowExtEx"/> determine
+        /// the scaling factor between the window and the viewport.
+        /// For more information, see Transformation of Coordinate Spaces.
+        /// When the following mapping modes are set, calls to the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions are ignored:
+        /// <see cref="MM_HIENGLISH"/>, <see cref="MM_HIMETRIC"/>, <see cref="MM_LOENGLISH"/>, <see cref="MM_LOMETRIC"/>,
+        /// <see cref="MM_TEXT"/>, <see cref="MM_TWIPS"/>
+        /// When <see cref="MM_ISOTROPIC"/> mode is set, an application must call
+        /// the <see cref="SetWindowExtEx"/> function before calling <see cref="SetViewportExtEx"/>.
+        /// Note that for the <see cref="MM_ISOTROPIC"/> mode, certain portions of a nonsquare screen may not be available
+        /// for display because the logical units on both axes represent equal physical distances.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", SetLastError = true)]
+        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetWindowOrgEx"/> function specifies which window point maps to the viewport origin (0,0).
         /// </para>
         /// <para>
