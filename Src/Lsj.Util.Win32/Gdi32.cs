@@ -661,6 +661,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// This function retrieves the x-extent and y-extent of the window for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindowextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpsize">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the x- and y-extents in page-space units, that is, logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", SetLastError = true)]
+        public static extern BOOL GetWindowExtEx([In]HDC hdc,[Out]out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
