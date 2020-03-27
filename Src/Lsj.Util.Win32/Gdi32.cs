@@ -1,14 +1,15 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
 using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
-using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Marshals;
 
 namespace Lsj.Util.Win32
 {
@@ -1120,5 +1121,48 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
         public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ScaleWindowExtEx"/> function modifies the window for a device context
+        /// using the ratios formed by the specified multiplicands and divisors.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scalewindowextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="xn">
+        /// The amount by which to multiply the current horizontal extent.
+        /// </param>
+        /// <param name="xd">
+        /// The amount by which to divide the current horizontal extent.
+        /// </param>
+        /// <param name="yn">
+        /// The amount by which to multiply the current vertical extent.
+        /// </param>
+        /// <param name="yd">
+        /// The amount by which to divide the current vertical extent.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous window extents, in logical units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The window extents are modified as follows:
+        /// <code>
+        /// xNewWE = (xOldWE * Xnum) / Xdenom 
+        /// yNewWE = (yOldWE* Ynum) / Ydenom
+        /// </code>
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", SetLastError = true)]
+        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
     }
 }
