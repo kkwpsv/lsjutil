@@ -831,6 +831,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetViewportExtEx"/> function retrieves the x-extent and y-extent of the current viewport for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpsize">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the x- and y-extents, in device units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", SetLastError = true)]
+        public static extern BOOL GetViewportExtEx([In]HDC hdc,[Out]out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
         /// </para>
         /// <para>
