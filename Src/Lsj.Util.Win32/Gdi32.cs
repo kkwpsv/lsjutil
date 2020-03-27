@@ -848,7 +848,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", SetLastError = true)]
-        public static extern BOOL GetViewportExtEx([In]HDC hdc,[Out]out SIZE lpsize);
+        public static extern BOOL GetViewportExtEx([In]HDC hdc, [Out]out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -1232,5 +1232,46 @@ namespace Lsj.Util.Win32
         public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetViewportOrgEx"/> function specifies which device point maps to the window origin (0,0).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportorgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in device units, of the new viewport origin.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in device units, of the new viewport origin.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the previous viewport origin, in device coordinates.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function (along with <see cref="SetViewportExtEx"/> and <see cref="SetWindowExtEx"/>) helps define the mapping
+        /// from the logical coordinate space (also known as a window) to the device coordinate space (the viewport).
+        /// <see cref="SetViewportOrgEx"/> specifies which device point maps to the logical point (0,0).
+        /// It has the effect of shifting the axes so that the logical point (0,0) no longer refers to the upper-left corner.
+        /// <code>
+        /// //map the logical point (0,0) to the device point (xViewOrg, yViewOrg)
+        /// SetViewportOrgEx(hdc, xViewOrg, yViewOrg, NULL)
+        /// </code>
+        /// This is related to the <see cref="SetWindowOrgEx"/> function.
+        /// Generally, you will use one function or the other, but not both.
+        /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", SetLastError = true)]
+        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
     }
 }
