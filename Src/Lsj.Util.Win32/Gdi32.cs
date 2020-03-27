@@ -307,6 +307,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DPtoLP"/> function converts device coordinates into logical coordinates.
+        /// The conversion depends on the mapping mode of the device context, the settings of the origins and extents for the window and viewport,
+        /// and the world transformation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-dptolp
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to an array of <see cref="POINT"/> structures.
+        /// The x- and y-coordinates contained in each <see cref="POINT"/> structure will be transformed.
+        /// </param>
+        /// <param name="c">
+        /// The number of points in the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DPtoLP"/> function fails if the device coordinates exceed 27 bits, or if the converted logical coordinates exceed 32 bits.
+        /// In the case of such an overflow, the results for all the points are undefined.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", SetLastError = true)]
+        public static extern BOOL DPtoLP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
+
+        /// <summary>
+        /// <para>
         /// The EnumFonts function enumerates the fonts available on a specified device.
         /// For each font with the specified typeface name, the <see cref="EnumFonts"/> function retrieves information about that font
         /// and passes it to the application defined callback function.
