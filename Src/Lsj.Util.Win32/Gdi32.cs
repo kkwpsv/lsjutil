@@ -727,7 +727,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The intensity value is in the range 0 through 255.
         /// </remarks>
-        public static byte GetBValue(uint rgb) => (byte)((rgb >> 16) & 0xff);
+        public static BYTE GetBValue(COLORREF rgb) => (byte)((rgb >> 16) & 0xff);
 
         /// <summary>
         /// <para>
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The intensity value is in the range 0 through 255.
         /// </remarks>
-        public static byte GetGValue(uint rgb) => (byte)((rgb >> 8) & 0xff);
+        public static BYTE GetGValue(COLORREF rgb) => (byte)((rgb >> 8) & 0xff);
 
         /// <summary>
         /// <para>
@@ -778,7 +778,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The intensity value is in the range 0 through 255.
         /// </remarks>
-        public static byte GetRValue(uint rgb) => (byte)(rgb & 0xff);
+        public static BYTE GetRValue(COLORREF rgb) => (byte)(rgb & 0xff);
 
         /// <summary>
         /// <para>
