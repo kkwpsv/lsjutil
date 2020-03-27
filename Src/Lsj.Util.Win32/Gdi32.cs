@@ -624,6 +624,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetMapMode"/> function retrieves the current mapping mode.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmapmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the mapping mode.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The following are the various mapping modes.
+        /// <see cref="MM_ANISOTROPIC"/>:
+        /// Logical units are mapped to arbitrary units with arbitrarily scaled axes.
+        /// Use the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions to specify the units, orientation, and scaling required.
+        /// <see cref="MM_HIENGLISH"/>: Each logical unit is mapped to 0.001 inch. Positive x is to the right; positive y is up.
+        /// <see cref="MM_HIMETRIC"/>: Each logical unit is mapped to 0.01 millimeter. Positive x is to the right; positive y is up.
+        /// <see cref="MM_ISOTROPIC"/>:
+        /// Logical units are mapped to arbitrary units with equally scaled axes; that is, one unit along the x-axis is equal to one unit along the y-axis.
+        /// Use the <see cref="SetWindowExtEx"/> and <see cref="SetViewportExtEx"/> functions to specify the units and the orientation of the axes.
+        /// Graphics device interface makes adjustments as necessary to ensure the x and y units remain the same size.
+        /// (When the windows extent is set, the viewport will be adjusted to keep the units isotropic).
+        /// <see cref="MM_LOENGLISH"/>: Each logical unit is mapped to 0.01 inch. Positive x is to the right; positive y is up.
+        /// <see cref="MM_LOMETRIC"/>: Each logical unit is mapped to 0.1 millimeter. Positive x is to the right; positive y is up.
+        /// <see cref="MM_TEXT"/>: Each logical unit is mapped to one device pixel. Positive x is to the right; positive y is down.
+        /// <see cref="MM_TWIPS"/>: 
+        /// Each logical unit is mapped to one twentieth of a printer's point (1/1440 inch, also called a "twip").
+        /// Positive x is to the right; positive y is up.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMapMode", SetLastError = true)]
+        public static extern MappingModes GetMapMode([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
