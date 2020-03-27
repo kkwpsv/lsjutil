@@ -852,6 +852,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetViewportOrgEx"/> function retrieves the x-coordinates and y-coordinates of the viewport origin for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportorgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppoint">
+        /// A pointer to a <see cref="POINT"/> structure that receives the coordinates of the origin, in device units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", SetLastError = true)]
+        public static extern BOOL GetViewportOrgEx([In]HDC hdc,[Out]out POINT lppoint);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
         /// </para>
         /// <para>
