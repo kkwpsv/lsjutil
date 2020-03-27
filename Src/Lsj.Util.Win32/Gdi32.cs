@@ -805,6 +805,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetStockObject"/> function retrieves a handle to one of the stock pens, brushes, fonts, or palettes.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstockobject
+        /// </para>
+        /// </summary>
+        /// <param name="i">
+        /// The type of stock object.
+        /// This parameter can be one of the following values.
+        /// <see cref="BLACK_BRUSH"/>, <see cref="DKGRAY_BRUSH"/>, <see cref="DC_BRUSH"/>, <see cref="GRAY_BRUSH"/>, <see cref="HOLLOW_BRUSH"/>,
+        /// <see cref="LTGRAY_BRUSH"/>, <see cref="NULL_BRUSH"/>, <see cref="WHITE_BRUSH"/>, <see cref="BLACK_PEN"/>, <see cref="DC_PEN"/>,
+        /// <see cref="NULL_PEN"/>, <see cref="WHITE_PEN"/>, <see cref="ANSI_FIXED_FONT"/>, <see cref="ANSI_VAR_FONT"/>, <see cref="DEVICE_DEFAULT_FONT"/>,
+        /// <see cref="DEFAULT_GUI_FONT"/>, <see cref="OEM_FIXED_FONT"/>, <see cref="SYSTEM_FONT"/>, <see cref="SYSTEM_FIXED_FONT"/>, <see cref="DEFAULT_PALETTE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the requested logical object.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// </returns>
+        /// <remarks>
+        /// It is not recommended that you employ this method to obtain the current font used by dialogs and windows.
+        /// Instead, use the <see cref="SystemParametersInfo"/> function with the <see cref="SPI_GETNONCLIENTMETRICS"/> parameter to retrieve the current font.
+        /// <see cref="SystemParametersInfo"/> will take into account the current theme and provides font information for captions, menus, and message dialogs.
+        /// Use the <see cref="DKGRAY_BRUSH"/>, <see cref="GRAY_BRUSH"/>, and <see cref="LTGRAY_BRUSH"/> stock objects only in windows
+        /// with the <see cref="CS_HREDRAW"/> and <see cref="CS_VREDRAW"/> styles.
+        /// Using a gray stock brush in any other style of window can lead to misalignment of brush patterns after a window is moved or sized.
+        /// The origins of stock brushes cannot be adjusted.
+        /// The <see cref="HOLLOW_BRUSH"/> and <see cref="NULL_BRUSH"/> stock objects are equivalent.
+        /// It is not necessary (but it is not harmful) to delete stock objects by calling <see cref="DeleteObject"/>.
+        /// Both <see cref="DC_BRUSH"/> and <see cref="DC_PEN"/> can be used interchangeably
+        /// with other stock objects like <see cref="BLACK_BRUSH"/> and <see cref="BLACK_PEN"/>.
+        /// For information on retrieving the current pen or brush color, see <see cref="GetDCBrushColor"/> and <see cref="GetDCPenColor"/>.
+        /// See Setting the Pen or Brush Color for an example of setting colors.
+        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
+        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", SetLastError = true)]
+        public static extern HGDIOBJ GetStockObject([In]StockObjectIndexes i);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
         /// </para>
         /// <para>
