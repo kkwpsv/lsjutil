@@ -869,7 +869,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", SetLastError = true)]
-        public static extern BOOL GetViewportOrgEx([In]HDC hdc,[Out]out POINT lppoint);
+        public static extern BOOL GetViewportOrgEx([In]HDC hdc, [Out]out POINT lppoint);
 
         /// <summary>
         /// <para>
@@ -899,6 +899,39 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
         public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="OffsetViewportOrgEx"/> function modifies the viewport origin for a device context using the specified horizontal and vertical offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetviewportorgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal offset, in device units.
+        /// </param>
+        /// <param name="y">
+        /// The vertical offset, in device units.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure.
+        /// The previous viewport origin, in device units, is placed in this structure.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, the previous viewport origin is not returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", SetLastError = true)]
+        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
 
         /// <summary>
         /// <para>
