@@ -963,5 +963,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", SetLastError = true)]
         public static extern int SetMapMode([In]HDC hdc, [In]int iMode);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetWindowOrgEx"/> function specifies which window point maps to the viewport origin (0,0).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindoworgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the new window origin.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the new window origin.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the previous origin of the window, in logical units.
+        /// If <paramref name="lppt"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This helps define the mapping from the logical coordinate space (also known as a window) to the device coordinate space (the viewport).
+        /// <see cref="SetWindowOrgEx"/> specifies which logical point maps to the device point (0,0).
+        /// It has the effect of shifting the axes so that the logical point (0,0) no longer refers to the upper-left corner.
+        /// <code>
+        /// //map the logical point (xWinOrg, yWinOrg) to the device point (0,0) 
+        /// SetWindowOrgEx (hdc, xWinOrg, yWinOrg, NULL)
+        /// </code>
+        /// This is related to the <see cref="SetViewportOrgEx"/> function.
+        /// Generally, you will use one function or the other, but not both.
+        /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>,
+        /// the device point (0,0) is always the upper-left corner.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", SetLastError = true)]
+        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
     }
 }
