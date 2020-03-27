@@ -1032,6 +1032,46 @@ namespace Lsj.Util.Win32
         public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
+        /// <summary>
+        /// <para>
+        /// The <see cref="ScaleViewportExtEx"/> function modifies the viewport for a device context
+        /// using the ratios formed by the specified multiplicands and divisors.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scaleviewportextex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="xn">
+        /// The amount by which to multiply the current horizontal extent.
+        /// </param>
+        /// <param name="dx">
+        /// The amount by which to divide the current horizontal extent.
+        /// </param>
+        /// <param name="yn">
+        /// The amount by which to multiply the current vertical extent.
+        /// </param>
+        /// <param name="yd">
+        /// The amount by which to divide the current vertical extent.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the previous viewport extents, in device units.
+        /// If <paramref name="lpsz"/> is <see langword="null"/>, this parameter is not used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The viewport extents are modified as follows:
+        ///  xNewVE = (xOldVE * Xnum) / Xdenom 
+        ///  yNewVE = (yOldVE* Ynum) / Ydenom
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", SetLastError = true)]
+        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
         /// <summary>
         /// <para>
