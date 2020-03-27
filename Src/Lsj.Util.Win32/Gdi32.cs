@@ -586,6 +586,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBoundsRect"/> function obtains the current accumulated bounding rectangle for a specified device context.
+        /// The system maintains an accumulated bounding rectangle for each application. An application can retrieve and set this rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getboundsrect
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context whose bounding rectangle the function will return.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to the <see cref="RECT"/> structure that will receive the current bounding rectangle.
+        /// The application's rectangle is returned in logical coordinates, and the bounding rectangle is returned in screen coordinates.
+        /// </param>
+        /// <param name="flags">
+        /// Specifies how the <see cref="GetBoundsRect"/> function will behave. This parameter can be the following value.
+        /// <see cref="DCB_RESET"/>: 
+        /// Clears the bounding rectangle after returning it.If this flag is not set, the bounding rectangle will not be cleared.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the state of the accumulated bounding rectangle; it can be one of the following values.
+        /// 0: An error occurred. The specified device context handle is invalid.
+        /// <see cref="DCB_DISABLE"/>: Boundary accumulation is off.
+        /// <see cref="DCB_ENABLE"/>: Boundary accumulation is on.
+        /// <see cref="DCB_RESET"/>: The bounding rectangle is empty.
+        /// <see cref="DCB_SET"/>: The bounding rectangle is not empty.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DCB_SET"/> value is a combination of the bit values <see cref="DCB_ACCUMULATE"/> and <see cref="DCB_RESET"/>.
+        /// Applications that check the <see cref="DCB_RESET"/> bit to determine whether the bounding rectangle is empty
+        /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
+        /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", SetLastError = true)]
+        public static extern UINT GetBoundsRect([In]HDC hdc, [Out]out RECT lprect, [In]BoundsAccumulationFlags flags);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
