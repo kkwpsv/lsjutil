@@ -255,7 +255,7 @@ namespace Lsj.Util.Win32
         /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", SetLastError = true)]
-        public static extern uint GetSysColor([In]SystemColors nIndex);
+        public static extern DWORD GetSysColor([In]SystemColors nIndex);
 
         /// <summary>
         /// <para>
