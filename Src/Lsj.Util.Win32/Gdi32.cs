@@ -788,5 +788,55 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", SetLastError = true)]
         public static extern IntPtr SelectObject([In]IntPtr hdc, [In]IntPtr hgdiobj);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBoundsRect"/> function controls the accumulation of bounding rectangle information for the specified device context.
+        /// The system can maintain a bounding rectangle for all drawing operations.
+        /// An application can examine and set this rectangle.
+        /// The drawing boundaries are useful for invalidating bitmap caches.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setboundsrect
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context for which to accumulate bounding rectangles.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to a <see cref="RECT"/> structure used to set the bounding rectangle.
+        /// Rectangle dimensions are in logical coordinates.
+        /// This parameter can be <see langword="null"/>.
+        /// </param>
+        /// <param name="flags">
+        /// Specifies how the new rectangle will be combined with the accumulated rectangle.
+        /// This parameter can be one of more of the following values.
+        /// <see cref="DCB_ACCUMULATE"/>:
+        /// Adds the rectangle specified by the <paramref name="lprect"/> parameter to the bounding rectangle (using a rectangle union operation).
+        /// Using both <see cref="DCB_RESET"/> and <see cref="DCB_ACCUMULATE"/> sets the bounding rectangle
+        /// to the rectangle specified by the <paramref name="lprect"/> parameter.
+        /// <see cref="DCB_DISABLE"/>: Turns off boundary accumulation.
+        /// <see cref="DCB_ENABLE"/>: Turns on boundary accumulation, which is disabled by default.
+        /// <see cref="DCB_RESET"/>: Clears the bounding rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous state of the bounding rectangle.
+        /// This state can be a combination of the following values.
+        /// <see cref="DCB_DISABLE"/>: Boundary accumulation is off.
+        /// <see cref="DCB_ENABLE"/>: Boundary accumulation is on. <see cref="DCB_ENABLE"/> and <see cref="DCB_DISABLE"/> are mutually exclusive.
+        /// <see cref="DCB_RESET"/>: Bounding rectangle is empty.
+        /// <see cref="DCB_SET"/>: Bounding rectangle is not empty. <see cref="DCB_SET"/> and <see cref="DCB_RESET"/> are mutually exclusive.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DCB_SET"/> value is a combination of the bit values <see cref="DCB_ACCUMULATE"/> and <see cref="DCB_RESET"/>.
+        /// Applications that check the <see cref="DCB_RESET"/> bit to determine whether the bounding rectangle is empty
+        /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
+        /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", SetLastError = true)]
+        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<RECT>))][In]StructPointerOrNullObject<RECT> lprect,
+            [In]BoundsAccumulationFlags flags);
     }
 }
