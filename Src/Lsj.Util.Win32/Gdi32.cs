@@ -1035,6 +1035,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RGB"/> macro selects a red, green, blue (RGB) color based on the arguments supplied and the color capabilities of the output device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rgb
+        /// </para>
+        /// </summary>
+        /// <param name="r">
+        /// The intensity of the red color.
+        /// </param>
+        /// <param name="g">
+        /// The intensity of the green color.
+        /// </param>
+        /// <param name="b">
+        /// The intensity of the blue color.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// The intensity for each argument is in the range 0 through 255.
+        /// If all three intensities are zero, the result is black.
+        /// If all three intensities are 255, the result is white.
+        /// To extract the individual values for the red, green, and blue components of a <see cref="COLORREF"/> color value,
+        /// use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros, respectively.
+        /// When creating or examining a logical palette, use the <see cref="RGBQUAD"/> structure to define color values and examine individual component values.
+        /// For more information about using color values in a color palette, see the descriptions of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
+        /// </remarks>
+        public static COLORREF RGB([In]byte r, [In]byte g, [In]byte b) => (COLORREF)(r | g << 8 | b << 16);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SaveDC"/> function saves the current state of the specified device context (DC) by copying data describing selected objects
         /// and graphic modes (such as the bitmap, brush, palette, font, pen, region, drawing mode, and mapping mode) to a context stack.
         /// </para>
