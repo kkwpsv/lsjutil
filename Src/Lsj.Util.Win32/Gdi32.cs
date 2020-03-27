@@ -788,6 +788,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetWindowOrgEx"/> function retrieves the x-coordinates and y-coordinates of the window origin for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindoworgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppoint">
+        /// A pointer to a <see cref="POINT"/> structure that receives the coordinates, in logical units, of the window origin.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", SetLastError = true)]
+        public static extern BOOL GetWindowOrgEx([In]HDC hdc, [Out]out POINT lppoint);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RestoreDC"/> function restores a device context (DC) to the specified state.
         /// The DC is restored by popping state information off a stack created by earlier calls to the <see cref="SaveDC"/> function.
         /// </para>
