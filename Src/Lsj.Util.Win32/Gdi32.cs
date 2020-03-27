@@ -782,6 +782,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetNearestColor"/> function retrieves a color value identifying a color from the system palette
+        /// that will be displayed when the specified color value is used.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="color">
+        /// A color value that identifies a requested color.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a color from the system palette that corresponds to the given color value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", SetLastError = true)]
+        public static extern COLORREF GetNearestColor([In]HDC hdc, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
         /// </para>
         /// <para>
