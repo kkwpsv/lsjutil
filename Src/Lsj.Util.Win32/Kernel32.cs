@@ -577,6 +577,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value. The final result is rounded to the nearest integer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-muldiv
+        /// </para>
+        /// </summary>
+        /// <param name="nNumber">
+        /// The multiplicand.
+        /// </param>
+        /// <param name="nNumerator">
+        /// The multiplier.
+        /// </param>
+        /// <param name="nDenominator">
+        /// The number by which the result of the multiplication operation is to be divided.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the result of the multiplication and division, rounded to the nearest integer.
+        /// If the result is a positive half integer (ends in .5), it is rounded up.
+        /// If the result is a negative half integer, it is rounded down.
+        /// If either an overflow occurred or nDenominator was 0, the return value is -1.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", SetLastError = true)]
+        public static extern int MulDiv([In]int nNumber, [In]int nNumerator, [In]int nDenominator);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current value of the performance counter, which is a high resolution (&lt;1us) time stamp
         /// that can be used for time-interval measurements.
         /// </para>
