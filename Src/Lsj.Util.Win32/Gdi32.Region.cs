@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,44 @@ namespace Lsj.Util.Win32
 {
     public partial class Gdi32
     {
+        /// <summary>
+        /// <para>
+        /// The <see cref="CombineRgn"/> function combines two regions and stores the result in a third region.
+        /// The two regions are combined according to the specified mode.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-combinergn
+        /// </para>
+        /// </summary>
+        /// <param name="hrgnDst">
+        /// A handle to a new region with dimensions defined by combining two other regions.
+        /// (This region must exist before <see cref="CombineRgn"/> is called.)
+        /// </param>
+        /// <param name="hrgnSrc1">
+        /// A handle to the first of two regions to be combined.
+        /// </param>
+        /// <param name="hrgnSrc2">
+        /// A handle to the second of two regions to be combined.
+        /// </param>
+        /// <param name="iMode">
+        /// A mode indicating how the two regions will be combined.
+        /// This parameter can be one of the following values.
+        /// <see cref="RGN_AND"/>, <see cref="RGN_COPY"/>, <see cref="RGN_DIFF"/>, <see cref="RGN_OR"/>, <see cref="RGN_XOR"/>
+        /// </param>
+        /// <returns>
+        /// The return value specifies the type of the resulting region. It can be one of the following values.
+        /// <see cref="NULLREGION"/>: The region is empty.
+        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
+        /// <see cref="ERROR"/>: No region is created.
+        /// </returns>
+        /// <remarks>
+        /// The three regions need not be distinct.
+        /// For example, the <paramref name="hrgnSrc1"/> parameter can equal the <paramref name="hrgnDst"/> parameter.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineRgn", SetLastError = true)]
+        public static extern int CombineRgn([In]HRGN hrgnDst, [In]HRGN hrgnSrc1, [In]HRGN hrgnSrc2, [In]CombineRgnModes iMode);
+
         /// <summary>
         /// <para>
         /// The <see cref="CreateEllipticRgn"/> function creates an elliptical region.
