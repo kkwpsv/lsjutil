@@ -203,5 +203,42 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
         public static extern HRGN CreateRectRgnIndirect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateRoundRectRgn"/> function creates a rectangular region with rounded corners.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createroundrectrgn
+        /// </para>
+        /// </summary>
+        /// <param name="x1">
+        /// Specifies the x-coordinate of the upper-left corner of the region in device units.
+        /// </param>
+        /// <param name="y1">
+        /// Specifies the y-coordinate of the upper-left corner of the region in device units.
+        /// </param>
+        /// <param name="x2">
+        /// Specifies the x-coordinate of the lower-right corner of the region in device units.
+        /// </param>
+        /// <param name="y2">
+        /// Specifies the y-coordinate of the lower-right corner of the region in device units.
+        /// </param>
+        /// <param name="w">
+        /// Specifies the width of the ellipse used to create the rounded corners in device units.
+        /// </param>
+        /// <param name="h">
+        /// Specifies the height of the ellipse used to create the rounded corners in device units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
+        /// Region coordinates are represented as 27-bit signed integers.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRoundRectRgn", SetLastError = true)]
+        public static extern HRGN CreateRoundRectRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int w, [In]int h);
     }
 }
