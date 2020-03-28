@@ -102,6 +102,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The EnumObjectsProc function is an application-defined callback function used with the <see cref="EnumObjects"/> function.
+        /// It is used to process the object data.
+        /// The <see cref="GOBJENUMPROC"/> type defines a pointer to this callback function. 
+        /// EnumObjectsProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162686(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="lpLogObject">
+        /// A pointer to a <see cref="LOGPEN"/> or <see cref="LOGBRUSH"/> structure describing the attributes of the object.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to the application-defined data passed by the <see cref="EnumObjects"/> function.
+        /// </param>
+        /// <returns>
+        /// To continue enumeration, the callback function must return a nonzero value. This value is user-defined.
+        /// To stop enumeration, the callback function must return zero.
+        /// </returns>
+        /// <remarks>
+        /// An application must register this function by passing its address to the <see cref="EnumObjects"/> function.
+        /// </remarks>
+        public delegate int GOBJENUMPROC([In]LPVOID lpLogObject, [In]LPARAM lpData);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
         /// </para>
         /// <para>
@@ -533,6 +559,40 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", SetLastError = true)]
         public static extern int EnumFontFamiliesEx([In]IntPtr hdc, [In]ref LOGFONT lpLogfont, [In]FONTENUMPROC lpProc,
             [In]IntPtr lParam, [In]uint dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="EnumObjects"/> function enumerates the pens or brushes available for the specified device context (DC).
+        /// This function calls the application-defined callback function once for each available object, supplying data describing that object.
+        /// <see cref="EnumObjects"/> continues calling the callback function until the callback function returns zero
+        /// or until all of the objects have been enumerated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumobjects
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="nType">
+        /// The object type.
+        /// This parameter can be <see cref="OBJ_BRUSH"/> or <see cref="OBJ_PEN"/>.
+        /// </param>
+        /// <param name="lpFunc">
+        /// A pointer to the application-defined callback function.
+        /// For more information about the callback function, see the <see cref="GOBJENUMPROC"/> function.
+        /// </param>
+        /// <param name="lParam">
+        /// A pointer to the application-defined data.
+        /// The data is passed to the callback function along with the object information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the last value returned by the callback function.
+        /// Its meaning is user-defined.
+        /// If the objects cannot be enumerated (for example, there are too many objects), the function returns zero without calling the callback function.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", SetLastError = true)]
+        public static extern int EnumObjects([In]HDC hdc, [In]int nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
