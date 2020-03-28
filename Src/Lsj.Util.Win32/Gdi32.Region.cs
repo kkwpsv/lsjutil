@@ -356,6 +356,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PtInRegion"/> function determines whether the specified point is inside the specified region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ptinregion
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// Handle to the region to be examined.
+        /// </param>
+        /// <param name="x">
+        /// Specifies the x-coordinate of the point in logical units.
+        /// </param>
+        /// <param name="y">
+        /// Specifies the y-coordinate of the point in logical units.
+        /// </param>
+        /// <returns>
+        /// If the specified point is in the region, the return value is <see cref="TRUE"/>.
+        /// If the specified point is not in the region, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRegion", SetLastError = true)]
+        public static extern BOOL PtInRegion([In]HRGN hrgn, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RectInRegion"/> function determines whether any part of the specified rectangle is within the boundaries of a region.
         /// </para>
         /// <para>
