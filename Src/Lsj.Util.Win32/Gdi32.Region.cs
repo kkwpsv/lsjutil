@@ -305,6 +305,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="OffsetRgn"/> function moves a region by the specified offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// Handle to the region to be moved.
+        /// </param>
+        /// <param name="x">
+        /// Specifies the number of logical units to move left or right.
+        /// </param>
+        /// <param name="y">
+        /// Specifies the number of logical units to move up or down.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the type of the resulting region. It can be one of the following values.
+        /// <see cref="NULLREGION"/>: The region is empty.
+        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
+        /// <see cref="ERROR"/>: No region is created.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", SetLastError = true)]
+        public static extern int OffsetRgn([In]HRGN hrgn, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRectRgn"/> function converts a region into a rectangular region with the specified coordinates.
         /// </para>
         /// <para>
