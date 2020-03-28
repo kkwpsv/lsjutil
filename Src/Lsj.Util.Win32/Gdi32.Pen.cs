@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -56,5 +57,28 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePen", SetLastError = true)]
         public static extern HPEN CreatePen([In]PenStyles iStyle, [In]int cWidth, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreatePenIndirect"/> function creates a logical cosmetic pen that has the style, width, and color specified in a structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpenindirect
+        /// </para>
+        /// </summary>
+        /// <param name="plpen">
+        /// Pointer to a <see cref="LOGPEN"/> structure that specifies the pen's style, width, and color.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle that identifies a logical cosmetic pen.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// After an application creates a logical pen, it can select that pen into a device context by calling the <see cref="SelectObject"/> function.
+        /// After a pen is selected into a device context, it can be used to draw lines and curves.
+        /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", SetLastError = true)]
+        public static extern HPEN CreatePenIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGPEN plpen);
     }
 }
