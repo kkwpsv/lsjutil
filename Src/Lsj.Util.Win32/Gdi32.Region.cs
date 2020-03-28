@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
         /// Region coordinates are represented as 27-bit signed integers.
-        /// Regions created by the Create<shape>Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
+        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
         /// only include the interior of the shape; the shape's outline is excluded from the region.
         /// This means that any point on a line between two sequential vertices is not included in the region.
         /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
