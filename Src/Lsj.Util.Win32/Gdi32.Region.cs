@@ -240,5 +240,38 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRoundRectRgn", SetLastError = true)]
         public static extern HRGN CreateRoundRectRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int w, [In]int h);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetRectRgn"/> function converts a region into a rectangular region with the specified coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrectrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// Handle to the region.
+        /// </param>
+        /// <param name="left">
+        /// Specifies the x-coordinate of the upper-left corner of the rectangular region in logical units.
+        /// </param>
+        /// <param name="top">
+        /// Specifies the y-coordinate of the upper-left corner of the rectangular region in logical units.
+        /// </param>
+        /// <param name="right">
+        /// Specifies the x-coordinate of the lower-right corner of the rectangular region in logical units.
+        /// </param>
+        /// <param name="bottom">
+        /// Specifies the y-coordinate of the lower-right corner of the rectangular region in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The region does not include the lower and right boundaries of the rectangle.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectRgn", SetLastError = true)]
+        public static extern BOOL SetRectRgn([In]HRGN hrgn, [In]int left, [In]int top, [In]int right, [In]int bottom);
     }
 }
