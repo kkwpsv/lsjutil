@@ -305,6 +305,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetRgnBox"/> function retrieves the bounding rectangle of the specified region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrgnbox
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// A handle to the region.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that receives the bounding rectangle in logical units.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the region's complexity. It can be one of the following values:
+        /// <see cref="NULLREGION"/>: The region is empty.
+        /// <see cref="SIMPLEREGION"/>: The region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
+        /// If the <paramref name="hrgn"/> parameter does not identify a valid region, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRgnBox", SetLastError = true)]
+        public static extern int GetRgnBox([In]HRGN hrgn, [Out]out RECT lprc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OffsetRgn"/> function moves a region by the specified offsets.
         /// </para>
         /// <para>
