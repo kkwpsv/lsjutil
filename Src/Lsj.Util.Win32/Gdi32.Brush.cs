@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -9,6 +10,34 @@ namespace Lsj.Util.Win32
 {
     public partial class Gdi32
     {
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateBrushIndirect"/> function creates a logical brush that has the specified style, color, and pattern.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbrushindirect
+        /// </para>
+        /// </summary>
+        /// <param name="plbrush">
+        /// A pointer to a <see cref="LOGBRUSH"/> structure that contains information about the brush.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a logical brush.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// After an application creates a brush by calling <see cref="CreateBrushIndirect"/>,
+        /// it can select it into any device context by calling the <see cref="SelectObject"/> function.
+        /// A brush created by using a monochrome bitmap (one color plane, one bit per pixel) is drawn using the current text and background colors.
+        /// Pixels represented by a bit set to 0 are drawn with the current text color;
+        /// pixels represented by a bit set to 1 are drawn with the current background color.
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", SetLastError = true)]
+        public static extern HBRUSH CreateBrushIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGBRUSH plbrush);
+
         /// <summary>
         /// <para>
         /// The <see cref="CreateDIBPatternBrush"/> function creates a logical brush
