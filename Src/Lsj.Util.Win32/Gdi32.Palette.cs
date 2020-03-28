@@ -71,6 +71,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetNearestPaletteIndex"/> function retrieves the index for the entry
+        /// in the specified logical palette most closely matching a specified color value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestpaletteindex
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to a logical palette.
+        /// </param>
+        /// <param name="color">
+        /// A color to be matched.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the index of an entry in a logical palette.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// If the given logical palette contains entries with the <see cref="PC_EXPLICIT"/> flag set, the return value is undefined.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestPaletteIndex", SetLastError = true)]
+        public static extern UINT GetNearestPaletteIndex([In]HPALETTE h, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetPaletteEntries"/> function retrieves a specified range of palette entries from the given logical palette.
         /// </para>
         /// <para>
