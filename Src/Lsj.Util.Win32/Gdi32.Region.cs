@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -42,5 +43,29 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
         public static extern HRGN CreateRectRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateRectRgnIndirect"/> function creates a rectangular region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createrectrgnindirect
+        /// </para>
+        /// </summary>
+        /// <param name="lprect">
+        /// Pointer to a <see cref="RECT"/> structure that contains the coordinates of the upper-left and lower-right corners of the rectangle
+        /// that defines the region in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// Region coordinates are represented as 27-bit signed integers.
+        /// The region will be exclusive of the bottom and right edges.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
+        public static extern HRGN CreateRectRgnIndirect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
     }
 }
