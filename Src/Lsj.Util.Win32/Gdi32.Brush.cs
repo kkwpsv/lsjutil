@@ -11,6 +11,48 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="CreateDIBPatternBrush"/> function creates a logical brush
+        /// that has the pattern specified by the specified device-independent bitmap (DIB).
+        /// The brush can subsequently be selected into any device context that is associated with a device that supports raster operations.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrush
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to a global memory object containing a packed DIB, which consists of a <see cref="BITMAPINFO"/> structure immediately
+        /// followed by an array of bytes defining the pixels of the bitmap.
+        /// </param>
+        /// <param name="iUsage">
+        /// Specifies whether the <see cref="bmiColors"/> member of the <see cref="BITMAPINFO"/> structure is initialized and,
+        /// if so, whether this member contains explicit red, green, blue (RGB) values or indexes into a logical palette.
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette of
+        /// the device context into which the brush is to be selected.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// A color table is provided and contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a logical brush.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When an application selects a two-color DIB pattern brush into a monochrome device context,
+        /// the system does not acknowledge the colors specified in the DIB;
+        /// instead, it displays the pattern brush using the current background and foreground colors of the device context.
+        /// Pixels mapped to the first color of the DIB (offset 0 in the DIB color table) are displayed using the foreground color;
+        /// pixels mapped to the second color (offset 1 in the color table) are displayed using the background color.
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the CreateDIBPatternBrushPt function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", SetLastError = true)]
+        public static extern HBRUSH CreateDIBPatternBrush([In]HGLOBAL h, [In]UINT iUsage);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateSolidBrush"/> function creates a logical brush that has the specified solid color.
         /// </para>
         /// <para>
