@@ -11,6 +11,31 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="CreateEllipticRgnIndirect"/> function creates an elliptical region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createellipticrgnindirect
+        /// </para>
+        /// </summary>
+        /// <param name="lprect">
+        /// Pointer to a <see cref="RECT"/> structure that contains the coordinates of the upper-left and lower-right corners of the bounding rectangle
+        /// of the ellipse in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// A bounding rectangle defines the size, shape, and orientation of the region: The long sides of the rectangle
+        /// define the length of the ellipse's major axis; the short sides define the length of the ellipse's minor axis;
+        /// and the center of the rectangle defines the intersection of the major and minor axes.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgnIndirect", SetLastError = true)]
+        public static extern HRGN CreateEllipticRgnIndirect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateRectRgn"/> function creates a rectangular region.
         /// </para>
         /// <para>
