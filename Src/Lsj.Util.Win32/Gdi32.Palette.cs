@@ -71,6 +71,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetPaletteEntries"/> function retrieves a specified range of palette entries from the given logical palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpaletteentries
+        /// </para>
+        /// </summary>
+        /// <param name="hpal">
+        /// A handle to the logical palette.
+        /// </param>
+        /// <param name="iStart">
+        /// The first entry in the logical palette to be retrieved.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of entries in the logical palette to be retrieved.
+        /// </param>
+        /// <param name="pPalEntries">
+        /// A pointer to an array of <see cref="PALETTEENTRY"/> structures to receive the palette entries.
+        /// The array must contain at least as many structures as specified by the <paramref name="cEntries"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the handle to the logical palette is a valid pointer (not <see cref="NULL"/>),
+        /// the return value is the number of entries retrieved from the logical palette.
+        /// If the function succeeds and handle to the logical palette is <see cref="NULL"/>, the return value is the number of entries in the given palette.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// If the <paramref name="cEntries"/> parameter specifies more entries than exist in the palette,
+        /// the remaining members of the <see cref="PALETTEENTRY"/> structure are not altered.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPaletteEntries", SetLastError = true)]
+        public static extern UINT GetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RealizePalette"/> function maps palette entries from the current logical palette to the system palette.
         /// </para>
         /// <para>
