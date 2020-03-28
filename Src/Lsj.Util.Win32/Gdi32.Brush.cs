@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -37,5 +38,41 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", SetLastError = true)]
         public static extern HBRUSH CreateSolidBrush([In]COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateHatchBrush"/> function creates a logical brush that has the specified hatch pattern and color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createhatchbrush
+        /// </para>
+        /// </summary>
+        /// <param name="iHatch">
+        /// The hatch style of the brush. This parameter can be one of the following values.
+        /// <see cref="HS_BDIAGONAL"/>, <see cref="HS_CROSS"/>, <see cref="HS_DIAGCROSS"/>, <see cref="HS_FDIAGONAL"/>,
+        /// <see cref="HS_HORIZONTAL"/>, <see cref="HS_VERTICAL"/>
+        /// </param>
+        /// <param name="color">
+        /// The foreground color of the brush that is used for the hatches.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a logical brush.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// After an application creates a brush by calling <see cref="CreateHatchBrush"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// It can also call <see cref="SetBkMode"/> to affect the rendering of the brush.
+        /// If an application uses a hatch brush to fill the backgrounds of both a parent and a child window with matching color,
+        /// you must set the brush origin before painting the background of the child window.
+        /// You can do this by calling the <see cref="SetBrushOrgEx"/> function.
+        /// Your application can retrieve the current brush origin by calling the <see cref="GetBrushOrgEx"/> function.
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// ICM: No color is defined at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", SetLastError = true)]
+        public static extern HBRUSH CreateHatchBrush([In]HatchStyles iHatch, [In]COLORREF color);
     }
 }
