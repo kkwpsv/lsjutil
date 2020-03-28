@@ -36,6 +36,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RealizePalette"/> function maps palette entries from the current logical palette to the system palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-realizepalette
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context into which a logical palette has been selected.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of entries in the logical palette mapped to the system palette.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// The <see cref="RealizePalette"/> function modifies the palette for the device associated with the specified device context.
+        /// If the device context is a memory DC, the color table for the bitmap selected into the DC is modified.
+        /// If the device context is a display DC, the physical palette for that device is modified.
+        /// A logical palette is a buffer between color-intensive applications and the system,
+        /// allowing these applications to use as many colors as needed without interfering with colors displayed by other windows.
+        /// When an application's window has the focus and it calls the <see cref="RealizePalette"/> function,
+        /// the system attempts to realize as many of the requested colors as possible.
+        /// The same is also true for applications with inactive windows.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", SetLastError = true)]
+        public static extern UINT RealizePalette([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectPalette"/> function selects the specified logical palette into a device context.
         /// </para>
         /// <para>
