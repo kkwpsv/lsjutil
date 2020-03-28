@@ -1613,5 +1613,36 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", SetLastError = true)]
         public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="UnrealizeObject"/> function resets the origin of a brush or resets a logical palette.
+        /// If the <paramref name="h"/> parameter is a handle to a brush, <see cref="UnrealizeObject"/> directs the system to reset
+        /// the origin of the brush the next time it is selected.
+        /// If the <paramref name="h"/> parameter is a handle to a logical palette, <see cref="UnrealizeObject"/> directs the system
+        /// to realize the palette as though it had not previously been realized.
+        /// The next time the application calls the <see cref="RealizePalette"/> function for the specified palette,
+        /// the system completely remaps the logical palette to the system palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-unrealizeobject
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the logical palette to be reset.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="UnrealizeObject"/> function should not be used with stock objects.
+        /// For example, the default palette, obtained by calling <code>GetStockObject (DEFAULT_PALETTE)</code>, is a stock object.
+        /// A palette identified by hgdiobj can be the currently selected palette of a device context.
+        /// If <paramref name="h"/> is a brush, <see cref="UnrealizeObject"/> does nothing, and the function returns <see cref="TRUE"/>.
+        /// Use <see cref="SetBrushOrgEx"/> to set the origin of a brush.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", SetLastError = true)]
+        public static extern BOOL UnrealizeObject([In]HGDIOBJ h);
     }
 }
