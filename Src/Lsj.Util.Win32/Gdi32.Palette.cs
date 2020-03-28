@@ -106,5 +106,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectPalette", SetLastError = true)]
         public static extern HPALETTE SelectPalette([In]HDC hdc, [In]HPALETTE hPal, [In]BOOL bForceBkgd);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="UpdateColors"/> function updates the client area of the specified device context
+        /// by remapping the current colors in the client area to the currently realized logical palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-updatecolors
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// An inactive window with a realized logical palette may call <see cref="UpdateColors"/> as an alternative to
+        /// redrawing its client area when the system palette changes.
+        /// The <see cref="UpdateColors"/> function typically updates a client area faster than redrawing the area.
+        /// However, because <see cref="UpdateColors"/> performs the color translation based on the color of each pixel before the system palette changed,
+        /// each call to this function results in the loss of some color accuracy.
+        /// This function must be called soon after a <see cref="WM_PALETTECHANGED"/> message is received.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateColors", SetLastError = true)]
+        public static extern BOOL UpdateColors([In]HDC hdc);
     }
 }
