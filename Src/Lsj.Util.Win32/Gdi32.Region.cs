@@ -69,6 +69,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreatePolygonRgn"/> function creates a polygonal region.
+        /// </para>
+        /// </summary>
+        /// <param name="pptl">
+        /// A pointer to an array of <see cref="POINT"/> structures that define the vertices of the polygon in logical units.
+        /// The polygon is presumed closed.
+        /// Each vertex can be specified only once.
+        /// </param>
+        /// <param name="cPoint">
+        /// The number of points in the array.
+        /// </param>
+        /// <param name="iMode">
+        /// The fill mode used to determine which pixels are in the region.
+        /// This parameter can be one of the following values.
+        /// <see cref="ALTERNATE"/>:
+        /// Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
+        /// <see cref="WINDING"/>:
+        /// Selects winding mode (fills any region with a nonzero winding value).
+        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// Region coordinates are represented as 27-bit signed integers.
+        /// Regions created by the Create&lt;shape&gt;Rgn methods (such as <see cref="CreateRectRgn"/> and <see cref="CreatePolygonRgn"/>)
+        /// only include the interior of the shape; the shape's outline is excluded from the region.
+        /// This means that any point on a line between two sequential vertices is not included in the region.
+        /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", SetLastError = true)]
+        public static extern HRGN CreatePolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl, [In]int cPoint, [In]int iMode);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateRectRgn"/> function creates a rectangular region.
         /// </para>
         /// <para>
