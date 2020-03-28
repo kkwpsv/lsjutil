@@ -106,6 +106,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreatePolyPolygonRgn"/> function creates a region consisting of a series of polygons.
+        /// The polygons can overlap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpolypolygonrgn
+        /// </para>
+        /// </summary>
+        /// <param name="pptl">
+        /// A pointer to an array of <see cref="POINT"/> structures that define the vertices of the polygons in logical units.
+        /// The polygons are specified consecutively.
+        /// Each polygon is presumed closed and each vertex is specified only once.
+        /// </param>
+        /// <param name="pc">
+        /// A pointer to an array of integers, each of which specifies the number of points in one of the polygons in the array pointed to by lppt.
+        /// </param>
+        /// <param name="cPoly">
+        /// The total number of integers in the array pointed to by lpPolyCounts.
+        /// </param>
+        /// <param name="iMode">
+        /// The fill mode used to determine which pixels are in the region.
+        /// This parameter can be one of the following values.
+        /// <see cref="ALTERNATE"/>:
+        /// Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
+        /// <see cref="WINDING"/>:
+        /// Selects winding mode (fills any region with a nonzero winding value).
+        /// For more information about these modes, see the <see cref="SetPolyFillMode"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the region.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
+        /// Region coordinates are represented as 27-bit signed integers.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", SetLastError = true)]
+        public static extern HRGN CreatePolyPolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl,
+            [MarshalAs(UnmanagedType.LPArray)][In]INT[] pc, [In]int cPoly, [In]int iMode);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateRectRgn"/> function creates a rectangular region.
         /// </para>
         /// <para>
