@@ -174,5 +174,41 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", SetLastError = true)]
         public static extern HBRUSH CreatePatternBrush([In]HBITMAP hbm);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetBrushOrgEx"/> function retrieves the current brush origin for the specified device context.
+        /// This function replaces the GetBrushOrg function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbrushorgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the brush origin, in device coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// The brush origin is a set of coordinates with values between 0 and 7, specifying the location of one pixel in the bitmap.
+        /// The default brush origin coordinates are (0,0).
+        /// For horizontal coordinates, the value 0 corresponds to the leftmost column of pixels; the value 7 corresponds to the rightmost column.
+        /// For vertical coordinates, the value 0 corresponds to the uppermost row of pixels; the value 7 corresponds to the lowermost row.
+        /// When the system positions the brush at the start of any painting operation,
+        /// it maps the origin of the brush to the location in the window's client area specified by the brush origin.
+        /// For example, if the origin is set to (2,3), the system maps the origin of the brush (0,0) to the location (2,3) on the window's client area.
+        /// If an application uses a brush to fill the backgrounds of both a parent and a child window with matching colors,
+        /// it may be necessary to set the brush origin after painting the parent window but before painting the child window.
+        /// The system automatically tracks the origin of all window-managed device contexts
+        /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", SetLastError = true)]
+        public static extern BOOL GetBrushOrgEx([In]HDC hdc, [Out]out POINT lppt);
     }
 }
