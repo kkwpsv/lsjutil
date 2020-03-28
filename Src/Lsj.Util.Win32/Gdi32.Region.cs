@@ -356,6 +356,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RectInRegion"/> function determines whether any part of the specified rectangle is within the boundaries of a region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectinregion
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn">
+        /// Handle to the region.
+        /// </param>
+        /// <param name="lprect">
+        /// Pointer to a <see cref="RECT"/> structure containing the coordinates of the rectangle in logical units.
+        /// The lower and right edges of the rectangle are not included.
+        /// </param>
+        /// <returns>
+        /// If any part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="TRUE"/>.
+        /// If no part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectInRegion", SetLastError = true)]
+        public static extern BOOL RectInRegion([In]HRGN hrgn, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRectRgn"/> function converts a region into a rectangular region with the specified coordinates.
         /// </para>
         /// <para>
