@@ -74,5 +74,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", SetLastError = true)]
         public static extern HBRUSH CreateHatchBrush([In]HatchStyles iHatch, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreatePatternBrush"/> function creates a logical brush with the specified bitmap pattern.
+        /// The bitmap can be a DIB section bitmap, which is created by the <see cref="CreateDIBSection"/> function, or it can be a device-dependent bitmap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpatternbrush
+        /// </para>
+        /// </summary>
+        /// <param name="hbm">
+        /// A handle to the bitmap to be used to create the logical brush.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a logical brush.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A pattern brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// After an application creates a brush by calling <see cref="CreatePatternBrush"/>,
+        /// it can select that brush into any device context by calling the <see cref="SelectObject"/> function.
+        /// You can delete a pattern brush without affecting the associated bitmap by using the <see cref="DeleteObject"/> function.
+        /// Therefore, you can then use this bitmap to create any number of pattern brushes.
+        /// A brush created by using a monochrome (1 bit per pixel) bitmap has the text and background colors of the device context to which it is drawn.
+        /// Pixels represented by a 0 bit are drawn with the current text color; pixels represented by a 1 bit are drawn with the current background color.
+        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", SetLastError = true)]
+        public static extern HBRUSH CreatePatternBrush([In]HBITMAP hbm);
     }
 }
