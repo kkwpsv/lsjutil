@@ -144,6 +144,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetPaletteEntries"/> function sets RGB (red, green, blue) color values and flags in a range of entries in a logical palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpaletteentries
+        /// </para>
+        /// </summary>
+        /// <param name="hpal">
+        /// A handle to the logical palette.
+        /// </param>
+        /// <param name="iStart">
+        /// The first logical-palette entry to be set.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of logical-palette entries to be set.
+        /// </param>
+        /// <param name="pPalEntries">
+        /// A pointer to the first member of an array of <see cref="PALETTEENTRY"/> structures containing the RGB values and flags.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of entries that were set in the logical palette.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// Even if a logical palette has been selected and realized, changes to the palette do not affect the physical palette in the surface.
+        /// <see cref="RealizePalette"/> must be called again to set the new logical palette into the surface.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPaletteEntries", SetLastError = true)]
+        public static extern UINT SetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] pPalEntries);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="UpdateColors"/> function updates the client area of the specified device context
         /// by remapping the current colors in the client area to the currently realized logical palette.
         /// </para>
