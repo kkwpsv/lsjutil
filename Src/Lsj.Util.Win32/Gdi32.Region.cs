@@ -282,6 +282,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="EqualRgn"/> function checks the two specified regions to determine whether they are identical.
+        /// The function considers two regions identical if they are equal in size and shape.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-equalrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hrgn1">
+        /// Handle to a region.
+        /// </param>
+        /// <param name="hrgn2">
+        /// Handle to a region.
+        /// </param>
+        /// <returns>
+        /// If the two regions are equal, the return value is <see cref="TRUE"/>.
+        /// If the two regions are not equal, the return value is <see cref="FALSE"/>.
+        /// A return value of <see cref="ERROR"/> means at least one of the region handles is invalid.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRgn", SetLastError = true)]
+        public static extern BOOL EqualRgn([In]HRGN hrgn1, [In]HRGN hrgn2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRectRgn"/> function converts a region into a rectangular region with the specified coordinates.
         /// </para>
         /// <para>
