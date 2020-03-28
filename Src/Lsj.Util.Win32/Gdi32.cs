@@ -781,6 +781,69 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetObject"/> function retrieves information for the specified graphics object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getobjectw
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the graphics object of interest.
+        /// This can be a handle to one of the following: a logical bitmap, a brush, a font, a palette, a pen,
+        /// or a device independent bitmap created by calling the <see cref="CreateDIBSection"/> function.
+        /// </param>
+        /// <param name="c">
+        /// The number of bytes of information to be written to the buffer.
+        /// </param>
+        /// <param name="pv">
+        /// A pointer to a buffer that receives the information about the specified graphics object.
+        /// The following table shows the type of information the buffer receives for each type of graphics object you can specify with hgdiobj.
+        /// <see cref="HBITMAP"/>: <see cref="BITMAP"/>
+        /// <see cref="HBITMAP"/> returned from a call to <see cref="CreateDIBSection"/>:
+        /// <see cref="DIBSECTION"/>, if <see cref="cbBuffer"/> is set to <code>sizeof (DIBSECTION)</code>,
+        /// or <see cref="BITMAP"/>, if cbBuffer is set to <code>sizeof (BITMAP)</code>.
+        /// <see cref="HPALETTE"/>:
+        /// A <see cref="WORD"/> count of the number of entries in the logical palette
+        /// <see cref="HPEN"/> returned from a call to <see cref="ExtCreatePen"/>: <see cref="EXTLOGPEN"/>
+        /// <see cref="HPEN"/>: <see cref="LOGPEN"/>
+        /// <see cref="HBRUSH"/>: <see cref="LOGBRUSH"/>
+        /// <see cref="HFONT"/>: <see cref="LOGFONT"/>
+        /// If the lpvObject parameter is <see cref="NULL"/>, the function return value is the number of bytes required to store the information
+        /// it writes to the buffer for the specified graphics object.
+        /// The address of <paramref name="pv"/> must be on a 4-byte boundary; otherwise, <see cref="GetObject"/> fails.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, and <paramref name="pv"/> is a valid pointer, the return value is the number of bytes stored into the buffer.
+        /// If the function succeeds, and <paramref name="pv"/> is <see cref="NULL"/>,
+        /// the return value is the number of bytes required to hold the information the function would store into the buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The buffer pointed to by the <paramref name="pv"/> parameter must be sufficiently large to receive the information about the graphics object.
+        /// Depending on the graphics object, the function uses a <see cref="BITMAP"/>, <see cref="DIBSECTION"/>, <see cref="EXTLOGPEN"/>,
+        /// <see cref="LOGBRUSH"/>, <see cref="LOGFONT"/>, or <see cref="LOGPEN"/> structure, or a count of table entries (for a logical palette).
+        /// If <paramref name="h"/> is a handle to a bitmap created by calling <see cref="CreateDIBSection"/>, and the specified buffer is large enough,
+        /// the <see cref="GetObject"/> function returns a <see cref="DIBSECTION"/> structure.
+        /// In addition, the <see cref="bmBits"/> member of the <see cref="BITMAP"/> structure contained
+        /// within the <see cref="DIBSECTION"/> will contain a pointer to the bitmap's bit values.
+        /// If <paramref name="h"/> is a handle to a bitmap created by any other means,
+        /// <see cref="GetObject"/> returns only the width, height, and color format information of the bitmap.
+        /// You can obtain the bitmap's bit values by calling the <see cref="GetDIBits"/> or <see cref="GetBitmapBits"/> function.
+        /// If <paramref name="h"/> is a handle to a logical palette, <see cref="GetObject"/> retrieves a 2-byte integer
+        /// that specifies the number of entries in the palette.
+        /// The function does not retrieve the <see cref="LOGPALETTE"/> structure defining the palette.
+        /// To retrieve information about palette entries, an application can call the <see cref="GetPaletteEntries"/> function.
+        /// If <paramref name="h"/> is a handle to a font, the <see cref="LOGFONT"/> that is returned is the LOGFONT used to create the font.
+        /// If Windows had to make some interpolation of the font because the precise <see cref="LOGFONT"/> could not be represented,
+        /// the interpolation will not be reflected in the <see cref="LOGFONT"/>.
+        /// For example, if you ask for a vertical version of a font that doesn't support vertical painting,
+        /// the <see cref="LOGFONT"/> indicates the font is vertical, but Windows will paint it horizontally.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", SetLastError = true)]
+        public static extern int GetObject([In]HANDLE h, [In]int c, [In]LPVOID pv);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetNearestColor"/> function retrieves a color value identifying a color from the system palette
         /// that will be displayed when the specified color value is used.
         /// </para>
