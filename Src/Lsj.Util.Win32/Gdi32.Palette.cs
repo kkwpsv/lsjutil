@@ -11,6 +11,41 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="AnimatePalette"/> function replaces entries in the specified logical palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-animatepalette
+        /// </para>
+        /// </summary>
+        /// <param name="hPal">
+        /// A handle to the logical palette.
+        /// </param>
+        /// <param name="iStartIndex">
+        /// The first logical palette entry to be replaced.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of entries to be replaced.
+        /// </param>
+        /// <param name="ppe">
+        /// A pointer to the first member in an array of <see cref="PALETTEENTRY"/> structures used to replace the current entries.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// The <see cref="AnimatePalette"/> function only changes entries with the <see cref="PC_RESERVED"/> flag set
+        /// in the corresponding <see cref="palPalEntry"/> member of the <see cref="LOGPALETTE"/> structure.
+        /// If the given palette is associated with the active window, the colors in the palette are replaced immediately.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimatePalette", SetLastError = true)]
+        public static extern BOOL AnimatePalette([In]HPALETTE hPal, [In]UINT iStartIndex, [In]UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] ppe);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreatePalette"/> function creates a logical palette.
         /// </para>
         /// <para>
