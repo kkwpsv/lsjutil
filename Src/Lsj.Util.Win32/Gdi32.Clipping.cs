@@ -77,6 +77,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="OffsetClipRgn"/> function moves the clipping region of a device context by the specified offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetcliprgn
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The number of logical units to move left or right.
+        /// </param>
+        /// <param name="y">
+        /// The number of logical units to move up or down.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the new region's complexity and can be one of the following values.
+        /// <see cref="NULLREGION"/>: Region is empty.
+        /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: Region is more than one rectangle.
+        /// <see cref="ERROR"/>: An error occurred. (The current clipping region is unaffected.)
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetClipRgn", SetLastError = true)]
+        public static extern int OffsetClipRgn([In]HDC hdc, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectClipRgn"/> function selects a region as the current clipping region for the specified device context.
         /// </para>
         /// <para>
