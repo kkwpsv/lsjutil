@@ -11,6 +11,25 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The LineDDAProc function is an application-defined callback function used with the <see cref="LineDDA"/> function.
+        /// It is used to process coordinates.
+        /// The <see cref="LINEDDAPROC"/> type defines a pointer to this callback function.
+        /// LineDDAProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-lineddaproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <remarks>
+        /// An application registers a LineDDAProc function by passing its address to the <see cref="LineDDA"/> function.
+        /// </remarks>
+        public delegate void LINEDDAPROC([In]int Arg1, [In]int Arg2, [In]LPARAM Arg3);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCurrentPositionEx"/> function retrieves the current position in logical coordinates.
         /// </para>
         /// <para>
@@ -29,6 +48,46 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", SetLastError = true)]
         public static extern BOOL GetCurrentPositionEx([In]HDC hdc, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="LineDDA"/> function determines which pixels should be highlighted for a line defined by the specified starting and ending points.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-linedda
+        /// </para>
+        /// </summary>
+        /// <param name="xStart">
+        /// Specifies the x-coordinate, in logical units, of the line's starting point.
+        /// </param>
+        /// <param name="yStart">
+        /// Specifies the y-coordinate, in logical units, of the line's starting point.
+        /// </param>
+        /// <param name="xEnd">
+        /// Specifies the x-coordinate, in logical units, of the line's ending point.
+        /// </param>
+        /// <param name="yEnd">
+        /// Specifies the y-coordinate, in logical units, of the line's ending point.
+        /// </param>
+        /// <param name="lpProc">
+        /// Pointer to an application-defined callback function.
+        /// For more information, see the <see cref="LINEDDAPROC"/> callback function.
+        /// </param>
+        /// <param name="data">
+        /// Pointer to the application-defined data.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LineDDA"/> function passes the coordinates for each point along the line, except for the line's ending point,
+        /// to the application-defined callback function.
+        /// In addition to passing the coordinates of a point, this function passes any existing application-defined data.
+        /// The coordinates passed to the callback function match pixels on a video display only if the default transformations and mapping modes are used.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineDDA", SetLastError = true)]
+        public static extern BOOL LineDDA([In]int xStart, [In]int yStart, [In]int xEnd, [In]int yEnd, [In]LINEDDAPROC lpProc, [In]LPARAM data);
 
         /// <summary>
         /// <para>
