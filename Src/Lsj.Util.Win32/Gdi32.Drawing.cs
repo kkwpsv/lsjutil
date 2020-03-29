@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// Remember to connect the line segments.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", SetLastError = true)]
-        public static extern BOOL Polygon([In]HDC hdc, [In]POINT[] apt, [In]int cpt);
+        public static extern BOOL Polygon([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
 
         /// <summary>
         /// <para>
@@ -398,6 +398,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", SetLastError = true)]
         public static extern BOOL Polyline([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PolyPolygon"/> function draws a series of closed polygons.
+        /// Each polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode.
+        /// The polygons drawn by this function can overlap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polypolygon
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that define the vertices of the polygons, in logical coordinates.
+        /// The polygons are specified consecutively.
+        /// Each polygon is closed automatically by drawing a line from the last vertex to the first.
+        /// Each vertex should be specified once.
+        /// </param>
+        /// <param name="asz">
+        /// A pointer to an array of integers, each of which specifies the number of points in the corresponding polygon.
+        /// Each integer must be greater than or equal to 2.
+        /// </param>
+        /// <param name="csz">
+        /// The total number of polygons.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The current position is neither used nor updated by this function.
+        /// Any extra points are ignored.
+        /// To draw the polygons with more points, divide your data into groups, each of which have less than the maximum number of points,
+        /// and call the function for each group of points.
+        /// Note, it is best to have a polygon in only one of the groups.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", SetLastError = true)]
+        public static extern BOOL PolyPolygon([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt,
+            [MarshalAs(UnmanagedType.LPArray)][In]INT[] asz, [In]int csz);
 
         /// <summary>
         /// <para>
