@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 
@@ -166,6 +167,43 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", SetLastError = true)]
         public static extern BOOL Ellipse([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="FloodFill"/> function fills an area of the display surface with the current brush.
+        /// The area is assumed to be bounded as specified by the <paramref name="color"/> parameter.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-floodfill
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point where filling is to start.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point where filling is to start.
+        /// </param>
+        /// <param name="color">
+        /// The color of the boundary or the area to be filled.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The following are reasons this function might fail:
+        /// The fill could not be completed.
+        /// The given point has the boundary color specified by the <paramref name="color"/> parameter.
+        /// The given point lies outside the current clipping regionthat is, it is not visible on the device.
+        /// </remarks>
+        [Obsolete("The FloodFill function is included only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the ExtFloodFill function with FLOODFILLBORDER specified.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", SetLastError = true)]
+        public static extern BOOL FloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
 
         /// <summary>
         /// <para>
