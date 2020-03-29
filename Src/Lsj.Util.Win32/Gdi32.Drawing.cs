@@ -170,6 +170,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ExtFloodFill"/> function fills an area of the display surface with the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extfloodfill
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point where filling is to start.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point where filling is to start.
+        /// </param>
+        /// <param name="color">
+        /// The color of the boundary or of the area to be filled.
+        /// The interpretation of <paramref name="color"/> depends on the value of the <paramref name="type"/> parameter.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <param name="type">
+        /// The type of fill operation to be performed. This parameter must be one of the following values.
+        /// <see cref="FLOODFILLBORDER"/>:
+        /// The fill area is bounded by the color specified by the <paramref name="color"/> parameter.
+        /// This style is identical to the filling performed by the <see cref="FloodFill"/> function.
+        /// <see cref="FLOODFILLSURFACE"/>:
+        /// The fill area is defined by the color that is specified by <paramref name="color"/>.
+        /// Filling continues outward in all directions as long as the color is encountered.
+        /// This style is useful for filling areas with multicolored boundaries.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The following are some of the reasons this function might fail:
+        /// The filling could not be completed.
+        /// The specified point has the boundary color specified by the <paramref name="color"/> parameter (if <see cref="FLOODFILLBORDER"/> was requested).
+        /// The specified point does not have the color specified by <paramref name="color"/> (if <see cref="FLOODFILLSURFACE"/> was requested).
+        /// The point is outside the clipping regionthat is, it is not visible on the device.
+        /// If the <paramref name="type"/> parameter is <see cref="FLOODFILLBORDER"/>, the system assumes
+        /// that the area to be filled is completely bounded by the color specified by the <paramref name="color"/> parameter.
+        /// The function begins filling at the point specified by the <paramref name="x"/> and <paramref name="y"/> parameters
+        /// and continues in all directions until it reaches the boundary.
+        /// If <paramref name="type"/> is <see cref="FLOODFILLSURFACE"/>, the system assumes that the area to be filled is a single color.
+        /// The function begins to fill the area at the point specified by <paramref name="x"/> and <paramref name="y"/> and continues in all directions,
+        /// filling all adjacent regions containing the color specified by <paramref name="color"/>.
+        /// Only memory device contexts and devices that support raster-display operations support the <see cref="ExtFloodFill"/> function.
+        /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", SetLastError = true)]
+        public static extern BOOL ExtFloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color, [In]UINT type);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="FloodFill"/> function fills an area of the display surface with the current brush.
         /// The area is assumed to be bounded as specified by the <paramref name="color"/> parameter.
         /// </para>
