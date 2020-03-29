@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -166,6 +167,34 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", SetLastError = true)]
         public static extern UINT GetSystemPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
             [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetSystemPaletteUse"/> function retrieves the current state of the system (physical) palette for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current state of the system palette.
+        /// This parameter can be one of the following values.
+        /// <see cref="SYSPAL_NOSTATIC"/>: The system palette contains no static colors except black and white.
+        /// <see cref="SYSPAL_STATIC"/>: The system palette contains static colors that will not change when an application realizes its logical palette.
+        /// <see cref="SYSPAL_ERROR"/>: The given device context is invalid or does not support a color palette.
+        /// </returns>
+        /// <remarks>
+        /// By default, the system palette contains 20 static colors that are not changed when an application realizes its logical palette.
+        /// An application can gain access to most of these colors by calling the <see cref="SetSystemPaletteUse"/> function.
+        /// The device context identified by the hdc parameter must represent a device that supports color palettes.
+        /// An application can determine whether a device supports color palettes by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteUse", SetLastError = true)]
+        public static extern SystemPaletteStates GetSystemPaletteUse([In]HDC hdc);
 
         /// <summary>
         /// <para>
