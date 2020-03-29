@@ -32,6 +32,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="LineTo"/> function draws a line from the current position up to, but not including, the specified point.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lineto
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// </param>
+        /// <param name="x">
+        /// Specifies the x-coordinate, in logical units, of the line's ending point.
+        /// </param>
+        /// <param name="y">
+        /// Specifies the y-coordinate, in logical units, of the line's ending point.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The line is drawn by using the current pen and, if the pen is a geometric pen, the current brush.
+        /// If <see cref="LineTo"/> succeeds, the current position is set to the specified ending point.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineTo", SetLastError = true)]
+        public static extern BOOL LineTo([In]HDC hdc, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MoveToEx"/> function updates the current position to the specified point and optionally returns the previous position.
         /// </para>
         /// <para>
