@@ -11,6 +11,59 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="DrawText"/> function draws formatted text in the specified rectangle.
+        /// It formats the text according to the specified method (expanding tabs, justifying characters, breaking lines, and so forth).
+        /// To specify additional formatting options, use the <see cref="DrawTextEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpchText">
+        /// A pointer to the string that specifies the text to be drawn.
+        /// If the <paramref name="cchText"/> parameter is -1, the string must be null-terminated.
+        /// If <paramref name="format"/> includes <see cref="DT_MODIFYSTRING"/>, the function could add up to four additional characters to this string.
+        /// The buffer containing the string should be large enough to accommodate these extra characters.
+        /// </param>
+        /// <param name="cchText">
+        /// The length, in characters, of the string.
+        /// If <paramref name="cchText"/> is -1, then the <paramref name="lpchText"/> parameter is assumed to be a pointer to a null-terminated string
+        /// and <see cref="DrawText"/> computes the character count automatically.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the rectangle (in logical coordinates) in which the text is to be formatted.
+        /// </param>
+        /// <param name="format">
+        /// The method of formatting the text. This parameter can be one or more of the following values.
+        /// <see cref="DT_BOTTOM"/>, <see cref="DT_CALCRECT"/>, <see cref="DT_CENTER"/>, <see cref="DT_EDITCONTROL"/>, <see cref="DT_END_ELLIPSIS"/>,
+        /// <see cref="DT_EXPANDTABS"/>, <see cref="DT_EXTERNALLEADING"/>, <see cref="DT_HIDEPREFIX"/>, <see cref="DT_INTERNAL"/>, <see cref="DT_LEFT"/>,
+        /// <see cref="DT_MODIFYSTRING"/>, <see cref="DT_NOCLIP"/>, <see cref="DT_NOFULLWIDTHCHARBREAK"/>, <see cref="DT_NOPREFIX"/>,
+        /// <see cref="DT_PATH_ELLIPSIS"/>, <see cref="DT_PREFIXONLY"/>, <see cref="DT_RIGHT"/>, <see cref="DT_RTLREADING"/>, <see cref="DT_SINGLELINE"/>,
+        /// <see cref="DT_TABSTOP"/>, <see cref="DT_TOP"/>, <see cref="DT_VCENTER"/>, <see cref="DT_WORDBREAK"/>, <see cref="DT_WORD_ELLIPSIS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the height of the text in logical units.
+        /// If <see cref="DT_VCENTER"/> or <see cref="DT_BOTTOM"/> is specified, the return value is the offset
+        /// from lpRect->top to the bottom of the drawn text
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DrawText"/> function uses the device context's selected font, text color, and background color to draw the text.
+        /// Unless the <see cref="DT_NOCLIP"/> format is used, <see cref="DrawText"/> clips the text so that it does not appear outside the specified rectangle.
+        /// Note that text with significant overhang may be clipped, for example, an initial "W" in the text string or text that is in italics.
+        /// All formatting is assumed to have multiple lines unless the <see cref="DT_SINGLELINE"/> format is specified.
+        /// If the selected font is too large for the specified rectangle, the <see cref="DrawText"/> function does not attempt to substitute a smaller font.
+        /// The text alignment mode for the device context must include the <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/> flags.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", SetLastError = true)]
+        public static extern int DrawText([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpchText, [In]int cchText,
+            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc, [In]DrawTextFormatFlags format);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ExtTextOut"/> function draws text using the currently selected font, background color, and text color.
         /// You can optionally provide dimensions to be used for clipping, opaquing, or both.
         /// </para>
