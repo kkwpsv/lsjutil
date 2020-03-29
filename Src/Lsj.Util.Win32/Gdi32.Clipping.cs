@@ -11,6 +11,42 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="ExcludeClipRect"/> function creates a new clipping region that consists of the existing clipping region minus the specified rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-excludecliprect
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical units, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical units, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical units, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical units, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the new clipping region's complexity; it can be one of the following values.
+        /// <see cref="NULLREGION"/>: Region is empty.
+        /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
+        /// <see cref="COMPLEXREGION"/>: Region is more than one rectangle.
+        /// <see cref="ERROR"/>: No region was created.
+        /// </returns>
+        /// <remarks>
+        /// The lower and right edges of the specified rectangle are not excluded from the clipping region.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeClipRect", SetLastError = true)]
+        public static extern int ExcludeClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetClipBox"/> function retrieves the dimensions of the tightest bounding rectangle that can be drawn
         /// around the current visible area on the device.
         /// The visible area is defined by the current clipping region or clip path, as well as any overlapping windows.
