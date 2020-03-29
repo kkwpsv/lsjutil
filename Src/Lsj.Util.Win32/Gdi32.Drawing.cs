@@ -325,6 +325,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="FrameRect"/> function draws a border around the specified rectangle by using the specified brush.
+        /// The width and height of the border are always one logical unit.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-framerect
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context in which the border is drawn.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the upper-left and lower-right corners of the rectangle.
+        /// </param>
+        /// <param name="hbr">
+        /// A handle to the brush used to draw the border.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The brush identified by the hbr parameter must have been created by using the <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>,
+        /// or <see cref="CreateSolidBrush"/> function, or retrieved by using the <see cref="GetStockObject"/> function.
+        /// If the <see cref="bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
+        /// or if the right member is less than the left member, the function does not draw the rectangle.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", SetLastError = true)]
+        public static extern int FrameRect([In]HDC hDC, [In][Out]ref RECT lprc, [In]HBRUSH hbr);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="FrameRgn"/> function draws a border around the specified region by using the specified brush.
         /// </para>
         /// <para>
