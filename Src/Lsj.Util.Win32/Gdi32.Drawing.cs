@@ -484,6 +484,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PaintRgn"/> function paints the specified region by using the brush currently selected into the device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paintrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// Handle to the region to be filled.
+        /// The region's coordinates are presumed to be logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintRgn", SetLastError = true)]
+        public static extern BOOL PaintRgn([In]HDC hdc, [In]HRGN hrgn);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Pie"/> function draws a pie-shaped wedge bounded by the intersection of an ellipse and two radials.
         /// The pie is outlined by using the current pen and filled by using the current brush.
         /// </para>
