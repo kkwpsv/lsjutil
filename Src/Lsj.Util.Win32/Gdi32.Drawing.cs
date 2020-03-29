@@ -177,5 +177,81 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", SetLastError = true)]
         public static extern BOOL Polyline([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="Rectangle"/> function draws a rectangle.
+        /// The rectangle is outlined by using the current pen and filled by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectangle
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The current position is neither used nor updated by <see cref="Rectangle"/>.
+        /// The rectangle that is drawn excludes the bottom and right edges.
+        /// If a <see cref="PS_NULL"/> pen is used, the dimensions of the rectangle are 1 pixel less in height and 1 pixel less in width.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Rectangle", SetLastError = true)]
+        public static extern BOOL Rectangle([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RoundRect"/> function draws a rectangle with rounded corners.
+        /// The rectangle is outlined by using the current pen and filled by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-roundrect
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical coordinates, of the upper-left corner of the rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical coordinates, of the lower-right corner of the rectangle.
+        /// </param>
+        /// <param name="width">
+        /// The width, in logical coordinates, of the ellipse used to draw the rounded corners.
+        /// </param>
+        /// <param name="height">
+        /// The height, in logical coordinates, of the ellipse used to draw the rounded corners.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The current position is neither used nor updated by this function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RoundRect", SetLastError = true)]
+        public static extern BOOL RoundRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom, [In]int width, [In]int height);
     }
 }
