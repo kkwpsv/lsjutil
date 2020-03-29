@@ -11,6 +11,27 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="GetCurrentPositionEx"/> function retrieves the current position in logical coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcurrentpositionex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the logical coordinates of the current position.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", SetLastError = true)]
+        public static extern BOOL GetCurrentPositionEx([In]HDC hdc, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MoveToEx"/> function updates the current position to the specified point and optionally returns the previous position.
         /// </para>
         /// <para>
