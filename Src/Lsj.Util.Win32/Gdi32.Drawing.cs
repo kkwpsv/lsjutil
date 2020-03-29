@@ -359,6 +359,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="InvertRgn"/> function inverts the colors in the specified region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-invertrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// Handle to the region for which colors are inverted.
+        /// The region's coordinates are presumed to be logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// On monochrome screens, the <see cref="InvertRgn"/> function makes white pixels black and black pixels white.
+        /// On color screens, this inversion is dependent on the type of technology used to generate the colors for the screen.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRgn", SetLastError = true)]
+        public static extern BOOL InvertRgn([In]HDC hdc, [In]HRGN hrgn);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LineDDA"/> function determines which pixels should be highlighted for a line defined by the specified starting and ending points.
         /// </para>
         /// <para>
