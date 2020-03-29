@@ -287,6 +287,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="FrameRgn"/> function draws a border around the specified region by using the specified brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-framergn
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// Handle to the region to be enclosed in a border.
+        /// The region's coordinates are presumed to be in logical units.
+        /// </param>
+        /// <param name="hbr">
+        /// Handle to the brush to be used to draw the border.
+        /// </param>
+        /// <param name="w">
+        /// Specifies the width, in logical units, of vertical brush strokes.
+        /// </param>
+        /// <param name="h">
+        /// Specifies the height, in logical units, of horizontal brush strokes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRgn", SetLastError = true)]
+        public static extern BOOL FrameRgn([In]HDC hdc, [In]HRGN hrgn, [In]HBRUSH hbr, [In]int w, [In]int h);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCurrentPositionEx"/> function retrieves the current position in logical coordinates.
         /// </para>
         /// <para>
