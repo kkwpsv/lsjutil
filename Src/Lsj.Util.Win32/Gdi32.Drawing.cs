@@ -30,6 +30,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="Ellipse"/> function draws an ellipse.
+        /// The center of the ellipse is the center of the specified bounding rectangle.
+        /// The ellipse is outlined by using the current pen and is filled by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ellipse
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The current position is neither used nor updated by <see cref="Ellipse"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", SetLastError = true)]
+        public static extern BOOL Ellipse([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCurrentPositionEx"/> function retrieves the current position in logical coordinates.
         /// </para>
         /// <para>
