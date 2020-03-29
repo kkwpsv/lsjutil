@@ -11,6 +11,33 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The OutputProc function is an application-defined callback function used with the <see cref="GrayString"/> function.
+        /// It is used to draw a string.
+        /// The <see cref="GRAYSTRINGPROC"/> type defines a pointer to this callback function.
+        /// OutputProc is a placeholder for the application-defined or library-defined function name.
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to a device context with a bitmap of at least the width and height
+        /// specified by the nWidth and nHeight parameters passed to <see cref="GrayString"/>.
+        /// </param>
+        /// <param name="Arg2">
+        /// A pointer to the string to be drawn.
+        /// </param>
+        /// <param name="Arg3">
+        /// The length, in characters, of the string.
+        /// </param>
+        /// <returns>
+        /// If it succeeds, the callback function should return <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The callback function must draw an image relative to the coordinates (0,0).
+        /// </remarks>
+        public delegate BOOL GRAYSTRINGPROC([In]HDC Arg1, [In]LPARAM Arg2, [In]int Arg3);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DrawText"/> function draws formatted text in the specified rectangle.
         /// It formats the text according to the specified method (expanding tabs, justifying characters, breaking lines, and so forth).
         /// To specify additional formatting options, use the <see cref="DrawTextEx"/> function.
@@ -230,6 +257,75 @@ namespace Lsj.Util.Win32
             "Applications should call the GetTextExtentPoint32 function, which provides more accurate results.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", SetLastError = true)]
         public static extern BOOL GetTextExtentPoint([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In] int c, [Out]out SIZE lpsz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GrayString"/> function draws gray text at the specified location.
+        /// The function draws the text by copying it into a memory bitmap, graying the bitmap, and then copying the bitmap to the screen.
+        /// The function grays the text regardless of the selected brush and background.
+        /// <see cref="GrayString"/> uses the font currently selected for the specified device context.
+        /// If the <paramref name="lpOutputFunc"/> parameter is <see langword="null"/>, GDI uses the <see cref="TextOut"/> function,
+        /// and the <paramref name="lpData"/> parameter is assumed to be a pointer to the character string to be output.
+        /// If the characters to be output cannot be handled by <see cref="TextOut"/> (for example, the string is stored as a bitmap),
+        /// the application must supply its own output function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-graystringw
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hBrush">
+        /// A handle to the brush to be used for graying.
+        /// If this parameter is <see cref="NULL"/>, the text is grayed with the same brush that was used to draw window text.
+        /// </param>
+        /// <param name="lpOutputFunc">
+        /// A pointer to the application-defined function that will draw the string, or,
+        /// if <see cref="TextOut"/> is to be used to draw the string, it is a <see langword="null"/> pointer.
+        /// For details, see the GRAYSTRINGPROC callback function.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to data to be passed to the output function.
+        /// If the <paramref name="lpOutputFunc"/> parameter is <see langword="null"/>, <paramref name="lpData"/> must be a pointer to the string to be output.
+        /// </param>
+        /// <param name="nCount">
+        /// The number of characters to be output.
+        /// If the <paramref name="nCount"/> parameter is zero, <see cref="GrayString"/> calculates the length of the string
+        /// (assuming lpData is a pointer to the string).
+        /// If <paramref name="nCount"/> is 1 and the function pointed to by <paramref name="lpOutputFunc"/> returns <see cref="FALSE"/>,
+        /// the image is shown but not grayed.
+        /// </param>
+        /// <param name="X">
+        /// The device x-coordinate of the starting position of the rectangle that encloses the string.
+        /// </param>
+        /// <param name="Y">
+        /// The device y-coordinate of the starting position of the rectangle that encloses the string.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width, in device units, of the rectangle that encloses the string.
+        /// If this parameter is zero, <see cref="GrayString"/> calculates the width of the area, assuming <paramref name="lpData"/> is a pointer to the string.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height, in device units, of the rectangle that encloses the string.
+        /// If this parameter is zero, <see cref="GrayString"/> calculates the height of the area, assuming <paramref name="lpData"/> is a pointer to the string.
+        /// </param>
+        /// <returns>
+        /// If the string is drawn, the return value is <see cref="TRUE"/>.
+        /// If either the <see cref="TextOut"/> function or the application-defined output function returned <see cref="FALSE"/>,
+        /// or there was insufficient memory to create a memory bitmap for graying, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Without calling <see cref="GrayString"/>, an application can draw grayed strings on devices that support a solid gray color.
+        /// The system color <see cref="COLOR_GRAYTEXT"/> is the solid-gray system color used to draw disabled text.
+        /// The application can call the <see cref="GetSysColor"/> function to retrieve the color value of <see cref="COLOR_GRAYTEXT"/>.
+        /// If the color is other than zero (black), the application can call the <see cref="SetTextColor"/> function
+        /// to set the text color to the color value and then draw the string directly.
+        /// If the retrieved color is black, the application must call <see cref="GrayString"/> to gray the text.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GrayStringW", SetLastError = true)]
+        public static extern BOOL GrayString([In]HDC hDC, [In]HBRUSH hBrush, [In]GRAYSTRINGPROC lpOutputFunc, [In]LPARAM lpData, [In]int nCount,
+            [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight);
 
         /// <summary>
         /// <para>
