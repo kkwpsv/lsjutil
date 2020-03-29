@@ -72,7 +72,7 @@ namespace Lsj.Util.Win32
         /// If a clipping region does not already exist then the system may apply a default clipping region to the specified <see cref="HDC"/>.
         /// A clipping region is then created from the intersection of that default clipping region and the rectangle specified in the function parameters.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipBox", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectClipRect", SetLastError = true)]
         public static extern int IntersectClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
