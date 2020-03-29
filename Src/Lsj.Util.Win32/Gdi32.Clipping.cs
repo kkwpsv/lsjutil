@@ -140,6 +140,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PtVisible"/> function determines whether the specified point is within the clipping region of a device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ptvisible
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point.
+        /// </param>
+        /// <returns>
+        /// If the specified point is within the clipping region of the device context, the return value is <see cref="TRUE"/>(1).
+        /// If the specified point is not within the clipping region of the device context, the return value is <see cref="FALSE"/>(0).
+        /// If the HDC is not valid, the return value is (<see cref="BOOL"/>)-1.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtVisible", SetLastError = true)]
+        public static extern BOOL PtVisible([In]HDC hdc, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectClipRgn"/> function selects a region as the current clipping region for the specified device context.
         /// </para>
         /// <para>
