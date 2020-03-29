@@ -88,5 +88,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", SetLastError = true)]
         public static extern BOOL MoveToEx([In]HDC hdc, [In]int x, [In]int y, [In][Out]ref POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="Polyline"/> function draws a series of line segments by connecting the points in the specified array.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polyline
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures, in logical units.
+        /// </param>
+        /// <param name="cpt">
+        /// The number of points in the array.
+        /// This number must be greater than or equal to two.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The lines are drawn from the first point through subsequent points by using the current pen.
+        /// Unlike the <see cref="LineTo"/> or <see cref="PolylineTo"/> functions,
+        /// the <see cref="Polyline"/> function neither uses nor updates the current position.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", SetLastError = true)]
+        public static extern BOOL Polyline([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
     }
 }
