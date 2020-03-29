@@ -165,6 +165,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RectVisible"/> function determines whether any part of the specified rectangle lies within the clipping region of a device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectvisible
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the specified rectangle.
+        /// </param>
+        /// <returns>
+        /// If the current transform does not have a rotation and the rectangle lies within the clipping region,
+        /// the return value is <see cref="TRUE"/> (1).
+        /// If the current transform does not have a rotation and the rectangle does not lie within the clipping region,
+        /// the return value is <see cref="FALSE"/> (0).
+        /// If the current transform has a rotation and the rectangle lies within the clipping region, the return value is 2.
+        /// If the current transform has a rotation and the rectangle does not lie within the clipping region, the return value is 1.
+        /// All other return values are considered error codes.
+        /// If the any parameter is not valid, the return value is undefined.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectVisible", SetLastError = true)]
+        public static extern BOOL RectVisible([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SelectClipRgn"/> function selects a region as the current clipping region for the specified device context.
         /// </para>
         /// <para>
