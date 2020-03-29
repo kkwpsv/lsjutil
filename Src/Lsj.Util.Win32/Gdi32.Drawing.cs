@@ -28,6 +28,61 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate void LINEDDAPROC([In]int Arg1, [In]int Arg2, [In]LPARAM Arg3);
 
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="Arc"/> function draws an elliptical arc.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-arc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context where drawing takes place.
+        /// </param>
+        /// <param name="x1">
+        /// The x-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="y1">
+        /// The y-coordinate, in logical units, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="x2">
+        /// The x-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="y2">
+        /// The y-coordinate, in logical units, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="x3">
+        /// The x-coordinate, in logical units, of the ending point of the radial line defining the starting point of the arc.
+        /// </param>
+        /// <param name="y3">
+        /// The y-coordinate, in logical units, of the ending point of the radial line defining the starting point of the arc.
+        /// </param>
+        /// <param name="x4">
+        /// The x-coordinate, in logical units, of the ending point of the radial line defining the ending point of the arc.
+        /// </param>
+        /// <param name="y4">
+        /// The y-coordinate, in logical units, of the ending point of the radial line defining the ending point of the arc.
+        /// </param>
+        /// <returns>
+        /// If the arc is drawn, the return value is <see cref="TRUE"/>.
+        /// If the arc is not drawn, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The points (nLeftRect, nTopRect) and (nRightRect, nBottomRect) specify the bounding rectangle.
+        /// An ellipse formed by the specified bounding rectangle defines the curve of the arc.
+        /// The arc extends in the current drawing direction from the point where it intersects the radial
+        /// from the center of the bounding rectangle to the (nXStartArc, nYStartArc) point.
+        /// The arc ends where it intersects the radial from the center of the bounding rectangle to the (nXEndArc, nYEndArc) point.
+        /// If the starting point and ending point are the same, a complete ellipse is drawn.
+        /// The arc is drawn using the current pen; it is not filled.
+        /// The current position is neither used nor updated by Arc.
+        /// Use the <see cref="GetArcDirection"/> and <see cref="SetArcDirection"/> functions to get and set the current drawing direction for a device context.
+        /// The default drawing direction is counterclockwise.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", SetLastError = true)]
+        public static extern BOOL Arc([In]HDC hdc, [In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int x3, [In]int y3, [In]int x4, [In]int y4);
+
         /// <summary>
         /// <para>
         /// The <see cref="Ellipse"/> function draws an ellipse.
