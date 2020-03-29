@@ -225,6 +225,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="FillRect"/> function fills a rectangle by using the specified brush.
+        /// This function includes the left and top borders, but excludes the right and bottom borders of the rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-fillrect
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be filled.
+        /// </param>
+        /// <param name="hbr">
+        /// A handle to the brush used to fill the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The brush identified by the hbr parameter may be either a handle to a logical brush or a color value.
+        /// If specifying a handle to a logical brush, call one of the following functions to obtain the handle:
+        /// <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>, or <see cref="CreateSolidBrush"/>.
+        /// Additionally, you may retrieve a handle to one of the stock brushes by using the <see cref="GetStockObject"/> function.
+        /// If specifying a color value for the <paramref name="hbr"/> parameter, it must be one of the standard system colors
+        /// (the value 1 must be added to the chosen color).
+        /// For example:
+        /// <code>FillRect(hdc, &amp;rect, (HBRUSH) (COLOR_WINDOW+1));</code>
+        /// For a list of all the standard system colors, see GetSysColor.
+        /// When filling the specified rectangle, <see cref="FillRect"/> does not include the rectangle's right and bottom sides.
+        /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", SetLastError = true)]
+        public static extern int FillRect([In]HDC hDC, [In][Out]ref RECT lprc, [In]HBRUSH hbr);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="FillRgn"/> function fills a region by using the specified brush.
         /// </para>
         /// <para>
