@@ -291,6 +291,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="Pie"/> function draws a pie-shaped wedge bounded by the intersection of an ellipse and two radials.
+        /// The pie is outlined by using the current pen and filled by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-pie
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="left">
+        /// The x-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="top">
+        /// The y-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="right">
+        /// The x-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="bottom">
+        /// The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="xr1">
+        /// The x-coordinate, in logical coordinates, of the endpoint of the first radial.
+        /// </param>
+        /// <param name="yr1">
+        /// The y-coordinate, in logical coordinates, of the endpoint of the first radial.
+        /// </param>
+        /// <param name="xr2">
+        /// The x-coordinate, in logical coordinates, of the endpoint of the second radial.
+        /// </param>
+        /// <param name="yr2">
+        /// The y-coordinate, in logical coordinates, of the endpoint of the second radial.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The curve of the pie is defined by an ellipse that fits the specified bounding rectangle.
+        /// The curve begins at the point where the ellipse intersects the first radial and extends counterclockwise to the point
+        /// where the ellipse intersects the second radial.
+        /// The current position is neither used nor updated by the <see cref="Pie"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", SetLastError = true)]
+        public static extern BOOL Pie([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom, [In]int xr1, [In]int yr1, [In]int xr2, [In]int yr2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Polyline"/> function draws a series of line segments by connecting the points in the specified array.
         /// </para>
         /// <para>
