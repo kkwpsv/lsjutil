@@ -190,6 +190,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetPolyFillMode"/> function retrieves the current polygon fill mode.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpolyfillmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the polygon fill mode, which can be one of the following values.
+        /// <see cref="ALTERNATE"/>: Selects alternate mode (fills area between odd-numbered and even-numbered polygon sides on each scan line).
+        /// <see cref="WINDING"/>: Selects winding mode (fills any region with a nonzero winding value).
+        /// If an error occurs, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", SetLastError = true)]
+        public static extern int GetPolyFillMode([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LineDDA"/> function determines which pixels should be highlighted for a line defined by the specified starting and ending points.
         /// </para>
         /// <para>
