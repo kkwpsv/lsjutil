@@ -225,6 +225,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="FillRgn"/> function fills a region by using the specified brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <param name="hrgn">
+        /// Handle to the region to be filled.
+        /// The region's coordinates are presumed to be in logical units.
+        /// </param>
+        /// <param name="hbr">
+        /// Handle to the brush to be used to fill the region.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", SetLastError = true)]
+        public static extern BOOL FillRgn([In]HDC hdc, [In]HRGN hrgn, [In]HBRUSH hbr);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="FloodFill"/> function fills an area of the display surface with the current brush.
         /// The area is assumed to be bounded as specified by the <paramref name="color"/> parameter.
         /// </para>
