@@ -334,6 +334,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetSystemPaletteUse"/> function allows an application to specify whether the system palette contains 2 or 20 static colors.
+        /// The default system palette contains 20 static colors.
+        /// (Static colors cannot be changed when an application realizes a logical palette.)
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// This device context must refer to a device that supports color palettes.
+        /// </param>
+        /// <param name="use">
+        /// The new use of the system palette.
+        /// This parameter can be one of the following values.
+        /// <see cref="SYSPAL_NOSTATIC"/>: The system palette contains two static colors (black and white).
+        /// <see cref="SYSPAL_NOSTATIC256"/>: The system palette contains no static colors.
+        /// <see cref="SYSPAL_STATIC"/>: The system palette contains static colors that will not change when an application realizes its logical palette.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous system palette.
+        /// It can be either <see cref="SYSPAL_NOSTATIC"/>, <see cref="SYSPAL_NOSTATIC256"/>, or <see cref="SYSPAL_STATIC"/>.
+        /// If the function fails, the return value is <see cref="SYSPAL_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// When an application window moves to the foreground and the <see cref="SYSPAL_NOSTATIC"/> value is set,
+        /// the application must call the <see cref="GetSysColor"/> function to save the current system colors setting.
+        /// It must also call <see cref="SetSysColors"/> to set reasonable values using only black and white.
+        /// When the application returns to the background or terminates, the previous system colors must be restored.
+        /// If the function returns <see cref="SYSPAL_ERROR"/>, the specified device context is invalid or does not support color palettes.
+        /// An application must call this function only when its window is maximized and has the input focus.
+        /// If an application calls <see cref="SetSystemPaletteUse"/> with <paramref name="use"/> set to <see cref="SYSPAL_NOSTATIC"/>,
+        /// the system continues to set aside two entries in the system palette for pure white and pure black, respectively.
+        /// After calling this function with <paramref name="use"/> set to <see cref="SYSPAL_NOSTATIC"/>, an application must take the following steps:
+        /// Realize the logical palette.
+        /// Call the <see cref="GetSysColor"/> function to save the current system-color settings.
+        /// Call the <see cref="SetSysColors"/> function to set the system colors to reasonable values using black and white.
+        /// For example, adjacent or overlapping items (such as window frames and borders) should be set to black and white, respectively.
+        /// Send the <see cref="WM_SYSCOLORCHANGE"/> message to other top-level windows to allow them to be redrawn with the new system colors.
+        /// When the application's window loses focus or closes, the application must perform the following steps:
+        /// Call <see cref="SetSystemPaletteUse"/> with the <paramref name="use"/> parameter set to <see cref="SYSPAL_STATIC"/>.
+        /// Realize the logical palette.
+        /// Restore the system colors to their previous values.
+        /// Send the <see cref="WM_SYSCOLORCHANGE"/> message.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemPaletteUse", SetLastError = true)]
+        public static extern SystemPaletteStates SetSystemPaletteUse([In]HDC hdc, [In]SystemPaletteStates use);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="UpdateColors"/> function updates the client area of the specified device context
         /// by remapping the current colors in the client area to the currently realized logical palette.
         /// </para>
