@@ -140,6 +140,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextExtentPoint"/> function computes the width and height of the specified string of text.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpointw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to the string that specifies the text.
+        /// The string does not need to be zero-terminated, since <paramref name="c"/> specifies the length of the string.
+        /// </param>
+        /// <param name="c">
+        /// The length of the string pointed to by <paramref name="lpString"/>.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTextExtentPoint"/> function uses the currently selected font to compute the dimensions of the string.
+        /// The width and height, in logical units, are computed without considering any clipping.
+        /// Also, this function assumes that the text is horizontal, that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text. Even if using a font specifying a nonzero escapement,
+        /// this function will not use the angle while computing the text extent.
+        /// The application must convert it explicitly.
+        /// Because some devices kern characters, the sum of the extents of the characters in a string may not be equal to the extent of the string.
+        /// The calculated string width takes into account the intercharacter spacing set by the <see cref="SetTextCharacterExtra"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should call the GetTextExtentPoint32 function, which provides more accurate results.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", SetLastError = true)]
+        public static extern BOOL GetTextExtentPoint([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In] int c, [Out]out SIZE lpsz);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="TabbedTextOut"/> function writes a character string at a specified location,
         /// expanding tabs to the values specified in an array of tab-stop positions.
         /// Text is written in the currently selected font, background color, and text color.
