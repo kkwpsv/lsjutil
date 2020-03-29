@@ -134,6 +134,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetSystemPaletteEntries"/> function retrieves a range of palette entries from the system palette
+        /// that is associated with the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteentries
+        /// </para>
+        /// </summary>
+        /// <param name="hpal">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iStart">
+        /// The first entry to be retrieved from the system palette.
+        /// </param>
+        /// <param name="cEntries">
+        /// The number of entries to be retrieved from the system palette.
+        /// </param>
+        /// <param name="pPalEntries">
+        /// A pointer to an array of <see cref="PALETTEENTRY"/> structures to receive the palette entries.
+        /// The array must contain at least as many structures as specified by the nEntries parameter.
+        /// If this parameter is <see cref="NULL"/>, the function returns the total number of entries in the palette.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of entries retrieved from the palette.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", SetLastError = true)]
+        public static extern UINT GetSystemPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
+            [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RealizePalette"/> function maps palette entries from the current logical palette to the system palette.
         /// </para>
         /// <para>
