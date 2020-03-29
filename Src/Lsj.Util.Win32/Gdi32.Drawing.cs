@@ -1,9 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -337,6 +335,39 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", SetLastError = true)]
         public static extern BOOL Pie([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom, [In]int xr1, [In]int yr1, [In]int xr2, [In]int yr2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="Polygon"/> function draws a polygon consisting of two or more vertices connected by straight lines.
+        /// The polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polygon
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that specify the vertices of the polygon, in logical coordinates.
+        /// </param>
+        /// <param name="cpt">
+        /// The number of vertices in the array.
+        /// This value must be greater than or equal to 2.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The polygon is closed automatically by drawing a line from the last vertex to the first.
+        /// The current position is neither used nor updated by the <see cref="Polygon"/> function.
+        /// Any extra points are ignored. To draw a line with more points, divide your data into groups,
+        /// each of which have less than the maximum number of points, and call the function for each group of points.
+        /// Remember to connect the line segments.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", SetLastError = true)]
+        public static extern BOOL Polygon([In]HDC hdc, [In]POINT[] apt, [In]int cpt);
 
         /// <summary>
         /// <para>
