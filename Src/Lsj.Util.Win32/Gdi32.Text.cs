@@ -10,6 +10,68 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="TabbedTextOut"/> function writes a character string at a specified location,
+        /// expanding tabs to the values specified in an array of tab-stop positions.
+        /// Text is written in the currently selected font, background color, and text color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-tabbedtextoutw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate of the starting point of the string, in logical units.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate of the starting point of the string, in logical units.
+        /// </param>
+        /// <param name="lpString">
+        /// A pointer to the character string to draw.
+        /// The string does not need to be zero-terminated, since <paramref name="chCount"/> specifies the length of the string.
+        /// </param>
+        /// <param name="chCount">
+        /// The length of the string pointed to by <paramref name="lpString"/>.
+        /// </param>
+        /// <param name="nTabPositions">
+        /// The number of values in the array of tab-stop positions.
+        /// </param>
+        /// <param name="lpnTabStopPositions">
+        /// A pointer to an array containing the tab-stop positions, in logical units.
+        /// The tab stops must be sorted in increasing order; the smallest x-value should be the first item in the array.
+        /// </param>
+        /// <param name="nTabOrigin">
+        /// The x-coordinate of the starting position from which tabs are expanded, in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the dimensions, in logical units, of the string.
+        /// The height is in the high-order word and the width is in the low-order word.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="nTabPositions"/> parameter is zero and the <paramref name="lpnTabStopPositions"/> parameter is <see cref="null"/>,
+        /// tabs are expanded to eight times the average character width.
+        /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
+        /// by the first value in the <paramref name="lpnTabStopPositions"/> array.
+        /// If the <paramref name="lpnTabStopPositions"/> array contains more than one value, a tab stop is set for each value in the array,
+        /// up to the number specified by <paramref name="nTabPositions"/>.
+        /// The <paramref name="nTabOrigin"/> parameter allows an application to call the <see cref="TabbedTextOut"/> function several times for a single line.
+        /// If the application calls <see cref="TabbedTextOut"/> more than once with the <paramref name="nTabOrigin"/> set to the same value each time,
+        /// the function expands all tabs relative to the position specified by <paramref name="nTabOrigin"/>.
+        /// By default, the current position is not used or updated by the <see cref="TabbedTextOut"/> function.
+        /// If an application needs to update the current position when it calls <see cref="TabbedTextOut"/>,
+        /// the application can call the <see cref="SetTextAlign"/> function with the wFlags parameter set to <see cref="TA_UPDATECP"/>.
+        /// When this flag is set, the system ignores the <paramref name="x"/> and <paramref name="y"/> parameters
+        /// on subsequent calls to the <see cref="TabbedTextOut"/> function, using the current position instead.
+        /// Note For Windows Vista and later, <see cref="TabbedTextOut"/> ignores text alignment when it draws text.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", SetLastError = true)]
+        public static extern LONG TabbedTextOut([In]HDC hdc, [In]int x, [In]int y, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString,
+            [In]int chCount, [In]int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpnTabStopPositions, [In]int nTabOrigin);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="TextOut"/> function writes a character string at the specified location, using the currently selected font,
         /// background color, and text color.
         /// </para>
