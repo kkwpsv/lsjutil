@@ -85,6 +85,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="Chord"/> function draws a chord (a region bounded by the intersection of an ellipse and a line segment, called a secant).
+        /// The chord is outlined by using the current pen and filled by using the current brush.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-chord
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context in which the chord appears.
+        /// </param>
+        /// <param name="x1">
+        /// The x-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="y1">
+        /// The y-coordinate, in logical coordinates, of the upper-left corner of the bounding rectangle.
+        /// </param>
+        /// <param name="x2">
+        /// The x-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="y2">
+        /// The y-coordinate, in logical coordinates, of the lower-right corner of the bounding rectangle.
+        /// </param>
+        /// <param name="x3">
+        /// The x-coordinate, in logical coordinates, of the endpoint of the radial defining the beginning of the chord.
+        /// </param>
+        /// <param name="y3">
+        /// The y-coordinate, in logical coordinates, of the endpoint of the radial defining the beginning of the chord.
+        /// </param>
+        /// <param name="x4">
+        /// The x-coordinate, in logical coordinates, of the endpoint of the radial defining the end of the chord.
+        /// </param>
+        /// <param name="y4">
+        /// The y-coordinate, in logical coordinates, of the endpoint of the radial defining the end of the chord.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The curve of the chord is defined by an ellipse that fits the specified bounding rectangle.
+        /// The curve begins at the point where the ellipse intersects the first radial and extends counterclockwise to the point
+        /// where the ellipse intersects the second radial.
+        /// The chord is closed by drawing a line from the intersection of the first radial and the curve to the intersection of the second radial and the curve.
+        /// If the starting point and ending point of the curve are the same, a complete ellipse is drawn.
+        /// The current position is neither used nor updated by <see cref="Chord"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", SetLastError = true)]
+        public static extern BOOL Chord([In]HDC hdc, [In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int x3, [In]int y3, [In]int x4, [In]int y4);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Ellipse"/> function draws an ellipse.
         /// The center of the ellipse is the center of the specified bounding rectangle.
         /// The ellipse is outlined by using the current pen and is filled by using the current brush.
