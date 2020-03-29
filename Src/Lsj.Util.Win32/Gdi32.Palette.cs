@@ -1,9 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -163,6 +161,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", SetLastError = true)]
         public static extern UINT RealizePalette([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ResizePalette"/> function increases or decreases the size of a logical palette based on the specified value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resizepalette
+        /// </para>
+        /// </summary>
+        /// <param name="hpal">
+        /// A handle to the palette to be changed.
+        /// </param>
+        /// <param name="n">
+        /// The number of entries in the palette after it has been resized.
+        /// The number of entries is limited to 1024.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
+        /// and specifying the <see cref="RASTERCAPS"/> constant.
+        /// If an application calls <see cref="ResizePalette"/> to reduce the size of the palette, the entries remaining in the resized palette are unchanged.
+        /// If the application calls <see cref="ResizePalette"/> to enlarge the palette, the additional palette entries are set to black
+        /// (the red, green, and blue values are all 0) and their flags are set to zero.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResizePalette", SetLastError = true)]
+        public static extern BOOL ResizePalette([In]HPALETTE hpal, [In]UINT n);
 
         /// <summary>
         /// <para>
