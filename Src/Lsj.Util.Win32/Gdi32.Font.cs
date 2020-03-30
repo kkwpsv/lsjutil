@@ -508,6 +508,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetAspectRatioFilterEx"/> function retrieves the setting for the current aspect-ratio filter.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getaspectratiofilterex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// </param>
+        /// <param name="lpsize">
+        /// Pointer to a <see cref="SIZE"/> structure that receives the current aspect-ratio filter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The aspect ratio is the ratio formed by the width and height of a pixel on a specified device.
+        /// The system provides a special filter, the aspect-ratio filter, to select fonts that were designed for a particular device.
+        /// An application can specify that the system should only retrieve fonts matching the specified aspect ratio
+        /// by calling the <see cref="SetMapperFlags"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAspectRatioFilterEx", SetLastError = true)]
+        public static extern BOOL GetAspectRatioFilterEx([In]HDC hdc, [Out]out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextFace"/> function retrieves the typeface name of the font that is selected into the specified device context.
         /// </para>
         /// <para>
