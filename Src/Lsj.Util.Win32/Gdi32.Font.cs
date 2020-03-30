@@ -309,6 +309,67 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreateScalableFontResource"/> function creates a font resource file for a scalable font.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createscalablefontresourcew
+        /// </para>
+        /// </summary>
+        /// <param name="fdwHidden">
+        /// Specifies whether the font is a read-only font. This parameter can be one of the following values.
+        /// 0: The font has read/write permission.
+        /// 1: The font has read-only permission and should be hidden from other applications in the system.
+        /// When this flag is set, the font is not enumerated by the <see cref="EnumFonts"/> or <see cref="EnumFontFamilies"/> function.
+        /// </param>
+        /// <param name="lpszFont">
+        /// A pointer to a null-terminated string specifying the name of the font resource file to create.
+        /// If this parameter specifies an existing font resource file, the function fails.
+        /// </param>
+        /// <param name="lpszFile">
+        /// A pointer to a null-terminated string specifying the name of the scalable font file that this function uses to create the font resource file.
+        /// </param>
+        /// <param name="lpszPath">
+        /// A pointer to a null-terminated string specifying the path to the scalable font file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// If <paramref name="lpszFont"/> specifies an existing font file, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_EXISTS"/>
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateScalableFontResource"/> function is used by applications that install TrueType fonts.
+        /// An application uses the <see cref="CreateScalableFontResource"/> function to create a font resource file (typically with a .fot file name extension)
+        /// and then uses the <see cref="AddFontResource"/> function to install the font.
+        /// The TrueType font file (typically with a .ttf file name extension) must be in the System subdirectory of the Windows directory
+        /// to be used by the <see cref="AddFontResource"/> function.
+        /// The <see cref="CreateScalableFontResource"/> function currently supports only TrueType-technology scalable fonts.
+        /// When the <paramref name="lpszFile"/> parameter specifies only a file name and extension,
+        /// the <paramref name="lpszPath"/> parameter must specify a path.
+        /// When the <paramref name="lpszFile"/> parameter specifies a full path, the <paramref name="lpszPath"/> parameter
+        /// must be <see cref="NULL"/> or a pointer to <see cref="NULL"/>.
+        /// When only a file name and extension are specified in the <paramref name="lpszFile"/> parameter and a path is specified
+        /// in the <paramref name="lpszPath"/> parameter, the string in <paramref name="lpszFile"/> is copied into the .fot file
+        /// as the .ttf file that belongs to this resource.
+        /// When the <see cref="AddFontResource"/> function is called, the operating system assumes
+        /// that the .ttf file has been copied into the System directory (or into the main Windows directory in the case of a network installation).
+        /// The .ttf file need not be in this directory when the <see cref="CreateScalableFontResource"/> function is called,
+        /// because the <paramref name="lpszPath"/> parameter contains the directory information.
+        /// A resource created in this manner does not contain absolute path information and can be used in any installation.
+        /// When a path is specified in the <paramref name="lpszFile"/> parameter and <see cref="NULL"/> is specified
+        /// in the <paramref name="lpszPath"/> parameter, the string in <paramref name="lpszFont"/> is copied into the .fot file.
+        /// In this case, when the <see cref="AddFontResource"/> function is called, the .ttf file must be at the location specified
+        /// in the <paramref name="lpszFile"/> parameter when the <see cref="CreateScalableFontResource"/> function was called;
+        /// the <paramref name="lpszPath"/> parameter is not needed. A resource created in this manner contains absolute references to paths
+        /// and drives and does not work if the .ttf file is moved to a different location.
+        /// </remarks>
+        [Obsolete("The CreateScalableFontResource function is available for use in the operating systems specified in the Requirements section." +
+            "It may be altered or unavailable in subsequent versions.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateScalableFontResourceW", SetLastError = true)]
+        public static extern BOOL CreateScalableFontResource([In]DWORD fdwHidden, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszFont,
+             [MarshalAs(UnmanagedType.LPWStr)][In]string lpszFile, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPath);
+
+        /// <summary>
+        /// <para>
         /// The EnumFonts function enumerates the fonts available on a specified device.
         /// For each font with the specified typeface name, the <see cref="EnumFonts"/> function retrieves information about that font
         /// and passes it to the application defined callback function.
