@@ -171,6 +171,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBkColor"/> function returns the current background color for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context whose background color is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="COLORREF"/> value for the current background color.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkColor", SetLastError = true)]
+        public static extern COLORREF GetBkColor([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
         /// of consecutive characters in a specified range from the current font.
         /// </para>
