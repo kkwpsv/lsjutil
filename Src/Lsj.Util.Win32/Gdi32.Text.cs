@@ -189,6 +189,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBkMode"/> function returns the current background mix mode for a specified device context.
+        /// The background mix mode of a device context affects text, hatched brushes, and pen styles that are not solid lines.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context whose background mode is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the current background mix mode, either <see cref="OPAQUE"/> or <see cref="TRANSPARENT"/>.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkMode", SetLastError = true)]
+        public static extern BackgroundModes GetBkMode([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
         /// of consecutive characters in a specified range from the current font.
         /// </para>
