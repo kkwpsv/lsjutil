@@ -546,6 +546,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetTextAlign"/> function sets the text-alignment flags for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextalign
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="align">
+        /// The text alignment by using a mask of the values in the following list.
+        /// Only one flag can be chosen from those that affect horizontal and vertical alignment.
+        /// In addition, only one of the two flags that alter the current position can be chosen.
+        /// <see cref="TA_BASELINE"/>, <see cref="TA_BOTTOM"/>, <see cref="TA_TOP"/>, <see cref="TA_CENTER"/>,
+        /// <see cref="TA_LEFT"/>, <see cref="TA_RIGHT"/>, <see cref="TA_NOUPDATECP"/>, <see cref="TA_RTLREADING"/>, <see cref="TA_UPDATECP"/>
+        /// When the current font has a vertical default base line, as with Kanji,
+        /// the following values must be used instead of <see cref="TA_BASELINE"/> and <see cref="TA_CENTER"/>.
+        /// <see cref="VTA_BASELINE"/>, <see cref="VTA_CENTER"/>
+        /// The default values are <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous text-alignment setting.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="TextOut"/> and <see cref="ExtTextOut"/> functions use the text-alignment flags
+        /// to position a string of text on a display or other device.
+        /// The flags specify the relationship between a reference point and a rectangle that bounds the text.
+        /// The reference point is either the current position or a point passed to a text output function.
+        /// The rectangle that bounds the text is formed by the character cells in the text string.
+        /// The best way to get left-aligned text is to use either
+        /// <code>
+        /// SetTextAlign (hdc, GetTextAlign(hdc) &amp; (~TA_CENTER))
+        /// </code>
+        /// or
+        /// <code>
+        /// SetTextAlign (hdc,TA_LEFT | &lt;other flags&gt;)
+        /// </code>
+        /// You can also use <code>SetTextAlign(hdc, TA_LEFT)</code> for this purpose, but this loses any vertical or right-to-left settings.
+        /// Note
+        /// You should not use <see cref="SetTextAlign"/> with <see cref="TA_UPDATECP"/> when you are using <see cref="ScriptStringOut"/>,
+        /// because selected text is not rendered correctly.
+        /// If you must use this flag, you can unset and reset it as necessary to avoid the problem.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextAlign", SetLastError = true)]
+        public static extern TextAlignments SetTextAlign([In]HDC hdc, [In]TextAlignments align);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
         /// </para>
         /// <para>
