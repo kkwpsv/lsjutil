@@ -60,6 +60,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AddFontResource"/> function adds the font resource from the specified file to the system font table.
+        /// The font can subsequently be used for text output by any application.
+        /// To mark a font as private or not enumerable, use the <see cref="AddFontResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontresourcew
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A pointer to a null-terminated character string that contains a valid font file name.
+        /// This parameter can specify any of the following files.
+        /// .fon: Font resource file.
+        /// .fnt: Raw bitmap font file.
+        /// .ttf: Raw TrueType file.
+        /// .ttc: East Asian Windows: TrueType font collection.
+        /// .fot: TrueType resource file.
+        /// .otf: PostScript OpenType font.
+        /// .mmm: Multiple master Type1 font resource file. It must be used with .pfm and .pfb files.
+        /// .pfb: Type 1 font bits file. It is used with a .pfm file.
+        /// .pfm: Type 1 font metrics file. It is used with a .pfb file.
+        /// To add a font whose information comes from several resource files, have <paramref name="Arg1"/> point to a string with the file names
+        /// separated by a "|" --for example, abcxxxxx.pfm | abcxxxxx.pfb.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of fonts added.
+        /// If the function fails, the return value is zero.
+        /// No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// Any application that adds or removes fonts from the system font table should notify other windows of the change
+        /// by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the operating system.
+        /// The application should send this message by calling the <see cref="SendMessage"/> function
+        /// and setting the hwnd parameter to <see cref="HWND_BROADCAST"/>.
+        /// When an application no longer needs a font resource that it loaded by calling the <see cref="AddFontResource"/> function,
+        /// it must remove that resource by calling the <see cref="RemoveFontResource"/> function.
+        /// This function installs the font only for the current session.
+        /// When the system restarts, the font will not be present.
+        /// To have the font installed even after restarting the system, the font must be listed in the registry.
+        /// A font listed in the registry and installed to a location other than the %windir%\fonts\ folder cannot be modified, deleted,
+        /// or replaced as long as it is loaded in any session.
+        /// In order to change one of these fonts, it must first be removed by calling <see cref="RemoveFontResource"/>,
+        /// removed from the font registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts), and the system restarted.
+        /// After restarting the system, the font will no longer be loaded and can be changed.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceW", SetLastError = true)]
+        public static extern int AddFontResource([MarshalAs(UnmanagedType.LPWStr)][In]string Arg1);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateFont"/> function creates a logical font with the specified characteristics.
         /// The logical font can subsequently be selected as the font for any device.
         /// </para>
