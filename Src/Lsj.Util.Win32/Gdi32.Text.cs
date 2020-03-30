@@ -499,6 +499,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetBkMode"/> function sets the background mix mode of the specified device context.
+        /// The background mix mode is used with text, hatched brushes, and pen styles that are not solid lines.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// The background mode.
+        /// This parameter can be one of the following values.
+        /// <see cref="OPAQUE"/>, <see cref="TRANSPARENT"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous background mode.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetBkMode"/> function affects the line styles for lines drawn using a pen created by the <see cref="CreatePen"/> function.
+        /// <see cref="SetBkMode"/> does not affect lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkMode", SetLastError = true)]
+        public static extern BackgroundModes SetBkMode([In]HDC hdc, [In]BackgroundModes mode);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
         /// </para>
         /// <para>
