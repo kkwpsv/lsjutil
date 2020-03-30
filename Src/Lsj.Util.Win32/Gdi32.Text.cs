@@ -257,6 +257,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextColor"/> function retrieves the current text color for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current text color as a <see cref="COLORREF"/> value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// The text color defines the foreground color of characters drawn by using the <see cref="TextOut"/> or <see cref="ExtTextOut"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextColor", SetLastError = true)]
+        public static extern COLORREF GetTextColor([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextExtentPoint"/> function computes the width and height of the specified string of text.
         /// </para>
         /// <para>
