@@ -535,6 +535,53 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetFontData"/> function retrieves font metric data for a TrueType font.
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="dwTable">
+        /// The name of a font metric table from which the font data is to be retrieved.
+        /// This parameter can identify one of the metric tables documented in the TrueType Font Files specification published by Microsoft Corporation.
+        /// If this parameter is zero, the information is retrieved starting at the beginning of the file for TrueType font files or
+        /// from the beginning of the data for the currently selected font for TrueType Collection files.
+        /// To retrieve the data from the beginning of the file for TrueType Collection files specify 'ttcf' (0x66637474).
+        /// </param>
+        /// <param name="dwOffset">
+        /// The offset from the beginning of the font metric table to the location where the function should begin retrieving information.
+        /// If this parameter is zero, the information is retrieved starting at the beginning of the table specified by the <paramref name="dwTable"/> parameter.
+        /// If this value is greater than or equal to the size of the table, an error occurs.
+        /// </param>
+        /// <param name="pvBuffer">
+        /// A pointer to a buffer that receives the font information.
+        /// If this parameter is <see cref="NULL"/>, the function returns the size of the buffer required for the font data.
+        /// </param>
+        /// <param name="cjBuffer">
+        /// The length, in bytes, of the information to be retrieved.
+        /// If this parameter is zero, <see cref="GetFontData"/> returns the size of the data specified in the <paramref name="dwTable"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes returned.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is intended to be used to retrieve TrueType font information directly from the font file by font-manipulation applications.
+        /// For information about embedding fonts see the Font Embedding Reference.
+        /// An application can sometimes use the <see cref="GetFontData"/> function to save a TrueType font with a document.
+        /// To do this, the application determines whether the font can be embedded
+        /// by checking the <see cref="OUTLINETEXTMETRIC.otmfsType"/> member of the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// If bit 1 of <see cref="OUTLINETEXTMETRIC.otmfsType"/> is set, embedding is not permitted for the font.
+        /// If bit 1 is clear, the font can be embedded. If bit 2 is set, the embedding is read-only.
+        /// If embedding is permitted, the application can retrieve the entire font file,
+        /// specifying zero for the <paramref name="dwTable"/>, <paramref name="dwOffset"/>, and <paramref name="cjBuffer"/> parameters.
+        /// If an application attempts to use this function to retrieve information for a non-TrueType font, an error occurs.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontData", SetLastError = true)]
+        public static extern DWORD GetFontData([In]HDC hdc, [In]DWORD dwTable, [In]DWORD dwOffset, [In]PVOID pvBuffer, [In]DWORD cjBuffer);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetOutlineTextMetrics"/> function retrieves text metrics for TrueType fonts.
         /// </para>
         /// <para>
