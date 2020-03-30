@@ -68,14 +68,40 @@ namespace Lsj.Util.Collections
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TKey GetKeyByValue(TValue value) => ContainsValue(value) ? NullKey(value) : b[value];
+        public TKey GetKeyByValue(TValue value) => ContainsValue(value) ? b[value] : NullKey(value);
 
         /// <summary>
         /// Get Value By Key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public TValue GetValueByKey(TKey key) => ContainsKey(key) ? NullValue(key) : a[key];
+        public TValue GetValueByKey(TKey key) => ContainsKey(key) ? a[key] : NullValue(key);
+
+        /// <summary>
+        /// Try Get Key By Value
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="result">Key</param>
+        /// <returns>IsContainsValue</returns>
+        public bool TryGetKeyByValue(TValue value, out TKey result)
+        {
+            var contains = ContainsValue(value);
+            result = contains ? b[value] : NullKey(value);
+            return contains;
+        }
+
+        /// <summary>
+        /// Try Get Value By Key
+        /// </summary>
+        /// <param name="value">Key</param>
+        /// <param name="result">Value</param>
+        /// <returns>IsContainsKey</returns>
+        public bool TryGetValueByKey(TKey value, out TValue result)
+        {
+            var contains = ContainsKey(value);
+            result = contains ? a[value] : NullValue(value);
+            return contains;
+        }
 
         /// <summary>
         /// Add the specified key and value.
@@ -130,6 +156,7 @@ namespace Lsj.Util.Collections
         /// NullValue
         /// </summary>
         protected virtual TValue NullValue(TKey key) => default;
+
         /// <summary>
         /// NullKey
         /// </summary>
