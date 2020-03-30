@@ -712,6 +712,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetTextJustification"/> function specifies the amount of space the system should add to the break characters in a string of text.
+        /// The space is added when an application calls the <see cref="TextOut"/> or <see cref="ExtTextOut"/> functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextjustification
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="extra">
+        /// The total extra space, in logical units, to be added to the line of text.
+        /// If the current mapping mode is not <see cref="MM_TEXT"/>, the value identified by the nBreakExtra parameter
+        /// is transformed and rounded to the nearest pixel.
+        /// </param>
+        /// <param name="count">
+        /// The number of break characters in the line.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The break character is usually the space character (ASCII 32), but it may be defined by a font as some other character.
+        /// The <see cref="GetTextMetrics"/> function can be used to retrieve a font's break character.
+        /// The <see cref="TextOut"/> function distributes the specified extra space evenly among the break characters in the line.
+        /// The <see cref="GetTextExtentPoint32"/> function is always used with the <see cref="SetTextJustification"/> function.
+        /// Sometimes the <see cref="GetTextExtentPoint32"/> function takes justification into account
+        /// when computing the width of a specified line before justification, and sometimes it does not.
+        /// For more details on this, see <see cref="GetTextExtentPoint32"/>.
+        /// This width must be known before an appropriate nBreakExtra value can be computed.
+        /// <see cref="SetTextJustification"/> can be used to justify a line that contains multiple strings in different fonts.
+        /// In this case, each string must be justified separately.
+        /// Because rounding errors can occur during justification, the system keeps a running error term that defines the current error value.
+        /// When justifying a line that contains multiple runs, <see cref="GetTextExtentPoint"/> automatically uses this error term
+        /// when it computes the extent of the next run, allowing <see cref="TextOut"/> to blend the error into the new run.
+        /// After each line has been justified, this error term must be cleared to prevent it from being incorporated into the next line.
+        /// The term can be cleared by calling <see cref="SetTextJustification"/> with nBreakExtra set to zero.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextJustification", SetLastError = true)]
+        public static extern BOOL SetTextJustification([In]HDC hdc, [In]int extra, [In]int count);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="TextOut"/> function writes a character string at the specified location, using the currently selected font,
         /// background color, and text color.
         /// </para>
