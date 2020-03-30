@@ -338,6 +338,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextCharacterExtra"/> function retrieves the current intercharacter spacing for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcharacterextra
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current intercharacter spacing, in logical coordinates.
+        /// If the function fails, the return value is 0x8000000.
+        /// </returns>
+        /// <remarks>
+        /// The intercharacter spacing defines the extra space, in logical units along the base line,
+        /// that the <see cref="TextOut"/> or <see cref="ExtTextOut"/> functions add to each character as a line is written.
+        /// The spacing is used to expand lines of text.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharacterExtra", SetLastError = true)]
+        public static extern int GetTextCharacterExtra([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextColor"/> function retrieves the current text color for the specified device context.
         /// </para>
         /// <para>
