@@ -508,6 +508,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextFace"/> function retrieves the typeface name of the font that is selected into the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextfacew
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="c">
+        /// The length of the buffer pointed to by <paramref name="lpName"/>.
+        /// For the ANSI function it is a <see cref="BYTE"/> count and for the Unicode function it is a <see cref="WORD"/> count.
+        /// Note that for the ANSI function, characters in SBCS code pages take one byte each, while most characters in DBCS code pages take two bytes;
+        /// for the Unicode function, most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are
+        /// one <see cref="WORD"/> while Unicode surrogates are two <see cref="WORD"/>s.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to the buffer that receives the typeface name.
+        /// If this parameter is <see cref="NULL"/>, the function returns the number of characters in the name, including the terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of characters copied to the buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The typeface name is copied as a null-terminated character string.
+        /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextFaceW", SetLastError = true)]
+        public static extern int GetTextFace([In]HDC hdc, [In]int c, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RemoveFontResource"/> function removes the fonts in the specified file from the system font table.
         /// If the font was added using the <see cref="AddFontResourceEx"/> function, you must use the <see cref="RemoveFontResourceEx"/> function.
         /// </para>
