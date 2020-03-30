@@ -468,6 +468,14 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value specifies the previous background color as a <see cref="COLORREF"/> value.
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
+        /// <remarks>
+        /// This function fills the gaps between styled lines drawn using a pen created by the <see cref="CreatePen"/> function;
+        /// it does not fill the gaps between styled lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
+        /// The <see cref="SetBkColor"/> function also sets the background colors for <see cref="TextOut"/> and <see cref="ExtTextOut"/>.
+        /// If the background mode is <see cref="OPAQUE"/>, the background color is used to fill gaps between styled lines,
+        /// gaps between hatched lines in brushes, and character cells.
+        /// The background color is also used when converting bitmaps from color to monochrome and vice versa.
+        /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", SetLastError = true)]
         public static extern COLORREF SetBkColor([In]HDC hdc, [In]COLORREF color);
 
