@@ -456,5 +456,32 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", SetLastError = true)]
         public static extern int EnumFontFamiliesEx([In]IntPtr hdc, [In]ref LOGFONT lpLogfont, [In]FONTENUMPROC lpProc,
             [In]IntPtr lParam, [In]uint dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetMapperFlags"/> function alters the algorithm the font mapper uses when it maps logical fonts to physical fonts.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmapperflags
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context that contains the font-mapper flag.
+        /// </param>
+        /// <param name="flags">
+        /// Specifies whether the font mapper should attempt to match a font's aspect ratio to the current device's aspect ratio.
+        /// If bit zero is set, the mapper selects only matching fonts.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the font-mapper flag.
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="flags"/> parameter is set and no matching fonts exist,
+        /// Windows chooses a new aspect ratio and retrieves a font that matches this ratio.
+        /// The remaining bits of the <paramref name="flags"/> parameter must be zero.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapperFlags", SetLastError = true)]
+        public static extern DWORD SetMapperFlags([In]HDC hdc, [In]DWORD flags);
     }
 }
