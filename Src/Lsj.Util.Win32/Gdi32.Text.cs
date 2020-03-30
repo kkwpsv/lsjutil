@@ -444,6 +444,10 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a color reference for the previous text color as a <see cref="COLORREF"/> value.
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
+        /// <remarks>
+        /// The text color is used to draw the face of each character written by the <see cref="TextOut"/> and <see cref="ExtTextOut"/> functions.
+        /// The text color is also used in converting bitmaps from color to monochrome and vice versa.
+        /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", SetLastError = true)]
         public static extern COLORREF SetTextColor([In]HDC hdc, [In]COLORREF color);
 
