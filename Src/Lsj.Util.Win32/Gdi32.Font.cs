@@ -535,6 +535,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetOutlineTextMetrics"/> function retrieves text metrics for TrueType fonts.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getoutlinetextmetricsw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="cjCopy">
+        /// The size, in bytes, of the array that receives the text metrics.
+        /// </param>
+        /// <param name="potm">
+        /// A pointer to an <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// If this parameter is <see langword="null"/>, the function returns the size of the buffer required for the retrieved metric data.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero or the size of the required buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OUTLINETEXTMETRIC"/> structure contains most of the text metric information provided for TrueType fonts
+        /// (including a <see cref="TEXTMETRIC"/> structure).
+        /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are in logical units; they depend on the current mapping mode.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOutlineTextMetricsW", SetLastError = true)]
+        public static extern UINT GetOutlineTextMetrics([In]HDC hdc, [In]UINT cjCopy, [Out]out OUTLINETEXTMETRIC potm);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextFace"/> function retrieves the typeface name of the font that is selected into the specified device context.
         /// </para>
         /// <para>
