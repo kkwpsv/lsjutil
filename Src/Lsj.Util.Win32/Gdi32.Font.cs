@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,169 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate int FONTENUMPROC([In]IntPtr lpelfe, [In]IntPtr lpntme, [In]FontTypes FontType, [In]IntPtr lParam);
 
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateFont"/> function creates a logical font with the specified characteristics.
+        /// The logical font can subsequently be selected as the font for any device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontw
+        /// </para>
+        /// </summary>
+        /// <param name="cHeight">
+        /// The height, in logical units, of the font's character cell or character.
+        /// The character height value (also known as the em height) is the character cell height value minus the internal-leading value.
+        /// The font mapper interprets the value specified in <paramref name="cHeight"/> in the following manner.
+        /// &gt; 0: The font mapper transforms this value into device units and matches it against the cell height of the available fonts.
+        /// 0: The font mapper uses a default height value when it searches for a match.
+        /// &lt; 0: The font mapper transforms this value into device units and matches its absolute value against the character height of the available fonts.
+        /// For all height comparisons, the font mapper looks for the largest font that does not exceed the requested size.
+        /// This mapping occurs when the font is used for the first time.
+        /// For the <see cref="MM_TEXT"/> mapping mode, you can use the following formula to specify a height for a font with a specified point size:
+        /// <code>
+        /// nHeight = -MulDiv(PointSize, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+        /// </code>
+        /// </param>
+        /// <param name="cWidth">
+        /// The average width, in logical units, of characters in the requested font.
+        /// If this value is zero, the font mapper chooses a closest match value.
+        /// The closest match value is determined by comparing the absolute values of the difference
+        /// between the current device's aspect ratio and the digitized aspect ratio of available fonts.
+        /// </param>
+        /// <param name="cEscapement">
+        /// The angle, in tenths of degrees, between the escapement vector and the x-axis of the device.
+        /// The escapement vector is parallel to the base line of a row of text.
+        /// When the graphics mode is set to <see cref="GM_ADVANCED"/>, you can specify the escapement angle of the string
+        /// independently of the orientation angle of the string's characters.
+        /// When the graphics mode is set to <see cref="GM_COMPATIBLE"/>, nEscapement specifies both the escapement and orientation.
+        /// You should set <paramref name="cEscapement"/> and <paramref name="cOrientation"/> to the same value.
+        /// </param>
+        /// <param name="cOrientation">
+        /// The angle, in tenths of degrees, between each character's base line and the x-axis of the device.
+        /// </param>
+        /// <param name="cWeight">
+        /// The weight of the font in the range 0 through 1000. For example, 400 is normal and 700 is bold. If this value is zero, a default weight is used.
+        /// The following values are defined for convenience.
+        /// <see cref="FW_DONTCARE"/>, <see cref="FW_THIN"/>, <see cref="FW_EXTRALIGHT"/>, <see cref="FW_ULTRALIGHT"/>, <see cref="FW_LIGHT"/>,
+        /// <see cref="FW_NORMAL"/>, <see cref="FW_REGULAR"/>, <see cref="FW_MEDIUM"/>, <see cref="FW_SEMIBOLD"/>, <see cref="FW_DEMIBOLD"/>,
+        /// <see cref="FW_BOLD"/>, <see cref="FW_EXTRABOLD"/>, <see cref="FW_ULTRABOLD"/>, <see cref="FW_HEAVY"/>, <see cref="FW_BLACK"/>
+        /// </param>
+        /// <param name="bItalic">
+        /// Specifies an italic font if set to <see cref="TRUE"/>.
+        /// </param>
+        /// <param name="bUnderline">
+        /// Specifies an underlined font if set to <see cref="TRUE"/>.
+        /// </param>
+        /// <param name="bStrikeOut">
+        /// A strikeout font if set to <see cref="TRUE"/>.
+        /// </param>
+        /// <param name="iCharSet">
+        /// The character set. The following values are predefined:
+        /// <see cref="ANSI_CHARSET"/>, <see cref="BALTIC_CHARSET"/>, <see cref="CHINESEBIG5_CHARSET"/>, <see cref="DEFAULT_CHARSET"/>,
+        /// <see cref="EASTEUROPE_CHARSET"/>, <see cref="GB2312_CHARSET"/>, <see cref="GREEK_CHARSET"/>, <see cref="HANGUL_CHARSET"/>,
+        /// <see cref="MAC_CHARSET"/>, <see cref="OEM_CHARSET"/>, <see cref="RUSSIAN_CHARSET"/>, <see cref="SHIFTJIS_CHARSET"/>,
+        /// <see cref="SYMBOL_CHARSET"/>, <see cref="TURKISH_CHARSET"/>, <see cref="VIETNAMESE_CHARSET"/>
+        /// Korean language edition of Windows:
+        /// <see cref="JOHAB_CHARSET"/>
+        /// Middle East language edition of Windows:
+        /// <see cref="ARABIC_CHARSET"/>, <see cref="HEBREW_CHARSET"/>
+        /// Thai language edition of Windows:
+        /// <see cref="THAI_CHARSET"/>
+        /// The <see cref="OEM_CHARSET"/> value specifies a character set that is operating-system dependent.
+        /// <see cref="DEFAULT_CHARSET"/> is set to a value based on the current system locale.
+        /// For example, when the system locale is English (United States), it is set as <see cref="ANSI_CHARSET"/>.
+        /// Fonts with other character sets may exist in the operating system.
+        /// If an application uses a font with an unknown character set, it should not attempt to translate or interpret strings
+        /// that are rendered with that font.
+        /// To ensure consistent results when creating a font, do not specify <see cref="OEM_CHARSET"/> or <see cref="DEFAULT_CHARSET"/>.
+        /// If you specify a typeface name in the <paramref name="pszFaceName"/> parameter,
+        /// make sure that the <paramref name="iCharSet"/> value matches the character set of the typeface specified in <paramref name="pszFaceName"/>.
+        /// </param>
+        /// <param name="iOutPrecision">
+        /// The output precision. The output precision defines how closely the output must match the requested font's height, width,
+        /// character orientation, escapement, pitch, and font type. It can be one of the following values.
+        /// <see cref="OUT_CHARACTER_PRECIS"/>, <see cref="OUT_DEFAULT_PRECIS"/>, <see cref="OUT_DEVICE_PRECIS"/>,
+        /// <see cref="OUT_OUTLINE_PRECIS"/>, <see cref="OUT_PS_ONLY_PRECIS"/>, <see cref="OUT_RASTER_PRECIS"/>,
+        /// <see cref="OUT_STRING_PRECIS"/>, <see cref="OUT_STROKE_PRECIS"/>, <see cref="OUT_TT_ONLY_PRECIS"/>, <see cref="OUT_TT_PRECIS"/>
+        /// Applications can use the <see cref="OUT_DEVICE_PRECIS"/>, <see cref="OUT_RASTER_PRECIS"/>, <see cref="OUT_TT_PRECIS"/>,
+        /// and <see cref="OUT_PS_ONLY_PRECIS"/> values to control how the font mapper chooses a font
+        /// when the operating system contains more than one font with a specified name.
+        /// For example, if an operating system contains a font named Symbol in raster and TrueType form,
+        /// specifying <see cref="OUT_TT_PRECIS"/> forces the font mapper to choose the TrueType version.
+        /// Specifying <see cref="OUT_TT_ONLY_PRECIS"/> forces the font mapper to choose a TrueType font,
+        /// even if it must substitute a TrueType font of another name.
+        /// </param>
+        /// <param name="iClipPrecision">
+        /// The clipping precision.
+        /// The clipping precision defines how to clip characters that are partially outside the clipping region.
+        /// It can be one or more of the following values.
+        /// <see cref="CLIP_CHARACTER_PRECIS"/>, <see cref="CLIP_DEFAULT_PRECIS"/>, <see cref="CLIP_DFA_DISABLE"/>,
+        /// <see cref="CLIP_EMBEDDED"/>, <see cref="CLIP_LH_ANGLES"/>, <see cref="CLIP_MASK"/>, <see cref="CLIP_DFA_OVERRIDE"/>,
+        /// <see cref="CLIP_STROKE_PRECIS"/>, <see cref="CLIP_TT_ALWAYS"/>
+        /// </param>
+        /// <param name="iQuality">
+        /// The output quality.
+        /// The output quality defines how carefully GDI must attempt to match the logical-font attributes to those of an actual physical font.
+        /// It can be one of the following values.
+        /// <see cref="ANTIALIASED_QUALITY"/>, <see cref="CLEARTYPE_QUALITY"/>, <see cref="DEFAULT_QUALITY"/>, <see cref="DRAFT_QUALITY"/>,
+        /// <see cref="NONANTIALIASED_QUALITY"/>, <see cref="PROOF_QUALITY"/>
+        /// If the output quality is <see cref="DEFAULT_QUALITY"/>, <see cref="DRAFT_QUALITY"/>, or <see cref="PROOF_QUALITY"/>,
+        /// then the font is antialiased if the <see cref="SPI_GETFONTSMOOTHING"/> system parameter is <see cref="TRUE"/>.
+        /// Users can control this system parameter from the Control Panel.
+        /// (The precise wording of the setting in the Control panel depends on the version of Windows,
+        /// but it will be words to the effect of "Smooth edges of screen fonts".)
+        /// </param>
+        /// <param name="iPitchAndFamily">
+        /// The pitch and family of the font.
+        /// The two low-order bits specify the pitch of the font and can be one of the following values:
+        /// <see cref="DEFAULT_PITCH"/>, <see cref="FIXED_PITCH"/>, <see cref="VARIABLE_PITCH"/>
+        /// The four high-order bits specify the font family and can be one of the following values.
+        /// <see cref="FF_DECORATIVE"/>, <see cref="FF_DONTCARE"/>, <see cref="FF_MODERN"/>,
+        /// <see cref="FF_ROMAN"/>, <see cref="FF_SCRIPT"/>, <see cref="FF_SWISS"/>
+        /// An application can specify a value for the <paramref name="iPitchAndFamily"/> parameter by using the Boolean OR operator
+        /// to join a pitch constant with a family constant.
+        /// Font families describe the look of a font in a general way.
+        /// They are intended for specifying fonts when the exact typeface requested is not available.
+        /// </param>
+        /// <param name="pszFaceName">
+        /// A pointer to a null-terminated string that specifies the typeface name of the font.
+        /// The length of this string must not exceed 32 characters, including the terminating null character.
+        /// The <see cref="EnumFontFamilies"/> function can be used to enumerate the typeface names of all currently available fonts.
+        /// For more information, see the Remarks.
+        /// If <paramref name="pszFaceName"/> is <see langword="null"/> or empty string,
+        /// GDI uses the first font that matches the other specified attributes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a logical font.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// To help protect the copyrights of vendors who provide fonts for Windows, applications should always report the exact name of a selected font.
+        /// Because available fonts can vary from system to system, do not assume that the selected font is always the same as the requested font.
+        /// For example, if you request a font named Palatino, but no such font is available on the system,
+        /// the font mapper will substitute a font that has similar attributes but a different name.
+        /// Always report the name of the selected font to the user.
+        /// To get the appropriate font on different language versions of the OS, call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics
+        /// in the <see cref="LOGFONT"/> structure, then retrieve the appropriate typeface name
+        /// and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
+        /// both the English and the localized typeface name, regardless of locale.
+        /// The following situations do not support ClearType antialiasing:
+        /// Text rendered on a printer.
+        /// A display set for 256 colors or less.
+        /// Text rendered to a terminal server client.
+        /// The font is not a TrueType font or an OpenType font with TrueType outlines.
+        /// For example, the following do not support ClearType antialiasing:
+        /// Type 1 fonts, Postscript OpenType fonts without TrueType outlines, bitmap fonts, vector fonts, and device fonts.
+        /// The font has tuned embedded bitmaps, only for the font sizes that contain the embedded bitmaps.
+        /// For example, this occurs commonly in East Asian fonts.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontW", SetLastError = true)]
+        public static extern HFONT CreateFont([In]int cHeight, [In]int cWidth, [In]int cEscapement, [In]int cOrientation, [In]int cWeight,
+            [In]DWORD bItalic, [In]DWORD bUnderline, [In]DWORD bStrikeOut, [In]DWORD iCharSet, [In]DWORD iOutPrecision, [In]DWORD iClipPrecision,
+            [In]DWORD iQuality, [In]DWORD iPitchAndFamily, [MarshalAs(UnmanagedType.LPWStr)][In]string pszFaceName);
 
         /// <summary>
         /// <para>
