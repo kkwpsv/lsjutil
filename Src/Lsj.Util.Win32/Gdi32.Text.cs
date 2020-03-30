@@ -663,6 +663,31 @@ namespace Lsj.Util.Win32
         public static extern COLORREF SetTextColor([In]HDC hdc, [In]COLORREF color);
 
         /// <summary>
+        /// The SetTextCharacterExtra function sets the intercharacter spacing.
+        /// Intercharacter spacing is added to each character, including break characters, when the system writes a line of text.
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="extra">
+        /// The amount of extra space, in logical units, to be added to each character.
+        /// If the current mapping mode is not <see cref="MM_TEXT"/>, the nCharExtra parameter is transformed and rounded to the nearest pixel.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous intercharacter spacing.
+        /// If the function fails, the return value is 0x80000000.
+        /// </returns>
+        /// <remarks>
+        /// This function is supported mainly for compatibility with existing applications.
+        /// New applications should generally avoid calling this function, because it is incompatible with complex scripts
+        /// (scripts that require text shaping; Arabic script is an example of this).
+        /// The recommended approach is that instead of calling this function and then <see cref="TextOut"/>,
+        /// applications should call <see cref="ExtTextOut"/> and use its lpDx parameter to supply widths.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", SetLastError = true)]
+        public static extern int SetTextCharacterExtra([In]HDC hdc, [In]int extra);
+
+        /// <summary>
         /// <para>
         /// The <see cref="TextOut"/> function writes a character string at the specified location, using the currently selected font,
         /// background color, and text color.
