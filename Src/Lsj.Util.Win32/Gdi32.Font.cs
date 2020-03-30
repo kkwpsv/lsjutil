@@ -568,6 +568,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextMetrics"/> function fills the specified buffer with the metrics for the currently selected font.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextmetrics
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lptm">
+        /// A pointer to the <see cref="TEXTMETRIC"/> structure that receives the text metrics.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// To determine whether a font is a TrueType font, first select it into a DC, then call <see cref="GetTextMetrics"/>,
+        /// and then check for <see cref="TMPF_TRUETYPE"/> in <see cref="TEXTMETRIC.tmPitchAndFamily"/>.
+        /// Note that <see cref="GetDC"/> returns an uninitialized DC, which has "System" (a bitmap font) as the default font;
+        /// thus the need to select a font into the DC.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextMetricsW", SetLastError = true)]
+        public static extern BOOL GetTextMetrics([In]HDC hdc, [Out]out TEXTMETRIC lptm);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="RemoveFontResource"/> function removes the fonts in the specified file from the system font table.
         /// If the font was added using the <see cref="AddFontResourceEx"/> function, you must use the <see cref="RemoveFontResourceEx"/> function.
         /// </para>
