@@ -450,6 +450,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetBkColor"/> function sets the current background color to the specified color value,
+        /// or to the nearest physical color if the device cannot represent the specified color value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="color">
+        /// The new background color.
+        /// To make a <see cref="COLORREF"/> value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous background color as a <see cref="COLORREF"/> value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", SetLastError = true)]
+        public static extern COLORREF SetBkColor([In]HDC hdc, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
         /// </para>
         /// <para>
