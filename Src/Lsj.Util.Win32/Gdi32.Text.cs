@@ -294,6 +294,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetTextAlign"/> function retrieves the text-alignment setting for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextalign
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the status of the text-alignment flags.
+        /// For more information about the return value, see the Remarks section.
+        /// The return value is a combination of the following values.
+        /// <see cref="TA_BASELINE"/>, <see cref="TA_BOTTOM"/>, <see cref="TA_TOP"/>, <see cref="TA_CENTER"/>, <see cref="TA_LEFT"/>,
+        /// <see cref="TA_RIGHT"/>, <see cref="TA_RTLREADING"/>, <see cref="TA_NOUPDATECP"/>, <see cref="TA_UPDATECP"/>
+        /// When the current font has a vertical default base line (as with Kanji),
+        /// the following values are used instead of <see cref="TA_BASELINE"/> and <see cref="TA_CENTER"/>.
+        /// <see cref="VTA_BASELINE"/>, <see cref="VTA_CENTER"/>
+        /// If the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The bounding rectangle is a rectangle bounding all of the character cells in a string of text.
+        /// Its dimensions can be obtained by calling the <see cref="GetTextExtentPoint32"/> function.
+        /// The text-alignment flags determine how the <see cref="TextOut"/> and <see cref="ExtTextOut"/> functions align a string of text
+        /// in relation to the string's reference point provided to <see cref="TextOut"/> or <see cref="ExtTextOut"/>.
+        /// The text-alignment flags are not necessarily single bit flags and may be equal to zero.
+        /// The flags must be examined in groups of related flags, as shown in the following list.
+        /// <see cref="TA_LEFT"/>, <see cref="TA_RIGHT"/>, and <see cref="TA_CENTER"/>
+        /// <see cref="TA_BOTTOM"/>, <see cref="TA_TOP"/>, and <see cref="TA_BASELINE"/>
+        /// <see cref="TA_NOUPDATECP"/> and <see cref="TA_UPDATECP"/>
+        /// If the current font has a vertical default base line, the related flags are as shown in the following list.
+        /// <see cref="TA_LEFT"/>, <see cref="TA_RIGHT"/>, and <see cref="VTA_BASELINE"/>
+        /// <see cref="TA_BOTTOM"/>, <see cref="TA_TOP"/>, and <see cref="VTA_CENTER"/>
+        /// <see cref="TA_NOUPDATECP"/> and <see cref="TA_UPDATECP"/>
+        /// To verify that a particular flag is set in the return value of this function:
+        /// 1. Apply the bitwise OR operator to the flag and its related flags.
+        /// 2. Apply the bitwise AND operator to the result and the return value.
+        /// 3. Test for the equality of this result and the flag.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextAlign", SetLastError = true)]
+        public static extern TextAlignments GetTextAlign([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextColor"/> function retrieves the current text color for the specified device context.
         /// </para>
         /// <para>
