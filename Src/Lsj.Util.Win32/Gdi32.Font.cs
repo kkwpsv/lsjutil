@@ -643,6 +643,85 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetGlyphOutline"/> function retrieves the outline or bitmap for a character in the TrueType font
+        /// that is selected into the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getglyphoutlinew
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="uChar">
+        /// The character for which data is to be returned.
+        /// </param>
+        /// <param name="fuFormat">
+        /// The format of the data that the function retrieves. This parameter can be one of the following values.
+        /// <see cref="GGO_BEZIER"/>, <see cref="GGO_BITMAP"/>, <see cref="GGO_GLYPH_INDEX"/>, <see cref="GGO_GRAY2_BITMAP"/>,
+        /// <see cref="GGO_GRAY4_BITMAP"/>, <see cref="GGO_GRAY8_BITMAP"/>, <see cref="GGO_METRICS"/>, <see cref="GGO_NATIVE"/>,
+        /// <see cref="GGO_UNHINTED"/>
+        /// Note that, for the GGO_GRAYn_BITMAP values, the function retrieves a glyph bitmap that contains n^2+1 (n squared plus one) levels of gray.
+        /// </param>
+        /// <param name="lpgm">
+        /// A pointer to the <see cref="GLYPHMETRICS"/> structure describing the placement of the glyph in the character cell.
+        /// </param>
+        /// <param name="cjBuffer">
+        /// The size, in bytes, of the buffer (*<paramref name="pvBuffer"/>) where the function is to copy information about the outline character.
+        /// If this value is zero, the function returns the required size of the buffer.
+        /// </param>
+        /// <param name="pvBuffer">
+        /// A pointer to the buffer that receives information about the outline character.
+        /// If this value is <see cref="NULL"/>, the function returns the required size of the buffer.
+        /// </param>
+        /// <param name="lpmat2">
+        /// A pointer to a <see cref="MAT2"/> structure specifying a transformation matrix for the character.
+        /// </param>
+        /// <returns>
+        /// If <see cref="GGO_BITMAP"/>, <see cref="GGO_GRAY2_BITMAP"/>, <see cref="GGO_GRAY4_BITMAP"/>, <see cref="GGO_GRAY8_BITMAP"/>,
+        /// or <see cref="GGO_NATIVE"/> is specified and the function succeeds, the return value is greater than zero;
+        /// otherwise, the return value is <see cref="GDI_ERROR"/>.
+        /// If one of these flags is specified and the buffer size or address is zero, the return value specifies the required buffer size, in bytes.
+        /// If <see cref="GGO_METRICS"/> is specified and the function fails, the return value is <see cref="GDI_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// The glyph outline returned by the <see cref="GetGlyphOutline"/> function is for a grid-fitted glyph.
+        /// (A grid-fitted glyph is a glyph that has been modified so that its bitmapped image conforms as closely
+        /// as possible to the original design of the glyph.)
+        /// If an application needs an unmodified glyph outline, it can request the glyph outline for a character in a font
+        /// whose size is equal to the font's em unit.
+        /// The value for a font's em unit is stored in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member of the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// The glyph bitmap returned by <see cref="GetGlyphOutline"/> when <see cref="GGO_BITMAP"/> is specified
+        /// is a DWORD-aligned, row-oriented, monochrome bitmap.
+        /// When <see cref="GGO_GRAY2_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 4.
+        /// When <see cref="GGO_GRAY4_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 16.
+        /// When <see cref="GGO_GRAY8_BITMAP"/> is specified, the bitmap returned is a DWORD-aligned, row-oriented array of bytes whose values range from 0 to 64.
+        /// The native buffer returned by <see cref="GetGlyphOutline"/> when <see cref="GGO_NATIVE"/> is specified is a glyph outline.
+        /// A glyph outline is returned as a series of one or more contours defined by a <see cref="TTPOLYGONHEADER"/> structure followed by one or more curves.
+        /// Each curve in the contour is defined by a <see cref="TTPOLYCURVE"/> structure followed by a number of <see cref="POINTFX"/> data points.
+        /// <see cref="POINTFX"/> points are absolute positions, not relative moves.
+        /// The starting point of a contour is given by the <see cref="TTPOLYGONHEADER.pfxStart"/> member of the <see cref="TTPOLYGONHEADER"/> structure.
+        /// The starting point of each curve is the last point of the previous curve or the starting point of the contour.
+        /// The count of data points in a curve is stored in the <see cref="TTPOLYCURVE.cpfx"/> member of <see cref="TTPOLYCURVE"/> structure.
+        /// The size of each contour in the buffer, in bytes, is stored in the cb member of <see cref="TTPOLYGONHEADER"/> structure.
+        /// Additional curve definitions are packed into the buffer following preceding curves and additional contours are packed
+        /// into the buffer following preceding contours.
+        /// The buffer contains as many contours as fit within the buffer returned by <see cref="GetGlyphOutline"/>.
+        /// The <see cref="GLYPHMETRICS"/> structure specifies the width of the character cell and the location of a glyph within the character cell.
+        /// The origin of the character cell is located at the left side of the cell at the baseline of the font.
+        /// The location of the glyph origin is relative to the character cell origin.
+        /// The height of a character cell, the baseline, and other metrics global to the font are given by the <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// An application can alter the characters retrieved in bitmap or native format
+        /// by specifying a 2-by-2 transformation matrix in the <paramref name="lpmat2"/> parameter.
+        /// For example the glyph can be modified by shear, rotation, scaling, or any combination of the three using matrix multiplication.
+        /// Additional information on a glyph outlines is located in the TrueType and the OpenType technical specifications.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", SetLastError = true)]
+        public static extern DWORD GetGlyphOutline([In]HDC hdc, [In]UINT uChar, [In]GetGlyphOutlineFormats fuFormat,
+            [Out]out GLYPHMETRICS lpgm, [In]DWORD cjBuffer, [In] LPVOID pvBuffer, [MarshalAs(UnmanagedType.LPStruct)][In]MAT2 lpmat2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetOutlineTextMetrics"/> function retrieves text metrics for TrueType fonts.
         /// </para>
         /// <para>
