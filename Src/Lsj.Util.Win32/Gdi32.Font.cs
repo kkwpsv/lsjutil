@@ -223,6 +223,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreateFontIndirect"/> function creates a logical font that has the specified characteristics.
+        /// The font can subsequently be selected as the current font for any device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectw
+        /// </para>
+        /// </summary>
+        /// <param name="lplf">
+        /// A pointer to a <see cref="LOGFONT"/> structure that defines the characteristics of the logical font.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a logical font.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateFontIndirect"/> function creates a logical font with the characteristics specified in the <see cref="LOGFONT"/> structure.
+        /// When this font is selected by using the <see cref="SelectObject"/> function, GDI's font mapper attempts to match the logical font
+        /// with an existing physical font.
+        /// If it fails to find an exact match, it provides an alternative whose characteristics match as many of the requested characteristics as possible.
+        /// To get the appropriate font on different language versions of the OS, call <see cref="EnumFontFamiliesEx"/> with the desired font characteristics
+        /// in the <see cref="LOGFONT"/> structure, retrieve the appropriate typeface name,
+        /// and create the font using <see cref="CreateFont"/> or <see cref="CreateFontIndirect"/>.
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// The fonts for many East Asian languages have two typeface names: an English name and a localized name.
+        /// <see cref="CreateFont"/> and <see cref="CreateFontIndirect"/> take the localized typeface name only on a system locale that matches the language,
+        /// while they take the English typeface name on all other system locales.
+        /// The best method is to try one name and, on failure, try the other.
+        /// Note that <see cref="EnumFonts"/>, <see cref="EnumFontFamilies"/>, and <see cref="EnumFontFamiliesEx"/> return the English typeface name
+        /// if the system locale does not match the language of the font.
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
+        /// both the English and the localized typeface name, regardless of locale.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", SetLastError = true)]
+        public static extern HFONT CreateFontIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGFONT lplf);
+
+        /// <summary>
+        /// <para>
         /// The EnumFonts function enumerates the fonts available on a specified device.
         /// For each font with the specified typeface name, the <see cref="EnumFonts"/> function retrieves information about that font
         /// and passes it to the application defined callback function.
