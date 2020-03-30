@@ -428,6 +428,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="color">
+        /// The color of the text.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a color reference for the previous text color as a <see cref="COLORREF"/> value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", SetLastError = true)]
+        public static extern COLORREF SetTextColor([In]HDC hdc, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="TextOut"/> function writes a character string at the specified location, using the currently selected font,
         /// background color, and text color.
         /// </para>
