@@ -171,6 +171,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetCharWidth"/> function retrieves the widths, in logical coordinates,
+        /// of consecutive characters in a specified range from the current font.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iFirst">
+        /// The first character in the group of consecutive characters.
+        /// </param>
+        /// <param name="iLast">
+        /// The last character in the group of consecutive characters, which must not precede the specified first character.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the character widths, in logical coordinates.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// GetCharWidth cannot be used on TrueType fonts.
+        /// To retrieve character widths for TrueType fonts, use <see cref="GetCharABCWidths"/>.
+        /// The range is inclusive; that is, the returned widths include the widths of the characters
+        /// specified by the <paramref name="iFirst"/> and <paramref name="iLast"/> parameters.
+        /// If a character does not exist in the current font, it is assigned the width of the default character.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should call the GetCharWidth32 function, which provides more accurate results.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", SetLastError = true)]
+        public static extern BOOL GetCharWidth([In]HDC hdc, [In]UINT iFirst, [In]UINT iLast, [Out]out int lpBuffer);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTabbedTextExtent"/> function computes the width and height of a character string.
         /// If the string contains one or more tab characters, the width of the string is based upon the specified tab stops.
         /// The <see cref="GetTabbedTextExtent"/> function uses the currently selected font to compute the dimensions of the string.
