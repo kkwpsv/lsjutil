@@ -508,6 +508,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="RemoveFontResource"/> function removes the fonts in the specified file from the system font table.
+        /// If the font was added using the <see cref="AddFontResourceEx"/> function, you must use the <see cref="RemoveFontResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourcew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// A pointer to a null-terminated string that names a font resource file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// We recommend that if an app adds or removes fonts from the system font table that it notify other windows of the change
+        /// by sending a <see cref="WM_FONTCHANGE"/> message to all top-level windows in the system.
+        /// The app sends this message by calling the <see cref="SendMessage"/> function with the hwnd parameter set to <see cref="HWND_BROADCAST"/>.
+        /// If there are outstanding references to a font, the associated resource remains loaded until no device context is using it.
+        /// Furthermore, if the font is listed in the font registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts)
+        /// and is installed to any location other than the %windir%\fonts\ folder, it may be loaded into other active sessions (including session 0).
+        /// When you try to replace an existing font file that contains a font with outstanding references to it, you might get an error
+        /// that indicates that the original font can't be deleted because it’s in use even after you call <see cref="RemoveFontResource"/>.
+        /// If your app requires that the font file be replaced, to reduce the resource count of the original font to zero,
+        /// call <see cref="RemoveFontResource"/> in a loop as shown in this example code.
+        /// If you continue to get errors, this is an indication that the font file remains loaded in other sessions.
+        /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", SetLastError = true)]
+        public static extern BOOL RemoveFontResource([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetMapperFlags"/> function alters the algorithm the font mapper uses when it maps logical fonts to physical fonts.
         /// </para>
         /// <para>
