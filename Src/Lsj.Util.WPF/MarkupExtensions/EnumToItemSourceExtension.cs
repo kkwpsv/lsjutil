@@ -33,7 +33,7 @@ namespace Lsj.Util.WPF.MarkupExtensions
         /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return _type.GetFields(BindingFlags.Static).Select(x => new EnumItem
+            return _type.GetFields(BindingFlags.Static | BindingFlags.Public).Select(x => new EnumItem
             {
                 Value = x.GetValue(null),
                 DisplayName = x.GetAttribute<DisplayNameAttribute>()?.DisplayName ?? x.Name,
