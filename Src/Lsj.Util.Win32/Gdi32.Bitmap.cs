@@ -410,5 +410,191 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", SetLastError = true)]
         public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StretchBlt"/> function copies a bitmap from a source rectangle into a destination rectangle,
+        /// stretching or compressing the bitmap to fit the dimensions of the destination rectangle, if necessary.
+        /// The system stretches or compresses the bitmap according to the stretching mode currently set in the destination device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchblt
+        /// </para>
+        /// </summary>
+        /// <param name="hdcDest">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="xDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="wDest">
+        /// The width, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hDest">
+        /// The height, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the source device context.
+        /// </param>
+        /// <param name="xSrc">
+        /// The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="ySrc">
+        /// The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="wSrc">
+        /// The width, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="hSrc">
+        /// The height, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="rop">
+        /// The raster operation to be performed.
+        /// Raster operation codes define how the system combines colors in output operations that involve a brush, a source bitmap, and a destination bitmap.
+        /// See <see cref="BitBlt"/> for a list of common raster operation codes (ROPs).
+        /// Note that the CAPTUREBLT ROP generally cannot be used for printing device contexts.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="StretchBlt"/> stretches or compresses the source bitmap in memory and then copies the result to the destination rectangle.
+        /// This bitmap can be either a compatible bitmap (DDB) or the output from <see cref="CreateDIBSection"/>.
+        /// The color data for pattern or destination pixels is merged after the stretching or compression occurs.
+        /// When an enhanced metafile is being recorded, an error occurs (and the function returns <see cref="FALSE"/>)
+        /// if the source device context identifies an enhanced-metafile device context.
+        /// If the specified raster operation requires a brush, the system uses the brush currently selected into the destination device context.
+        /// The destination coordinates are transformed by using the transformation currently specified for the destination device context;
+        /// the source coordinates are transformed by using the transformation currently specified for the source device context.
+        /// If the source transformation has a rotation or shear, an error occurs.
+        /// If destination, source, and pattern bitmaps do not have the same color format,
+        /// <see cref="StretchBlt"/> converts the source and pattern bitmaps to match the destination bitmap.
+        /// If <see cref="StretchBlt"/> must convert a monochrome bitmap to a color bitmap,
+        /// it sets white bits (1) to the background color and black bits (0) to the foreground color.
+        /// To convert a color bitmap to a monochrome bitmap, it sets pixels that match the background color to white (1) and sets all other pixels to black (0).
+        /// The foreground and background colors of the device context with color are used.
+        /// <see cref="StretchBlt"/> creates a mirror image of a bitmap if the signs of the <paramref name="wSrc"/> and <paramref name="wDest"/> parameters 
+        /// or if the <paramref name="hSrc"/> and <paramref name="hDest"/> parameters differ.
+        /// If <paramref name="wSrc"/> and <paramref name="wDest"/> have different signs, the function creates a mirror image of the bitmap along the x-axis.
+        /// If <paramref name="hSrc"/> and <paramref name="hDest"/> have different signs, the function creates a mirror image of the bitmap along the y-axis.
+        /// Not all devices support the <see cref="StretchBlt"/> function.
+        /// For more information, see the <see cref="GetDeviceCaps"/>.
+        /// ICM: No color management is performed when a blit operation occurs.
+        /// When used in a multiple monitor system, both <paramref name="hdcSrc"/> and <paramref name="hdcDest"/> must refer to the same device
+        /// or the function will fail.
+        /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
+        /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", SetLastError = true)]
+        public static extern BOOL StretchBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int wDest, [In]int hDest, [In]HDC hdcSrc,
+            [In]int xSrc, [In]int ySrc, [In]int wSrc, [In]int hSrc, [In]RasterCodes rop);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StretchDIBits"/> function copies the color data for a rectangle of pixels in a DIB, JPEG, or PNG image
+        /// to the specified destination rectangle.
+        /// If the destination rectangle is larger than the source rectangle, this function stretches the rows and columns of color data
+        /// to fit the destination rectangle.
+        /// If the destination rectangle is smaller than the source rectangle, this function compresses the rows and columns
+        /// by using the specified raster operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchdibits
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="xDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="DestWidth">
+        /// The width, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="DestHeight">
+        /// The height, in logical units, of the destination rectangle.
+        /// </param>
+        /// <param name="xSrc">
+        /// The x-coordinate, in pixels, of the source rectangle in the image.
+        /// </param>
+        /// <param name="ySrc">
+        /// The y-coordinate, in pixels, of the source rectangle in the image.
+        /// </param>
+        /// <param name="SrcWidth">
+        /// The width, in pixels, of the source rectangle in the image.
+        /// </param>
+        /// <param name="SrcHeight">
+        /// The height, in pixels, of the source rectangle in the image.
+        /// </param>
+        /// <param name="lpBits">
+        /// A pointer to the image bits, which are stored as an array of bytes.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that contains information about the DIB.
+        /// </param>
+        /// <param name="iUsage">
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was provided and,
+        /// if so, whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or indexes.
+        /// The <see cref="iUsage"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The array contains 16-bit indexes into the logical palette of the source device context.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The color table contains literal RGB values.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="rop">
+        /// A raster-operation code that specifies how the source pixels, the destination device context's current brush,
+        /// and the destination pixels are to be combined to form the new image.
+        /// For a list of some common raster operation codes, see <see cref="BitBlt"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of scan lines copied.
+        /// Note that this value can be negative for mirrored content.
+        /// If the function fails, or no scan lines are copied, the return value is 0.
+        /// If the driver cannot support the JPEG or PNG file image passed to <see cref="StretchDIBits"/>,
+        /// the function will fail and return <see cref="GDI_ERROR"/>.
+        /// If failure does occur, the application must fall back on its own JPEG or PNG support to decompress the image into a bitmap,
+        /// and then pass the bitmap to <see cref="StretchDIBits"/>.
+        /// </returns>
+        /// <remarks>
+        /// The origin of a bottom-up DIB is the lower-left corner; the origin of a top-down DIB is the upper-left corner.
+        /// <see cref="StretchDIBits"/> creates a mirror image of a bitmap if the signs of the <paramref name="SrcWidth"/>
+        /// and <paramref name="DestWidth"/> parameters, or if the <paramref name="SrcHeight"/> and <paramref name="DestHeight"/> parameters differ.
+        /// If <paramref name="SrcWidth"/> and <paramref name="DestWidth"/> have different signs,
+        /// the function creates a mirror image of the bitmap along the x-axis.
+        /// If <paramref name="SrcHeight"/> and <paramref name="DestHeight"/> have different signs,
+        /// the function creates a mirror image of the bitmap along the y-axis.
+        /// <see cref="StretchDIBits"/> creates a top-down image if the sign of the <see cref="BITMAPINFOHEADER.biHeight"/> member
+        /// of the <see cref="BITMAPINFOHEADER"/> structure for the DIB is negative.
+        /// For a code example, see Sizing a JPEG or PNG Image.
+        /// This function allows a JPEG or PNG image to be passed as the source image.
+        /// How each parameter is used remains the same, except:
+        /// If the <see cref="BITMAPINFOHEADER.biCompression"/> member of <see cref="BITMAPINFOHEADER"/> is BI_JPEG or BI_PNG,
+        /// <paramref name="lpBits"/> points to a buffer containing a JPEG or PNG image, respectively.
+        /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of the <see cref="BITMAPINFOHEADER"/> structure specifies the size of the buffer.
+        /// The <paramref name="iUsage"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
+        /// The <paramref name="rop"/> parameter must be set to <see cref="SRCCOPY"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
+        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="StretchDIBits"/>.
+        /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
+        /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
+        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
+        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
+        /// rather than in the device context's source color space.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", SetLastError = true)]
+        public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
+            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi,
+            [In]UINT iUsage,[In]RasterCodes rop);
     }
 }
