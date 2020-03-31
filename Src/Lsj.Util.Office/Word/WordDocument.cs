@@ -13,10 +13,10 @@ namespace Lsj.Util.Office.Word
     /// <summary>
     /// Word Documnet
     /// </summary>
-    public class WordDocument : DisposableClass, IDisposable
+    public class WordDocument : DisposableClass
     {
-        Application app;
-        Document doc;
+        Application _app;
+        Document _doc;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Office.Word.WordDocument"/> class
@@ -24,6 +24,7 @@ namespace Lsj.Util.Office.Word
         public WordDocument() : this(new Application())
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Lsj.Util.Office.Word.WordDocument"/> class
         /// </summary>
@@ -31,34 +32,38 @@ namespace Lsj.Util.Office.Word
         public WordDocument(string filename) : this(new Application(), filename)
         {
         }
+
         private WordDocument(Application app) : this(app, app.Documents.Add())
         {
 
         }
+
         private WordDocument(Application app, string filename) : this(app, app.Documents.Open(filename))
         {
         }
+
         private WordDocument(Application app, Document doc)
         {
-            this.app = app;
-            this.doc = doc;
-            this.app.Visible = true;
-            this.Sections = new Sections(doc);
-            this.TablesOfContents = new TablesOfContents(doc);
-            this.Tables = new Tables(doc);
-            this.Charts = new Charts(doc);
+            _app = app;
+            _doc = doc;
+            _app.Visible = true;
+            Sections = new Sections(doc);
+            TablesOfContents = new TablesOfContents(doc);
+            Tables = new Tables(doc);
+            Charts = new Charts(doc);
         }
+
         /// <summary>
         /// CleanUp Unmanaged Resources()
         /// </summary>
         protected override void CleanUpUnmanagedResources()
         {
-            doc.Close(false);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
-            doc = null;
-            app.Quit(false);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(app);
-            app = null;
+            _doc.Close(false);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(_doc);
+            _doc = null;
+            _app.Quit(false);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(_app);
+            _app = null;
             base.CleanUpUnmanagedResources();
         }
 
@@ -69,6 +74,7 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
+
         /// <summary>
         /// TablesOfContents
         /// </summary>
@@ -76,6 +82,7 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
+
         /// <summary>
         /// Tables
         /// </summary>
@@ -83,6 +90,7 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
+
         /// <summary>
         /// Charts
         /// </summary>
@@ -90,14 +98,16 @@ namespace Lsj.Util.Office.Word
         {
             get;
         }
+
         /// <summary>
         /// SetVisible
         /// </summary>
         /// <param name="isVisible"></param>
         public void SetVisible(bool isVisible)
         {
-            app.Visible = isVisible;
+            _app.Visible = isVisible;
         }
+
         /// <summary>
         /// Set Spell Check
         /// </summary>
@@ -106,23 +116,25 @@ namespace Lsj.Util.Office.Word
         {
             if (!isOpen)
             {
-                doc.SpellingChecked = false;
-                doc.ShowSpellingErrors = false;
+                _doc.SpellingChecked = false;
+                _doc.ShowSpellingErrors = false;
             }
             else
             {
-                doc.SpellingChecked = true;
-                doc.ShowSpellingErrors = true;
+                _doc.SpellingChecked = true;
+                _doc.ShowSpellingErrors = true;
             }
         }
+
         /// <summary>
         /// Set Doc Paper
         /// </summary>
         /// <param name="size"></param>
         public void SetDocPaper(PaperSize size)
         {
-            doc.PageSetup.PaperSize = (WdPaperSize)size;
+            _doc.PageSetup.PaperSize = (WdPaperSize)size;
         }
+
         /// <summary>
         /// Set Doc Margin
         /// </summary>
@@ -134,24 +146,22 @@ namespace Lsj.Util.Office.Word
         {
             if (left != null)
             {
-                doc.PageSetup.LeftMargin = left.Value;
+                _doc.PageSetup.LeftMargin = left.Value;
             }
             if (right != null)
             {
-                doc.PageSetup.RightMargin = right.Value;
+                _doc.PageSetup.RightMargin = right.Value;
             }
             if (top != null)
             {
-                doc.PageSetup.TopMargin = top.Value;
+                _doc.PageSetup.TopMargin = top.Value;
             }
             if (bottom != null)
             {
-                doc.PageSetup.BottomMargin = bottom.Value;
+                _doc.PageSetup.BottomMargin = bottom.Value;
             }
 
         }
-
-
 
         /// <summary>
         /// Save as
@@ -159,14 +169,15 @@ namespace Lsj.Util.Office.Word
         /// <param name="filename"></param>
         public void SaveAs(string filename)
         {
-            doc.SaveAs2(filename);
+            _doc.SaveAs2(filename);
         }
+
         /// <summary>
         /// Close
         /// </summary>
         public void Close()
         {
-            doc.Close(true);
+            _doc.Close(true);
         }
 
         /// <summary>
@@ -174,8 +185,9 @@ namespace Lsj.Util.Office.Word
         /// </summary>
         public void AddPageNumberAtFooterForFirstSection()
         {
-            this.Sections[0].AddPageNumberAtFooter();
+            Sections[0].AddPageNumberAtFooter();
         }
+
         /// <summary>
         /// Add Table
         /// </summary>
@@ -184,12 +196,13 @@ namespace Lsj.Util.Office.Word
         /// <returns></returns>
         public Table AddTable(int rows, int columns)
         {
-            app.Options.ReplaceSelection = false;
+            _app.Options.ReplaceSelection = false;
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.InsertBreak(WdBreakType.wdLineBreak);
             return new Table(selection.Tables.Add(selection.Range, rows, columns));
         }
+
         /// <summary>
         /// Add Chart
         /// </summary>
@@ -198,9 +211,9 @@ namespace Lsj.Util.Office.Word
         /// <returns></returns>
         public Chart AddChart(ChartType type, bool isInline = true)
         {
-            app.Options.ReplaceSelection = false;
+            _app.Options.ReplaceSelection = false;
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             Microsoft.Office.Interop.Word.Chart chart;
             if (isInline)
             {
@@ -208,11 +221,12 @@ namespace Lsj.Util.Office.Word
             }
             else
             {
-                chart = doc.Shapes.AddChart2(Type: (XlChartType)type).Chart;
+                chart = _doc.Shapes.AddChart2(Type: (XlChartType)type).Chart;
             }
 
             return new Chart(chart);
         }
+
         /// <summary>
         /// Append BlankLine
         /// </summary>
@@ -221,53 +235,58 @@ namespace Lsj.Util.Office.Word
         {
             for (int i = 0; i < count; i++)
             {
-                this.AppendLine();
+                AppendLine();
             }
         }
+
         /// <summary>
         /// Append Line
         /// </summary>
         /// <param name="str"></param>
         public void AppendLine(string str = null) => Append(str + "\n");
+
         /// <summary>
         /// Append
         /// </summary>
         /// <param name="str"></param>
         public void Append(string str)
         {
-            app.Options.ReplaceSelection = false;
+            _app.Options.ReplaceSelection = false;
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.TypeText(str);
         }
+
         /// <summary>
         /// Append Page
         /// </summary>
         public void AppendPage()
         {
-            app.Options.ReplaceSelection = false;
+            _app.Options.ReplaceSelection = false;
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.InsertBreak(WdBreakType.wdPageBreak);
         }
+
         /// <summary>
         /// Append Section
         /// </summary>
         public void AppendSection()
         {
-            app.Options.ReplaceSelection = false;
+            _app.Options.ReplaceSelection = false;
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
         }
+
         /// <summary>
         /// Append TableOfContents
         /// </summary>
         public void AppendTableOfContents()
         {
             GoToEnd();
-            var selection = app.Selection;
-            doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
+            var selection = _app.Selection;
+            _doc.Fields.Add(selection.Range, WdFieldType.wdFieldTOC, @"", true);
         }
 
         /// <summary>
@@ -289,6 +308,7 @@ namespace Lsj.Util.Office.Word
             GoToEnd();
             SetSelectionStyle(size, fontName, alignment, fontColor, backgroundColor, foregroundColor, bold, italic, underline, style, firstLineIndentCharacter);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -305,7 +325,7 @@ namespace Lsj.Util.Office.Word
         /// <param name="firstLineIndentCharacter"></param>
         public void SetSelectionStyle(int? size = null, string fontName = null, ParagraphAlignment? alignment = null, Color? fontcolor = null, Color? backgroundColor = null, Color? foregroundColor = null, bool? bold = null, bool? italic = null, Underline? underline = null, BuiltinStyle? style = null, float? firstLineIndentCharacter = null)
         {
-            var selection = app.Selection;
+            var selection = _app.Selection;
             if (style != null)
             {
                 selection.set_Style(style);
@@ -366,38 +386,42 @@ namespace Lsj.Util.Office.Word
             }
 
         }
+
         /// <summary>
         /// CopyAllContent
         /// </summary>
         public void CopyAllContent()
         {
-            doc.Content.Copy();
+            _doc.Content.Copy();
         }
+
         /// <summary>
         /// 
         /// </summary>
         public void Paste()
         {
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.Paste();
         }
+
         /// <summary>
         /// Paste With Original Format
         /// </summary>
         public void PasteWithOriginalFormat()
         {
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.PasteAndFormat(WdRecoveryType.wdFormatOriginalFormatting);
         }
+
         /// <summary>
         /// Paste With Style
         /// </summary>
         public void PasteWithStyle()
         {
             GoToEnd();
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.PasteAndFormat(WdRecoveryType.wdUseDestinationStylesRecovery);
         }
 
@@ -412,29 +436,26 @@ namespace Lsj.Util.Office.Word
             }
         }
 
-
-
-
-
-
         /// <summary>
         /// Inches To Points
         /// </summary>
         /// <param name="inch"></param>
         /// <returns></returns>
-        public float InchesToPoints(double inch) => app.InchesToPoints((float)inch);
+        public float InchesToPoints(double inch) => _app.InchesToPoints((float)inch);
+
         /// <summary>
         /// Millimeters To Points
         /// </summary>
         /// <param name="mm"></param>
         /// <returns></returns>
-        public float MillimetersToPoints(double mm) => app.MillimetersToPoints((float)mm);
+        public float MillimetersToPoints(double mm) => _app.MillimetersToPoints((float)mm);
+
         /// <summary>
         /// Go To End
         /// </summary>
         public void GoToEnd()
         {
-            var selection = app.Selection;
+            var selection = _app.Selection;
             selection.GoTo(WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToLast);
             while (selection.MoveRight(WdUnits.wdCharacter) == 1) ;
         }
