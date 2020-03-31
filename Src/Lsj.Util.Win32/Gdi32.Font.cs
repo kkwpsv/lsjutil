@@ -823,6 +823,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetRasterizerCaps"/> function returns flags indicating whether TrueType fonts are installed in the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrasterizercaps
+        /// </para>
+        /// </summary>
+        /// <param name="lpraststat">
+        /// A pointer to a <see cref="RASTERIZER_STATUS"/> structure that receives information about the rasterizer.
+        /// </param>
+        /// <param name="cjBytes">
+        /// The number of bytes to be copied into the structure pointed to by the <paramref name="lpraststat"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The GetRasterizerCaps function enables applications and printer drivers to determine whether TrueType fonts are installed.
+        /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member of the <see cref="RASTERIZER_STATUS"/> structure,
+        /// at least one TrueType font is installed.
+        /// If the <see cref="TT_ENABLED"/> flag is set, TrueType is enabled for the system.
+        /// The actual number of bytes copied is either the member specified in the <see cref="RASTERIZER_STATUS.cb"/> parameter
+        /// or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRasterizerCaps", SetLastError = true)]
+        public static extern BOOL GetRasterizerCaps([Out]out RASTERIZER_STATUS lpraststat, [In]UINT cjBytes);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTextFace"/> function retrieves the typeface name of the font that is selected into the specified device context.
         /// </para>
         /// <para>
