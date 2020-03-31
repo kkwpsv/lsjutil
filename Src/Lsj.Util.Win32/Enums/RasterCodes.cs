@@ -3,103 +3,93 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <para>
     /// Raster Codes
-    /// </para>
-    /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-bitblt
-    /// </para>
     /// </summary>
     [Flags]
     public enum RasterCodes : uint
     {
         /// <summary>
-        /// Fills the destination rectangle using the color associated with index 0 in the physical palette.
-        /// (This color is black for the default physical palette.)
+        /// BLACKNESS
         /// </summary>
         BLACKNESS = 0x00000042,
 
         /// <summary>
-        /// Includes any windows that are layered on top of your window in the resulting image.
-        /// By default, the image only contains your window.
-        /// Note that this generally cannot be used for printing device contexts.
+        /// CAPTUREBLT
         /// </summary>
         CAPTUREBLT = 0x40000000,
 
         /// <summary>
-        /// Inverts the destination rectangle.
+        /// DSTINVERT
         /// </summary>
         DSTINVERT = 0x00550009,
 
         /// <summary>
-        /// Merges the colors of the source rectangle with the brush currently selected in hdcDest, by using the Boolean AND operator.
+        /// MERGECOPY
         /// </summary>
         MERGECOPY = 0x00C000CA,
 
         /// <summary>
-        /// Merges the colors of the inverted source rectangle with the colors of the destination rectangle by using the Boolean OR operator.
+        /// MERGEPAINT
         /// </summary>
         MERGEPAINT = 0x00BB0226,
 
         /// <summary>
-        /// Prevents the bitmap from being mirrored.
+        ///  NOMIRRORBITMAP
         /// </summary>
         NOMIRRORBITMAP = 0x80000000,
 
         /// <summary>
-        /// Copies the inverted source rectangle to the destination.
+        /// NOTSRCCOPY
         /// </summary>
         NOTSRCCOPY = 0x00330008,
 
         /// <summary>
-        /// Combines the colors of the source and destination rectangles by using the Boolean OR operator and then inverts the resultant color.
+        /// NOTSRCERASE
         /// </summary>
         NOTSRCERASE = 0x001100A6,
 
         /// <summary>
-        /// Copies the brush currently selected in hdcDest, into the destination bitmap.
+        /// PATCOPY
         /// </summary>
         PATCOPY = 0x00F00021,
 
         /// <summary>
-        /// Combines the colors of the brush currently selected in hdcDest, with the colors of the destination rectangle by using the Boolean XOR operator.
+        /// PATINVERT
         /// </summary>
         PATINVERT = 0x005A0049,
 
         /// <summary>
-        /// Combines the colors of the brush currently selected in hdcDest, with the colors of the inverted source rectangle by using the Boolean OR operator.
-        /// The result of this operation is combined with the colors of the destination rectangle by using the Boolean OR operator.
+        /// PATPAINT
         /// </summary>
         PATPAINT = 0x00FB0A09,
 
         /// <summary>
-        /// Combines the colors of the source and destination rectangles by using the Boolean AND operator.
+        /// SRCAND
         /// </summary>
         SRCAND = 0x008800C6,
 
         /// <summary>
-        /// Copies the source rectangle directly to the destination rectangle.
+        /// SRCCOPY
         /// </summary>
         SRCCOPY = 0x00CC0020,
 
         /// <summary>
-        /// Combines the inverted colors of the destination rectangle with the colors of the source rectangle by using the Boolean AND operator.
+        /// SRCERASE
         /// </summary>
         SRCERASE = 0x00440328,
 
         /// <summary>
-        /// Combines the colors of the source and destination rectangles by using the Boolean XOR operator.
+        /// SRCINVERT
         /// </summary>
         SRCINVERT = 0x00660046,
 
         /// <summary>
-        /// Combines the colors of the source and destination rectangles by using the Boolean OR operator.
+        /// SRCPAINT
         /// </summary>
         SRCPAINT = 0x00EE0086,
 
         /// <summary>
-        /// Fills the destination rectangle using the color associated with index 1 in the physical palette.
-        /// (This color is white for the default physical palette.)
+        /// WHITENESS
         /// </summary>
         WHITENESS = 0x00FF0062,
     }

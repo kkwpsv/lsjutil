@@ -48,10 +48,47 @@ namespace Lsj.Util.Win32
         /// These codes define how the color data for the source rectangle is to be combined with the color data
         /// for the destination rectangle to achieve the final color.
         /// The following list shows some common raster operation codes.
-        /// <see cref="BLACKNESS"/>, <see cref="CAPTUREBLT"/>, <see cref="DSTINVERT"/>, <see cref="MERGECOPY"/>, <see cref="MERGEPAINT"/>,
-        /// <see cref="NOMIRRORBITMAP"/>, <see cref="NOTSRCCOPY"/>, <see cref="NOTSRCERASE"/>, <see cref="PATCOPY"/>, <see cref="PATINVERT"/>,
-        /// <see cref="PATPAINT"/>, <see cref="SRCAND"/>, <see cref="SRCCOPY"/>, <see cref="SRCERASE"/>, <see cref="SRCINVERT"/>,
-        /// <see cref="SRCPAINT"/>, <see cref="WHITENESS"/>
+        /// <see cref="BLACKNESS"/>:
+        /// Fills the destination rectangle using the color associated with index 0 in the physical palette.
+        /// (This color is black for the default physical palette.)
+        /// <see cref="CAPTUREBLT"/>:
+        /// Includes any windows that are layered on top of your window in the resulting image.
+        /// By default, the image only contains your window.
+        /// Note that this generally cannot be used for printing device contexts.
+        /// <see cref="DSTINVERT"/>:
+        /// Inverts the destination rectangle.
+        /// <see cref="MERGECOPY"/>:
+        /// Merges the colors of the source rectangle with the brush currently selected in <paramref name="hdc"/>, by using the Boolean AND operator.
+        /// <see cref="MERGEPAINT"/>:
+        /// Merges the colors of the inverted source rectangle with the colors of the destination rectangle by using the Boolean OR operator.
+        /// <see cref="NOMIRRORBITMAP"/>:
+        /// Prevents the bitmap from being mirrored.
+        /// <see cref="NOTSRCCOPY"/>:
+        /// Copies the inverted source rectangle to the destination.
+        /// <see cref="NOTSRCERASE"/>:
+        /// Combines the colors of the source and destination rectangles by using the Boolean OR operator and then inverts the resultant color.
+        /// <see cref="PATCOPY"/>:
+        /// Copies the brush currently selected in <paramref name="hdc"/>, into the destination bitmap.
+        /// <see cref="PATINVERT"/>:
+        /// Combines the colors of the brush currently selected in <paramref name="hdc"/>, with the colors of the destination rectangle
+        /// by using the Boolean XOR operator.
+        /// <see cref="PATPAINT"/>:
+        /// Combines the colors of the brush currently selected in <paramref name="hdc"/>, with the colors of the inverted source rectangle
+        /// by using the Boolean OR operator.
+        /// The result of this operation is combined with the colors of the destination rectangle by using the Boolean OR operator.
+        /// <see cref="SRCAND"/>:
+        /// Combines the colors of the source and destination rectangles by using the Boolean AND operator.
+        /// <see cref="SRCCOPY"/>:
+        /// Copies the source rectangle directly to the destination rectangle.
+        /// <see cref="SRCERASE"/>:
+        ///  Combines the inverted colors of the destination rectangle with the colors of the source rectangle by using the Boolean AND operator.
+        /// <see cref="SRCINVERT"/>:
+        /// Combines the colors of the source and destination rectangles by using the Boolean XOR operator.
+        /// <see cref="SRCPAINT"/>:
+        /// Combines the colors of the source and destination rectangles by using the Boolean OR operator.
+        /// <see cref="WHITENESS"/>:
+        /// Fills the destination rectangle using the color associated with index 1 in the physical palette.
+        /// (This color is white for the default physical palette.)
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
