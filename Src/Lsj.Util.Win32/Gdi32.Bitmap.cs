@@ -321,5 +321,57 @@ namespace Lsj.Util.Win32
             "It may be altered or unavailable in subsequent versions. Instead, use LoadImage and DrawFrameControl.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", SetLastError = true)]
         public static extern HBITMAP LoadBitmap([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PatBlt"/> function paints the specified rectangle using the brush that is currently selected into the specified device context.
+        /// The brush color and the surface color or colors are combined by using the specified raster operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-patblt
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the upper-left corner of the rectangle to be filled.
+        /// </param>
+        /// <param name="w">
+        /// The width, in logical units, of the rectangle.
+        /// </param>
+        /// <param name="h">
+        /// The height, in logical units, of the rectangle.
+        /// </param>
+        /// <param name="rop">
+        /// The raster operation code. This code can be one of the following values.
+        /// <see cref="PATCOPY"/>:
+        /// Copies the specified pattern into the destination bitmap.
+        /// <see cref="PATINVERT"/>:
+        /// Combines the colors of the specified pattern with the colors of the destination rectangle by using the Boolean XOR operator.
+        /// <see cref="DSTINVERT"/>:
+        /// Inverts the destination rectangle.
+        /// <see cref="BLACKNESS"/>:
+        /// Fills the destination rectangle using the color associated with index 0 in the physical palette.
+        /// (This color is black for the default physical palette.)
+        /// <see cref="WHITENESS"/>:
+        /// Fills the destination rectangle using the color associated with index 1 in the physical palette.
+        /// (This color is white for the default physical palette.)
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The values of the <paramref name="rop"/> parameter for this function are a limited subset of the full 256 ternary raster-operation codes;
+        /// in particular, an operation code that refers to a source rectangle cannot be used.
+        /// Not all devices support the <see cref="PatBlt"/> function.
+        /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", SetLastError = true)]
+        public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
     }
 }
