@@ -3,6 +3,8 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -254,7 +256,7 @@ namespace Lsj.Util.Win32
         /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", SetLastError = true)]
-        public static extern uint GetSysColor([In]SystemColors nIndex);
+        public static extern DWORD GetSysColor([In]SystemColors nIndex);
 
         /// <summary>
         /// <para>
@@ -313,28 +315,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
-        /// that has the largest area of intersection with the bounding rectangle of a specified window.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
-        /// </para>
-        /// </summary>
-        /// <param name="hwnd">A handle to the window of interest.</param>
-        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
-        /// <returns>
-        /// If the window intersects one or more display monitor rectangles,
-        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
-        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
-        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="GetUserObjectSecurity"/> function retrieves security information for the specified user object.
         /// </para>
         /// <para>
@@ -380,6 +360,154 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a character is an alphabetical character.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphaw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is alphabetical, the return value is <see langword="true"/>.
+        /// If the character is not alphabetical, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", SetLastError = true)]
+        public static extern BOOL IsCharAlpha([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a character is either an alphabetical or a numeric character.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphanumericw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is alphanumeric, the return value is <see langword="true"/>.
+        /// If the character is not alphanumeric, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", SetLastError = true)]
+        public static extern BOOL IsCharAlphaNumeric([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a character is lowercase.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarlowerw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is lowercase, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the character is not lowercase, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", SetLastError = true)]
+        public static extern BOOL IsCharLower([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a character is uppercase.
+        /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarupperw
+        /// </para>
+        /// </summary>
+        /// <param name="ch">
+        /// The character to be tested.
+        /// </param>
+        /// <returns>
+        /// If the character is uppercase, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the character is not uppercase, the return value is <see cref="BOOL.FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", SetLastError = true)]
+        public static extern BOOL IsCharUpper([In]WCHAR ch);
+
+        /// <summary>
+        /// <para>
+        /// Loads a string resource from the executable file associated with a specified module and either copies the string
+        /// into a buffer with a terminating null character or returns a read-only pointer to the string resource itself.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadstringw
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to an instance of the module whose executable file contains the string resource.
+        /// To get the handle to the application itself, call the <see cref="GetModuleHandle"/> function with <see cref="NULL"/>.
+        /// </param>
+        /// <param name="uID">
+        /// The identifier of the string to be loaded.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The buffer to receive the string (if <paramref name="cchBufferMax"/> is non-zero) or
+        /// a read-only pointer to the string resource itself (if <paramref name="cchBufferMax"/> is zero).
+        /// Must be of sufficient length to hold a pointer (8 bytes).
+        /// </param>
+        /// <param name="cchBufferMax">
+        /// The size of the buffer, in characters.
+        /// The string is truncated and null-terminated if it is longer than the number of characters specified.
+        /// If this parameter is 0, then <paramref name="lpBuffer"/> receives a read-only pointer to the string resource itself.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is one of the following:
+        /// The number of characters copied into the buffer (if <paramref name="cchBufferMax"/> is non-zero), not including the terminating null character.
+        /// The number of characters in the string resource that lpBuffer points to (if <paramref name="cchBufferMax"/> is zero).
+        /// The string resource is not guaranteed to be null-terminated in the module's resource table,
+        /// and you can use this value to determine where the string resource ends.
+        /// Zero if the string resource does not exist.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you pass 0 to <paramref name="cchBufferMax"/> to return a read-only pointer to the string resource in the <paramref name="lpBuffer"/> parameter,
+        /// use the number of characters in the return value to determine the length of the string resource.
+        /// String resources are not guaranteed to be null-terminated in the module's resource table.
+        /// However, resource tables can contain null characters.
+        /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", SetLastError = true)]
+        public static extern int LoadString([In]HINSTANCE hInstance, [In]UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
+            [In]int cchBufferMax);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
+        /// that has the largest area of intersection with the bounding rectangle of a specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">A handle to the window of interest.</param>
+        /// <param name="dwFlags">Determines the function's return value if the window does not intersect any display monitor.</param>
+        /// <returns>
+        /// If the window intersects one or more display monitor rectangles,
+        /// the return value is an HMONITOR handle to the display monitor that has the largest area of intersection with the window.
+        /// If the window does not intersect a display monitor, the return value depends on the value of <paramref name="dwFlags"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
+        public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Registers the application to receive power setting notifications for the specific power setting event.
         /// </para>
         /// <para>
@@ -410,5 +538,42 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
         public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient,
             [MarshalAs(UnmanagedType.LPStruct)][In]Guid PowerSettingGuid, [In]RegisterPowerSettingNotificationFlags Flags);
+
+        /// <summary>
+        /// <para>
+        /// Sets the colors for the specified display elements.
+        /// Display elements are the various parts of a window and the display that appear on the system display screen.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setsyscolors
+        /// </para>
+        /// </summary>
+        /// <param name="cElements">
+        /// The number of display elements in the <paramref name="lpaElements"/> array.
+        /// </param>
+        /// <param name="lpaElements">
+        /// An array of integers that specify the display elements to be changed.
+        /// For a list of display elements, see <see cref="GetSysColor"/>.
+        /// </param>
+        /// <param name="lpaRgbValues">
+        /// An array of <see cref="COLORREF"/> values that contain the new red, green, blue (RGB) color values for the display elements in the array
+        /// pointed to by the <paramref name="lpaElements"/> parameter.
+        /// To generate a <see cref="COLORREF"/>, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="TRUE"/> value.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetSysColors"/> function sends a <see cref="WM_SYSCOLORCHANGE"/> message to all windows to inform them of the change in color.
+        /// It also directs the system to repaint the affected portions of all currently visible windows.
+        /// It is best to respect the color settings specified by the user.
+        /// If you are writing an application to enable the user to change the colors, then it is appropriate to use this function.
+        /// However, this function affects only the current session. The new colors are not saved when the system terminates.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", SetLastError = true)]
+        public static extern BOOL SetSysColors([In]int cElements, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpaElements,
+            [MarshalAs(UnmanagedType.LPArray)][In]COLORREF[] lpaRgbValues);
     }
 }
