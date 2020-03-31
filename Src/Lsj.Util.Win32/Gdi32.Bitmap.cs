@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -57,5 +58,43 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
         public static extern HBITMAP CreateBitmap([In]int nWidth, [In]int nHeight, [In]UINT nPlanes, [In]UINT nBitCount, [In]IntPtr lpBits);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateBitmapIndirect"/> function creates a bitmap with the specified width, height, and color format (color planes and bits-per-pixel).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbitmapindirect
+        /// </para>
+        /// </summary>
+        /// <param name="pbm">
+        /// A pointer to a <see cref="BITMAP"/> structure that contains information about the bitmap.
+        /// If an application sets the <see cref="bmWidth"/> or <see cref="bmHeight"/> members to zero,
+        /// <see cref="CreateBitmapIndirect"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the bitmap.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// This function can return the following values.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// <see cref="ERROR_NOT_ENOUGH_MEMORY"/>: The bitmap is too big for memory to be allocated.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateBitmapIndirect"/> function creates a device-dependent bitmap.
+        /// After a bitmap is created, it can be selected into a device context by calling the <see cref="SelectObject"/> function.
+        /// However, the bitmap can only be selected into a device context if the bitmap and the DC have the same format.
+        /// While the <see cref="CreateBitmapIndirect"/> function can be used to create color bitmaps,
+        /// for performance reasons applications should use <see cref="CreateBitmapIndirect"/> to create monochrome bitmaps
+        /// and <see cref="CreateCompatibleBitmap"/> to create color bitmaps.
+        /// Whenever a color bitmap from <see cref="CreateBitmapIndirect"/> is selected into a device context,
+        /// the system must ensure that the bitmap matches the format of the device context it is being selected into.
+        /// Because <see cref="CreateCompatibleBitmap"/> takes a device context, it returns a bitmap that has the same format as the specified device context.
+        /// Thus, subsequent calls to <see cref="SelectObject"/> are faster with a color bitmap
+        /// from <see cref="CreateCompatibleBitmap"/> than with a color bitmap returned from <see cref="CreateBitmapIndirect"/>.
+        /// If the bitmap is monochrome, zeros represent the foreground color and ones represent the background color for the destination device context.
+        /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", SetLastError = true)]
+        public static extern HBITMAP CreateBitmapIndirect([MarshalAs(UnmanagedType.LPStruct)][In]BITMAP pbm);
     }
 }
