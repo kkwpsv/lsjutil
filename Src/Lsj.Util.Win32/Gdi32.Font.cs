@@ -596,6 +596,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetCharABCWidths"/> function retrieves the widths, in logical units, of consecutive characters in a specified range
+        /// from the current TrueType font.
+        /// This function succeeds only with TrueType fonts.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharabcwidthsw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="wFirst">
+        /// The first character in the group of consecutive characters from the current font.
+        /// </param>
+        /// <param name="wLast">
+        /// The last character in the group of consecutive characters from the current font.
+        /// </param>
+        /// <param name="lpABC">
+        /// A pointer to an array of <see cref="ABC"/> structures that receives the character widths, in logical units.
+        /// This array must contain at least as many <see cref="ABC"/> structures as there are characters in the range
+        /// specified by the <paramref name="wFirst"/> and <paramref name="wLast"/> parameters.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The TrueType rasterizer provides ABC character spacing after a specific point size has been selected.
+        /// A spacing is the distance added to the current position before placing the glyph.
+        /// B spacing is the width of the black part of the glyph.
+        /// C spacing is the distance added to the current position to provide white space to the right of the glyph.
+        /// The total advanced width is specified by A+B+C.
+        /// When the <see cref="GetCharABCWidths"/> function retrieves negative A or C widths for a character, that character includes underhangs or overhangs.
+        /// To convert the ABC widths to font design units, an application should use the value stored
+        /// in the <see cref="OUTLINETEXTMETRIC.otmEMSquare"/> member of a <see cref="OUTLINETEXTMETRIC"/> structure.
+        /// This value can be retrieved by calling the <see cref="GetOutlineTextMetrics"/> function.
+        /// The ABC widths of the default character are used for characters outside the range of the currently selected font.
+        /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsW", SetLastError = true)]
+        public static extern BOOL  ([In]HDC hdc, [In]UINT wFirst, [In]UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetFontData"/> function retrieves font metric data for a TrueType font.
         /// </para>
         /// </summary>
