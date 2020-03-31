@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,73 @@ namespace Lsj.Util.Win32
 {
     public partial class Gdi32
     {
+        /// <summary>
+        /// <para>
+        /// The <see cref="BitBlt"/> function performs a bit-block transfer of the color data corresponding to a rectangle of pixels
+        /// from the specified source device context into a destination device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-bitblt
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="cx">
+        /// The width, in logical units, of the source and destination rectangles.
+        /// </param>
+        /// <param name="cy">
+        /// The height, in logical units, of the source and the destination rectangles.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the source device context.
+        /// </param>
+        /// <param name="x1">
+        /// The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="y1">
+        /// The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="rop">
+        /// A raster-operation code.
+        /// These codes define how the color data for the source rectangle is to be combined with the color data
+        /// for the destination rectangle to achieve the final color.
+        /// The following list shows some common raster operation codes.
+        /// <see cref="BLACKNESS"/>, <see cref="CAPTUREBLT"/>, <see cref="DSTINVERT"/>, <see cref="MERGECOPY"/>, <see cref="MERGEPAINT"/>,
+        /// <see cref="NOMIRRORBITMAP"/>, <see cref="NOTSRCCOPY"/>, <see cref="NOTSRCERASE"/>, <see cref="PATCOPY"/>, <see cref="PATINVERT"/>,
+        /// <see cref="PATPAINT"/>, <see cref="SRCAND"/>, <see cref="SRCCOPY"/>, <see cref="SRCERASE"/>, <see cref="SRCINVERT"/>,
+        /// <see cref="SRCPAINT"/>, <see cref="WHITENESS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// BitBlt only does clipping on the destination DC.
+        /// If a rotation or shear transformation is in effect in the source device context, <see cref="BitBlt"/> returns an error.
+        /// If other transformations exist in the source device context (and a matching transformation is not in effect in the destination device context),
+        /// the rectangle in the destination device context is stretched, compressed, or rotated, as necessary.
+        /// If the color formats of the source and destination device contexts do not match,
+        /// the <see cref="BitBlt"/> function converts the source color format to match the destination format.
+        /// When an enhanced metafile is being recorded, an error occurs if the source device context identifies an enhanced-metafile device context.
+        /// Not all devices support the <see cref="BitBlt"/> function.
+        /// For more information, see the <see cref="RC_BITBLT"/> raster capability entry in the <see cref="GetDeviceCaps"/> function
+        /// as well as the following functions: <see cref="MaskBlt"/>, <see cref="PlgBlt"/>, and <see cref="StretchBlt"/>.
+        /// <see cref="BitBlt"/> returns an error if the source and destination device contexts represent different devices.
+        /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
+        /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
+        /// ICM: No color management is performed when blits occur.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", SetLastError = true)]
+        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1, [In]RasterCodes rop);
+
         /// <summary>
         /// <para>
         /// The <see cref="CreateBitmap"/> function creates a bitmap with the specified width, height, and color format (color planes and bits-per-pixel).
