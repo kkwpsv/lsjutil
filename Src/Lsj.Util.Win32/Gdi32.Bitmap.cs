@@ -96,5 +96,23 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", SetLastError = true)]
         public static extern HBITMAP CreateBitmapIndirect([MarshalAs(UnmanagedType.LPStruct)][In]BITMAP pbm);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">A handle to a device context.</param>
+        /// <param name="nWidth">The bitmap width, in pixels.</param>
+        /// <param name="nHeight">The bitmap height, in pixels.</param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
+        public static extern HBITMAP CreateCompatibleBitmap([In]HDC hdc, [In]int nWidth, [In]int nHeight);
     }
 }

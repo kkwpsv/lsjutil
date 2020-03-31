@@ -83,24 +83,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">A handle to a device context.</param>
-        /// <param name="nWidth">The bitmap width, in pixels.</param>
-        /// <param name="nHeight">The bitmap height, in pixels.</param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
-        /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
-        public static extern IntPtr CreateCompatibleBitmap([In]IntPtr hdc, [In]int nWidth, [In]int nHeight);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="CreateCompatibleDC"/> function creates a memory device context (DC) compatible with the specified device.
         /// </para>
         /// <para>
