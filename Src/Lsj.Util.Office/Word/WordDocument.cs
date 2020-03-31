@@ -7,6 +7,7 @@ using Microsoft.Office.Interop;
 using Lsj.Util;
 using System.Drawing;
 using Microsoft.Office.Core;
+using System.IO;
 
 namespace Lsj.Util.Office.Word
 {
@@ -46,7 +47,9 @@ namespace Lsj.Util.Office.Word
         {
             _app = app;
             _doc = doc;
+#if DEBUG
             _app.Visible = true;
+#endif
             Sections = new Sections(doc);
             TablesOfContents = new TablesOfContents(doc);
             Tables = new Tables(doc);
@@ -169,7 +172,35 @@ namespace Lsj.Util.Office.Word
         /// <param name="filename"></param>
         public void SaveAs(string filename)
         {
-            _doc.SaveAs2(filename);
+            var extension = Path.GetExtension(filename).ToLower();
+            switch (extension)
+            {
+                case ".docx":
+                    SaveAs(filename, SaveFormats.wdFormatXMLDocument);
+                    break;
+                case ".doc":
+                    SaveAs(filename, SaveFormats.wdFormatDocument);
+                    break;
+                case ".html":
+                case ".htm":
+                    SaveAs(filename, SaveFormats.wdFormatHTML);
+                    break;
+                case ".pdf":
+                    SaveAs(filename, SaveFormats.wdFormatPDF);
+                    break;
+                default:
+                    throw new NotSupportedException($"Not supported file format: {extension}");
+            }
+        }
+
+        /// <summary>
+        /// Save as
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="formats"></param>
+        public void SaveAs(string filename, SaveFormats formats)
+        {
+            _doc.SaveAs2(filename, formats);
         }
 
         /// <summary>
