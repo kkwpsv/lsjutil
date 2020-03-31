@@ -114,5 +114,36 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
         public static extern HBITMAP CreateCompatibleBitmap([In]HDC hdc, [In]int nWidth, [In]int nHeight);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDiscardableBitmap"/> function creates a discardable bitmap that is compatible with the specified device.
+        /// The bitmap has the same bits-per-pixel format and the same color palette as the device.
+        /// An application can select this bitmap as the current bitmap for a memory device that is compatible with the specified device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-creatediscardablebitmap
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="cx">
+        /// The width, in pixels, of the bitmap.
+        /// </param>
+        /// <param name="cy">
+        /// The height, in pixels, of the bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the CreateCompatibleBitmap function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", SetLastError = true)]
+        public static extern HBITMAP CreateDiscardableBitmap([In]HDC hdc, [In]int cx, [In]int cy);
     }
 }
