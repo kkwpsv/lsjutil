@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Structs;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -89,114 +89,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern FARPROC GetProcAddress([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In]string lpProcName);
-
-        /// <summary>
-        /// <para>
-        /// Adds a character string to the global atom table and returns a unique value (an atom) identifying the string.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaladdatomw
-        /// </para>
-        /// </summary>
-        /// <param name="lpString">
-        /// The null-terminated string to be added.
-        /// The string can have a maximum size of 255 bytes.
-        /// Strings that differ only in case are considered identical.
-        /// The case of the first string of this name added to the table is preserved and returned by the <see cref="GlobalGetAtomName"/> function.
-        /// Alternatively, you can use an integer atom that has been converted using the <see cref="MAKEINTATOM"/> macro.
-        /// See the Remarks for more information.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the newly created atom.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// If the string already exists in the global atom table,
-        /// the atom for the existing string is returned and the atom's reference count is incremented.
-        /// The string associated with the atom is not deleted from memory until its reference count is zero.
-        /// For more information, see the <see cref="GlobalDeleteAtom"/> function.
-        /// Global atoms are not deleted automatically when the application terminates.
-        /// For every call to the <see cref="GlobalAddAtom"/> function, there must be a corresponding call to the <see cref="GlobalDeleteAtom"/> function.
-        /// If the <paramref name="lpString"/> parameter has the form "#1234",
-        /// <see cref="GlobalAddAtom"/> returns an integer atom whose value is the 16-bit representation of the decimal number
-        /// specified in the string (0x04D2, in this example).
-        /// If the decimal value specified is 0x0000 or is greater than or equal to 0xC000, the return value is zero, indicating an error.
-        /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro,
-        /// the low-order word must be in the range 0x0001 through 0xBFFF.
-        /// If the low-order word is not in this range, the function fails.
-        /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtom", SetLastError = true)]
-        public static extern ushort GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves a copy of the character string associated with the specified global atom.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalgetatomnamew
-        /// </para>
-        /// </summary>
-        /// <param name="nAtom">
-        /// The global atom associated with the character string to be retrieved.
-        /// </param>
-        /// <param name="lpBuffer">
-        /// The buffer for the character string.
-        /// </param>
-        /// <param name="nSize">
-        /// The size, in characters, of the buffer.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the length of the string copied to the buffer, in characters,
-        /// not including the terminating null character.
-        /// If the function fails, the return value is zero.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The string returned for an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF) is a null-terminated string
-        /// in which the first character is a pound sign (#) and the remaining characters represent the unsigned integer atom value.
-        /// Security Considerations
-        /// Using this function incorrectly might compromise the security of your program.
-        /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
-        /// Also, note that a global atom is accessible by anyone; thus, privacy and the integrity of its contents is not assured.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalGetAtomNameW", SetLastError = true)]
-        public static extern uint GlobalGetAtomName([In]ushort nAtom, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]int nSize);
-
-        /// <summary>
-        /// <para>
-        /// Decrements the reference count of a global string atom.
-        /// If the atom's reference count reaches zero, <see cref="GlobalDeleteAtom"/> removes the string associated with the atom
-        /// from the global atom table.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldeleteatom
-        /// </para>
-        /// </summary>
-        /// <param name="nAtom">
-        /// The atom and character string to be deleted.
-        /// </param>
-        /// <returns>
-        /// The function always returns (ATOM) 0.
-        /// To determine whether the function has failed,
-        /// call <see cref="SetLastError"/> with <see cref="ERROR_SUCCESS"/> before calling <see cref="GlobalDeleteAtom"/>,
-        /// then call <see cref="GetLastError"/>.
-        /// If the last error code is still <see cref="ERROR_SUCCESS"/>, <see cref="GlobalDeleteAtom"/> has succeeded.
-        /// </returns>
-        /// <remarks>
-        /// A string atom's reference count specifies the number of times the string has been added to the atom table.
-        /// The <see cref="GlobalAddAtom"/> function increments the reference count of a string
-        /// that already exists in the global atom table each time it is called.
-        /// Each call to <see cref="GlobalAddAtom"/> should have a corresponding call to <see cref="GlobalDeleteAtom"/>.
-        /// Do not call <see cref="GlobalDeleteAtom"/> more times than you call <see cref="GlobalAddAtom"/>,
-        /// or you may delete the atom while other clients are using it.
-        /// Applications using Dynamic Data Exchange (DDE) should follow the rules on global atom management to prevent leaks and premature deletion.
-        /// <see cref="GlobalDeleteAtom"/> has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
-        /// The function always returns zero for an integer atom.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalDeleteAtom", SetLastError = true)]
-        public static extern ushort GlobalDeleteAtom([In]uint nAtom);
 
         /// <summary>
         /// <para>
@@ -378,6 +270,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines if a specified character is a lead byte for the system default Windows ANSI code page (<see cref="CP_ACP"/>).
+        /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
+        /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte
+        /// </para>
+        /// </summary>
+        /// <param name="TestChar">
+        /// The character to test.
+        /// </param>
+        /// <returns>
+        /// Returns a <see cref="BOOL.TRUE"/> value if the test character is potentially a lead byte.
+        /// The function returns <see cref="BOOL.FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function does not validate the presence or validity of a trail byte.
+        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence that the application
+        /// using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
+        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
+        /// potentially leading to unexpected errors or buffer size mismatches.
+        /// In general, instead of attempting low-level manipulation of code page data,
+        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// Lead byte values are specific to each distinct DBCS.
+        /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
+        /// To make sense of a DBCS string, an application normally starts at the beginning of a string and scans forward,
+        /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
+        /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", SetLastError = true)]
+        public static extern BOOL IsDBCSLeadByte([In]BYTE TestChar);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the specified process is running under WOW64 or an Intel64 of x64 processor.
         /// </para>
         /// <para>
@@ -413,6 +340,232 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
 
+#pragma warning disable IDE1006
+
+        /// <summary>
+        /// <para>
+        /// Appends one string to another.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcatw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string. This buffer must be large enough to contain both strings.
+        /// </param>
+        /// <param name="lpString2">
+        /// The null-terminated string to be appended to the string specified in the <paramref name="lpString1"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", SetLastError = true)]
+        public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Compares two character strings. The comparison is case-sensitive.
+        /// To perform a comparison that is not case-sensitive, use the lstrcmpi function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string to be compared.
+        /// </param>
+        /// <param name="lpString2">
+        /// The second null-terminated string to be compared.
+        /// </param>
+        /// <returns>
+        /// If the string pointed to by <paramref name="lpString1"/> is less than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is negative.
+        /// If the string pointed to by <paramref name="lpString1"/> is greater than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is positive.
+        /// If the strings are equal, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="lstrcmp"/> function compares two strings by checking the first characters against each other,
+        /// the second characters against each other, and so on until it finds an inequality or reaches the ends of the strings.
+        /// Note that the <paramref name="lpString1"/> and <paramref name="lpString2"/> parameters must be null-terminated,
+        /// otherwise the string comparison can be incorrect.
+        /// The function calls <see cref="CompareStringEx"/>, using the current thread locale, and subtracts 2 from the result,
+        /// to maintain the C run-time conventions for comparing strings.
+        /// The language (user locale) selected by the user at setup time, or through Control Panel,
+        /// determines which string is greater (or whether the strings are the same).
+        /// If no language (user locale) is selected, the system performs the comparison by using default values.
+        /// With a double-byte character set (DBCS) version of the system, this function can compare two DBCS strings.
+        /// The <see cref="lstrcmp"/> function uses a word sort, rather than a string sort.
+        /// A word sort treats hyphens and apostrophes differently than it treats other symbols that are not alphanumeric,
+        /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
+        /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", SetLastError = true)]
+        public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Compares two character strings. The comparison is not case-sensitive.
+        /// To perform a comparison that is case-sensitive, use the <see cref="lstrcmp"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpiw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The first null-terminated string to be compared.
+        /// </param>
+        /// <param name="lpString2">
+        /// The second null-terminated string to be compared.
+        /// </param>
+        /// <returns>
+        /// If the string pointed to by <paramref name="lpString1"/> is less than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is negative.
+        /// If the string pointed to by <paramref name="lpString1"/> is greater than the string pointed to by <paramref name="lpString2"/>,
+        /// the return value is positive.
+        /// If the strings are equal, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="lstrcmpi"/> function compares two strings by checking the first characters against each other,
+        /// the second characters against each other, and so on until it finds an inequality or reaches the ends of the strings.
+        /// Note that the <paramref name="lpString1"/> and <paramref name="lpString2"/> parameters must be null-terminated,
+        /// otherwise the string comparison can be incorrect.
+        /// The function calls <see cref="CompareStringEx"/>, using the current thread locale, and subtracts 2 from the result,
+        /// to maintain the C run-time conventions for comparing strings.
+        /// For some locales, the lstrcmpi function may be insufficient.
+        /// If this occurs, use <see cref="CompareStringEx"/> to ensure proper comparison.
+        /// For example, in Japan call with the NORM_IGNORECASE, NORM_IGNOREKANATYPE, and NORM_IGNOREWIDTH values
+        /// to achieve the most appropriate non-exact string comparison.
+        /// The NORM_IGNOREKANATYPE and NORM_IGNOREWIDTH values are ignored in non-Asian locales, so you can set these values
+        /// for all locales and be guaranteed to have a culturally correct "insensitive" sorting regardless of the locale.
+        /// Note that specifying these values slows performance, so use them only when necessary.
+        /// With a double-byte character set (DBCS) version of the system, this function can compare two DBCS strings.
+        /// The lstrcmpi function uses a word sort, rather than a string sort.
+        /// A word sort treats hyphens and apostrophes differently than it treats other symbols that are not alphanumeric,
+        /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
+        /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", SetLastError = true)]
+        public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Copies a string to a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpyw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// A buffer to receive the contents of the string pointed to by the <paramref name="lpString2"/> parameter.
+        /// The buffer must be large enough to contain the string, including the terminating null character.
+        /// </param>
+        /// <param name="lpString2">
+        /// The null-terminated string to be copied.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        /// <remarks>
+        /// With a double-byte character set (DBCS) version of the system, this function can be used to copy a DBCS string.
+        /// The lstrcpy function has an undefined behavior if source and destination buffers overlap.
+        /// Security Remarks
+        /// Using this function incorrectly can compromise the security of your application.
+        /// This function uses structured exception handling (SEH) to catch access violations and other errors.
+        /// When this function catches SEH errors, it returns <see cref="IntPtr.Zero"/> without null-terminating the string
+        /// and without notifying the caller of the error.
+        /// The caller is not safe to assume that insufficient space is the error condition.
+        /// <paramref name="lpString1"/> must be large enough to hold <paramref name="lpString2"/> and the closing '\0', otherwise a buffer overrun may occur.
+        /// Buffer overflow situations are the cause of many security problems in applications and can cause a denial of service attack
+        /// against the application if an access violation occurs.
+        /// In the worst case, a buffer overrun may allow an attacker to inject executable code into your process,
+        /// especially if <paramref name="lpString1"/> is a stack-based buffer.
+        /// Consider using <see cref="StringCchCopy"/> instead; use either <code>StringCchCopy(buffer, sizeof(buffer)/sizeof(buffer[0]), src);</code>,
+        /// being aware that buffer must not be a pointer or use <code>StringCchCopy(buffer, ARRAYSIZE(buffer), src);</code>,
+        /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
+        /// </remarks>
+        [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", SetLastError = true)]
+        public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+
+        /// <summary>
+        /// <para>
+        /// Copies a specified number of characters from a source string into a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpynw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString1">
+        /// The destination buffer, which receives the copied characters.
+        /// The buffer must be large enough to contain the number of TCHAR values specified by <paramref name="iMaxLength"/>,
+        /// including room for a terminating null character.
+        /// </param>
+        /// <param name="lpString2">
+        /// The source string from which the function is to copy characters.
+        /// </param>
+        /// <param name="iMaxLength">
+        /// The number of TCHAR values to be copied from the string pointed to by <paramref name="lpString2"/>
+        /// into the buffer pointed to by <paramref name="lpString1"/>, including a terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a pointer to the buffer.
+        /// The function can succeed even if the source string is greater than <paramref name="iMaxLength"/> characters.
+        /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
+        /// </returns>
+        /// <remarks>
+        /// The buffer pointed to by <paramref name="lpString1"/> must be large enough to include a terminating null character,
+        /// and the string length value specified by <paramref name="iMaxLength"/> includes room for a terminating null character.
+        /// The <see cref="lstrcpyn"/> function has an undefined behavior if source and destination buffers overlap.
+        /// Security Warning
+        /// Using this function incorrectly can compromise the security of your application.
+        /// This function uses structured exception handling (SEH) to catch access violations and other errors.
+        /// When this function catches SEH errors, it returns NULL without null-terminating the string and without notifying the caller of the error.
+        /// The caller is not safe to assume that insufficient space is the error condition.
+        /// If the buffer pointed to by <paramref name="lpString1"/> is not large enough to contain the copied string, a buffer overrun can occur.
+        /// When copying an entire string, note that sizeof returns the number of bytes.
+        /// For example, if <paramref name="lpString1"/> points to a buffer szString1 which is declared as TCHAR szString[100],
+        /// then sizeof(szString1) gives the size of the buffer in bytes rather than WCHAR,
+        /// which could lead to a buffer overflow for the Unicode version of the function.
+        /// Buffer overflow situations are the cause of many security problems in applications and can cause a denial of service attack
+        /// against the application if an access violation occurs.
+        /// In the worst case, a buffer overrun may allow an attacker to inject executable code into your process,
+        /// especially if lpString1 is a stack-based buffer.
+        /// Using sizeof(szString1)/sizeof(szString1[0]) gives the proper size of the buffer.
+        /// Consider using <see cref="StringCchCopy"/> instead; use either <code>StringCchCopy(buffer, sizeof(buffer)/sizeof(buffer[0]), src);</code>,
+        /// being aware that buffer must not be a pointer or use <code>StringCchCopy(buffer, ARRAYSIZE(buffer), src);</code>,
+        /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
+        /// Review Security Considerations: Windows User Interface before continuing.
+        /// </remarks>
+        [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", SetLastError = true)]
+        public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2, [In]int iMaxLength);
+
+        /// <summary>
+        /// <para>
+        /// Determines the length of the specified string (not including the terminating null character).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrlenw
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The null-terminated string to be checked.
+        /// </param>
+        /// <returns>
+        /// The function returns the length of the string, in characters.
+        /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", SetLastError = true)]
+        public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+#pragma warning restore IDE1006
+
         /// <summary>
         /// MakeProcInstance
         /// </summary>
@@ -421,6 +574,32 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         public static FARPROC MakeProcInstance(FARPROC lpProc, HINSTANCE hInstance) => lpProc;
+
+        /// <summary>
+        /// <para>
+        /// Multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value. The final result is rounded to the nearest integer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-muldiv
+        /// </para>
+        /// </summary>
+        /// <param name="nNumber">
+        /// The multiplicand.
+        /// </param>
+        /// <param name="nNumerator">
+        /// The multiplier.
+        /// </param>
+        /// <param name="nDenominator">
+        /// The number by which the result of the multiplication operation is to be divided.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the result of the multiplication and division, rounded to the nearest integer.
+        /// If the result is a positive half integer (ends in .5), it is rounded up.
+        /// If the result is a negative half integer, it is rounded down.
+        /// If either an overflow occurred or nDenominator was 0, the return value is -1.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", SetLastError = true)]
+        public static extern int MulDiv([In]int nNumber, [In]int nNumerator, [In]int nDenominator);
 
         /// <summary>
         /// <para>

@@ -1911,6 +1911,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
+        /// To determine whether a drive is a USB-type drive,
+        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the <see cref="SPDRP_REMOVAL_POLICY"/> property.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdrivetypew
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// The root directory for the drive.
+        /// A trailing backslash is required.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current directory.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the type of drive, which can be one of the following values.
+        /// <see cref="DRIVE_UNKNOWN"/>, <see cref="DRIVE_NO_ROOT_DIR"/>, <see cref="DRIVE_REMOVABLE"/>, <see cref="DRIVE_FIXED"/>,
+        /// <see cref="DRIVE_REMOTE"/>, <see cref="DRIVE_CDROM"/>, <see cref="DRIVE_RAMDISK"/>
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDriveTypeW", SetLastError = true)]
+        public static extern DriveTypes GetDriveType([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName);
+
+        /// <summary>
+        /// <para>
         /// Retrieves file system attributes for a specified file or directory.
         /// To get more attribute information, use the <see cref="GetFileAttributesEx"/> function.
         /// To perform this operation as a transacted operation, use the <see cref="GetFileAttributesTransacted"/> function.
@@ -2394,6 +2417,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a name for a temporary file.
+        /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettempfilenamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The directory path for the file name.
+        /// Applications typically specify a period (.) for the current directory or the result of the <see cref="GetTempPath"/> function.
+        /// The string cannot be longer than <see cref="MAX_PATH"/>–14 characters or <see cref="GetTempFileName"/> will fail.
+        /// If this parameter is <see langword="null"/>, the function fails.
+        /// </param>
+        /// <param name="lpPrefixString">
+        /// The null-terminated prefix string.
+        /// The function uses up to the first three characters of this string as the prefix of the file name.
+        /// This string must consist of characters in the OEM-defined character set.
+        /// </param>
+        /// <param name="uUnique">
+        /// An unsigned integer to be used in creating the temporary file name.
+        /// For more information, see Remarks.
+        /// If <paramref name="uUnique"/> is zero, the function attempts to form a unique file name using the current system time.
+        /// If the file already exists, the number is increased by one and the functions tests if this file already exists.
+        /// This continues until a unique filename is found; the function creates a file by that name and closes it.
+        /// Note that the function does not attempt to verify the uniqueness of the file name when <paramref name="uUnique"/> is nonzero.
+        /// </param>
+        /// <param name="lpTempFileName">
+        /// A pointer to the buffer that receives the temporary file name.
+        /// This buffer should be <see cref="MAX_PATH"/> characters to accommodate the path plus the terminating null character.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the unique numeric value used in the temporary file name.
+        /// If the <paramref name="uUnique"/> parameter is nonzero, the return value specifies that same number.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following is a possible return value.
+        /// <see cref="ERROR_BUFFER_OVERFLOW"/>:
+        /// The length of the string pointed to by the <paramref name="lpPathName"/> parameter is more than <see cref="MAX_PATH"/>–14 characters.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTempFileName"/> function creates a temporary file name of the following form:
+        /// &lt;path&gt;&lt;i&gt;&lt;pre&gt;&lt;uuuu&gt;.TMP
+        /// The following table describes the file name syntax.
+        /// &lt;path&gt;: Path specified by the <paramref name="lpPathName"/> parameter
+        /// &lt;pre&gt;: First three letters of the <paramref name="lpPrefixString"/> string
+        /// &lt;uuuu&gt;: Hexadecimal value of <paramref name="uUnique"/>
+        /// If <paramref name="uUnique"/> is zero, <see cref="GetTempFileName"/> creates an empty file and closes it.
+        /// If <paramref name="uUnique"/> is not zero, you must create the file yourself.
+        /// Only a file name is created, because <see cref="GetTempFileName"/> is not able to guarantee that the file name is unique.
+        /// Only the lower 16 bits of the uUnique parameter are used.
+        /// This limits <see cref="GetTempFileName"/> to a maximum of 65,535 unique file names
+        /// if the <paramref name="lpPathName"/> and <paramref name="lpPrefixString"/> parameters remain the same.
+        /// Due to the algorithm used to generate file names, <see cref="GetTempFileName"/> can perform poorly
+        /// when creating a large number of files with the same prefix.
+        /// In such cases, it is recommended that you construct unique file names based on GUIDs.
+        /// Temporary files whose names have been created by this function are not automatically deleted.
+        /// To delete these files call <see cref="DeleteFile"/>.
+        /// To avoid problems resulting when converting an ANSI string, an application should call
+        /// the <see cref="CreateFile"/> function to create a temporary file.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", SetLastError = true)]
+        public static extern UINT GetTempFileName([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpPrefixString, [In]UINT uUnique, [Out]StringBuilder lpTempFileName);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
         /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
@@ -2702,6 +2791,15 @@ namespace Lsj.Util.Win32
             [In]ULONG_PTR dwCompletionKey, [In][Out]ref OVERLAPPED lpOverlapped);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uNumber"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", SetLastError = true)]
+        public static extern UINT SetHandleCount([In]uint uNumber);
+
+        /// <summary>
         /// <para>
         /// Sets the file information for the specified file.
         /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
@@ -2757,5 +2855,193 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+#pragma warning disable IDE1006
+        /// <summary>
+        /// <para>
+        /// 
+        /// </para>
+        /// </summary>
+        /// <param name="hFile"></param>
+        /// <param name="lpBuffer"></param>
+        /// <param name="lBytes"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern long _hread([In]HFILE hFile, [In]LPVOID lpBuffer, [In]long lBytes);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hFile"></param>
+        /// <param name="lpBuffer"></param>
+        /// <param name="lBytes"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_hread", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern long _hwrite([In]HFILE hFile, [In]LPCCH lpBuffer, [In]long lBytes);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="_lclose"/> function closes the specified file so that it is no longer available for reading or writing.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lclose
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// Identifies the file to be closed.
+        /// This handle is returned by the function that created or last opened the file.
+        /// </param>
+        /// <returns>
+        /// Handle to file to close.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CloseHandle function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lclose", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE _lclose([In]HFILE hFile);
+
+        /// <summary>
+        /// <para>
+        /// Creates or opens the specified file. This documentation is included only for troubleshooting existing code.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lcreat
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The name of the file. The string must consist of characters from the Windows ANSI character set.
+        /// </param>
+        /// <param name="iAttribute">
+        /// This parameter must be set to one of the following values.
+        /// 0: Normal. Can be read from or written to without restriction.
+        /// 1: Read-only. Cannot be opened for write.
+        /// 2: Hidden. Not found by directory search.
+        /// 4: System. Not found by directory search.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a file handle. Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// If the file does not exist, <see cref="_lcreat"/> creates and opens a new file for writing.
+        /// If the file does exist, <see cref="_lcreat"/> truncates the file size to zero and opens it for reading and writing.
+        /// When the function opens a file, the pointer is set to the beginning of the file.
+        /// Use the <see cref="_lcreat"/> function with care.
+        /// It can open any file, even one already opened by another function.
+        /// </remarks>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lcreat", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE _lcreat([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]int iAttribute);
+
+        /// <summary>
+        /// <para>
+        /// Repositions the file pointer for the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_llseek
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to an open file. This handle is created by <see cref="_lcreat"/>.
+        /// </param>
+        /// <param name="lOffset">
+        /// The number of bytes that the file pointer is to be moved.
+        /// </param>
+        /// <param name="iOrigin">
+        /// The starting point and the direction that the pointer will be moved.
+        /// This parameter must be set to one of the following values.
+        /// 0: Moves the pointer from the beginning of the file.
+        /// 1: Moves the file from its current location.
+        /// 2: Moves the pointer from the end of the file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the new offset.
+        /// Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// When a file is initially opened, the file pointer is set to the beginning of the file.
+        /// The <see cref="_llseek"/> function moves the pointer without reading data, which allows random access to the content of the file.
+        /// </remarks>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the SetFilePointer function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_llseek", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern LONG _llseek([In]HFILE hFile, [In]LONG lOffset, [In]int iOrigin);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="_lopen"/> function opens an existing file and sets the file pointer to the beginning of the file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lopen
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// Pointer to a null-terminated string that names the file to open.
+        /// The string must consist of characters from the Windows ANSI character set.
+        /// </param>
+        /// <param name="iReadWrite">
+        /// Specifies the modes in which to open the file.
+        /// This parameter consists of one access mode and an optional share mode.
+        /// The access mode must be one of the following values: <see cref="OF_READ"/>, <see cref="OF_READWRITE"/>, <see cref="OF_WRITE"/>
+        /// The share mode can be one of the following values: <see cref="OF_SHARE_COMPAT"/>, <see cref="OF_SHARE_DENY_NONE"/>,
+        /// <see cref="OF_SHARE_DENY_READ"/>, <see cref="OF_SHARE_DENY_WRITE"/>, <see cref="OF_SHARE_EXCLUSIVE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a file handle.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the CreateFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern HFILE _lopen([MarshalAs(UnmanagedType.LPStr)][In]string lpPathName, [In]OpenFileFlags iReadWrite);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="_lread"/> function reads data from the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-_lread
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// Identifies the specified file.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// Pointer to a buffer that contains the data read from the file.
+        /// </param>
+        /// <param name="uBytes">
+        /// Specifies the number of bytes to be read from the file.
+        /// </param>
+        /// <returns>
+        /// The return value indicates the number of bytes actually read from the file.
+        /// If the number of bytes read is less than <paramref name="uBytes"/>,
+        /// the function has reached the end of file (EOF) before reading the specified number of bytes.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the ReadFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern UINT _lread([In]HFILE hFile, [In]LPVOID lpBuffer, [In]UINT uBytes);
+
+        /// <summary>
+        /// <para>
+        /// Writes data to the specified file.
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that receives the data.
+        /// This handle is created by <see cref="_lcreat"/>.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The buffer that contains the data to be added.
+        /// </param>
+        /// <param name="uBytes">
+        /// The number of bytes to write to the file.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes written to the file.
+        /// Otherwise, the return value is <see cref="HFILE_ERROR"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        [Obsolete("This function is provided for compatibility with 16-bit versions of Windows. Win32-based applications should use the WriteFile function.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "_lopen", SetLastError = true, ThrowOnUnmappableChar = true)]
+        public static extern UINT _lwrite([In]HFILE hFile, [In]LPCCH lpBuffer, [In]UINT uBytes);
+#pragma warning restore IDE1006
     }
 }
