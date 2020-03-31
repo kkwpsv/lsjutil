@@ -636,7 +636,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsW", SetLastError = true)]
-        public static extern BOOL  ([In]HDC hdc, [In]UINT wFirst, [In]UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
+        public static extern BOOL GetCharABCWidths([In]HDC hdc, [In]UINT wFirst, [In]UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
 
         /// <summary>
         /// <para>
@@ -763,6 +763,33 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", SetLastError = true)]
         public static extern DWORD GetGlyphOutline([In]HDC hdc, [In]UINT uChar, [In]GetGlyphOutlineFormats fuFormat,
             [Out]out GLYPHMETRICS lpgm, [In]DWORD cjBuffer, [In] LPVOID pvBuffer, [MarshalAs(UnmanagedType.LPStruct)][In]MAT2 lpmat2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetKerningPairs"/> function retrieves the character-kerning pairs for the currently selected font for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getkerningpairsw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="nPairs">
+        /// The number of pairs in the <paramref name="lpKernPair"/> array.
+        /// If the font has more than <paramref name="nPairs"/> kerning pairs, the function returns an error.
+        /// </param>
+        /// <param name="lpKernPair">
+        /// A pointer to an array of <see cref="KERNINGPAIR"/> structures that receives the kerning pairs.
+        /// The array must contain at least as many structures as specified by the <paramref name="nPairs"/> parameter.
+        /// If this parameter is <see langword="null"/>, the function returns the total number of kerning pairs for the font.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of kerning pairs returned.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKerningPairsW", SetLastError = true)]
+        public static extern DWORD GetKerningPairs([In]HDC hdc, [In]DWORD nPairs, [MarshalAs(UnmanagedType.LPArray)][In][Out]KERNINGPAIR[] lpKernPair);
 
         /// <summary>
         /// <para>
