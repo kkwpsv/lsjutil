@@ -145,5 +145,70 @@ namespace Lsj.Util.Win32
             "Applications should use the CreateCompatibleBitmap function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", SetLastError = true)]
         public static extern HBITMAP CreateDiscardableBitmap([In]HDC hdc, [In]int cx, [In]int cy);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDIBitmap"/> function creates a compatible bitmap (DDB) from a DIB and, optionally, sets the bitmap bits.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibitmap
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="pbmih">
+        /// A pointer to a bitmap information header structure, <see cref="BITMAPV5HEADER"/>.
+        /// If <paramref name="flInit"/> is <see cref="CBM_INIT"/>, the function uses the bitmap information header structure
+        /// to obtain the desired width and height of the bitmap as well as other information.
+        /// Note that a positive value for the height indicates a bottom-up DIB while a negative value for the height indicates a top-down DIB.
+        /// Calling <see cref="CreateDIBitmap"/> with <paramref name="flInit"/> as <see cref="CBM_INIT"/> is equivalent
+        /// to calling the <see cref="CreateCompatibleBitmap"/> function to create a DDB in the format of the device and
+        /// then calling the <see cref="SetDIBits"/> function to translate the DIB bits to the DDB.
+        /// </param>
+        /// <param name="flInit">
+        /// Specifies how the system initializes the bitmap bits. The following value is defined.
+        /// <see cref="CBM_INIT"/>:
+        /// If this flag is set, the system uses the data pointed to by the <paramref name="pjBits"/> and <paramref name="pbmi"/> parameters
+        /// to initialize the bitmap bits.
+        /// If this flag is clear, the data pointed to by those parameters is not used.
+        /// If <paramref name="flInit"/> is zero, the system does not initialize the bitmap bits.
+        /// </param>
+        /// <param name="pjBits">
+        /// A pointer to an array of bytes containing the initial bitmap data.
+        /// The format of the data depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// to which the <paramref name="pbmi"/> parameter points.
+        /// </param>
+        /// <param name="pbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that describes the dimensions and color format of the array
+        /// pointed to by the <paramref name="pjBits"/> parameter.
+        /// </param>
+        /// <param name="iUsage">
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was initialized and,
+        /// if so, whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or palette indexes.
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette of the device context into
+        /// which the bitmap is to be selected.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// A color table is provided and contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the compatible bitmap.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The DDB that is created will be whatever bit depth your reference DC is.
+        /// To create a bitmap that is of different bit depth, use <see cref="CreateDIBSection"/>.
+        /// For a device to reach optimal bitmap-drawing speed, specify fdwInit as <see cref="CBM_INIT"/>.
+        /// Then, use the same color depth DIB as the video mode.
+        /// When the video is running 4- or 8-bpp, use <see cref="DIB_PAL_COLORS"/>.
+        /// The <see cref="CBM_CREATDIB"/> flag for the fdwInit parameter is no longer supported.
+        /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
+        /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", SetLastError = true)]
+        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFOHEADER pbmih, [In]DWORD flInit,
+            [In]IntPtr pjBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO pbmi, [In]UINT iUsage);
     }
 }
