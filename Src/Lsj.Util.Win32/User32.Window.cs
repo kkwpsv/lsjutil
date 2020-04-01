@@ -759,13 +759,14 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="WNDCLASS"/> structure that receives the information about the class.
         /// </param>
         /// <returns>
-        /// If the function finds a matching class and successfully copies the data, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function finds a matching class and successfully copies the data, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
+        [Obsolete("The GetClassInfo function has been superseded by the GetClassInfoEx function." +
+            "You can still use GetClassInfo, however, if you do not need information about the class small icon.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoW", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClassInfo([In]IntPtr hInstance, [In]StringHandle lpClassName, [Out]out WNDCLASS lpWndClass);
+        public static extern BOOL GetClassInfo([In]HINSTANCE hInstance, [In]StringHandle lpClassName, [Out]out WNDCLASS lpWndClass);
 
         /// <summary>
         /// <para>
@@ -828,7 +829,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassName", SetLastError = true)]
-        public static extern int GetClassName([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpClassName, [In]int nMaxCount);
+        public static extern int GetClassName([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpClassName, [In]int nMaxCount);
 
         /// <summary>
         /// Retrieves information about the specified window.
