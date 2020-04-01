@@ -413,6 +413,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetPixel"/> function sets the pixel at the specified coordinates to the specified color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpixel
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="color">
+        /// The color to be used to paint the point.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the RGB value that the function sets the pixel to.
+        /// This value may differ from the color specified by <paramref name="color"/>; that occurs when an exact match for the specified color cannot be found.
+        /// If the function fails, the return value is -1.
+        /// This can be the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// The function fails if the pixel coordinates lie outside of the current clipping region.
+        /// Not all devices support the <see cref="SetPixel"/> function.
+        /// For more information, see <see cref="GetDeviceCaps"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", SetLastError = true)]
+        public static extern COLORREF SetPixel([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="StretchBlt"/> function copies a bitmap from a source rectangle into a destination rectangle,
         /// stretching or compressing the bitmap to fit the dimensions of the destination rectangle, if necessary.
         /// The system stretches or compresses the bitmap according to the stretching mode currently set in the destination device context.
@@ -595,6 +631,6 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", SetLastError = true)]
         public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
             [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi,
-            [In]UINT iUsage,[In]RasterCodes rop);
+            [In]UINT iUsage, [In]RasterCodes rop);
     }
 }
