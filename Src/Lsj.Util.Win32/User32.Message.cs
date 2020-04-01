@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -179,6 +180,35 @@ namespace Lsj.Util.Win32
         /// </param>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", SetLastError = true)]
         public static extern void PostQuitMessage([In] int nExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Defines a new window message that is guaranteed to be unique throughout the system.
+        /// The message value can be used when sending or posting messages.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerwindowmessagew
+        /// </para>
+        /// </summary>
+        /// <param name="lpString">
+        /// The message to be registered.
+        /// </param>
+        /// <returns>
+        /// If the message is successfully registered, the return value is a message identifier in the range 0xC000 through 0xFFFF.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="RegisterWindowMessage"/> function is typically used to register messages for communicating between two cooperating applications.
+        /// If two different applications register the same message string, the applications return the same message value.
+        /// The message remains registered until the session ends.
+        /// Only use <see cref="RegisterWindowMessage"/> when more than one application must process the same message.
+        /// For sending private messages within a window class, an application can use any integer in the range <see cref="WM_USER"/> through 0x7FFF.
+        /// (Messages in this range are private to a window class, not to an application.
+        /// For example, predefined control classes such as BUTTON, EDIT, LISTBOX, and COMBOBOX may use values in this range.)
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", SetLastError = true)]
+        public static extern UINT RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
         /// <para>
