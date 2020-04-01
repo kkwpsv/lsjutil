@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -187,5 +188,46 @@ namespace Lsj.Util.Win32
             "The corresponding function for an enhanced-format metafile is PlayEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFile", SetLastError = true)]
         public static extern BOOL PlayMetaFile([In]HDC hdc, [In]HMETAFILE hmf);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PlayMetaFileRecord"/> function plays a Windows-format metafile record
+        /// by executing the graphics device interface (GDI) function contained within that record.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafilerecord
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="lpHandleTable">
+        /// A pointer to a HANDLETABLE structure representing the table of handles to GDI objects used when playing the metafile.
+        /// HANDLETABLE is a array of <see cref="HGDIOBJ"/>.
+        /// </param>
+        /// <param name="lpMR">
+        /// A pointer to the Windows-format metafile record.
+        /// </param>
+        /// <param name="noObjs">
+        /// The number of handles in the handle table.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// To convert a Windows-format metafile into an enhanced-format metafile, use the <see cref="SetWinMetaFileBits"/> function.
+        /// An application typically uses <see cref="PlayMetaFileRecord"/> in conjunction with the <see cref="EnumMetaFile"/> function
+        /// to process and play a Windows-format metafile one record at a time.
+        /// The <paramref name="lpHandleTable"/> and <paramref name="noObjs"/> parameters must be identical to those
+        /// passed to the <see cref="MFENUMPROC"/> callback procedure by <see cref="EnumMetaFile"/>.
+        /// If the <see cref="PlayMetaFileRecord"/> function does not recognize a record, it ignores the record and returns <see cref="TRUE"/>.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is PlayEnhMetaFileRecord.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFileRecord", SetLastError = true)]
+        public static extern BOOL PlayMetaFileRecord([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHandleTable,
+            [MarshalAs(UnmanagedType.LPStruct)][In]METARECORD lpMR, [In]UINT noObjs);
     }
 }
