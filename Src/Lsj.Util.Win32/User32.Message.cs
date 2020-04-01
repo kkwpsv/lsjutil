@@ -115,6 +115,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the message time for the last message retrieved by the <see cref="GetMessage"/> function.
+        /// The time is a long integer that specifies the elapsed time, in milliseconds,
+        /// from the time the system was started to the time the message was created (that is, placed in the thread's message queue).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessagetime
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value specifies the message time.
+        /// </returns>
+        /// <remarks>
+        /// The return value from the <see cref="GetMessageTime"/> function does not necessarily increase between subsequent messages, because the value wraps to the minimum value for a long integer if the timer count exceeds the maximum value for a long integer.
+        /// To calculate time delays between messages, subtract the time of the first message from the time of the second message (ignoring overflow) and compare the result of the subtraction against the desired delay amount.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", SetLastError = true)]
+        public static extern LONG GetMessageTime();
+
+        /// <summary>
+        /// <para>
         /// Dispatches incoming sent messages, checks the thread message queue for a posted message, and retrieves the message (if any exist).
         /// </para>
         /// <para>
