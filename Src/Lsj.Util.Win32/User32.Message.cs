@@ -181,6 +181,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the type of messages found in the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getqueuestatus
+        /// </para>
+        /// </summary>
+        /// <param name="flags">
+        /// The types of messages for which to check. This parameter can be one or more of the following values.
+        /// <see cref="QS_ALLEVENTS"/>, <see cref="QS_ALLINPUT"/>, <see cref="QS_ALLPOSTMESSAGE"/>, <see cref="QS_HOTKEY"/>, <see cref="QS_INPUT"/>,
+        /// <see cref="QS_KEY"/>, <see cref="QS_MOUSE"/>, <see cref="QS_MOUSEBUTTON"/>, <see cref="QS_MOUSEMOVE"/>, <see cref="QS_PAINT"/>,
+        /// <see cref="QS_POSTMESSAGE"/>, <see cref="QS_RAWINPUT"/>, <see cref="QS_SENDMESSAGE"/>, <see cref="QS_TIMER"/>
+        /// </param>
+        /// <returns>
+        /// The high-order word of the return value indicates the types of messages currently in the queue.
+        /// The low-order word indicates the types of messages that have been added to the queue and that are still in the queue
+        /// since the last call to the <see cref="GetQueueStatus"/>, <see cref="GetMessage"/>, or <see cref="PeekMessage"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The presence of a QS_ flag in the return value does not guarantee that a subsequent call
+        /// to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function will return a message.
+        /// <see cref="GetMessage"/> and <see cref="PeekMessage"/> perform some internal filtering that may cause the message to be processed internally.
+        /// For this reason, the return value from <see cref="GetQueueStatus"/> should be considered only a hint as to
+        /// whether <see cref="GetMessage"/> or <see cref="PeekMessage"/> should be called.
+        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
+        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
+        /// whether or not you are filtering messages.
+        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/> without filtering messages
+        /// (wMsgFilterMin and wMsgFilterMax are 0).
+        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", SetLastError = true)]
+        public static extern DWORD GetQueueStatus([In]QueueStatus flags);
+
+        /// <summary>
+        /// <para>
         /// Dispatches incoming sent messages, checks the thread message queue for a posted message, and retrieves the message (if any exist).
         /// </para>
         /// <para>
