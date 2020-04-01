@@ -51,6 +51,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether there are mouse-button or keyboard messages in the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getinputstate
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the queue contains one or more new mouse-button or keyboard messages, the return value is <see cref="TRUE"/>.
+        /// If there are no new mouse-button or keyboard messages in the queue, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetInputState", SetLastError = true)]
+        public static extern BOOL GetInputState();
+
+        /// <summary>
+        /// <para>
         /// Retrieves a message from the calling thread's message queue.
         /// The function dispatches incoming sent messages until a posted message is available for retrieval.
         /// </para>
