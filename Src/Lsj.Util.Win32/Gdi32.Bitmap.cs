@@ -318,6 +318,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetPixel"/> function retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpixel
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the pixel to be examined.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the pixel to be examined.
+        /// </param>
+        /// <returns>
+        /// The return value is the <see cref="COLORREF"/> value that specifies the RGB of the pixel.
+        /// If the pixel is outside of the current clipping region, the return value is <see cref="CLR_INVALID"/> (0xFFFFFFFF defined in Wingdi.h).
+        /// </returns>
+        /// <remarks>
+        /// The pixel must be within the boundaries of the current clipping region.
+        /// Not all devices support <see cref="GetPixel"/>.
+        /// An application should call <see cref="GetDeviceCaps"/> to determine whether a specified device supports this function.
+        /// A bitmap must be selected within the device context, otherwise, <see cref="CLR_INVALID"/> is returned on all pixels.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", SetLastError = true)]
+        public static extern COLORREF GetPixel([In]HDC hdc, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
