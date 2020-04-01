@@ -22,6 +22,39 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
 
+
+        /// <summary>
+        /// <para>
+        /// Passes the specified message and hook code to the hook procedures associated
+        /// with the <see cref="WH_SYSMSGFILTER"/> and <see cref="WH_MSGFILTER"/> hooks.
+        /// A <see cref="WH_SYSMSGFILTER"/> or <see cref="WH_MSGFILTER"/> hook procedure is an application-defined callback function that examines and,
+        /// optionally, modifies messages for a dialog box, message box, menu, or scroll bar.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callmsgfilterw
+        /// </para>
+        /// </summary>
+        /// <param name="lpMsg">
+        /// A pointer to an <see cref="MSG"/> structure that contains the message to be passed to the hook procedures.
+        /// </param>
+        /// <param name="nCode">
+        /// An application-defined code used by the hook procedure to determine how to process the message.
+        /// The code must not have the same value as system-defined hook codes (MSGF_ and HC_) associated
+        /// with the <see cref="WH_SYSMSGFILTER"/> and <see cref="WH_MSGFILTER"/> hooks.
+        /// </param>
+        /// <returns>
+        /// If the application should process the message further, the return value is <see cref="FALSE"/>.
+        /// If the application should not process the message further, the return value is <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system calls <see cref="CallMsgFilter"/> to enable applications to examine and control the flow of messages
+        /// during internal processing of dialog boxes, message boxes, menus, and scroll bars,
+        /// or when the user activates a different window by pressing the ALT+TAB key combination.
+        /// Install this hook procedure by using the <see cref="SetWindowsHookEx"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", SetLastError = true)]
+        public static extern BOOL CallMsgFilter([In][Out]ref MSG lpMsg, [In]int nCode);
+
         /// <summary>
         /// <para>
         /// Dispatches a message to a window procedure.
