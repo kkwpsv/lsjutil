@@ -51,6 +51,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the current window procedure is processing a message that was sent from another thread
+        /// (in the same process or a different process) by a call to the <see cref="SendMessage"/> function.
+        /// To obtain additional information about how the message was sent, use the <see cref="InSendMessageEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessage
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the window procedure is processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
+        /// the return value is <see cref="TRUE"/>.
+        /// If the window procedure is not processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
+        /// the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", SetLastError = true)]
+        public static extern BOOL InSendMessage();
+
+        /// <summary>
+        /// <para>
         /// Determines whether there are mouse-button or keyboard messages in the calling thread's message queue.
         /// </para>
         /// <para>
@@ -499,7 +518,8 @@ namespace Lsj.Util.Win32
         /// By calling this function, the window procedure that receives the message allows the thread that called <see cref="SendMessage"/>
         /// to continue to run as though the thread receiving the message had returned control.
         /// The thread that calls the <see cref="ReplyMessage"/> function also continues to run.
-        /// If the message was not sent through <see cref="SendMessage"/> or if the message was sent by the same thread, <see cref="ReplyMessage"/> has no effect.
+        /// If the message was not sent through <see cref="SendMessage"/> or if the message was sent by the same thread,
+        /// <see cref="ReplyMessage"/> has no effect.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", SetLastError = true)]
         public static extern BOOL ReplyMessage([In]LRESULT lResult);
