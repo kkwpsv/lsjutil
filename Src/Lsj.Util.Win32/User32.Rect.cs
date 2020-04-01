@@ -124,6 +124,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="OffsetRect"/> function moves the specified rectangle by the specified offsets.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-offsetrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprc">
+        /// Pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle to be moved.
+        /// </param>
+        /// <param name="dx">
+        /// Specifies the amount to move the rectangle left or right.
+        /// This parameter must be a negative value to move the rectangle to the left.
+        /// </param>
+        /// <param name="dy">
+        /// Specifies the amount to move the rectangle up or down.
+        /// This parameter must be a negative value to move the rectangle up.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRect", SetLastError = true)]
+        public static extern BOOL OffsetRect([In][Out]ref RECT lprc, [In]int dx, [In]int dy);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRect"/> function sets the coordinates of the specified rectangle.
         /// This is equivalent to assigning the left, top, right, and bottom arguments to the appropriate members of the <see cref="RECT"/> structure.
         /// </para>
