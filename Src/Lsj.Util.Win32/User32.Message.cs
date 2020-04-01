@@ -293,7 +293,6 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = true)]
         public static extern IntPtr SendMessage([In]IntPtr hWnd, [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
 
-
         /// <summary>
         /// <para>
         /// Translates virtual-key messages into character messages.
@@ -320,5 +319,31 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TranslateMessage([In] ref MSG lpMsg);
+
+        /// <summary>
+        /// <para>
+        /// Yields control to other threads when a thread has no other messages in its message queue.
+        /// The <see cref="WaitMessage"/> function suspends the thread and does not return until a new message is placed in the thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-waitmessage
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note that <see cref="WaitMessage"/> does not return if there is unread input in the message queue
+        /// after the thread has called a function to check the queue.
+        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
+        /// <see cref="WaitMessage"/>, <see cref="MsgWaitForMultipleObjects"/>, and <see cref="MsgWaitForMultipleObjectsEx"/> check the queue
+        /// and then change the state information for the queue so that the input is no longer considered new.
+        /// A subsequent call to <see cref="WaitMessage"/> will not return until new input of the specified type arrives.
+        /// The existing unread input (received prior to the last time the thread checked the queue) is ignored.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitMessage", SetLastError = true)]
+        public static extern BOOL WaitMessage();
     }
 }
