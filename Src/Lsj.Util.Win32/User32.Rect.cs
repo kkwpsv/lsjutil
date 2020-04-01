@@ -177,5 +177,39 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectEmpty", SetLastError = true)]
         public static extern BOOL SetRectEmpty([In][Out]ref RECT lprc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="UnionRect"/> function creates the union of two rectangles.
+        /// The union is the smallest rectangle that contains both source rectangles.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unionrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprcDst">
+        /// A pointer to the <see cref="RECT"/> structure that will receive a rectangle containing the rectangles
+        /// pointed to by the <paramref name="lprcSrc1"/> and <paramref name="lprcSrc2"/> parameters.
+        /// </param>
+        /// <param name="lprcSrc1">
+        /// A pointer to the <see cref="RECT"/> structure that contains the first source rectangle.
+        /// </param>
+        /// <param name="lprcSrc2">
+        /// A pointer to the <see cref="RECT"/> structure that contains the second source rectangle.
+        /// </param>
+        /// <returns>
+        /// If the specified structure contains a nonempty rectangle, the return value is <see cref="TRUE"/>.
+        /// If the specified structure does not contain a nonempty rectangle, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system ignores the dimensions of an empty rectangle that is, a rectangle in which all coordinates are set to zero,
+        /// so that it has no height or no width.
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnionRect", SetLastError = true)]
+        public static extern BOOL UnionRect([In][Out]ref RECT lprcDst, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc1,
+            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc2);
     }
 }
