@@ -88,6 +88,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the cursor position for the last message retrieved by the <see cref="GetMessage"/> function.
+        /// To determine the current position of the cursor, use the <see cref="GetCursorPos"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessagepos
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value specifies the x- and y-coordinates of the cursor position.
+        /// The x-coordinate is the low order short and the y-coordinate is the high-order short.
+        /// </returns>
+        /// <remarks>
+        /// As noted above, the x-coordinate is in the low-order short of the return value;
+        /// the y-coordinate is in the high-order short (both represent signed values because they can take negative values on systems with multiple monitors).
+        /// If the return value is assigned to a variable, you can use the <see cref="MAKEPOINTS"/> macro
+        /// to obtain a <see cref="POINTS"/> structure from the return value.
+        /// You can also use the <see cref="GET_X_LPARAM"/> or <see cref="GET_Y_LPARAM"/> macro to extract the x- or y-coordinate.
+        /// Important Do not use the <see cref="LOWORD"/> or <see cref="HIWORD"/> macros to extract the x- and y- coordinates of the cursor position
+        /// because these macros return incorrect results on systems with multiple monitors.
+        /// Systems with multiple monitors can have negative x- and y- coordinates,
+        /// and <see cref="LOWORD"/> and <see cref="HIWORD"/> treat the coordinates as unsigned quantities.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessagePos", SetLastError = true)]
+        public static extern DWORD GetMessagePos();
+
+        /// <summary>
+        /// <para>
         /// Dispatches incoming sent messages, checks the thread message queue for a posted message, and retrieves the message (if any exist).
         /// </para>
         /// <para>
