@@ -11,6 +11,34 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The AbortProc function is an application-defined callback function used with the <see cref="SetAbortProc"/> function.
+        /// It is called when a print job is to be canceled during spooling.
+        /// The <see cref="ABORTPROC"/> type defines a pointer to this callback function.
+        /// AbortProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-abortproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <returns>
+        /// The callback function should return <see cref="TRUE"/> to continue the print job or <see cref="FALSE"/> to cancel the print job.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// If the iError parameter is <see cref="SP_OUTOFDISK"/>, the application need not cancel the print job.
+        /// If it does not cancel the job, it must yield to Print Manager by calling the <see cref="PeekMessage"/> or <see cref="GetMessage"/> function.
+        /// </remarks>
+        public delegate BOOL ABORTPROC([In]HDC Arg1, [In]int Arg2);
+
+
+        /// <summary>
+        /// <para>
         /// The <see cref="AbortDoc"/> function stops the current print job and erases everything drawn
         /// since the last call to the <see cref="StartDoc"/> function.
         /// </para>
@@ -106,6 +134,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartPage", SetLastError = true)]
         public static extern int StartPage([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetAbortProc"/> function sets the application-defined abort function that allows a print job to be canceled during spooling.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setabortproc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context for the print job.
+        /// </param>
+        /// <param name="proc">
+        /// Pointer to the application-defined abort function.
+        /// For more information about the callback function, see the <see cref="ABORTPROC"/> callback function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is greater than zero.
+        /// If the function fails, the return value is <see cref="SP_ERROR"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetAbortProc", SetLastError = true)]
+        public static extern int SetAbortProc([In]HDC hdc, [In]ABORTPROC proc);
 
         /// <summary>
         /// <para>
