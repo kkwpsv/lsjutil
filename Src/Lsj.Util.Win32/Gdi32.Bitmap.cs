@@ -547,6 +547,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetBitmapBits"/> function sets the bits of color data for a bitmap to the specified values.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapbits
+        /// </para>
+        /// </summary>
+        /// <param name="hbm">
+        /// A handle to the bitmap to be set.
+        /// This must be a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="cb">
+        /// The number of bytes pointed to by the <paramref name="pvBits"/> parameter.
+        /// </param>
+        /// <param name="pvBits">
+        /// A pointer to an array of bytes that contain color data for the specified bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes used in setting the bitmap bits.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The array identified by <paramref name="pvBits"/> must be WORD aligned.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the SetDIBits function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", SetLastError = true)]
+        public static extern LONG SetBitmapBits([In]HBITMAP hbm, [In]DWORD cb, [In]IntPtr pvBits);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetBitmapDimensionEx"/> function assigns preferred dimensions to a bitmap.
         /// These dimensions can be used by applications; however, they are not used by the system.
         /// </para>
