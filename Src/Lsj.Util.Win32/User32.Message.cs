@@ -36,8 +36,18 @@ namespace Lsj.Util.Win32
         /// The return value specifies the value returned by the window procedure.
         /// Although its meaning depends on the message being dispatched, the return value generally is ignored.
         /// </returns>
+        /// <remarks>
+        /// The <see cref="MSG"/> structure must contain valid message values.
+        /// If the <paramref name="lpmsg"/> parameter points to a <see cref="WM_TIMER"/> message
+        /// and the <see cref="MSG.lParam"/> parameter of the <see cref="WM_TIMER"/> message is not <see cref="NULL"/>,
+        /// <see cref="MSG.lParam"/> points to a function that is called instead of the window procedure.
+        /// Note that the application is responsible for retrieving and dispatching input messages to the dialog box.
+        /// Most applications use the main message loop for this.
+        /// However, to permit the user to move to and to select controls by using the keyboard, the application must call <see cref="IsDialogMessage"/>.
+        /// For more information, see Dialog Box Keyboard Interface.
+        /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", SetLastError = true)]
-        public static extern IntPtr DispatchMessage([In] ref MSG lpmsg);
+        public static extern LRESULT DispatchMessage([MarshalAs(UnmanagedType.LPStruct)][In]MSG lpmsg);
 
         /// <summary>
         /// <para>
@@ -386,7 +396,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool TranslateMessage([In] ref MSG lpMsg);
+        public static extern BOOL TranslateMessage([MarshalAs(UnmanagedType.LPStruct)][In]MSG lpMsg);
 
         /// <summary>
         /// <para>
