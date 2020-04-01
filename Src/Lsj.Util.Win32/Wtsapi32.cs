@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,7 +26,7 @@ namespace Lsj.Util.Win32
         /// To monitor the state of the current physical console session, use the<see cref="WTSRegisterSessionNotification"/>  function.
         /// </remarks>
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSGetActiveConsoleSessionId", SetLastError = true)]
-        public static extern ulong WTSGetActiveConsoleSessionId();
+        public static extern DWORD WTSGetActiveConsoleSessionId();
         /// <summary>
         /// Obtains the primary access token of the logged-on user specified by the session ID. To call this function successfully, 
         /// the calling application must be running within the context of the LocalSystem account and have the SE_TCB_NAME privilege.
@@ -55,7 +56,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
 
         [DllImport("Wtsapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSQueryUserToken", SetLastError = true)]
-        public static extern bool WTSQueryUserToken([In]ulong SessionId, [Out]out IntPtr phToken);
+        public static extern BOOL WTSQueryUserToken([In]ulong SessionId, [Out]out IntPtr phToken);
 
     }
 }

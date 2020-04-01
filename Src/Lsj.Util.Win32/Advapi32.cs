@@ -921,5 +921,38 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
             [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// The SetTokenInformation function sets various types of information for a specified access token. 
+        /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
+        /// <para>
+        /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token for which information is to be set.
+        /// </param>
+        /// <param name="TokenInformationClass">
+        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/>  enumerated type that identifies the type of information the function sets. 
+        /// The valid values from TOKEN_INFORMATION_CLASS are described in the TokenInformation parameter.
+        /// </param>
+        /// <param name="TokenInformation">
+        /// A pointer to a buffer that contains the information set in the access token. The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
+        /// </param>
+        /// <param name="TokenInformationLength">
+        /// Specifies the length, in bytes, of the buffer pointed to by TokenInformation.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns nonzero.
+        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/> .
+        /// </returns>
+        /// <remarks>
+        /// To set privilege information, an application can call the<see cref="AdjustTokenPrivileges"/>  function. 
+        /// To set a token's groups, an application can call the AdjustTokenGroups function.
+        /// Token-type information can be set only when an access token is created.
+        /// </remarks>
+
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", SetLastError = true)]
+        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass, [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
     }
 }
