@@ -1326,6 +1326,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Unregisters a window class, freeing the memory required for the class.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregisterclassw
+        /// </para>
+        /// </summary>
+        /// <param name="lpClassName">
+        /// A null-terminated string or a class atom.
+        /// If <paramref name="lpClassName"/> is a string, it specifies the window class name.
+        /// This class name must have been registered by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// System classes, such as dialog box controls, cannot be unregistered.
+        /// If this parameter is an atom, it must be a class atom created
+        /// by a previous call to the <see cref="RegisterClass"/> or <see cref="RegisterClassEx"/> function.
+        /// The atom must be in the low-order word of <paramref name="lpClassName"/>; the high-order word must be zero.
+        /// </param>
+        /// <param name="hInstance">
+        /// A handle to the instance of the module that created the class.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the class could not be found or if a window still exists that was created with the class, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before calling this function, an application must destroy all windows created with the specified class.
+        /// All window classes that an application registers are unregistered when it terminates.
+        /// Class atoms are special atoms returned only by <see cref="RegisterClass"/> and <see cref="RegisterClassEx"/>.
+        /// No window classes registered by a DLL are unregistered when the .dll is unloaded.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterClassW", SetLastError = true)]
+        public static extern BOOL UnregisterClass([MarshalAs(UnmanagedType.LPWStr)][In]string lpClassName, [In]HINSTANCE hInstance);
+
+        /// <summary>
+        /// <para>
         /// Updates the position, size, shape, content, and translucency of a layered window.
         /// </para>
         /// <para>
