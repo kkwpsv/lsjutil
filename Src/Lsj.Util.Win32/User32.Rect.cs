@@ -190,6 +190,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PtInRect"/> function determines whether the specified point lies within the specified rectangle.
+        /// A point is within a rectangle if it lies on the left or top side or is within all four sides.
+        /// A point on the right or bottom side is considered outside the rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ptinrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the specified rectangle.
+        /// </param>
+        /// <param name="pt">
+        /// A <see cref="POINT"/> structure that contains the specified point.
+        /// </param>
+        /// <returns>
+        /// If the specified point lies within the rectangle, the return value is <see cref="TRUE"/>.
+        /// If the specified point does not lie within the rectangle, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The rectangle must be normalized before <see cref="PtInRect"/> is called.
+        /// That is, lprc.right must be greater than lprc.left and lprc.bottom must be greater than lprc.top.
+        /// If the rectangle is not normalized, a point is never considered inside of the rectangle.
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRect", SetLastError = true)]
+        public static extern BOOL PtInRect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc, [In]POINT pt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRect"/> function sets the coordinates of the specified rectangle.
         /// This is equivalent to assigning the left, top, right, and bottom arguments to the appropriate members of the <see cref="RECT"/> structure.
         /// </para>
