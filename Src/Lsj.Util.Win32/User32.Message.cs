@@ -88,6 +88,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the extra message information for the current thread.
+        /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmessageextrainfo
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value specifies the extra information.
+        /// The meaning of the extra information is device specific.
+        /// </returns>
+        /// <remarks>
+        /// To set a thread's extra message information, use the <see cref="SetMessageExtraInfo"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageExtraInfo", SetLastError = true)]
+        public static extern LPARAM GetMessageExtraInfo();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the cursor position for the last message retrieved by the <see cref="GetMessage"/> function.
         /// To determine the current position of the cursor, use the <see cref="GetCursorPos"/> function.
         /// </para>
@@ -127,8 +146,10 @@ namespace Lsj.Util.Win32
         /// The return value specifies the message time.
         /// </returns>
         /// <remarks>
-        /// The return value from the <see cref="GetMessageTime"/> function does not necessarily increase between subsequent messages, because the value wraps to the minimum value for a long integer if the timer count exceeds the maximum value for a long integer.
-        /// To calculate time delays between messages, subtract the time of the first message from the time of the second message (ignoring overflow) and compare the result of the subtraction against the desired delay amount.
+        /// The return value from the <see cref="GetMessageTime"/> function does not necessarily increase between subsequent messages,
+        /// because the value wraps to the minimum value for a long integer if the timer count exceeds the maximum value for a long integer.
+        /// To calculate time delays between messages, subtract the time of the first message from the time of the second message (ignoring overflow)
+        /// and compare the result of the subtraction against the desired delay amount.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", SetLastError = true)]
         public static extern LONG GetMessageTime();
