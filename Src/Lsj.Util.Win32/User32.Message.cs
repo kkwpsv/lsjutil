@@ -312,18 +312,49 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hWnd">
         /// A handle to the window whose window procedure is to receive the message. The following values have special meanings.
-        /// <see cref="HWND_BROADCAST"/> : The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
+        /// <see cref="HWND_BROADCAST"/>: The message is posted to all top-level windows in the system, including disabled or invisible unowned windows,
         /// overlapped windows, and pop-up windows. The message is not posted to child windows.
-        /// <see cref="IntPtr.Zero"/>: The function behaves like a call to <see cref="PostThreadMessage"/> with the dwThreadId parameter set to
+        /// <see cref="NULL"/>: The function behaves like a call to <see cref="PostThreadMessage"/> with the dwThreadId parameter set to
         /// the identifier of the current thread.
         /// </param>
-        /// <param name="msg">The message to be posted.</param>
-        /// <param name="wParam">Additional message-specific information.</param>
-        /// <param name="lParam">Additional message-specific information.</param>
-        /// <returns></returns>
+        /// <param name="msg">
+        /// The message to be posted.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the limit is hit.
+        /// </returns>
+        /// <remarks>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
+        /// Messages in a message queue are retrieved by calls to the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
+        /// to obtain a unique message for inter-application communication.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>), its message parameters cannot include pointers.
+        /// Otherwise, the operation will fail.
+        /// The functions will return before the receiving thread has had a chance to process the message and the sender will free the memory before it is used.
+        /// Do not post the <see cref="WM_QUIT"/> message using <see cref="PostMessage"/>; use the <see cref="PostQuitMessage"/> function.
+        /// An accessibility application can use <see cref="PostMessage"/> to post <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
+        /// This functionality is not guaranteed to work for other types of applications.
+        /// There is a limit of 10,000 posted messages per message queue.
+        /// This limit should be sufficiently large.
+        /// If your application exceeds the limit, it should be redesigned to avoid consuming so many system resources.
+        /// To adjust this limit, modify the following registry key.
+        /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
+        /// The minimum acceptable value is 4000.
+        /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool PostMessage([In]IntPtr hWnd, [In]WindowsMessages msg, [In]UIntPtr wParam, [In]IntPtr lParam);
+        public static extern BOOL PostMessage([In]HWND hWnd, [In]WindowsMessages msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -419,7 +450,7 @@ namespace Lsj.Util.Win32
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = true)]
-        public static extern IntPtr SendMessage([In]IntPtr hWnd, [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
+        public static extern LRESULT SendMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// 
