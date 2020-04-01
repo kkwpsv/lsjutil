@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", ExactSpelling = true, SetLastError = true)]
         public static extern void FatalAppExit([In]UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessageText);
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Lsj.Util.Win32
         /// Each insert must have a corresponding element in the array.
         /// </param>
         /// <returns></returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
             [Out]out IntPtr lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
 
@@ -187,7 +187,7 @@ namespace Lsj.Util.Win32
         /// Each insert must have a corresponding element in the array.
         /// </param>
         /// <returns></returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
             [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
 
@@ -289,7 +289,7 @@ namespace Lsj.Util.Win32
         /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetErrorMode([In]ErrorModes uMode);
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="dwErrCode">The last-error code for the thread.</param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
         public static extern void SetLastError([In]uint dwErrCode);
     }
 }

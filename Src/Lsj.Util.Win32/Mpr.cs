@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Other Windows-based applications should call the WNetAddConnection2 or the WNetAddConnection3 function.")]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetAddConnectionW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetAddConnectionW", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes WNetAddConnection([MarshalAs(UnmanagedType.LPWStr)][In]string lpRemoteName,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpPassword, [MarshalAs(UnmanagedType.LPWStr)][In]string lpLocalName);
 
@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The WNetCancelConnection function is provided for compatibility with 16-bit versions of Windows." +
             " Other Windows-based applications should call the WNetCancelConnection2 function.")]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetCancelConnectionW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetCancelConnectionW", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes WNetCancelConnection([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]BOOL fForce);
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace Lsj.Util.Win32
         /// including a Terminal Services session.
         /// For more information, see Defining an MS-DOS Device Name.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetGetConnectionW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetGetConnectionW", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes WNetGetConnection([MarshalAs(UnmanagedType.LPWStr)][In]string lpLocalName,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpRemoteName, [In][Out]ref DWORD lpnLength);
     }

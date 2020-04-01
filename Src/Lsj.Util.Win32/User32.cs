@@ -115,7 +115,7 @@ namespace Lsj.Util.Win32
         /// to enable the <see cref="SE_SHUTDOWN_NAME"/> privilege.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExitWindowsEx([In]ExitWindowsExFlags uFlags, [In]SystemShutdownReasonCodes dwReason);
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Lsj.Util.Win32
         /// In this case the function returns <see langword="false"/> and
         /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CharToOem([MarshalAs(UnmanagedType.LPWStr)][In]string pSrc, [In]IntPtr pDst);
 
@@ -163,7 +163,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// <see langword="true"/> if the method succeeds, otherwise <see langword="false"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetAutoRotationState([In][Out]ref AR_STATE pState);
 
@@ -179,7 +179,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The DPI for the window which depends on the DPI_AWARENESS of the window. An invalid hwnd value will result in a return value of 0.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetDpiForWindow([In]IntPtr hwnd);
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see langword="true"/>.
         /// If the function fails, the return value is <see langword="false"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetMonitorInfo([In]IntPtr hMonitor, [In][Out]ref MONITORINFOEX lpmi);
 
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
         /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetSubMenu([In]IntPtr hMenu, [In]int nPos);
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Lsj.Util.Win32
         /// because <see cref="GetSysColorBrush"/> returns a cached brush, instead of allocating a new one.
         /// Color is an important visual element of most user interfaces. For guidelines about using color in your applications, see Color.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColor", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetSysColor([In]SystemColors nIndex);
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Lsj.Util.Win32
         /// Although you don't need to delete the logical brush that <see cref="GetSysColorBrush"/> returns,
         /// no harm occurs by calling <see cref="DeleteObject"/>.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetSysColorBrush([In]SystemColors nIndex);
 
         /// <summary>
@@ -310,7 +310,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the requested system metric or configuration setting.
         /// If the function fails, the return value is 0. <see cref="GetLastError"/> does not provide extended error information.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetrics", ExactSpelling = true, SetLastError = true)]
         public static extern int GetSystemMetrics([In]SystemMetric smIndex);
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace Lsj.Util.Win32
         /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
         /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetUserObjectSecurity([In]IntPtr hObj, [In]IntPtr pSIRequested, [In]IntPtr pSID,
             [In]uint nLength, [Out]out uint lpnLengthNeeded);
@@ -375,7 +375,7 @@ namespace Lsj.Util.Win32
         /// If the character is not alphabetical, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharAlpha([In]WCHAR ch);
 
         /// <summary>
@@ -395,7 +395,7 @@ namespace Lsj.Util.Win32
         /// If the character is not alphanumeric, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharAlphaNumericW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharAlphaNumeric([In]WCHAR ch);
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace Lsj.Util.Win32
         /// If the character is not lowercase, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharLowerW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharLower([In]WCHAR ch);
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Lsj.Util.Win32
         /// If the character is not uppercase, the return value is <see cref="BOOL.FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsCharUpperW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsCharUpper([In]WCHAR ch);
 
         /// <summary>
@@ -480,7 +480,7 @@ namespace Lsj.Util.Win32
         /// However, resource tables can contain null characters.
         /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LoadString([In]HINSTANCE hInstance, [In]UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
             [In]int cchBufferMax);
 
@@ -503,7 +503,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr MonitorFromWindow([In]IntPtr hwnd, [In]MonitorDefaultFlags dwFlags);
 
         /// <summary>
@@ -535,7 +535,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr RegisterPowerSettingNotification([In]IntPtr hRecipient,
             [MarshalAs(UnmanagedType.LPStruct)][In]Guid PowerSettingGuid, [In]RegisterPowerSettingNotificationFlags Flags);
 
@@ -572,8 +572,70 @@ namespace Lsj.Util.Win32
         /// If you are writing an application to enable the user to change the colors, then it is appropriate to use this function.
         /// However, this function affects only the current session. The new colors are not saved when the system terminates.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSysColors([In]int cElements, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpaElements,
             [MarshalAs(UnmanagedType.LPArray)][In]COLORREF[] lpaRgbValues);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves or sets the value of one of the system-wide parameters.
+        /// This function can also update the user profile while setting a parameter.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfow
+        /// </para>
+        /// </summary>
+        /// <param name="uiAction">
+        /// The system-wide parameter to be retrieved or set.
+        /// </param>
+        /// <param name="uiParam">
+        /// A parameter whose usage and format depends on the system parameter being queried or set.
+        /// For more information about system-wide parameters, see the <paramref name="uiAction"/> parameter.
+        /// If not otherwise indicated, you must specify zero for this parameter.
+        /// </param>
+        /// <param name="pvParam">
+        /// A parameter whose usage and format depends on the system parameter being queried or set.
+        /// For more information about system-wide parameters, see the <paramref name="uiAction"/> parameter.
+        /// If not otherwise indicated, you must specify <see cref="NULL"/> for this parameter.
+        /// For information on the PVOID datatype, see Windows Data Types.
+        /// </param>
+        /// <param name="fWinIni">
+        /// If a system parameter is being set, specifies whether the user profile is to be updated, and if so,
+        /// whether the <see cref="WM_SETTINGCHANGE"/> message is to be broadcast to all top-level windows to notify them of the change.
+        /// This parameter can be zero if you do not want to update the user profile or broadcast the <see cref="WM_SETTINGCHANGE"/> message,
+        /// or it can be one or more of the following values.
+        /// <see cref="SPIF_UPDATEINIFILE"/>: Writes the new system-wide parameter setting to the user profile.
+        /// <see cref="SPIF_SENDCHANGE"/>: Broadcasts the <see cref="WM_SETTINGCHANGE"/> message after updating the user profile.
+        /// <see cref="SPIF_SENDWININICHANGE"/>: Same as <see cref="SPIF_SENDCHANGE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="TRUE"/> value.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is intended for use with applications that allow the user to customize the environment.
+        /// A keyboard layout name should be derived from the hexadecimal value of the language identifier corresponding to the layout.
+        /// For example, U.S. English has a language identifier of 0x0409, so the primary U.S. English layout is named "00000409".
+        /// Variants of U.S. English layout, such as the Dvorak layout, are named "00010409", "00020409" and so on.
+        /// For a list of the primary language identifiers and sublanguage identifiers that make up a language identifier, see the <see cref="MAKELANGID"/> macro.
+        /// There is a difference between the High Contrast color scheme and the High Contrast Mode.
+        /// The High Contrast color scheme changes the system colors to colors that have obvious contrast;
+        /// you switch to this color scheme by using the Display Options in the control panel.
+        /// The High Contrast Mode, which uses <see cref="SPI_GETHIGHCONTRAST"/> and <see cref="SPI_SETHIGHCONTRAST"/>,
+        /// advises applications to modify their appearance for visually-impaired users.
+        /// It involves such things as audible warning to users and customized color scheme (using the Accessibility Options in the control panel).
+        /// For more information, see HIGHCONTRAST. For more information on general accessibility features, see Accessibility.
+        /// During the time that the primary button is held down to activate the Mouse ClickLock feature, the user can move the mouse.
+        /// After the primary button is locked down, releasing the primary button does not result in a <see cref="WM_LBUTTONUP"/> message.
+        /// Thus, it will appear to an application that the primary button is still down.
+        /// Any subsequent button message releases the primary button, sending a <see cref="WM_LBUTTONUP"/> message to the application,
+        /// thus the button can be unlocked programmatically or through the user clicking any button.
+        /// This API is not DPI aware, and should not be used if the calling thread is per-monitor DPI aware.
+        /// For the DPI-aware version of this API, see <see cref="SystemParametersInfoForDPI"/>.
+        /// For more information on DPI awareness, see the Windows High DPI documentation.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam, [In]PVOID pvParam, [In]UINT fWinIni);
     }
 }

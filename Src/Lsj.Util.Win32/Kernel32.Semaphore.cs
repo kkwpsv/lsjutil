@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateSemaphore(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSemaphoreAttributes, [In]int lInitialCount, [In]int lMaximumCount,
@@ -171,7 +171,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreExW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateSemaphoreEx(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSemaphoreAttributes, [In]int lInitialCount, [In]int lMaximumCount,

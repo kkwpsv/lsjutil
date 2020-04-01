@@ -24,8 +24,8 @@ namespace Lsj.Util.Win32
         /// The return value specifies the current double-click time, in milliseconds.
         /// The maximum return value is 5000 milliseconds.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDoubleClickTime", SetLastError = true)]
-        public static extern uint GetDoubleClickTime();
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDoubleClickTime", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetDoubleClickTime();
 
         /// <summary>
         /// <para>
@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetOEMCP function to retrieve the OEM code-page identifier for the system.")]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetKBCodePage();
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32
         /// The name of a character key is the character itself.
         /// The names of dead keys are spelled out in full.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetKeyNameText([In]LONG lParam, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpString, [In]int cchSize);
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Lsj.Util.Win32
         /// 7: Hardware dependent and specified by the OEM
         /// When a single USB keyboard is connected to the computer, this function returns the code 81.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", ExactSpelling = true, SetLastError = true)]
         public static extern int GetKeyboardType([In]int nTypeFlag);
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Lsj.Util.Win32
         /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT MapVirtualKey([In]UINT uCode, [In]MapVirtualKeyTypes uMapType);
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// The NUMLOCK key must be on.
         /// This function is implemented using the <see cref="VkKeyScan"/> function.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD OemKeyScan([In]WORD wOemChar);
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Lsj.Util.Win32
         /// (<see cref="VK_HOME"/>, <see cref="VK_INSERT"/>, and so on)
         /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true, SetLastError = true)]
         public static extern int ToAscii([In]UINT uVirtKey, [In]UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState,
             [Out]out WORD lpChar, [In]UINT uFlags);
 
@@ -283,7 +283,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function has been superseded by the VkKeyScanEx function." +
             "You can still use VkKeyScan, however, if you do not need to specify a keyboard layout.")]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", ExactSpelling = true, SetLastError = true)]
         public static extern SHORT VkKeyScan([In]WCHAR ch);
     }
 }

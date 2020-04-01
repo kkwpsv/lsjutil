@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// In either case, received data at the remote end of the socket is still delivered to the application.
         /// See Graceful Shutdown, Linger Options, and Socket Closure for more information.
         /// </remarks>
-        [DllImport("Ws2_32.dll", CharSet = CharSet.Unicode, EntryPoint = "closesocket", SetLastError = true)]
+        [DllImport("Ws2_32.dll", CharSet = CharSet.Unicode, EntryPoint = "closesocket", ExactSpelling = true, SetLastError = true)]
         public static extern int closesocket([In]UIntPtr s);
     }
 }

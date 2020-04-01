@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// ICM: No color management is performed when blits occur.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1, [In]RasterCodes rop);
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32
         /// If an application sets the nWidth or nHeight parameters to zero, <see cref="CreateBitmap"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmap([In]int nWidth, [In]int nHeight, [In]UINT nPlanes, [In]UINT nBitCount, [In]IntPtr lpBits);
 
         /// <summary>
@@ -199,8 +199,8 @@ namespace Lsj.Util.Win32
         /// If the bitmap is monochrome, zeros represent the foreground color and ones represent the background color for the destination device context.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", SetLastError = true)]
-        public static extern HBITMAP CreateBitmapIndirect([MarshalAs(UnmanagedType.LPStruct)][In]BITMAP pbm);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", ExactSpelling = true, SetLastError = true)]
+        public static extern HBITMAP CreateBitmapIndirect([In]in BITMAP pbm);
 
         /// <summary>
         /// <para>
@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateCompatibleBitmap([In]HDC hdc, [In]int nWidth, [In]int nHeight);
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateCompatibleBitmap function.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDiscardableBitmap([In]HDC hdc, [In]int cx, [In]int cy);
 
         /// <summary>
@@ -312,9 +312,246 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", SetLastError = true)]
-        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFOHEADER pbmih, [In]DWORD flInit,
-            [In]IntPtr pjBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO pbmi, [In]UINT iUsage);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
+        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]DWORD flInit,
+            [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetBitmapBits"/> function copies the bitmap bits of a specified device-dependent bitmap into a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapbits
+        /// </para>
+        /// </summary>
+        /// <param name="hbit">
+        /// A handle to the device-dependent bitmap.
+        /// </param>
+        /// <param name="cb">
+        /// The number of bytes to copy from the bitmap into the buffer.
+        /// </param>
+        /// <param name="lpvBits">
+        /// A pointer to a buffer to receive the bitmap bits.
+        /// The bits are stored as an array of byte values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes copied to the buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the GetDIBits function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG GetBitmapBits([In]HBITMAP hbit, [In]LONG cb, [In]LPVOID lpvBits);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetBitmapDimensionEx"/> function retrieves the dimensions of a compatible bitmap.
+        /// The retrieved dimensions must have been set by the <see cref="SetBitmapDimensionEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapdimensionex
+        /// </para>
+        /// </summary>
+        /// <param name="hbit">
+        /// A handle to a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="lpsize">
+        /// A pointer to a <see cref="SIZE"/> structure to receive the bitmap dimensions.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function returns a data structure that contains fields for the height and width of the bitmap, in .01-mm units.
+        /// If those dimensions have not yet been set, the structure that is returned will have zeros in those fields.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetBitmapDimensionEx([In]HBITMAP hbit, [Out]out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetDIBits"/> function retrieves the bits of the specified compatible bitmap and copies them into a buffer as a DIB
+        /// using the specified format.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdibits
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hbm">
+        /// A handle to the bitmap.
+        /// This must be a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="start">
+        /// The first scan line to retrieve.
+        /// </param>
+        /// <param name="cLines">
+        /// The number of scan lines to retrieve.
+        /// </param>
+        /// <param name="lpvBits">
+        /// A pointer to a buffer to receive the bitmap data.
+        /// If this parameter is <see cref="NULL"/>, the function passes the dimensions and format of the bitmap
+        /// to the <see cref="BITMAPINFO"/> structure pointed to by the <paramref name="lpbmi"/> parameter.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that specifies the desired format for the DIB data.
+        /// </param>
+        /// <param name="usage">
+        /// The format of the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure.
+        /// It must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The color table should consist of an array of 16-bit indexes into the current logical palette.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The color table should consist of literal red, green, blue (RGB) values.
+        /// </param>
+        /// <returns>
+        /// If the <paramref name="lpvBits"/> parameter is non-NULL and the function succeeds,
+        /// the return value is the number of scan lines copied from the bitmap.
+        /// If the <paramref name="lpvBits"/> parameter is <see langword="null"/> and <see cref="GetDIBits"/> successfully
+        /// fills the <see cref="BITMAPINFO"/> structure, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// If the requested format for the DIB matches its internal format, the RGB values for the bitmap are copied.
+        /// If the requested format doesn't match the internal format, a color table is synthesized.
+        /// The following table describes the color table synthesized for each format.
+        /// 1_BPP: The color table consists of a black and a white entry.
+        /// 4_BPP: The color table consists of a mix of colors identical to the standard VGA palette.
+        /// 8_BPP: The color table consists of a general mix of 256 colors defined by GDI.
+        /// (Included in these 256 colors are the 20 colors found in the default logical palette.)
+        /// 24_BPP: No color table is returned.
+        /// If the <paramref name="lpvBits"/> parameter is a valid pointer, the first six members of the <see cref="BITMAPINFOHEADER"/> structure
+        /// must be initialized to specify the size and format of the DIB.
+        /// The scan lines must be aligned on a <see cref="DWORD"/> except for RLE compressed bitmaps.
+        /// A bottom-up DIB is specified by setting the height to a positive number,
+        /// while a top-down DIB is specified by setting the height to a negative number.
+        /// The bitmap color table will be appended to the <see cref="BITMAPINFO"/> structure.
+        /// If <paramref name="lpvBits"/> is <see cref="NULL"/>, <see cref="GetDIBits"/> examines the first member
+        /// of the first structure pointed to by <paramref name="lpbmi"/>.
+        /// This member must specify the size, in bytes, of a <see cref="BITMAPCOREHEADER"/> or a <see cref="BITMAPINFOHEADER"/> structure.
+        /// The function uses the specified size to determine how the remaining members should be initialized.
+        /// If <paramref name="lpvBits"/> is <see cref="NULL"/> and the bit count member of <see cref="BITMAPINFO"/> is initialized to zero,
+        /// <see cref="GetDIBits"/> fills in a <see cref="BITMAPINFOHEADER"/> structure or <see cref="BITMAPCOREHEADER"/> without the color table.
+        /// This technique can be used to query bitmap attributes.
+        /// The bitmap identified by the hbmp parameter must not be selected into a device context when the application calls this function.
+        /// The origin for a bottom-up DIB is the lower-left corner of the bitmap; the origin for a top-down DIB is the upper-left corner.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]LPVOID lpvBits,
+            [In]in BITMAPINFO lpbmi, [In]UINT usage);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetPixel"/> function retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpixel
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the pixel to be examined.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the pixel to be examined.
+        /// </param>
+        /// <returns>
+        /// The return value is the <see cref="COLORREF"/> value that specifies the RGB of the pixel.
+        /// If the pixel is outside of the current clipping region, the return value is <see cref="CLR_INVALID"/> (0xFFFFFFFF defined in Wingdi.h).
+        /// </returns>
+        /// <remarks>
+        /// The pixel must be within the boundaries of the current clipping region.
+        /// Not all devices support <see cref="GetPixel"/>.
+        /// An application should call <see cref="GetDeviceCaps"/> to determine whether a specified device supports this function.
+        /// A bitmap must be selected within the device context, otherwise, <see cref="CLR_INVALID"/> is returned on all pixels.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetPixel([In]HDC hdc, [In]int x, [In]int y);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetROP2"/> function retrieves the foreground mix mode of the specified device context.
+        /// The mix mode specifies how the pen or interior color and the color already on the screen are combined to yield a new color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrop2
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the foreground mix mode.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// Following are the foreground mix modes.
+        /// <see cref="R2_BLACK"/>: Pixel is always 0.
+        /// <see cref="R2_COPYPEN"/>: Pixel is the pen color.
+        /// <see cref="R2_MASKNOTPEN"/>: Pixel is a combination of the colors common to both the screen and the inverse of the pen.
+        /// <see cref="R2_MASKPEN"/>: Pixel is a combination of the colors common to both the pen and the screen.
+        /// <see cref="R2_MASKPENNOT"/>: Pixel is a combination of the colors common to both the pen and the inverse of the screen.
+        /// <see cref="R2_MERGENOTPEN"/>: Pixel is a combination of the screen color and the inverse of the pen color.
+        /// <see cref="R2_MERGEPEN"/>: Pixel is a combination of the pen color and the screen color.
+        /// <see cref="R2_MERGEPENNOT"/>: Pixel is a combination of the pen color and the inverse of the screen color.
+        /// <see cref="R2_NOP"/>: Pixel remains unchanged.
+        /// <see cref="R2_NOT"/>: Pixel is the inverse of the screen color.
+        /// <see cref="R2_NOTCOPYPEN"/>: Pixel is the inverse of the pen color.
+        /// <see cref="R2_NOTMASKPEN"/>: Pixel is the inverse of the <see cref="R2_MASKPEN"/> color.
+        /// <see cref="R2_NOTMERGEPEN"/>: Pixel is the inverse of the <see cref="R2_MERGEPEN"/> color.
+        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the <see cref="R2_XORPEN"/> color.
+        /// <see cref="R2_WHITE"/>: Pixel is always 1.
+        /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", ExactSpelling = true, SetLastError = true)]
+        public static extern RasterOps GetROP2([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetStretchBltMode"/> function retrieves the current stretching mode.
+        /// The stretching mode defines how color data is added to or removed from bitmaps that are stretched or compressed
+        /// when the <see cref="StretchBlt"/> function is called.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstretchbltmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current stretching mode. This can be one of the following values.
+        /// <see cref="BLACKONWHITE"/>:
+        /// Performs a Boolean AND operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves black pixels at the expense of white pixels.
+        /// <see cref="COLORONCOLOR"/>:
+        /// Deletes the pixels. This mode deletes all eliminated lines of pixels without trying to preserve their information.
+        /// <see cref="HALFTONE"/>:
+        /// Maps pixels from the source rectangle into blocks of pixels in the destination rectangle.
+        /// The average color over the destination block of pixels approximates the color of the source pixels.
+        /// <see cref="STRETCH_ANDSCANS"/>:
+        /// Same as <see cref="BLACKONWHITE"/>.
+        /// <see cref="STRETCH_DELETESCANS"/>:
+        /// Same as <see cref="COLORONCOLOR"/>.
+        /// <see cref="STRETCH_HALFTONE"/>:
+        /// Same as <see cref="HALFTONE"/>.
+        /// <see cref="STRETCH_ORSCANS"/>:
+        /// Same as <see cref="WHITEONBLACK"/>.
+        /// <see cref="WHITEONBLACK"/>:
+        /// Performs a Boolean OR operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves white pixels at the expense of black pixels.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", ExactSpelling = true, SetLastError = true)]
+        public static extern StretchBltModes GetStretchBltMode([In]HDC hdc);
 
         /// <summary>
         /// <para>
@@ -356,7 +593,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("LoadBitmap is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions. Instead, use LoadImage and DrawFrameControl.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP LoadBitmap([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
 
         /// <summary>
@@ -408,8 +645,367 @@ namespace Lsj.Util.Win32
         /// Not all devices support the <see cref="PatBlt"/> function.
         /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBitmapBits"/> function sets the bits of color data for a bitmap to the specified values.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapbits
+        /// </para>
+        /// </summary>
+        /// <param name="hbm">
+        /// A handle to the bitmap to be set.
+        /// This must be a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="cb">
+        /// The number of bytes pointed to by the <paramref name="pvBits"/> parameter.
+        /// </param>
+        /// <param name="pvBits">
+        /// A pointer to an array of bytes that contain color data for the specified bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes used in setting the bitmap bits.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The array identified by <paramref name="pvBits"/> must be WORD aligned.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the SetDIBits function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG SetBitmapBits([In]HBITMAP hbm, [In]DWORD cb, [In]IntPtr pvBits);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBitmapDimensionEx"/> function assigns preferred dimensions to a bitmap.
+        /// These dimensions can be used by applications; however, they are not used by the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapdimensionex
+        /// </para>
+        /// </summary>
+        /// <param name="hbm">
+        /// A handle to the bitmap. The bitmap cannot be a DIB-section bitmap.
+        /// </param>
+        /// <param name="w">
+        /// The width, in 0.1-millimeter units, of the bitmap.
+        /// </param>
+        /// <param name="h">
+        /// The height, in 0.1-millimeter units, of the bitmap.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure to receive the previous dimensions of the bitmap.
+        /// This pointer can be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can retrieve the dimensions assigned to a bitmap with the <see cref="SetBitmapDimensionEx"/> function
+        /// by calling the <see cref="GetBitmapDimensionEx"/> function.
+        /// The bitmap identified by hBitmap cannot be a DIB section, which is a bitmap created by the <see cref="CreateDIBSection"/> function.
+        /// If the bitmap is a DIB section, the <see cref="SetBitmapDimensionEx"/> function fails.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetBitmapDimensionEx([In]HBITMAP hbm, [In]int w, [In]int h, [Out]out SIZE lpsz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetDIBits"/> function sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibits
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="hbm">
+        /// A handle to the compatible bitmap (DDB) that is to be altered using the color data from the specified DIB.
+        /// </param>
+        /// <param name="start">
+        /// The starting scan line for the device-independent color data in the array pointed to by the <paramref name="lpBits"/> parameter.
+        /// </param>
+        /// <param name="cLines">
+        /// The number of scan lines found in the array containing device-independent color data.
+        /// </param>
+        /// <param name="lpBits">
+        /// A pointer to the DIB color data, stored as an array of bytes.
+        /// The format of the bitmap values depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// pointed to by the <paramref name="lpbmi"/> parameter.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that contains information about the DIB.
+        /// </param>
+        /// <param name="ColorUse">
+        /// Indicates whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was provided and, if so,
+        /// whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or palette indexes.
+        /// The <paramref name="ColorUse"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The color table consists of an array of 16-bit indexes into the logical palette of the device context
+        /// identified by the <paramref name="hdc"/> parameter.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The color table is provided and contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of scan lines copied.
+        /// If the function fails, the return value is zero.
+        /// This can be the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// Optimal bitmap drawing speed is obtained when the bitmap bits are indexes into the system palette.
+        /// Applications can retrieve the system palette colors and indexes by calling the <see cref="GetSystemPaletteEntries"/> function.
+        /// After the colors and indexes are retrieved, the application can create the DIB. For more information, see System Palette.
+        /// The device context identified by the <paramref name="hdc"/> parameter is used
+        /// only if the <see cref="DIB_PAL_COLORS"/> constant is set for the <paramref name="ColorUse"/> parameter; otherwise it is ignored.
+        /// The bitmap identified by the hbmp parameter must not be selected into a device context when the application calls this function.
+        /// The scan lines must be aligned on a <see cref="DWORD"/> except for RLE-compressed bitmaps.
+        /// The origin for bottom-up DIBs is the lower-left corner of the bitmap; the origin for top-down DIBs is the upper-left corner of the bitmap.
+        /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
+        /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
+        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
+        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
+        /// rather than in the device context's source color space.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]IntPtr lpBits,
+            [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetDIBitsToDevice"/> function sets the pixels in the specified rectangle on the device
+        /// that is associated with the destination device context using color data from a DIB, JPEG, or PNG image.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibitstodevice
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="xDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="w">
+        /// The width, in logical units, of the image.
+        /// </param>
+        /// <param name="h">
+        /// The height, in logical units, of the image.
+        /// </param>
+        /// <param name="xSrc">
+        /// The x-coordinate, in logical units, of the lower-left corner of the image.
+        /// </param>
+        /// <param name="ySrc">
+        /// The y-coordinate, in logical units, of the lower-left corner of the image.
+        /// </param>
+        /// <param name="StartScan">
+        /// The starting scan line in the image.
+        /// </param>
+        /// <param name="cLines">
+        /// The number of DIB scan lines contained in the array pointed to by the <paramref name="lpvBits"/> parameter.
+        /// </param>
+        /// <param name="lpvBits">
+        /// A pointer to the color data stored as an array of bytes.
+        /// For more information, see the following Remarks section.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that contains information about the DIB.
+        /// </param>
+        /// <param name="ColorUse">
+        /// Indicates whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure contains
+        /// explicit red, green, blue (RGB) values or indexes into a palette.
+        /// For more information, see the following Remarks section.
+        /// The <paramref name="ColorUse"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>: The color table consists of an array of 16-bit indexes into the currently selected logical palette.
+        /// <see cref="DIB_RGB_COLORS"/>: The color table contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of scan lines set.
+        /// If zero scan lines are set (such as when <paramref name="h"/> is 0) or the function fails, the function returns zero.
+        /// If the driver cannot support the JPEG or PNG file image passed to <see cref="SetDIBitsToDevice"/>,
+        /// the function will fail and return <see cref="GDI_ERROR"/>.
+        /// If failure does occur, the application must fall back on its own JPEG or PNG support to decompress the image into a bitmap,
+        /// and then pass the bitmap to <see cref="SetDIBitsToDevice"/>.
+        /// </returns>
+        /// <remarks>
+        /// Optimal bitmap drawing speed is obtained when the bitmap bits are indexes into the system palette.
+        /// Applications can retrieve the system palette colors and indexes by calling the <see cref="GetSystemPaletteEntries"/> function.
+        /// After the colors and indexes are retrieved, the application can create the DIB.
+        /// For more information about the system palette, see Colors.
+        /// The scan lines must be aligned on a DWORD except for RLE-compressed bitmaps.
+        /// The origin of a bottom-up DIB is the lower-left corner of the bitmap; the origin of a top-down DIB is the upper-left corner.
+        /// To reduce the amount of memory required to set bits from a large DIB on a device surface,
+        /// an application can band the output by repeatedly calling <see cref="SetDIBitsToDevice"/>,
+        /// placing a different portion of the bitmap into the <paramref name="lpvBits"/> array each time.
+        /// The values of the <paramref name="StartScan"/> and <paramref name="cLines"/> parameters identify the portion of the bitmap
+        /// contained in the <paramref name="lpvBits"/> array.
+        /// The <see cref="SetDIBitsToDevice"/> function returns an error if it is called by a process that is running in the background
+        /// while a full-screen MS-DOS session runs in the foreground.
+        /// If the <see cref="BITMAPINFOHEADER.biCompression"/> member of <see cref="BITMAPINFOHEADER"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
+        /// <paramref name="lpvBits"/> points to a buffer containing a JPEG or PNG image.
+        /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of specifies the size of the buffer.
+        /// The <paramref name="ColorUse"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
+        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="SetDIBitsToDevice"/>.
+        /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
+        /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
+        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
+        /// that specifies the <see cref="gamma"/> and <see cref="endpoints"/> members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
+        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
+        /// rather than in the device context's source color space.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetDIBitsToDevice([In]HDC hdc, [In]int xDest, [In]int yDest, [In]DWORD w, [In]DWORD h, [In]int xSrc, [In]int ySrc,
+            [In]UINT StartScan, [In]UINT cLines, [In]IntPtr lpvBits, [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetPixel"/> function sets the pixel at the specified coordinates to the specified color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpixel
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in logical units, of the point to be set.
+        /// </param>
+        /// <param name="color">
+        /// The color to be used to paint the point.
+        /// To create a <see cref="COLORREF"/> color value, use the <see cref="RGB"/> macro.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the RGB value that the function sets the pixel to.
+        /// This value may differ from the color specified by <paramref name="color"/>; that occurs when an exact match for the specified color cannot be found.
+        /// If the function fails, the return value is -1.
+        /// This can be the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// The function fails if the pixel coordinates lie outside of the current clipping region.
+        /// Not all devices support the <see cref="SetPixel"/> function.
+        /// For more information, see <see cref="GetDeviceCaps"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF SetPixel([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetROP2"/> function sets the current foreground mix mode.
+        /// GDI uses the foreground mix mode to combine pens and interiors of filled objects with the colors already on the screen.
+        /// The foreground mix mode defines how colors from the brush or pen and the colors in the existing image are to be combined.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrop2
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="rop2">
+        /// The mix mode. This parameter can be one of the following values.
+        /// <see cref="R2_BLACK"/>: Pixel is always 0.
+        /// <see cref="R2_COPYPEN"/>: Pixel is the pen color.
+        /// <see cref="R2_MASKNOTPEN"/>: Pixel is a combination of the colors common to both the screen and the inverse of the pen.
+        /// <see cref="R2_MASKPEN"/>: Pixel is a combination of the colors common to both the pen and the screen.
+        /// <see cref="R2_MASKPENNOT"/>: Pixel is a combination of the colors common to both the pen and the inverse of the screen.
+        /// <see cref="R2_MERGENOTPEN"/>: Pixel is a combination of the screen color and the inverse of the pen color.
+        /// <see cref="R2_MERGEPEN"/>: Pixel is a combination of the pen color and the screen color.
+        /// <see cref="R2_MERGEPENNOT"/>: Pixel is a combination of the pen color and the inverse of the screen color.
+        /// <see cref="R2_NOP"/>: Pixel remains unchanged.
+        /// <see cref="R2_NOT"/>: Pixel is the inverse of the screen color.
+        /// <see cref="R2_NOTCOPYPEN"/>: Pixel is the inverse of the pen color.
+        /// <see cref="R2_NOTMASKPEN"/>: Pixel is the inverse of the <see cref="R2_MASKPEN"/> color.
+        /// <see cref="R2_NOTMERGEPEN"/>: Pixel is the inverse of the <see cref="R2_MERGEPEN"/> color.
+        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the <see cref="R2_XORPEN"/> color.
+        /// <see cref="R2_WHITE"/>: Pixel is always 1.
+        /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous mix mode.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Mix modes define how GDI combines source and destination colors when drawing with the current pen.
+        /// The mix modes are binary raster operation codes, representing all possible Boolean functions of two variables,
+        /// using the binary operations AND, OR, and XOR (exclusive OR), and the unary operation NOT.
+        /// The mix mode is for raster devices only; it is not available for vector devices.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetROP2([In]HDC hdc, [In]RasterOps rop2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetStretchBltMode"/> function sets the bitmap stretching mode in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setstretchbltmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// The stretching mode. This parameter can be one of the following values.
+        /// <see cref="BLACKONWHITE"/>:
+        /// Performs a Boolean AND operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves black pixels at the expense of white pixels.
+        /// <see cref="COLORONCOLOR"/>:
+        /// Deletes the pixels.
+        /// This mode deletes all eliminated lines of pixels without trying to preserve their information.
+        /// <see cref="HALFTONE"/>:
+        /// Maps pixels from the source rectangle into blocks of pixels in the destination rectangle.
+        /// The average color over the destination block of pixels approximates the color of the source pixels.
+        /// After setting the <see cref="HALFTONE"/> stretching mode, an application must call the <see cref="SetBrushOrgEx"/> function to set the brush origin.
+        /// If it fails to do so, brush misalignment occurs.
+        /// <see cref="STRETCH_ANDSCANS"/>:
+        /// Same as <see cref="BLACKONWHITE"/>.
+        /// <see cref="STRETCH_DELETESCANS"/>:
+        /// Same as <see cref="COLORONCOLOR"/>.
+        /// <see cref="STRETCH_HALFTONE"/>:
+        /// Same as <see cref="HALFTONE"/>.
+        /// <see cref="STRETCH_ORSCANS"/>:
+        /// Same as <see cref="WHITEONBLACK"/>.
+        /// <see cref="WHITEONBLACK"/>:
+        /// Performs a Boolean OR operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves white pixels at the expense of black pixels.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous stretching mode.
+        /// If the function fails, the return value is zero.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// The stretching mode defines how the system combines rows or columns of a bitmap with existing pixels on a display device
+        /// when an application calls the <see cref="StretchBlt"/> function.
+        /// The <see cref="BLACKONWHITE"/> (<see cref="STRETCH_ANDSCANS"/>) and <see cref="WHITEONBLACK"/> (<see cref="STRETCH_ORSCANS"/>) modes
+        /// are typically used to preserve foreground pixels in monochrome bitmaps.
+        /// The <see cref="COLORONCOLOR"/> (<see cref="STRETCH_DELETESCANS"/>) mode is typically used to preserve color in color bitmaps.
+        /// The <see cref="HALFTONE"/> mode is slower and requires more processing of the source image than the other three modes;
+        /// but produces higher quality images.
+        /// Also note that <see cref="SetBrushOrgEx"/> must be called after setting the <see cref="HALFTONE"/> mode to avoid brush misalignment.
+        /// Additional stretching modes might also be available depending on the capabilities of the device driver.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetStretchBltMode([In]HDC hdc, [In]StretchBltModes mode);
 
         /// <summary>
         /// <para>
@@ -489,7 +1085,7 @@ namespace Lsj.Util.Win32
         /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StretchBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int wDest, [In]int hDest, [In]HDC hdcSrc,
             [In]int xSrc, [In]int ySrc, [In]int wSrc, [In]int hSrc, [In]RasterCodes rop);
 
@@ -592,9 +1188,9 @@ namespace Lsj.Util.Win32
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
-            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi,
-            [In]UINT iUsage,[In]RasterCodes rop);
+            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [In]in BITMAPINFO lpbmi,
+            [In]UINT iUsage, [In]RasterCodes rop);
     }
 }

@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// any application can commit a transaction, not just the creator.
         /// This function can only be called if the transaction is still active, not prepared, pre-prepared, or rolled back.
         /// </remarks>
-        [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommitTransaction", SetLastError = true)]
+        [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommitTransaction", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CommitTransaction([In]IntPtr TransactionHandle);
 
@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32
         /// with the DTC’s SID (S-1-5-80-2818357584-3387065753-4000393942-342927828-138088443) and the <see cref="TRANSACTION_ENLIST"/> right.
         /// For more information, see Distributed Transaction Coordinator and Access Control Components.
         /// </remarks>
-        [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTransaction", SetLastError = true)]
+        [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTransaction", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateTransaction(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTransactionAttributes,
             [In]IntPtr UOW, [In]uint CreateOptions, [In]uint IsolationLevel, [In]uint IsolationFlags,

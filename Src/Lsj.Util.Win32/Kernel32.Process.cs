@@ -322,291 +322,9 @@ namespace Lsj.Util.Win32
         /// CreateProcess(NULL, szCmdline, /*...*/);
         /// </code>
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
-          [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
-
-        /// <summary>
-        /// <para>
-        /// Creates a new process and its primary thread.
-        /// The new process runs in the security context of the user represented by the specified token.
-        /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege
-        /// and may require the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege if the token is not assignable.
-        /// If this function fails with <see cref="SystemErrorCodes.ERROR_PRIVILEGE_NOT_HELD"/>,
-        /// use the <see cref="CreateProcessWithLogonW"/> function instead.
-        /// <see cref="CreateProcessWithLogonW"/> requires no special privileges,
-        /// but the specified user account must be allowed to log on interactively.
-        /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw
-        /// </para>
-        /// </summary>
-        /// <param name="hToken">
-        /// A handle to the primary token that represents a user.
-        /// The handle must have the <see cref="TOKEN_QUERY"/>, <see cref="TOKEN_DUPLICATE"/>, and <see cref="TOKEN_ASSIGN_PRIMARY"/> access rights.
-        /// For more information, see Access Rights for Access-Token Objects.
-        /// The user represented by the token must have read and execute access to the application specified by
-        /// the <paramref name="lpApplicationName"/> or the <paramref name="lpCommandLine"/> parameter.
-        /// To get a primary token that represents the specified user, call the <see cref="LogonUser"/> function.
-        /// Alternatively, you can call the <see cref="DuplicateTokenEx"/> function to convert an impersonation token into a primary token.
-        /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
-        /// If <paramref name="hToken"/> is a restricted version of the caller's primary token,
-        /// the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege is not required.
-        /// If the necessary privileges are not already enabled, <see cref="CreateProcessAsUser"/> enables them for the duration of the call.
-        /// For more information, see Running with Special Privileges.
-        /// Terminal Services:  The process is run in the session specified in the token.
-        /// By default, this is the same session that called <see cref="LogonUser"/>.
-        /// To change the session, use the <see cref="SetTokenInformation"/> function.
-        /// </param>
-        /// <param name="lpApplicationName">
-        /// The name of the module to be executed. This module can be a Windows-based application.
-        /// It can be some other type of module (for example, MS-DOS or OS/2) if the appropriate subsystem is available on the local computer.
-        /// The string can specify the full path and file name of the module to execute or it can specify a partial name.
-        /// In the case of a partial name, the function uses the current drive and current directory to complete the specification.
-        /// The function will not use the search path.
-        /// This parameter must include the file name extension; no default extension is assumed.
-        /// The <paramref name="lpApplicationName"/> parameter can be <see langword="null"/>.
-        /// In that case, the module name must be the first white space–delimited token in the <paramref name="lpCommandLine"/> string.
-        /// If you are using a long file name that contains a space, use quoted strings to indicate where the file name ends and the arguments begin;
-        /// otherwise, the file name is ambiguous.
-        /// For example, consider the string "c:\program files\sub dir\program name".
-        /// This string can be interpreted in a number of ways.
-        /// The system tries to interpret the possibilities in the following order:
-        /// c:\program.exe c:\program files\sub.exe c:\program files\sub dir\program.exe c:\program files\sub dir\program name.exe
-        /// If the executable module is a 16-bit application, <paramref name="lpApplicationName"/> should be NULL,
-        /// and the string pointed to by <paramref name="lpCommandLine"/> should specify the executable module as well as its arguments.
-        /// By default, all 16-bit Windows-based applications created by <see cref="CreateProcessAsUser"/> are run in a separate VDM
-        /// (equivalent to <see cref="CREATE_SEPARATE_WOW_VDM"/> in <see cref="CreateProcess"/>).
-        /// </param>
-        /// <param name="lpCommandLine">
-        /// The command line to be executed.
-        /// The maximum length of this string is 32,768 characters, including the Unicode terminating null character.
-        /// If lpApplicationName is <see langword="null"/>,
-        /// the module name portion of <paramref name="lpCommandLine"/> is limited to <see cref="MAX_PATH"/> characters.
-        /// The Unicode version of this function, <see cref="CreateProcess"/>, can modify the contents of this string.
-        /// Therefore, this parameter cannot be a pointer to read-only memory (such as a const variable or a literal string).
-        /// If this parameter is a constant string, the function may cause an access violation.
-        /// The <paramref name="lpCommandLine"/> parameter can be <see langword="null"/>.
-        /// In that case, the function uses the string pointed to by <paramref name="lpApplicationName"/> as the command line.
-        /// If both <paramref name="lpApplicationName"/> and <paramref name="lpCommandLine"/> are non-NULL,
-        /// the null-terminated string pointed to by <paramref name="lpApplicationName"/> specifies the module to execute,
-        /// and the null-terminated string pointed to by <paramref name="lpCommandLine"/> specifies the command line.
-        /// The new process can use <see cref="GetCommandLine"/> to retrieve the entire command line.
-        /// Console processes written in C can use the argc and argv arguments to parse the command line.
-        /// Because argv[0] is the module name, C programmers generally repeat the module name as the first token in the command line.
-        /// If <paramref name="lpApplicationName"/> is <see langword="null"/>,
-        /// the first white space–delimited token of the command line specifies the module name.
-        /// If you are using a long file name that contains a space, use quoted strings to indicate where the file name ends and
-        /// the arguments begin (see the explanation for the <paramref name="lpApplicationName"/> parameter).
-        /// If the file name does not contain an extension, .exe is appended.
-        /// Therefore, if the file name extension is .com, this parameter must include the .com extension.
-        /// If the file name ends in a period (.) with no extension, or if the file name contains a path, .exe is not appended.
-        /// If the file name does not contain a directory path, the system searches for the executable file in the following sequence:
-        /// 1.The directory from which the application loaded.
-        /// 2. The current directory for the parent process.
-        /// 3. The 32-bit Windows system directory. Use the <see cref="GetSystemDirectory"/> function to get the path of this directory.
-        /// 4.The 16-bit Windows system directory. 
-        /// There is no function that obtains the path of this directory, but it is searched. The name of this directory is System.
-        /// 5. The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
-        /// 6.The directories that are listed in the PATH environment variable.
-        /// Note that this function does not search the per-application path specified by the App Paths registry key.
-        /// To include this per-application path in the search sequence, use the <see cref="ShellExecute"/> function.
-        /// The system adds a terminating null character to the command-line string to separate the file name from the arguments.
-        /// This divides the original string into two strings for internal processing.
-        /// </param>
-        /// <param name="lpProcessAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether
-        /// the returned handle to the new process object can be inherited by child processes.
-        /// If <paramref name="lpProcessAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
-        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the new process.
-        /// If <paramref name="lpProcessAttributes"/> is <see langword="null"/> or
-        /// <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> is <see cref="IntPtr.Zero"/>, the process gets a default security descriptor
-        /// and the handle cannot be inherited..
-        /// The default security descriptor is that of the user referenced in the <paramref name="hToken"/> parameter.
-        /// This security descriptor may not allow access for the caller, in which case the process may not be opened again after it is run.
-        /// The process handle is valid and will continue to have full access rights.
-        /// </param>
-        /// <param name="lpThreadAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether
-        /// the returned handle to the new thread object can be inherited by child processes.
-        /// If <paramref name="lpThreadAttributes"/> is <see langword="null"/>, the handle cannot be inherited.
-        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure specifies a security descriptor for the main thread.
-        /// If <paramref name="lpThreadAttributes"/> is <see langword="null"/> or
-        /// <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> is <see cref="IntPtr.Zero"/>, the thread gets a default security descriptor
-        /// and the handle cannot be inherited.
-        /// The default security descriptor is that of the user referenced in the <paramref name="hToken"/> parameter.
-        /// This security descriptor may not allow access for the caller.
-        /// </param>
-        /// <param name="bInheritHandles">
-        /// If this parameter is <see langword="true"/>, each inheritable handle in the calling process is inherited by the new process.
-        /// If the parameter is <see langword="false"/>, the handles are not inherited.
-        /// Note that inherited handles have the same value and access rights as the original handles.
-        /// For additional discussion of inheritable handles, see Remarks.
-        /// Terminal Services:  You cannot inherit handles across sessions.
-        /// Additionally, if this parameter is <see langword="true"/>, you must create the process in the same session as the caller.
-        /// Protected Process Light (PPL) processes:  The generic handle inheritance is blocked
-        /// when a PPL process creates a non-PPL process since <see cref="PROCESS_DUP_HANDLE"/> is not allowed from a non-PPL process to a PPL process.
-        /// See Process Security and Access Rights
-        /// </param>
-        /// <param name="dwCreationFlags">
-        /// The flags that control the priority class and the creation of the process.
-        /// For a list of values, see Process Creation Flags.
-        /// This parameter also controls the new process's priority class, which is used to determine the scheduling priorities of the process's threads.
-        /// For a list of values, see <see cref="GetPriorityClass"/>.
-        /// If none of the priority class flags is specified, the priority class defaults to <see cref="NORMAL_PRIORITY_CLASS"/>
-        /// unless the priority class of the creating process is <see cref="IDLE_PRIORITY_CLASS"/> 
-        /// or <see cref="BELOW_NORMAL_PRIORITY_CLASS"/>.
-        /// In this case, the child process receives the default priority class of the calling process.
-        /// </param>
-        /// <param name="lpEnvironment">
-        /// A pointer to the environment block for the new process.
-        /// If this parameter is <see langword="null"/>, the new process uses the environment of the calling process.
-        /// An environment block consists of a null-terminated block of null-terminated strings.
-        /// Each string is in the following form: name=value\0
-        /// Because the equal sign is used as a separator, it must not be used in the name of an environment variable.
-        /// An environment block can contain either Unicode or ANSI characters.
-        /// If the environment block pointed to by <paramref name="lpEnvironment"/> contains Unicode characters,
-        /// be sure that <paramref name="dwCreationFlags"/> includes <see cref="CREATE_UNICODE_ENVIRONMENT"/>.
-        /// If this parameter is <see langword="null"/> and the environment block of the parent process contains Unicode characters,
-        /// you must also ensure that <paramref name="dwCreationFlags"/> includes <see cref="CREATE_UNICODE_ENVIRONMENT"/>.
-        /// The ANSI version of this function, <see cref="CreateProcessAsUser"/> fails if the total size of
-        /// the environment block for the process exceeds 32,767 characters.
-        /// Note that an ANSI environment block is terminated by two zero bytes: one for the last string, one more to terminate the block.
-        /// A Unicode environment block is terminated by four zero bytes: two for the last string, two more to terminate the block.
-        /// Windows Server 2003 and Windows XP:  If the size of the combined user and system environment variable exceeds 8192 bytes, 
-        /// the process created by CreateProcessAsUser no longer runs with the environment block passed to the function by the parent process.
-        /// Instead, the child process runs with the environment block returned by the <see cref="CreateEnvironmentBlock"/> function.
-        /// To retrieve a copy of the environment block for a given user, use the <see cref="CreateEnvironmentBlock"/> function.
-        /// </param>
-        /// <param name="lpCurrentDirectory">
-        /// The full path to the current directory for the process. The string can also specify a UNC path.
-        /// If this parameter is <see langword="null"/>, the new process will have the same current drive and directory as the calling process.
-        /// (This feature is provided primarily for shells that need to start an application and specify its initial drive and working directory.)
-        /// </param>
-        /// <param name="lpStartupInfo">
-        /// A pointer to a <see cref="STARTUPINFO"/> or <see cref="STARTUPINFOEX"/> structure.
-        /// To set extended attributes, use a <see cref="STARTUPINFOEX"/> structure and
-        /// specify <see cref="EXTENDED_STARTUPINFO_PRESENT"/> in the <paramref name="dwCreationFlags"/> parameter.
-        /// Handles in <see cref="STARTUPINFO"/> or <see cref="STARTUPINFOEX"/> must be closed
-        /// with <see cref="CloseHandle"/> when they are no longer needed.
-        /// Important  The caller is responsible for ensuring that the standard handle fields in <see cref="STARTUPINFO"/> contain valid handle values.
-        /// These fields are copied unchanged to the child process without validation,
-        /// even when the dwFlags member specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>.
-        /// Incorrect values can cause the child process to misbehave or crash.
-        /// Use the Application Verifier runtime verification tool to detect invalid handles.
-        /// </param>
-        /// <param name="lpProcessInformation">
-        /// A pointer to a <see cref="PROCESS_INFORMATION"/> structure that receives identification information about the new process.
-        /// Handles in <see cref="PROCESS_INFORMATION"/> must be closed with <see cref="CloseHandle"/> when they are no longer needed.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Note that the function returns before the process has finished initialization.
-        /// If a required DLL cannot be located or fails to initialize, the process is terminated.
-        /// To get the termination status of a process, call <see cref="GetExitCodeProcess"/>.
-        /// </returns>
-        /// <remarks>
-        /// <see cref="CreateProcessAsUser"/> must be able to open the primary token of the calling process
-        /// with the <see cref="TOKEN_DUPLICATE"/> and <see cref="TOKEN_IMPERSONATE"/> access rights.
-        /// By default, <see cref="CreateProcessAsUser"/> creates the new process on a noninteractive window station
-        /// with a desktop that is not visible and cannot receive user input.
-        /// To enable user interaction with the new process, you must specify the name of
-        /// the default interactive window station and desktop, "winsta0\default", in the <see cref="STARTUPINFO.lpDesktop"/> member
-        /// of the <see cref="STARTUPINFO"/> structure.
-        /// In addition, before calling <see cref="CreateProcessAsUser"/>, you must change the discretionary access control list (DACL) of both
-        /// the default interactive window station and the default desktop.
-        /// The DACLs for the window station and desktop must grant access to the user or the logon session
-        /// represented by the <paramref name="hToken"/> parameter.
-        /// <see cref="CreateProcessAsUser"/> does not load the specified user's profile into the HKEY_USERS registry key.
-        /// Therefore, to access the information in the HKEY_CURRENT_USER registry key,
-        /// you must load the user's profile information into HKEY_USERS with the <see cref="LoadUserProfile"/> function
-        /// before calling <see cref="CreateProcessAsUser"/>.
-        /// Be sure to call <see cref="UnloadUserProfile"/> after the new process exits.
-        /// If the <paramref name="lpEnvironment"/> parameter is <see langword="null"/>, the new process inherits the environment of the calling process.
-        /// <see cref="CreateProcessAsUser"/> does not automatically modify the environment block to include environment variables
-        /// specific to the user represented by <paramref name="hToken"/>.
-        /// For example, the USERNAME and USERDOMAIN variables are inherited from the calling process
-        /// if <paramref name="lpEnvironment"/> is <see langword="null"/>.
-        /// It is your responsibility to prepare the environment block for the new process and specify it in <paramref name="lpEnvironment"/>.
-        /// The <see cref="CreateProcessWithLogonW"/> and <see cref="CreateProcessWithTokenW"/> functions are similar to
-        /// <see cref="CreateProcessAsUser"/>, except that the caller does not need to call the <see cref="LogonUser"/> function
-        /// to authenticate the user and get a token.
-        /// <see cref="CreateProcessAsUser"/> allows you to access the specified directory and executable image in the security context
-        /// of the caller or the target user.
-        /// By default, <see cref="CreateProcessAsUser"/> accesses the directory and executable image in the security context of the caller.
-        /// In this case, if the caller does not have access to the directory and executable image, the function fails.
-        /// To access the directory and executable image using the security context of the target user, specify <paramref name="hToken"/> in a call
-        /// to the <see cref="ImpersonateLoggedOnUser"/> function before calling <see cref="CreateProcessAsUser"/>.
-        /// The process is assigned a process identifier.
-        /// The identifier is valid until the process terminates.
-        /// It can be used to identify the process, or specified in the <see cref="OpenProcess"/> function to open a handle to the process.
-        /// The initial thread in the process is also assigned a thread identifier.
-        /// It can be specified in the <see cref="OpenThread"/> function to open a handle to the thread.
-        /// The identifier is valid until the thread terminates and can be used to uniquely identify the thread within the system.
-        /// These identifiers are returned in the <see cref="PROCESS_INFORMATION"/> structure.
-        /// The name of the executable in the command line that the operating system provides to a process is not necessarily identical
-        /// to that in the command line that the calling process gives to the <see cref="CreateProcess"/> function.
-        /// The operating system may prepend a fully qualified path to an executable name that is provided without a fully qualified path.
-        /// The calling thread can use the <see cref="WaitForInputIdle"/> function to wait until the new process has finished its initialization
-        /// and is waiting for user input with no input pending.
-        /// For example, the creating process would use <see cref="WaitForInputIdle"/> before trying to find a window associated with the new process.
-        /// This can be useful for synchronization between parent and child processes,
-        /// because <see cref="CreateProcess"/> returns without waiting for the new process to finish its initialization.
-        /// The preferred way to shut down a process is by using the <see cref="ExitProcess"/> function,
-        /// because this function sends notification of approaching termination to all DLLs attached to the process.
-        /// Other means of shutting down a process do not notify the attached DLLs.
-        /// Note that when a thread calls <see cref="ExitProcess"/>, other threads of the process are terminated
-        /// without an opportunity to execute any additional code (including the thread termination code of attached DLLs).
-        /// For more information, see Terminating a Process.
-        /// By default, passing <see langword="true"/> as the value of the <paramref name="bInheritHandles"/> parameter
-        /// causes all inheritable handles to be inherited by the new process.
-        /// This can be problematic for applications which create processes from multiple threads simultaneously
-        /// yet desire each process to inherit different handles.
-        /// Applications can use the <see cref="UpdateProcThreadAttributeList"/> function
-        /// with the PROC_THREAD_ATTRIBUTE_HANDLE_LIST parameter to provide a list of handles to be inherited by a particular process.
-        /// 
-        /// Security Remarks
-        /// The first parameter, <paramref name="lpApplicationName"/>, can be <see langword="null"/>,
-        /// in which case the executable name must be in the white space–delimited string pointed to by <paramref name="lpCommandLine"/>.
-        /// If the executable or path name has a space in it, there is a risk that a different executable
-        /// could be run because of the way the function parses spaces.
-        /// The following example is dangerous because the function will attempt to run "Program.exe", if it exists, instead of "MyApp.exe".
-        /// <code>
-        /// LPTSTR szCmdline = _tcsdup(TEXT("C:\\Program Files\\MyApp -L -S"));
-        /// CreateProcess(NULL, szCmdline, /* ... */);
-        /// </code>
-        /// If a malicious user were to create an application called "Program.exe" on a system,
-        /// any program that incorrectly calls <see cref="CreateProcessAsUser"/> using the Program Files directory will run this application
-        /// instead of the intended application.
-        /// To avoid this problem, do not pass <see langword="null"/> for <paramref name="lpApplicationName"/>.
-        /// If you do pass <see langword="null"/> for <paramref name="lpApplicationName"/>,
-        /// use quotation marks around the executable path in <paramref name="lpCommandLine"/>, as shown in the example below.
-        /// <code>
-        /// LPTSTR szCmdline[] = _tcsdup(TEXT("\"C:\\Program Files\\MyApp\" -L -S"));
-        /// CreateProcess(NULL, szCmdline, /*...*/);
-        /// </code>
-        /// PowerShell:  When the <see cref="CreateProcessAsUser"/> function is used to implement a cmdlet in PowerShell version 2.0,
-        /// the cmdlet operates correctly for both fan-in and fan-out remote sessions.
-        /// Because of certain security scenarios, however, a cmdlet implemented with <see cref="CreateProcessAsUser"/> only operates correctly
-        /// in PowerShell version 3.0 for fan-in remote sessions; fan-out remote sessions will fail because of insufficient client security privileges.
-        /// To implement a cmdlet that works for both fan-in and fan-out remote sessions in PowerShell version 3.0,
-        /// use the <see cref="CreateProcess"/> function.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateProcessAsUser([In]IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
           [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
           [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
@@ -656,7 +374,7 @@ namespace Lsj.Util.Win32
         /// Exiting a process does not necessarily remove the process object from the operating system.
         /// A process object is deleted when the last handle to the process is closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitProcess([In]uint uExitCode);
 
         /// <summary>
@@ -694,7 +412,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="PathUnExpandEnvStrings"/> function.
         /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern uint ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In]string lpSrc,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpDst, [In]uint nSize);
 
@@ -725,7 +443,7 @@ namespace Lsj.Util.Win32
         /// Applications should call <see cref="FlushInstructionCache"/> if they generate or modify code in memory.
         /// The CPU cannot detect the change, and may execute the old code it cached.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FlushInstructionCache([In]IntPtr hProcess, [In]IntPtr lpBaseAddress, [In]IntPtr dwSize);
 
@@ -748,7 +466,7 @@ namespace Lsj.Util.Win32
         /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
         /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FreeEnvironmentStrings([In]IntPtr penv);
 
@@ -792,7 +510,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetCurrentDirectory([In]uint nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer);
 
         /// <summary>
@@ -823,7 +541,7 @@ namespace Lsj.Util.Win32
         /// Calling the <see cref="CloseHandle"/> function with a pseudo handle has no effect.
         /// If the pseudo handle is duplicated by <see cref="DuplicateHandle"/>, the duplicate handle must be closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetCurrentProcess();
 
         /// <summary>
@@ -848,7 +566,7 @@ namespace Lsj.Util.Win32
         /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
         /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetEnvironmentStrings();
 
         /// <summary>
@@ -881,7 +599,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function can retrieve either a system environment variable or a user environment variable.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint nSize);
 
@@ -921,7 +639,7 @@ namespace Lsj.Util.Win32
         /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
         /// which could put the application into an infinite loop.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetExitCodeProcess([In]IntPtr hProcess, [Out]out uint lpExitCode);
 
@@ -953,7 +671,7 @@ namespace Lsj.Util.Win32
         /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
         /// Priority class is maintained by the executive, so all processes have a priority class that can be queried.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", ExactSpelling = true, SetLastError = true)]
         public static extern ProcessPriorityClasses GetPriorityClass([In]IntPtr hProcess);
 
         /// <summary>
@@ -987,7 +705,7 @@ namespace Lsj.Util.Win32
         /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
         /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessAffinityMask([In]IntPtr hProcess, [Out]UIntPtr lpProcessAffinityMask, [Out]UIntPtr lpSystemAffinityMask);
 
@@ -1010,7 +728,7 @@ namespace Lsj.Util.Win32
         /// Until a process terminates, its process identifier uniquely identifies it on the system.
         /// For more information about access rights, see Process Security and Access Rights.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessId", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessId", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessId([In]IntPtr Process);
 
         /// <summary>
@@ -1062,7 +780,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessImageFileName([In]IntPtr hProcess, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpImageFileName,
             [In]uint nSize);
 
@@ -1091,7 +809,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessPriorityBoost([In]IntPtr hProcess, [Out]out bool pDisablePriorityBoost);
 
@@ -1145,7 +863,7 @@ namespace Lsj.Util.Win32
         /// That is the number of 100-nanosecond units in one second.
         /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
             [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
@@ -1165,7 +883,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="STARTUPINFO"/> structure was specified by the process that created the calling process.
         /// It can be used to specify properties associated with the main window of the calling process.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern void GetStartupInfo([Out]out STARTUPINFO lpStartupInfo);
 
         /// <summary>
@@ -1209,43 +927,10 @@ namespace Lsj.Util.Win32
         /// Note that you can specify the same <see cref="STARTUPINFOEX"/> structure to multiple child processes.
         /// When you have finished using the list, call the <see cref="DeleteProcThreadAttributeList"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeProcThreadAttributeList", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeProcThreadAttributeList", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InitializeProcThreadAttributeList([In]IntPtr lpAttributeList, [In]uint dwAttributeCount,
             [In]uint dwFlags, [In][Out]ref IntPtr lpSize);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken
-        /// </para>
-        /// </summary>
-        /// <param name="ProcessHandle">
-        /// A handle to the process whose access token is opened.
-        /// The process must have the <see cref="PROCESS_QUERY_INFORMATION"/> access permission.
-        /// </param>
-        /// <param name="DesiredAccess">
-        /// Specifies an access mask that specifies the requested types of access to the access token.
-        /// These requested access types are compared with the discretionary access control list (DACL) of the token
-        /// to determine which accesses are granted or denied.
-        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
-        /// </param>
-        /// <param name="TokenHandle">
-        /// A pointer to a handle that identifies the newly opened access token when the function returns.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1281,7 +966,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
@@ -1312,7 +997,7 @@ namespace Lsj.Util.Win32
         /// To enumerate the processes in the system, use the <see cref="EnumProcesses"/> function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryProcessCycleTime([In]IntPtr ProcessHandle, [Out]out ulong CycleTime);
 
@@ -1356,7 +1041,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
 
@@ -1386,7 +1071,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function has no effect on the system environment variables or the environment variables of other processes.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpValue);
@@ -1439,7 +1124,7 @@ namespace Lsj.Util.Win32
         /// After a process ends background processing mode, it resets all threads in the process;
         /// however, it is not possible for the process to know which threads were already in background processing mode.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetPriorityClass([In]int hProcess, [In]ProcessPriorityClasses dwPriorityClass);
 
@@ -1481,7 +1166,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SetThreadAffinityMask"/> function to set the affinity mask for individual threads in multiple groups.
         /// This effectively changes the group assignment of the process.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetProcessAffinityMask([In]IntPtr hProcess, [In]UIntPtr dwProcessAffinityMask);
 
@@ -1515,7 +1200,7 @@ namespace Lsj.Util.Win32
         /// This setting affects all existing threads and any threads subsequently created by the process.
         /// To restore normal behavior, call <see cref="SetProcessPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetProcessPriorityBoost([In]IntPtr hProcess, [In]bool bDisablePriorityBoost);
 
@@ -1553,7 +1238,7 @@ namespace Lsj.Util.Win32
         /// If you need to be sure the process has terminated, call the <see cref="WaitForSingleObject"/> function with a handle to the process.
         /// A process cannot prevent itself from being terminated.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TerminateProcess([In]IntPtr hProcess, [In]uint uExitCode);
 
@@ -1756,7 +1441,7 @@ namespace Lsj.Util.Win32
         /// For example, when this flag is used by an unprotected process, the system will launch a child process at unprotected level.
         /// The <see cref="CREATE_PROTECTED_PROCESS"/> flag must be specified in both cases.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UpdateProcThreadAttribute([In]IntPtr lpAttributeList, [In]uint dwFlags, [In]UIntPtr Attribute,
             [In]IntPtr lpValue, [In]UIntPtr cbSize, [In]IntPtr lpPreviousValue, [In]IntPtr lpReturnSize);
