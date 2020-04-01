@@ -19,6 +19,14 @@ test:
   stage: test
   script:
     - ".\\test.bat"
+    
+push-debug:
+  stage: push
+  only:
+    - dev
+  script:
+    - ".\\pack-debug.bat"
+    - ".\\push-debug.bat"
 
 push:
   stage: push
@@ -27,3 +35,4 @@ push:
   script:
     - ".\\pack.bat"
     - ".\\push.bat"
+    
