@@ -53,7 +53,6 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const int MM_MAX_AXES_NAMELEN = 16;
 
-        
 
         /// <summary>
         /// <para>
@@ -302,6 +301,56 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", SetLastError = true)]
         public static extern int EnumObjects([In]HDC hdc, [In]int nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="Escape"/> function enables an application to access the system-defined device capabilities that are not available through GDI.
+        /// Escape calls made by an application are translated and sent to the driver.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-escape
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iEscape">
+        /// The escape function to be performed.
+        /// This parameter must be one of the predefined escape values listed in Remarks.
+        /// Use the <see cref="ExtEscape"/> function if your application defines a private escape value.
+        /// </param>
+        /// <param name="cjIn">
+        /// The number of bytes of data pointed to by the <paramref name="pvIn"/> parameter.
+        /// This can be 0.
+        /// </param>
+        /// <param name="pvIn">
+        /// A pointer to the input structure required for the specified escape.
+        /// </param>
+        /// <param name="pvOut">
+        /// A pointer to the structure that receives output from this escape.
+        /// This parameter should be <see cref="NULL"/> if no data is returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is greater than zero, except with the <see cref="QUERYESCSUPPORT"/> printer escape,
+        /// which checks for implementation only.
+        /// If the escape is not implemented, the return value is zero.
+        /// If the function fails, the return value is a system error code.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// The effect of passing 0 for cbInput will depend on the value of nEscape and on the driver that is handling the escape.
+        /// Of the original printer escapes, only the following can be used.
+        /// <see cref="QUERYESCSUPPORT"/>: Determines whether a particular escape is implemented by the device driver.
+        /// <see cref="PASSTHROUGH"/>: Allows the application to send data directly to a printer.
+        /// For information about printer escapes, see <see cref="ExtEscape"/>.
+        /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", SetLastError = true)]
+        public static extern int Escape([In]HDC hdc, [In]int iEscape, [In]int cjIn, [In]IntPtr pvIn, [In]LPVOID pvOut);
 
         /// <summary>
         /// <para>
