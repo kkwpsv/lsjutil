@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
 
         [DllImport("Wtsapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSQueryUserToken", SetLastError = true)]
-        public static extern BOOL WTSQueryUserToken([In]ulong SessionId, [Out]out IntPtr phToken);
+        public static extern BOOL WTSQueryUserToken([In]DWORD SessionId, [Out]out IntPtr phToken);
 
     }
 }
