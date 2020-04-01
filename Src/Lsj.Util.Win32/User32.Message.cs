@@ -372,6 +372,15 @@ namespace Lsj.Util.Win32
         public static extern IntPtr SendMessage([In]IntPtr hWnd, [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cMessagesMax"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageQueue", SetLastError = true)]
+        public static extern BOOL SetMessageQueue(int cMessagesMax);
+
+        /// <summary>
         /// <para>
         /// Translates virtual-key messages into character messages.
         /// The character messages are posted to the calling thread's message queue, 
