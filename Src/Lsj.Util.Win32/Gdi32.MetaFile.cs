@@ -154,5 +154,38 @@ namespace Lsj.Util.Win32
         [Obsolete("GetMetaFile is no longer available for use as of Windows 2000. Instead, use GetEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaFileW", SetLastError = true)]
         public static extern HMETAFILE GetMetaFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PlayMetaFile"/> function displays the picture stored in the given Windows-format metafile on the specified device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafile
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// </param>
+        /// <param name="hmf">
+        /// Handle to a Windows-format metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// To convert a Windows-format metafile into an enhanced format metafile, use the <see cref="SetWinMetaFileBits"/> function.
+        /// A Windows-format metafile can be played multiple times.
+        /// A Windows-format metafile can be embedded in a second Windows-format metafile by calling the <see cref="PlayMetaFile"/> function
+        /// and playing the source metafile into the device context for the target metafile.
+        /// Any object created but not deleted in the Windows-format metafile is deleted by this function.
+        /// To stop this function, an application can call the <see cref="CancelDC"/> function from another thread to terminate the operation.
+        /// In this case, the function returns <see cref="FALSE"/>.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is PlayEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFile", SetLastError = true)]
+        public static extern BOOL PlayMetaFile([In]HDC hdc, [In]HMETAFILE hmf);
     }
 }
