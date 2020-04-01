@@ -108,7 +108,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="pwszDriver">
         /// A pointer to a null-terminated character string that specifies either DISPLAY or the name of a specific display device.
-        /// For printing, we recommend that you pass <see langword="null""/> to <paramref name="pwszDriver"/>
+        /// For printing, we recommend that you pass <see langword="null"/> to <paramref name="pwszDriver"/>
         /// because GDI ignores <paramref name="pwszDriver"/> for printer devices.
         /// </param>
         /// <param name="pwszDevice">
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// <param name="pdm">
         /// A pointer to a <see cref="DEVMODE"/> structure containing device-specific initialization data for the device driver.
         /// The <see cref="DocumentProperties"/> function retrieves this structure filled in for a specified device.
-        /// The <see cref="lpdvmInit"/> parameter must be <see langword="null""/> if the device driver is to use the default initialization
+        /// The <see cref="lpdvmInit"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
         /// (if any) specified by the user.
         /// </param>
         /// <returns>

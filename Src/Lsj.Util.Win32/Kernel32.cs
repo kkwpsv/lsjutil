@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
         /// PGNSI pGNSI;
         /// SYSTEM_INFO si;
-        /// ZeroMemory(&si, sizeof(SYSTEM_INFO));
+        /// ZeroMemory(&amp;si, sizeof(SYSTEM_INFO));
         /// pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
         /// if(NULL != pGNSI)
         /// {
