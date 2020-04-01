@@ -482,6 +482,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetBitmapDimensionEx"/> function assigns preferred dimensions to a bitmap.
+        /// These dimensions can be used by applications; however, they are not used by the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapdimensionex
+        /// </para>
+        /// </summary>
+        /// <param name="hbm">
+        /// A handle to the bitmap. The bitmap cannot be a DIB-section bitmap.
+        /// </param>
+        /// <param name="w">
+        /// The width, in 0.1-millimeter units, of the bitmap.
+        /// </param>
+        /// <param name="h">
+        /// The height, in 0.1-millimeter units, of the bitmap.
+        /// </param>
+        /// <param name="lpsz">
+        /// A pointer to a <see cref="SIZE"/> structure to receive the previous dimensions of the bitmap.
+        /// This pointer can be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can retrieve the dimensions assigned to a bitmap with the <see cref="SetBitmapDimensionEx"/> function
+        /// by calling the <see cref="GetBitmapDimensionEx"/> function.
+        /// The bitmap identified by hBitmap cannot be a DIB section, which is a bitmap created by the <see cref="CreateDIBSection"/> function.
+        /// If the bitmap is a DIB section, the <see cref="SetBitmapDimensionEx"/> function fails.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", SetLastError = true)]
+        public static extern BOOL SetBitmapDimensionEx([In]HBITMAP hbm, [In]int w, [In]int h, [Out]out SIZE lpsz);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetPixel"/> function sets the pixel at the specified coordinates to the specified color.
         /// </para>
         /// <para>
