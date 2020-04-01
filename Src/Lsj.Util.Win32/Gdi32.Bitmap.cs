@@ -372,6 +372,82 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetDIBits"/> function retrieves the bits of the specified compatible bitmap and copies them into a buffer as a DIB
+        /// using the specified format.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdibits
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="hbm">
+        /// A handle to the bitmap.
+        /// This must be a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="start">
+        /// The first scan line to retrieve.
+        /// </param>
+        /// <param name="cLines">
+        /// The number of scan lines to retrieve.
+        /// </param>
+        /// <param name="lpvBits">
+        /// A pointer to a buffer to receive the bitmap data.
+        /// If this parameter is <see cref="NULL"/>, the function passes the dimensions and format of the bitmap
+        /// to the <see cref="BITMAPINFO"/> structure pointed to by the <paramref name="lpbmi"/> parameter.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that specifies the desired format for the DIB data.
+        /// </param>
+        /// <param name="usage">
+        /// The format of the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure.
+        /// It must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The color table should consist of an array of 16-bit indexes into the current logical palette.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The color table should consist of literal red, green, blue (RGB) values.
+        /// </param>
+        /// <returns>
+        /// If the <paramref name="lpvBits"/> parameter is non-NULL and the function succeeds,
+        /// the return value is the number of scan lines copied from the bitmap.
+        /// If the <paramref name="lpvBits"/> parameter is <see langword="null"/> and <see cref="GetDIBits"/> successfully
+        /// fills the <see cref="BITMAPINFO"/> structure, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// If the requested format for the DIB matches its internal format, the RGB values for the bitmap are copied.
+        /// If the requested format doesn't match the internal format, a color table is synthesized.
+        /// The following table describes the color table synthesized for each format.
+        /// 1_BPP: The color table consists of a black and a white entry.
+        /// 4_BPP: The color table consists of a mix of colors identical to the standard VGA palette.
+        /// 8_BPP: The color table consists of a general mix of 256 colors defined by GDI.
+        /// (Included in these 256 colors are the 20 colors found in the default logical palette.)
+        /// 24_BPP: No color table is returned.
+        /// If the <paramref name="lpvBits"/> parameter is a valid pointer, the first six members of the <see cref="BITMAPINFOHEADER"/> structure
+        /// must be initialized to specify the size and format of the DIB.
+        /// The scan lines must be aligned on a <see cref="DWORD"/> except for RLE compressed bitmaps.
+        /// A bottom-up DIB is specified by setting the height to a positive number,
+        /// while a top-down DIB is specified by setting the height to a negative number.
+        /// The bitmap color table will be appended to the <see cref="BITMAPINFO"/> structure.
+        /// If <paramref name="lpvBits"/> is <see cref="NULL"/>, <see cref="GetDIBits"/> examines the first member
+        /// of the first structure pointed to by <paramref name="lpbmi"/>.
+        /// This member must specify the size, in bytes, of a <see cref="BITMAPCOREHEADER"/> or a <see cref="BITMAPINFOHEADER"/> structure.
+        /// The function uses the specified size to determine how the remaining members should be initialized.
+        /// If <paramref name="lpvBits"/> is <see cref="NULL"/> and the bit count member of <see cref="BITMAPINFO"/> is initialized to zero,
+        /// <see cref="GetDIBits"/> fills in a <see cref="BITMAPINFOHEADER"/> structure or <see cref="BITMAPCOREHEADER"/> without the color table.
+        /// This technique can be used to query bitmap attributes.
+        /// The bitmap identified by the hbmp parameter must not be selected into a device context when the application calls this function.
+        /// The origin for a bottom-up DIB is the lower-left corner of the bitmap; the origin for a top-down DIB is the upper-left corner.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", SetLastError = true)]
+        public static extern int GetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]LPVOID lpvBits,
+            [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi, [In]UINT usage);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetPixel"/> function retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
         /// </para>
         /// <para>
