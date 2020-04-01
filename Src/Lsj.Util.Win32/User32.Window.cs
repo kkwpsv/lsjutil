@@ -1035,6 +1035,42 @@ namespace Lsj.Util.Win32
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassw
+        /// </para>
+        /// </summary>
+        /// <param name="lpWndClass">
+        /// A pointer to a <see cref="WNDCLASS"/> structure.
+        /// You must fill the structure with the appropriate class attributes before passing it to the function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a class atom that uniquely identifies the class being registered.
+        /// This atom can only be used by the <see cref="CreateWindow"/>, <see cref="CreateWindowEx"/>, <see cref="GetClassInfo"/>,
+        /// <see cref="GetClassInfoEx"/>, <see cref="FindWindow"/>, <see cref="FindWindowEx"/>, and <see cref="UnregisterClass"/> functions
+        /// and the <see cref="IActiveIMMap.FilterClientWindows"/> method.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you register the window class by using RegisterClassA,
+        /// the application tells the system that the windows of the created class expect messages with text
+        /// or character parameters to use the ANSI character set;
+        /// if you register it by using <see cref="RegisterClass"/>, the application requests that the system pass text parameters of messages as Unicode.
+        /// The <see cref="IsWindowUnicode"/> function enables applications to query the nature of each window.
+        /// For more information on ANSI and Unicode functions, see Conventions for Function Prototypes.
+        /// All window classes that an application registers are unregistered when it terminates.
+        /// No window classes registered by a DLL are unregistered when the DLL is unloaded.
+        /// A DLL must explicitly unregister its classes when it is unloaded.
+        /// </remarks>
+        [Obsolete("The RegisterClass function has been superseded by the RegisterClassEx function." +
+            "You can still use RegisterClass, however, if you do not need to set the class small icon.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassW", SetLastError = true)]
+        public static extern ATOM RegisterClass([MarshalAs(UnmanagedType.LPStruct)][In]WNDCLASS lpWndClass);
+
+        /// <summary>
+        /// <para>
+        /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
+        /// </para>
+        /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassexw
         /// </para>
         /// </summary>
