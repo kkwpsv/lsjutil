@@ -84,8 +84,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", SetLastError = true)]
-        public static extern int GetMessage([Out]out MSG lpMsg, [In]IntPtr hWnd, [In]uint wMsgFilterMin, [In] uint wMsgFilterMax);
-
+        public static extern BOOL GetMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax);
 
         /// <summary>
         /// <para>
@@ -163,7 +162,6 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PostMessage([In]IntPtr hWnd, [In]WindowsMessages msg, [In]UIntPtr wParam, [In]IntPtr lParam);
-
 
         /// <summary>
         /// <para>
