@@ -1065,7 +1065,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The RegisterClass function has been superseded by the RegisterClassEx function." +
             "You can still use RegisterClass, however, if you do not need to set the class small icon.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassW", SetLastError = true)]
-        public static extern ATOM RegisterClass([MarshalAs(UnmanagedType.LPStruct)][In]WNDCLASS lpWndClass);
+        public static extern ATOM RegisterClass([In]in WNDCLASS lpWndClass);
 
         /// <summary>
         /// <para>

@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Dialog Box Keyboard Interface.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", SetLastError = true)]
-        public static extern LRESULT DispatchMessage([MarshalAs(UnmanagedType.LPStruct)][In]MSG lpmsg);
+        public static extern LRESULT DispatchMessage([In]in MSG lpmsg);
 
         /// <summary>
         /// <para>
@@ -641,8 +641,7 @@ namespace Lsj.Util.Win32
         /// the return value is <see langword="false"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern BOOL TranslateMessage([MarshalAs(UnmanagedType.LPStruct)][In]MSG lpMsg);
+        public static extern BOOL TranslateMessage([In]in MSG lpMsg);
 
         /// <summary>
         /// <para>

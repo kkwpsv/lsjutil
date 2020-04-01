@@ -2692,7 +2692,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool LocalFileTimeToFileTime([MarshalAs(UnmanagedType.LPStruct)][In]Structs.FILETIME lpLocalFileTime,
+        public static extern bool LocalFileTimeToFileTime([In]in Structs.FILETIME lpLocalFileTime,
             [Out]out Structs.FILETIME lpFileTime);
 
         /// <summary>

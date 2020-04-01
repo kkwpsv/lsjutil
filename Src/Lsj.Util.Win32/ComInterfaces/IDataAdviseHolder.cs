@@ -83,7 +83,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The established connection can be deleted by passing the value in <paramref name="pdwConnection"/> in a call to <see cref="Unadvise"/>.
         /// </remarks>
         [PreserveSig]
-        HRESULT Advise([In]IDataObject pDataObject, [MarshalAs(UnmanagedType.LPStruct)][In]FORMATETC pFetc, [In]ADVF advf,
+        HRESULT Advise([In]IDataObject pDataObject, [In]in FORMATETC pFetc, [In]ADVF advf,
             [In]IAdviseSink pAdvise, [Out]out uint pdwConnection);
 
         /// <summary>

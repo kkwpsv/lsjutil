@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// If the any parameter is not valid, the return value is undefined.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectVisible", SetLastError = true)]
-        public static extern BOOL RectVisible([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+        public static extern BOOL RectVisible([In]HDC hdc, [In]in RECT lprect);
 
         /// <summary>
         /// <para>

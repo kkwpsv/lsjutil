@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is EnhMetaFileProc.")]
         public delegate int MFENUMPROC([In] HDC hDC, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHTable,
-            [MarshalAs(UnmanagedType.LPStruct)][In]METARECORD lpMFR, [In]int nObj, [In]LPARAM lpClientData);
+            [In]in METARECORD lpMFR, [In]int nObj, [In]LPARAM lpClientData);
 
         /// <summary>
         /// <para>
@@ -308,6 +308,6 @@ namespace Lsj.Util.Win32
             "The corresponding function for an enhanced-format metafile is PlayEnhMetaFileRecord.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFileRecord", SetLastError = true)]
         public static extern BOOL PlayMetaFileRecord([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHandleTable,
-            [MarshalAs(UnmanagedType.LPStruct)][In]METARECORD lpMR, [In]UINT noObjs);
+            [In]in METARECORD lpMR, [In]UINT noObjs);
     }
 }

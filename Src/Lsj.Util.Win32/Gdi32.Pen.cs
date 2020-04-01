@@ -79,6 +79,6 @@ namespace Lsj.Util.Win32
         /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", SetLastError = true)]
-        public static extern HPEN CreatePenIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGPEN plpen);
+        public static extern HPEN CreatePenIndirect([In]in LOGPEN plpen);
     }
 }

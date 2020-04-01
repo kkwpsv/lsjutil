@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", SetLastError = true)]
         public static extern int DrawText([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpchText, [In]int cchText,
-            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc, [In]DrawTextFormatFlags format);
+            [In]in RECT lprc, [In]DrawTextFormatFlags format);
 
         /// <summary>
         /// <para>
@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", SetLastError = true)]
         public static extern BOOL ExtTextOut([In]IntPtr hdc, [In]int x, [In]int y, [In]ExtTextOutFlags options,
-            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In]uint c, [In]IntPtr lpDx);
+            [In]in RECT lprect, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In]uint c, [In]IntPtr lpDx);
 
         /// <summary>
         /// <para>

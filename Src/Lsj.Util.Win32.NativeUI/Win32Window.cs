@@ -104,12 +104,12 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         public void StartMessageLoop()
         {
-            while (GetMessage(out var msg, _window, 0, 0) != 0)
+            while (GetMessage(out var msg, _window, 0, 0))
             {
                 try
                 {
-                    TranslateMessage(ref msg);
-                    DispatchMessage(ref msg);
+                    TranslateMessage(msg);
+                    DispatchMessage(msg);
                 }
                 catch (Exception)
                 {

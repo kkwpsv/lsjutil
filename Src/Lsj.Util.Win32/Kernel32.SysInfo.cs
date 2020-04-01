@@ -587,7 +587,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool VerifyVersionInfo([MarshalAs(UnmanagedType.LPStruct)]OSVERSIONINFOEX lpVersionInformation,
+        public static extern bool VerifyVersionInfo([In]in OSVERSIONINFOEX lpVersionInformation,
             [In]VerifyVersionInfoTypeMasks dwTypeMask, [In]ulong dwlConditionMask);
     }
 }

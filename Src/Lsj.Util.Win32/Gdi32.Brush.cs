@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", SetLastError = true)]
-        public static extern HBRUSH CreateBrushIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGBRUSH plbrush);
+        public static extern HBRUSH CreateBrushIndirect([In]in LOGBRUSH plbrush);
 
         /// <summary>
         /// <para>

@@ -305,7 +305,7 @@ namespace Lsj.Util.Win32
         /// both the English and the localized typeface name, regardless of locale.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", SetLastError = true)]
-        public static extern HFONT CreateFontIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGFONT lplf);
+        public static extern HFONT CreateFontIndirect([In]in LOGFONT lplf);
 
         /// <summary>
         /// <para>
@@ -762,7 +762,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", SetLastError = true)]
         public static extern DWORD GetGlyphOutline([In]HDC hdc, [In]UINT uChar, [In]GetGlyphOutlineFormats fuFormat,
-            [Out]out GLYPHMETRICS lpgm, [In]DWORD cjBuffer, [In] LPVOID pvBuffer, [MarshalAs(UnmanagedType.LPStruct)][In]MAT2 lpmat2);
+            [Out]out GLYPHMETRICS lpgm, [In]DWORD cjBuffer, [In] LPVOID pvBuffer, [In]in MAT2 lpmat2);
 
         /// <summary>
         /// <para>

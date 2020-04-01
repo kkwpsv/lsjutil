@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32
         /// Call the <see cref="GetJob"/> or <see cref="SetJob"/> function and supply this value as one of the required arguments.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartDocW", SetLastError = true)]
-        public static extern int StartDoc([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]DOCINFO lpdi);
+        public static extern int StartDoc([In]HDC hdc, [In]in DOCINFO lpdi);
 
         /// <summary>
         /// <para>

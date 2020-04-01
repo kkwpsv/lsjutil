@@ -341,7 +341,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWaitableTimer([In]IntPtr hTimer, [MarshalAs(UnmanagedType.LPStruct)][In]LARGE_INTEGER lpDueTime, [In]int lPeriod,
+        public static extern bool SetWaitableTimer([In]IntPtr hTimer, [In]in LARGE_INTEGER lpDueTime, [In]int lPeriod,
             [MarshalAs(UnmanagedType.FunctionPtr)][In]PTIMERAPCROUTINE pfnCompletionRoutine, [In]IntPtr lpArgToCompletionRoutine, [In]bool fResume);
     }
 }

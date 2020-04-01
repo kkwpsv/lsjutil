@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.Macros
         /// <returns></returns>
         /// <remarks>If the button has a style other than those listed, the return value is zero.</remarks>
         public static ButtonStates Button_GetCheck(IntPtr hwndCtl) =>
-            (ButtonStates)SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+            (ButtonStates)(IntPtr)SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
 
         /// <summary>
         /// Gets the size of the button that best fits the text and image, if an image list is present.

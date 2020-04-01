@@ -200,7 +200,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", SetLastError = true)]
-        public static extern HBITMAP CreateBitmapIndirect([MarshalAs(UnmanagedType.LPStruct)][In]BITMAP pbm);
+        public static extern HBITMAP CreateBitmapIndirect([In]in BITMAP pbm);
 
         /// <summary>
         /// <para>
@@ -313,8 +313,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", SetLastError = true)]
-        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFOHEADER pbmih, [In]DWORD flInit,
-            [In]IntPtr pjBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO pbmi, [In]UINT iUsage);
+        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]DWORD flInit,
+            [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
 
         /// <summary>
         /// <para>
@@ -444,7 +444,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", SetLastError = true)]
         public static extern int GetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]LPVOID lpvBits,
-            [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi, [In]UINT usage);
+            [In]in BITMAPINFO lpbmi, [In]UINT usage);
 
         /// <summary>
         /// <para>
@@ -776,7 +776,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", SetLastError = true)]
         public static extern int SetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]IntPtr lpBits,
-            [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi, [In]UINT ColorUse);
+            [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
 
         /// <summary>
         /// <para>
@@ -868,7 +868,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", SetLastError = true)]
         public static extern int SetDIBitsToDevice([In]HDC hdc, [In]int xDest, [In]int yDest, [In]DWORD w, [In]DWORD h, [In]int xSrc, [In]int ySrc,
-            [In]UINT StartScan, [In]UINT cLines, [In]IntPtr lpvBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi, [In]UINT ColorUse);
+            [In]UINT StartScan, [In]UINT cLines, [In]IntPtr lpvBits, [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
 
         /// <summary>
         /// <para>
@@ -1190,7 +1190,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", SetLastError = true)]
         public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
-            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi,
+            [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [In]in BITMAPINFO lpbmi,
             [In]UINT iUsage, [In]RasterCodes rop);
     }
 }

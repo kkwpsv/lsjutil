@@ -162,7 +162,7 @@ namespace Lsj.Util.Win32
         /// This is handled by the <see cref="SPI_SETFOCUSBORDERWIDTH"/> and <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
-        public static extern BOOL DrawFocusRect([In]HDC hDC, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
+        public static extern BOOL DrawFocusRect([In]HDC hDC, [In]in RECT lprc);
 
         /// <summary>
         /// <para>
@@ -482,7 +482,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", SetLastError = true)]
-        public static extern BOOL InvertRect([In]HDC hDC, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
+        public static extern BOOL InvertRect([In]HDC hDC, [In]in RECT lprc);
 
         /// <summary>
         /// <para>

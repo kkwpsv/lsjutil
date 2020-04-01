@@ -104,7 +104,7 @@ namespace Lsj.Util.Win32
         /// and the center of the rectangle defines the intersection of the major and minor axes.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgnIndirect", SetLastError = true)]
-        public static extern HRGN CreateEllipticRgnIndirect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+        public static extern HRGN CreateEllipticRgnIndirect([In]in RECT lprect);
 
         /// <summary>
         /// <para>
@@ -241,7 +241,7 @@ namespace Lsj.Util.Win32
         /// The region will be exclusive of the bottom and right edges.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
-        public static extern HRGN CreateRectRgnIndirect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+        public static extern HRGN CreateRectRgnIndirect([In]in RECT lprect);
 
         /// <summary>
         /// <para>
@@ -398,7 +398,7 @@ namespace Lsj.Util.Win32
         /// If no part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectInRegion", SetLastError = true)]
-        public static extern BOOL RectInRegion([In]HRGN hrgn, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+        public static extern BOOL RectInRegion([In]HRGN hrgn, [In]in RECT lprect);
 
         /// <summary>
         /// <para>

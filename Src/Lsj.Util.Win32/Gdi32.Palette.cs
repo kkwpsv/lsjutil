@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the palette, call the DeleteObject function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePalette", SetLastError = true)]
-        public static extern HPALETTE CreatePalette([MarshalAs(UnmanagedType.LPStruct)][In]LOGPALETTE plpal);
+        public static extern HPALETTE CreatePalette([In]in LOGPALETTE plpal);
 
         /// <summary>
         /// <para>

@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DrawFocusRect([In]IntPtr hDC, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
+        public static extern bool DrawFocusRect([In]IntPtr hDC, [In]in RECT lprc);
 
         /// <summary>
         /// <para>
@@ -101,7 +101,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EndPaint([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPStruct)][In]PAINTSTRUCT lpPaint);
+        public static extern bool EndPaint([In]IntPtr hWnd, [In]in PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
