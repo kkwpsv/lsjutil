@@ -639,6 +639,71 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetDIBits"/> function sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibits
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="hbm">
+        /// A handle to the compatible bitmap (DDB) that is to be altered using the color data from the specified DIB.
+        /// </param>
+        /// <param name="start">
+        /// The starting scan line for the device-independent color data in the array pointed to by the <paramref name="lpBits"/> parameter.
+        /// </param>
+        /// <param name="cLines">
+        /// The number of scan lines found in the array containing device-independent color data.
+        /// </param>
+        /// <param name="lpBits">
+        /// A pointer to the DIB color data, stored as an array of bytes.
+        /// The format of the bitmap values depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// pointed to by the <paramref name="lpbmi"/> parameter.
+        /// </param>
+        /// <param name="lpbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that contains information about the DIB.
+        /// </param>
+        /// <param name="ColorUse">
+        /// Indicates whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was provided and, if so,
+        /// whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or palette indexes.
+        /// The <paramref name="ColorUse"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The color table consists of an array of 16-bit indexes into the logical palette of the device context
+        /// identified by the <paramref name="hdc"/> parameter.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The color table is provided and contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of scan lines copied.
+        /// If the function fails, the return value is zero.
+        /// This can be the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// Optimal bitmap drawing speed is obtained when the bitmap bits are indexes into the system palette.
+        /// Applications can retrieve the system palette colors and indexes by calling the <see cref="GetSystemPaletteEntries"/> function.
+        /// After the colors and indexes are retrieved, the application can create the DIB. For more information, see System Palette.
+        /// The device context identified by the <paramref name="hdc"/> parameter is used
+        /// only if the <see cref="DIB_PAL_COLORS"/> constant is set for the <paramref name="ColorUse"/> parameter; otherwise it is ignored.
+        /// The bitmap identified by the hbmp parameter must not be selected into a device context when the application calls this function.
+        /// The scan lines must be aligned on a <see cref="DWORD"/> except for RLE-compressed bitmaps.
+        /// The origin for bottom-up DIBs is the lower-left corner of the bitmap; the origin for top-down DIBs is the upper-left corner of the bitmap.
+        /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
+        /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
+        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
+        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
+        /// rather than in the device context's source color space.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", SetLastError = true)]
+        public static extern int SetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]IntPtr lpBits,
+            [MarshalAs(UnmanagedType.LPStruct)][In]BITMAPINFO lpbmi, [In]UINT ColorUse);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetPixel"/> function sets the pixel at the specified coordinates to the specified color.
         /// </para>
         /// <para>
