@@ -180,6 +180,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SubtractRect"/> function determines the coordinates of a rectangle formed by subtracting one rectangle from another.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-subtractrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprcDst">
+        /// A pointer to a <see cref="RECT"/> structure that receives the coordinates of the rectangle determined
+        /// by subtracting the rectangle pointed to by <paramref name="lprcSrc2"/> from the rectangle pointed to by <paramref name="lprcSrc1"/>.
+        /// </param>
+        /// <param name="lprcSrc1">
+        /// A pointer to a <see cref="RECT"/> structure from which the function subtracts the rectangle pointed to by <paramref name="lprcSrc2"/>.
+        /// </param>
+        /// <param name="lprcSrc2">
+        /// A pointer to a <see cref="RECT"/> structure that the function subtracts from the rectangle pointed to by <paramref name="lprcSrc1"/>.
+        /// </param>
+        /// <returns>
+        /// If the resulting rectangle is empty, the return value is <see cref="FALSE"/>.
+        /// If the resulting rectangle is not empty, the return value is <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function only subtracts the rectangle specified by <paramref name="lprcSrc2"/> from the rectangle specified by <paramref name="lprcSrc1"/>
+        /// when the rectangles intersect completely in either the x- or y-direction.
+        /// For example, if *<paramref name="lprcSrc1"/> has the coordinates (10,10,100,100)
+        /// and *<paramref name="lprcSrc2"/> has the coordinates (50,50,150,150),
+        /// the function sets the coordinates of the rectangle pointed to by <paramref name="lprcDst"/> to (10,10,100,100).
+        /// If *<paramref name="lprcSrc1"/> has the coordinates (10,10,100,100) and *<paramref name="lprcSrc2"/> has the coordinates (50,10,150,150),
+        /// however, the function sets the coordinates of the rectangle pointed to by <paramref name="lprcDst"/> to (10,10,50,100).
+        /// In other words, the resulting rectangle is the bounding box of the geometric difference.
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SubtractRect", SetLastError = true)]
+        public static extern BOOL SubtractRect([In][Out]ref RECT lprcDst, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc1,
+            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="UnionRect"/> function creates the union of two rectangles.
         /// The union is the smallest rectangle that contains both source rectangles.
         /// </para>
