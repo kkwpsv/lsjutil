@@ -77,6 +77,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="EndDoc"/> function ends a print job.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enddoc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context for the print job.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is greater than zero.
+        /// If the function fails, the return value is less than or equal to zero.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// Applications should call <see cref="EndDoc"/> immediately after finishing a print job.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDoc", SetLastError = true)]
+        public static extern int EndDoc([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="EndPage"/> function notifies the device that the application has finished writing to a page.
         /// This function is typically used to direct the device driver to advance to a new page.
         /// </para>
