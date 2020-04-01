@@ -482,6 +482,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Replies to a message sent from another thread by the <see cref="SendMessage"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-replymessage
+        /// </para>
+        /// </summary>
+        /// <param name="lResult">
+        /// The result of the message processing. The possible values are based on the message sent.
+        /// </param>
+        /// <returns>
+        /// If the calling thread was processing a message sent from another thread or process, the return value is <see cref="TRUE"/>.
+        /// If the calling thread was not processing a message sent from another thread or process, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// By calling this function, the window procedure that receives the message allows the thread that called <see cref="SendMessage"/>
+        /// to continue to run as though the thread receiving the message had returned control.
+        /// The thread that calls the <see cref="ReplyMessage"/> function also continues to run.
+        /// If the message was not sent through <see cref="SendMessage"/> or if the message was sent by the same thread, <see cref="ReplyMessage"/> has no effect.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", SetLastError = true)]
+        public static extern BOOL ReplyMessage([In]LRESULT lResult);
+
+        /// <summary>
+        /// <para>
         /// Sends the specified message to a window or windows.
         /// The <see cref="SendMessage"/> function calls the window procedure for the specified window
         /// and does not return until the window procedure has processed the message.
