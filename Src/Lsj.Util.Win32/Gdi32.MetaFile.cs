@@ -77,6 +77,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CopyMetaFile"/> function copies the content of a Windows-format metafile to the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-copymetafilew
+        /// </para>
+        /// </summary>
+        /// <param name="arg1">
+        /// A handle to the source Windows-format metafile.
+        /// </param>
+        /// <param name="arg2">
+        /// A pointer to the name of the destination file.
+        /// If this parameter is <see langword="null"/>, the source metafile is copied to memory.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the copy of the Windows-format metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Where text arguments must use Unicode characters, use this function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// When the application no longer needs the Windows-format metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteMetaFile"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is CopyEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyMetaFileW", SetLastError = true)]
+        public static extern HMETAFILE CopyMetaFile([In]HMETAFILE arg1, [MarshalAs(UnmanagedType.LPWStr)][In]string arg2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DeleteMetaFile"/> function deletes a Windows-format metafile or Windows-format metafile handle.
         /// </para>
         /// <para>
