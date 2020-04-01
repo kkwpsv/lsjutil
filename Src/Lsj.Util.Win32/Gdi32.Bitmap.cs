@@ -375,6 +375,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetROP2"/> function retrieves the foreground mix mode of the specified device context.
+        /// The mix mode specifies how the pen or interior color and the color already on the screen are combined to yield a new color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrop2
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the foreground mix mode.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// Following are the foreground mix modes.
+        /// <see cref="R2_BLACK"/>: Pixel is always 0.
+        /// <see cref="R2_COPYPEN"/>: Pixel is the pen color.
+        /// <see cref="R2_MASKNOTPEN"/>: Pixel is a combination of the colors common to both the screen and the inverse of the pen.
+        /// <see cref="R2_MASKPEN"/>: Pixel is a combination of the colors common to both the pen and the screen.
+        /// <see cref="R2_MASKPENNOT"/>: Pixel is a combination of the colors common to both the pen and the inverse of the screen.
+        /// <see cref="R2_MERGENOTPEN"/>: Pixel is a combination of the screen color and the inverse of the pen color.
+        /// <see cref="R2_MERGEPEN"/>: Pixel is a combination of the pen color and the screen color.
+        /// <see cref="R2_MERGEPENNOT"/>: Pixel is a combination of the pen color and the inverse of the screen color.
+        /// <see cref="R2_NOP"/>: Pixel remains unchanged.
+        /// <see cref="R2_NOT"/>: Pixel is the inverse of the screen color.
+        /// <see cref="R2_NOTCOPYPEN"/>: Pixel is the inverse of the pen color.
+        /// <see cref="R2_NOTMASKPEN"/>: Pixel is the inverse of the <see cref="R2_MASKPEN"/> color.
+        /// <see cref="R2_NOTMERGEPEN"/>: Pixel is the inverse of the <see cref="R2_MERGEPEN"/> color.
+        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the <see cref="R2_XORPEN"/> color.
+        /// <see cref="R2_WHITE"/>: Pixel is always 1.
+        /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", SetLastError = true)]
+        public static extern RasterOps GetROP2([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetStretchBltMode"/> function retrieves the current stretching mode.
         /// The stretching mode defines how color data is added to or removed from bitmaps that are stretched or compressed
         /// when the <see cref="StretchBlt"/> function is called.
@@ -606,7 +644,7 @@ namespace Lsj.Util.Win32
         /// <see cref="R2_NOTCOPYPEN"/>: Pixel is the inverse of the pen color.
         /// <see cref="R2_NOTMASKPEN"/>: Pixel is the inverse of the <see cref="R2_MASKPEN"/> color.
         /// <see cref="R2_NOTMERGEPEN"/>: Pixel is the inverse of the <see cref="R2_MERGEPEN"/> color.
-        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the R2_XORPEN color.
+        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the <see cref="R2_XORPEN"/> color.
         /// <see cref="R2_WHITE"/>: Pixel is always 1.
         /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
         /// </param>
