@@ -60,8 +60,42 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyRect", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRect", SetLastError = true)]
         public static extern BOOL EqualRect([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc1, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc2);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IntersectRect"/> function calculates the intersection of two source rectangles and
+        /// places the coordinates of the intersection rectangle into the destination rectangle.
+        /// If the source rectangles do not intersect, an empty rectangle (in which all coordinates are set to zero) is placed into the destination rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-intersectrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprcDst">
+        /// A pointer to the <see cref="RECT"/> structure that is to receive the intersection of the rectangles pointed to
+        /// by the <paramref name="lprcSrc1"/> and <paramref name="lprcSrc2"/> parameters.
+        /// This parameter cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="lprcSrc1">
+        /// A pointer to the <see cref="RECT"/> structure that contains the first source rectangle.
+        /// </param>
+        /// <param name="lprcSrc2">
+        /// A pointer to the <see cref="RECT"/> structure that contains the second source rectangle.
+        /// </param>
+        /// <returns>
+        /// If the rectangles intersect, the return value is <see cref="TRUE"/>.
+        /// If the rectangles do not intersect, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectRect", SetLastError = true)]
+        public static extern BOOL IntersectRect([In][Out]ref RECT lprcDst, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc1,
+            [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc2);
 
         /// <summary>
         /// <para>
