@@ -318,6 +318,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBitmapBits"/> function copies the bitmap bits of a specified device-dependent bitmap into a buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapbits
+        /// </para>
+        /// </summary>
+        /// <param name="hbit">
+        /// A handle to the device-dependent bitmap.
+        /// </param>
+        /// <param name="cb">
+        /// The number of bytes to copy from the bitmap into the buffer.
+        /// </param>
+        /// <param name="lpvBits">
+        /// A pointer to a buffer to receive the bitmap bits.
+        /// The bits are stored as an array of byte values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the number of bytes copied to the buffer.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the GetDIBits function.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", SetLastError = true)]
+        public static extern LONG GetBitmapBits([In]HBITMAP hbit, [In]LONG cb, [In]LPVOID lpvBits);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBitmapDimensionEx"/> function retrieves the dimensions of a compatible bitmap.
         /// The retrieved dimensions must have been set by the <see cref="SetBitmapDimensionEx"/> function.
         /// </para>
