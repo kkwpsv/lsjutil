@@ -580,6 +580,51 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetROP2"/> function sets the current foreground mix mode.
+        /// GDI uses the foreground mix mode to combine pens and interiors of filled objects with the colors already on the screen.
+        /// The foreground mix mode defines how colors from the brush or pen and the colors in the existing image are to be combined.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrop2
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="rop2">
+        /// The mix mode. This parameter can be one of the following values.
+        /// <see cref="R2_BLACK"/>: Pixel is always 0.
+        /// <see cref="R2_COPYPEN"/>: Pixel is the pen color.
+        /// <see cref="R2_MASKNOTPEN"/>: Pixel is a combination of the colors common to both the screen and the inverse of the pen.
+        /// <see cref="R2_MASKPEN"/>: Pixel is a combination of the colors common to both the pen and the screen.
+        /// <see cref="R2_MASKPENNOT"/>: Pixel is a combination of the colors common to both the pen and the inverse of the screen.
+        /// <see cref="R2_MERGENOTPEN"/>: Pixel is a combination of the screen color and the inverse of the pen color.
+        /// <see cref="R2_MERGEPEN"/>: Pixel is a combination of the pen color and the screen color.
+        /// <see cref="R2_MERGEPENNOT"/>: Pixel is a combination of the pen color and the inverse of the screen color.
+        /// <see cref="R2_NOP"/>: Pixel remains unchanged.
+        /// <see cref="R2_NOT"/>: Pixel is the inverse of the screen color.
+        /// <see cref="R2_NOTCOPYPEN"/>: Pixel is the inverse of the pen color.
+        /// <see cref="R2_NOTMASKPEN"/>: Pixel is the inverse of the <see cref="R2_MASKPEN"/> color.
+        /// <see cref="R2_NOTMERGEPEN"/>: Pixel is the inverse of the <see cref="R2_MERGEPEN"/> color.
+        /// <see cref="R2_NOTXORPEN"/>: Pixel is the inverse of the R2_XORPEN color.
+        /// <see cref="R2_WHITE"/>: Pixel is always 1.
+        /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous mix mode.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Mix modes define how GDI combines source and destination colors when drawing with the current pen.
+        /// The mix modes are binary raster operation codes, representing all possible Boolean functions of two variables,
+        /// using the binary operations AND, OR, and XOR (exclusive OR), and the unary operation NOT.
+        /// The mix mode is for raster devices only; it is not available for vector devices.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", SetLastError = true)]
+        public static extern int SetROP2([In]HDC hdc, [In]RasterOps rop2);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetStretchBltMode"/> function sets the bitmap stretching mode in the specified device context.
         /// </para>
         /// <para>
