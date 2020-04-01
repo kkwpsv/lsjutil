@@ -434,7 +434,7 @@ namespace Lsj.Util.Win32
         /// This value is used as the <see cref="MSG.wParam"/> parameter of the <see cref="WM_DESTROY"/> message.
         /// </param>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", SetLastError = true)]
-        public static extern void PostQuitMessage([In] int nExitCode);
+        public static extern void PostQuitMessage([In]int nExitCode);
 
         /// <summary>
         /// <para>
