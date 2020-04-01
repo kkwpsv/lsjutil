@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// The maximum return value is 5000 milliseconds.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDoubleClickTime", SetLastError = true)]
-        public static extern uint GetDoubleClickTime();
+        public static extern UINT GetDoubleClickTime();
 
         /// <summary>
         /// <para>
