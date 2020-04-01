@@ -11,6 +11,47 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The EnumMetaFileProc function is an application-defined callback function that processes Windows-format metafile records.
+        /// This function is called by the <see cref="EnumMetaFile"/> function.
+        /// The <see cref="MFENUMPROC"/> type defines a pointer to this callback function.
+        /// EnumMetaFileProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162630(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// Handle to the device context passed to <see cref="EnumMetaFile"/>.
+        /// </param>
+        /// <param name="lpHTable">
+        /// Pointer to a table of handles associated with the graphics objects (pens, brushes, and so on) in the metafile.
+        /// </param>
+        /// <param name="lpMFR">
+        /// Pointer to one of the records in the metafile.
+        /// This record should not be modified.
+        /// (If modification is necessary, it should be performed on a copy of the record.)
+        /// </param>
+        /// <param name="nObj">
+        /// Specifies the number of objects with associated handles in the handle table.
+        /// </param>
+        /// <param name="lpClientData">
+        /// Pointer to optional data.
+        /// </param>
+        /// <returns>
+        /// This function must return a nonzero value to continue enumeration; to stop enumeration, it must return zero.
+        /// </returns>
+        /// <remarks>
+        /// An application must register the callback function by passing its address to the <see cref="EnumMetaFile"/> function.
+        /// EnumMetaFileProc is a placeholder for the application-supplied function name.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is EnhMetaFileProc.")]
+        public delegate int MFENUMPROC([In] HDC hDC, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHTable,
+            [MarshalAs(UnmanagedType.LPStruct)][In]METARECORD lpMFR, [In]int nObj, [In]LPARAM lpClientData);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateMetaFile"/> function creates a device context for a Windows-format metafile.
         /// </para>
         /// <para>
@@ -131,6 +172,45 @@ namespace Lsj.Util.Win32
             " The corresponding function for an enhanced-format metafile is DeleteEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMetaFile", SetLastError = true)]
         public static extern BOOL DeleteMetaFile([In]HMETAFILE hmf);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="EnumMetaFile"/> function enumerates the records within a Windows-format metafile by retrieving each record
+        /// and passing it to the specified callback function.
+        /// The application-supplied callback function processes each record as required.
+        /// The enumeration continues until the last record is processed or when the callback function returns zero.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enummetafile
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a device context.
+        /// This handle is passed to the callback function.
+        /// </param>
+        /// <param name="hmf">
+        /// Handle to a Windows-format metafile.
+        /// </param>
+        /// <param name="proc">
+        /// Pointer to an application-supplied callback function.
+        /// For more information, see <see cref="EnumMetaFileProc"/>.
+        /// </param>
+        /// <param name="param">
+        /// Pointer to optional data.
+        /// </param>
+        /// <returns>
+        /// If the callback function successfully enumerates all the records in the Windows-format metafile, the return value is <see cref="TRUE"/>.
+        /// If the callback function does not successfully enumerate all the records in the Windows-format metafile, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// To convert a Windows-format metafile into an enhanced-format metafile, use the <see cref="SetWinMetaFileBits"/> function.
+        /// You can use the <see cref="EnumMetaFile"/> function to embed one Windows-format metafile within another.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is EnumEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumMetaFile", SetLastError = true)]
+        public static extern BOOL EnumMetaFile([In]HDC hdc, [In]HMETAFILE hmf, [In]MFENUMPROC proc, [In]LPARAM param);
 
         /// <summary>
         /// <para>
