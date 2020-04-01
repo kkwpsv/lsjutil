@@ -32,8 +32,33 @@ namespace Lsj.Util.Win32
         /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
         /// The mapping mode and the function in which the rectangle is used determine the units of measure.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyRect", SetLastError = true)]
         public static extern BOOL CopyRect([In][Out]ref RECT lprcDst, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IsRectEmpty"/> function determines whether the specified rectangle is empty.
+        /// An empty rectangle is one that has no area; that is, the coordinate of the right side is less than or equal to the coordinate of the left side,
+        /// or the coordinate of the bottom side is less than or equal to the coordinate of the top side.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isrectempty
+        /// </para>
+        /// </summary>
+        /// <param name="lprc">
+        /// Pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the rectangle is empty, the return value is <see cref="TRUE"/>.
+        /// If the rectangle is not empty, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsRectEmpty", SetLastError = true)]
+        public static extern BOOL IsRectEmpty([MarshalAs(UnmanagedType.LPStruct)][In]RECT lprc);
 
         /// <summary>
         /// <para>
