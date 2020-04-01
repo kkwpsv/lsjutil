@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// For the complete example that contains this code fragment, see Getting the System Version.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", SetLastError = true, ThrowOnUnmappableChar = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
         public static extern FARPROC GetProcAddress([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In]string lpProcName);
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadCodePtr([In]FARPROC lpfn);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadReadPtr([In]IntPtr lp, [In]UINT_PTR ucb);
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// Use of structured exception handling enables the system to notify the process if an access violation exception occurs,
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadStringPtr([In]IntPtr lpsz, UINT_PTR ucchMax);
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// call it inside a critical region of code that allows only one thread to access the memory being checked.
         /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsBadWritePtr([In]LPVOID lp, [In]UINT_PTR ucb);
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Lsj.Util.Win32
         /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
         /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsDBCSLeadByte([In]BYTE TestChar);
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
 
@@ -361,7 +361,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/> and <paramref name="lpString1"/> may not be null-terminated.
         /// </returns>
         [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 
@@ -403,7 +403,7 @@ namespace Lsj.Util.Win32
         /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", ExactSpelling = true, SetLastError = true)]
         public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace Lsj.Util.Win32
         /// in order to ensure that words such as "coop" and "co-op" stay together within a sorted list.
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", ExactSpelling = true, SetLastError = true)]
         public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// being aware that, when copying to a pointer, the caller is responsible for passing in the size of the pointed-to memory in characters.
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
 
@@ -543,7 +543,7 @@ namespace Lsj.Util.Win32
         /// Review Security Considerations: Windows User Interface before continuing.
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2, [In]int iMaxLength);
 
@@ -562,7 +562,7 @@ namespace Lsj.Util.Win32
         /// The function returns the length of the string, in characters.
         /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", ExactSpelling = true, SetLastError = true)]
         public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 #pragma warning restore IDE1006
 
@@ -598,7 +598,7 @@ namespace Lsj.Util.Win32
         /// If the result is a negative half integer, it is rounded down.
         /// If either an overflow occurred or nDenominator was 0, the return value is -1.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true, SetLastError = true)]
         public static extern int MulDiv([In]int nNumber, [In]int nNumerator, [In]int nDenominator);
 
         /// <summary>
@@ -622,7 +622,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryPerformanceCounter([Out]out LARGE_INTEGER lpPerformanceCount);
 
@@ -650,7 +650,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryPerformanceFrequency([Out]out LARGE_INTEGER lpFrequency);
 
@@ -707,7 +707,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
         public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In]string lpCmdLine, [In]ShowWindowCommands uCmdShow);
     }
 }

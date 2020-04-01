@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// Instead, the client manipulates the linked objects through the <see cref="IOleLink"/> interface.
         /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT BindMoniker([In]IMoniker pmk, [In]uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In]Guid iidResult,
             [MarshalAs(UnmanagedType.IUnknown)][Out]object ppvResult);
 
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32
         /// The constant <see cref="CLSCTX_ALL"/> is defined as the combination of all four.
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
             [MarshalAs(UnmanagedType.IUnknown)]object pUnkOuter, [In]CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
             [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
@@ -149,7 +149,7 @@ namespace Lsj.Util.Win32
         /// The pointer to the IMalloc interface pointer received through the <paramref name="ppMalloc"/> parameter cannot be used from a remote process;
         /// each process must have its own allocator.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetMalloc([In]uint dwMemContext, [Out]out IntPtr ppMalloc);
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// Applications should always check the return value from this function, even when requesting small amounts of memory,
         /// because there is no guarantee that the memory will be allocated.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CoTaskMemAlloc([In]IntPtr cb);
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Lsj.Util.Win32
         /// The number of bytes freed equals the number of bytes that were originally allocated or reallocated.
         /// After the call, the memory block pointed to by pv is invalid and can no longer be used.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", ExactSpelling = true, SetLastError = true)]
         public static extern void CoTaskMemFree([In]IntPtr pv);
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace Lsj.Util.Win32
         /// The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
-        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", SetLastError = true)]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CoTaskMemRealloc([In]IntPtr pv, [In]IntPtr cb);
     }
 }

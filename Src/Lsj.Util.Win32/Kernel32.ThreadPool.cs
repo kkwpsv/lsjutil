@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32
         /// To set the timer object, call the <see cref="SetThreadpoolTimer"/> function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_TIMER CreateThreadpoolTimer([MarshalAs(UnmanagedType.FunctionPtr)][In]PTP_TIMER_CALLBACK pfnti,
           [In]PVOID pv, [In]PTP_CALLBACK_ENVIRON pcbe);
     }

@@ -35,8 +35,8 @@ namespace Lsj.Util.Win32
         /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", SetLastError = true)]
-        public static extern HBRUSH CreateBrushIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGBRUSH plbrush);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
+        public static extern HBRUSH CreateBrushIndirect([In]in LOGBRUSH plbrush);
 
         /// <summary>
         /// <para>
@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateDIBPatternBrush([In]HGLOBAL h, [In]UINT iUsage);
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done at brush creation.
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateSolidBrush([In]COLORREF color);
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color is defined at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreateHatchBrush([In]HatchStyles iHatch, [In]COLORREF color);
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32
         /// Pixels represented by a 0 bit are drawn with the current text color; pixels represented by a 1 bit are drawn with the current background color.
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", ExactSpelling = true, SetLastError = true)]
         public static extern HBRUSH CreatePatternBrush([In]HBITMAP hbm);
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Lsj.Util.Win32
         /// The system automatically tracks the origin of all window-managed device contexts
         /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBrushOrgEx([In]HDC hdc, [Out]out POINT lppt);
     }
 }

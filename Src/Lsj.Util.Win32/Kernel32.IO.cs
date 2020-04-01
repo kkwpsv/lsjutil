@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32
         /// All I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>,
         /// and all completion notifications for the I/O operations occur normally.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CancelIo([In]IntPtr hFile);
 
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
         /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CancelIoEx([In]IntPtr hFile, [In][Out]ref OVERLAPPED lpOverlapped);
 
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// Therefore, all of these handles must be properly closed to release the I/O completion port and its associated system resources.
         /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateIoCompletionPort([In]IntPtr FileHandle, [In]IntPtr ExistingCompletionPort, [In]UIntPtr CompletionKey,
             [In]uint NumberOfConcurrentThreads);
 
@@ -298,7 +298,7 @@ namespace Lsj.Util.Win32
         /// Power Management Control Codes
         /// Volume Management Control Codes
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeviceIoControl([In]IntPtr hDevice, [In]IoControlCodes dwIoControlCode, [In]IntPtr lpInBuffer, [In]uint nInBufferSize,
             [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesReturned, [In] IntPtr lpOverlapped);
@@ -355,7 +355,7 @@ namespace Lsj.Util.Win32
         /// are performed on the same file, named pipe, or communications device.
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetOverlappedResult([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred, [In]bool bWait);
 
@@ -443,7 +443,7 @@ namespace Lsj.Util.Win32
         /// when multiple simultaneous overlapped operations are performed on the same file, named pipe, or communications device.
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetOverlappedResultEx([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred,
             [In]uint dwMilliseconds, [In]bool bAlertable);
@@ -514,7 +514,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetQueuedCompletionStatus([In]IntPtr CompletionPort, [Out]out int lpNumberOfBytesTransferred,
             [Out]out UIntPtr lpCompletionKey, [Out]out IntPtr lpOverlapped, [In]uint dwMilliseconds);
@@ -583,7 +583,7 @@ namespace Lsj.Util.Win32
         /// If a thread is actively waiting on this call, one or more queued requests complete the call for that thread only.
         /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetQueuedCompletionStatusEx([In]IntPtr CompletionPort, [In]IntPtr lpCompletionPortEntries, [In]uint ulCount,
             [Out]out uint ulNumEntriesRemoved, [In]uint dwMilliseconds, [In]bool fAlertable);

@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32
         /// Instead, use the <see cref="RegCloseKey"/> function.
         /// <see cref="CloseHandle"/> does not close the handle to the registry key, but does not return an error to indicate this failure.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle([In]IntPtr hObject);
 
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// Set <paramref name="lpTargetHandle"/> to NULL.
         /// Set <paramref name="dwOptions"/> to <see cref="DUPLICATE_CLOSE_SOURCE"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateHandle", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateHandle", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DuplicateHandle([In]IntPtr hSourceProcessHandle, [In]IntPtr hSourceHandle, [In]IntPtr hTargetProcessHandle,
             [Out]out IntPtr lpTargetHandle, [In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]DuplicateHandleOptions dwOptions);

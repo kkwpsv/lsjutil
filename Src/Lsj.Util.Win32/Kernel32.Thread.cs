@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// This can cause the same side effects mentioned in the previous paragraph.
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
@@ -235,7 +235,7 @@ namespace Lsj.Util.Win32
         /// This can cause the same side effects mentioned in the previous paragraph.
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
@@ -335,7 +335,7 @@ namespace Lsj.Util.Win32
         /// this requires the use of the multithreaded version of the CRT.
         /// If a thread created using <see cref="CreateThread"/> calls the CRT, the CRT may terminate the process in low - memory conditions.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateThread(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
@@ -382,7 +382,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it is safe to call <see cref="CreateThread"/> and <see cref="ExitThread"/> from a thread in a DLL that links to the static CRT.
         /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit code.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitThread([In]uint dwExitCode);
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32
         /// Some access rights including <see cref="THREAD_SET_THREAD_TOKEN"/> and <see cref="THREAD_GET_CONTEXT"/> may not be present,
         /// leading to unexpected failures.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThread", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetCurrentThread();
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Until the thread terminates, the thread identifier uniquely identifies the thread throughout the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentThreadId", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetCurrentThreadId();
 
         /// <summary>
@@ -476,7 +476,7 @@ namespace Lsj.Util.Win32
         /// To avoid this problem, callers should call the <see cref="GetExitCodeThread"/> function only after the thread has been confirmed to have exited.
         /// Use the <see cref="WaitForSingleObject"/> function with a wait duration of zero to determine whether a thread has exited.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetExitCodeThread([In]IntPtr hThread, [Out]out uint lpExitCode);
 
@@ -503,7 +503,7 @@ namespace Lsj.Util.Win32
         /// Until a process terminates, its process identifier uniquely identifies it on the system.
         /// For more information about access rights, see Thread Security and Access Rights.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIdOfThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIdOfThread", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessIdOfThread([In]IntPtr Thread);
 
         /// <summary>
@@ -537,7 +537,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="GetThreadContext"/>.
         /// If you call <see cref="GetThreadContext"/> for the current thread, the function returns successfully; however, the context returned is not valid.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
 
@@ -564,7 +564,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetThreadId([In]IntPtr Thread);
 
         /// <summary>
@@ -595,7 +595,7 @@ namespace Lsj.Util.Win32
         /// For a table that shows the base-priority levels for each combination of priority class and thread priority value,
         /// refer to the <see cref="SetPriorityClass"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", ExactSpelling = true, SetLastError = true)]
         public static extern int GetThreadPriority([In]IntPtr hThread);
 
         /// <summary>
@@ -623,7 +623,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetThreadPriorityBoost([In]IntPtr hThread, [Out]out bool pDisablePriorityBoost);
 
@@ -671,7 +671,7 @@ namespace Lsj.Util.Win32
         /// That is the number of 100-nanosecond units in one second.
         /// To retrieve the number of CPU clock cycles used by the threads, use the <see cref="QueryThreadCycleTime"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetThreadTimes([In]IntPtr hThread, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
             [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
@@ -709,7 +709,7 @@ namespace Lsj.Util.Win32
         /// The handle is granted access to the thread object only to the extent it was specified in the <paramref name="dwDesiredAccess"/> parameter.
         /// When you are finished with the handle, be sure to close it by using the <see cref="CloseHandle"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr OpenThread([In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]uint dwThreadId);
 
         /// <summary>
@@ -743,7 +743,7 @@ namespace Lsj.Util.Win32
         /// The behavior of each CPU is described in the documentation provided by the CPU vendor.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle, [Out]out ulong CycleTime);
 
@@ -781,7 +781,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", ExactSpelling = true, SetLastError = true)]
         public static extern uint ResumeThread([In]IntPtr hThread);
 
         /// <summary>
@@ -822,7 +822,7 @@ namespace Lsj.Util.Win32
         /// If the new thread affinity mask does not specify the processor that is currently running the thread,
         /// the thread is rescheduled on one of the allowable processors.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern UIntPtr SetThreadAffinityMask([In]IntPtr hThread, [In]UIntPtr dwThreadAffinityMask);
 
         /// <summary>
@@ -855,7 +855,7 @@ namespace Lsj.Util.Win32
         /// Do not try to set the context for a running thread; the results are unpredictable.
         /// Use the <see cref="SuspendThread"/> function to suspend the thread before calling <see cref="SetThreadContext"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
 
@@ -893,7 +893,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", ExactSpelling = true, SetLastError = true)]
         public static extern uint SetThreadIdealProcessor([In]IntPtr hThread, [In]uint dwIdealProcessor);
 
         /// <summary>
@@ -964,7 +964,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps.
         /// Windows Phone 8.1:Windows Phone Store apps may call this function but it has no effect.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetThreadPriority([In]IntPtr hThread, ThreadPriorityFlags nPriority);
 
@@ -998,7 +998,7 @@ namespace Lsj.Util.Win32
         /// the thread's priority is not boosted.
         /// To restore normal behavior, call <see cref="SetThreadPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetThreadPriorityBoost([In]IntPtr hThread, [In]bool bDisablePriorityBoost);
 
@@ -1053,7 +1053,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", ExactSpelling = true, SetLastError = true)]
         public static extern void Sleep([In]uint dwMilliseconds);
 
         /// <summary>
@@ -1135,7 +1135,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", ExactSpelling = true, SetLastError = true)]
         public static extern uint SleepEx([In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
@@ -1172,7 +1172,7 @@ namespace Lsj.Util.Win32
         /// Windows Phone 8.1: This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", ExactSpelling = true, SetLastError = true)]
         public static extern uint SuspendThread([In]IntPtr hThread);
 
         /// <summary>
@@ -1203,7 +1203,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToThread", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SwitchToThread();
 
@@ -1254,7 +1254,7 @@ namespace Lsj.Util.Win32
         /// It is up to the programmer to ensure that the index is valid and
         /// that the thread calls <see cref="TlsSetValue"/> before calling <see cref="TlsGetValue"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
 
         /// <summary>
@@ -1302,7 +1302,7 @@ namespace Lsj.Util.Win32
         /// Terminating a thread does not necessarily remove the thread object from the system.
         /// A thread object is deleted when the last thread handle is closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TerminateThread([In]IntPtr hThread, [In]uint dwExitCode);
     }

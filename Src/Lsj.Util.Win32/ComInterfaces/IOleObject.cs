@@ -649,7 +649,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This is always the case with linked objects, whose sizes are set by their link sources, not by their containers.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetExtent([In]DVASPECT dwDrawAspect, [MarshalAs(UnmanagedType.LPStruct)][In]SIZE psizel);
+        HRESULT SetExtent([In]DVASPECT dwDrawAspect, [In]in SIZE psizel);
 
         /// <summary>
         /// Retrieves a running object's current display size.
@@ -828,6 +828,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which is not obliged to use it.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetColorScheme([MarshalAs(UnmanagedType.LPStruct)][In]LOGPALETTE pLogpal);
+        HRESULT SetColorScheme([In]in LOGPALETTE pLogpal);
     }
 }

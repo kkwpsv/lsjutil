@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32
         /// If the continued thread previously reported an <see cref="EXIT_PROCESS_DEBUG_EVENT"/> debugging event,
         /// <see cref="ContinueDebugEvent"/> closes the handles the debugger has to the process and to the thread.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ContinueDebugEvent([In]uint dwProcessId, [In]uint dwThreadId, [In]DebugContinueStatus dwContinueStatus);
 
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32
         /// If the process is not being debugged, the function uses the search logic of a standard exception handler.
         /// In most cases, this causes the calling process to terminate because of an unhandled breakpoint exception.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreak", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreak", ExactSpelling = true, SetLastError = true)]
         public static extern void DebugBreak();
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32
         /// An application should only use <see cref="FatalExit"/> for debugging purposes.
         /// It should not call the function in a retail version of the application because doing so will terminate the application.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalExit", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalExit", ExactSpelling = true, SetLastError = true)]
         public static extern void FatalExit([In]int ExitCode);
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// This handle should be closed by the debugger application by calling the <see cref="CloseHandle"/> function.
         /// Do not queue an asynchronous procedure call (APC) to a thread that calls <see cref="WaitForDebugEvent"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEvent", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool WaitForDebugEvent([In]IntPtr lpDebugEvent, [In]uint dwMilliseconds);
 
@@ -160,7 +160,7 @@ namespace Lsj.Util.Win32
         /// Visual Studio has changed how it handles the display of these strings throughout its revision history.
         /// Refer to the Visual Studio documentation for details of how your version deals with this.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OutputDebugStringW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OutputDebugStringW", ExactSpelling = true, SetLastError = true)]
         public static extern void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)][In]string lpOutputString
 );
     }

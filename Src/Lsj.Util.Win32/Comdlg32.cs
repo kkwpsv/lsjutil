@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32
 		/// The hook procedure can send the <see cref="WM_CHOOSEFONT_GETLOGFONT"/>, <see cref="WM_CHOOSEFONT_SETFLAGS"/>,
 		/// and <see cref="WM_CHOOSEFONT_SETLOGFONT"/> messages to the dialog box to get and set the current values and flags of the dialog box.
 		/// </remarks>
-		[DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseFontW", SetLastError = true)]
+		[DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseFontW", ExactSpelling = true, SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool ChooseFont([In][Out]ref CHOOSEFONT lpcf);
 	}

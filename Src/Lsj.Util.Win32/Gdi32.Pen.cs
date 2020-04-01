@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color management is done at creation. However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePen", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePen", ExactSpelling = true, SetLastError = true)]
         public static extern HPEN CreatePen([In]PenStyles iStyle, [In]int cWidth, [In]COLORREF color);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Lsj.Util.Win32
         /// After a pen is selected into a device context, it can be used to draw lines and curves.
         /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", SetLastError = true)]
-        public static extern HPEN CreatePenIndirect([MarshalAs(UnmanagedType.LPStruct)][In]LOGPEN plpen);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", ExactSpelling = true, SetLastError = true)]
+        public static extern HPEN CreatePenIndirect([In]in LOGPEN plpen);
     }
 }

@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The lower and right edges of the specified rectangle are not excluded from the clipping region.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeClipRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeClipRect", ExactSpelling = true, SetLastError = true)]
         public static extern int ExcludeClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR"/>: An error occurred.
         /// <see cref="GetClipBox"/> returns logical coordinates based on the given device context.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipBox", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipBox", ExactSpelling = true, SetLastError = true)]
         public static extern int GetClipBox([In]HDC hdc, [Out]out RECT lprect);
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Lsj.Util.Win32
         /// If a clipping region does not already exist then the system may apply a default clipping region to the specified <see cref="HDC"/>.
         /// A clipping region is then created from the intersection of that default clipping region and the rectangle specified in the function parameters.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectClipRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectClipRect", ExactSpelling = true, SetLastError = true)]
         public static extern int IntersectClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// <see cref="COMPLEXREGION"/>: Region is more than one rectangle.
         /// <see cref="ERROR"/>: An error occurred. (The current clipping region is unaffected.)
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetClipRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int OffsetClipRgn([In]HDC hdc, [In]int x, [In]int y);
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Lsj.Util.Win32
         /// If the specified point is not within the clipping region of the device context, the return value is <see cref="FALSE"/>(0).
         /// If the HDC is not valid, the return value is (<see cref="BOOL"/>)-1.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtVisible", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PtVisible([In]HDC hdc, [In]int x, [In]int y);
 
         /// <summary>
@@ -187,8 +187,8 @@ namespace Lsj.Util.Win32
         /// All other return values are considered error codes.
         /// If the any parameter is not valid, the return value is undefined.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectVisible", SetLastError = true)]
-        public static extern BOOL RectVisible([In]HDC hdc, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprect);
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectVisible", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RectVisible([In]HDC hdc, [In]in RECT lprect);
 
         /// <summary>
         /// <para>
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SelectClipRgn"/> function assumes that the coordinates for a region are specified in device units.
         /// To remove a device-context's clipping region, specify a <see cref="NULL"/> region handle.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int SelectClipRgn([In]HDC hdc, [In]HRGN hrgn);
     }
 }

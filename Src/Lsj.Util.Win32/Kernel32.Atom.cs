@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
         /// If the low-order word is not in this range, the function fails.
         /// If <paramref name="lpString"/> has any other form, <see cref="AddAtom"/> returns a string atom.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAtomW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddAtomW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM AddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DeleteAtom"/> function has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
         /// The function always returns zero for an integer atom.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteAtom", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteAtom", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM DeleteAtom([In]ATOM nAtom);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindAtomW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindAtomW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM FindAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32
         /// Using this function incorrectly might compromise the security of your program.
         /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAtomNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAtomNameW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetAtomName([In]ATOM nAtom, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]int nSize);
 
 
@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// If the low-order word is not in this range, the function fails.
         /// If <paramref name="lpString"/> has any other form, <see cref="GlobalAddAtom"/> returns a string atom.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtom", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAddAtom", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalAddAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GlobalDeleteAtom"/> has no effect on an integer atom (an atom whose value is in the range 0x0001 to 0xBFFF).
         /// The function always returns zero for an integer atom.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalDeleteAtom", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalDeleteAtom", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalDeleteAtom([In]ATOM nAtom);
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpString"/> was created by the <see cref="MAKEINTATOM"/> macro, the low-order word must be in the range 0x0001 through 0xBFFF.
         /// If the low-order word is not in this range, the function fails.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFindAtomW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFindAtomW", ExactSpelling = true, SetLastError = true)]
         public static extern ATOM GlobalFindAtom([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Lsj.Util.Win32
         /// Incorrect use of this function includes not correctly specifying the size of the <paramref name="lpBuffer"/> parameter.
         /// Also, note that a global atom is accessible by anyone; thus, privacy and the integrity of its contents is not assured.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalGetAtomNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalGetAtomNameW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GlobalGetAtomName([In]ATOM nAtom, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]int nSize);
 
         /// <summary>
@@ -293,7 +293,7 @@ namespace Lsj.Util.Win32
         /// If the atom table has already been initialized, either explicitly by a prior call to <see cref="InitAtomTable"/>,
         /// or implicitly by the use of any atom-management function, <see cref="InitAtomTable"/> returns success without changing the number of hash buckets.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitAtomTable", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitAtomTable", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitAtomTable([In]DWORD nSize);
     }
 }

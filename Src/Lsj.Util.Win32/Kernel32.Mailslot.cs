@@ -72,7 +72,7 @@ namespace Lsj.Util.Win32
         /// If <see cref="CreateFile"/> is called to access a non-existent mailslot,
         /// the <see cref="ERROR_FILE_NOT_FOUND"/> error code will be set.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateMailslot([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nMaxMessageSize, [In]uint lReadTimeout,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);

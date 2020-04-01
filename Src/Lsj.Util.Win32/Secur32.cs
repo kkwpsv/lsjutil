@@ -160,7 +160,7 @@ namespace Lsj.Util.Win32
         /// to which the client certificate was mapped.
         /// Also, the server can use the <see cref="ImpersonateSecurityContext"/> function to impersonate the user.
         /// </remarks>
-        [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", SetLastError = true)]
+        [DllImport("Secur32.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptSecurityContext", ExactSpelling = true, SetLastError = true)]
         public static extern SECURITY_STATUS AcceptSecurityContext([In]IntPtr phCredential, [In]IntPtr phContext, [In]IntPtr pInput,
             [In]uint fContextReq, [In]uint TargetDataRep, [In]IntPtr phNewContext, [In]IntPtr pOutput, [Out]out uint pfContextAttr,
             [In]IntPtr ptsExpiry);

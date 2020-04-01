@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// (because a subsequent save operation would require running the object again).
         /// </remarks>
         [PreserveSig]
-        HRESULT Cache([MarshalAs(UnmanagedType.LPStruct)][In]FORMATETC pformatetc, [In]ADVF advf, [Out]out uint pdwConnection);
+        HRESULT Cache([In]in FORMATETC pformatetc, [In]ADVF advf, [Out]out uint pdwConnection);
 
         /// <summary>
         /// Removes a cache connection created previously using <see cref="Cache"/>.
@@ -197,6 +197,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A container can use this method to maintain a single aspect of an object, such as the icon aspect of the object.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetData([MarshalAs(UnmanagedType.LPStruct)][In]FORMATETC pformatetc, [In]IntPtr pmedium, [In]bool fRelease);
+        HRESULT SetData([In]in FORMATETC pformatetc, [In]IntPtr pmedium, [In]bool fRelease);
     }
 }

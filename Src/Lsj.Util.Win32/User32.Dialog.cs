@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// To support keyboard navigation and other dialog box functionality,
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateDialogParam([In]IntPtr hInstance, [In]StringHandle lpTemplateName, [In]IntPtr hWndParent,
             [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
@@ -285,7 +285,7 @@ namespace Lsj.Util.Win32
         /// ends the message loop, enables the owner window (if previously enabled), and returns the nResult parameter specified
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr DialogBoxParam([In]IntPtr hInstance, StringHandle lpTemplateName,
             [In]IntPtr hWndParent, [In] DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
@@ -407,7 +407,7 @@ namespace Lsj.Util.Win32
         /// All of the other variable-length arrays in the template must be aligned on WORD boundaries.
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxIndirectParamW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxIndirectParamW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr DialogBoxIndirectParam([In]IntPtr hInstance, [In]IntPtr lpTemplateName, [In]IntPtr hWndParent,
             [In]DLGPROC lpDialogFunc, [In]IntPtr dwInitParam);
 
@@ -443,7 +443,7 @@ namespace Lsj.Util.Win32
         /// If the flag is set, the system ends the message loop, destroys the dialog box, and uses the value in <paramref name="nResult"/>
         /// as the return value from the function that created the dialog box.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EndDialog([In]IntPtr hDlg, [In]IntPtr nResult);
 
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDlgItemInt"/> function returns zero if the translated value is
         /// greater than <see cref="int.MaxValue"/> (for signed numbers) or <see cref="uint.MaxValue"/> (for unsigned numbers).
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemInt", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemInt", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetDlgItemInt([In]IntPtr hDlg, [In]IntPtr nIDDlgItem, [Out]out bool lpTranslated, [In]bool bSigned);
     }
 }
