@@ -41,5 +41,28 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", SetLastError = true)]
         public static extern BOOL SetRect([In][Out]ref RECT lprc, [In]int xLeft, [In]int yTop, [In]int xRight, [In]int yBottom);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetRectEmpty"/> function creates an empty rectangle in which all coordinates are set to zero.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setrectempty
+        /// </para>
+        /// </summary>
+        /// <param name="lprc">
+        /// Pointer to the <see cref="RECT"/> structure that contains the coordinates of the rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectEmpty", SetLastError = true)]
+        public static extern BOOL SetRectEmpty([In][Out]ref RECT lprc);
     }
 }
