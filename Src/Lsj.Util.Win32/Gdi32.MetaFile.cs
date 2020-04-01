@@ -48,5 +48,31 @@ namespace Lsj.Util.Win32
             "The corresponding function for an enhanced-format metafile is CreateEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMetaFileW", SetLastError = true)]
         public static extern HDC CreateMetaFile([In]string pszFile);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CloseMetaFile"/> function closes a metafile device context and returns a handle that identifies a Windows-format metafile.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-closemetafile
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Handle to a metafile device context used to create a Windows-format metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a Windows-format metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// To convert a Windows-format metafile into a new enhanced-format metafile, use the <see cref="SetWinMetaFileBits"/> function.
+        /// When an application no longer needs the Windows-format metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteMetaFile"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            "The corresponding function for an enhanced-format metafile is CloseEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseMetaFile", SetLastError = true)]
+        public static extern HMETAFILE CloseMetaFile([In]HDC hdc);
     }
 }
