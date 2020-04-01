@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateEvent(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpEventAttributes, [MarshalAs(UnmanagedType.Bool)][In]bool bManualReset,
@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateEventEx(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
@@ -218,7 +218,7 @@ namespace Lsj.Util.Win32
         /// The system closes the handle automatically when the process terminates.
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenEventW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenEventW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr OpenEvent([In]uint dwDesiredAccess, [In]bool bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is unreliable and should not be used. It exists mainly for backward compatibility." +
             " For more information, see Remarks.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PulseEvent", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PulseEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool PulseEvent([In]IntPtr hEvent);
 
@@ -298,7 +298,7 @@ namespace Lsj.Util.Win32
         /// Auto-reset event objects automatically change from signaled to nonsignaled after a single waiting thread is released.
         /// Resetting an event that is already reset has no effect.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetEvent", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ResetEvent([In]IntPtr hEvent);
 
@@ -332,7 +332,7 @@ namespace Lsj.Util.Win32
         /// Setting an event that is already set has no effect.
         /// Windows Store apps can respond to named events and semaphores as described in How to respond to named events and semaphores.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEvent", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetEvent([In]IntPtr hEvent);
     }

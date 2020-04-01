@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32
         /// to that in the command line that the calling process gives to the <see cref="CreateProcess"/> function.
         /// The operating system may prepend a fully qualified path to an executable name that is provided without a fully qualified path.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCommandLineW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCommandLineW", ExactSpelling = true, SetLastError = true)]
         public static extern StringHandle GetCommandLine();
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32
         /// to support item activation with services from that site.
         /// See Launching Applications(<see cref="ShellExecute"/>, <see cref="ShellExecuteEx"/>, <see cref="SHELLEXECUTEINFO"/>) for more information.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ShellExecuteEx([In][Out]ref SHELLEXECUTEINFO pExecInfo);
     }

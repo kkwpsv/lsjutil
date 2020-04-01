@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32
 		/// The default <see cref="DEVICE_SCALE_FACTOR"/> is <see cref="SCALE_100_PERCENT"/>.
 		/// Use the scale factor that is returned to scale point values for fonts and pixel values.
 		/// </remarks>
-		[DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScaleFactorForDevice", SetLastError = true)]
+		[DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScaleFactorForDevice", ExactSpelling = true, SetLastError = true)]
 		public static extern DEVICE_SCALE_FACTOR GetScaleFactorForDevice([In]DISPLAY_DEVICE_TYPE deviceType);
 	}
 }

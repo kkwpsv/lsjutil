@@ -79,7 +79,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetArcDirection"/> and <see cref="SetArcDirection"/> functions to get and set the current drawing direction for a device context.
         /// The default drawing direction is counterclockwise.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Arc", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Arc([In]HDC hdc, [In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int x3, [In]int y3, [In]int x4, [In]int y4);
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Lsj.Util.Win32
         /// If the starting point and ending point of the curve are the same, a complete ellipse is drawn.
         /// The current position is neither used nor updated by <see cref="Chord"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Chord", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Chord([In]HDC hdc, [In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int x3, [In]int y3, [In]int x4, [In]int y4);
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32
         /// high-density displays and accessibility needs.
         /// This is handled by the <see cref="SPI_SETFOCUSBORDERWIDTH"/> and <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawFocusRect([In]HDC hDC, [In]in RECT lprc);
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The current position is neither used nor updated by <see cref="Ellipse"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Ellipse", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Ellipse([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32
         /// Only memory device contexts and devices that support raster-display operations support the <see cref="ExtFloodFill"/> function.
         /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtFloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color, [In]UINT type);
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Lsj.Util.Win32
         /// When filling the specified rectangle, <see cref="FillRect"/> does not include the rectangle's right and bottom sides.
         /// GDI fills a rectangle up to, but not including, the right column and bottom row, regardless of the current mapping mode.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRect", ExactSpelling = true, SetLastError = true)]
         public static extern int FillRect([In]HDC hDC, [In][Out]ref RECT lprc, [In]HBRUSH hbr);
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FillRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FillRgn([In]HDC hdc, [In]HRGN hrgn, [In]HBRUSH hbr);
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The FloodFill function is included only for compatibility with 16-bit versions of Windows." +
             "Applications should use the ExtFloodFill function with FLOODFILLBORDER specified.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FloodFill", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
         /// or if the right member is less than the left member, the function does not draw the rectangle.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", ExactSpelling = true, SetLastError = true)]
         public static extern int FrameRect([In]HDC hDC, [In][Out]ref RECT lprc, [In]HBRUSH hbr);
 
         /// <summary>
@@ -413,7 +413,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FrameRgn([In]HDC hdc, [In]HRGN hrgn, [In]HBRUSH hbr, [In]int w, [In]int h);
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCurrentPositionEx([In]HDC hdc, [Out]out POINT lppt);
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Lsj.Util.Win32
         /// <see cref="WINDING"/>: Selects winding mode (fills any region with a nonzero winding value).
         /// If an error occurs, the return value is zero.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int GetPolyFillMode([In]HDC hdc);
 
         /// <summary>
@@ -481,7 +481,7 @@ namespace Lsj.Util.Win32
         /// On color screens, the inversion depends on how colors are generated for the screen.
         /// Calling <see cref="InvertRect"/> twice for the same rectangle restores the display to its previous colors.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvertRect([In]HDC hDC, [In]in RECT lprc);
 
         /// <summary>
@@ -507,7 +507,7 @@ namespace Lsj.Util.Win32
         /// On monochrome screens, the <see cref="InvertRgn"/> function makes white pixels black and black pixels white.
         /// On color screens, this inversion is dependent on the type of technology used to generate the colors for the screen.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvertRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InvertRgn([In]HDC hdc, [In]HRGN hrgn);
 
         /// <summary>
@@ -547,7 +547,7 @@ namespace Lsj.Util.Win32
         /// In addition to passing the coordinates of a point, this function passes any existing application-defined data.
         /// The coordinates passed to the callback function match pixels on a video display only if the default transformations and mapping modes are used.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineDDA", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineDDA", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineDDA([In]int xStart, [In]int yStart, [In]int xEnd, [In]int yEnd, [In]LINEDDAPROC lpProc, [In]LPARAM data);
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace Lsj.Util.Win32
         /// The line is drawn by using the current pen and, if the pen is a geometric pen, the current brush.
         /// If <see cref="LineTo"/> succeeds, the current position is set to the specified ending point.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineTo", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LineTo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LineTo([In]HDC hdc, [In]int x, [In]int y);
 
         /// <summary>
@@ -606,7 +606,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="MoveToEx"/> function affects all drawing functions.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveToEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveToEx([In]HDC hdc, [In]int x, [In]int y, [In][Out]ref POINT lppt);
 
         /// <summary>
@@ -628,7 +628,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PaintRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PaintRgn([In]HDC hdc, [In]HRGN hrgn);
 
         /// <summary>
@@ -677,7 +677,7 @@ namespace Lsj.Util.Win32
         /// where the ellipse intersects the second radial.
         /// The current position is neither used nor updated by the <see cref="Pie"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Pie", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Pie([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom, [In]int xr1, [In]int yr1, [In]int xr2, [In]int yr2);
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Lsj.Util.Win32
         /// each of which have less than the maximum number of points, and call the function for each group of points.
         /// Remember to connect the line segments.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polygon([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
 
         /// <summary>
@@ -740,7 +740,7 @@ namespace Lsj.Util.Win32
         /// Unlike the <see cref="LineTo"/> or <see cref="PolylineTo"/> functions,
         /// the <see cref="Polyline"/> function neither uses nor updates the current position.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Polyline", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Polyline([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt, [In]int cpt);
 
         /// <summary>
@@ -780,7 +780,7 @@ namespace Lsj.Util.Win32
         /// and call the function for each group of points.
         /// Note, it is best to have a polygon in only one of the groups.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyPolygon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PolyPolygon([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] apt,
             [MarshalAs(UnmanagedType.LPArray)][In]INT[] asz, [In]int csz);
 
@@ -817,7 +817,7 @@ namespace Lsj.Util.Win32
         /// The rectangle that is drawn excludes the bottom and right edges.
         /// If a <see cref="PS_NULL"/> pen is used, the dimensions of the rectangle are 1 pixel less in height and 1 pixel less in width.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Rectangle", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Rectangle", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Rectangle([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
@@ -857,7 +857,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The current position is neither used nor updated by this function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RoundRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RoundRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RoundRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom, [In]int width, [In]int height);
 
         /// <summary>
@@ -892,7 +892,7 @@ namespace Lsj.Util.Win32
         /// This value is defined as the number of times a pen used to draw the polygon would go around the region.
         /// The direction of each edge of the polygon is important.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetPolyFillMode([In]HDC hdc, [In]int mode);
     }
 }

@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32
         /// or when the user activates a different window by pressing the ALT+TAB key combination.
         /// Install this hook procedure by using the <see cref="SetWindowsHookEx"/> function.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CallMsgFilter([In][Out]ref MSG lpMsg, [In]int nCode);
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Lsj.Util.Win32
         /// However, to permit the user to move to and to select controls by using the keyboard, the application must call <see cref="IsDialogMessage"/>.
         /// For more information, see Dialog Box Keyboard Interface.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT DispatchMessage([In]in MSG lpmsg);
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32
         /// If the window procedure is not processing a message sent to it from another thread using the <see cref="SendMessage"/> function,
         /// the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InSendMessage();
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32
         /// If the queue contains one or more new mouse-button or keyboard messages, the return value is <see cref="TRUE"/>.
         /// If there are no new mouse-button or keyboard messages in the queue, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetInputState", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetInputState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetInputState();
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Lsj.Util.Win32
         /// For example, the function fails if <paramref name="hWnd"/> is an invalid window handle or <paramref name="lpMsg"/> is an invalid pointer. 
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax);
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To set a thread's extra message information, use the <see cref="SetMessageExtraInfo"/> function.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageExtraInfo", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
         public static extern LPARAM GetMessageExtraInfo();
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// Systems with multiple monitors can have negative x- and y- coordinates,
         /// and <see cref="LOWORD"/> and <see cref="HIWORD"/> treat the coordinates as unsigned quantities.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessagePos", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessagePos", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetMessagePos();
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// To calculate time delays between messages, subtract the time of the first message from the time of the second message (ignoring overflow)
         /// and compare the result of the subtraction against the desired delay amount.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageTime", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetMessageTime();
 
         /// <summary>
@@ -263,7 +263,7 @@ namespace Lsj.Util.Win32
         /// (wMsgFilterMin and wMsgFilterMax are 0).
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetQueueStatus([In]QueueStatus flags);
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace Lsj.Util.Win32
         /// The output is in the mode of the window that the message is targeting.
         /// The calling thread is not taken into consideration.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PeekMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax,
             [In]PeekMessageFlags wRemoveMsg);
 
@@ -417,7 +417,7 @@ namespace Lsj.Util.Win32
         /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
         /// The minimum acceptable value is 4000.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PostMessage([In]HWND hWnd, [In]WindowsMessages msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace Lsj.Util.Win32
         /// The application exit code.
         /// This value is used as the <see cref="MSG.wParam"/> parameter of the <see cref="WM_DESTROY"/> message.
         /// </param>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", ExactSpelling = true, SetLastError = true)]
         public static extern void PostQuitMessage([In]int nExitCode);
 
         /// <summary>
@@ -500,7 +500,7 @@ namespace Lsj.Util.Win32
         /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
         /// The minimum acceptable value is 4000.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PostThreadMessage([In]DWORD idThread, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
@@ -529,7 +529,7 @@ namespace Lsj.Util.Win32
         /// (Messages in this range are private to a window class, not to an application.
         /// For example, predefined control classes such as BUTTON, EDIT, LISTBOX, and COMBOBOX may use values in this range.)
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace Lsj.Util.Win32
         /// If the message was not sent through <see cref="SendMessage"/> or if the message was sent by the same thread,
         /// <see cref="ReplyMessage"/> has no effect.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReplyMessage([In]LRESULT lResult);
 
         /// <summary>
@@ -605,7 +605,7 @@ namespace Lsj.Util.Win32
         /// An accessibility application can use <see cref="SendMessage"/> to send <see cref="WM_APPCOMMAND"/> messages to the shell to launch applications.
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT SendMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
@@ -614,7 +614,7 @@ namespace Lsj.Util.Win32
         /// <param name="cMessagesMax"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageQueue", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageQueue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMessageQueue(int cMessagesMax);
 
         /// <summary>
@@ -640,7 +640,7 @@ namespace Lsj.Util.Win32
         /// If the message is not translated (that is, a character message is not posted to the thread's message queue),
         /// the return value is <see langword="false"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TranslateMessage([In]in MSG lpMsg);
 
         /// <summary>
@@ -666,7 +666,7 @@ namespace Lsj.Util.Win32
         /// A subsequent call to <see cref="WaitMessage"/> will not return until new input of the specified type arrives.
         /// The existing unread input (received prior to the last time the thread checked the queue) is ignored.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitMessage", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitMessage", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WaitMessage();
     }
 }

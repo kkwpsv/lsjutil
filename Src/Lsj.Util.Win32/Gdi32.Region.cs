@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32
         /// The three regions need not be distinct.
         /// For example, the <paramref name="hrgnSrc1"/> parameter can equal the <paramref name="hrgnDst"/> parameter.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int CombineRgn([In]HRGN hrgnDst, [In]HRGN hrgnSrc1, [In]HRGN hrgnSrc2, [In]CombineRgnModes iMode);
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Lsj.Util.Win32
         /// The long sides of the rectangle define the length of the ellipse's major axis; the short sides define the length of the ellipse's minor axis;
         /// and the center of the rectangle defines the intersection of the major and minor axes.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateEllipticRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2);
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// define the length of the ellipse's major axis; the short sides define the length of the ellipse's minor axis;
         /// and the center of the rectangle defines the intersection of the major and minor axes.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgnIndirect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEllipticRgnIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateEllipticRgnIndirect([In]in RECT lprect);
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32
         /// This means that any point on a line between two sequential vertices is not included in the region.
         /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreatePolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl, [In]int cPoint, [In]int iMode);
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the <see cref="HRGN"/> object, call the <see cref="DeleteObject"/> function to delete it.
         /// Region coordinates are represented as 27-bit signed integers.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreatePolyPolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl,
             [MarshalAs(UnmanagedType.LPArray)][In]INT[] pc, [In]int cPoly, [In]int iMode);
 
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32
         /// This means that any point on a line between two sequential vertices is not included in the region.
         /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRectRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2);
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Lsj.Util.Win32
         /// Region coordinates are represented as 27-bit signed integers.
         /// The region will be exclusive of the bottom and right edges.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRectRgnIndirect([In]in RECT lprect);
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the <see cref="HRGN"/> object call the <see cref="DeleteObject"/> function to delete it.
         /// Region coordinates are represented as 27-bit signed integers.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRoundRectRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRoundRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern HRGN CreateRoundRectRgn([In]int x1, [In]int y1, [In]int x2, [In]int y2, [In]int w, [In]int h);
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Lsj.Util.Win32
         /// If the two regions are not equal, the return value is <see cref="FALSE"/>.
         /// A return value of <see cref="ERROR"/> means at least one of the region handles is invalid.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EqualRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EqualRgn([In]HRGN hrgn1, [In]HRGN hrgn2);
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Lsj.Util.Win32
         /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
         /// If the <paramref name="hrgn"/> parameter does not identify a valid region, the return value is zero.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRgnBox", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRgnBox", ExactSpelling = true, SetLastError = true)]
         public static extern int GetRgnBox([In]HRGN hrgn, [Out]out RECT lprc);
 
         /// <summary>
@@ -351,7 +351,7 @@ namespace Lsj.Util.Win32
         /// <see cref="COMPLEXREGION"/>: The region is more than a single rectangle.
         /// <see cref="ERROR"/>: No region is created.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", ExactSpelling = true, SetLastError = true)]
         public static extern int OffsetRgn([In]HRGN hrgn, [In]int x, [In]int y);
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace Lsj.Util.Win32
         /// If the specified point is in the region, the return value is <see cref="TRUE"/>.
         /// If the specified point is not in the region, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRegion", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PtInRegion", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PtInRegion([In]HRGN hrgn, [In]int x, [In]int y);
 
         /// <summary>
@@ -397,7 +397,7 @@ namespace Lsj.Util.Win32
         /// If any part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="TRUE"/>.
         /// If no part of the specified rectangle lies within the boundaries of the region, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectInRegion", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RectInRegion", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RectInRegion([In]HRGN hrgn, [In]in RECT lprect);
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The region does not include the lower and right boundaries of the rectangle.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectRgn", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRectRgn", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetRectRgn([In]HRGN hrgn, [In]int left, [In]int top, [In]int right, [In]int bottom);
     }
 }

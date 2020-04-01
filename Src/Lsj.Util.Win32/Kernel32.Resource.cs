@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32
         /// The strings in each section are stored as a sequence of counted (not necessarily null-terminated) Unicode strings.
         /// The <see cref="LoadString"/> function will extract the string resource from its corresponding section.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindResourceW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern HRSRC FindResource([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpType);
 
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is obsolete and is only supported for backward compatibility with 16-bit Windows." +
             "For 32-bit Windows applications, it is not necessary to free the resources loaded using LoadResource." +
             "If used on 32 or 64-bit Windows systems, this function will return FALSE.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeResource", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeResource", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeResource([In]HGLOBAL hResData);
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32
         /// For example, an application can use the <see cref="LoadIcon"/> function to load an icon for display on the screen,
         /// followed by <see cref="DestroyIcon"/> when done.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadResource", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadResource", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL LoadResource([In]HMODULE hModule, [In]HRSRC hResInfo);
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// The name of the function comes from versions prior to Windows XP,
         /// when it was used to lock a global memory block allocated by <see cref="LoadResource"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockResource", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockResource", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID LockResource([In]HGLOBAL hResData);
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SizeofResource", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SizeofResource", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD SizeofResource([In]HMODULE hModule, [In]HRSRC hResInfo);
     }
 }

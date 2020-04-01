@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// in the corresponding <see cref="palPalEntry"/> member of the <see cref="LOGPALETTE"/> structure.
         /// If the given palette is associated with the active window, the colors in the palette are replaced immediately.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimatePalette", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimatePalette", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AnimatePalette([In]HPALETTE hPal, [In]UINT iStartIndex, [In]UINT cEntries,
             [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] ppe);
 
@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32
         /// A palette selected into a device context can be realized by calling the <see cref="RealizePalette"/> function.
         /// When you no longer need the palette, call the DeleteObject function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePalette", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePalette", ExactSpelling = true, SetLastError = true)]
         public static extern HPALETTE CreatePalette([In]in LOGPALETTE plpal);
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// If the given logical palette contains entries with the <see cref="PC_EXPLICIT"/> flag set, the return value is undefined.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestPaletteIndex", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestPaletteIndex", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetNearestPaletteIndex([In]HPALETTE h, [In]COLORREF color);
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Lsj.Util.Win32
         /// If the <paramref name="cEntries"/> parameter specifies more entries than exist in the palette,
         /// the remaining members of the <see cref="PALETTEENTRY"/> structure are not altered.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPaletteEntries", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPaletteEntries", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
             [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
 
@@ -164,7 +164,7 @@ namespace Lsj.Util.Win32
         /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteEntries", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
             [MarshalAs(UnmanagedType.LPArray)][Out]PALETTEENTRY[] pPalEntries);
 
@@ -193,7 +193,7 @@ namespace Lsj.Util.Win32
         /// An application can determine whether a device supports color palettes by calling the <see cref="GetDeviceCaps"/> function
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteUse", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemPaletteUse", ExactSpelling = true, SetLastError = true)]
         public static extern SystemPaletteStates GetSystemPaletteUse([In]HDC hdc);
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Lsj.Util.Win32
         /// the system attempts to realize as many of the requested colors as possible.
         /// The same is also true for applications with inactive windows.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealizePalette", ExactSpelling = true, SetLastError = true)]
         public static extern UINT RealizePalette([In]HDC hdc);
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32
         /// If the application calls <see cref="ResizePalette"/> to enlarge the palette, the additional palette entries are set to black
         /// (the red, green, and blue values are all 0) and their flags are set to zero.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResizePalette", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResizePalette", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ResizePalette([In]HPALETTE hpal, [In]UINT n);
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace Lsj.Util.Win32
         /// However, only the child window that needs to realize its palette must set <paramref name="bForceBkgd"/> to <see cref="TRUE"/>;
         /// other child windows must set this value to <see cref="FALSE"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectPalette", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectPalette", ExactSpelling = true, SetLastError = true)]
         public static extern HPALETTE SelectPalette([In]HDC hdc, [In]HPALETTE hPal, [In]BOOL bForceBkgd);
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32
         /// Even if a logical palette has been selected and realized, changes to the palette do not affect the physical palette in the surface.
         /// <see cref="RealizePalette"/> must be called again to set the new logical palette into the surface.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPaletteEntries", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPaletteEntries", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetPaletteEntries([In]HPALETTE hpal, [In]UINT iStart, [In]UINT cEntries,
             [MarshalAs(UnmanagedType.LPArray)][In]PALETTEENTRY[] pPalEntries);
 
@@ -381,7 +381,7 @@ namespace Lsj.Util.Win32
         /// Restore the system colors to their previous values.
         /// Send the <see cref="WM_SYSCOLORCHANGE"/> message.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemPaletteUse", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemPaletteUse", ExactSpelling = true, SetLastError = true)]
         public static extern SystemPaletteStates SetSystemPaletteUse([In]HDC hdc, [In]SystemPaletteStates use);
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace Lsj.Util.Win32
         /// each call to this function results in the loss of some color accuracy.
         /// This function must be called soon after a <see cref="WM_PALETTECHANGED"/> message is received.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateColors", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateColors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UpdateColors([In]HDC hdc);
     }
 }

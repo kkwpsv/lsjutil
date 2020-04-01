@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// If the selected font is too large for the specified rectangle, the <see cref="DrawText"/> function does not attempt to substitute a smaller font.
         /// The text alignment mode for the device context must include the <see cref="TA_LEFT"/>, <see cref="TA_TOP"/>, and <see cref="TA_NOUPDATECP"/> flags.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawTextW", ExactSpelling = true, SetLastError = true)]
         public static extern int DrawText([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpchText, [In]int cchText,
             [In]in RECT lprc, [In]DrawTextFormatFlags format);
 
@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// the <paramref name="lpDx"/> values for <see cref="ExtTextOut"/>.
         /// To use the alpDx values in <paramref name="lpDx"/>, you must first process them.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExtTextOut([In]IntPtr hdc, [In]int x, [In]int y, [In]ExtTextOutFlags options,
             [In]in RECT lprect, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In]uint c, [In]IntPtr lpDx);
 
@@ -184,7 +184,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a <see cref="COLORREF"/> value for the current background color.
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkColor", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetBkColor([In]HDC hdc);
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value specifies the current background mix mode, either <see cref="OPAQUE"/> or <see cref="TRANSPARENT"/>.
         /// If the function fails, the return value is zero.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBkMode", ExactSpelling = true, SetLastError = true)]
         public static extern BackgroundModes GetBkMode([In]HDC hdc);
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should call the GetCharWidth32 function, which provides more accurate results.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharWidthW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCharWidth([In]HDC hdc, [In]UINT iFirst, [In]UINT iLast, [Out]out int lpBuffer);
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
         /// by the first value in the array to which <paramref name="lpnTabStopPositions"/> points.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTabbedTextExtentW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetTabbedTextExtent([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In]int chCount,
             [In]int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpnTabStopPositions);
 
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// 2. Apply the bitwise AND operator to the result and the return value.
         /// 3. Test for the equality of this result and the flag.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextAlign", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextAlign", ExactSpelling = true, SetLastError = true)]
         public static extern TextAlignments GetTextAlign([In] HDC hdc);
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace Lsj.Util.Win32
         /// that the <see cref="TextOut"/> or <see cref="ExtTextOut"/> functions add to each character as a line is written.
         /// The spacing is used to expand lines of text.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharacterExtra", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
         public static extern int GetTextCharacterExtra([In]HDC hdc);
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The text color defines the foreground color of characters drawn by using the <see cref="TextOut"/> or <see cref="ExtTextOut"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextColor", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetTextColor([In]HDC hdc);
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should call the GetTextExtentPoint32 function, which provides more accurate results.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetTextExtentPoint([In]HDC hdc, [MarshalAs(UnmanagedType.LPWStr)]string lpString, [In] int c, [Out]out SIZE lpsz);
 
         /// <summary>
@@ -486,7 +486,7 @@ namespace Lsj.Util.Win32
         /// to set the text color to the color value and then draw the string directly.
         /// If the retrieved color is black, the application must call <see cref="GrayString"/> to gray the text.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GrayStringW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GrayStringW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GrayString([In]HDC hDC, [In]HBRUSH hBrush, [In]GRAYSTRINGPROC lpOutputFunc, [In]LPARAM lpData, [In]int nCount,
             [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight);
 
@@ -548,7 +548,7 @@ namespace Lsj.Util.Win32
         /// on subsequent calls to the <see cref="TabbedTextOut"/> function, using the current position instead.
         /// Note For Windows Vista and later, <see cref="TabbedTextOut"/> ignores text alignment when it draws text.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TabbedTextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern LONG TabbedTextOut([In]HDC hdc, [In]int x, [In]int y, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString,
             [In]int chCount, [In]int nTabPositions, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpnTabStopPositions, [In]int nTabOrigin);
 
@@ -580,7 +580,7 @@ namespace Lsj.Util.Win32
         /// gaps between hatched lines in brushes, and character cells.
         /// The background color is also used when converting bitmaps from color to monochrome and vice versa.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetBkColor([In]HDC hdc, [In]COLORREF color);
 
         /// <summary>
@@ -608,7 +608,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetBkMode"/> function affects the line styles for lines drawn using a pen created by the <see cref="CreatePen"/> function.
         /// <see cref="SetBkMode"/> does not affect lines drawn using a pen created by the <see cref="ExtCreatePen"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBkMode", ExactSpelling = true, SetLastError = true)]
         public static extern BackgroundModes SetBkMode([In]HDC hdc, [In]BackgroundModes mode);
 
         /// <summary>
@@ -657,7 +657,7 @@ namespace Lsj.Util.Win32
         /// because selected text is not rendered correctly.
         /// If you must use this flag, you can unset and reset it as necessary to avoid the problem.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextAlign", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextAlign", ExactSpelling = true, SetLastError = true)]
         public static extern TextAlignments SetTextAlign([In]HDC hdc, [In]TextAlignments align);
 
         /// <summary>
@@ -682,7 +682,7 @@ namespace Lsj.Util.Win32
         /// The text color is used to draw the face of each character written by the <see cref="TextOut"/> and <see cref="ExtTextOut"/> functions.
         /// The text color is also used in converting bitmaps from color to monochrome and vice versa.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetTextColor([In]HDC hdc, [In]COLORREF color);
 
         /// <summary>
@@ -707,7 +707,7 @@ namespace Lsj.Util.Win32
         /// The recommended approach is that instead of calling this function and then <see cref="TextOut"/>,
         /// applications should call <see cref="ExtTextOut"/> and use its lpDx parameter to supply widths.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextCharacterExtra", ExactSpelling = true, SetLastError = true)]
         public static extern int SetTextCharacterExtra([In]HDC hdc, [In]int extra);
 
         /// <summary>
@@ -751,7 +751,7 @@ namespace Lsj.Util.Win32
         /// After each line has been justified, this error term must be cleared to prevent it from being incorporated into the next line.
         /// The term can be cleared by calling <see cref="SetTextJustification"/> with nBreakExtra set to zero.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextJustification", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTextJustification", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetTextJustification([In]HDC hdc, [In]int extra, [In]int count);
 
         /// <summary>
@@ -841,7 +841,7 @@ namespace Lsj.Util.Win32
         /// FillRect(hdc, &amp;r, GetStockObject(GRAY_BRUSH));
         /// </code>
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TextOutW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "TextOutW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TextOut([In]HDC hdc, [In]int x, [In]int y, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString, [In]int c);
     }
 }

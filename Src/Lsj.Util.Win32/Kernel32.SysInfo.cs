@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32
         /// logical processor information about processors in the processor group to which the calling thread is currently assigned.
         /// Use the <see cref="GetLogicalProcessorInformationEx"/> function to retrieve information about processors in all processor groups on the system.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetLogicalProcessorInformation([In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
 
@@ -126,7 +126,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetLogicalProcessorInformationEx([In]LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
             [In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
@@ -145,7 +145,7 @@ namespace Lsj.Util.Win32
         /// To determine whether a Win32-based application is running under WOW64, call the <see cref="IsWow64Process2"/> function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", ExactSpelling = true, SetLastError = true)]
         public static extern void GetNativeSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
 
         /// <summary>
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProductInfo([In]uint dwOSMajorVersion, [In]uint dwOSMinorVersion, [In]uint dwSpMajorVersion,
             [In]uint dwSpMinorVersion, [In][Out]ref ProductTypes pdwReturnedProductType);
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32
         /// Applications should not create files in the system directory.
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetSystemDirectory([Out]StringBuilder lpBuffer, [In]UINT uSize);
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Lsj.Util.Win32
         /// <param name="lpSystemInfo">
         /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
         /// </param>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", ExactSpelling = true, SetLastError = true)]
         public static extern void GetSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetSystemTimeAdjustment"/> function lets a caller enable or disable periodic time adjustment,
         /// and set the value of the adjusting increment.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetSystemTimeAdjustment([Out]out uint lpTimeAdjustment, [Out]out uint lpTimeIncrement, [Out]out bool lpTimeAdjustmentDisabled);
 
@@ -352,7 +352,7 @@ namespace Lsj.Util.Win32
         /// while the <see cref="GetWindowsDirectory"/> function retrieves the path of a Windows directory that is private for each user.
         /// On a single-user system, <see cref="GetSystemWindowsDirectory"/> is the same as <see cref="GetWindowsDirectory"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace Lsj.Util.Win32
         /// This helps to identify bugs that might not occur until the system has been running for a long time.
         /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetTickCount();
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", ExactSpelling = true, SetLastError = true)]
         public static extern ulong GetTickCount64();
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Lsj.Util.Win32
         /// by comparing the required system version with the current system version for you.
         /// </remarks>
         [Obsolete("GetVersion may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersion", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersion", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetVersion();
 
         /// <summary>
@@ -496,7 +496,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetVersionEx"/> reports the operating system that is selected for application compatibility.
         /// </remarks>
         [Obsolete("GetVersionEx may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersionExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersionExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetVersionEx(
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<OSVERSIONINFO, OSVERSIONINFOEX>))]
@@ -547,7 +547,7 @@ namespace Lsj.Util.Win32
         /// this function returns the path of the system Windows directory, just as the <see cref="GetSystemWindowsDirectory"/> function does.
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]UINT uSize);
 
         /// <summary>
@@ -585,7 +585,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>
         /// and <see cref="GetLastError"/> returns an error code other than <see cref="ERROR_OLD_WIN_VERSION"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VerifyVersionInfo([In]in OSVERSIONINFOEX lpVersionInformation,
             [In]VerifyVersionInfoTypeMasks dwTypeMask, [In]ulong dwlConditionMask);

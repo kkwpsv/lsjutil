@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// User-specific environment variables such as %USERPROFILE% are set only when the user's profile is loaded.
         /// To load a user's profile, call the <see cref="LoadUserProfile"/> function.
         /// </remarks>
-        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnvironmentBlock", SetLastError = true)]
+        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateEnvironmentBlock([Out]out IntPtr lpEnvironment, [In]IntPtr hToken, [In]bool bInherit);
 
@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32
         /// <see langword="true"/> if successful; otherwise, <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", SetLastError = true)]
+        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
     }

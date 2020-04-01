@@ -322,7 +322,7 @@ namespace Lsj.Util.Win32
         /// CreateProcess(NULL, szCmdline, /*...*/);
         /// </code>
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
           [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
@@ -604,7 +604,7 @@ namespace Lsj.Util.Win32
         /// To implement a cmdlet that works for both fan-in and fan-out remote sessions in PowerShell version 3.0,
         /// use the <see cref="CreateProcess"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcessAsUser([In]IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
           [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
@@ -656,7 +656,7 @@ namespace Lsj.Util.Win32
         /// Exiting a process does not necessarily remove the process object from the operating system.
         /// A process object is deleted when the last handle to the process is closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitProcess", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitProcess([In]uint uExitCode);
 
         /// <summary>
@@ -694,7 +694,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="PathUnExpandEnvStrings"/> function.
         /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern uint ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In]string lpSrc,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpDst, [In]uint nSize);
 
@@ -725,7 +725,7 @@ namespace Lsj.Util.Win32
         /// Applications should call <see cref="FlushInstructionCache"/> if they generate or modify code in memory.
         /// The CPU cannot detect the change, and may execute the old code it cached.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushInstructionCache", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FlushInstructionCache([In]IntPtr hProcess, [In]IntPtr lpBaseAddress, [In]IntPtr dwSize);
 
@@ -748,7 +748,7 @@ namespace Lsj.Util.Win32
         /// Similarly, if you used the Unicode version of <see cref="GetEnvironmentStrings"/>, 
         /// be sure to use the Unicode version of <see cref="FreeEnvironmentStrings"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool FreeEnvironmentStrings([In]IntPtr penv);
 
@@ -792,7 +792,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetCurrentDirectory([In]uint nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer);
 
         /// <summary>
@@ -823,7 +823,7 @@ namespace Lsj.Util.Win32
         /// Calling the <see cref="CloseHandle"/> function with a pseudo handle has no effect.
         /// If the pseudo handle is duplicated by <see cref="DuplicateHandle"/>, the duplicate handle must be closed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetCurrentProcess();
 
         /// <summary>
@@ -848,7 +848,7 @@ namespace Lsj.Util.Win32
         /// it should be freed by calling the <see cref="FreeEnvironmentStrings"/> function.
         /// Note that the ANSI version of this function, GetEnvironmentStringsA, returns OEM characters.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetEnvironmentStrings();
 
         /// <summary>
@@ -881,7 +881,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function can retrieve either a system environment variable or a user environment variable.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint nSize);
 
@@ -921,7 +921,7 @@ namespace Lsj.Util.Win32
         /// that the thread is still running and continue to test for the completion of the thread after the thread has terminated,
         /// which could put the application into an infinite loop.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeProcess", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetExitCodeProcess([In]IntPtr hProcess, [Out]out uint lpExitCode);
 
@@ -953,7 +953,7 @@ namespace Lsj.Util.Win32
         /// For a table that shows the base priority levels for each combination of priority class and thread priority value, see Scheduling Priorities.
         /// Priority class is maintained by the executive, so all processes have a priority class that can be queried.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPriorityClass", ExactSpelling = true, SetLastError = true)]
         public static extern ProcessPriorityClasses GetPriorityClass([In]IntPtr hProcess);
 
         /// <summary>
@@ -987,7 +987,7 @@ namespace Lsj.Util.Win32
         /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
         /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessAffinityMask([In]IntPtr hProcess, [Out]UIntPtr lpProcessAffinityMask, [Out]UIntPtr lpSystemAffinityMask);
 
@@ -1010,7 +1010,7 @@ namespace Lsj.Util.Win32
         /// Until a process terminates, its process identifier uniquely identifies it on the system.
         /// For more information about access rights, see Process Security and Access Rights.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessId", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessId", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessId([In]IntPtr Process);
 
         /// <summary>
@@ -1062,7 +1062,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessImageFileName([In]IntPtr hProcess, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpImageFileName,
             [In]uint nSize);
 
@@ -1091,7 +1091,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessPriorityBoost([In]IntPtr hProcess, [Out]out bool pDisablePriorityBoost);
 
@@ -1145,7 +1145,7 @@ namespace Lsj.Util.Win32
         /// That is the number of 100-nanosecond units in one second.
         /// To retrieve the number of CPU clock cycles used by the threads of the process, use the <see cref="QueryProcessCycleTime"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessTimes", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetProcessTimes([In]IntPtr hProcess, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
             [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
@@ -1165,7 +1165,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="STARTUPINFO"/> structure was specified by the process that created the calling process.
         /// It can be used to specify properties associated with the main window of the calling process.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStartupInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern void GetStartupInfo([Out]out STARTUPINFO lpStartupInfo);
 
         /// <summary>
@@ -1209,7 +1209,7 @@ namespace Lsj.Util.Win32
         /// Note that you can specify the same <see cref="STARTUPINFOEX"/> structure to multiple child processes.
         /// When you have finished using the list, call the <see cref="DeleteProcThreadAttributeList"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeProcThreadAttributeList", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeProcThreadAttributeList", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InitializeProcThreadAttributeList([In]IntPtr lpAttributeList, [In]uint dwAttributeCount,
             [In]uint dwFlags, [In][Out]ref IntPtr lpSize);
@@ -1243,7 +1243,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
 
@@ -1281,7 +1281,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
             [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
@@ -1312,7 +1312,7 @@ namespace Lsj.Util.Win32
         /// To enumerate the processes in the system, use the <see cref="EnumProcesses"/> function.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryProcessCycleTime([In]IntPtr ProcessHandle, [Out]out ulong CycleTime);
 
@@ -1356,7 +1356,7 @@ namespace Lsj.Util.Win32
         /// for example parsing file names from the command line argument string in the main thread prior to creating any additional threads.
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetCurrentDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
 
@@ -1386,7 +1386,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function has no effect on the system environment variables or the environment variables of other processes.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpValue);
@@ -1439,7 +1439,7 @@ namespace Lsj.Util.Win32
         /// After a process ends background processing mode, it resets all threads in the process;
         /// however, it is not possible for the process to know which threads were already in background processing mode.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPriorityClass", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetPriorityClass([In]int hProcess, [In]ProcessPriorityClasses dwPriorityClass);
 
@@ -1481,7 +1481,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="SetThreadAffinityMask"/> function to set the affinity mask for individual threads in multiple groups.
         /// This effectively changes the group assignment of the process.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetProcessAffinityMask([In]IntPtr hProcess, [In]UIntPtr dwProcessAffinityMask);
 
@@ -1515,7 +1515,7 @@ namespace Lsj.Util.Win32
         /// This setting affects all existing threads and any threads subsequently created by the process.
         /// To restore normal behavior, call <see cref="SetProcessPriorityBoost"/> with <paramref name="bDisablePriorityBoost"/> set to <see langword="false"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetProcessPriorityBoost([In]IntPtr hProcess, [In]bool bDisablePriorityBoost);
 
@@ -1553,7 +1553,7 @@ namespace Lsj.Util.Win32
         /// If you need to be sure the process has terminated, call the <see cref="WaitForSingleObject"/> function with a handle to the process.
         /// A process cannot prevent itself from being terminated.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateProcess", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TerminateProcess([In]IntPtr hProcess, [In]uint uExitCode);
 
@@ -1756,7 +1756,7 @@ namespace Lsj.Util.Win32
         /// For example, when this flag is used by an unprotected process, the system will launch a child process at unprotected level.
         /// The <see cref="CREATE_PROTECTED_PROCESS"/> flag must be specified in both cases.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UpdateProcThreadAttribute([In]IntPtr lpAttributeList, [In]uint dwFlags, [In]UIntPtr Attribute,
             [In]IntPtr lpValue, [In]UIntPtr cbSize, [In]IntPtr lpPreviousValue, [In]IntPtr lpReturnSize);

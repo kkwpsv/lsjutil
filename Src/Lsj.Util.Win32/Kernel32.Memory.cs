@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The minimum large page size varies, but it is typically 2 MB or greater.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargePageMinimum", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargePageMinimum", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetLargePageMinimum();
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32
         /// To enable the low-fragmentation heap for the default heap of the process,
         /// call the <see cref="HeapSetInformation"/> function with the handle returned by <see cref="GetProcessHeap"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeap", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeap", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetProcessHeap();
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// Heap functions should be called only on the default heap of the calling process and on private heaps that the process creates and manages.
         /// To obtain a handle to the process heap of the calling process, use the <see cref="GetProcessHeap"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessHeaps([In]uint NumberOfHeaps, [In]IntPtr ProcessHeaps);
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalAlloc(GlobalMemoryFlags uFlags, SIZE_T dwBytes);
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32
         /// <param name="dwMinFree"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T GlobalCompact([In]DWORD dwMinFree);
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hMem"></param>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", ExactSpelling = true, SetLastError = true)]
         public static extern void GlobalFix([In]HGLOBAL hMem);
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32
         /// New applications should use the heap functions unless documentation states that a global function should be used.
         /// For more information, see Global and Local Functions.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GlobalFlags([In]HGLOBAL hMem);
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Lsj.Util.Win32
         /// If you are debugging the application, <see cref="GlobalFree"/> will enter a breakpoint just before freeing a locked object.
         /// This allows you to verify the intended behavior, then continue execution.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFree", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFree", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalFree(HGLOBAL hMem);
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GlobalLock"/> function converts this handle into a pointer to the memory block,
         /// and <see cref="GlobalHandle"/> converts the pointer back into a handle.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalHandle([In]LPCVOID pMem);
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalLock", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID GlobalLock(HGLOBAL hMem);
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HGLOBAL GlobalReAlloc(HGLOBAL hMem, SIZE_T dwBytes, GlobalMemoryFlags uFlags);
 
         /// <summary>
@@ -357,7 +357,7 @@ namespace Lsj.Util.Win32
         /// To verify that the specified object's memory block has not been discarded,
         /// use the <see cref="GlobalFlags"/> function before calling <see cref="GlobalSize"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T GlobalSize([In]HGLOBAL hMem);
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="hMem"></param>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", ExactSpelling = true, SetLastError = true)]
         public static extern void GlobalUnfix([In]HGLOBAL hMem);
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace Lsj.Util.Win32
         /// A process should not rely on the return value to determine the number of times
         /// it must subsequently call <see cref="GlobalUnlock"/> for a memory object.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnlock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GlobalUnlock([In]HGLOBAL hMem);
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GlobalUnWire([In]HGLOBAL hMem);
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID GlobalWire([In]HGLOBAL hMem);
 
         /// <summary>
@@ -495,7 +495,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr HeapAlloc([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr dwBytes);
 
         /// <summary>
@@ -591,7 +591,7 @@ namespace Lsj.Util.Win32
         /// To obtain handles to the default heap and private heaps that are active for the calling process,
         /// use the <see cref="GetProcessHeaps"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr HeapCreate([In]HeapFlags flOptions, [In]IntPtr dwInitialSize, [In]IntPtr dwMaximumSize);
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapFree([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem);
 
@@ -675,7 +675,7 @@ namespace Lsj.Util.Win32
         /// Each successful call to <see cref="HeapLock"/> must be matched by a corresponding call to <see cref="HeapUnlock"/>.
         /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapLock([In]IntPtr hHeap);
 
@@ -730,7 +730,7 @@ namespace Lsj.Util.Win32
         /// instead of mutexes or spinlocks.
         /// Look-aside lists can be created by the system or drivers.They can be allocated from paged or nonpaged pool.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapQueryInformation", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapQueryInformation", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapQueryInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
             [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength, [Out]out IntPtr ReturnLength);
@@ -813,7 +813,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr HeapReAlloc([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem, [In]IntPtr dwBytes);
 
         /// <summary>
@@ -877,7 +877,7 @@ namespace Lsj.Util.Win32
         /// Setting the <see cref="HeapEnableTerminationOnCorruption"/> option is strongly recommended
         /// because it reduces an application's exposure to security exploits that take advantage of a corrupted heap.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSetInformation", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSetInformation", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapSetInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
             [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength);
@@ -909,7 +909,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="HeapUnlock"/> function is called on a heap created with the <see cref="HEAP_NO_SERIALIZE"/> flag,
         /// the results are undefined.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapUnlock([In]IntPtr hHeap);
 
@@ -957,7 +957,7 @@ namespace Lsj.Util.Win32
         /// since no enumeration state data is maintained outside the contents of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
         /// <see cref="HeapWalk"/> can fail in a multithreaded application if the heap is not locked during the heap enumeration.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool HeapWalk([In]IntPtr hHeap, [In][Out]ref PROCESS_HEAP_ENTRY lpEntry);
 
@@ -994,7 +994,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalAlloc(LocalMemoryFlags uFlags, SIZE_T uBytes);
 
         /// <summary>
@@ -1003,7 +1003,7 @@ namespace Lsj.Util.Win32
         /// <param name="uMinFree"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalCompact([In]UINT uMinFree);
 
         /// <summary>
@@ -1059,7 +1059,7 @@ namespace Lsj.Util.Win32
         /// New applications should use the heap functions unless documentation states that a local function should be used.
         /// For more information, see Global and Local Functions.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
         public static extern LocalMemoryFlags LocalFlags([In]HLOCAL hMem);
 
         /// <summary>
@@ -1080,7 +1080,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is equal to a handle to the local memory object.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalFree([In]HLOCAL hMem);
 
         /// <summary>
@@ -1108,7 +1108,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LocalLock"/> function converts this handle into a pointer to the object's memory block,
         /// and <see cref="LocalHandle"/> converts the pointer back into a handle.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalHandle([In]LPCVOID pMem);
 
         /// <summary>
@@ -1127,7 +1127,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalLock", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID LocalLock(HLOCAL hMem);
 
         /// <summary>
@@ -1162,7 +1162,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalReAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern HLOCAL LocalReAlloc(HLOCAL hMem, SIZE_T uBytes, LocalMemoryFlags uFlags);
 
         /// <summary>
@@ -1172,7 +1172,7 @@ namespace Lsj.Util.Win32
         /// <param name="cbNewSize"></param>
         /// <returns></returns>
         [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalShrink([In]HLOCAL hMem, [In]UINT cbNewSize);
 
         /// <summary>
@@ -1200,7 +1200,7 @@ namespace Lsj.Util.Win32
         /// To verify that the specified object's memory block has not been discarded,
         /// call the <see cref="LocalFlags"/> function before calling <see cref="LocalSize"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", ExactSpelling = true, SetLastError = true)]
         public static extern SIZE_T LocalSize([In]HLOCAL hMem);
 
         /// <summary>
@@ -1238,7 +1238,7 @@ namespace Lsj.Util.Win32
         /// A process should not rely on the return value to determine the number of times
         /// it must subsequently call <see cref="LocalUnlock"/> for the memory block.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LocalUnlock([In]HLOCAL hMem);
 
         /// <summary>
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
             [Out]out MemoryProtectionConstants lpflOldProtect);

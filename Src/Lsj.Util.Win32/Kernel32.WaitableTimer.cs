@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see langword="false"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelWaitableTimer", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelWaitableTimer", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CancelWaitableTimer([In]IntPtr hTimer);
 
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateWaitableTimer(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTimerAttributes, [In]bool bManualReset,
@@ -193,7 +193,7 @@ namespace Lsj.Util.Win32
         /// The timer object is destroyed when its last handle has been closed.
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateWaitableTimerEx(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName,
@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr OpenWaitableTimer([In]uint dwDesiredAccess, [In]bool bInheritHandle,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName);
 
@@ -339,7 +339,7 @@ namespace Lsj.Util.Win32
         /// How precise you can change the resolution depends on which hardware clock the particular API uses.
         /// For more information, check your hardware documentation.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWaitableTimer([In]IntPtr hTimer, [In]in LARGE_INTEGER lpDueTime, [In]int lPeriod,
             [MarshalAs(UnmanagedType.FunctionPtr)][In]PTIMERAPCROUTINE pfnCompletionRoutine, [In]IntPtr lpArgToCompletionRoutine, [In]bool fResume);

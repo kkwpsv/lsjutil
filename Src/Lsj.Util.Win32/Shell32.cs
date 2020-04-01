@@ -61,7 +61,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CommandLineToArgvW"/> will consider the first argument to be an empty string.
         /// Excess whitespace at the end of <paramref name="lpCmdLine"/> is ignored.
         /// </remarks>
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out]out int pNumArgs);
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// An application can only retrieve an AppUserModelID that has been explicitly set. System-assigned default AppUserModelIDs cannot be retrieved.
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out]string AppID);
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Lsj.Util.Win32
         /// If this function returns an icon handle in the <see cref="hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
-        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", SetLastError = true)]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetStockIconInfo([In]SHSTOCKICONID siid, [In]SHGetStockIconInfoFlags uFlags, [Out]out SHSTOCKICONINFO psii);
     }
 }

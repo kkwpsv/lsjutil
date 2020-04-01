@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32
         /// DPI Virtualization
         /// This API does not participate in DPI virtualization. The output returned is always in terms of physical pixels.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr BeginPaint([In]IntPtr hWnd, [Out]out PAINTSTRUCT lpPaint);
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32
         /// This is handled by the <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERWIDTH"/> and
         /// <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DrawFocusRect([In]IntPtr hDC, [In]in RECT lprc);
 
@@ -99,7 +99,7 @@ namespace Lsj.Util.Win32
         /// If the caret was hidden by <see cref="BeginPaint"/>, <see cref="EndPaint"/> restores the caret to the screen.
         /// <see cref="EndPaint"/> releases the display device context that <see cref="BeginPaint"/> retrieved.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EndPaint([In]IntPtr hWnd, [In]in PAINTSTRUCT lpPaint);
 
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the DC for the specified window's client area.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDC", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDC", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetDC([In]IntPtr hwnd);
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the handle to the specified bitmap.
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr LoadBitmap([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr LoadCursor([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCursorName);
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR LoadCursor([In]IntPtr hInstance, [In]SystemCursors lpCursorName);
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HICON LoadIcon([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpIconName);
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
         public static extern HICON LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace Lsj.Util.Win32
         /// The return value indicates whether the DC was released. If the DC was released, the return value is <see langword="true"/>.
         /// If the DC was not released, the return value is <see langword="false"/>.
         /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ReleaseDC([In]IntPtr hWnd, [In]IntPtr hDC);
     }

@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// ICM: No color management is performed when blits occur.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1, [In]RasterCodes rop);
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32
         /// If an application sets the nWidth or nHeight parameters to zero, <see cref="CreateBitmap"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmap([In]int nWidth, [In]int nHeight, [In]UINT nPlanes, [In]UINT nBitCount, [In]IntPtr lpBits);
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Lsj.Util.Win32
         /// If the bitmap is monochrome, zeros represent the foreground color and ones represent the background color for the destination device context.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBitmapIndirect", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateBitmapIndirect([In]in BITMAP pbm);
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is a handle to the compatible bitmap (DDB).
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateCompatibleBitmap([In]HDC hdc, [In]int nWidth, [In]int nHeight);
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateCompatibleBitmap function.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDiscardableBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDiscardableBitmap([In]HDC hdc, [In]int cx, [In]int cy);
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]DWORD flInit,
             [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
 
@@ -340,7 +340,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetDIBits function.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapBits", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetBitmapBits([In]HBITMAP hbit, [In]LONG cb, [In]LPVOID lpvBits);
 
         /// <summary>
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// The function returns a data structure that contains fields for the height and width of the bitmap, in .01-mm units.
         /// If those dimensions have not yet been set, the structure that is returned will have zeros in those fields.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBitmapDimensionEx([In]HBITMAP hbit, [Out]out SIZE lpsize);
 
         /// <summary>
@@ -442,7 +442,7 @@ namespace Lsj.Util.Win32
         /// The bitmap identified by the hbmp parameter must not be selected into a device context when the application calls this function.
         /// The origin for a bottom-up DIB is the lower-left corner of the bitmap; the origin for a top-down DIB is the upper-left corner.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]LPVOID lpvBits,
             [In]in BITMAPINFO lpbmi, [In]UINT usage);
 
@@ -473,7 +473,7 @@ namespace Lsj.Util.Win32
         /// An application should call <see cref="GetDeviceCaps"/> to determine whether a specified device supports this function.
         /// A bitmap must be selected within the device context, otherwise, <see cref="CLR_INVALID"/> is returned on all pixels.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPixel", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetPixel([In]HDC hdc, [In]int x, [In]int y);
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace Lsj.Util.Win32
         /// <see cref="R2_WHITE"/>: Pixel is always 1.
         /// <see cref="R2_XORPEN"/>: Pixel is a combination of the colors in the pen and in the screen, but not in both.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetROP2", ExactSpelling = true, SetLastError = true)]
         public static extern RasterOps GetROP2([In]HDC hdc);
 
         /// <summary>
@@ -550,7 +550,7 @@ namespace Lsj.Util.Win32
         /// If the bitmap is a monochrome bitmap, this mode preserves white pixels at the expense of black pixels.
         /// If the function fails, the return value is zero.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", ExactSpelling = true, SetLastError = true)]
         public static extern StretchBltModes GetStretchBltMode([In]HDC hdc);
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("LoadBitmap is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions. Instead, use LoadImage and DrawFrameControl.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP LoadBitmap([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
 
         /// <summary>
@@ -645,7 +645,7 @@ namespace Lsj.Util.Win32
         /// Not all devices support the <see cref="PatBlt"/> function.
         /// For more information, see the description of the <see cref="RC_BITBLT"/> capability in the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
 
         /// <summary>
@@ -675,7 +675,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the SetDIBits function.")]
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapBits", ExactSpelling = true, SetLastError = true)]
         public static extern LONG SetBitmapBits([In]HBITMAP hbm, [In]DWORD cb, [In]IntPtr pvBits);
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Lsj.Util.Win32
         /// The bitmap identified by hBitmap cannot be a DIB section, which is a bitmap created by the <see cref="CreateDIBSection"/> function.
         /// If the bitmap is a DIB section, the <see cref="SetBitmapDimensionEx"/> function fails.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBitmapDimensionEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetBitmapDimensionEx([In]HBITMAP hbm, [In]int w, [In]int h, [Out]out SIZE lpsz);
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace Lsj.Util.Win32
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int SetDIBits([In]HDC hdc, [In]HBITMAP hbm, [In]UINT start, [In]UINT cLines, [In]IntPtr lpBits,
             [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
 
@@ -866,7 +866,7 @@ namespace Lsj.Util.Win32
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDIBitsToDevice", ExactSpelling = true, SetLastError = true)]
         public static extern int SetDIBitsToDevice([In]HDC hdc, [In]int xDest, [In]int yDest, [In]DWORD w, [In]DWORD h, [In]int xSrc, [In]int ySrc,
             [In]UINT StartScan, [In]UINT cLines, [In]IntPtr lpvBits, [In]in BITMAPINFO lpbmi, [In]UINT ColorUse);
 
@@ -903,7 +903,7 @@ namespace Lsj.Util.Win32
         /// Not all devices support the <see cref="SetPixel"/> function.
         /// For more information, see <see cref="GetDeviceCaps"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPixel", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF SetPixel([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color);
 
         /// <summary>
@@ -948,7 +948,7 @@ namespace Lsj.Util.Win32
         /// using the binary operations AND, OR, and XOR (exclusive OR), and the unary operation NOT.
         /// The mix mode is for raster devices only; it is not available for vector devices.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetROP2", ExactSpelling = true, SetLastError = true)]
         public static extern int SetROP2([In]HDC hdc, [In]RasterOps rop2);
 
         /// <summary>
@@ -1004,7 +1004,7 @@ namespace Lsj.Util.Win32
         /// Also note that <see cref="SetBrushOrgEx"/> must be called after setting the <see cref="HALFTONE"/> mode to avoid brush misalignment.
         /// Additional stretching modes might also be available depending on the capabilities of the device driver.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetStretchBltMode([In]HDC hdc, [In]StretchBltModes mode);
 
         /// <summary>
@@ -1085,7 +1085,7 @@ namespace Lsj.Util.Win32
         /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
         /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL StretchBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int wDest, [In]int hDest, [In]HDC hdcSrc,
             [In]int xSrc, [In]int ySrc, [In]int wSrc, [In]int hSrc, [In]RasterCodes rop);
 
@@ -1188,7 +1188,7 @@ namespace Lsj.Util.Win32
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "StretchDIBits", ExactSpelling = true, SetLastError = true)]
         public static extern int StretchDIBits([In]HDC hdc, [In]int xDest, [In]int yDest, [In]int DestWidth, [In]int DestHeight, [In]int xSrc,
             [In]int ySrc, [In]int SrcWidth, [In]int SrcHeight, [In]IntPtr lpBits, [In]in BITMAPINFO lpbmi,
             [In]UINT iUsage, [In]RasterCodes rop);

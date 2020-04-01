@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// There are important issues associated with connection setup when using Asynchronous Transfer Mode(ATM) with Windows Sockets 2.
         /// Please see the Remarks section in the accept function documentation for important ATM connection setup information.
         /// </remarks>
-        [DllImport("Mswsock.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptEx", SetLastError = true)]
+        [DllImport("Mswsock.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AcceptEx([In]UIntPtr sListenSocket, [In]UIntPtr sAcceptSocket, [In]IntPtr lpOutputBuffer, [In]uint dwReceiveDataLength,
                 [In]uint dwLocalAddressLength, [In]uint dwRemoteAddressLength, [Out]out uint lpdwBytesReceived, [In]IntPtr lpOverlapped);

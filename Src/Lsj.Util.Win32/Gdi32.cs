@@ -95,7 +95,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is the handle to a memory DC.
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateCompatibleDC([In]HDC hdc);
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Lsj.Util.Win32
         /// ICM: To enable ICM, set the <see cref="dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
         /// (pointed to by the <see cref="pInitData"/> parameter) to the appropriate value.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
             [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
             [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
@@ -216,7 +216,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteDC([In]HDC hdc);
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the specified handle is not valid or is currently selected into a DC, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteObject([In]HGDIOBJ hObject);
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DPtoLP"/> function fails if the device coordinates exceed 27 bits, or if the converted logical coordinates exceed 32 bits.
         /// In the case of such an overflow, the results for all the points are undefined.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DPtoLP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Lsj.Util.Win32
         /// Its meaning is user-defined.
         /// If the objects cannot be enumerated (for example, there are too many objects), the function returns zero without calling the callback function.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumObjects([In]HDC hdc, [In]int nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace Lsj.Util.Win32
         /// For information about printer escapes, see <see cref="ExtEscape"/>.
         /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
         public static extern int Escape([In]HDC hdc, [In]int iEscape, [In]int cjIn, [In]IntPtr pvIn, [In]LPVOID pvOut);
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace Lsj.Util.Win32
         /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetBoundsRect([In]HDC hdc, [Out]out RECT lprect, [In]BoundsAccumulationFlags flags);
 
         /// <summary>
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// Each logical unit is mapped to one twentieth of a printer's point (1/1440 inch, also called a "twip").
         /// Positive x is to the right; positive y is up.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMapMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMapMode", ExactSpelling = true, SetLastError = true)]
         public static extern MappingModes GetMapMode([In]HDC hdc);
 
         /// <summary>
@@ -445,7 +445,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowExtEx([In]HDC hdc, [Out]out SIZE lpsize);
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace Lsj.Util.Win32
         /// The return value specifies the value of the desired item.
         /// When <paramref name="nIndex"/> is <see cref="DeviceCapIndexes.BITSPIXEL"/> and the device has 15bpp or 16bpp, the return value is 16.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", ExactSpelling = true, SetLastError = true)]
         public static extern int GetDeviceCaps([In]IntPtr hdc, [In]DeviceCapIndexes nIndex);
 
         /// <summary>
@@ -576,7 +576,7 @@ namespace Lsj.Util.Win32
         /// For example, if you ask for a vertical version of a font that doesn't support vertical painting,
         /// the <see cref="LOGFONT"/> indicates the font is vertical, but Windows will paint it horizontally.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetObject([In]HANDLE h, [In]int c, [In]LPVOID pv);
 
         /// <summary>
@@ -599,7 +599,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value identifies a color from the system palette that corresponds to the given color value.
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetNearestColor([In]HDC hdc, [In]COLORREF color);
 
         /// <summary>
@@ -639,7 +639,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
         /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ GetStockObject([In]StockObjectIndexes i);
 
         /// <summary>
@@ -696,7 +696,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetTextExtentPoint32"/> doesn't consider "\n" (new line) or "\r\n" (carriage return and new line) characters
         /// when it computes the height of a text string.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetTextExtentPoint32([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString,
             [In] int c, [Out]out SIZE psizl);
@@ -719,7 +719,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetWindowOrgEx([In]HDC hdc, [Out]out POINT lppoint);
 
         /// <summary>
@@ -740,7 +740,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetViewportExtEx([In]HDC hdc, [Out]out SIZE lpsize);
 
         /// <summary>
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetViewportOrgEx([In]HDC hdc, [Out]out POINT lppoint);
 
         /// <summary>
@@ -797,7 +797,7 @@ namespace Lsj.Util.Win32
         /// We recommend not to write code that relies on the exact match of the conversion results
         /// from multiple calls to <see cref="LPtoDP"/> even if the parameters that are passed to each call are identical.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LPtoDP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
 
         /// <summary>
@@ -826,7 +826,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="BOOL.TRUE"/>.
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
 
         /// <summary>
@@ -858,7 +858,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
 
@@ -892,7 +892,7 @@ namespace Lsj.Util.Win32
         /// Furthermore, any states saved after the restored state was created are also destroyed and cannot be used.
         /// In other words, the <see cref="RestoreDC"/> function pops the restored state (and any subsequent states) from the state information stack.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RestoreDC", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RestoreDC", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RestoreDC([In]HDC hdc, [In]int nSavedDC);
 
         /// <summary>
@@ -944,7 +944,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SaveDC"/> function can be used any number of times to save any number of instances of the DC state.
         /// A saved state can be restored by using the <see cref="RestoreDC"/> function.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", ExactSpelling = true, SetLastError = true)]
         public static extern int SaveDC([In]HDC hdc);
 
         /// <summary>
@@ -986,7 +986,7 @@ namespace Lsj.Util.Win32
         /// yNewWE = (yOldWE* Ynum) / Ydenom
         /// </code>
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
@@ -1027,7 +1027,7 @@ namespace Lsj.Util.Win32
         ///  xNewVE = (xOldVE * Xnum) / Xdenom 
         ///  yNewVE = (yOldVE* Ynum) / Ydenom
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
@@ -1075,7 +1075,7 @@ namespace Lsj.Util.Win32
         /// An application cannot select a single bitmap into more than one DC at a time.
         /// ICM: If the object being selected is a brush or a pen, color management is performed.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", ExactSpelling = true, SetLastError = true)]
         public static extern HGDIOBJ SelectObject([In]HDC hdc, [In]HGDIOBJ hgdiobj);
 
         /// <summary>
@@ -1123,7 +1123,7 @@ namespace Lsj.Util.Win32
         /// must also check the <see cref="DCB_ACCUMULATE"/> bit.
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<RECT>))][In]StructPointerOrNullObject<RECT> lprect,
             [In]BoundsAccumulationFlags flags);
@@ -1175,7 +1175,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MM_ISOTROPIC"/> mode ensures a 1:1 aspect ratio.
         /// The <see cref="MM_ANISOTROPIC"/> mode allows the x-coordinates and y-coordinates to be adjusted independently.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
         public static extern int SetMapMode([In]HDC hdc, [In]int iMode);
 
         /// <summary>
@@ -1218,7 +1218,7 @@ namespace Lsj.Util.Win32
         /// Note that for the <see cref="MM_ISOTROPIC"/> mode, certain portions of a nonsquare screen may not be available
         /// for display because the logical units on both axes represent equal physical distances.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
@@ -1260,7 +1260,7 @@ namespace Lsj.Util.Win32
         /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>,
         /// the device point (0,0) is always the upper-left corner.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
 
@@ -1305,7 +1305,7 @@ namespace Lsj.Util.Win32
         /// Note that for the <see cref="MM_ISOTROPIC"/> mode certain portions of a nonsquare screen may not be available for display
         /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
 
@@ -1347,7 +1347,7 @@ namespace Lsj.Util.Win32
         /// Generally, you will use one function or the other, but not both.
         /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
 
@@ -1379,7 +1379,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="h"/> is a brush, <see cref="UnrealizeObject"/> does nothing, and the function returns <see cref="TRUE"/>.
         /// Use <see cref="SetBrushOrgEx"/> to set the origin of a brush.
         /// </remarks>
-        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", SetLastError = true)]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnrealizeObject([In]HGDIOBJ h);
     }
 }

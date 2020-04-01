@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32
         /// Do not call this function from a DLL that is linked to the static C run-time library (CRT).
         /// The static CRT requires <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications to function properly.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DisableThreadLibraryCalls([In]IntPtr hLibModule);
 
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, a race condition can occur.
         /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeLibrary([In]HMODULE hLibModule);
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out]uint[] lpidProcess,
             [In]uint cb, [Out]out uint lpcbNeeded);
@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// If they were to call <see cref="FreeLibrary"/> and <see cref="ExitThread"/> separately, a race condition would exist.
         /// The library could be unloaded before <see cref="ExitThread"/> is called.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void FreeLibraryAndExitThread([In]IntPtr hLibModule, [In]uint dwExitCode);
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// The global variable _pgmptr is automatically initialized to the full path of the executable file,
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetModuleFileName([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]DWORD nSize);
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32
         /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetModuleFileNameEx([In]IntPtr hProcess, [In]IntPtr hModule,
             [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]uint nSize);
 
@@ -328,7 +328,7 @@ namespace Lsj.Util.Win32
         /// If the system loads another module, it could reuse the module handle that was recently freed.
         /// Therefore, the first thread would have a handle to a different module than the one intended.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName);
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.
         /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetModuleHandleEx([In]GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName,
             [Out]out IntPtr phModule);
@@ -487,7 +487,7 @@ namespace Lsj.Util.Win32
         /// is in the search path, the malicious version of the DLL may be loaded.
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE LoadLibrary([MarshalAs(UnmanagedType.LPWStr)][In]string lpLibFileName);
 
         /// <summary>
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows.Applications should use the CreateProcess function.")]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName, [In]LPVOID lpParameterBlock);
     }
 }
