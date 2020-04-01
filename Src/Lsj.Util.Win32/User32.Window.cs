@@ -1053,6 +1053,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the double-click time for the mouse.
+        /// A double-click is a series of two clicks of a mouse button, the second occurring within a specified time after the first.
+        /// The double-click time is the maximum number of milliseconds that may occur between the first and second clicks of a double-click.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setdoubleclicktime
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// The number of milliseconds that may occur between the first and second clicks of a double-click.
+        /// If this parameter is set to 0, the system uses the default double-click time of 500 milliseconds.
+        /// If this parameter value is greater than 5000 milliseconds, the system sets the value to 5000 milliseconds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetDoubleClickTime"/> function alters the double-click time for all windows in the system.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDoubleClickTime", SetLastError = true)]
+        public static extern BOOL SetDoubleClickTime([In]UINT Arg1);
+
+        /// <summary>
+        /// <para>
         /// Brings the thread that created the specified window into the foreground and activates the window.
         /// Keyboard input is directed to the window, and various visual cues are changed for the user.
         /// The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
