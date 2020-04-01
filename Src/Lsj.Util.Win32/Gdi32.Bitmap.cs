@@ -318,6 +318,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetBitmapDimensionEx"/> function retrieves the dimensions of a compatible bitmap.
+        /// The retrieved dimensions must have been set by the <see cref="SetBitmapDimensionEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapdimensionex
+        /// </para>
+        /// </summary>
+        /// <param name="hbit">
+        /// A handle to a compatible bitmap (DDB).
+        /// </param>
+        /// <param name="lpsize">
+        /// A pointer to a <see cref="SIZE"/> structure to receive the bitmap dimensions.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function returns a data structure that contains fields for the height and width of the bitmap, in .01-mm units.
+        /// If those dimensions have not yet been set, the structure that is returned will have zeros in those fields.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBitmapDimensionEx", SetLastError = true)]
+        public static extern BOOL GetBitmapDimensionEx([In]HBITMAP hbit, [Out]out SIZE lpsize);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetPixel"/> function retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
         /// </para>
         /// <para>
