@@ -10,6 +10,10 @@ build:
   stage: build
   script:
     - ".\\build.bat"
+  artifacts:
+    paths:
+      - "Src\\*\\bin\\Release\\"
+    expire_in: 1h
 
 test:
   stage: test
