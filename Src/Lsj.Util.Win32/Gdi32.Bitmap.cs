@@ -479,6 +479,62 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetStretchBltMode"/> function sets the bitmap stretching mode in the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setstretchbltmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// The stretching mode. This parameter can be one of the following values.
+        /// <see cref="BLACKONWHITE"/>:
+        /// Performs a Boolean AND operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves black pixels at the expense of white pixels.
+        /// <see cref="COLORONCOLOR"/>:
+        /// Deletes the pixels.
+        /// This mode deletes all eliminated lines of pixels without trying to preserve their information.
+        /// <see cref="HALFTONE"/>:
+        /// Maps pixels from the source rectangle into blocks of pixels in the destination rectangle.
+        /// The average color over the destination block of pixels approximates the color of the source pixels.
+        /// After setting the <see cref="HALFTONE"/> stretching mode, an application must call the <see cref="SetBrushOrgEx"/> function to set the brush origin.
+        /// If it fails to do so, brush misalignment occurs.
+        /// <see cref="STRETCH_ANDSCANS"/>:
+        /// Same as <see cref="BLACKONWHITE"/>.
+        /// <see cref="STRETCH_DELETESCANS"/>:
+        /// Same as <see cref="COLORONCOLOR"/>.
+        /// <see cref="STRETCH_HALFTONE"/>:
+        /// Same as <see cref="HALFTONE"/>.
+        /// <see cref="STRETCH_ORSCANS"/>:
+        /// Same as <see cref="WHITEONBLACK"/>.
+        /// <see cref="WHITEONBLACK"/>:
+        /// Performs a Boolean OR operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves white pixels at the expense of black pixels.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous stretching mode.
+        /// If the function fails, the return value is zero.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// The stretching mode defines how the system combines rows or columns of a bitmap with existing pixels on a display device
+        /// when an application calls the <see cref="StretchBlt"/> function.
+        /// The <see cref="BLACKONWHITE"/> (<see cref="STRETCH_ANDSCANS"/>) and <see cref="WHITEONBLACK"/> (<see cref="STRETCH_ORSCANS"/>) modes
+        /// are typically used to preserve foreground pixels in monochrome bitmaps.
+        /// The <see cref="COLORONCOLOR"/> (<see cref="STRETCH_DELETESCANS"/>) mode is typically used to preserve color in color bitmaps.
+        /// The <see cref="HALFTONE"/> mode is slower and requires more processing of the source image than the other three modes;
+        /// but produces higher quality images.
+        /// Also note that <see cref="SetBrushOrgEx"/> must be called after setting the <see cref="HALFTONE"/> mode to avoid brush misalignment.
+        /// Additional stretching modes might also be available depending on the capabilities of the device driver.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStretchBltMode", SetLastError = true)]
+        public static extern int SetStretchBltMode([In]HDC hdc, [In]StretchBltModes mode);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="StretchBlt"/> function copies a bitmap from a source rectangle into a destination rectangle,
         /// stretching or compressing the bitmap to fit the dimensions of the destination rectangle, if necessary.
         /// The system stretches or compresses the bitmap according to the stretching mode currently set in the destination device context.
