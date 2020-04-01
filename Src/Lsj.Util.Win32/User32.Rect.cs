@@ -11,6 +11,32 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="CopyRect"/> function copies the coordinates of one rectangle to another.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyrect
+        /// </para>
+        /// </summary>
+        /// <param name="lprcDst">
+        /// Pointer to the <see cref="RECT"/> structure that receives the logical coordinates of the source rectangle.
+        /// </param>
+        /// <param name="lprcSrc">
+        /// Pointer to the <see cref="RECT"/> structure whose coordinates are to be copied in logical units.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because applications can use rectangles for different purposes, the rectangle functions do not use an explicit unit of measure.
+        /// Instead, all rectangle coordinates and dimensions are given in signed, logical values.
+        /// The mapping mode and the function in which the rectangle is used determine the units of measure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetRect", SetLastError = true)]
+        public static extern BOOL CopyRect([In][Out]ref RECT lprcDst, [MarshalAs(UnmanagedType.LPStruct)][In]RECT lprcSrc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetRect"/> function sets the coordinates of the specified rectangle.
         /// This is equivalent to assigning the left, top, right, and bottom arguments to the appropriate members of the <see cref="RECT"/> structure.
         /// </para>
