@@ -348,6 +348,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetStretchBltMode"/> function retrieves the current stretching mode.
+        /// The stretching mode defines how color data is added to or removed from bitmaps that are stretched or compressed
+        /// when the <see cref="StretchBlt"/> function is called.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstretchbltmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current stretching mode. This can be one of the following values.
+        /// <see cref="BLACKONWHITE"/>:
+        /// Performs a Boolean AND operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves black pixels at the expense of white pixels.
+        /// <see cref="COLORONCOLOR"/>:
+        /// Deletes the pixels. This mode deletes all eliminated lines of pixels without trying to preserve their information.
+        /// <see cref="HALFTONE"/>:
+        /// Maps pixels from the source rectangle into blocks of pixels in the destination rectangle.
+        /// The average color over the destination block of pixels approximates the color of the source pixels.
+        /// <see cref="STRETCH_ANDSCANS"/>:
+        /// Same as <see cref="BLACKONWHITE"/>.
+        /// <see cref="STRETCH_DELETESCANS"/>:
+        /// Same as <see cref="COLORONCOLOR"/>.
+        /// <see cref="STRETCH_HALFTONE"/>:
+        /// Same as <see cref="HALFTONE"/>.
+        /// <see cref="STRETCH_ORSCANS"/>:
+        /// Same as <see cref="WHITEONBLACK"/>.
+        /// <see cref="WHITEONBLACK"/>:
+        /// Performs a Boolean OR operation using the color values for the eliminated and existing pixels.
+        /// If the bitmap is a monochrome bitmap, this mode preserves white pixels at the expense of black pixels.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStretchBltMode", SetLastError = true)]
+        public static extern StretchBltModes GetStretchBltMode([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
