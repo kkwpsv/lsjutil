@@ -25,15 +25,16 @@ namespace Lsj.Util.Win32
         /// The session identifier returned by this function is the identifier of the current physical console session. 
         /// To monitor the state of the current physical console session, use the<see cref="WTSRegisterSessionNotification"/>  function.
         /// </remarks>
-        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSGetActiveConsoleSessionId", SetLastError = true)]
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSGetActiveConsoleSessionId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD WTSGetActiveConsoleSessionId();
+        
         /// <summary>
         /// Obtains the primary access token of the logged-on user specified by the session ID. To call this function successfully, 
         /// the calling application must be running within the context of the LocalSystem account and have the SE_TCB_NAME privilege.
         /// Caution WTSQueryUserToken is intended for highly trusted services.Service providers must use caution that they do not leak user tokens when calling this function.
         /// Service providers must close token handles after they have finished using them.
         /// <para>
-        ///  From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtsapi32/nf-wtsapi32-wtsqueryusertoken
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtsapi32/nf-wtsapi32-wtsqueryusertoken
         /// </para>
         /// </summary>
         /// <param name="SessionId">
@@ -55,7 +56,7 @@ namespace Lsj.Util.Win32
         /// See LocalSystem account for information about the privileges associated with that account.
         /// </remarks>
 
-        [DllImport("Wtsapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSQueryUserToken", SetLastError = true)]
+        [DllImport("Wtsapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "WTSQueryUserToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WTSQueryUserToken([In]DWORD SessionId, [Out]out IntPtr phToken);
 
     }
