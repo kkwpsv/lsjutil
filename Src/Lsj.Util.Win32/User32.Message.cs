@@ -299,6 +299,18 @@ namespace Lsj.Util.Win32
             [In]PeekMessageFlags wRemoveMsg);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idThread"></param>
+        /// <param name="Msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public static BOOL PostAppMessage([In]DWORD idThread, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam) =>
+             PostThreadMessage(idThread, Msg, wParam, lParam);
+
+        /// <summary>
         /// <para>
         /// Places (posts) a message in the message queue associated with the thread that created the specified window and
         /// returns without waiting for the thread to process the message.
@@ -371,6 +383,73 @@ namespace Lsj.Util.Win32
         /// </param>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", SetLastError = true)]
         public static extern void PostQuitMessage([In] int nExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Posts a message to the message queue of the specified thread. It returns without waiting for the thread to process the message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postthreadmessagew
+        /// </para>
+        /// </summary>
+        /// <param name="idThread">
+        /// The identifier of the thread to which the message is to be posted.
+        /// The function fails if the specified thread does not have a message queue.
+        /// The system creates a thread's message queue when the thread makes its first call to one of the User or GDI functions.
+        /// For more information, see the Remarks section.
+        /// Message posting is subject to UIPI.
+        /// The thread of a process can post messages only to posted-message queues of threads in processes of lesser or equal integrity level.
+        /// This thread must have the <see cref="SE_TCB_NAME"/> privilege to post a message to a thread that belongs to a process
+        /// with the same locally unique identifier (LUID) but is in a different desktop.
+        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// This thread must either belong to the same desktop as the calling thread or to a process with the same <see cref="LUID"/>.
+        /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
+        /// </param>
+        /// <param name="Msg">
+        /// The type of message to be posted.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_THREAD_ID"/> if <paramref name="idThread"/> is not a valid thread identifier,
+        /// or if the thread specified by <paramref name="idThread"/> does not have a message queue.
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_NOT_ENOUGH_QUOTA"/> when the message limit is hit.
+        /// </returns>
+        /// <remarks>
+        /// When a message is blocked by UIPI the last error, retrieved with <see cref="GetLastError"/>, is set to 5 (access denied).
+        /// The thread to which the message is posted must have created a message queue, or else the call to <see cref="PostThreadMessage"/> fails.
+        /// Use the following method to handle this situation.
+        /// Create an event object, then create the thread.
+        /// Use the <see cref="WaitForSingleObject"/> function to wait for the event to be set to the signaled state before calling <see cref="PostThreadMessage"/>.
+        /// In the thread to which the message will be posted, call <see cref="PeekMessage"/> as shown here to force the system to create the message queue.
+        /// <code>
+        /// PeekMessage(&amp;msg, NULL, WM_USER, WM_USER, PM_NOREMOVE)
+        /// </code>
+        /// Set the event, to indicate that the thread is ready to receive posted messages.
+        /// The thread to which the message is posted retrieves the message by calling the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// The <see cref="MSG.hwnd"/> member of the returned <see cref="MSG"/> structure is <see cref="NULL"/>.
+        /// Messages sent by <see cref="PostThreadMessage"/> are not associated with a window.
+        /// As a general rule, messages that are not associated with a window cannot be dispatched by the <see cref="DispatchMessage"/> function.
+        /// Therefore, if the recipient thread is in a modal loop (as used by MessageBox or DialogBox), the messages will be lost.
+        /// To intercept thread messages while in a modal loop, use a thread-specific hook.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// There is a limit of 10,000 posted messages per message queue.
+        /// This limit should be sufficiently large.
+        /// If your application exceeds the limit, it should be redesigned to avoid consuming so many system resources.
+        /// To adjust this limit, modify the following registry key.
+        /// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\USERPostMessageLimit
+        /// The minimum acceptable value is 4000.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", SetLastError = true)]
+        public static extern BOOL PostThreadMessage([In]DWORD idThread, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
