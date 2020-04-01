@@ -128,13 +128,47 @@ namespace Lsj.Util.Win32
         /// <see cref="PM_QS_POSTMESSAGE"/> and <see cref="PM_QS_SENDMESSAGE"/>.
         /// </param>
         /// <returns>
-        /// If a message is available, the return value is <see langword="true"/>.
-        /// If no messages are available, the return value is <see langword="false"/>.
+        /// If a message is available, the return value is <see cref="TRUE"/>.
+        /// If no messages are available, the return value is <see cref="FALSE"/>.
         /// </returns>
+        /// <remarks>
+        /// <see cref="PeekMessage"/> retrieves messages associated with the window identified by the <paramref name="hWnd"/> parameter
+        /// or any of its children as specified by the <see cref="IsChild"/> function, and within the range of message values
+        /// given by the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// Note that an application can only use the low word in the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters;
+        /// the high word is reserved for the system.
+        /// Note that <see cref="PeekMessage"/> always retrieves <see cref="WM_QUIT"/> messages,
+        /// no matter which values you specify for <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/>.
+        /// During this call, the system delivers pending, nonqueued messages, that is, messages sent to windows owned
+        /// by the calling thread using the <see cref="SendMessage"/>, <see cref="SendMessageCallback"/>,
+        /// <see cref="SendMessageTimeout"/>, or <see cref="SendNotifyMessage"/> function.
+        /// Then the first queued message that matches the specified filter is retrieved.
+        /// The system may also process internal events.
+        /// If no filter is specified, messages are processed in the following order:
+        /// Sent messages
+        /// Posted messages
+        /// Input (hardware) messages and system internal events
+        /// Sent messages (again)
+        /// <see cref="WM_PAINT"/> messages
+        /// <see cref="WM_TIMER"/> messages
+        /// To retrieve input messages before posted messages, use the <paramref name="wMsgFilterMin"/> and <paramref name="wMsgFilterMax"/> parameters.
+        /// The <see cref="PeekMessage"/> function normally does not remove <see cref="WM_PAINT"/> messages from the queue.
+        /// <see cref="WM_PAINT"/> messages remain in the queue until they are processed.
+        /// However, if a <see cref="WM_PAINT"/> message has a NULL update region, <see cref="PeekMessage"/> does remove it from the queue.
+        /// If a top-level window stops responding to messages for more than several seconds,
+        /// the system considers the window to be not responding and replaces it with a ghost window that has the same z-order,
+        /// location, size, and visual attributes.
+        /// This allows the user to move it, resize it, or even close the application.
+        /// However, these are the only actions available because the application is actually not responding.
+        /// When an application is being debugged, the system does not generate a ghost window.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The output is in the mode of the window that the message is targeting.
+        /// The calling thread is not taken into consideration.
+        /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool PeekMessage([Out]out MSG lpMsg, [In]IntPtr hWnd, [In]uint wMsgFilterMin, [In] uint wMsgFilterMax,
-            [In] PeekMessageFlags wRemoveMsg);
+        public static extern BOOL PeekMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax,
+            [In]PeekMessageFlags wRemoveMsg);
 
         /// <summary>
         /// <para>
