@@ -74,5 +74,54 @@ namespace Lsj.Util.Win32
             "The corresponding function for an enhanced-format metafile is CloseEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseMetaFile", SetLastError = true)]
         public static extern HMETAFILE CloseMetaFile([In]HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DeleteMetaFile"/> function deletes a Windows-format metafile or Windows-format metafile handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletemetafile
+        /// </para>
+        /// </summary>
+        /// <param name="hmf">
+        /// A handle to a Windows-format metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the metafile identified by the <paramref name="hmf"/> parameter is stored in memory (rather than on a disk),
+        /// its content is lost when it is deleted by using the <see cref="DeleteMetaFile"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
+            "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
+            " The corresponding function for an enhanced-format metafile is DeleteEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMetaFile", SetLastError = true)]
+        public static extern BOOL DeleteMetaFile([In]HMETAFILE hmf);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetMetaFile"/> function creates a handle that identifies the metafile stored in the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmetafilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// A pointer to a null-terminated string that specifies the name of a metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is not implemented in the Win32 API.
+        /// It is provided for compatibility with 16-bit versions of Windows.
+        /// In Win32 applications, use the <see cref="GetEnhMetaFile"/> function.
+        /// </remarks>
+        [Obsolete("GetMetaFile is no longer available for use as of Windows 2000. Instead, use GetEnhMetaFile.")]
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaFileW", SetLastError = true)]
+        public static extern HMETAFILE GetMetaFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
     }
 }
