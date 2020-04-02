@@ -903,6 +903,35 @@ namespace Lsj.Util.Win32
         public static extern WORD GetClassWord([In]HWND hWnd, [In]GetClassIndexes nIndex);
 
         /// <summary>
+        /// <para>
+        /// Retrieves a handle to the specified window's parent or owner.
+        /// To retrieve a handle to a specified ancestor, use the <see cref="GetAncestor"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getparent
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose parent window handle is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// If the window is a child window, the return value is a handle to the parent window.
+        /// If the window is a top-level window with the <see cref="WS_POPUP"/> style, the return value is a handle to the owner window.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// This function typically fails for one of the following reasons:
+        /// The window is a top-level window that is unowned or does not have the <see cref="WS_POPUP"/> style.
+        /// The owner window has <see cref="WS_POPUP"/> style.
+        /// </returns>
+        /// <remarks>
+        /// To obtain a window's owner window, instead of using <see cref="GetParent"/>, use <see cref="GetWindow"/> with the <see cref="GW_OWNER"/> flag.
+        /// To obtain the parent window and not the owner, instead of using <see cref="GetParent"/>,
+        /// use <see cref="GetAncestor"/> with the <see cref="GA_PARENT"/> flag.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetParent", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetParent([In]HWND hWnd);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
@@ -1050,6 +1079,29 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLength", ExactSpelling = true, SetLastError = true)]
         public static extern int GetWindowTextLength([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a window is a child window or descendant window of a specified parent window.
+        /// A child window is the direct descendant of a specified parent window if that parent window is in the chain of parent windows;
+        /// the chain of parent windows leads from the original overlapped or pop-up window to the child window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischild
+        /// </para>
+        /// </summary>
+        /// <param name="hWndParent">
+        /// A handle to the parent window.
+        /// </param>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is a child or descendant window of the specified parent window, the return value is <see cref="TRUE"/>.
+        /// If the window is not a child or descendant window of the specified parent window, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsChild", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsChild([In]HWND hWndParent, [In]HWND hWnd);
 
         /// <summary>
         /// <para>
