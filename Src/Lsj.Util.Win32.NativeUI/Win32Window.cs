@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.NativeUI
                 lpszMenuName = IntPtr.Zero,
                 lpszClassName = marshal.GetPtr(),
             };
-            if (RegisterClassEx(ref wndclass) != 0)
+            if (RegisterClassEx(wndclass) != 0)
             {
                 _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
                     CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
