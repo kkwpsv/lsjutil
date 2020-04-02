@@ -47,6 +47,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ClientToScreen"/> function converts the client-area coordinates of a specified point to screen coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-clienttoscreen
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose client area is used for the conversion.
+        /// </param>
+        /// <param name="lpPoint">
+        /// A pointer to a <see cref="POINT"/> structure that contains the client coordinates to be converted.
+        /// The new screen coordinates are copied into this structure if the function succeeds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ClientToScreen"/> function replaces the client-area coordinates in the <see cref="POINT"/> structure with the screen coordinates.
+        /// The screen coordinates are relative to the upper-left corner of the screen.
+        /// Note, a screen-coordinate point that is above the window's client area has a negative y-coordinate.
+        /// Similarly, a screen coordinate to the left of a client area has a negative x-coordinate.
+        /// All coordinates are device coordinates.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClientToScreen", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ClientToScreen([In]HWND hWnd, [In][Out]ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DrawFocusRect"/> function draws a rectangle in the style used to indicate that the rectangle has the focus.
         /// </para>
         /// <para>
@@ -218,6 +247,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="MapWindowPoints"/> function converts (maps) a set of points from a coordinate space relative
+        /// to one window to a coordinate space relative to another window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapwindowpoints
+        /// </para>
+        /// </summary>
+        /// <param name="hWndFrom">
+        /// A handle to the window from which points are converted.
+        /// If this parameter is <see cref="NULL"/> or <see cref="HWND_DESKTOP"/>, the points are presumed to be in screen coordinates.
+        /// </param>
+        /// <param name="hWndTo">
+        /// A handle to the window to which points are converted.
+        /// If this parameter is <see cref="NULL"/> or <see cref="HWND_DESKTOP"/>, the points are converted to screen coordinates.
+        /// </param>
+        /// <param name="lpPoints">
+        /// A pointer to an array of <see cref="POINT"/> structures that contain the set of points to be converted.
+        /// The points are in device units.
+        /// This parameter can also point to a <see cref="RECT"/> structure, in which case the <paramref name="cPoints"/> parameter should be set to 2.
+        /// </param>
+        /// <param name="cPoints">
+        /// The number of <see cref="POINT"/> structures in the array pointed to by the <paramref name="lpPoints"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the low-order word of the return value is the number of pixels added to the horizontal coordinate
+        /// of each source point in order to compute the horizontal coordinate of each destination point.
+        /// (In addition to that, if precisely one of hWndFrom and hWndTo is mirrored, then each resulting horizontal coordinate is multiplied by -1.)
+        /// The high-order word is the number of pixels added to the vertical coordinate of each source point in order
+        /// to compute the vertical coordinate of each destination point.
+        /// If the function fails, the return value is zero.
+        /// Call <see cref="SetLastError"/> prior to calling this method to differentiate an error return value from a legitimate "0" return value.
+        /// </returns>
+        /// <remarks>
+        /// If <paramref name="hWndFrom"/> or <paramref name="hWndTo"/> (or both) are mirrored windows
+        /// (that is, have <see cref="WS_EX_LAYOUTRTL"/> extended style) and precisely two points are passed in <paramref name="lpPoints"/>,
+        /// <see cref="MapWindowPoints"/> will interpret those two points as a <see cref="RECT"/> and possibly automatically
+        /// swap the left and right fields of that rectangle to ensure that left is not greater than right.
+        /// If any number of points other than 2 is passed in <paramref name="lpPoints"/>,
+        /// then <see cref="MapWindowPoints"/> will correctly map the coordinates of each of those points separately,
+        /// so if you pass in a pointer to an array of more than one rectangle in <paramref name="lpPoints"/>,
+        /// the new rectangles may get their left field greater than right.
+        /// Thus, to guarantee the correct transformation of rectangle coordinates,
+        /// you must call <see cref="MapWindowPoints"/> with one <see cref="RECT"/> pointer at a time,
+        /// as shown in the following example:
+        /// <code>
+        /// RECT        rc[10];
+        /// for(int i = 0; i < (sizeof(rc)/sizeof(rc[0])); i++)
+        /// {
+        ///     MapWindowPoints(hWnd1, hWnd2, (LPPOINT)(&amp;rc[i]), (sizeof(RECT)/sizeof(POINT)) );
+        /// }
+        /// </code>
+        /// Also, if you need to map precisely two independent points and don't want the <see cref="RECT"/> logic
+        /// applied to them by <see cref="MapWindowPoints"/>, to guarantee the correct result you must call <see cref="MapWindowPoints"/>
+        /// with one <see cref="POINT"/> pointer at a time, as shown in the following example:
+        /// <code>
+        ///  POINT pt[2];
+        ///  MapWindowPoints(hWnd1, hWnd2, &amp;pt[0], 1);
+        ///  MapWindowPoints(hWnd1, hWnd2, &amp;pt[1], 1);
+        /// </code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
+        public static extern int MapWindowPoints([In]HWND hWndFrom, [In]HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lpPoints,
+            [In]UINT cPoints);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ReleaseDC"/> function releases a device context (DC), freeing it for use by other applications.
         /// The effect of the <see cref="ReleaseDC"/> function depends on the type of DC. It frees only common and window DCs.
         /// It has no effect on class or private DCs.
@@ -235,5 +330,37 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ReleaseDC([In]IntPtr hWnd, [In]IntPtr hDC);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ScreenToClient"/> function converts the screen coordinates of a specified point on the screen to client-area coordinates.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-screentoclient
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose client area will be used for the conversion.
+        /// </param>
+        /// <param name="lpPoint">
+        /// A pointer to a <see cref="POINT"/> structure that specifies the screen coordinates to be converted.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function uses the window identified by the <paramref name="hWnd"/> parameter
+        /// and the screen coordinates given in the <see cref="POINT"/> structure to compute client coordinates.
+        /// It then replaces the screen coordinates with the client coordinates.
+        /// The new coordinates are relative to the upper-left corner of the specified window's client area.
+        /// The <see cref="ScreenToClient"/> function assumes the specified point is in screen coordinates.
+        /// All coordinates are in device units.
+        /// Do not use <see cref="ScreenToClient"/> when in a mirroring situation, that is, when changing from left-to-right layout to right-to-left layout.
+        /// Instead, use <see cref="MapWindowPoints"/>.
+        /// For more information, see "Window Layout and Mirroring" in Window Features.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScreenToClient", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ScreenToClient([In]HWND hWnd, [In][Out]ref POINT lpPoint);
     }
 }

@@ -107,6 +107,85 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Calculates the required size of the window rectangle, based on the desired client-rectangle size.
+        /// The window rectangle can then be passed to the <see cref="CreateWindow"/> function to create a window whose client area is the desired size.
+        /// To specify an extended window style, use the <see cref="AdjustWindowRectEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrect
+        /// </para>
+        /// </summary>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the coordinates of the top-left and bottom-right corners of the desired client area.
+        /// When the function returns, the structure contains the coordinates of the top-left and bottom-right corners of the window
+        /// to accommodate the desired client area.
+        /// </param>
+        /// <param name="dwStyle">
+        /// The window style of the window whose required size is to be calculated.
+        /// Note that you cannot specify the <see cref="WS_OVERLAPPED"/> style.
+        /// </param>
+        /// <param name="bMenu">
+        /// Indicates whether the window has a menu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A client rectangle is the smallest rectangle that completely encloses a client area.
+        /// A window rectangle is the smallest rectangle that completely encloses the window, which includes the client area and the nonclient area.
+        /// The <see cref="AdjustWindowRect"/> function does not add extra space when a menu bar wraps to two or more rows.
+        /// The <see cref="AdjustWindowRect"/> function does not take the <see cref="WS_VSCROLL"/> or <see cref="WS_HSCROLL"/> styles into account.
+        /// To account for the scroll bars, call the <see cref="GetSystemMetrics"/> function with <see cref="SM_CXVSCROLL"/> or <see cref="SM_CYHSCROLL"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustWindowRect([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu);
+
+        /// <summary>
+        /// <para>
+        /// Calculates the required size of the window rectangle, based on the desired size of the client rectangle.
+        /// The window rectangle can then be passed to the <see cref="CreateWindowEx"/> function to create a window whose client area is the desired size.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectex
+        /// </para>
+        /// </summary>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the coordinates of the top-left and bottom-right corners of the desired client area.
+        /// When the function returns, the structure contains the coordinates of the top-left and bottom-right corners of the window
+        /// to accommodate the desired client area.
+        /// </param>
+        /// <param name="dwStyle">
+        /// The window style of the window whose required size is to be calculated.
+        /// Note that you cannot specify the <see cref="WS_OVERLAPPED"/> style.
+        /// </param>
+        /// <param name="bMenu">
+        /// Indicates whether the window has a menu.
+        /// </param>
+        /// <param name="dwExStyle">
+        /// The extended window style of the window whose required size is to be calculated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A client rectangle is the smallest rectangle that completely encloses a client area.
+        /// A window rectangle is the smallest rectangle that completely encloses the window, which includes the client area and the nonclient area.
+        /// The <see cref="AdjustWindowRectEx"/> function does not add extra space when a menu bar wraps to two or more rows.
+        /// The <see cref="AdjustWindowRectEx"/> function does not take the <see cref="WS_VSCROLL"/> or <see cref="WS_HSCROLL"/> styles into account.
+        /// To account for the scroll bars, call the <see cref="GetSystemMetrics"/> function with <see cref="SM_CXVSCROLL"/> or <see cref="SM_CYHSCROLL"/>.
+        /// This API is not DPI aware, and should not be used if the calling thread is per-monitor DPI aware.
+        /// For the DPI-aware version of this API, see <see cref="AdjustWindowsRectExForDPI"/>.
+        /// For more information on DPI awareness, see the Windows High DPI documentation.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustWindowRectEx([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu, [In]WindowStylesEx dwExStyle);
+
+        /// <summary>
+        /// <para>
         /// Enables the specified process to set the foreground window using the <see cref="SetForegroundWindow"/> function.
         /// The calling process must already be able to set the foreground window.
         /// For more information, see Remarks later in this topic.
@@ -198,6 +277,26 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool AnimateWindow([In]IntPtr hWnd, [In]uint dwTime, [In]AnimateWindowFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Indicates whether an owned, visible, top-level pop-up, or overlapped window exists on the screen.
+        /// The function searches the entire screen, not just the calling application's client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-anypopup
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If a pop-up window exists, the return value is <see cref="TRUE"/>, even if the pop-up window is completely covered by other windows.
+        /// If a pop-up window does not exist, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// This function does not detect unowned pop-up windows or windows that do not have the <see cref="WS_VISIBLE"/> style bit set.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. It is generally not useful.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnyPopup", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AnyPopup();
 
         /// <summary>
         /// <para>
@@ -307,6 +406,28 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In]WNDPROC lpPrevWndFunc, [In]HWND hWnd,
             [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Minimizes (but does not destroy) the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be minimized.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To destroy a window, an application must use the <see cref="DestroyWindow"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CloseWindow([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -912,6 +1033,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Flashes the specified window one time.
+        /// It does not change the active state of the window.
+        /// To flash the window a specified number of times, use the <see cref="FlashWindowEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-flashwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be flashed. The window can be either open or minimized.
+        /// </param>
+        /// <param name="bInvert">
+        /// If this parameter is <see cref="TRUE"/>, the window is flashed from one state to the other.
+        /// If it is <see cref="FALSE"/>, the window is returned to its original state (either active or inactive).
+        /// When an application is minimized and this parameter is <see cref="TRUE"/>, the taskbar window button flashes active/inactive.
+        /// If it is <see cref="FALSE"/>, the taskbar window button flashes inactive, meaning that it does not change colors.
+        /// It flashes, as if it were being redrawn, but it does not provide the visual invert clue to the user.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the window's state before the call to the <see cref="FlashWindow"/> function.
+        /// If the window caption was drawn as active before the call, the return value is <see cref="TRUE"/>.
+        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Flashing a window means changing the appearance of its caption bar as if the window were changing from inactive to active status, or vice versa.
+        /// (An inactive caption bar changes to an active caption bar; an active caption bar changes to an inactive caption bar.)
+        /// Typically, a window is flashed to inform the user that the window requires attention but that it does not currently have the keyboard focus.
+        /// The <see cref="FlashWindow"/> function flashes the window only once; for repeated flashing, the application should create a system timer.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlashWindow", ExactSpelling = true, SetLastError = true)]
+        private static extern BOOL FlashWindow([In]HWND hWnd, [In]BOOL bInvert);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about a window class.
         /// The <see cref="GetClassInfo"/> function has been superseded by the <see cref="GetClassInfoEx"/> function.
         /// You can still use <see cref="GetClassInfo"/>, however, if you do not need information about the class small icon.
@@ -1321,6 +1476,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the specified window is minimized (iconic).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isiconic
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is iconic, the return value is <see cref="TRUE"/>.
+        /// If the window is not iconic, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsIconic", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsIconic([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a window is maximized.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iszoomed
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is zoomed, the return value is <see cref="TRUE"/>.
+        /// If the window is not zoomed, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsZoomed", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsZoomed([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the specified window handle identifies an existing window.
         /// </para>
         /// <para>
@@ -1439,6 +1630,28 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL MoveWindow([In]HWND hWnd, [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight, [In]BOOL bRepaint);
+
+        /// <summary>
+        /// <para>
+        /// Restores a minimized (iconic) window to its previous size and position; it then activates the window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openicon
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be restored and activated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="OpenIcon"/> sends a <see cref="WM_QUERYOPEN"/> message to the given window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenIcon", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL OpenIcon([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -1824,6 +2037,35 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowWindow([In]HWND hWnd, [In]ShowWindowCommands nCmdShow);
+
+        /// <summary>
+        /// <para>
+        /// Shows or hides all pop-up windows owned by the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showownedpopups
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that owns the pop-up windows to be shown or hidden.
+        /// </param>
+        /// <param name="fShow">
+        /// If this parameter is <see cref="TRUE"/>, all hidden pop-up windows are shown.
+        /// If this parameter is <see cref="FALSE"/>, all visible pop-up windows are hidden.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ShowOwnedPopups"/> shows only windows hidden by a previous call to <see cref="ShowOwnedPopups"/>.
+        /// For example, if a pop-up window is hidden by using the <see cref="ShowWindow"/> function,
+        /// subsequently calling <see cref="ShowOwnedPopups"/> with the <paramref name="fShow"/> parameter
+        /// set to <see cref="TRUE"/> does not cause the window to be shown.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowOwnedPopups", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShowOwnedPopups([In]HWND hWnd, [In]BOOL fShow);
 
         /// <summary>
         /// <para>
