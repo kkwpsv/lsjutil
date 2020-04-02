@@ -201,6 +201,66 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates memory for a multiple-window- position structure and returns the handle to the structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-begindeferwindowpos
+        /// </para>
+        /// </summary>
+        /// <param name="nNumWindows">
+        /// The initial number of windows for which to store position information.
+        /// The <see cref="DeferWindowPos"/> function increases the size of the structure, if necessary.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies the multiple-window-position structure.
+        /// If insufficient system resources are available to allocate the structure, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The multiple-window-position structure is an internal structure; an application cannot access it directly.
+        /// <see cref="DeferWindowPos"/> fills the multiple-window-position structure with information about the target position
+        /// for one or more windows about to be moved.
+        /// The <see cref="EndDeferWindowPos"/> function accepts the handle to this structure and repositions the windows
+        /// by using the information stored in the structure.
+        /// If any of the windows in the multiple-window- position structure have the <see cref="SWP_HIDEWINDOW"/> or <see cref="SWP_SHOWWINDOW"/> flag set,
+        /// none of the windows are repositioned.
+        /// If the system must increase the size of the multiple-window- position structure beyond the initial size specified
+        /// by the <paramref name="nNumWindows"/> parameter but cannot allocate enough memory to do so,
+        /// the system fails the entire window positioning sequence
+        /// (<see cref="BeginDeferWindowPos"/>, <see cref="DeferWindowPos"/>, and <see cref="EndDeferWindowPos"/>).
+        /// By specifying the maximum size needed, an application can detect and process failure early in the process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginDeferWindowPos", ExactSpelling = true, SetLastError = true)]
+        public static extern HDWP BeginDeferWindowPos([In]int nNumWindows);
+
+        /// <summary>
+        /// <para>
+        /// Brings the specified window to the top of the Z order.
+        /// If the window is a top-level window, it is activated.
+        /// If the window is a child window, the top-level parent window associated with the child window is activated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-bringwindowtotop
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to bring to the top of the Z order.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FLASE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Use the <see cref="BringWindowToTop"/> function to uncover any window that is partially or completely obscured by other windows.
+        /// Calling this function is similar to calling the <see cref="SetWindowPos"/> function to change a window's position in the Z order.
+        /// <see cref="BringWindowToTop"/> does not make a window a top-level window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BringWindowToTop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL BringWindowToTop([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Passes message information to the specified window procedure.
         /// </para>
         /// <para>
@@ -245,8 +305,8 @@ namespace Lsj.Util.Win32
         /// You cannot take advantage of this conversion if you call the window procedure directly.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern int CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In]WNDPROC lpPrevWndFunc, [In]IntPtr hWnd,
-            [In]WindowsMessages Msg, [In]UIntPtr wParam, [In]IntPtr lParam);
+        public static extern LRESULT CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In]WNDPROC lpPrevWndFunc, [In]HWND hWnd,
+            [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -530,6 +590,89 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Updates the specified multiple-window – position structure for the specified window.
+        /// The function then returns a handle to the updated structure.
+        /// The <see cref="EndDeferWindowPos"/> function uses the information in this structure to change the position
+        /// and size of a number of windows simultaneously.
+        /// The <see cref="BeginDeferWindowPos"/> function creates the structure.
+        /// </para>
+        /// </summary>
+        /// <param name="hWinPosInfo">
+        /// A handle to a multiple-window – position structure that contains size and position information for one or more windows.
+        /// This structure is returned by <see cref="BeginDeferWindowPos"/> or by the most recent call to <see cref="DeferWindowPos"/>.
+        /// </param>
+        /// <param name="hWnd">
+        /// A handle to the window for which update information is stored in the structure.
+        /// All windows in a multiple-window – position structure must have the same parent.
+        /// </param>
+        /// <param name="hWndInsertAfter">
+        /// A handle to the window that precedes the positioned window in the Z order.
+        /// This parameter must be a window handle or one of the following values.
+        /// This parameter is ignored if the <see cref="SWP_NOZORDER"/> flag is set in the <paramref name="uFlags"/> parameter.
+        /// <see cref="HWND_BOTTOM"/>, <see cref="HWND_NOTOPMOST"/>, <see cref="HWND_TOP"/>, <see cref="HWND_TOPMOST"/>
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate of the window's upper-left corner.
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate of the window's upper-left corner.
+        /// </param>
+        /// <param name="cx">
+        /// The window's new width, in pixels.
+        /// </param>
+        /// <param name="cy">
+        /// The window's new height, in pixels.
+        /// </param>
+        /// <param name="uFlags">
+        /// A combination of the following values that affect the size and position of the window.
+        /// <see cref="SWP_DRAWFRAME"/>, <see cref="SWP_FRAMECHANGED"/>, <see cref="SWP_HIDEWINDOW"/>, <see cref="SWP_NOACTIVATE"/>,
+        /// <see cref="SWP_NOCOPYBITS"/>, <see cref="SWP_NOMOVE"/>, <see cref="SWP_NOOWNERZORDER"/>, <see cref="SWP_NOREDRAW"/>,
+        /// <see cref="SWP_NOREPOSITION"/>, <see cref="SWP_NOSENDCHANGING"/>, <see cref="SWP_NOSIZE"/>, <see cref="SWP_NOZORDER"/>,
+        /// <see cref="SWP_SHOWWINDOW"/>
+        /// </param>
+        /// <returns>
+        /// The return value identifies the updated multiple-window – position structure.
+        /// The handle returned by this function may differ from the handle passed to the function.
+        /// The new handle that this function returns should be passed
+        /// during the next call to the <see cref="DeferWindowPos"/> or <see cref="EndDeferWindowPos"/> function.
+        /// If insufficient system resources are available for the function to succeed, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a call to <see cref="DeferWindowPos"/> fails, the application should abandon the window-positioning operation
+        /// and not call <see cref="EndDeferWindowPos"/>.
+        /// If <see cref="SWP_NOZORDER"/> is not specified, the system places the window identified by the <paramref name="hWnd"/> parameter
+        /// in the position following the window identified by the <paramref name="hWndInsertAfter"/> parameter.
+        /// If <paramref name="hWndInsertAfter"/> is <see cref="NULL"/> or <see cref="HWND_TOP"/>,
+        /// the system places the <paramref name="hWnd"/> window at the top of the Z order.
+        /// If <paramref name="hWndInsertAfter"/> is set to <see cref="HWND_BOTTOM"/>,
+        /// the system places the <paramref name="hWnd"/> window at the bottom of the Z order.
+        /// All coordinates for child windows are relative to the upper-left corner of the parent window's client area.
+        /// A window can be made a topmost window either by setting <paramref name="hWndInsertAfter"/> to the <see cref="HWND_TOPMOST"/> flag
+        /// and ensuring that the <see cref="SWP_NOZORDER"/> flag is not set, or by setting the window's position in the Z order
+        /// so that it is above any existing topmost windows.
+        /// When a non-topmost window is made topmost, its owned windows are also made topmost.
+        /// Its owners, however, are not changed.
+        /// If neither the <see cref="SWP_NOACTIVATE"/> nor <see cref="SWP_NOZORDER"/> flag is specified
+        /// (that is, when the application requests that a window be simultaneously activated and its position in the Z order changed),
+        /// the value specified in <paramref name="hWndInsertAfter"/> is used only in the following circumstances:
+        /// Neither the <see cref="HWND_TOPMOST"/> nor <see cref="HWND_NOTOPMOST"/> flag is specified in <paramref name="hWndInsertAfter"/>
+        /// The window identified by <paramref name="hWnd"/> is not the active window
+        /// An application cannot activate an inactive window without also bringing it to the top of the Z order.
+        /// An application can change an activated window's position in the Z order without restrictions,
+        /// or it can activate a window and then move it to the top of the topmost or non-topmost windows
+        /// A topmost window is no longer topmost if it is repositioned to the bottom (<see cref="HWND_BOTTOM"/>) of the Z order or after any non-topmost window.
+        /// When a topmost window is made non-topmost, its owners and its owned windows are also made non-topmost windows.
+        /// A non-topmost window may own a topmost window, but not vice versa.
+        /// Any window (for example, a dialog box) owned by a topmost window is itself made a topmost window to
+        /// ensure that all owned windows stay above their owner.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeferWindowPos", ExactSpelling = true, SetLastError = true)]
+        public static extern HDWP DeferWindowPos([In]HDWP hWinPosInfo, [In]HWND hWnd, [In]HWND hWndInsertAfter, [In]int x, [In]int y,
+            [In] int cx, [In]int cy, [In]SetWindowPosFlags uFlags);
+
+        /// <summary>
+        /// <para>
         /// Calls the default window procedure to provide default processing for any window messages that an application does not process.
         /// This function ensures that every message is processed. DefWindowProc is called with the same parameters received by the window procedure.
         /// </para>
@@ -537,13 +680,23 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defwindowprocw
         /// </para>
         /// </summary>
-        /// <param name="hWnd">A handle to the window procedure that received the message.</param>
-        /// <param name="uMsg">The message.</param>
-        /// <param name="wParam">Additional message information. The content of this parameter depends on the value of the Msg parameter.</param>
-        /// <param name="lParam">Additional message information. The content of this parameter depends on the value of the Msg parameter.</param>
-        /// <returns>The return value is the result of the message processing and depends on the message.</returns>
+        /// <param name="hWnd">
+        /// A handle to the window procedure that received the message.
+        /// </param>
+        /// <param name="uMsg">
+        /// The message.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message information. The content of this parameter depends on the value of the <paramref name="uMsg"/> parameter.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message information. The content of this parameter depends on the value of the <paramref name="uMsg"/> parameter.
+        /// </param>
+        /// <returns>
+        /// The return value is the result of the message processing and depends on the message.
+        /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefWindowProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr DefWindowProc([In]IntPtr hWnd, [In]WindowsMessages uMsg, [In]UIntPtr wParam, [In]IntPtr lParam);
+        public static extern LRESULT DefWindowProc([In]HWND hWnd, [In]WindowsMessages uMsg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -615,6 +768,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnableWindow([In]HWND hWnd, [In]BOOL bEnable);
+
+        /// <summary>
+        /// <para>
+        /// Simultaneously updates the position and size of one or more windows in a single screen-refreshing cycle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enddeferwindowpos
+        /// </para>
+        /// </summary>
+        /// <param name="hWinPosInfo">
+        /// A handle to a multiple-window – position structure that contains size and position information for one or more windows.
+        /// This internal structure is returned by the <see cref="BeginDeferWindowPos"/> function
+        /// or by the most recent call to the <see cref="DeferWindowPos"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EndDeferWindowPos"/> function sends the <see cref="WM_WINDOWPOSCHANGING"/> and <see cref="WM_WINDOWPOSCHANGED"/> messages
+        /// to each window identified in the internal structure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDeferWindowPos", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EndDeferWindowPos([In]HDWP hWinPosInfo);
 
         /// <summary>
         /// <para>
@@ -1246,8 +1424,8 @@ namespace Lsj.Util.Win32
         /// and any part of the parent window uncovered as a result of moving a child window.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -1260,9 +1438,7 @@ namespace Lsj.Util.Win32
         /// <see cref="WM_MOVE"/>, <see cref="WM_SIZE"/>, and <see cref="WM_NCCALCSIZE"/> messages to the window.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MoveWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool MoveWindow([In]IntPtr hWnd, [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight,
-            [MarshalAs(UnmanagedType.Bool)][In]bool bRepaint);
+        public static extern BOOL MoveWindow([In]HWND hWnd, [In]int X, [In]int Y, [In]int nWidth, [In]int nHeight, [In]BOOL bRepaint);
 
         /// <summary>
         /// <para>
