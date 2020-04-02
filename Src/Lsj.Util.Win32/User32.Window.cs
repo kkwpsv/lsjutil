@@ -75,6 +75,41 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function used with the <see cref="EnumProps"/> function.
+        /// The function receives property entries from a window's property list.
+        /// The <see cref="PROPENUMPROC"/> type defines a pointer to this callback function.
+        /// PropEnumProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocw
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to the window whose property list is being enumerated.
+        /// </param>
+        /// <param name="Arg2">
+        /// The string component of a property list entry.
+        /// This is the string that was specified, along with a data handle,
+        /// when the property was added to the window's property list via a call to the <see cref="SetProp"/> function.
+        /// </param>
+        /// <param name="Arg3">
+        /// A handle to the data.
+        /// This handle is the data component of a property list entry.
+        /// </param>
+        /// <returns>
+        /// Return <see cref="TRUE"/> to continue the property list enumeration.
+        /// Return <see cref="FALSE"/> to stop the property list enumeration.
+        /// </returns>
+        /// <remarks>
+        /// The following restrictions apply to this callback function:
+        /// The callback function can call the <see cref="RemoveProp"/> function.
+        /// However, <see cref="RemoveProp"/> can remove only the property passed to the callback function through the callback function's parameters.
+        /// The callback function should not attempt to add properties.
+        /// </remarks>
+        public delegate BOOL PROPENUMPROC([In]HWND Arg1, [MarshalAs(UnmanagedType.LPWStr)][In]string Arg2, [In]HANDLE Arg3);
+
+        /// <summary>
+        /// <para>
         /// An application-defined function that processes messages sent to a window.
         /// The <see cref="WNDPROC"/> type defines a pointer to this callback function.
         /// WindowProc is a placeholder for the application-defined function name.
@@ -983,6 +1018,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumChildWindows", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EnumChildWindows([In]HWND hWndParent, [In]WNDENUMPROC lpEnumFunc, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates all entries in the property list of a window by passing them, one by one, to the specified callback function.
+        /// <see cref="EnumProps"/> continues until the last entry is enumerated or the callback function returns <see cref="FALSE"/>.
+        /// To pass application-defined data to the callback function, use <see cref="EnumPropsEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumpropsw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose property list is to be enumerated.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to the callback function.
+        /// For more information about the callback function, see the <see cref="PROPENUMPROC"/> function.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the last value returned by the callback function.
+        /// It is -1 if the function did not find a property for enumeration.
+        /// </returns>
+        /// <remarks>
+        /// An application can remove only those properties it has added.
+        /// It must not remove properties added by other applications or by the system itself.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumPropsW", ExactSpelling = true, SetLastError = true)]
+        public static extern int EnumProps([In]HWND hWnd, [In]PROPENUMPROC lpEnumFunc);
 
         [Obsolete]
         public static BOOL EnumTaskWindows(HANDLE hTask, WNDENUMPROC lpfn, LPARAM lParam) => EnumThreadWindows(((IntPtr)hTask).SafeToUInt32(), lpfn, lParam);

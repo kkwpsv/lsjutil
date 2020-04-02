@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is the handle to a display device context for the specified window.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>, indicating that no display device context is available.
+        /// If the function fails, the return value is <see cref="NULL"/>, indicating that no display device context is available.
         /// </returns>
         /// <remarks>
         /// The <see cref="BeginPaint"/> function automatically sets the clipping region of the device context to
@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization. The output returned is always in terms of physical pixels.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr BeginPaint([In]IntPtr hWnd, [Out]out PAINTSTRUCT lpPaint);
+        public static extern HDC BeginPaint([In]HWND hWnd, [Out]out PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
@@ -122,21 +122,22 @@ namespace Lsj.Util.Win32
         /// Pointer to a <see cref="PAINTSTRUCT"/> structure that contains the painting information retrieved by <see cref="BeginPaint"/>.
         /// </param>
         /// <returns>
-        /// The return value is always <see langword="true"/>.
+        /// The return value is always <see cref="BOOL"/>.
         /// </returns>
         /// <remarks>
         /// If the caret was hidden by <see cref="BeginPaint"/>, <see cref="EndPaint"/> restores the caret to the screen.
         /// <see cref="EndPaint"/> releases the display device context that <see cref="BeginPaint"/> retrieved.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EndPaint([In]IntPtr hWnd, [In]in PAINTSTRUCT lpPaint);
+        public static extern BOOL EndPaint([In]HWND hWnd, [In]in PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
-        /// The GetDC function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
+        /// The <see cref="GetDC"/> function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
         /// You can use the returned handle in subsequent GDI functions to draw in the DC.
         /// The device context is an opaque data structure, whose values are used internally by GDI.
+        /// The <see cref="GetDCEx"/> function is an extension to <see cref="GetDC"/>,
+        /// which gives an application more control over how and whether clipping occurs in the client area.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdc
@@ -151,7 +152,85 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDC", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetDC([In]IntPtr hwnd);
+        public static extern HDC GetDC([In]HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetDCEx"/> function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
+        /// You can use the returned handle in subsequent GDI functions to draw in the DC.
+        /// The device context is an opaque data structure, whose values are used internally by GDI.
+        /// This function is an extension to the <see cref="GetDC"/> function,
+        /// which gives an application more control over how and whether clipping occurs in the client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdcex
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose DC is to be retrieved.
+        /// If this value is <see cref="NULL"/>, <see cref="GetDCEx"/> retrieves the DC for the entire screen.
+        /// </param>
+        /// <param name="hrgnClip">
+        /// A clipping region that may be combined with the visible region of the DC.
+        /// If the value of flags is <see cref="DCX_INTERSECTRGN"/> or <see cref="DCX_EXCLUDERGN"/>,
+        /// then the operating system assumes ownership of the region and will automatically delete it when it is no longer needed.
+        /// In this case, the application should not use or delete the region after a successful call to <see cref="GetDCEx"/>.
+        /// </param>
+        /// <param name="flags">
+        /// Specifies how the DC is created. This parameter can be one or more of the following values.
+        /// <see cref="DCX_WINDOW"/>, <see cref="DCX_CACHE"/>, <see cref="DCX_PARENTCLIP"/>, <see cref="DCX_CLIPSIBLINGS"/>,
+        /// <see cref="DCX_CLIPCHILDREN"/>, <see cref="DCX_NORESETATTRS"/>, <see cref="DCX_LOCKWINDOWUPDATE"/>,
+        /// <see cref="DCX_EXCLUDERGN"/>, <see cref="DCX_INTERSECTRGN"/>, <see cref="DCX_INTERSECTUPDATE"/>,
+        /// <see cref="DCX_VALIDATE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the DC for the specified window.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// An invalid value for the <paramref name="hWnd"/> parameter will cause the function to fail.
+        /// </returns>
+        /// <remarks>
+        /// Unless the display DC belongs to a window class, the <see cref="ReleaseDC"/> function must be called to release the DC after painting.
+        /// Also, <see cref="ReleaseDC"/> must be called from the same thread that called <see cref="GetDCEx"/>.
+        /// The number of DCs is limited only by available memory.
+        /// The function returns a handle to a DC that belongs to the window's class if <see cref="CS_CLASSDC"/>,
+        /// <see cref="CS_OWNDC"/> or <see cref="CS_PARENTDC"/> was specified as a style in the <see cref="WNDCLASS"/> structure when the class was registered.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HDC GetDCEx([In]HWND hWnd, [In]HRGN hrgnClip, [In]GetDCExFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetWindowDC"/> function retrieves the device context (DC) for the entire window, including title bar, menus, and scroll bars.
+        /// A window device context permits painting anywhere in a window,
+        /// because the origin of the device context is the upper-left corner of the window instead of the client area.
+        /// <see cref="GetWindowDC"/> assigns default attributes to the window device context each time it retrieves the device context.
+        /// Previous attributes are lost.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdc
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window with a device context that is to be retrieved.
+        /// If this value is <see cref="NULL"/>, <see cref="GetWindowDC"/> retrieves the device context for the entire screen.
+        /// If this parameter is <see cref="NULL"/>, <see cref="GetWindowDC"/> retrieves the device context for the primary display monitor.
+        /// To get the device context for other display monitors, use the <see cref="EnumDisplayMonitors"/> and <see cref="CreateDC"/> functions.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a device context for the specified window.
+        /// If the function fails, the return value is <see cref="NULL"/>, indicating an error or an invalid <paramref name="hWnd"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetWindowDC"/> is intended for special painting effects within a window's nonclient area.
+        /// Painting in nonclient areas of any window is not recommended.
+        /// The <see cref="GetSystemMetrics"/> function can be used to retrieve the dimensions of various parts of the nonclient area,
+        /// such as the title bar, menu, and scroll bars.
+        /// The <see cref="GetDC"/> function can be used to retrieve a device context for the entire screen.
+        /// After painting is complete, the <see cref="ReleaseDC"/> function must be called to release the device context.
+        /// Not releasing the window device context has serious effects on painting requested by applications.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDC", ExactSpelling = true, SetLastError = true)]
+        public static extern HDC GetWindowDC([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -321,15 +400,26 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc
         /// </para>
         /// </summary>
-        /// <param name="hWnd">A handle to the window whose DC is to be released.</param>
-        /// <param name="hDC">A handle to the DC to be released.</param>
+        /// <param name="hWnd">
+        /// A handle to the window whose DC is to be released.
+        /// </param>
+        /// <param name="hDC">
+        /// A handle to the DC to be released.
+        /// </param>
         /// <returns>
-        /// The return value indicates whether the DC was released. If the DC was released, the return value is <see langword="true"/>.
-        /// If the DC was not released, the return value is <see langword="false"/>.
+        /// The return value indicates whether the DC was released.
+        /// If the DC was released, the return value is 1.
+        /// If the DC was not released, the return value is 0.
         /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="ReleaseDC"/> function for each call to the <see cref="GetWindowDC"/> function
+        /// and for each call to the GetDC function that retrieves a common DC.
+        /// An application cannot use the <see cref="ReleaseDC"/> function to release a DC that was created by calling the <see cref="CreateDC"/> function;
+        /// instead, it must use the <see cref="DeleteDC"/> function.
+        /// <see cref="ReleaseDC"/> must be called from the same thread that called <see cref="GetDC"/>.
+        /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ReleaseDC([In]IntPtr hWnd, [In]IntPtr hDC);
+        public static extern int ReleaseDC([In]HWND hWnd, [In]HDC hDC);
 
         /// <summary>
         /// <para>
@@ -362,5 +452,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScreenToClient", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ScreenToClient([In]HWND hWnd, [In][Out]ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="UpdateWindow"/> function updates the client area of the specified window
+        /// by sending a <see cref="WM_PAINT"/> message to the window if the window's update region is not empty.
+        /// The function sends a <see cref="WM_PAINT"/> message directly to the window procedure of the specified window,
+        /// bypassing the application queue.
+        /// If the update region is empty, no message is sent.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window to be updated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UpdateWindow([In]HWND hWnd);
     }
 }
