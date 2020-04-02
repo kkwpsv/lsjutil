@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -306,6 +307,22 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool EnumDesktopWindows([In]IntPtr hDesktop, [In]WNDENUMPROC lpfn, [In]IntPtr lParam);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the desktop window.
+        /// The desktop window covers the entire screen.
+        /// The desktop window is the area on top of which other windows are painted.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdesktopwindow
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the desktop window.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDesktopWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetDesktopWindow();
 
         /// <summary>
         /// <para>

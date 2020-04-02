@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -406,6 +407,42 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In]WNDPROC lpPrevWndFunc, [In]HWND hWnd,
             [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Determines which, if any, of the child windows belonging to a parent window contains the specified point.
+        /// The search is restricted to immediate child windows.
+        /// Grandchildren, and deeper descendant windows are not searched.
+        /// To skip certain child windows, use the <see cref="ChildWindowFromPointEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompoint
+        /// </para>
+        /// </summary>
+        /// <param name="hWndParent">
+        /// A handle to the parent window.
+        /// </param>
+        /// <param name="Point">
+        /// A structure that defines the client coordinates, relative to <paramref name="hWndParent"/>, of the point to be checked.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the child window that contains the point, even if the child window is hidden or disabled.
+        /// If the point lies outside the parent window, the return value is <see cref="NULL"/>.
+        /// If the point is within the parent window but not within any child window, the return value is a handle to the parent window.
+        /// </returns>
+        /// <remarks>
+        /// The system maintains an internal list, containing the handles of the child windows associated with a parent window.
+        /// The order of the handles in the list depends on the Z order of the child windows.
+        /// If more than one child window contains the specified point, the system returns a handle to the first window in the list that contains the point.
+        /// <see cref="ChildWindowFromPoint"/> treats an <see cref="HTTRANSPARENT"/> area of a standard control the same as other parts of the control.
+        /// In contrast, <see cref="RealChildWindowFromPoint"/> treats an <see cref="HTTRANSPARENT"/> area differently;
+        /// it returns the child window behind a transparent area of a control.
+        /// For example, if the point is in a transparent area of a groupbox,
+        /// <see cref="ChildWindowFromPoint"/> returns the groupbox while <see cref="RealChildWindowFromPoint"/> returns the child window behind the groupbox.
+        /// However, both APIs return a static field, even though it, too, returns <see cref="HTTRANSPARENT"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND ChildWindowFromPoint([In]HWND hWndParent, [In]POINT Point);
 
         /// <summary>
         /// <para>
@@ -917,6 +954,70 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enumerates the child windows that belong to the specified parent window by passing the handle to each child window,
+        /// in turn, to an application-defined callback function.
+        /// <see cref="EnumChildWindows"/> continues until the last child window is enumerated or the callback function returns <see cref="FALSE"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumchildwindows
+        /// </para>
+        /// </summary>
+        /// <param name="hWndParent">
+        /// A handle to the parent window whose child windows are to be enumerated.
+        /// If this parameter is <see cref="NULL"/>, this function is equivalent to <see cref="EnumWindows"/>.
+        /// </param>
+        /// <param name="lpEnumFunc">
+        /// A pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumChildProc"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to be passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// The return value is not used.
+        /// </returns>
+        /// <remarks>
+        /// If a child window has created child windows of its own, <see cref="EnumChildWindows"/> enumerates those windows as well.
+        /// A child window that is moved or repositioned in the Z order during the enumeration process will be properly enumerated.
+        /// The function does not enumerate a child window that is destroyed before being enumerated or that is created during the enumeration process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumChildWindows", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumChildWindows([In]HWND hWndParent, [In]WNDENUMPROC lpEnumFunc, [In]LPARAM lParam);
+
+        [Obsolete]
+        public static BOOL EnumTaskWindows(HANDLE hTask, WNDENUMPROC lpfn, LPARAM lParam) => EnumThreadWindows(((IntPtr)hTask).SafeToUInt32(), lpfn, lParam);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates all nonchild windows associated with a thread by passing the handle to each window, in turn, to an application-defined callback function.
+        /// <see cref="EnumThreadWindows"/> continues until the last window is enumerated or the callback function returns <see cref="FALSE"/>.
+        /// To enumerate child windows of a particular window, use the <see cref="EnumChildWindows"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumthreadwindows
+        /// </para>
+        /// </summary>
+        /// <param name="dwThreadId">
+        /// The identifier of the thread whose windows are to be enumerated.
+        /// </param>
+        /// <param name="lpfn">
+        /// A pointer to an application-defined callback function.
+        /// For more information, see <see cref="EnumThreadWndProc"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// An application-defined value to be passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// If the callback function returns <see cref="TRUE"/> for all windows in the thread specified by <paramref name="dwThreadId"/>,
+        /// the return value is <see cref="TRUE"/>.
+        /// If the callback function returns <see cref="FALSE"/> on any enumerated window,
+        /// or if there are no windows found in the thread specified by <paramref name="dwThreadId"/>, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumThreadWindows", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumThreadWindows([In]DWORD dwThreadId, [In]WNDENUMPROC lpfn, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Enumerates all top-level windows on the screen by passing the handle to each window, in turn, to an application-defined callback function.
         /// EnumWindows continues until the last top-level window is enumerated or the callback function returns <see cref="BOOL.FALSE"/>.
         /// </para>
@@ -975,7 +1076,7 @@ namespace Lsj.Util.Win32
         /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr FindWindow([In]StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
+        private static extern HWND FindWindow([In]StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In]string lpWindowName);
 
         /// <summary>
         /// <para>
@@ -2158,5 +2259,29 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UpdateLayeredWindow([In]IntPtr hwnd, [In]IntPtr hdcDst, [In]ref POINT pptDst, [In]ref SIZE psize,
             [In]IntPtr hdcSrc, [In]ref POINT pptSrc, [In]uint crKey, [In] ref BLENDFUNCTION pblend, [In]UpdateLayeredWindowFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the window that contains the specified point.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-windowfrompoint
+        /// </para>
+        /// </summary>
+        /// <param name="Point">
+        /// The point to be checked.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the window that contains the point.
+        /// If no window exists at the given point, the return value is <see cref="NULL"/>.
+        /// If the point is over a static text control, the return value is a handle to the window under the static text control.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WindowFromPoint"/> function does not retrieve a handle to a hidden or disabled window,
+        /// even if the point is within the window.
+        /// An application should use the <see cref="ChildWindowFromPoint"/> function for a nonrestrictive search.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WindowFromPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND WindowFromPoint([In]POINT Point);
     }
 }
