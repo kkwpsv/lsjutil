@@ -1119,7 +1119,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", ExactSpelling = true, SetLastError = true)]
-        public static extern ushort RegisterClassEx([In] ref WNDCLASSEX Arg1);
+        public static extern ushort RegisterClassEx([In]in WNDCLASSEX Arg1);
 
         /// <summary>
         /// <para>
