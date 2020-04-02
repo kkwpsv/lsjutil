@@ -572,8 +572,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DestroyWindow([In]IntPtr hwnd);
+        public static extern BOOL DestroyWindow([In]HWND hwnd);
 
         /// <summary>
         /// <para>
