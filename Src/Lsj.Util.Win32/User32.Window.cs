@@ -832,6 +832,39 @@ namespace Lsj.Util.Win32
         public static extern int GetClassName([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpClassName, [In]int nMaxCount);
 
         /// <summary>
+        /// <para>
+        /// Retrieves the 16-bit (WORD) value at the specified offset into the extra class memory for the window class to which the specified window belongs.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassword
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window and, indirectly, the class to which the window belongs.
+        /// </param>
+        /// <param name="nIndex">
+        /// The zero-based byte offset of the value to be retrieved.
+        /// Valid values are in the range zero through the number of bytes of class memory, minus two;
+        /// for example, if you specified 10 or more bytes of extra class memory, a value of eight would be an index to the fifth 16-bit integer.
+        /// There is an additional valid value as shown in the following table.
+        /// <see cref="GCW_ATOM"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested 16-bit value.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASS.cbClsExtra"/> member of the WNDCLASS structure
+        /// used with the <see cref="RegisterClass"/> function.
+        /// </remarks>
+        [Obsolete("This function is deprecated for any use other than nIndex set to GCW_ATOM." +
+            "The function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the GetClassLongPtr or GetClassLongPtr function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassWord", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD GetClassWord([In]HWND hWnd, [In]GetClassIndexes nIndex);
+
+        /// <summary>
         /// Retrieves information about the specified window.
         /// The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory.
         /// </summary>
