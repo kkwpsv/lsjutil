@@ -1368,6 +1368,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the next or previous window in the Z-Order.
+        /// The next window is below the specified window; the previous window is above.
+        /// If the specified window is a topmost window, the function searches for a topmost window.
+        /// If the specified window is a top-level window, the function searches for a top-level window.
+        /// If the specified window is a child window, the function searches for a child window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getnextwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to a window.
+        /// The window handle retrieved is relative to this window, based on the value of the <paramref name="wCmd"/> parameter.
+        /// </param>
+        /// <param name="wCmd">
+        /// Indicates whether the function returns a handle to the next window or the previous window.
+        /// This parameter can be either of the following values.
+        /// <see cref="GW_HWNDNEXT"/>: Returns a handle to the window below the given window.
+        /// <see cref="GW_HWNDPREV"/>: Returns a handle to the window above the given window.
+        /// </param>
+        /// <returns>
+        /// </returns>
+        /// <remarks>
+        /// This function is implemented as a call to the <see cref="GetWindow"/> function.
+        /// <code>
+        /// #define GetNextWindow(hWnd, wCmd) GetWindow(hWnd, wCmd)
+        /// </code>
+        /// </remarks>
+        public static HWND GetNextWindow(HWND hWnd, GetWindowCommands wCmd) => GetWindow(hWnd, wCmd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the specified window's parent or owner.
         /// To retrieve a handle to a specified ancestor, use the <see cref="GetAncestor"/> function.
         /// </para>
@@ -1394,6 +1426,83 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND GetParent([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a data handle from the property list of the specified window.
+        /// The character string identifies the handle to be retrieved.
+        /// The string and handle must have been added to the property list by a previous call to the <see cref="SetProp"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpropw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose property list is to be searched.
+        /// </param>
+        /// <param name="lpString">
+        /// An atom that identifies a string.
+        /// If this parameter is an atom, it must have been created by using the <see cref="GlobalAddAtom"/> function.
+        /// The atom, a 16-bit value, must be placed in the low-order word of the <paramref name="lpString"/> parameter; the high-order word must be zero.
+        /// </param>
+        /// <returns>
+        /// If the property list contains the string, the return value is the associated data handle.
+        /// Otherwise, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPropW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE GetProp([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
+        /// Examines the Z order of the child windows associated with the specified parent window
+        /// and retrieves a handle to the child window at the top of the Z order.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettopwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the parent window whose child windows are to be examined.
+        /// If this parameter is <see cref="NULL"/>, the function returns a handle to the window at the top of the Z order.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the child window at the top of the Z order.
+        /// If the specified window has no child windows, the return value is <see cref="NULL"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTopWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetTopWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to a window.
+        /// The window handle retrieved is relative to this window, based on the value of the <paramref name="uCmd"/> parameter.
+        /// </param>
+        /// <param name="uCmd">
+        /// The relationship between the specified window and the window whose handle is to be retrieved.
+        /// This parameter can be one of the following values.
+        /// <see cref="GW_CHILD"/>, <see cref="GW_ENABLEDPOPUP"/>, <see cref="GW_HWNDFIRST"/>, <see cref="GW_HWNDLAST"/>,
+        /// <see cref="GW_HWNDNEXT"/>, <see cref="GW_HWNDPREV"/>, <see cref="GW_OWNER"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a window handle.
+        /// If no window exists with the specified relationship to the specified window, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EnumChildWindows"/> function is more reliable than calling <see cref="GetWindow"/> in a loop.
+        /// An application that calls <see cref="GetWindow"/> to perform this task risks being caught in an infinite loop
+        /// or referencing a handle to a window that has been destroyed.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetWindow([In]HWND hWnd, [In]GetWindowCommands uCmd);
 
         /// <summary>
         /// Retrieves information about the specified window.
@@ -1813,6 +1922,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Removes an entry from the property list of the specified window.
+        /// The specified character string identifies the entry to be removed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removepropw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose property list is to be changed.
+        /// </param>
+        /// <param name="lpString">
+        /// A null-terminated character string or an atom that identifies a string.
+        /// If this parameter is an atom, it must have been created using the <see cref="GlobalAddAtom"/> function.
+        /// The atom, a 16-bit value, must be placed in the low-order word of <paramref name="lpString"/>; the high-order word must be zero.
+        /// </param>
+        /// <returns>
+        /// The return value identifies the specified data.
+        /// If the data cannot be found in the specified property list, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The return value is the hData value that was passed to <see cref="SetProp"/>; it is an application-defined value.
+        /// Note, this function only destroys the association between the data and the window.
+        /// If appropriate, the application must free the data handles associated with entries removed from a property list.
+        /// The application can remove only those properties it has added.
+        /// It must not remove properties added by other applications or by the system itself.
+        /// The <see cref="RemoveProp"/> function returns the data handle associated with the string
+        /// so that the application can free the data associated with the handle.
+        /// Starting with Windows Vista, <see cref="RemoveProp"/> is subject to the restrictions of User Interface Privilege Isolation(UIPI).
+        /// A process can only call this function on a window belonging to a process of lesser or equal integrity level.
+        /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemovePropW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE RemoveProp([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// <para>
         /// Replaces the specified value at the specified offset in the extra class memory
         /// or the <see cref="WNDCLASSEX"/> structure for the class to which the specified window belongs.
         /// </para>
@@ -2011,6 +2156,45 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetParent([In]HWND hWndChild, [In]HWND hWndNewParent);
+
+        /// <summary>
+        /// <para>
+        /// Adds a new entry or changes an existing entry in the property list of the specified window.
+        /// The function adds a new entry to the list if the specified character string does not exist already in the list.
+        /// The new entry contains the string and the handle.
+        /// Otherwise, the function replaces the string's current handle with the specified handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setpropw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose property list receives the new entry.
+        /// </param>
+        /// <param name="lpString">
+        /// A null-terminated string or an atom that identifies a string.
+        /// If this parameter is an atom, it must be a global atom created by a previous call to the <see cref="GlobalAddAtom"/> function.
+        /// The atom must be placed in the low-order word of lpString; the high-order word must be zero.
+        /// </param>
+        /// <param name="hData">
+        /// A handle to the data to be copied to the property list.
+        /// The data handle can identify any value useful to the application.
+        /// </param>
+        /// <returns>
+        /// If the data handle and string are added to the property list, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before a window is destroyed (that is, before it returns from processing the <see cref="WM_NCDESTROY"/> message),
+        /// an application must remove all entries it has added to the property list.
+        /// The application must use the <see cref="RemoveProp"/> function to remove the entries.
+        /// <see cref="SetProp"/> is subject to the restrictions of User Interface Privilege Isolation (UIPI).
+        /// A process can only call this function on a window belonging to a process of lesser or equal integrity level.
+        /// When UIPI blocks property changes, <see cref="GetLastError"/> will return 5.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPropW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProp([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString, [In]HANDLE hData);
 
         /// <summary>
         /// Changes an attribute of the specified window.
