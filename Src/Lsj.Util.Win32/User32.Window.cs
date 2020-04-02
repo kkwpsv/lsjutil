@@ -1123,6 +1123,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Replaces the 16-bit (WORD) value at the specified offset into the extra class memory for the window class to which the specified window belongs.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclassword
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window and, indirectly, the class to which the window belongs.
+        /// </param>
+        /// <param name="nIndex">
+        /// The zero-based byte offset of the value to be replaced.
+        /// Valid values are in the range zero through the number of bytes of class memory minus two;
+        /// for example, if you specified 10 or more bytes of extra class memory, a value of 8 would be an index to the fifth 16-bit integer.
+        /// </param>
+        /// <param name="wNewWord">
+        /// The replacement value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the specified 16-bit integer.
+        /// If the value was not previously set, the return value is zero.
+        /// If the function fails, the return value is zero. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASS.cbClsExtra"/> member
+        /// of the <see cref="WNDCLASS"/> structure used with the <see cref="RegisterClass"/> function.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the SetClassLong function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassWord", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD SetClassWord([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]WORD wNewWord);
+
+        /// <summary>
+        /// <para>
         /// Sets the double-click time for the mouse.
         /// A double-click is a series of two clicks of a mouse button, the second occurring within a specified time after the first.
         /// The double-click time is the maximum number of milliseconds that may occur between the first and second clicks of a double-click.
