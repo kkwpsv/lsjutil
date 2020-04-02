@@ -10,7 +10,7 @@
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw
     /// </para>
     /// </summary>
-    public enum GetClassIndexes
+    public enum GetClassLongIndexes
     {
         /// <summary>
         /// Retrieves an ATOM value that uniquely identifies the window class.

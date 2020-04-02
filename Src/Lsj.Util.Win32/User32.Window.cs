@@ -587,8 +587,8 @@ namespace Lsj.Util.Win32
         /// <param name="hWnd">A handle to the window to be enabled or disabled.</param>
         /// <param name="bEnable">
         /// Indicates whether to enable or disable the window.
-        /// If this parameter is <see langword="true"/>, the window is enabled.
-        /// If the parameter is <see langword="false"/>, the window is disabled.
+        /// If this parameter is <see cref="TRUE"/>, the window is enabled.
+        /// If the parameter is <see cref="FALSE"/>, the window is disabled.
         /// </param>
         /// <returns>
         /// If the window was previously disabled, the return value is <see langword="true"/>.
@@ -614,7 +614,7 @@ namespace Lsj.Util.Win32
         /// A disabled control cannot receive the keyboard focus, nor can a user gain access to it.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern bool EnableWindow([In]IntPtr hWnd, [In]bool bEnable);
+        public static extern BOOL EnableWindow([In]HWND hWnd, [In]BOOL bEnable);
 
         /// <summary>
         /// <para>
@@ -833,14 +833,14 @@ namespace Lsj.Util.Win32
         /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member of
         /// the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
         /// </remarks>
-        public static ULONG_PTR GetClassLong([In]HWND hWnd, [In]GetClassIndexes nIndex) =>
+        public static ULONG_PTR GetClassLong([In]HWND hWnd, [In]GetClassLongIndexes nIndex) =>
             IntPtr.Size > 4 ? GetClassLongPtrImp(hWnd, nIndex) : GetClassLongImp(hWnd, nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern ULONG_PTR GetClassLongImp([In]HWND hWnd, [In]GetClassIndexes nIndex);
+        private static extern ULONG_PTR GetClassLongImp([In]HWND hWnd, [In]GetClassLongIndexes nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassLongPtrW", ExactSpelling = true, SetLastError = true)]
-        private static extern ULONG_PTR GetClassLongPtrImp([In]HWND hWnd, [In]GetClassIndexes nIndex);
+        private static extern ULONG_PTR GetClassLongPtrImp([In]HWND hWnd, [In]GetClassLongIndexes nIndex);
 
         /// <summary>
         /// <para>
@@ -900,7 +900,37 @@ namespace Lsj.Util.Win32
             "The function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the GetClassLongPtr or GetClassLongPtr function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassWord", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD GetClassWord([In]HWND hWnd, [In]GetClassIndexes nIndex);
+        public static extern WORD GetClassWord([In]HWND hWnd, [In]GetClassLongIndexes nIndex);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the coordinates of a window's client area.
+        /// The client coordinates specify the upper-left and lower-right corners of the client area.
+        /// Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclientrect
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose client coordinates are to be retrieved.
+        /// </param>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that receives the client coordinates.
+        /// The left and top members are zero.
+        /// The right and bottom members contain the width and height of the window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// In conformance with conventions for the <see cref="RECT"/> structure, the bottom-right coordinates of the returned rectangle are exclusive.
+        /// In other words, the pixel at (right, bottom) lies immediately outside the rectangle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClientRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetClientRect([In]HWND hWnd, [Out]out RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -968,13 +998,12 @@ namespace Lsj.Util.Win32
         /// <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowPlacement", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowPlacement([In] IntPtr hWnd, [In][Out]ref WINDOWPLACEMENT lpwndpl);
+        public static extern BOOL GetWindowPlacement([In]HWND hWnd, [In][Out]ref WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>
@@ -1009,13 +1038,12 @@ namespace Lsj.Util.Win32
         /// >A <see cref="RECT"/> structure that receives the screen coordinates of the upper-left and lower-right corners of the window.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowRect", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetWindowRect([In]IntPtr hwnd, [Out]out RECT lpRect);
+        public static extern BOOL GetWindowRect([In]HWND hwnd, [Out]out RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -1081,6 +1109,16 @@ namespace Lsj.Util.Win32
         public static extern int GetWindowTextLength([In]HWND hWnd);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowWord", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD GetWindowWord([In]HWND hWnd, [In]GetWindowLongIndexes nIndex);
+
+        /// <summary>
         /// <para>
         /// Determines whether a window is a child window or descendant window of a specified parent window.
         /// A child window is the direct descendant of a specified parent window if that parent window is in the chain of parent windows;
@@ -1125,6 +1163,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the specified window is enabled for mouse and keyboard input.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-iswindowenabled
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is enabled, the return value is <see cref="TRUE"/>.
+        /// If the window is not enabled, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A child window receives input only if it is both enabled and visible.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowEnabled", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsWindowEnabled([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Determines the visibility state of the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowvisible
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the specified window, its parent window, its parent's parent window, and so forth,
+        /// have the <see cref="WS_VISIBLE"/> style, the return value is <see cref="TRUE"/>.
+        /// Otherwise, the return value is <see cref="FALSE"/>.
+        /// Because the return value specifies whether the window has the <see cref="WS_VISIBLE"/> style,
+        /// it may be <see cref="TRUE"/> even if the window is totally obscured by other windows.
+        /// </returns>
+        /// <remarks>
+        /// The visibility state of a window is indicated by the <see cref="WS_VISIBLE"/> style bit.
+        /// When <see cref="WS_VISIBLE"/> is set, the window is displayed and subsequent drawing into it is displayed
+        /// as long as the window has the <see cref="WS_VISIBLE"/> style.
+        /// Any drawing to a window with the <see cref="WS_VISIBLE"/> style will not be displayed
+        /// if the window is obscured by other windows or is clipped by its parent window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowVisible", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsWindowVisible([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -1277,14 +1364,14 @@ namespace Lsj.Util.Win32
         /// For example, it is possible to change the background color for a class by using <see cref="SetClassLongPtr"/>,
         /// but this change does not immediately repaint all windows belonging to the class.
         /// </remarks>
-        public static ULONG_PTR SetClassLong([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong) =>
+        public static ULONG_PTR SetClassLong([In]HWND hWnd, [In]GetClassLongIndexes nIndex, [In]LONG_PTR dwNewLong) =>
             IntPtr.Size > 4 ? SetClassLongPtrImp(hWnd, nIndex, dwNewLong) : SetClassLongImp(hWnd, nIndex, dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern ULONG_PTR SetClassLongImp([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong);
+        private static extern ULONG_PTR SetClassLongImp([In]HWND hWnd, [In]GetClassLongIndexes nIndex, [In]LONG_PTR dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassLongPtrW", ExactSpelling = true, SetLastError = true)]
-        private static extern ULONG_PTR SetClassLongPtrImp([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong);
+        private static extern ULONG_PTR SetClassLongPtrImp([In]HWND hWnd, [In]GetClassLongIndexes nIndex, [In]LONG_PTR dwNewLong);
 
         /// <summary>
         /// <para>
@@ -1316,7 +1403,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the SetClassLong function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassWord", ExactSpelling = true, SetLastError = true)]
-        public static extern WORD SetClassWord([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]WORD wNewWord);
+        public static extern WORD SetClassWord([In]HWND hWnd, [In]GetClassLongIndexes nIndex, [In]WORD wNewWord);
 
         /// <summary>
         /// <para>
@@ -1475,13 +1562,12 @@ namespace Lsj.Util.Win32
         /// <see cref="SetWindowPlacement"/> fails if the <see cref="WINDOWPLACEMENT.length"/> member is not set correctly.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPlacement", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPlacement([In] IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
+        public static extern BOOL SetWindowPlacement([In]HWND hWnd, [In]in WINDOWPLACEMENT lpwndpl);
 
         /// <summary>
         /// <para>
@@ -1506,8 +1592,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowPos", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowPos([In]IntPtr hWnd, [In]IntPtr hWndInsertAfter, [In]int X, [In]int Y,
+        public static extern BOOL SetWindowPos([In]HWND hWnd, [In]HWND hWndInsertAfter, [In]int X, [In]int Y,
             [In]int cx, [In]int cy, [In]SetWindowPosFlags uFlags);
 
         /// <summary>
@@ -1523,13 +1608,23 @@ namespace Lsj.Util.Win32
         /// <param name="hWnd">A handle to the window or control whose text is to be changed.</param>
         /// <param name="lpString">The new title or control text.</param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowTextW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWindowText([In]IntPtr hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+        public static extern BOOL SetWindowText([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <param name="nIndex"></param>
+        /// <param name="wNewWord"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowWord", ExactSpelling = true, SetLastError = true)]
+        public static extern WORD SetWindowWord([In]HWND hWnd, [In]GetWindowLongIndexes nIndex, [In] WORD wNewWord);
 
         /// <summary>
         /// <para>
@@ -1548,11 +1643,11 @@ namespace Lsj.Util.Win32
         /// In subsequent calls, this parameter can be one of the following values.
         /// </param>
         /// <returns>
-        /// If the window was previously visible, the return value is <see langword="true"/>.
-        /// If the window was previously hidden, the return value is <see langword="false"/>.
+        /// If the window was previously visible, the return value is <see cref="TRUE"/>.
+        /// If the window was previously hidden, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern bool ShowWindow([In]IntPtr hWnd, [In]ShowWindowCommands nCmdShow);
+        public static extern BOOL ShowWindow([In]HWND hWnd, [In]ShowWindowCommands nCmdShow);
 
         /// <summary>
         /// <para>
