@@ -806,6 +806,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the specified value from the <see cref="WNDCLASSEX"/> structure associated with the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window and, indirectly, the class to which the window belongs.
+        /// </param>
+        /// <param name="nIndex">
+        /// The value to be retrieved.
+        /// To retrieve a value from the extra class memory, specify the positive, zero-based byte offset of the value to be retrieved.
+        /// Valid values are in the range zero through the number of bytes of extra class memory, minus eight;
+        /// for example, if you specified 24 or more bytes of extra class memory, a value of 16 would be an index to the third integer.
+        /// To retrieve any other value from the <see cref="WNDCLASSEX"/> structure, specify one of the following values.
+        /// <see cref="GCW_ATOM"/>, <see cref="GCL_CBCLSEXTRA"/>, <see cref="GCL_CBWNDEXTRA"/>, <see cref="GCLP_HBRBACKGROUND"/>,
+        /// <see cref="GCLP_HCURSOR"/>, <see cref="GCLP_HICON"/>, <see cref="GCLP_HICONSM"/>, <see cref="GCLP_HMODULE"/>,
+        /// <see cref="GCLP_MENUNAME"/>, <see cref="GCL_STYLE"/>, <see cref="GCLP_WNDPROC"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested value.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member of
+        /// the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
+        /// </remarks>
+        public static ULONG_PTR GetClassLong([In]HWND hWnd, [In]GetClassIndexes nIndex) =>
+            IntPtr.Size > 4 ? GetClassLongPtrImp(hWnd, nIndex) : GetClassLongImp(hWnd, nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassLongW", ExactSpelling = true, SetLastError = true)]
+        private static extern ULONG_PTR GetClassLongImp([In]HWND hWnd, [In]GetClassIndexes nIndex);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassLongPtrW", ExactSpelling = true, SetLastError = true)]
+        private static extern ULONG_PTR GetClassLongPtrImp([In]HWND hWnd, [In]GetClassIndexes nIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the name of the class to which the specified window belongs.
         /// </para>
         /// <para>
@@ -1015,6 +1054,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the specified window handle identifies an existing window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window handle identifies an existing window, the return value is <see cref="TRUE"/>.
+        /// If the window handle does not identify an existing window, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A thread should not use <see cref="IsWindow"/> for a window that it did not create
+        /// because the window could be destroyed after this function was called.
+        /// Further, because window handles are recycled the handle could even point to a different window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Changes the position and dimensions of the specified window.
         /// For a top-level window, the position and dimensions are relative to the upper-left corner of the screen.
         /// For a child window, they are relative to the upper-left corner of the parent window's client area.
@@ -1120,6 +1182,58 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterClassExW", ExactSpelling = true, SetLastError = true)]
         public static extern ushort RegisterClassEx([In]in WNDCLASSEX Arg1);
+
+        /// <summary>
+        /// <para>
+        /// Replaces the specified value at the specified offset in the extra class memory
+        /// or the <see cref="WNDCLASSEX"/> structure for the class to which the specified window belongs.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclasslongptrw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window and, indirectly, the class to which the window belongs.
+        /// </param>
+        /// <param name="nIndex">
+        /// The value to be replaced.
+        /// To set a value in the extra class memory, specify the positive, zero-based byte offset of the value to be set.
+        /// Valid values are in the range zero through the number of bytes of extra class memory, minus eight;
+        /// for example, if you specified 24 or more bytes of extra class memory, a value of 16 would be an index to the third integer.
+        /// To set a value other than the <see cref="WNDCLASSEX"/> structure, specify one of the following values.
+        /// <see cref="GCL_CBCLSEXTRA"/>, <see cref="GCL_CBWNDEXTRA"/>, <see cref="GCLP_HBRBACKGROUND"/>, <see cref="GCLP_HCURSOR"/>,
+        /// <see cref="GCLP_HICON"/>, <see cref="GCLP_HICONSM"/>, <see cref="GCLP_HMODULE"/>, <see cref="GCLP_MENUNAME"/>,
+        /// <see cref="GCL_STYLE"/>, <see cref="GCLP_WNDPROC"/>
+        /// </param>
+        /// <param name="dwNewLong">
+        /// The replacement value.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous value of the specified offset.
+        /// If this was not previously set, the return value is zero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you use the <see cref="SetClassLongPtr"/> function and the <see cref="GCLP_WNDPROC"/> index to replace the window procedure,
+        /// the window procedure must conform to the guidelines specified in the description of the <see cref="WNDPROC"/> callback function.
+        /// Calling <see cref="SetClassLongPtr"/> with the <see cref="GCLP_WNDPROC"/> index creates a subclass of the window class
+        /// that affects all windows subsequently created with the class.
+        /// An application can subclass a system class, but should not subclass a window class created by another process.
+        /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member
+        /// of the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
+        /// Use the <see cref="SetClassLongPtr"/> function with care.
+        /// For example, it is possible to change the background color for a class by using <see cref="SetClassLongPtr"/>,
+        /// but this change does not immediately repaint all windows belonging to the class.
+        /// </remarks>
+        public static ULONG_PTR SetClassLong([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong) =>
+            IntPtr.Size > 4 ? SetClassLongPtrImp(hWnd, nIndex, dwNewLong) : SetClassLongImp(hWnd, nIndex, dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassLongW", ExactSpelling = true, SetLastError = true)]
+        private static extern ULONG_PTR SetClassLongImp([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetClassLongPtrW", ExactSpelling = true, SetLastError = true)]
+        private static extern ULONG_PTR SetClassLongPtrImp([In]HWND hWnd, [In]GetClassIndexes nIndex, [In]LONG_PTR dwNewLong);
 
         /// <summary>
         /// <para>
