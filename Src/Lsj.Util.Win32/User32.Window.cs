@@ -1433,8 +1433,7 @@ namespace Lsj.Util.Win32
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetParent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern IntPtr SetParent([In]IntPtr hWndChild, [In]IntPtr hWndNewParent);
+        public static extern HWND SetParent([In]HWND hWndChild, [In]HWND hWndNewParent);
 
         /// <summary>
         /// Changes an attribute of the specified window.
