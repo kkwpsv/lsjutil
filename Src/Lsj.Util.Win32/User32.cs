@@ -26,6 +26,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function that processes <see cref="WM_TIMER"/> messages.
+        /// The <see cref="TIMERPROC"/> type defines a pointer to this callback function.
+        /// TimerProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-timerproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to the window associated with the timer.
+        /// </param>
+        /// <param name="Arg2">
+        /// The WM_TIMER message.
+        /// </param>
+        /// <param name="Arg3">
+        /// The timer's identifier.
+        /// </param>
+        /// <param name="Arg4">
+        /// The number of milliseconds that have elapsed since the system was started.
+        /// This is the value returned by the <see cref="GetTickCount"/> function.
+        /// </param>
+        public delegate void TIMERPROC(HWND Arg1, UINT Arg2, UINT_PTR Arg3, DWORD Arg4);
+
+        /// <summary>
+        /// <para>
         /// Calls the <see cref="ExitWindowsEx"/> function to log off the interactive user.
         /// Applications should call <see cref="ExitWindowsEx"/> directly.
         /// </para>
@@ -440,6 +465,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Destroys the specified timer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-killtimer
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window associated with the specified timer.
+        /// This value must be the same as the hWnd value passed to the <see cref="SetTimer"/> function that created the timer.
+        /// </param>
+        /// <param name="uIDEvent">
+        /// The timer to be destroyed.
+        /// If the window handle passed to <see cref="SetTimer"/> is valid,
+        /// this parameter must be the same as the <paramref name="uIDEvent"/> value passed to <see cref="SetTimer"/>.
+        /// If the application calls <see cref="SetTimer"/> with <paramref name="hWnd"/> set to <see cref="NULL"/>,
+        /// this parameter must be the timer identifier returned by <see cref="SetTimer"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="KillTimer"/> function does not remove <see cref="WM_TIMER"/> messages already posted to the message queue.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "KillTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL KillTimer([In]HWND hWnd, [In]UINT_PTR uIDEvent);
+
+        /// <summary>
+        /// <para>
         /// Loads a string resource from the executable file associated with a specified module and either copies the string
         /// into a buffer with a terminating null character or returns a read-only pointer to the string resource itself.
         /// </para>
@@ -575,6 +630,64 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSysColors([In]int cElements, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpaElements,
             [MarshalAs(UnmanagedType.LPArray)][In]COLORREF[] lpaRgbValues);
+
+        /// <summary>
+        /// <para>
+        /// Creates a timer with the specified time-out value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-settimer
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be associated with the timer.
+        /// This window must be owned by the calling thread.
+        /// If a <see cref="NULL"/> value for <paramref name="hWnd"/> is passed in along with an <paramref name="nIDEvent"/> of an existing timer,
+        /// that timer will be replaced in the same way that an existing non-<see cref="NULL"/> <paramref name="hWnd"/> timer will be.
+        /// </param>
+        /// <param name="nIDEvent">
+        /// A nonzero timer identifier.
+        /// If the <paramref name="hWnd"/> parameter is <see cref="NULL"/>, and the <paramref name="nIDEvent"/> does not match an existing timer
+        /// then it is ignored and a new timer ID is generated.
+        /// If the <paramref name="hWnd"/> parameter is not <see cref="NULL"/> and the window specified
+        /// by <paramref name="hWnd"/> already has a timer with the value <paramref name="nIDEvent"/>, then the existing timer is replaced by the new timer.
+        /// When <see cref="SetTimer"/> replaces a timer, the timer is reset.
+        /// Therefore, a message will be sent after the current time-out value elapses, but the previously set time-out value is ignored.
+        /// If the call is not intended to replace an existing timer,
+        /// <paramref name="nIDEvent"/> should be 0 if the <paramref name="hWnd"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="uElapse">
+        /// If <paramref name="uElapse"/> is less than <see cref="USER_TIMER_MINIMUM"/>, the timeout is set to <see cref="USER_TIMER_MINIMUM"/>.
+        /// If <paramref name="uElapse"/> is greater than <see cref="USER_TIMER_MAXIMUM"/>, the timeout is set to <see cref="USER_TIMER_MAXIMUM"/>.
+        /// </param>
+        /// <param name="lpTimerFunc">
+        /// A pointer to the function to be notified when the time-out value elapses.
+        /// For more information about the function, see <see cref="TIMERPROC"/>.
+        /// If <paramref name="lpTimerFunc"/> is <see cref="NULL"/>, the system posts a <see cref="WM_TIMER"/> message to the application queue.
+        /// The <see cref="MSG.hwnd"/> member of the message's <see cref="MSG"/> structure contains the value of the <paramref name="hWnd"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is <see cref="NULL"/>, the return value is an integer identifying the new timer.
+        /// An application can pass this value to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is not NULL, then the return value is a nonzero integer.
+        /// An application can pass the value of the <paramref name="nIDEvent"/> parameter to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function fails to create a timer, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can process <see cref="WM_TIMER"/> messages by including a <see cref="WM_TIMER"/> case statement in the window procedure
+        /// or by specifying a <see cref="TIMERPROC"/> callback function when creating the timer.
+        /// When you specify a <see cref="TIMERPROC"/> callback function,
+        /// the default window procedure calls the callback function when it processes <see cref="WM_TIMER"/>.
+        /// Therefore, you need to dispatch messages in the calling thread, even when you use <see cref="TIMERPROC"/> instead of processing <see cref="WM_TIMER"/>.
+        /// The wParam parameter of the <see cref="WM_TIMER"/> message contains the value of the <paramref name="nIDEvent"/> parameter.
+        /// The timer identifier, <paramref name="nIDEvent"/>, is specific to the associated window.
+        /// Another window can have its own timer which has the same identifier as a timer owned by another window.
+        /// The timers are distinct.
+        /// <see cref="SetTimer"/> can reuse timer IDs in the case where <paramref name="hWnd"/> is NULL.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT_PTR SetTimer([In]HWND hWnd, [In]UINT_PTR nIDEvent, [In]UINT uElapse, [In]TIMERPROC lpTimerFunc);
 
         /// <summary>
         /// <para>

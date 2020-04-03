@@ -79,6 +79,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the window (if any) that has captured the mouse.
+        /// Only one window at a time can capture the mouse; this window receives mouse input whether or not the cursor is within its borders.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcapture
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the capture window associated with the current thread.
+        /// If no window in the thread has captured the mouse, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A <see cref="NULL"/> return value means the current thread has not captured the mouse.
+        /// However, it is possible that another thread or process has captured the mouse.
+        /// To get a handle to the capture window on another thread, use the <see cref="GetGUIThreadInfo"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCapture", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetCapture();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current double-click time for the mouse.
         /// A double-click is a series of two clicks of the mouse button, the second occurring within a specified time after the first.
         /// The double-click time is the maximum number of milliseconds that may occur between the first and second click of a double-click.
@@ -381,6 +402,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases the mouse capture from a window in the current thread and restores normal mouse input processing.
+        /// A window that has captured the mouse receives all mouse input, regardless of the position of the cursor,
+        /// except when a mouse button is clicked while the cursor hot spot is in the window of another thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasecapture
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application calls this function after calling the <see cref="SetCapture"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseCapture", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReleaseCapture();
+
+        /// <summary>
+        /// <para>
         /// Activates a window. The window must be attached to the calling thread's message queue.
         /// </para>
         /// <para>
@@ -404,6 +446,39 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetActiveWindow", ExactSpelling = true, SetLastError = true)]
         public static extern HWND SetActiveWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Sets the mouse capture to the specified window belonging to the current thread.
+        /// <see cref="SetCapture"/> captures mouse input either when the mouse is over the capturing window,
+        /// or when the mouse button was pressed while the mouse was over the capturing window and the button is still down.
+        /// Only one window at a time can capture the mouse.
+        /// If the mouse cursor is over a window created by another thread,
+        /// the system will direct mouse input to the specified window only if a mouse button is down.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcapture
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window in the current thread that is to capture the mouse.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the window that had previously captured the mouse.
+        /// If there is no such window, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Only the foreground window can capture the mouse.
+        /// When a background window attempts to do so, the window receives messages only for mouse events that occur
+        /// when the cursor hot spot is within the visible portion of the window.
+        /// Also, even if the foreground window has captured the mouse, the user can still click another window, bringing it to the foreground.
+        /// When the window no longer requires all mouse input, the thread that created the window
+        /// should call the <see cref="ReleaseCapture"/> function to release the mouse.
+        /// This function cannot be used to capture mouse input meant for another process.
+        /// When the mouse is captured, menu hotkeys and other keyboard accelerators do not work.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCapture", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND SetCapture([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -464,6 +539,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKeyboardState", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetKeyboardState([MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState);
+
+        /// <summary>
+        /// <para>
+        /// Reverses or restores the meaning of the left and right mouse buttons.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-swapmousebutton
+        /// </para>
+        /// </summary>
+        /// <param name="fSwap">
+        /// If this parameter is <see cref="TRUE"/>, the left button generates right-button messages and the right button generates left-button messages.
+        /// If this parameter is <see cref="FALSE"/>, the buttons are restored to their original meanings.
+        /// </param>
+        /// <returns>
+        /// If the meaning of the mouse buttons was reversed previously, before the function was called, the return value is <see cref="TRUE"/>.
+        /// If the meaning of the mouse buttons was not reversed, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Button swapping is provided as a convenience to people who use the mouse with their left hands.
+        /// The <see cref="SwapMouseButton"/> function is usually called by Control Panel only.
+        /// Although an application is free to call the function, the mouse is a shared resource and
+        /// reversing the meaning of its buttons affects all applications.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwapMouseButton", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SwapMouseButton([In]BOOL fSwap);
 
         /// <summary>
         /// <para>
