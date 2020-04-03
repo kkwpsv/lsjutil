@@ -11,6 +11,74 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Retrieves the window handle to the active window attached to the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getactivewindow
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the handle to the active window attached to the calling thread's message queue.
+        /// Otherwise, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// To get the handle to the foreground window, you can use <see cref="GetForegroundWindow"/>.
+        /// To get the window handle to the active window in the message queue for another thread, use <see cref="GetGUIThreadInfo"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetActiveWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetActiveWindow();
+
+        /// <summary>
+        /// <para>
+        /// Determines whether a key is up or down at the time the function is called,
+        /// and whether the key was pressed after a previous call to <see cref="GetAsyncKeyState"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getasynckeystate
+        /// </para>
+        /// </summary>
+        /// <param name="vKey">
+        /// The virtual-key code.
+        /// For more information, see Virtual Key Codes.
+        /// You can use left- and right-distinguishing constants to specify certain keys.
+        /// See the Remarks section for further information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies whether the key was pressed since the last call to <see cref="GetAsyncKeyState"/>,
+        /// and whether the key is currently up or down.
+        /// If the most significant bit is set, the key is down, and if the least significant bit is set,
+        /// the key was pressed after the previous call to <see cref="GetAsyncKeyState"/>.
+        /// However, you should not rely on this last behavior; for more information, see the Remarks.
+        /// The return value is zero for the following cases:
+        /// The current desktop is not the active desktop
+        /// The foreground thread belongs to another process and the desktop does not allow the hook or the journal record.
+        /// </returns>
+        /// <remarks>
+        /// The GetAsyncKeyState function works with mouse buttons.
+        /// However, it checks on the state of the physical mouse buttons, not on the logical mouse buttons that the physical buttons are mapped to.
+        /// For example, the call <code>GetAsyncKeyState(VK_LBUTTON)</code> always returns the state of the left physical mouse button,
+        /// regardless of whether it is mapped to the left or right logical mouse button.
+        /// You can determine the system's current mapping of physical mouse buttons to logical mouse buttons
+        /// by calling <code>GetSystemMetrics(SM_SWAPBUTTON)</code> which returns <see cref="TRUE"/> if the mouse buttons have been swapped.
+        /// Although the least significant bit of the return value indicates whether the key has been pressed since the last query,
+        /// due to the pre-emptive multitasking nature of Windows, another application can call <see cref="GetAsyncKeyState"/>
+        /// and receive the "recently pressed" bit instead of your application.
+        /// The behavior of the least significant bit of the return value is retained strictly for compatibility with 16-bit Windows applications
+        /// (which are non-preemptive) and should not be relied upon.
+        /// You can use the virtual-key code constants <see cref="VK_SHIFT"/>, <see cref="VK_CONTROL"/>,
+        /// and <see cref="VK_MENU"/> as values for the <paramref name="vKey"/> parameter.
+        /// This gives the state of the SHIFT, CTRL, or ALT keys without distinguishing between left and right.
+        /// You can use the following virtual-key code constants as values for vKey to distinguish between the left and right instances of those keys.
+        /// <see cref="VK_LSHIFT"/>, <see cref="VK_RSHIFT"/>, <see cref="VK_LCONTROL"/>, <see cref="VK_RCONTROL"/>,
+        /// <see cref="VK_LMENU"/>, <see cref="VK_RMENU"/>
+        /// These left- and right-distinguishing constants are only available when you call the <see cref="GetKeyboardState"/>,
+        /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAsyncKeyState", ExactSpelling = true, SetLastError = true)]
+        public static extern SHORT GetAsyncKeyState([In]int vKey);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current double-click time for the mouse.
         /// A double-click is a series of two clicks of the mouse button, the second occurring within a specified time after the first.
         /// The double-click time is the maximum number of milliseconds that may occur between the first and second click of a double-click.
@@ -29,6 +97,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the handle to the window that has the keyboard focus, if the window is attached to the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getfocus
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the handle to the window with the keyboard focus.
+        /// If the calling thread's message queue does not have an associated window with the keyboard focus, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetFocus"/> returns the window with the keyboard focus for the current thread's message queue.
+        /// If <see cref="GetFocus"/> returns NULL, another thread's queue may be attached to a window that has the keyboard focus.
+        /// Use the <see cref="GetForegroundWindow"/> function to retrieve the handle to the window with which the user is currently working.
+        /// You can associate your thread's message queue with the windows owned by another thread by using the <see cref="AttachThreadInput"/> function.
+        /// To get the window with the keyboard focus on the foreground queue or the queue of another thread, use the <see cref="GetGUIThreadInfo"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFocus", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetFocus();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current code page.
         /// </para>
         /// <para>
@@ -43,6 +133,92 @@ namespace Lsj.Util.Win32
             "Applications should use the GetOEMCP function to retrieve the OEM code-page identifier for the system.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKBCodePage", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetKBCodePage();
+
+        /// <summary>
+        /// <para>
+        /// Copies the status of the 256 virtual keys to the specified buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardstate
+        /// </para>
+        /// </summary>
+        /// <param name="lpKeyState">
+        /// The 256-byte array that receives the status data for each virtual key.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can call this function to retrieve the current status of all the virtual keys.
+        /// The status changes as a thread removes keyboard messages from its message queue.
+        /// The status does not change as keyboard messages are posted to the thread's message queue,
+        /// nor does it change as keyboard messages are posted to or retrieved from message queues of other threads.
+        /// (Exception: Threads that are connected through <see cref="AttachThreadInput"/> share the same keyboard state.)
+        /// When the function returns, each member of the array pointed to by the <paramref name="lpKeyState"/> parameter contains status data for a virtual key.
+        /// If the high-order bit is 1, the key is down; otherwise, it is up.
+        /// If the key is a toggle key, for example CAPS LOCK, then the low-order bit is 1 when the key is toggled and is 0 if the key is untoggled.
+        /// The low-order bit is meaningless for non-toggle keys.
+        /// A toggle key is said to be toggled when it is turned on.
+        /// A toggle key's indicator light (if any) on the keyboard will be on when the key is toggled, and off when the key is untoggled.
+        /// To retrieve status information for an individual key, use the <see cref="GetKeyState"/> function.
+        /// To retrieve the current state for an individual key regardless of whether the corresponding keyboard message has been retrieved
+        /// from the message queue, use the <see cref="GetAsyncKeyState"/> function.
+        /// An application can use the virtual-key code constants <see cref="VK_SHIFT"/>, <see cref="VK_CONTROL"/> and <see cref="VK_MENU"/>
+        /// as indices into the array pointed to by <paramref name="lpKeyState"/>.
+        /// This gives the status of the SHIFT, CTRL, or ALT keys without distinguishing between left and right.
+        /// An application can also use the following virtual-key code constants as indices to distinguish between the left and right instances of those keys:
+        /// <see cref="VK_LSHIFT"/>, <see cref="VK_RSHIFT"/>, <see cref="VK_LCONTROL"/>, <see cref="VK_RCONTROL"/>, <see cref="VK_LMENU"/>, <see cref="VK_RMENU"/>
+        /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
+        /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetKeyboardState([MarshalAs(UnmanagedType.LPArray)][Out]BYTE[] lpKeyState);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current keyboard.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardtype
+        /// </para>
+        /// </summary>
+        /// <param name="nTypeFlag">
+        /// The type of keyboard information to be retrieved. This parameter can be one of the following values.
+        /// 0: Keyboard type
+        /// 1: Keyboard subtype
+        /// 2: The number of function keys on the keyboard
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the requested information.
+        /// If the function fails and <paramref name="nTypeFlag"/> is not one, the return value is zero;
+        /// zero is a valid return value when <paramref name="nTypeFlag"/> is one (keyboard subtype).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The type may be one of the following values.
+        /// 1: IBM PC/XT or compatible (83-key) keyboard
+        /// 2: Olivetti "ICO" (102-key) keyboard
+        /// 3: IBM PC/AT (84-key) or similar keyboard
+        /// 4: IBM enhanced (101- or 102-key) keyboard
+        /// 5: Nokia 1050 and similar keyboards
+        /// 6: Nokia 9140 and similar keyboards
+        /// 7: Japanese keyboard
+        /// The subtype is an original equipment manufacturer (OEM)-dependent value.
+        /// The application can also determine the number of function keys on a keyboard from the keyboard type.
+        /// Following are the number of function keys for each keyboard type.
+        /// 1: 10
+        /// 2: 12 (sometimes 18)
+        /// 3: 10
+        /// 4: 12
+        /// 5: 10
+        /// 6: 24
+        /// 7: Hardware dependent and specified by the OEM
+        /// When a single USB keyboard is connected to the computer, this function returns the code 81.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetKeyboardType([In]int nTypeFlag);
 
         /// <summary>
         /// <para>
@@ -88,47 +264,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves information about the current keyboard.
+        /// Retrieves the status of the specified virtual key.
+        /// The status specifies whether the key is up, down, or toggled (on, off—alternating each time the key is pressed).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardtype
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeystate
         /// </para>
         /// </summary>
-        /// <param name="nTypeFlag">
-        /// The type of keyboard information to be retrieved. This parameter can be one of the following values.
-        /// 0: Keyboard type
-        /// 1: Keyboard subtype
-        /// 2: The number of function keys on the keyboard
+        /// <param name="nVirtKey">
+        /// A virtual key.
+        /// If the desired virtual key is a letter or digit (A through Z, a through z, or 0 through 9),
+        /// <paramref name="nVirtKey"/> must be set to the ASCII value of that character.
+        /// For other keys, it must be a virtual-key code.
+        /// If a non-English keyboard layout is used, virtual keys with values in the range ASCII A through Z and 0 through 9
+        /// are used to specify most of the character keys.
+        /// For example, for the German keyboard layout, the virtual key of value ASCII O (0x4F) refers to the "o" key,
+        /// whereas <see cref="VK_OEM_1"/> refers to the "o with umlaut" key.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value specifies the requested information.
-        /// If the function fails and <paramref name="nTypeFlag"/> is not one, the return value is zero;
-        /// zero is a valid return value when <paramref name="nTypeFlag"/> is one (keyboard subtype).
-        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The return value specifies the status of the specified virtual key, as follows:
+        /// If the high-order bit is 1, the key is down; otherwise, it is up.
+        /// If the low-order bit is 1, the key is toggled.
+        /// A key, such as the CAPS LOCK key, is toggled if it is turned on.
+        /// The key is off and untoggled if the low-order bit is 0.
+        /// A toggle key's indicator light (if any) on the keyboard will be on when the key is toggled, and off when the key is untoggled.
         /// </returns>
         /// <remarks>
-        /// The type may be one of the following values.
-        /// 1: IBM PC/XT or compatible (83-key) keyboard
-        /// 2: Olivetti "ICO" (102-key) keyboard
-        /// 3: IBM PC/AT (84-key) or similar keyboard
-        /// 4: IBM enhanced (101- or 102-key) keyboard
-        /// 5: Nokia 1050 and similar keyboards
-        /// 6: Nokia 9140 and similar keyboards
-        /// 7: Japanese keyboard
-        /// The subtype is an original equipment manufacturer (OEM)-dependent value.
-        /// The application can also determine the number of function keys on a keyboard from the keyboard type.
-        /// Following are the number of function keys for each keyboard type.
-        /// 1: 10
-        /// 2: 12 (sometimes 18)
-        /// 3: 10
-        /// 4: 12
-        /// 5: 10
-        /// 6: 24
-        /// 7: Hardware dependent and specified by the OEM
-        /// When a single USB keyboard is connected to the computer, this function returns the code 81.
+        /// The key status returned from this function changes as a thread reads key messages from its message queue.
+        /// The status does not reflect the interrupt-level state associated with the hardware.
+        /// Use the <see cref="GetAsyncKeyState"/> function to retrieve that information.
+        /// An application calls <see cref="GetKeyState"/> in response to a keyboard-input message.
+        /// This function retrieves the state of the key when the input message was generated.
+        /// To retrieve state information for all the virtual keys, use the <see cref="GetKeyboardState"/> function.
+        /// An application can use the virtual key code constants <see cref="VK_SHIFT"/>, <see cref="VK_CONTROL"/>,
+        /// and <see cref="VK_MENU"/> as values for the <paramref name="nVirtKey"/> parameter.
+        /// This gives the status of the SHIFT, CTRL, or ALT keys without distinguishing between left and right.
+        /// An application can also use the following virtual-key code constants as values for <paramref name="nVirtKey"/>
+        /// to distinguish between the left and right instances of those keys:
+        /// <see cref="VK_LSHIFT"/> <see cref="VK_RSHIFT"/> <see cref="VK_LCONTROL"/> <see cref="VK_RCONTROL"/> <see cref="VK_LMENU"/> <see cref="VK_RMENU"/>
+        /// These left- and right-distinguishing constants are available to an application only through the <see cref="GetKeyboardState"/>,
+        /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetKeyboardType([In]int nTypeFlag);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyState", ExactSpelling = true, SetLastError = true)]
+        public static extern SHORT GetKeyState([In]int nVirtKey);
 
         /// <summary>
         /// <para>
@@ -200,6 +378,92 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD OemKeyScan([In]WORD wOemChar);
+
+        /// <summary>
+        /// <para>
+        /// Activates a window. The window must be attached to the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setactivewindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the top-level window to be activated.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the window that was previously active.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetActiveWindow"/> function activates a window, but not if the application is in the background.
+        /// The window will be brought into the foreground (top of Z-Order) if its application is in the foreground when the system activates the window.
+        /// If the window identified by the <paramref name="hWnd"/> parameter was created by the calling thread,
+        /// the active window status of the calling thread is set to <paramref name="hWnd"/>.
+        /// Otherwise, the active window status of the calling thread is set to <see cref="NULL"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetActiveWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND SetActiveWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Sets the keyboard focus to the specified window.
+        /// The window must be attached to the calling thread's message queue.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setfocus
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that will receive the keyboard input.
+        /// If this parameter is <see cref="NULL"/>, keystrokes are ignored.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the window that previously had the keyboard focus.
+        /// If the <paramref name="hWnd"/> parameter is invalid or the window is not attached to the calling thread's message queue,
+        /// the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// This function sends a <see cref="WM_KILLFOCUS"/> message to the window that loses the keyboard focus
+        /// and a <see cref="WM_SETFOCUS"/> message to the window that receives the keyboard focus.
+        /// It also activates either the window that receives the focus or the parent of the window that receives the focus.
+        /// If a window is active but does not have the focus, any key pressed produces the <see cref="WM_SYSCHAR"/>,
+        /// <see cref="WM_SYSKEYDOWN"/>, or <see cref="WM_SYSKEYUP"/> message.
+        /// If the <see cref="VK_MENU"/> key is also pressed, bit 30 of the lParam parameter of the message is set.
+        /// Otherwise, the messages produced do not have this bit set.
+        /// By using the <see cref="AttachThreadInput"/> function, a thread can attach its input processing to another thread.
+        /// This allows a thread to call <see cref="SetFocus"/> to set the keyboard focus to a window attached to another thread's message queue.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFocus", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND SetFocus([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Copies an array of keyboard key states into the calling thread's keyboard input-state table.
+        /// This is the same table accessed by the <see cref="GetKeyboardState"/> and <see cref="GetKeyState"/> functions.
+        /// Changes made to this table do not affect keyboard input to any other thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setkeyboardstate
+        /// </para>
+        /// </summary>
+        /// <param name="lpKeyState">
+        /// A pointer to a 256-byte array that contains keyboard key states.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Because the SetKeyboardState function alters the input state of the calling thread and not the global input state of the system,
+        /// an application cannot use <see cref="SetKeyboardState"/> to set the NUM LOCK, CAPS LOCK,
+        /// or SCROLL LOCK (or the Japanese KANA) indicator lights on the keyboard.
+        /// These can be set or cleared using <see cref="SendInput"/> to simulate keystrokes.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKeyboardState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetKeyboardState([MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState);
 
         /// <summary>
         /// <para>

@@ -1431,6 +1431,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines which pop-up window owned by the specified window was most recently active.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getlastactivepopup
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the owner window.
+        /// </param>
+        /// <returns>
+        /// The return value identifies the most recently active pop-up window.
+        /// The return value is the same as the <paramref name="hWnd"/> parameter, if any of the following conditions are met:
+        /// The window identified by <paramref name="hWnd"/> was most recently active.
+        /// The window identified by <paramref name="hWnd"/> does not own any pop-up windows.
+        /// The window identifies by <paramref name="hWnd"/> is not a top-level window, or it is owned by another window.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLastActivePopup", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetLastActivePopup([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the next or previous window in the Z-Order.
         /// The next window is below the specified window; the previous window is above.
         /// If the specified window is a topmost window, the function searches for a topmost window.
