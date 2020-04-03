@@ -133,6 +133,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ExcludeUpdateRgn"/> function prevents drawing within invalid areas of a window
+        /// by excluding an updated region in the window from a clipping region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-excludeupdatergn
+        /// </para>
+        /// </summary>
+        /// <param name="hDC">
+        /// Handle to the device context associated with the clipping region.
+        /// </param>
+        /// <param name="hWnd">
+        /// Handle to the window to update.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the complexity of the excluded region; it can be any one of the following values.
+        /// <see cref="COMPLEXREGION"/>: Region consists of more than one rectangle.
+        /// <see cref="ERROR"/>: An error occurred.
+        /// <see cref="NULLREGION"/>: Region is empty.
+        /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeUpdateRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int ExcludeUpdateRgn([In]HDC hDC, [In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetDC"/> function retrieves a handle to a device context (DC) for the client area of a specified window or for the entire screen.
         /// You can use the returned handle in subsequent GDI functions to draw in the DC.
         /// The device context is an opaque data structure, whose values are used internally by GDI.
@@ -234,6 +259,154 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetUpdateRect"/> function retrieves the coordinates of the smallest rectangle
+        /// that completely encloses the update region of the specified window.
+        /// <see cref="GetUpdateRect"/> retrieves the rectangle in logical coordinates. If there is no update region,
+        /// <see cref="GetUpdateRect"/> retrieves an empty rectangle (sets all coordinates to zero).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdaterect
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window whose update region is to be retrieved.
+        /// </param>
+        /// <param name="lpRect">
+        /// Pointer to the <see cref="RECT"/> structure that receives the coordinates, in device units, of the enclosing rectangle.
+        /// An application can set this parameter to NULL to determine whether an update region exists for the window.
+        /// If this parameter is <see cref="NULL"/>, <see cref="GetUpdateRect"/> returns nonzero if an update region exists, and zero if one does not.
+        /// This provides a simple and efficient means of determining whether a <see cref="WM_PAINT"/> message resulted from an invalid area.
+        /// </param>
+        /// <param name="bErase">
+        /// Specifies whether the background in the update region is to be erased.
+        /// If this parameter is <see cref="TRUE"/> and the update region is not empty,
+        /// <see cref="GetUpdateRect"/> sends a <see cref="WM_ERASEBKGND"/> message to the specified window to erase the background.
+        /// </param>
+        /// <returns>
+        /// If the update region is not empty, the return value is <see cref="TRUE"/>.
+        /// If there is no update region, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The update rectangle retrieved by the <see cref="BeginPaint"/> function is identical to that retrieved by <see cref="GetUpdateRect"/>.
+        /// <see cref="BeginPaint"/> automatically validates the update region, so any call to <see cref="GetUpdateRect"/> made immediately
+        /// after the call to <see cref="BeginPaint"/> retrieves an empty update region.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetUpdateRect([In]HWND hWnd, [In][Out]ref RECT lpRect, [In]BOOL bErase);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetUpdateRgn"/> function retrieves the update region of a window by copying it into the specified region.
+        /// The coordinates of the update region are relative to the upper-left corner of the window (that is, they are client coordinates).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdatergn
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window with an update region that is to be retrieved.
+        /// </param>
+        /// <param name="hRgn">
+        /// Handle to the region to receive the update region.
+        /// </param>
+        /// <param name="bErase">
+        /// Specifies whether the window background should be erased and whether nonclient areas of child windows should be drawn.
+        /// If this parameter is <see cref="FALSE"/>, no drawing is done.
+        /// </param>
+        /// <returns>
+        /// The return value indicates the complexity of the resulting region; it can be one of the following values.
+        /// <see cref="COMPLEXREGION"/>: Region consists of more than one rectangle.
+        /// <see cref="ERROR"/>: An error occurred.
+        /// <see cref="NULLREGION"/>: Region is empty.
+        /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="BeginPaint"/> function automatically validates the update region,
+        /// so any call to <see cref="GetUpdateRgn"/> made immediately after the call to <see cref="BeginPaint"/> retrieves an empty update region.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetUpdateRgn([In]HWND hWnd, [In]HRGN hRgn, [In]BOOL bErase);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="InvalidateRect"/> function adds a rectangle to the specified window's update region.
+        /// The update region represents the portion of the window's client area that must be redrawn.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidaterect 
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose update region has changed.
+        /// If this parameter is <see cref="NULL"/>, the system invalidates and redraws all windows, not just the windows for this application,
+        /// and sends the <see cref="WM_ERASEBKGND"/> and <see cref="WM_NCPAINT"/> messages before the function returns.
+        /// Setting this parameter to <see cref="NULL"/> is not recommended.
+        /// </param>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the client coordinates of the rectangle to be added to the update region.
+        /// If this parameter is <see cref="NULL"/>, the entire client area is added to the update region.
+        /// </param>
+        /// <param name="bErase">
+        /// Specifies whether the background within the update region is to be erased when the update region is processed.
+        /// If this parameter is <see cref="TRUE"/>, the background is erased when the <see cref="BeginPaint"/> function is called.
+        /// If this parameter is <see cref="FALSE"/>, the background remains unchanged.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The invalidated areas accumulate in the update region until the region is processed when the next <see cref="WM_PAINT"/> message occurs
+        /// or until the region is validated by using the <see cref="ValidateRect"/> or <see cref="ValidateRgn"/> function.
+        /// The system sends a <see cref="WM_PAINT"/> message to a window whenever its update region is not empty
+        /// and there are no other messages in the application queue for that window.
+        /// If the <paramref name="bErase"/> parameter is <see cref="TRUE"/> for any part of the update region,
+        /// the background is erased in the entire region, not just in the specified part.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InvalidateRect([In]HWND hWnd, [In]in RECT lpRect, [In]BOOL bErase);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="InvalidateRgn"/> function invalidates the client area within the specified region
+        /// by adding it to the current update region of a window.
+        /// The invalidated region, along with all other areas in the update region,
+        /// is marked for painting when the next <see cref="WM_PAINT"/> message occurs.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidatergn
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window with an update region that is to be modified.
+        /// </param>
+        /// <param name="hRgn">
+        /// A handle to the region to be added to the update region.
+        /// The region is assumed to have client coordinates.
+        /// If this parameter is <see cref="NULL"/>, the entire client area is added to the update region.
+        /// </param>
+        /// <param name="bErase">
+        /// Specifies whether the background within the update region should be erased when the update region is processed.
+        /// If this parameter is <see cref="TRUE"/>, the background is erased when the <see cref="BeginPaint"/> function is called.
+        /// If the parameter is <see cref="FALSE"/>, the background remains unchanged.
+        /// </param>
+        /// <returns>
+        /// The return value is always <see cref="TRUE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Invalidated areas accumulate in the update region until the next <see cref="WM_PAINT"/> message is processed
+        /// or until the region is validated by using the <see cref="ValidateRect"/> or <see cref="ValidateRgn"/> function.
+        /// The system sends a <see cref="WM_PAINT"/> message to a window whenever its update region is not empty
+        /// and there are no other messages in the application queue for that window.
+        /// The specified region must have been created by using one of the region functions.
+        /// If the <paramref name="bErase"/> parameter is <see cref="TRUE"/> for any part of the update region,
+        /// the background in the entire region is erased, not just in the specified part.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InvalidateRgn([In]HWND hWnd, [In]HRGN hRgn, [In]BOOL bErase);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
@@ -326,6 +499,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="LockWindowUpdate"/> function disables or enables drawing in the specified window.
+        /// Only one window can be locked at a time.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lockwindowupdate
+        /// </para>
+        /// </summary>
+        /// <param name="hWndLock">
+        /// The window in which drawing will be disabled.
+        /// If this parameter is <see cref="NULL"/>, drawing in the locked window is enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>, indicating that an error occurred or another window was already locked.
+        /// </returns>
+        /// <remarks>
+        /// The purpose of the <see cref="LockWindowUpdate"/> function is to permit drag/drop feedback to be drawn over a window
+        /// without interference from the window itself.
+        /// The intent is that the window is locked when feedback is drawn and unlocked when feedback is complete.
+        /// <see cref="LockWindowUpdate"/> is not intended for general-purpose suppression of window redraw.
+        /// Use the <see cref="WM_SETREDRAW"/> message to disable redrawing of a particular window.
+        /// If an application with a locked window (or any locked child windows) calls the <see cref="GetDC"/>,
+        /// <see cref="GetDCEx"/>, or <see cref="BeginPaint"/> function, the called function returns a device context with a visible region that is empty.
+        /// This will occur until the application unlocks the window by calling <see cref="LockWindowUpdate"/>,
+        /// specifying a value of <see cref="NULLL"/> for <paramref name="hWndLock"/>.
+        /// If an application attempts to draw within a locked window, the system records the extent of the attempted operation in a bounding rectangle.
+        /// When the window is unlocked, the system invalidates the area within this bounding rectangle,
+        /// forcing an eventual <see cref="WM_PAINT"/> message to be sent to the previously locked window and its child windows.
+        /// If no drawing has occurred while the window updates were locked, no area is invalidated.
+        /// LockWindowUpdate does not make the specified window invisible and does not clear the <see cref="WS_VISIBLE"/> style bit.
+        /// A locked window cannot be moved.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockWindowUpdate", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockWindowUpdate([In]HWND hWndLock);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MapWindowPoints"/> function converts (maps) a set of points from a coordinate space relative
         /// to one window to a coordinate space relative to another window.
         /// </para>
@@ -389,6 +599,55 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
         public static extern int MapWindowPoints([In]HWND hWndFrom, [In]HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lpPoints,
             [In]UINT cPoints);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RedrawWindow"/> function updates the specified rectangle or region in a window's client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-redrawwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be redrawn.
+        /// If this parameter is <see cref="NULL"/>, the desktop window is updated.
+        /// </param>
+        /// <param name="lprcUpdate">
+        /// A pointer to a <see cref="RECT"/> structure containing the coordinates, in device units, of the update rectangle.
+        /// This parameter is ignored if the <paramref name="hrgnUpdate"/> parameter identifies a region.
+        /// </param>
+        /// <param name="hrgnUpdate">
+        /// A handle to the update region.
+        /// If both the <paramref name="hrgnUpdate"/> and <paramref name="lprcUpdate"/> parameters are <see cref="NULL"/>,
+        /// the entire client area is added to the update region.
+        /// </param>
+        /// <param name="flags">
+        /// One or more redraw flags.
+        /// This parameter can be used to invalidate or validate a window, control repainting,
+        /// and control which windows are affected by <see cref="RedrawWindow"/>.
+        /// The following flags are used to invalidate the window.
+        /// <see cref="RDW_ERASE"/>, <see cref="RDW_FRAME"/>, <see cref="RDW_INTERNALPAINT"/>, <see cref="RDW_INVALIDATE"/>
+        /// The following flags are used to validate the window.
+        /// <see cref="RDW_NOERASE"/>, <see cref="RDW_NOFRAME"/>, <see cref="RDW_NOINTERNALPAINT"/>, <see cref="RDW_VALIDATE"/>
+        /// The following flags control when repainting occurs. <see cref="RedrawWindow"/> will not repaint unless one of these flags is specified.
+        /// <see cref="RDW_ERASENOW"/>, <see cref="RDW_UPDATENOW"/>
+        /// By default, the windows affected by <see cref="RedrawWindow"/> depend on whether the specified window has the <see cref="WS_CLIPCHILDREN"/> style.
+        /// Child windows that are not the <see cref="WS_CLIPCHILDREN"/> style are unaffected;
+        /// non-<see cref="WS_CLIPCHILDREN"/> windows are recursively validated or invalidated until a <see cref="WS_CLIPCHILDREN"/> window is encountered.
+        /// The following flags control which windows are affected by the <see cref="RedrawWindow"/> function.
+        /// <see cref="RDW_ALLCHILDREN"/>, <see cref="RDW_NOCHILDREN"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// When <see cref="RedrawWindow"/> is used to invalidate part of the desktop window,
+        /// the desktop window does not receive a <see cref="WM_PAINT"/> message.
+        /// To repaint the desktop, an application uses the <see cref="RDW_ERASE"/> flag to generate a <see cref="WM_ERASEBKGND"/> message.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RedrawWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RedrawWindow([In]HWND hWnd, [In]in RECT lprcUpdate, [In]HRGN hrgnUpdate, [In]RedrawWindowFlags flags);
 
         /// <summary>
         /// <para>
@@ -474,5 +733,66 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateWindow", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UpdateWindow([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ValidateRect"/> function validates the client area within a rectangle
+        /// by removing the rectangle from the update region of the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validaterect
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window whose update region is to be modified.
+        /// If this parameter is <see cref="NULL"/>, the system invalidates and redraws all windows
+        /// and sends the <see cref="WM_ERASEBKGND"/> and <see cref="WM_NCPAINT"/> messages to the window procedure before the function returns.
+        /// </param>
+        /// <param name="lpRect">
+        /// Pointer to a <see cref="RECT"/> structure that contains the client coordinates of the rectangle to be removed from the update region.
+        /// If this parameter is <see cref="NULL"/>, the entire client area is removed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="BeginPaint"/> function automatically validates the entire client area.
+        /// Neither the <see cref="ValidateRect"/> nor <see cref="ValidateRgn"/> function should be called
+        /// if a portion of the update region must be validated before the next <see cref="WM_PAINT"/> message is generated.
+        /// The system continues to generate <see cref="WM_PAINT"/> messages until the current update region is validated.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ValidateRect([In]HWND hWnd, [In]in RECT lpRect);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ValidateRgn"/> function validates the client area within a region
+        /// by removing the region from the current update region of the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validatergn
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to the window whose update region is to be modified.
+        /// </param>
+        /// <param name="hRgn">
+        /// Handle to a region that defines the area to be removed from the update region.
+        /// If this parameter is <see cref="NULL"/>, the entire client area is removed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The specified region must have been created by a region function.
+        /// The region coordinates are assumed to be client coordinates.
+        /// The <see cref="BeginPaint"/> function automatically validates the entire client area.
+        /// Neither the <see cref="ValidateRect"/> nor <see cref="ValidateRgn"/> function should be called
+        /// if a portion of the update region must be validated before the next <see cref="WM_PAINT"/> message is generated.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ValidateRgn([In]HWND hWnd, [In]HRGN hRgn);
     }
 }
