@@ -73,6 +73,41 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
 
+
+        /// <summary>
+        /// <para>
+        /// An application-defined or library-defined callback function used with the <see cref="SetWindowsHookEx"/> function.
+        /// The system calls this function after the <see cref="SendMessage"/> function is called.
+        /// The hook procedure can examine the message; it cannot modify it.
+        /// The <see cref="HOOKPROC"/> type defines a pointer to this callback function.
+        /// <see cref="CallWndRetProc"/> is a placeholder for the application-defined or library-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc
+        /// </para>
+        /// </summary>
+        /// <param name="code">
+        /// </param>
+        /// <param name="wParam">
+        /// Specifies whether the message is sent by the current process.
+        /// If the message is sent by the current process, it is nonzero; otherwise, it is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lParam">
+        /// A pointer to a <see cref="CWPRETSTRUCT"/> structure that contains details about the message.
+        /// </param>
+        /// <returns>
+        /// If nCode is less than zero, the hook procedure must return the value returned by <see cref="CallNextHookEx"/>.
+        /// If nCode is greater than or equal to zero, it is highly recommended that you call <see cref="CallNextHookEx"/> and return the value it returns;
+        /// otherwise, other applications that have installed <see cref="WH_CALLWNDPROCRET"/> hooks will not receive hook notifications
+        /// and may behave incorrectly as a result.
+        /// If the hook procedure does not call <see cref="CallNextHookEx"/>, the return value should be zero.
+        /// </returns>
+        /// <remarks>
+        /// An application installs the hook procedure by specifying the <see cref="WH_CALLWNDPROCRET"/> hook type
+        /// and a pointer to the hook procedure in a call to the <see cref="SetWindowsHookEx"/> function.
+        /// </remarks>
+        public delegate LRESULT HOOKPROC([In]int code, [In]WPARAM wParam, [In]LPARAM lParam);
+
         /// <summary>
         /// <para>
         /// An application-defined callback function used with the <see cref="EnumProps"/> function.
@@ -336,6 +371,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Arranges all the minimized (iconic) child windows of the specified parent window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-arrangeiconicwindows
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the parent window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the height of one row of icons.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application that maintains its own minimized child windows can use the <see cref="ArrangeIconicWindows"/> function
+        /// to arrange icons in a parent window.
+        /// This function can also arrange icons on the desktop.
+        /// To retrieve the window handle to the desktop window, use the <see cref="GetDesktopWindow"/> function.
+        /// An application sends the <see cref="WM_MDIICONARRANGE"/> message to the multiple-document interface (MDI) client window
+        /// to prompt the client window to arrange its minimized MDI child windows.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ArrangeIconicWindows", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT ArrangeIconicWindows([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Allocates memory for a multiple-window- position structure and returns the handle to the structure.
         /// </para>
         /// <para>
@@ -393,6 +455,46 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BringWindowToTop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL BringWindowToTop([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Passes the hook information to the next hook procedure in the current hook chain.
+        /// A hook procedure can call this function either before or after processing the hook information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex
+        /// </para>
+        /// </summary>
+        /// <param name="hhk">
+        /// This parameter is ignored.
+        /// </param>
+        /// <param name="nCode">
+        /// The hook code passed to the current hook procedure.
+        /// The next hook procedure uses this code to determine how to process the hook information.
+        /// </param>
+        /// <param name="wParam">
+        /// The <paramref name="wParam"/> value passed to the current hook procedure.
+        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// </param>
+        /// <param name="lParam">
+        /// The <paramref name="lParam"/> value passed to the current hook procedure.
+        /// The meaning of this parameter depends on the type of hook associated with the current hook chain.
+        /// </param>
+        /// <returns>
+        /// This value is returned by the next hook procedure in the chain.
+        /// The current hook procedure must also return this value.
+        /// The meaning of the return value depends on the hook type.
+        /// For more information, see the descriptions of the individual hook procedures.
+        /// </returns>
+        /// <remarks>
+        /// Hook procedures are installed in chains for particular hook types.
+        /// <see cref="CallNextHookEx"/> calls the next hook in the chain.
+        /// Calling <see cref="CallNextHookEx"/> is optional, but it is highly recommended;
+        /// otherwise, other applications that have installed hooks will not receive hook notifications and may behave incorrectly as a result.
+        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNextHookEx", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT CallNextHookEx([In]HHOOK hhk, [In]int nCode, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -863,6 +965,116 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeferWindowPos", ExactSpelling = true, SetLastError = true)]
         public static extern HDWP DeferWindowPos([In]HDWP hWinPosInfo, [In]HWND hWnd, [In]HWND hWndInsertAfter, [In]int x, [In]int y,
             [In] int cx, [In]int cy, [In]SetWindowPosFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Provides default processing for any window messages that the window procedure of a multiple-document interface (MDI) frame window does not process.
+        /// All window messages that are not explicitly processed by the window procedure must be passed to the <see cref="DefFrameProc"/> function,
+        /// not the <see cref="DefWindowProc"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defframeprocw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the MDI frame window.
+        /// </param>
+        /// <param name="hWndMDIClient">
+        /// A handle to the MDI client window.
+        /// </param>
+        /// <param name="uMsg">
+        /// The message to be processed.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the result of the message processing and depends on the message.
+        /// If the <paramref name="hWndMDIClient"/> parameter is <see cref="NULL"/>,
+        /// the return value is the same as for the <see cref="DefWindowProc"/> function.
+        /// </returns>
+        /// <remarks>
+        /// When an application's window procedure does not handle a message,
+        /// it typically passes the message to the <see cref="DefWindowProc"/> functionto process the message.
+        /// MDI applications use the <see cref="DefFrameProc"/> and <see cref="DefMDIChildProc"/> functions
+        /// instead of <see cref="DefWindowProc"/> to provide default message processing.
+        /// All messages that an application would usually pass to <see cref="DefWindowProc"/>
+        /// (such as nonclient messages and the <see cref="WM_SETTEXT"/> message) should be passed to <see cref="DefFrameProc"/> instead.
+        /// The <see cref="DefFrameProc"/> function also handles the following messages.
+        /// <see cref="WM_COMMAND"/>:
+        /// Activates the MDI child window that the user chooses.
+        /// This message is sent when the user chooses an MDI child window from the window menu of the MDI frame window.
+        /// The window identifier accompanying this message identifies the MDI child window to be activated.
+        /// <see cref="WM_MENUCHAR"/>:
+        /// Opens the window menu of the active MDI child window when the user presses the ALT+ – (minus) key combination.
+        /// <see cref="WM_SETFOCUS"/>:
+        /// Passes the keyboard focus to the MDI client window, which in turn passes it to the active MDI child window.
+        /// <see cref="WM_SIZE"/>:
+        /// Resizes the MDI client window to fit in the new frame window's client area.
+        /// If the frame window procedure sizes the MDI client window to a different size,
+        /// it should not pass the message to the <see cref="DefWindowProc"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefFrameProcW", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT DefFrameProc([In]HWND hWnd, [In]HWND hWndMDIClient, [In]WindowsMessages uMsg,
+            [In]WPARAM wParam, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
+        /// Provides default processing for any window message that the window procedure of a multiple-document interface (MDI) child window does not process.
+        /// A window message not processed by the window procedure must be passed to the <see cref="DefMDIChildProc"/> function,
+        /// not to the <see cref="DefWindowProc"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defmdichildprocw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the MDI child window.
+        /// </param>
+        /// <param name="uMsg">
+        /// The message to be processed.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the result of the message processing and depends on the message.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DefMDIChildProc"/> function assumes that the parent window of the MDI child window identified
+        /// by the <paramref name="hWnd"/> parameter was created with the MDICLIENT class.
+        /// When an application's window procedure does not handle a message,
+        /// it typically passes the message to the <see cref="DefWindowProc"/> function to process the message.
+        /// MDI applications use the <see cref="DefFrameProc"/> and <see cref="DefMDIChildProc"/> functions
+        /// instead of <see cref="DefWindowProc"/> to provide default message processing.
+        /// All messages that an application would usually pass to <see cref="DefWindowProc"/>
+        /// (such as nonclient messages and the <see cref="WM_SETTEXT"/> message) should be passed to <see cref="DefMDIChildProc"/> instead.
+        /// In addition, <see cref="DefMDIChildProc"/> also handles the following messages.
+        /// <see cref="WM_CHILDACTIVATE"/>:
+        /// Performs activation processing when MDI child windows are sized, moved, or displayed. This message must be passed.
+        /// <see cref="WM_GETMINMAXINFO"/>:
+        /// Calculates the size of a maximized MDI child window, based on the current size of the MDI client window.
+        /// <see cref="WM_MENUCHAR"/>:
+        /// Passes the message to the MDI frame window.
+        /// <see cref="WM_MOVE"/>:
+        /// Recalculates MDI client scroll bars if they are present.
+        /// <see cref="WM_SETFOCUS"/>:
+        /// Activates the child window if it is not the active MDI child window.
+        /// <see cref="WM_SIZE"/>:
+        /// Performs operations necessary for changing the size of a window, especially for maximizing or restoring an MDI child window.
+        /// Failing to pass this message to the <see cref="DefMDIChildProc"/> function produces highly undesirable results.
+        /// <see cref="WM_SYSCOMMAND"/>:
+        /// Handles window menu commands: <see cref="SC_NEXTWINDOW"/>, <see cref="SC_PREVWINDOW"/>,
+        /// <see cref="SC_MOVE"/>, <see cref="SC_SIZE"/>, and <see cref="SC_MAXIMIZE"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefMDIChildProcW", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT DefMDIChildProc([In]HWND hWnd, [In]UINT uMsg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -2281,6 +2493,165 @@ namespace Lsj.Util.Win32
         public static extern BOOL SetProp([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString, [In]HANDLE hData);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nFilterType"></param>
+        /// <param name="pfnFilterProc"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookW", ExactSpelling = true, SetLastError = true)]
+        public static extern HHOOK SetWindowsHook([In]int nFilterType, [In]HOOKPROC pfnFilterProc);
+
+        /// <summary>
+        /// <para>
+        /// Installs an application-defined hook procedure into a hook chain.
+        /// You would install a hook procedure to monitor the system for certain types of events.
+        /// These events are associated either with a specific thread or with all threads in the same desktop as the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexw
+        /// </para>
+        /// </summary>
+        /// <param name="idHook">
+        /// The type of hook procedure to be installed. This parameter can be one of the following values.
+        /// <see cref="WH_CALLWNDPROC"/>:
+        /// Installs a hook procedure that monitors messages before the system sends them to the destination window procedure.
+        /// For more information, see the <see cref="CallWndProc"/> hook procedure.
+        /// <see cref="WH_CALLWNDPROCRET"/>:
+        /// Installs a hook procedure that monitors messages after they have been processed by the destination window procedure.
+        /// For more information, see the <see cref="CallWndRetProc"/> hook procedure.
+        /// <see cref="WH_CBT"/>:
+        /// Installs a hook procedure that receives notifications useful to a CBT application.
+        /// For more information, see the <see cref="CBTProc"/> hook procedure.
+        /// <see cref="WH_DEBUG"/>:
+        /// Installs a hook procedure useful for debugging other hook procedures.
+        /// For more information, see the <see cref="DebugProc"/> hook procedure.
+        /// <see cref="WH_FOREGROUNDIDLE"/>:
+        /// Installs a hook procedure that will be called when the application's foreground thread is about to become idle.
+        /// This hook is useful for performing low priority tasks during idle time.
+        /// For more information, see the <see cref="ForegroundIdleProc"/> hook procedure.
+        /// <see cref="WH_GETMESSAGE"/>:
+        /// Installs a hook procedure that monitors messages posted to a message queue.
+        /// For more information, see the <see cref="GetMsgProc"/> hook procedure.
+        /// <see cref="WH_JOURNALPLAYBACK"/>:
+        /// Installs a hook procedure that posts messages previously recorded by a <see cref="WH_JOURNALRECORD"/> hook procedure.
+        /// For more information, see the <see cref="JournalPlaybackProc"/> hook procedure.
+        /// <see cref="WH_JOURNALRECORD"/>:
+        /// Installs a hook procedure that records input messages posted to the system message queue.
+        /// This hook is useful for recording macros.
+        /// For more information, see the <see cref="JournalRecordProc"/> hook procedure.
+        /// <see cref="WH_KEYBOARD"/>:
+        /// Installs a hook procedure that monitors keystroke messages.
+        /// For more information, see the <see cref="KeyboardProc"/> hook procedure.
+        /// <see cref="WH_KEYBOARD_LL"/>:
+        /// Installs a hook procedure that monitors low-level keyboard input events.
+        /// For more information, see the <see cref="LowLevelKeyboardProc"/> hook procedure.
+        /// <see cref="WH_MOUSE"/>:
+        /// Installs a hook procedure that monitors mouse messages.
+        /// For more information, see the <see cref="MouseProc"/> hook procedure.
+        /// <see cref="WH_MOUSE_LL"/>:
+        /// Installs a hook procedure that monitors low-level mouse input events.
+        /// For more information, see the <see cref="LowLevelMouseProc"/> hook procedure.
+        /// <see cref="WH_MSGFILTER"/>:
+        /// Installs a hook procedure that monitors messages generated as a result of an input event in a dialog box, message box, menu, or scroll bar.
+        /// For more information, see the <see cref="MessageProc"/> hook procedure.
+        /// <see cref="WH_SHELL"/>:
+        /// Installs a hook procedure that receives notifications useful to shell applications.
+        /// For more information, see the <see cref="ShellProc"/> hook procedure.
+        /// <see cref="WH_SYSMSGFILTER"/>:
+        /// Installs a hook procedure that monitors messages generated as a result of an input event in a dialog box, message box, menu, or scroll bar.
+        /// The hook procedure monitors these messages for all applications in the same desktop as the calling thread.
+        /// For more information, see the <see cref="SysMsgProc"/> hook procedure.
+        /// </param>
+        /// <param name="lpfn">
+        /// A pointer to the hook procedure.
+        /// If the <paramref name="dwThreadId"/> parameter is zero or specifies the identifier of a thread created by a different process,
+        /// the <paramref name="lpfn"/> parameter must point to a hook procedure in a DLL.
+        /// Otherwise, <paramref name="lpfn"/> can point to a hook procedure in the code associated with the current process.
+        /// </param>
+        /// <param name="hmod">
+        /// A handle to the DLL containing the hook procedure pointed to by the <paramref name="lpfn"/> parameter.
+        /// The <paramref name="hmod"/> parameter must be set to <see cref="NULL"/>
+        /// if the <paramref name="dwThreadId"/> parameter specifies a thread created by the current process
+        /// and if the hook procedure is within the code associated with the current process.
+        /// </param>
+        /// <param name="dwThreadId">
+        /// The identifier of the thread with which the hook procedure is to be associated.
+        /// For desktop apps, if this parameter is zero, the hook procedure is associated
+        /// with all existing threads running in the same desktop as the calling thread.
+        /// For Windows Store apps, see the Remarks section.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the hook procedure.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="SetWindowsHookEx"/> can be used to inject a DLL into another process.
+        /// A 32-bit DLL cannot be injected into a 64-bit process, and a 64-bit DLL cannot be injected into a 32-bit process.
+        /// If an application requires the use of hooks in other processes,
+        /// it is required that a 32-bit application call <see cref="SetWindowsHookEx"/> to inject a 32-bit DLL into 32-bit processes,
+        /// and a 64-bit application call <see cref="SetWindowsHookEx"/> to inject a 64-bit DLL into 64-bit processes.
+        /// The 32-bit and 64-bit DLLs must have different names.
+        /// Because hooks run in the context of an application, they must match the "bitness" of the application.
+        /// If a 32-bit application installs a global hook on 64-bit Windows,
+        /// the 32-bit hook is injected into each 32-bit process(the usual security boundaries apply).
+        /// In a 64-bit process, the threads are still marked as "hooked."
+        /// However, because a 32-bit application must run the hook code, the system executes the hook in the hooking app's context;
+        /// specifically, on the thread that called <see cref="SetWindowsHookEx"/>.
+        /// This means that the hooking application must continue to pump messages or it might block the normal functioning of the 64-bit processes.
+        /// If a 64-bit application installs a global hook on 64-bit Windows, the 64-bit hook is injected into each 64-bit process,
+        /// while all 32-bit processes use a callback to the hooking application.
+        /// To hook all applications on the desktop of a 64-bit Windows installation, install a 32-bit global hook and a 64-bit global hook,
+        /// each from appropriate processes, and be sure to keep pumping messages in the hooking application to avoid blocking normal functioning.
+        /// If you already have a 32-bit global hooking application and it doesn't need to run in each application's context,
+        /// you may not need to create a 64-bit version.
+        /// An error may occur if the <paramref name="hmod"/> parameter is <see cref="NULL"/>
+        /// and the <paramref name="dwThreadId"/> parameter is zero or specifies the identifier of a thread created by another process.
+        /// Calling the <see cref="CallNextHookEx"/> function to chain to the next hook procedure is optional,
+        /// but it is highly recommended; otherwise, other applications that have installed hooks will not receive hook notifications
+        /// and may behave incorrectly as a result.
+        /// You should call <see cref="CallNextHookEx"/> unless you absolutely need to prevent the notification from being seen by other applications.
+        /// Before terminating, an application must call the <see cref="UnhookWindowsHookEx"/> function to free system resources associated with the hook.
+        /// The scope of a hook depends on the hook type.
+        /// Some hooks can be set only with global scope; others can also be set for only a specific thread, as shown in the following table.
+        /// Hook                                Scope
+        /// <see cref="WH_CALLWNDPROC"/>        Thread or global
+        /// <see cref="WH_CALLWNDPROCRET"/>     Thread or global
+        /// <see cref="WH_CBT"/>                Thread or global
+        /// <see cref="WH_DEBUG"/>              Thread or global
+        /// <see cref="WH_FOREGROUNDIDLE"/>     Thread or global
+        /// <see cref="WH_GETMESSAGE"/>         Thread or global
+        /// <see cref="WH_JOURNALPLAYBACK"/>    Global only
+        /// <see cref="WH_JOURNALRECORD"/>      Global only
+        /// <see cref="WH_KEYBOARD"/>           Thread or global
+        /// <see cref="WH_KEYBOARD_LL"/>        Global only
+        /// <see cref="WH_MOUSE"/>              Thread or global
+        /// <see cref="WH_MOUSE_LL"/>           Global only
+        /// <see cref="WH_MSGFILTER"/>          Thread or global
+        /// <see cref="WH_SHELL"/>              Thread or global
+        /// <see cref="WH_SYSMSGFILTER"/>       Global only
+        /// For a specified hook type, thread hooks are called first, then global hooks.
+        /// Be aware that the <see cref="WH_MOUSE"/>, <see cref="WH_KEYBOARD"/>, WH_JOURNAL*, <see cref="WH_SHELL"/>,
+        /// and low-level hooks can be called on the thread that installed the hook rather than the thread processing the hook.
+        /// For these hooks, it is possible that both the 32-bit and 64-bit hooks will be called if a 32-bit hook is ahead of a 64-bit hook in the hook chain.
+        /// The global hooks are a shared resource, and installing one affects all applications in the same desktop as the calling thread.
+        /// All global hook functions must be in libraries.
+        /// Global hooks should be restricted to special-purpose applications or to use as a development aid during application debugging.
+        /// Libraries that no longer need a hook should remove its hook procedure.
+        /// Windows Store app development
+        /// If dwThreadId is zero, then window hook DLLs are not loaded in-process for the Windows Store app processes
+        /// and the Windows Runtime broker process unless they are installed by either UIAccess processes (accessibility tools).
+        /// The notification is delivered on the installer's thread for these hooks:
+        /// <see cref="WH_JOURNALPLAYBACK"/>, <see cref="WH_JOURNALRECORD"/>, <see cref="WH_KEYBOARD"/>, <see cref="WH_KEYBOARD_LL"/>,
+        /// <see cref="WH_MOUSE"/>, <see cref="WH_MOUSE_LL"/>
+        /// This behavior is similar to what happens when there is an architecture mismatch between the hook DLL and the target application process,
+        /// for example, when the hook DLL is 32-bit and the application process 64-bit.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowsHookExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HHOOK SetWindowsHookEx([In]int idHook, [In]HOOKPROC lpfn, [In]HINSTANCE hmod, [In]DWORD dwThreadId);
+
+        /// <summary>
         /// Changes an attribute of the specified window.
         /// The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
         /// </summary>
@@ -2435,6 +2806,65 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowOwnedPopups", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ShowOwnedPopups([In]HWND hWnd, [In]BOOL fShow);
+
+        /// <summary>
+        /// <para>
+        /// Processes accelerator keystrokes for window menu commands of the multiple-document interface (MDI) child windows
+        /// associated with the specified MDI client window.
+        /// The function translates <see cref="WM_KEYUP"/> and <see cref="WM_KEYDOWN"/> messages to <see cref="WM_SYSCOMMAND"/> messages
+        /// and sends them to the appropriate MDI child windows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel
+        /// </para>
+        /// </summary>
+        /// <param name="hWndClient">
+        /// A handle to the MDI client window.
+        /// </param>
+        /// <param name="lpMsg">
+        /// A pointer to a message retrieved by using the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
+        /// The message must be an <see cref="MSG"/> structure and contain message information from the application's message queue.
+        /// </param>
+        /// <returns>
+        /// If the message is translated into a system command, the return value is <see cref="TRUE"/>.
+        /// If the message is not translated into a system command, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMDISysAccel", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TranslateMDISysAccel([In]HWND hWndClient, [In][Out]ref MSG lpMsg);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nCode"></param>
+        /// <param name="pfnFilterProc"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHook", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnhookWindowsHook([In]int nCode, [In]HOOKPROC pfnFilterProc);
+
+        /// <summary>
+        /// <para>
+        /// Removes a hook procedure installed in a hook chain by the <see cref="SetWindowsHookEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unhookwindowshookex
+        /// </para>
+        /// </summary>
+        /// <param name="hhk">
+        /// A handle to the hook to be removed.
+        /// This parameter is a hook handle obtained by a previous call to <see cref="SetWindowsHookEx"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The hook procedure can be in the state of being called by another thread even after <see cref="UnhookWindowsHookEx"/> returns.
+        /// If the hook procedure is not being called concurrently, the hook procedure is removed immediately before <see cref="UnhookWindowsHookEx"/> returns.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhookWindowsHookEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnhookWindowsHookEx([In]HHOOK hhk);
 
         /// <summary>
         /// <para>

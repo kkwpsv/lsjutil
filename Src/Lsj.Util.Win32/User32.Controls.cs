@@ -10,6 +10,77 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Changes the check state of a button control.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkdlgbutton
+        /// </para>
+        /// </summary>
+        /// <param name="hDlg">
+        /// A handle to the dialog box that contains the button.
+        /// </param>
+        /// <param name="nIDButton">
+        /// The identifier of the button to modify.
+        /// </param>
+        /// <param name="uCheck">
+        /// The check state of the button.
+        /// This parameter can be one of the following values.
+        /// <see cref="BST_CHECKED"/>: 
+        /// Sets the button state to checked.
+        /// <see cref="BST_INDETERMINATE"/>:
+        /// Sets the button state to grayed, indicating an indeterminate state.
+        /// Use this value only if the button has the <see cref="BS_3STATE"/> or <see cref="BS_AUTO3STATE"/> style.
+        /// <see cref="BST_UNCHECKED"/>:
+        /// Sets the button state to cleared
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CheckDlgButton"/> function sends a <see cref="BM_SETCHECK"/> message to the specified button control in the specified dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckDlgButton", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckDlgButton([In]HWND hDlg, [In]int nIDButton, [In]ButtonStates uCheck);
+
+        /// <summary>
+        /// <para>
+        /// Adds a check mark to (checks) a specified radio button in a group and removes a check mark from (clears) all other radio buttons in the group.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkradiobutton
+        /// </para>
+        /// </summary>
+        /// <param name="hDlg">
+        /// A handle to the dialog box that contains the radio button.
+        /// </param>
+        /// <param name="nIDFirstButton">
+        /// The identifier of the first radio button in the group.
+        /// </param>
+        /// <param name="nIDLastButton">
+        /// The identifier of the last radio button in the group.
+        /// </param>
+        /// <param name="nIDCheckButton">
+        /// The identifier of the radio button to select.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CheckRadioButton"/> function sends a <see cref="BM_SETCHECK"/> message to each of the radio buttons in the indicated group.
+        /// The <paramref name="nIDFirstButton"/> and <paramref name="nIDLastButton"/> parameters
+        /// specify a range of button identifiers (normally the resource IDs of the buttons).
+        /// The position of buttons in the tab order is irrelevant; if a button forms part of a group,
+        /// but has an ID outside the specified range,it is not affected by this call.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckRadioButton", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckRadioButton([In]HWND hDlg, [In]int nIDFirstButton, [In]int nIDLastButton, [In]int nIDCheckButton);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="EnableScrollBar"/> function enables or disables one or both scroll bar arrows.
         /// </para>
         /// <para>
@@ -145,6 +216,38 @@ namespace Lsj.Util.Win32
         [Obsolete("The GetScrollRange function is provided for compatibility only. New applications should use the GetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollRange", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetScrollRange([In]HWND hWnd, [In]int nBar, [Out]out int lpMinPos, [Out]out int lpMaxPos);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IsDlgButtonChecked"/> function determines whether a button control is checked
+        /// or whether a three-state button control is checked, unchecked, or indeterminate.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        /// </para>
+        /// </summary>
+        /// <param name="hDlg">
+        /// A handle to the dialog box that contains the button control.
+        /// </param>
+        /// <param name="nIDButton">
+        /// The identifier of the button control.
+        /// </param>
+        /// <returns>
+        /// The return value from a button created with the <see cref="BS_AUTOCHECKBOX"/>, <see cref="BS_AUTORADIOBUTTON"/>, <see cref="BS_AUTO3STATE"/>,
+        /// <see cref="BS_CHECKBOX"/>, <see cref="BS_RADIOBUTTON"/>, or <see cref="BS_3STATE"/> styles can be one of the values in the following table.
+        /// If the button has any other style, the return value is zero.
+        /// <see cref="BST_CHECKED"/>:
+        /// The button is checked.
+        /// <see cref="BST_INDETERMINATE"/>:
+        /// The button is in an indeterminate state (applies only if the button has the <see cref="BS_3STATE"/> or <see cref="BS_AUTO3STATE"/> style).
+        /// <see cref="BST_UNCHECKED"/>:
+        /// The button is not checked.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="IsDlgButtonChecked"/> function sends a <see cref="BM_GETCHECK"/> message to the specified button control.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDlgButtonChecked", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT IsDlgButtonChecked([In]HWND hDlg, [In]int nIDButton);
 
         /// <summary>
         /// <para>
