@@ -1100,5 +1100,126 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam, [In]PVOID pvParam, [In]UINT fWinIni);
+
+        /// <summary>
+        /// <para>
+        /// Launches Windows Help (Winhelp.exe) and passes additional data that indicates the nature of the help requested by the application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw
+        /// </para>
+        /// </summary>
+        /// <param name="hWndMain">
+        /// A handle to the window requesting help.
+        /// The <see cref="WinHelp"/> function uses this handle to keep track of which applications have requested help.
+        /// If the <paramref name="uCommand"/> parameter specifies <see cref="HELP_CONTEXTMENU"/> or <see cref="HELP_WM_HELP"/>, hWndMain identifies the control requesting help.
+        /// </param>
+        /// <param name="lpszHelp">
+        /// The address of a null-terminated string containing the path, if necessary, and the name of the Help file that <see cref="WinHelp"/> is to display.
+        /// The file name can be followed by an angle bracket (>) and the name of a secondary window
+        /// if the topic is to be displayed in a secondary window rather than in the primary window.
+        /// You must define the name of the secondary window in the [WINDOWS] section of the Help project (.hpj) file.
+        /// </param>
+        /// <param name="uCommand">
+        /// The type of help requested. For a list of possible values and how they affect the value
+        /// to place in the <paramref name="dwData"/> parameter, see the Remarks section.
+        /// </param>
+        /// <param name="dwData">
+        /// Additional data.
+        /// The value used depends on the value of the <paramref name="uCommand"/> parameter.
+        /// For a list of possible dwData values, see the Remarks section.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before closing the window that requested help, the application must call <see cref="WinHelp"/>
+        /// with the <paramref name="uCommand"/> parameter set to <see cref="HELP_QUIT"/>.
+        /// Until all applications have done this, Windows Help will not terminate.
+        /// Note that calling Windows Help with the <see cref="HELP_QUIT"/> command is not necessary
+        /// if you used the <see cref="HELP_CONTEXTPOPUP"/> command to start Windows Help.
+        /// This function fails if called from any context but the current user.
+        /// The following table shows the possible values for the <paramref name="uCommand"/> parameter
+        /// and the corresponding formats of the <paramref name="dwData"/> parameter.
+        /// <paramref name="uCommand"/>
+        /// Action
+        /// <paramref name="dwData"/>
+        /// <see cref="HELP_COMMAND"/>:
+        /// Executes a Help macro or macro string.
+        /// Address of a string that specifies the name of the Help macro(s) to run.
+        /// If the string specifies multiple macro names, the names must be separated by semicolons.
+        /// You must use the short form of the macro name for some macros because Windows Help does not support the long name.
+        /// <see cref="HELP_CONTENTS"/>
+        /// Displays the topic specified by the Contents option in the [OPTIONS] section of the .hpj file.
+        /// This command is for backward compatibility.
+        /// New applications should provide a .cnt file and use the <see cref="HELP_FINDER"/> command.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_CONTEXT"/>:
+        /// Displays the topic identified by the specified context identifier defined in the [MAP] section of the .hpj file.
+        /// Contains the context identifier for the topic.
+        /// <see cref="HELP_CONTEXTMENU"/>:
+        /// Displays the Help menu for the selected window, then displays the topic for the selected control in a pop-up window.
+        /// Address of an array of <see cref="DWORD"/> pairs.
+        /// The first <see cref="DWORD"/> in each pair is the control identifier, and the second is the context identifier for the topic.
+        /// The array must be terminated by a pair of zeros {0,0}.
+        /// If you do not want to add Help to a particular control, set its context identifier to -1.
+        /// <see cref="HELP_CONTEXTPOPUP"/>:
+        /// Displays the topic identified by the specified context identifier defined in the [MAP] section of the .hpj file in a pop-up window.
+        /// Contains the context identifier for a topic.
+        /// <see cref="HELP_FINDER"/>:
+        /// Displays the Help Topics dialog box.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_FORCEFILE"/>:
+        /// Ensures that Windows Help is displaying the correct Help file.
+        /// If the incorrect Help file is being displayed, Windows Help opens the correct one; otherwise, there is no action.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_HELPONHELP"/>:
+        /// Displays help on how to use Windows Help, if the Winhlp32.hlp file is available.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_INDEX"/>:
+        /// Displays the topic specified by the Contents option in the [OPTIONS] section of the .hpj file.
+        /// This command is for backward compatibility.
+        /// New applications should use the <see cref="HELP_FINDER"/> command.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_KEY"/>:
+        /// Displays the topic in the keyword table that matches the specified keyword, if there is an exact match.
+        /// If there is more than one match, displays the Index with the topics listed in the Topics Found list box.
+        /// Address of a keyword string. Multiple keywords must be separated by semicolons.
+        /// <see cref="HELP_MULTIKEY"/>:
+        /// Displays the topic specified by a keyword in an alternative keyword table.
+        /// Address of a <see cref="MULTIKEYHELP"/> structure that specifies a table footnote character and a keyword.
+        /// <see cref="HELP_PARTIALKEY"/>:
+        /// Displays the topic in the keyword table that matches the specified keyword, if there is an exact match.
+        /// If there is more than one match, displays the Topics Found dialog box.
+        /// To display the index without passing a keyword, use a pointer to an empty string.
+        /// Address of a keyword string. Multiple keywords must be separated by semicolons.
+        /// <see cref="HELP_QUIT"/>:
+        /// Informs Windows Help that it is no longer needed. If no other applications have asked for help, Windows closes Windows Help.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_SETCONTENTS"/>:
+        /// Specifies the Contents topic. Windows Help displays this topic when the user clicks the Contents button
+        /// if the Help file does not have an associated .cnt file.
+        /// Contains the context identifier for the Contents topic.
+        /// <see cref="HELP_SETPOPUP_POS"/>:
+        /// Sets the position of the subsequent pop-up window.
+        /// Contains the position data.
+        /// Use <see cref="MAKELONG"/> to concatenate the horizontal and vertical coordinates into a single value.
+        /// The pop-up window is positioned as if the mouse cursor were at the specified point when the pop-up window was invoked.
+        /// <see cref="HELP_SETWINPOS"/>:
+        /// Displays the Windows Help window, if it is minimized or in memory, and sets its size and position as specified.
+        /// Address of a <see cref="HELPWININFO"/> structure that specifies the size and position of either a primary or secondary Help window.
+        /// <see cref="HELP_TCARD"/>:
+        /// Indicates that a command is for a training card instance of Windows Help. Combine this command with other commands using the bitwise OR operator.
+        /// Depends on the command with which this command is combined.
+        /// <see cref="HELP_WM_HELP"/>:
+        /// Displays the topic for the control identified by the <paramref name="hWndMain"/> parameter in a pop-up window.
+        /// Address of an array of <see cref="DWORD"/> pairs.
+        /// The first <see cref="DWORD"/> in each pair is a control identifier, and the second is a context identifier for a topic.
+        /// The array must be terminated by a pair of zeros {0,0}.
+        /// If you do not want to add Help to a particular control, set its context identifier to -1.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinHelpW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WinHelp([In]HWND hWndMain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszHelp, [In]UINT uCommand, [In]ULONG_PTR dwData);
     }
 }
