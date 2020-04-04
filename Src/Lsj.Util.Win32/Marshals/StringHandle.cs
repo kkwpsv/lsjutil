@@ -91,6 +91,7 @@ namespace Lsj.Util.Win32.Marshals
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString() => StringVal ?? string.Empty;
 
         /// <summary>

@@ -5,10 +5,9 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.Enums.CharacterSets;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
-using static Lsj.Util.Win32.Enums.FontTypes;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32

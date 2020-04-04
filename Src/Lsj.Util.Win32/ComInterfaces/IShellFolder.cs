@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -153,7 +154,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
-        /// Some implementations may also return <see cref="S_FALSEs"/>, indicating that there are no children
+        /// Some implementations may also return <see cref="S_FALSE"/>, indicating that there are no children
         /// matching the <paramref name="grfFlags"/> that were passed in.
         /// If <see cref="S_FALSE"/> is returned, <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
         /// </returns>
@@ -488,7 +489,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The simplest way to retrieve the display name from the structure pointed to by <see cref="pName"/> is to pass it
         /// to either <see cref="StrRetToBuf"/> or <see cref="StrRetToStr"/>.
         /// These functions take a <see cref="STRRET"/> structure and return the name.
-        /// You can also examine the structure's <see cref="uType"/> member, and retrieve the name from the appropriate member.
+        /// You can also examine the structure's <see cref="STRRET.uType"/> member, and retrieve the name from the appropriate member.
         /// The flags specified in <paramref name="uFlags"/> are hints about the intended use of the name.
         /// They do not guarantee that <see cref="IShellFolder"/> will return the requested form of the name.
         /// If that form is not available, a different one might be returned.

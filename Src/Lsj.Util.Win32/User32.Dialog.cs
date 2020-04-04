@@ -4,13 +4,15 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.Constants;
-using System.Text;
 
 namespace Lsj.Util.Win32
 {

@@ -1,6 +1,9 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -66,11 +69,10 @@ namespace Lsj.Util.Win32
         /// The list ends with two nulls (\0\0).
         /// </param>
         /// <returns>
-        /// <see langword="true"/> if successful; otherwise, <see langword="false"/>.
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
+        public static extern BOOL DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
     }
 }

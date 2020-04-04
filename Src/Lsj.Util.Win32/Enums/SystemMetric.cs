@@ -104,7 +104,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The width of the client area for a full-screen window on the primary display monitor, in pixels. 
         /// To get the coordinates of the portion of the screen that is not obscured by the system taskbar or by application desktop toolbars, 
-        /// call the <see cref="SystemParametersInfofunction"/> with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
+        /// call the <see cref="SystemParametersInfo"/> function with the <see cref="SystemParametersInfoParameters.SPI_GETWORKAREA"/> value.
         /// </summary>
         SM_CXFULLSCREEN = 16,
 

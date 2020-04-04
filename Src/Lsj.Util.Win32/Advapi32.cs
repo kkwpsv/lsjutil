@@ -4,8 +4,11 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Userenv;
 
 namespace Lsj.Util.Win32
 {

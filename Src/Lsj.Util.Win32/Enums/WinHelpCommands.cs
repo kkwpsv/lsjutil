@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.User32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -8,7 +10,7 @@
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw
     /// </para>
     /// </summary>
-    public enum WinHelpCommand : uint
+    public enum WinHelpCommands : uint
     {
         /// <summary>
         /// Executes a Help macro or macro string.

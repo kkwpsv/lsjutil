@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32

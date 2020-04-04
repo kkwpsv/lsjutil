@@ -1,9 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {

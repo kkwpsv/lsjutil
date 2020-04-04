@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -53,7 +54,14 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         TPM_BOTTOMALIGN = 0x0020,
 
+        /// <summary>
+        /// TPM_HORIZONTAL
+        /// </summary>
         TPM_HORIZONTAL = 0x0000,
+
+        /// <summary>
+        /// TPM_VERTICAL
+        /// </summary>
         TPM_VERTICAL = 0x0040,
 
         /// <summary>
@@ -66,6 +74,9 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         TPM_RETURNCMD = 0x0100,
 
+        /// <summary>
+        /// TPM_RECURSE
+        /// </summary>
         TPM_RECURSE = 0x0001,
 
         /// <summary>
@@ -93,8 +104,14 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         TPM_NOANIMATION = 0x4000,
 
+        /// <summary>
+        /// TPM_LAYOUTRTL
+        /// </summary>
         TPM_LAYOUTRTL = 0x8000,
 
+        /// <summary>
+        /// TPM_WORKAREA
+        /// </summary>
         TPM_WORKAREA = 0x10000,
     }
 }

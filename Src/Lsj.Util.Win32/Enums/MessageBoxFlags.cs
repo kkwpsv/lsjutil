@@ -1,4 +1,7 @@
 ﻿using System;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -74,6 +77,9 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         MB_ICONASTERISK = 0x00000040,
 
+        /// <summary>
+        /// MB_USERICON
+        /// </summary>
         MB_USERICON = 0x00000080,
 
         /// <summary>
@@ -148,7 +154,9 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         MB_HELP = 0x00004000,
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         MB_NOFOCUS = 0x00008000,
 
         /// <summary>
@@ -192,12 +200,34 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         MB_SERVICE_NOTIFICATION = 0x00200000,
 
+        /// <summary>
+        /// MB_SERVICE_NOTIFICATION_NT3X
+        /// </summary>
         MB_SERVICE_NOTIFICATION_NT3X = 0x00040000,
 
+        /// <summary>
+        /// MB_TYPEMASK
+        /// </summary>
         MB_TYPEMASK = 0x0000000F,
+
+        /// <summary>
+        /// MB_ICONMASK
+        /// </summary>
         MB_ICONMASK = 0x000000F0,
+
+        /// <summary>
+        /// MB_DEFMASK
+        /// </summary>
         MB_DEFMASK = 0x00000F00,
+
+        /// <summary>
+        /// MB_MODEMASK
+        /// </summary>
         MB_MODEMASK = 0x00003000,
+
+        /// <summary>
+        /// MB_MISCMASK
+        /// </summary>
         MB_MISCMASK = 0x0000C000,
     }
 }

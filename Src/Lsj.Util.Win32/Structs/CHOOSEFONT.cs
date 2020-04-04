@@ -1,8 +1,10 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Comdlg32;
+using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
 
 namespace Lsj.Util.Win32.Structs
 {

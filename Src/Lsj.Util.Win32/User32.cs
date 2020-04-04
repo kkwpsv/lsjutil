@@ -8,7 +8,10 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.SystemShutdownReasonCodes;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WinHelpCommands;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -1220,6 +1223,7 @@ namespace Lsj.Util.Win32
         /// If you do not want to add Help to a particular control, set its context identifier to -1.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinHelpW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WinHelp([In]HWND hWndMain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszHelp, [In]UINT uCommand, [In]ULONG_PTR dwData);
+        public static extern BOOL WinHelp([In]HWND hWndMain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszHelp,
+            [In]WinHelpCommands uCommand, [In]ULONG_PTR dwData);
     }
 }

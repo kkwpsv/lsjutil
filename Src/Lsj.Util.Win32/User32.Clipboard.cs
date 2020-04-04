@@ -1,9 +1,11 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CLIPFORMAT;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 
 namespace Lsj.Util.Win32
 {

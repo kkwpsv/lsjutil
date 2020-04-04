@@ -6,9 +6,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
+using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
@@ -1259,6 +1262,13 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumPropsW", ExactSpelling = true, SetLastError = true)]
         public static extern int EnumProps([In]HWND hWnd, [In]PROPENUMPROC lpEnumFunc);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hTask"></param>
+        /// <param name="lpfn"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
         [Obsolete]
         public static BOOL EnumTaskWindows(HANDLE hTask, WNDENUMPROC lpfn, LPARAM lParam) => EnumThreadWindows(((IntPtr)hTask).SafeToUInt32(), lpfn, lParam);
 
@@ -2284,15 +2294,15 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// If you use the <see cref="SetClassLongPtr"/> function and the <see cref="GCLP_WNDPROC"/> index to replace the window procedure,
+        /// If you use the <see cref="SetClassLong"/> function and the <see cref="GCLP_WNDPROC"/> index to replace the window procedure,
         /// the window procedure must conform to the guidelines specified in the description of the <see cref="WNDPROC"/> callback function.
-        /// Calling <see cref="SetClassLongPtr"/> with the <see cref="GCLP_WNDPROC"/> index creates a subclass of the window class
+        /// Calling <see cref="SetClassLong(HWND, GetClassLongIndexes, LONG_PTR)"/> with the <see cref="GCLP_WNDPROC"/> index creates a subclass of the window class
         /// that affects all windows subsequently created with the class.
         /// An application can subclass a system class, but should not subclass a window class created by another process.
         /// Reserve extra class memory by specifying a nonzero value in the <see cref="WNDCLASSEX.cbClsExtra"/> member
         /// of the <see cref="WNDCLASSEX"/> structure used with the <see cref="RegisterClassEx"/> function.
-        /// Use the <see cref="SetClassLongPtr"/> function with care.
-        /// For example, it is possible to change the background color for a class by using <see cref="SetClassLongPtr"/>,
+        /// Use the <see cref="SetClassLong"/> function with care.
+        /// For example, it is possible to change the background color for a class by using <see cref="SetClassLong"/>,
         /// but this change does not immediately repaint all windows belonging to the class.
         /// </remarks>
         public static ULONG_PTR SetClassLong([In]HWND hWnd, [In]GetClassLongIndexes nIndex, [In]LONG_PTR dwNewLong) =>

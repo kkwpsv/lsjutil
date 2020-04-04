@@ -3,8 +3,14 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 
 namespace Lsj.Util.Win32
 {
@@ -99,8 +105,8 @@ namespace Lsj.Util.Win32
         /// To scroll an area containing a rectangle drawn by this function, call <see cref="DrawFocusRect"/> to remove the rectangle from the screen,
         /// scroll the area, and then call <see cref="DrawFocusRect"/> again to draw the rectangle in the new position.
         /// Windows XP: The focus rectangle can now be thicker than 1 pixel, so it is more visible for high-resolution, high-density displays and accessibility needs.
-        /// This is handled by the <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERWIDTH"/> and
-        /// <see cref="SystemParametersInfoParameters.SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
+        /// This is handled by the <see cref="SPI_SETFOCUSBORDERWIDTH"/> and
+        /// <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -507,7 +513,7 @@ namespace Lsj.Util.Win32
         /// as shown in the following example:
         /// <code>
         /// RECT        rc[10];
-        /// for(int i = 0; i < (sizeof(rc)/sizeof(rc[0])); i++)
+        /// for(int i = 0; i &lt; (sizeof(rc)/sizeof(rc[0])); i++)
         /// {
         ///     MapWindowPoints(hWnd1, hWnd2, (LPPOINT)(&amp;rc[i]), (sizeof(RECT)/sizeof(POINT)) );
         /// }

@@ -3,9 +3,10 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
-using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 
 namespace Lsj.Util.Win32
 {

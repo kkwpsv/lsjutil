@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
+    /// <summary>
+    /// CLSIDs
+    /// </summary>
     public static class CLSIDs
     {
         /// <summary>

@@ -131,7 +131,7 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// <see cref="The WNetGetConnection function retrieves the name of the network resource associated with a local device."/>
+        /// The <see cref="WNetGetConnection"/> function retrieves the name of the network resource associated with a local device.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetgetconnectionw

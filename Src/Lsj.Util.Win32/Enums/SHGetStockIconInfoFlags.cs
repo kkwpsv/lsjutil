@@ -1,4 +1,7 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Shell32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>

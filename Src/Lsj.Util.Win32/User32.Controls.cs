@@ -3,6 +3,14 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.ButtonControlMessages;
+using static Lsj.Util.Win32.Enums.ButtonStates;
+using static Lsj.Util.Win32.Enums.ButtonStyles;
+using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {

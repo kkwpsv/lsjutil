@@ -1,7 +1,5 @@
 ﻿using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -126,6 +124,10 @@ namespace Lsj.Util.Win32.Enums
         /// A memory object containing a <see cref="BITMAPV5HEADER"/> structure followed by the bitmap color space information and the bitmap bits.
         /// </summary>
         CF_DIBV5 = 17,
+
+        /// <summary>
+        /// 
+        /// </summary>
         CF_MAX = 18,
 
         /// <summary>

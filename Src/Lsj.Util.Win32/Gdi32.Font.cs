@@ -2,9 +2,17 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Enums.ClipPrecisions;
+using static Lsj.Util.Win32.Enums.FontQualities;
+using static Lsj.Util.Win32.Enums.FontWeights;
+using static Lsj.Util.Win32.Enums.OutPrecisions;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -844,7 +852,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member of the <see cref="RASTERIZER_STATUS"/> structure,
         /// at least one TrueType font is installed.
         /// If the <see cref="TT_ENABLED"/> flag is set, TrueType is enabled for the system.
-        /// The actual number of bytes copied is either the member specified in the <see cref="RASTERIZER_STATUS.cb"/> parameter
+        /// The actual number of bytes copied is either the member specified in the <see cref="RASTERIZER_STATUS.nSize"/> parameter
         /// or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRasterizerCaps", ExactSpelling = true, SetLastError = true)]

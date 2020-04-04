@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
-using static Lsj.Util.Win32.Enums.WinHelpCommand;
+using static Lsj.Util.Win32.Enums.WinHelpCommands;
+using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -47,7 +49,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Includes a question mark in the title bar of the dialog box.
         /// When the user clicks the question mark, the cursor changes to a question mark with a pointer.
-        /// If the user then clicks a control in the dialog box, the control receives a <see cref="WindowsMessages.WM_HELP"/> message.
+        /// If the user then clicks a control in the dialog box, the control receives a <see cref="WM_HELP"/> message.
         /// The control should pass the message to the dialog box procedure, which should call the function using the <see cref="HELP_WM_HELP"/> command.
         /// The help application displays a pop-up window that typically contains help for the control.
         /// </summary>
@@ -73,7 +75,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Creates a dialog box with a modal dialog-box frame that can be combined with a title bar and window menu
-        /// by specifying the <see cref="WindowStyles.WS_CAPTION"/> and <see cref="WindowStyles.WS_SYSMENU"/> styles.
+        /// by specifying the <see cref="WS_CAPTION"/> and <see cref="WS_SYSMENU"/> styles.
         /// </summary>
         DS_MODALFRAME = 0x80,
 
@@ -84,7 +86,7 @@ namespace Lsj.Util.Win32.Enums
         DS_NOFAILCREATE = 0x0010,
 
         /// <summary>
-        /// Suppresses <see cref="WindowsMessages.WM_ENTERIDLE"/> messages that the system would otherwise send to
+        /// Suppresses <see cref="WM_ENTERIDLE"/> messages that the system would otherwise send to
         /// the owner of the dialog box while the dialog box is displayed.
         /// </summary>
         DS_NOIDLEMSG = 0x100,
@@ -94,7 +96,7 @@ namespace Lsj.Util.Win32.Enums
         /// specifying the font to use for text in the client area and controls of the dialog box.
         /// If possible, the system selects a font according to the specified font data.
         /// The system passes a handle to the font to the dialog box and to each control
-        /// by sending them the <see cref="WindowsMessages.WM_SETFONT"/> message.
+        /// by sending them the <see cref="WM_SETFONT"/> message.
         /// For descriptions of the format of this font data, see <see cref="DLGTEMPLATE"/> and <see cref="DLGTEMPLATEEX"/>.
         /// If neither <see cref="DS_SETFONT"/> nor <see cref="DS_SHELLFONT"/> is specified, the dialog box template does not include the font data.
         /// </summary>
@@ -117,7 +119,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Dialog Box Fonts.
         /// The system selects a font using the font data specified in the pointsize, weight, and italic members.
         /// The system passes a handle to the font to the dialog box and to each control
-        /// by sending them the <see cref="WindowsMessages.WM_SETFONT"/> message.
+        /// by sending them the <see cref="WM_SETFONT"/> message.
         /// For descriptions of the format of this font data, see <see cref="DLGTEMPLATEEX"/>.
         /// If neither <see cref="DS_SHELLFONT"/> nor <see cref="DS_SETFONT"/> is specified, the extended dialog box template does not include the font data.
         /// </summary>

@@ -1,13 +1,15 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
+using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
-using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using Lsj.Util.Win32.BaseTypes;
 
 namespace Lsj.Util.Win32
 {
@@ -42,7 +44,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <returns>
         /// If the function succeeds, the return value is a handle to the calling process's heap.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// If the function fails, the return value is <see cref="NULL"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -1220,10 +1222,10 @@ namespace Lsj.Util.Win32
         /// This handle is returned by either the <see cref="LocalAlloc"/> or <see cref="LocalReAlloc"/> function.
         /// </param>
         /// <returns>
-        /// If the memory object is still locked after decrementing the lock count, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the memory object is still locked after decrementing the lock count, the return value is <see cref="TRUE"/>.
         /// If the memory object is unlocked after decrementing the lock count,
-        /// the function returns <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns <see cref="NO_ERROR"/>.
-        /// If the function fails, the return value is <see cref="BOOL.FALSE"/> and <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
+        /// the function returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="NO_ERROR"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/> and <see cref="GetLastError"/> returns a value other than <see cref="NO_ERROR"/>.
         /// </returns>
         /// <remarks>
         /// The internal data structures for each memory object include a lock count that is initially zero.

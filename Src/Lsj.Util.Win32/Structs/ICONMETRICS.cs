@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {

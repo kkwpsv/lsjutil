@@ -76,6 +76,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public ProtocolSpecificStruct ProtocolSpecific;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode, Size = 64)]
         public struct ProtocolSpecificStruct
         {

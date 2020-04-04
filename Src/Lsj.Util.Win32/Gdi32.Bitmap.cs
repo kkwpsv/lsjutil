@@ -2,9 +2,14 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.RasterCodes;
+using static Lsj.Util.Win32.Enums.RasterOps;
+using static Lsj.Util.Win32.Enums.StretchBltModes;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
@@ -112,7 +117,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed when blits occur.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1, [In]RasterCodes rop);
+        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1,
+            [In]RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -174,7 +180,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="pbm">
         /// A pointer to a <see cref="BITMAP"/> structure that contains information about the bitmap.
-        /// If an application sets the <see cref="bmWidth"/> or <see cref="bmHeight"/> members to zero,
+        /// If an application sets the <see cref="BITMAP.bmWidth"/> or <see cref="BITMAP.bmHeight"/> members to zero,
         /// <see cref="CreateBitmapIndirect"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
         /// </param>
         /// <returns>
@@ -281,7 +287,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="pjBits">
         /// A pointer to an array of bytes containing the initial bitmap data.
-        /// The format of the data depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// The format of the data depends on the <see cref="BITMAPINFOHEADER.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
         /// to which the <paramref name="pbmi"/> parameter points.
         /// </param>
         /// <param name="pbmi">
@@ -1139,7 +1145,7 @@ namespace Lsj.Util.Win32
         /// <param name="iUsage">
         /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was provided and,
         /// if so, whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or indexes.
-        /// The <see cref="iUsage"/> parameter must be one of the following values.
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
         /// <see cref="DIB_PAL_COLORS"/>:
         /// The array contains 16-bit indexes into the logical palette of the source device context.
         /// <see cref="DIB_RGB_COLORS"/>:

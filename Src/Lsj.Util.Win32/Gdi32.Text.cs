@@ -4,6 +4,8 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.TextAlignments;
 
 namespace Lsj.Util.Win32
 {
@@ -532,7 +534,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         /// <remarks>
-        /// If the <paramref name="nTabPositions"/> parameter is zero and the <paramref name="lpnTabStopPositions"/> parameter is <see cref="null"/>,
+        /// If the <paramref name="nTabPositions"/> parameter is zero and the <paramref name="lpnTabStopPositions"/> parameter is <see cref="NULL"/>,
         /// tabs are expanded to eight times the average character width.
         /// If <paramref name="nTabPositions"/> is 1, the tab stops are separated by the distance specified
         /// by the first value in the <paramref name="lpnTabStopPositions"/> array.
