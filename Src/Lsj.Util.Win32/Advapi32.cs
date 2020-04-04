@@ -4,6 +4,8 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
@@ -823,6 +825,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
+        /// </para>
+        /// </summary>
+        /// <param name="ExistingTokenHandle">
+        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// </param>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <param name="DuplicateTokenHandle">
+        /// A pointer to a variable that receives a handle to the duplicate token.
+        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
+        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
+        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
+        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
+        /// which requires a primary token.
+        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DuplicateTokenEx"/> function creates a new access token that duplicates an existing token.
         /// This function can create either a primary token or an impersonation token.
         /// </para>
@@ -890,42 +928,6 @@ namespace Lsj.Util.Win32
             [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
 
         /// <summary>
-        /// <para>
-        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
-        /// </para>
-        /// </summary>
-        /// <param name="ExistingTokenHandle">
-        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
-        /// </param>
-        /// <param name="ImpersonationLevel">
-        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
-        /// </param>
-        /// <param name="DuplicateTokenHandle">
-        /// A pointer to a variable that receives a handle to the duplicate token.
-        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
-        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
-        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
-        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
-        /// which requires a primary token.
-        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
-        /// </remarks>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out]out IntPtr DuplicateTokenHandle);
-
-        /// <summary>
         /// The SetTokenInformation function sets various types of information for a specified access token. 
         /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
         /// <para>
@@ -956,6 +958,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
 
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass, [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
+        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In]LPVOID TokenInformation, [In]DWORD TokenInformationLength);
     }
 }

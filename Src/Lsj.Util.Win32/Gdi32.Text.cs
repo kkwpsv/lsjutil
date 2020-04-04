@@ -5,7 +5,13 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BackgroundModes;
+using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
+using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.TextAlignments;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {

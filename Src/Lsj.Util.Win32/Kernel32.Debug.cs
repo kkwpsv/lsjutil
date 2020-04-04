@@ -1,8 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -132,7 +130,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Sends a string to the debugger for display.
         /// Important
-        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugStringW"/> and instead only output ASCII strings.
+        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
         /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
         /// debuggers are required to call <see cref="WaitForDebugEventEx"/> to opt into the new behavior.
         /// On calling <see cref="WaitForDebugEventEx"/>, the operating system will know that the debugger supports Unicode

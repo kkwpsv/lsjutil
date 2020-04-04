@@ -334,7 +334,7 @@ namespace Lsj.Util.Win32
         /// This value is not supported before Windows Server 2012 and Windows 8.
         /// <see cref="SEC_LARGE_PAGES"/>:
         /// Enables large pages to be used for file mapping objects that are backed by the operating system paging file
-        /// (the <paramref name="hFile"/> parameter is <see cref="Constants.INVALID_HANDLE_VALUE"/>).
+        /// (the <paramref name="hFile"/> parameter is <see cref="INVALID_HANDLE_VALUE"/>).
         /// This attribute is not supported for file mapping objects that are backed by executable image files or data files
         /// (the <paramref name="hFile"/> parameter is a handle to an executable image or data file).
         /// The maximum size of the file mapping object must be a multiple of the minimum size of a large page

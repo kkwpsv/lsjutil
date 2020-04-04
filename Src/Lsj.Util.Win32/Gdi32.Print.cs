@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {

@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -1218,7 +1219,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpEnumFunc">
         /// A pointer to an application-defined callback function.
-        /// For more information, see <see cref="EnumChildProc"/>.
+        /// For more information, see <see cref="WNDENUMPROC"/>.
         /// </param>
         /// <param name="lParam">
         /// An application-defined value to be passed to the callback function.
@@ -1287,7 +1288,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpfn">
         /// A pointer to an application-defined callback function.
-        /// For more information, see <see cref="EnumThreadWndProc"/>.
+        /// For more information, see <see cref="WNDENUMPROC"/>.
         /// </param>
         /// <param name="lParam">
         /// An application-defined value to be passed to the callback function.

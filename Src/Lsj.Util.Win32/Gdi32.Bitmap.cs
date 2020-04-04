@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RasterOps;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
@@ -741,7 +742,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpBits">
         /// A pointer to the DIB color data, stored as an array of bytes.
-        /// The format of the bitmap values depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// The format of the bitmap values depends on the <see cref="BITMAPINFOHEADER.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
         /// pointed to by the <paramref name="lpbmi"/> parameter.
         /// </param>
         /// <param name="lpbmi">

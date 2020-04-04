@@ -6,7 +6,10 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
+using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.User32;
 
@@ -147,14 +150,15 @@ namespace Lsj.Util.Win32
         /// When this thread is destroyed, the <see cref="HDC"/> is no longer valid.
         /// Thus, if you create the HDC and pass it to another thread, then exit the first thread, the second thread will not be able to use the HDC.
         /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a display device, you must pass to <paramref name="pdm"/>
-        /// either <see langword="null"/> or a pointer to <see cref="DEVMODE"/> that
+        /// either <see cref="NULL"/> or a pointer to <see cref="DEVMODE"/> that
         /// matches the current <see cref="DEVMODE"/> of the display device that <paramref name="pwszDevice"/> specifies.
         /// We recommend to pass <see langword="null"/> and not to try to exactly match the <see cref="DEVMODE"/> for the current display device.
         /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a printer device, the printer driver validates the <see cref="DEVMODE"/>.
-        /// If the printer driver determines that the <see cref="DEVMODE"/> is invalid (that is, printer driver can’t convert or consume the <see cref="DEVMODE"/>),
+        /// If the printer driver determines that the <see cref="DEVMODE"/> is invalid
+        /// (that is, printer driver can’t convert or consume the <see cref="DEVMODE"/>),
         /// the printer driver provides a default <see cref="DEVMODE"/> to create the <see cref="HDC"/> for the printer device.
-        /// ICM: To enable ICM, set the <see cref="dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
-        /// (pointed to by the <see cref="pInitData"/> parameter) to the appropriate value.
+        /// ICM: To enable ICM, set the <see cref="DEVMODE.dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
+        /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
@@ -1175,7 +1179,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MM_ANISOTROPIC"/> mode allows the x-coordinates and y-coordinates to be adjusted independently.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetMapMode([In]HDC hdc, [In]int iMode);
+        public static extern int SetMapMode([In]HDC hdc, [In]MappingModes iMode);
 
         /// <summary>
         /// <para>

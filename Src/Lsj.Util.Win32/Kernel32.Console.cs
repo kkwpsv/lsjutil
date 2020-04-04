@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
+using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
