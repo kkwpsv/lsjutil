@@ -541,6 +541,115 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Plays a waveform sound. The waveform sound for each sound type is identified by an entry in the registry.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messagebeep
+        /// </para>
+        /// </summary>
+        /// <param name="uType">
+        /// The sound to be played.
+        /// The sounds are set by the user through the Sound control panel application, and then stored in the registry.
+        /// This parameter can be one of the following values.
+        /// 0xFFFFFFFF: A simple beep. If the sound card is not available, the sound is generated using the speaker.
+        /// <see cref="MB_ICONASTERISK"/>: See <see cref="MB_ICONINFORMATION"/>.
+        /// <see cref="MB_ICONEXCLAMATION"/>: See <see cref="MB_ICONWARNING"/>.
+        /// <see cref="MB_ICONERROR"/>: The sound specified as the Windows Critical Stop sound.
+        /// <see cref="MB_ICONHAND"/>: See <see cref="MB_ICONERROR"/>.
+        /// <see cref="MB_ICONINFORMATION"/>: The sound specified as the Windows Asterisk sound.
+        /// <see cref="MB_ICONQUESTION"/>: The sound specified as the Windows Question sound.
+        /// <see cref="MB_ICONSTOP"/>: See <see cref="MB_ICONERROR"/>.
+        /// <see cref="MB_ICONWARNING"/>: The sound specified as the Windows Exclamation sound.
+        /// <see cref="MB_OK"/>: The sound specified as the Windows Default Beep sound.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After queuing the sound, the <see cref="MessageBeep"/> function returns control to the calling function and plays the sound asynchronously.
+        /// If it cannot play the specified alert sound, <see cref="MessageBeep"/> attempts to play the system default sound.
+        /// If it cannot play the system default sound, the function produces a standard beep sound through the computer speaker.
+        /// The user can disable the warning beep by using the Sound control panel application.
+        /// Note To send a beep to a remote client, use the <see cref="Beep"/> function.
+        /// The <see cref="Beep"/> function is redirected to the client, whereas <see cref="MessageBeep"/> is not.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBeep", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MessageBeep([In]MessageBoxFlags uType);
+
+        /// <summary>
+        /// <para>
+        /// Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message,
+        /// such as status or error information.
+        /// The message box returns an integer value that indicates which button the user clicked.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messageboxw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the owner window of the message box to be created.
+        /// If this parameter is <see cref="NULL"/>, the message box has no owner window.
+        /// </param>
+        /// <param name="lpText">
+        /// The message to be displayed.
+        /// If the string consists of more than one line, you can separate the lines using a carriage return and/or linefeed character between each line.
+        /// </param>
+        /// <param name="lpCaption">
+        /// The dialog box title.
+        /// If this parameter is <see langword="null"/>, the default title is Error.
+        /// </param>
+        /// <param name="uType">
+        /// The contents and behavior of the dialog box.
+        /// This parameter can be a combination of flags from the following groups of flags.
+        /// To indicate the buttons displayed in the message box, specify one of the following values.
+        /// <see cref="MB_ABORTRETRYIGNORE"/>, <see cref="MB_CANCELTRYCONTINUE"/>, <see cref="MB_HELP"/>, <see cref="MB_OK"/>,
+        /// <see cref="MB_OKCANCEL"/>, <see cref="MB_RETRYCANCEL"/>, <see cref="MB_YESNO"/>, <see cref="MB_YESNOCANCEL"/>
+        /// To display an icon in the message box, specify one of the following values.
+        /// <see cref="MB_ICONEXCLAMATION"/>, <see cref="MB_ICONWARNING"/>, <see cref="MB_ICONINFORMATION"/>, <see cref="MB_ICONASTERISK"/>,
+        /// <see cref="MB_ICONQUESTION"/>, <see cref="MB_ICONSTOP"/>, <see cref="MB_ICONERROR"/>, <see cref="MB_ICONHAND"/>
+        /// To indicate the default button, specify one of the following values.
+        /// <see cref="MB_DEFBUTTON1"/>, <see cref="MB_DEFBUTTON2"/>, <see cref="MB_DEFBUTTON3"/>, <see cref="MB_DEFBUTTON4"/>
+        /// To indicate the modality of the dialog box, specify one of the following values.
+        /// <see cref="MB_APPLMODAL"/>, <see cref="MB_SYSTEMMODAL"/>, <see cref="MB_TASKMODAL"/>
+        /// To specify other options, use one or more of the following values.
+        /// <see cref="MB_DEFAULT_DESKTOP_ONLY"/>, <see cref="MB_RIGHT"/>, <see cref="MB_RTLREADING"/>, <see cref="MB_SETFOREGROUND"/>,
+        /// <see cref="MB_TOPMOST"/>, <see cref="MB_SERVICE_NOTIFICATION"/>
+        /// </param>
+        /// <returns>
+        /// If a message box has a Cancel button, the function returns the <see cref="IDCANCEL"/> value
+        /// if either the ESC key is pressed or the Cancel button is selected.
+        /// If the message box has no Cancel button, pressing ESC has no effect.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is one of the following menu-item values.
+        /// <see cref="IDABORT"/>: The Abort button was selected.
+        /// <see cref="IDCANCEL"/>: The Cancel button was selected.
+        /// <see cref="IDCONTINUE"/>: The Continue button was selected.
+        /// <see cref="IDIGNORE"/>: The Ignore button was selected.
+        /// <see cref="IDNO"/>: The No button was selected.
+        /// <see cref="IDOK"/>: The OK button was selected.
+        /// <see cref="IDRETRY"/>: The Retry button was selected.
+        /// <see cref="IDTRYAGAIN"/>: The Try Again button was selected.
+        /// <see cref="IDYES"/>: The Yes button was selected.
+        /// </returns>
+        /// <remarks>
+        /// Adding two right-to-left marks (RLMs), represented by Unicode formatting character U+200F,
+        /// in the beginning of a MessageBox display string is interpreted by the MessageBox rendering engine
+        /// so as to cause the reading order of the MessageBox to be rendered as right-to-left (RTL).
+        /// When you use a system-modal message box to indicate that the system is low on memory,
+        /// the strings pointed to by the <paramref name="lpText"/> and <paramref name="lpCaption"/> parameters
+        /// should not be taken from a resource file because an attempt to load the resource may fail.
+        /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
+        /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxW", ExactSpelling = true, SetLastError = true)]
+        public static extern int MessageBox([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpText,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCaption, [In]MessageBoxFlags uType);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="MonitorFromWindow"/> function retrieves a handle to the display monitor 
         /// that has the largest area of intersection with the bounding rectangle of a specified window.
         /// </para>

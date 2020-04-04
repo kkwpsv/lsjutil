@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats
     /// </para>
     /// </summary>
-    public enum CLIPFORMAT
+    public enum CLIPFORMAT : uint
     {
         /// <summary>
         /// Text format.

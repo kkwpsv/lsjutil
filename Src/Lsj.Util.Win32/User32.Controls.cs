@@ -10,6 +10,144 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// The <see cref="EnableScrollBar"/> function enables or disables one or both scroll bar arrows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablescrollbar
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a window or a scroll bar control, depending on the value of the <paramref name="wSBflags"/> parameter.
+        /// </param>
+        /// <param name="wSBflags">
+        /// Specifies the scroll bar type.
+        /// This parameter can be one of the following values.
+        /// <see cref="SB_BOTH"/>:
+        /// Enables or disables the arrows on the horizontal and vertical scroll bars associated with the specified window.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the window.
+        /// <see cref="SB_CTL"/>:
+        /// Indicates that the scroll bar is a scroll bar control.
+        /// The <paramref name="hWnd"/> must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Enables or disables the arrows on the horizontal scroll bar associated with the specified window.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the window.
+        /// <see cref="SB_VERT"/>:
+        /// Enables or disables the arrows on the vertical scroll bar associated with the specified window.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the window.
+        /// </param>
+        /// <param name="wArrows">
+        /// Specifies whether the scroll bar arrows are enabled or disabled and indicates which arrows are enabled or disabled.
+        /// This parameter can be one of the following values.
+        /// <see cref="ESB_DISABLE_BOTH"/>, <see cref="ESB_DISABLE_DOWN"/>, <see cref="ESB_DISABLE_LEFT"/>, <see cref="ESB_DISABLE_LTUP"/>,
+        /// <see cref="ESB_DISABLE_RIGHT"/>, <see cref="ESB_DISABLE_RTDN"/>, <see cref="ESB_DISABLE_UP"/>, <see cref="ESB_ENABLE_BOTH"/>
+        /// </param>
+        /// <returns>
+        /// If the arrows are enabled or disabled as specified, the return value is <see cref="TRUE"/>.
+        /// If the arrows are already in the requested state or an error occurs, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableScrollBar", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnableScrollBar([In]HWND hWnd, [In]UINT wSBflags, [In]EnableScrollBarFlags wArrows);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetScrollPos"/> function retrieves the current position of the scroll box (thumb) in the specified scroll bar.
+        /// The current position is a relative value that depends on the current scrolling range.
+        /// For example, if the scrolling range is 0 through 100 and the scroll box is in the middle of the bar, the current position is 50.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollpos
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the nBar parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the scroll bar to be examined. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Retrieves the position of the scroll box in a scroll bar control.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Retrieves the position of the scroll box in a window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Retrieves the position of the scroll box in a window's standard vertical scroll bar.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the current position of the scroll box.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The GetScrollPos function enables applications to use 32-bit scroll positions.
+        /// Although the messages that indicate scroll bar position, <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/>,
+        /// are limited to 16 bits of position data, the functions <see cref="SetScrollPos"/>, <see cref="SetScrollRange"/>,
+        /// <see cref="GetScrollPos"/>, and <see cref="GetScrollRange"/> support 32-bit scroll bar position data.
+        /// Thus, an application can call <see cref="GetScrollPos"/> while processing either the <see cref="WM_HSCROLL"/> or <see cref="WM_VSCROLL"/> messages
+        /// to obtain 32-bit scroll bar position data.
+        /// To get the 32-bit position of the scroll box (thumb) during a <see cref="SB_THUMBTRACK"/> request code
+        /// in a <see cref="WM_HSCROLL"/> or <see cref="WM_VSCROLL"/> message, use the <see cref="GetScrollInfo"/> function.
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified
+        /// by the <paramref name="hWnd"/> parameter is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_GETPOS"/> message to the window to obtain scroll bar information.
+        /// This allows <see cref="GetScrollPos"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_GETPOS"/> message, the <see cref="GetScrollPos"/> function fails.
+        /// </remarks>
+        [Obsolete("The GetScrollPos function is provided for backward compatibility. New applications should use the GetScrollInfo function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollPos", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetScrollPos([In]HWND hWnd, [In]int nBar);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetScrollRange"/> function retrieves the current minimum and maximum scroll box (thumb) positions for the specified scroll bar.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollrange
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the <paramref name="nBar"/> parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the scroll bar from which the positions are retrieved. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Retrieves the positions of a scroll bar control.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Retrieves the positions of the window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Retrieves the positions of the window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="lpMinPos">
+        /// Pointer to the integer variable that receives the minimum position.
+        /// </param>
+        /// <param name="lpMaxPos">
+        /// Pointer to the integer variable that receives the maximum position.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the specified window does not have standard scroll bars or is not a scroll bar control,
+        /// the <see cref="GetScrollRange"/> function copies zero to the <paramref name="lpMinPos"/> and <paramref name="lpMaxPos"/> parameters.
+        /// The default range for a standard scroll bar is 0 through 100. The default range for a scroll bar control is empty (both values are zero).
+        /// The messages that indicate scroll bar position, <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/>, are limited to 16 bits of position data.
+        /// However, because <see cref="SetScrollInfo"/>, <see cref="SetScrollPos"/>, <see cref="SetScrollRange"/>, <see cref="GetScrollInfo"/>,
+        /// <see cref="GetScrollPos"/>, and <see cref="GetScrollRange"/> support 32-bit scroll bar position data,
+        /// there is a way to circumvent the 16-bit barrier of the <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/> messages.
+        /// See the <see cref="GetScrollInfo"/> function for a description of the technique.
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified by the <paramref name="hWnd"/> parameter
+        /// is not a system scroll bar control, the system sends the <see cref="SBM_GETRANGE"/> message to the window to obtain scroll bar information.
+        /// This allows <see cref="GetScrollRange"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_GETRANGE"/> message, the <see cref="GetScrollRange"/> function fails.
+        /// </remarks>
+        [Obsolete("The GetScrollRange function is provided for compatibility only. New applications should use the GetScrollInfo function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollRange", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetScrollRange([In]HWND hWnd, [In]int nBar, [Out]out int lpMinPos, [Out]out int lpMaxPos);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ScrollDC"/> function scrolls a rectangle of bits horizontally and vertically.
         /// </para>
         /// <para>
@@ -196,5 +334,164 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
         public static extern int ScrollWindowEx([In]HWND hWnd, [In]int dx, [In]int dy, [In]in RECT prcScroll, [In]in RECT prcClip,
             [In]HRGN hrgnUpdate, [Out]out RECT prcUpdate, [In]ScrollWindowExFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The SetScrollPos function sets the position of the scroll box (thumb) in the specified scroll bar and,
+        /// if requested, redraws the scroll bar to reflect the new position of the scroll box.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollpos
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the nBar parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the scroll bar to be set. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Sets the position of the scroll box in a scroll bar control.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Sets the position of the scroll box in a window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Sets the position of the scroll box in a window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="nPos">
+        /// Specifies the new position of the scroll box.
+        /// The position must be within the scrolling range.
+        /// For more information about the scrolling range, see the <see cref="SetScrollRange"/> function.
+        /// </param>
+        /// <param name="bRedraw">
+        /// Specifies whether the scroll bar is redrawn to reflect the new scroll box position.
+        /// If this parameter is <see cref="TRUE"/>, the scroll bar is redrawn.
+        /// If it is <see cref="FALSE"/>, the scroll bar is not redrawn.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous position of the scroll box.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the scroll bar is redrawn by a subsequent call to another function,
+        /// setting the <paramref name="bRedraw"/> parameter to <see cref="FALSE"/> is useful.
+        /// Because the messages that indicate scroll bar position, <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/>,
+        /// are limited to 16 bits of position data, applications that rely solely on those messages
+        /// for position data have a practical maximum value of 65,535 for the <see cref="SetScrollPos"/> function's <paramref name="nPos"/> parameter.
+        /// However, because the <see cref="SetScrollInfo"/>, <see cref="SetScrollPos"/>, <see cref="SetScrollRange"/>,
+        /// <see cref="GetScrollInfo"/>, <see cref="GetScrollPos"/>, and <see cref="GetScrollRange"/> functions support 32-bit scroll bar position data,
+        /// there is a way to circumvent the 16-bit barrier of the <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/> messages.
+        /// See GetScrollInfo for a description of the technique.
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified
+        /// by the <paramref name="hWnd"/> parameter is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_SETPOS"/> message to the window to set scroll bar information.
+        /// This allows <see cref="SetScrollPos"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_SETPOS"/> message, the <see cref="SetScrollPos"/> function fails.
+        /// </remarks>
+        [Obsolete("The SetScrollPos function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollPos", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetScrollPos([In]HWND hWnd, [In]int nBar, [In]int nPos, [In]BOOL bRedraw);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetScrollRange"/> function sets the minimum and maximum scroll box positions for the specified scroll bar.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollrange
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the <paramref name="nBar"/> parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the scroll bar to be set. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Sets the range of a scroll bar control. The <paramref name="hWnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Sets the range of a window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Sets the range of a window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="nMinPos">
+        /// Specifies the minimum scrolling position.
+        /// </param>
+        /// <param name="nMaxPos">
+        /// Specifies the maximum scrolling position.
+        /// </param>
+        /// <param name="bRedraw">
+        /// Specifies whether the scroll bar should be redrawn to reflect the change.
+        /// If this parameter is <see cref="TRUE"/>, the scroll bar is redrawn.
+        /// If it is <see cref="FALSE"/>, the scroll bar is not redrawn.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can use <see cref="SetScrollRange"/> to hide the scroll bar by setting <paramref name="nMinPos"/>
+        /// and <paramref name="nMaxPos"/> to the same value.
+        /// An application should not call the <see cref="SetScrollRange"/> function to hide a scroll bar while processing a scroll bar message.
+        /// New applications should use the <see cref="ShowScrollBar"/> function to hide the scroll bar.
+        /// If the call to <see cref="SetScrollRange"/> immediately follows a call to the <see cref="SetScrollPos"/> function,
+        /// the <paramref name="bRedraw"/> parameter in <see cref="SetScrollPos"/> must be zero to prevent the scroll bar from being drawn twice.
+        /// The default range for a standard scroll bar is 0 through 100.
+        /// The default range for a scroll bar control is empty (both the <paramref name="nMinPos"/> and <paramref name="nMaxPos"/> parameter values are zero).
+        /// The difference between the values specified by the <paramref name="nMinPos"/> and <paramref name="nMaxPos"/> parameters
+        /// must not be greater than the value of <see cref="MAXLONG"/>.
+        /// Because the messages that indicate scroll bar position, <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/>,
+        /// are limited to 16 bits of position data, applications that rely solely on those messages for position data
+        /// have a practical maximum value of 65,535 for the <see cref="SetScrollRange"/> function's <paramref name="nMaxPos"/> parameter.
+        /// However, because the <see cref="SetScrollInfo"/>, <see cref="SetScrollPos"/>, <see cref="SetScrollRange"/>, <see cref="GetScrollInfo"/>,
+        /// <see cref="GetScrollPos"/>, and <see cref="GetScrollRange"/> functions support 32-bit scroll bar position data,
+        /// there is a way to circumvent the 16-bit barrier of the <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/> messages.
+        /// See <see cref="GetScrollInfo"/> for a description of the technique.
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified
+        /// by the <paramref name="hWnd"/> parameter is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_SETRANGE"/> message to the window to set scroll bar information.
+        /// This allows <see cref="SetScrollRange"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_SETRANGE"/> message, the <see cref="SetScrollRange"/> function fails.
+        /// </remarks>
+        [Obsolete("The SetScrollRange function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollRange", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetScrollRange([In]HWND hWnd, [In]int nBar, [In]int nMinPos, [In]int nMaxPos, [In]BOOL bRedraw);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ShowScrollBar"/> function shows or hides the specified scroll bar.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showscrollbar
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the <paramref name="wBar"/> parameter.
+        /// </param>
+        /// <param name="wBar">
+        /// Specifies the scroll bar(s) to be shown or hidden. This parameter can be one of the following values.
+        /// <see cref="SB_BOTH"/>:
+        /// Shows or hides a window's standard horizontal and vertical scroll bars.
+        /// <see cref="SB_CTL"/>:
+        /// Shows or hides a scroll bar control.
+        /// The <paramref name="hWnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Shows or hides a window's standard horizontal scroll bars.
+        /// <see cref="SB_VERT"/>:
+        /// Shows or hides a window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="bShow">
+        /// Specifies whether the scroll bar is shown or hidden.
+        /// If this parameter is <see cref="TRUE"/>, the scroll bar is shown; otherwise, it is hidden.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You should not call this function to hide a scroll bar while processing a scroll bar message.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowScrollBar", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShowScrollBar([In]HWND hWnd, [In]int wBar, [In]BOOL bShow);
     }
 }

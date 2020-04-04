@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -100,6 +101,63 @@ namespace Lsj.Util.Win32
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewItem);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hMenu"></param>
+        /// <param name="cmd"></param>
+        /// <param name="lpszNewItem"></param>
+        /// <param name="cmdInsert"></param>
+        /// <param name="flags"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeMenuW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ChangeMenu([In]HMENU hMenu, [In]UINT cmd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszNewItem,
+            [In]UINT cmdInsert, [In]MenuFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// Sets the state of the specified menu item's check-mark attribute to either selected or clear.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkmenuitem
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu of interest.
+        /// </param>
+        /// <param name="uIDCheckItem">
+        /// The menu item whose check-mark attribute is to be set, as determined by the <paramref name="uCheck"/> parameter.
+        /// </param>
+        /// <param name="uCheck">
+        /// The flags that control the interpretation of the <paramref name="uIDCheckItem"/> parameter and the state of the menu item's check-mark attribute.
+        /// This parameter can be a combination of either <see cref="MF_BYCOMMAND"/>,
+        /// or <see cref="MF_BYPOSITION"/> and <see cref="MF_CHECKED"/> or <see cref="MF_UNCHECKED"/>.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that the <paramref name="uIDCheckItem"/> parameter gives the identifier of the menu item.
+        /// The <see cref="MF_BYCOMMAND"/> flag is the default, if neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that the <paramref name="uIDCheckItem"/> parameter gives the zero-based relative position of the menu item.
+        /// <see cref="MF_CHECKED"/>:
+        /// Sets the check-mark attribute to the selected state.
+        /// <see cref="MF_UNCHECKED"/>:
+        /// Sets the check-mark attribute to the clear state.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the previous state of the menu item (either <see cref="MF_CHECKED"/> or <see cref="MF_UNCHECKED"/>).
+        /// If the menu item does not exist, the return value is –1.
+        /// </returns>
+        /// <remarks>
+        /// An item in a menu bar cannot have a check mark.
+        /// The <paramref name="uIDCheckItem"/> parameter identifies a item that opens a submenu or a command item.
+        /// For a item that opens a submenu, the <paramref name="uIDCheckItem"/> parameter must specify the position of the item.
+        /// For a command item, the <paramref name="uIDCheckItem"/> parameter can specify either the item's position or its identifier.
+        /// </remarks>
+        [Obsolete("CheckMenuItem is available for use in the operating systems specified in the Requirements section." +
+            "It may be altered or unavailable in subsequent versions. Instead, use SetMenuItemInfo.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckMenuItem", ExactSpelling = true, SetLastError = true)]
+        public static extern MenuFlags CheckMenuItem([In]HMENU hMenu, [In]UINT uIDCheckItem, [In]MenuFlags uCheck);
+
+        /// <summary>
         /// <para>
         /// Creates a menu.
         /// The menu is initially empty, but it can be filled with menu items
@@ -150,6 +208,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes an item from the specified menu.
+        /// If the menu item opens a menu or submenu, this function destroys the handle to the menu or submenu
+        /// and frees the memory used by the menu or submenu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-deletemenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu to be changed.
+        /// </param>
+        /// <param name="uPosition">
+        /// The menu item to be deleted, as determined by the uFlags parameter.
+        /// </param>
+        /// <param name="uFlags">
+        /// Indicates how the <paramref name="uPosition"/> parameter is interpreted.
+        /// This parameter must be one of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the identifier of the menu item.
+        /// The <see cref="MF_BYCOMMAND"/> flag is the default flag if neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the zero-based relative position of the menu item.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeleteMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags);
+
+        /// <summary>
+        /// <para>
         /// Destroys the specified menu and frees any memory that the menu occupies.
         /// </para>
         /// <para>
@@ -194,6 +288,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Enables, disables, or grays the specified menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablemenuitem
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="uIDEnableItem">
+        /// The menu item to be enabled, disabled, or grayed, as determined by the <paramref name="uEnable"/> parameter.
+        /// This parameter specifies an item in a menu bar, menu, or submenu.
+        /// </param>
+        /// <param name="uEnable">
+        /// Controls the interpretation of the <paramref name="uIDEnableItem"/> parameter and indicate whether the menu item is enabled, disabled, or grayed.
+        /// This parameter must be a combination of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that <paramref name="uIDEnableItem"/> gives the identifier of the menu item.
+        /// If neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified,
+        /// the <see cref="MF_BYCOMMAND"/> flag is the default flag.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that <paramref name="uIDEnableItem"/> gives the zero-based relative position of the menu item.
+        /// <see cref="MF_DISABLED"/>:
+        /// Indicates that the menu item is disabled, but not grayed, so it cannot be selected.
+        /// <see cref="MF_ENABLED"/>:
+        /// Indicates that the menu item is enabled and restored from a grayed state so that it can be selected.
+        /// <see cref="MF_GRAYED"/>:
+        /// Indicates that the menu item is disabled and grayed so that it cannot be selected.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the previous state of the menu item (it is either <see cref="MF_DISABLED"/>, <see cref="MF_ENABLED"/>,
+        /// or <see cref="MF_GRAYED"/>).
+        /// If the menu item does not exist, the return value is -1.
+        /// </returns>
+        /// <remarks>
+        /// An application must use the <see cref="MF_BYPOSITION"/> flag to specify the correct menu handle.
+        /// If the menu handle to the menu bar is specified, the top-level menu item (an item in the menu bar) is affected.
+        /// To set the state of an item in a drop-down menu or submenu by position, an application must specify a handle to the drop-down menu or submenu.
+        /// When an application specifies the <see cref="MF_BYCOMMAND"/> flag, the system checks all items that open submenus
+        /// in the menu identified by the specified menu handle.
+        /// Therefore, unless duplicate menu items are present, specifying the menu handle to the menu bar is sufficient.
+        /// The <see cref="InsertMenu"/>, <see cref="InsertMenuItem"/>, <see cref="LoadMenuIndirect"/>, <see cref="ModifyMenu"/>,
+        /// and <see cref="SetMenuItemInfo"/> functions can also set the state (enabled, disabled, or grayed) of a menu item.
+        /// When you change a window menu, the menu bar is not immediately updated.
+        /// To force the update, call <see cref="DrawMenuBar"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableMenuItem", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnableMenuItem([In]HMENU hMenu, [In]UINT uIDEnableItem, [In]MenuFlags uEnable);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the menu assigned to the specified window.
         /// </para>
         /// <para>
@@ -215,6 +360,178 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenu", ExactSpelling = true, SetLastError = true)]
         public static extern HMENU GetMenu([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the dimensions of the default check-mark bitmap.
+        /// The system displays this bitmap next to selected menu items.
+        /// Before calling the <see cref="SetMenuItemBitmaps"/> function to replace the default check-mark bitmap for a menu item,
+        /// an application must determine the correct bitmap size by calling <see cref="GetMenuCheckMarkDimensions"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenucheckmarkdimensions
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value specifies the height and width, in pixels, of the default check-mark bitmap.
+        /// The high-order word contains the height; the low-order word contains the width.
+        /// </returns>
+        [Obsolete("The GetMenuCheckMarkDimensions function is included only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the GetSystemMetrics function with the CXMENUCHECK and CYMENUCHECK values to retrieve the bitmap dimensions.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuCheckMarkDimensions", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG GetMenuCheckMarkDimensions();
+
+        /// <summary>
+        /// <para>
+        /// Determines the number of items in the specified menu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemcount
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu to be examined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of items in the menu.
+        /// If the function fails, the return value is -1.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemCount", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetMenuItemCount([In]HMENU hMenu);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the menu item identifier of a menu item located at the specified position in a menu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemid
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu that contains the item whose identifier is to be retrieved.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position of the menu item whose identifier is to be retrieved.
+        /// </param>
+        /// <returns>
+        /// The return value is the identifier of the specified menu item.
+        /// If the menu item identifier is <see cref="NULL"/> or if the specified item opens a submenu, the return value is -1.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemID", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetMenuItemID([In]HMENU hMenu, [In]int nPos);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the menu flags associated with the specified menu item.
+        /// If the menu item opens a submenu, this function also returns the number of items in the submenu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustate
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu that contains the menu item whose flags are to be retrieved.
+        /// </param>
+        /// <param name="uId">
+        /// The menu item for which the menu flags are to be retrieved, as determined by the <paramref name="uFlags"/> parameter.
+        /// </param>
+        /// <param name="uFlags">
+        /// Indicates how the uId parameter is interpreted. This parameter can be one of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that the <paramref name="uId"/> parameter gives the identifier of the menu item.
+        /// The <see cref="MF_BYCOMMAND"/> flag is the default if neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that the <paramref name="uId"/> parameter gives the zero-based relative position of the menu item.
+        /// </param>
+        /// <returns>
+        /// If the specified item does not exist, the return value is -1.
+        /// If the menu item opens a submenu, the low-order byte of the return value contains the menu flags associated with the item,
+        /// and the high-order byte contains the number of items in the submenu opened by the item.
+        /// Otherwise, the return value is a mask (Bitwise OR) of the menu flags.
+        /// Following are the menu flags associated with the menu item.
+        /// <see cref="MF_CHECKED"/>:
+        /// A check mark is placed next to the item (for drop-down menus, submenus, and shortcut menus only).
+        /// <see cref="MF_DISABLED"/>:
+        /// The item is disabled.
+        /// <see cref="MF_GRAYED"/>:
+        /// The item is disabled and grayed.
+        /// <see cref="MF_HILITE"/>:
+        /// The item is highlighted.
+        /// <see cref="MF_MENUBARBREAK"/>:
+        /// This is the same as the <see cref="MF_MENUBREAK"/> flag, except for drop-down menus, submenus, and shortcut menus,
+        /// where the new column is separated from the old column by a vertical line.
+        /// <see cref="MF_MENUBREAK"/>:
+        /// The item is placed on a new line (for menu bars) or in a new column (for drop-down menus, submenus, and shortcut menus) without separating columns.
+        /// <see cref="MF_OWNERDRAW"/>:
+        /// The item is owner-drawn.
+        /// <see cref="MF_POPUP"/>:
+        /// Menu item is a submenu.
+        /// <see cref="MF_SEPARATOR"/>:
+        /// There is a horizontal dividing line (for drop-down menus, submenus, and shortcut menus only).
+        /// </returns>
+        /// <remarks>
+        /// It is possible to test an item for a flag value of <see cref="MF_ENABLED"/>,
+        /// <see cref="MF_STRING"/>, <see cref="MF_UNCHECKED"/>, or <see cref="MF_UNHILITE"/>.
+        /// However, since these values equate to zero you must use an expression to test for them.
+        /// Flag                        Expression to test for the flag
+        /// <see cref="MF_ENABLED"/>	<code>!(Flag&amp;(MF_DISABLED | MF_GRAYED))</code>
+        /// <see cref="MF_STRING"/>     <code>!(Flag&amp;(MF_BITMAP | MF_OWNERDRAW))</code>
+        /// <see cref="MF_UNCHECKED"/>  <code>!(Flag&amp;MF_CHECKED)</code>
+        /// <see cref="MF_UNHILITE"/>   <code>!(Flag&amp;MF_HILITE)</code>
+        /// </remarks>
+        [Obsolete("The GetMenuState function has been superseded by the GetMenuItemInfo." +
+            "You can still use GetMenuState, however, if you do not need any of the extended features of GetMenuItemInfo.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuState", ExactSpelling = true, SetLastError = true)]
+        public static extern MenuFlags GetMenuState([In]HMENU hMenu, [In]UINT uId, [In]MenuFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Copies the text string of the specified menu item into the specified buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustringw
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="uIDItem">
+        /// The menu item to be changed, as determined by the <paramref name="flags"/> parameter.
+        /// </param>
+        /// <param name="lpString">
+        /// The buffer that receives the null-terminated string.
+        /// If the string is as long or longer than <paramref name="lpString"/>, the string is truncated and the terminating null character is added.
+        /// If <paramref name="lpString"/> is <see cref="NULL"/>, the function returns the length of the menu string.
+        /// </param>
+        /// <param name="cchMax">
+        /// The maximum length, in characters, of the string to be copied.
+        /// If the string is longer than the maximum specified in the <paramref name="cchMax"/> parameter, the extra characters are truncated.
+        /// If <paramref name="cchMax"/> is 0, the function returns the length of the menu string.
+        /// </param>
+        /// <param name="flags">
+        /// Indicates how the <paramref name="uIDItem"/> parameter is interpreted. This parameter must be one of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that <paramref name="uIDItem"/> gives the identifier of the menu item.
+        /// If neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified,
+        /// the <see cref="MF_BYCOMMAND"/> flag is the default flag.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that <paramref name="uIDItem"/> gives the zero-based relative position of the menu item.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the number of characters copied to the buffer, not including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// If the specified item is not of type <see cref="MIIM_STRING"/> or <see cref="MFT_STRING"/>, then the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="cchMax"/> parameter must be one larger than the number of characters in the text string
+        /// to accommodate the terminating null character.
+        /// If <paramref name="cchMax"/> is 0, the function returns the length of the menu string.
+        /// </remarks>
+        [Obsolete("The GetMenuString function has been superseded. Use the GetMenuItemInfo function to retrieve the menu item text.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuStringW", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetMenuString([In]HMENU hMenu, [In]UINT uIDItem, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpString,
+            [In]int cchMax, [In]MenuFlags flags);
 
         /// <summary>
         /// <para>
@@ -251,6 +568,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMenu", ExactSpelling = true, SetLastError = true)]
         public static extern HMENU GetSystemMenu([In]HWND hWnd, [In]BOOL bRevert);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu.
+        /// </param>
+        /// <param name="nPos">
+        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
+        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern HMENU GetSubMenu([In]HMENU hMenu, [In]int nPos);
 
         /// <summary>
         /// <para>
@@ -582,6 +920,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes a menu item or detaches a submenu from the specified menu.
+        /// If the menu item opens a drop-down menu or submenu, <see cref="RemoveMenu"/> does not destroy the menu or its handle,
+        /// allowing the menu to be reused.
+        /// Before this function is called, the <see cref="GetSubMenu"/> function should retrieve a handle to the drop-down menu or submenu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removemenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu to be changed.
+        /// </param>
+        /// <param name="uPosition">
+        /// The menu item to be deleted, as determined by the <paramref name="uFlags"/> parameter.
+        /// </param>
+        /// <param name="uFlags">
+        /// Indicates how the <paramref name="uPosition"/> parameter is interpreted.
+        /// This parameter must be one of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the identifier of the menu item.
+        /// If neither the <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> flag is specified,
+        /// the <see cref="MF_BYCOMMAND"/> flag is the default flag.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the zero-based relative position of the menu item.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>. 
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags);
+
+        /// <summary>
+        /// <para>
         /// Assigns a new menu to the specified window.
         /// </para>
         /// <para>
@@ -608,6 +984,147 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenu", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenu([In]HWND hWnd, [In]HMENU hMenu);
+
+        /// <summary>
+        /// <para>
+        /// Associates the specified bitmap with a menu item.
+        /// Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuitembitmaps
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the menu containing the item to receive new check-mark bitmaps.
+        /// </param>
+        /// <param name="uPosition">
+        /// The menu item to be changed, as determined by the <paramref name="uFlags"/> parameter.
+        /// </param>
+        /// <param name="uFlags">
+        /// Specifies how the <paramref name="uPosition"/> parameter is to be interpreted.
+        /// The <paramref name="uFlags"/> parameter must be one of the following values.
+        /// <see cref="MF_BYCOMMAND"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the identifier of the menu item.
+        /// If neither <see cref="MF_BYCOMMAND"/> nor <see cref="MF_BYPOSITION"/> is specified, <see cref="MF_BYCOMMAND"/> is the default flag.
+        /// <see cref="MF_BYPOSITION"/>:
+        /// Indicates that <paramref name="uPosition"/> gives the zero-based relative position of the menu item.
+        /// </param>
+        /// <param name="hBitmapUnchecked">
+        /// A handle to the bitmap displayed when the menu item is not selected.
+        /// </param>
+        /// <param name="hBitmapChecked">
+        /// A handle to the bitmap displayed when the menu item is selected.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TURE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If either the <paramref name="hBitmapUnchecked"/> or <paramref name="hBitmapChecked"/> parameter is <see cref="NULL"/>,
+        /// the system displays nothing next to the menu item for the corresponding check state.
+        /// If both parameters are <see cref="NULL"/>, the system displays the default check-mark bitmap when the item is selected,
+        /// and removes the bitmap when the item is not selected.
+        /// When the menu is destroyed, these bitmaps are not destroyed; it is up to the application to destroy them.
+        /// The selected and clear bitmaps should be monochrome.
+        /// The system uses the Boolean AND operator to combine bitmaps with the menu so that the white part becomes transparent
+        /// and the black part becomes the menu-item color.
+        /// If you use color bitmaps, the results may be undesirable.
+        /// Use the <see cref="GetSystemMetrics"/> function with the <see cref="CXMENUCHECK"/>
+        /// and <see cref="CYMENUCHECK"/> values to retrieve the bitmap dimensions.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuItemBitmaps([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]HBITMAP hBitmapUnchecked,
+            [In]HBITMAP hBitmapChecked);
+
+        /// <summary>
+        /// <para>
+        /// Displays a shortcut menu at the specified location and tracks the selection of items on the menu.
+        /// The shortcut menu can appear anywhere on the screen.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenu
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the shortcut menu to be displayed.
+        /// The handle can be obtained by calling <see cref="CreatePopupMenu"/> to create a new shortcut menu,
+        /// or by calling <see cref="GetSubMenu"/> to retrieve a handle to a submenu associated with an existing menu item.
+        /// </param>
+        /// <param name="uFlags">
+        /// Use zero of more of these flags to specify function options.
+        /// Use one of the following flags to specify how the function positions the shortcut menu horizontally.
+        /// <see cref="TPM_CENTERALIGN"/>, <see cref="TPM_LEFTALIGN"/>, <see cref="TPM_RIGHTALIGN"/>
+        /// Use one of the following flags to specify how the function positions the shortcut menu vertically.
+        /// <see cref="TPM_BOTTOMALIGN"/>, <see cref="TPM_TOPALIGN"/>, <see cref="TPM_VCENTERALIGN"/>
+        /// Use the following flags to control discovery of the user selection without having to set up a parent window for the menu.
+        /// <see cref="TPM_NONOTIFY"/>, <see cref="TPM_RETURNCMD"/>
+        /// Use one of the following flags to specify which mouse button the shortcut menu tracks.
+        /// <see cref="TPM_LEFTBUTTON"/>, <see cref="TPM_RIGHTBUTTON"/>
+        /// Use any reasonable combination of the following flags to modify the animation of a menu.
+        /// For example, by selecting a horizontal and a vertical flag, you can achieve diagonal animation.
+        /// <see cref="TPM_HORNEGANIMATION"/>, <see cref="TPM_HORPOSANIMATION"/>, <see cref="TPM_NOANIMATION"/>,
+        /// <see cref="TPM_VERNEGANIMATION"/>, <see cref="TPM_VERPOSANIMATION"/>
+        /// For any animation to occur, the <see cref="SystemParametersInfo"/> function must set <see cref="SPI_SETMENUANIMATION"/>.
+        /// Also, all the TPM_*ANIMATION flags, except <see cref="TPM_NOANIMATION"/>, are ignored if menu fade animation is on.
+        /// For more information, see the <see cref="SPI_GETMENUFADE"/> flag in <see cref="SystemParametersInfo"/>.
+        /// Use the <see cref="TPM_RECURSE"/> flag to display a menu when another menu is already displayed.
+        /// This is intended to support context menus within a menu.
+        /// For right-to-left text layout, use <see cref="TPM_LAYOUTRTL"/>.
+        /// By default, the text layout is left-to-right.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal location of the shortcut menu, in screen coordinates.
+        /// </param>
+        /// <param name="y">
+        /// The vertical location of the shortcut menu, in screen coordinates.
+        /// </param>
+        /// <param name="nReserved">
+        /// Reserved; must be zero.
+        /// </param>
+        /// <param name="hWnd">
+        /// A handle to the window that owns the shortcut menu.
+        /// This window receives all messages from the menu.
+        /// The window does not receive a <see cref="WM_COMMAND"/> message from the menu until the function returns.
+        /// If you specify <see cref="TPM_NONOTIFY"/> in the <paramref name="uFlags"/> parameter,
+        /// the function does not send messages to the window identified by <paramref name="hWnd"/>.
+        /// However, you must still pass a window handle in <paramref name="hWnd"/>.
+        /// It can be any window handle from your application.
+        /// </param>
+        /// <param name="prcRect">
+        /// Ignored.
+        /// </param>
+        /// <returns>
+        /// If you specify <see cref="TPM_RETURNCMD"/> in the <paramref name="uFlags"/> parameter,
+        /// the return value is the menu-item identifier of the item that the user selected.
+        /// If the user cancels the menu without making a selection, or if an error occurs, the return value is <see cref="FALSE"/>.
+        /// If you do not specify <see cref="TPM_RETURNCMD"/> in the <paramref name="uFlags"/> parameter,
+        /// the return value is <see cref="TRUE"/> if the function succeeds and zero if it fails.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Call <see cref="GetSystemMetrics"/> with <see cref="SM_MENUDROPALIGNMENT"/> to determine the correct horizontal alignment flag
+        /// (<see cref="TPM_LEFTALIGN"/> or <see cref="TPM_RIGHTALIGN"/>) and/or horizontal animation direction flag
+        /// (<see cref="TPM_HORPOSANIMATION"/> or <see cref="TPM_HORNEGANIMATION"/>) to pass to <see cref="TrackPopupMenu"/> or <see cref="TrackPopupMenuEx"/>.
+        /// This is essential for creating an optimal user experience, especially when developing Microsoft Tablet PC applications.
+        /// To specify an area of the screen that the menu should not overlap, use the <see cref="TrackPopupMenuEx"/> function
+        /// To display a context menu for a notification icon, the current window must be the foreground window
+        /// before the application calls <see cref="TrackPopupMenu"/> or <see cref="TrackPopupMenuEx"/>.
+        /// Otherwise, the menu will not disappear when the user clicks outside of the menu or the window that created the menu (if it is visible).
+        /// If the current window is a child window, you must set the (top-level) parent window as the foreground window.
+        /// However, when the current window is the foreground window, the second time this menu is displayed, it appears and then immediately disappears.
+        /// To correct this, you must force a task switch to the application that called <see cref="TrackPopupMenu"/>.
+        /// This is done by posting a benign message to the window or thread, as shown in the following code sample:
+        /// <code>
+        /// SetForegroundWindow(hDlg);
+        /// // Display the menu
+        /// TrackPopupMenu(hSubMenu, TPM_RIGHTBUTTON, pt.x, pt.y, 0, hDlg, NULL);
+        /// PostMessage(hDlg, WM_NULL, 0, 0);
+        /// </code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackPopupMenu", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TrackPopupMenu([In]HMENU hMenu, [In]TrackPopupMenuFlags uFlags, [In]int x, [In]int y, [In]int nReserved,
+            [In]HWND hWnd, [In]in RECT prcRect);
 
         /// <summary>
         /// <para>
