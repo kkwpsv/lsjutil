@@ -568,7 +568,7 @@ namespace Lsj.Util.Win32
         /// <see cref="LOGBRUSH"/>, <see cref="LOGFONT"/>, or <see cref="LOGPEN"/> structure, or a count of table entries (for a logical palette).
         /// If <paramref name="h"/> is a handle to a bitmap created by calling <see cref="CreateDIBSection"/>, and the specified buffer is large enough,
         /// the <see cref="GetObject"/> function returns a <see cref="DIBSECTION"/> structure.
-        /// In addition, the <see cref="bmBits"/> member of the <see cref="BITMAP"/> structure contained
+        /// In addition, the <see cref="BITMAP.bmBits"/> member of the <see cref="BITMAP"/> structure contained
         /// within the <see cref="DIBSECTION"/> will contain a pointer to the bitmap's bit values.
         /// If <paramref name="h"/> is a handle to a bitmap created by any other means,
         /// <see cref="GetObject"/> returns only the width, height, and color format information of the bitmap.
