@@ -99,5 +99,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator ACCESS_MASK(ProcessAccessRights val) => new ACCESS_MASK { _value = (uint)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator ACCESS_MASK(ThreadAccessRights val) => new ACCESS_MASK { _value = (uint)val };
     }
 }

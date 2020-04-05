@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 
 namespace Lsj.Util.Win32
 {

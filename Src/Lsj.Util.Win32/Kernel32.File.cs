@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DriveTypes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
@@ -2793,6 +2794,164 @@ namespace Lsj.Util.Win32
             [In]ULONG_PTR dwCompletionKey, [In][Out]ref OVERLAPPED lpOverlapped);
 
         /// <summary>
+        /// <para>
+        /// Reads data from the specified file or input/output (I/O) device.
+        /// Reads occur at the position specified by the file pointer if supported by the device.
+        /// This function is designed for both synchronous and asynchronous operations.
+        /// For a similar function designed solely for asynchronous operation, see <see cref="ReadFileEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfile
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the device (for example, a file, file stream, physical disk, volume, console buffer, tape drive,
+        /// socket, communications resource, mailslot, or pipe).
+        /// The hFile parameter must have been created with read access.
+        /// For more information, see Generic Access Rights and File Security and Access Rights.
+        /// For asynchronous read operations, <paramref name="hFile"/> can be any handle that is opened
+        /// with the <see cref="FILE_FLAG_OVERLAPPED"/> flag by the <see cref="CreateFile"/> function,
+        /// or a socket handle returned by the socket or accept function.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer that receives the data read from a file or device.
+        /// This buffer must remain valid for the duration of the read operation.
+        /// The caller must not use this buffer until the read operation is completed.
+        /// </param>
+        /// <param name="nNumberOfBytesToRead">
+        /// The maximum number of bytes to be read.
+        /// </param>
+        /// <param name="lpNumberOfBytesWritten">
+        /// A pointer to the variable that receives the number of bytes read when using a synchronous <paramref name="hFile"/> parameter.
+        /// <see cref="ReadFile"/> sets this value to zero before doing any work or error checking.
+        /// Use <see langword="null"/> for this parameter if this is an asynchronous operation to avoid potentially erroneous results.
+        /// This parameter can be <see langword="null"/>  only when the <paramref name="lpOverlapped"/> parameter is not <see langword="null"/>.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure is required if the <paramref name="hFile"/> parameter was opened
+        /// with <see cref="FILE_FLAG_OVERLAPPED"/>, otherwise it can be <see langword="null"/>.
+        /// If <paramref name="hFile"/> is opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// the <paramref name="lpOverlapped"/> parameter must point to a valid and unique <see cref="OVERLAPPED"/> structure,
+        /// otherwise the function can incorrectly report that the read operation is complete.
+        /// For an <paramref name="hFile"/> that supports byte offsets, if you use this parameter you must specify a byte offset
+        /// at which to start reading from the file or device.
+        /// This offset is specified by setting the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members
+        /// of the <see cref="OVERLAPPED"/> structure.
+        /// For an <paramref name="hFile"/> that does not support byte offsets, <see cref="OVERLAPPED.Offset"/>
+        /// and <see cref="OVERLAPPED.OffsetHigh"/> are ignored.
+        /// For more information about different combinations of <paramref name="lpOverlapped"/> and <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// see the Remarks section and the Synchronization and File Position section.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, or is completing asynchronously, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// Note The <see cref="GetLastError"/> code <see cref="ERROR_IO_PENDING"/> is not a failure;
+        /// it designates the read operation is pending completion asynchronously.
+        /// For more information, see Remarks.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ReadFile"/> function returns when one of the following conditions occur:
+        /// The number of bytes requested is read.
+        /// A write operation completes on the write end of the pipe.
+        /// An asynchronous handle is being used and the read is occurring asynchronously.
+        /// An error occurs.
+        /// The <see cref="ReadFile"/> function may fail with <see cref="ERROR_INVALID_USER_BUFFER"/> or <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// whenever there are too many outstanding asynchronous I/O requests.
+        /// To cancel all pending asynchronous I/O operations, use either:
+        /// <see cref="CancelIo"/>—this function only cancels operations issued by the calling thread for the specified file handle.
+        /// <see cref="CancelIoEx"/>—this function cancels all operations issued by the threads for the specified file handle.
+        /// Use <see cref="CancelSynchronousIo"/> to cancel pending synchronous I/O operations.
+        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// The <see cref="ReadFile"/> function may fail with <see cref="ERROR_NOT_ENOUGH_QUOTA"/>,
+        /// which means the calling process's buffer could not be page-locked.
+        /// For additional information, see <see cref="SetProcessWorkingSetSize"/>.
+        /// If part of a file is locked by another process and the read operation overlaps the locked portion, this function fails.
+        /// Accessing the input buffer while a read operation is using the buffer may lead to corruption of the data read into that buffer.
+        /// Applications must not read from, write to, reallocate, or free the input buffer that a read operation is using until the read operation completes.
+        /// This can be particularly problematic when using an asynchronous file handle.
+        /// Additional information regarding synchronous versus asynchronous file handles can be found in the Synchronization and File Position section
+        /// and in the <see cref="CreateFile"/> reference topic.
+        /// Characters can be read from the console input buffer by using <see cref="ReadFile"/> with a handle to console input.
+        /// The console mode determines the exact behavior of the <see cref="ReadFile"/> function.
+        /// By default, the console mode is <see cref="ENABLE_LINE_INPUT"/>,
+        /// which indicates that <see cref="ReadFile"/> should read until it reaches a carriage return.
+        /// If you press Ctrl+C, the call succeeds, but <see cref="GetLastError"/> returns <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// For more information, see <see cref="CreateFile"/>.
+        /// When reading from a communications device, the behavior of <see cref="ReadFile"/> is determined by the current communication time-out
+        /// as set and retrieved by using the <see cref="SetCommTimeouts"/> and <see cref="GetCommTimeouts"/> functions.
+        /// Unpredictable results can occur if you fail to set the time-out values.
+        /// For more information about communication time-outs, see <see cref="COMMTIMEOUTS"/>.
+        /// If <see cref="ReadFile"/> attempts to read from a mailslot that has a buffer that is too small,
+        /// the function returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// There are strict requirements for successfully working with files opened
+        /// with <see cref="CreateFile"/> using the <see cref="FILE_FLAG_NO_BUFFERING"/> flag.
+        /// For details see File Buffering.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>, the following conditions are in effect:
+        /// The <paramref name="lpOverlapped"/> parameter must point to a valid and unique <see cref="OVERLAPPED"/> structure,
+        /// otherwise the function can incorrectly report that the read operation is complete.
+        /// The <paramref name="lpNumberOfBytesWritten"/> parameter should be set to <see langword="null"/>.
+        /// Use the <see cref="GetOverlappedResult"/> function to get the actual number of bytes read.
+        /// If the <paramref name="hFile"/> parameter is associated with an I/O completion port,
+        /// you can also get the number of bytes read by calling the <see cref="GetQueuedCompletionStatus"/> function.
+        /// Synchronization and File Position
+        /// If <paramref name="hFile"/> is opened with <see cref="FILE_FLAG_OVERLAPPED"/>, it is an asynchronous file handle; otherwise it is synchronous.
+        /// The rules for using the <see cref="OVERLAPPED"/> structure are slightly different for each, as previously noted.
+        /// Note If a file or device is opened for asynchronous I/O, subsequent calls to functions such as <see cref="ReadFile"/> using
+        /// that handle generally return immediately, but can also behave synchronously with respect to blocked execution.
+        /// For more information see http://support.microsoft.com/kb/156932.
+        /// Considerations for working with asynchronous file handles:
+        /// <see cref="ReadFile"/> may return before the read operation is complete.
+        /// In this scenario, <see cref="ReadFile"/> returns <see cref="FALSE"/> and the <see cref="GetLastError"/> function
+        /// returns <see cref="ERROR_IO_PENDING"/>, which allows the calling process to continue while the system completes the read operation.
+        /// The <paramref name="lpOverlapped"/> parameter must not be <see langword="null"/> and should be used with the following facts in mind:
+        /// Although the event specified in the <see cref="OVERLAPPED"/> structure is set and reset automatically by the system,
+        /// the offset that is specified in the <see cref="OVERLAPPED"/> structure is not automatically updated.
+        /// <see cref="ReadFile"/> resets the event to a nonsignaled state when it begins the I/O operation.
+        /// The event specified in the <see cref="OVERLAPPED"/> structure is set to a signaled state when the read operation is complete;
+        /// until that time, the read operation is considered pending.
+        /// Because the read operation starts at the offset that is specified in the <see cref="OVERLAPPED"/> structure,
+        /// and <see cref="ReadFile"/> may return before the system-level read operation is complete (read pending),
+        /// neither the offset nor any other part of the structure should be modified, freed,
+        /// or reused by the application until the event is signaled (that is, the read completes).
+        /// If end-of-file (EOF) is detected during asynchronous operations, the call to <see cref="GetOverlappedResult"/>
+        /// for that operation returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// Considerations for working with synchronous file handles:
+        /// If <paramref name="lpOverlapped"/> is <see langword="null"/>, the read operation starts at the current file position
+        /// and <see cref="ReadFile"/> does not return until the operation is complete,
+        /// and the system updates the file pointer before <see cref="ReadFile"/> returns.
+        /// If <paramref name="lpOverlapped"/> is not <see langword="null"/>,
+        /// the read operation starts at the offset that is specified in the <see cref="OVERLAPPED"/> structure
+        /// and <see cref="ReadFile"/> does not return until the read operation is complete.
+        /// The system updates the <see cref="OVERLAPPED"/> offset before <see cref="ReadFile"/> returns.
+        /// If <paramref name="lpOverlapped"/> is <see langword="null"/>, then when a synchronous read operation reaches the end of a file,
+        /// <see cref="ReadFile"/> returns <see cref="TRUE"/> and sets *<paramref name="lpNumberOfBytesWritten"/> to zero.
+        /// If <paramref name="lpOverlapped"/> is not <see langword="null"/>, then when a synchronous read operation reaches the end of a file,
+        /// <see cref="ReadFile"/> returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// For more information, see <see cref="CreateFile"/> and Synchronous and Asynchronous I/O.
+        /// Pipes
+        /// If an anonymous pipe is being used and the write handle has been closed,
+        /// when <see cref="ReadFile"/> attempts to read using the pipe's corresponding read handle,
+        /// the function returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_BROKEN_PIPE"/>.
+        /// If a named pipe is being read in message mode and the next message is longer than the <paramref name="nNumberOfBytesToRead"/> parameter specifies,
+        /// <see cref="ReadFile"/> returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// The remainder of the message can be read by a subsequent call to the <see cref="ReadFile"/> or <see cref="PeekNamedPipe"/> function.
+        /// If the <paramref name="lpNumberOfBytesWritten"/> parameter is zero when <see cref="ReadFile"/> returns <see cref="TRUE"/> on a pipe,
+        /// the other end of the pipe called the <see cref="WriteFile"/> function with <paramref name="nNumberOfBytesToRead"/> set to zero.
+        /// For more information about pipes, see Pipes.
+        /// Transacted Operations
+        /// If there is a transaction bound to the file handle, then the function returns data from the transacted view of the file.
+        /// A transacted read handle is guaranteed to show the same view of a file for the duration of the handle.
+        /// For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadFile([In]HANDLE hFile, [In]LPVOID lpBuffer, [In]DWORD nNumberOfBytesToRead, [Out]out DWORD lpNumberOfBytesWritten,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<OVERLAPPED>))]
+            [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
+
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="uNumber"></param>
@@ -2857,6 +3016,181 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Writes data to the specified file or input/output (I/O) device.
+        /// This function is designed for both synchronous and asynchronous operation.
+        /// For a similar function designed solely for asynchronous operation, see <see cref="WriteFileEx"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefile
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or I/O device (for example, a file, file stream, physical disk, volume, console buffer,
+        /// tape drive, socket, communications resource, mailslot, or pipe).
+        /// The <paramref name="hFile"/> parameter must have been created with the write access.
+        /// For more information, see Generic Access Rights and File Security and Access Rights.
+        /// For asynchronous write operations, <paramref name="hFile"/> can be any handle opened with the <see cref="CreateFile"/> function
+        /// using the <see cref="FILE_FLAG_OVERLAPPED"/> flag or a socket handle returned by the socket or accept function.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer containing the data to be written to the file or device.
+        /// This buffer must remain valid for the duration of the write operation.
+        /// The caller must not use this buffer until the write operation is completed.
+        /// </param>
+        /// <param name="nNumberOfBytesToWrite">
+        /// The number of bytes to be written to the file or device.
+        /// A value of zero specifies a null write operation.
+        /// The behavior of a null write operation depends on the underlying file system or communications technology.
+        /// Windows Server 2003 and Windows XP:
+        /// Pipe write operations across a network are limited in size per write.
+        /// The amount varies per platform. For x86 platforms it's 63.97 MB. For x64 platforms it's 31.97 MB. For Itanium it's 63.95 MB.
+        /// For more information regarding pipes, see the Remarks section.
+        /// </param>
+        /// <param name="lpNumberOfBytesWritten">
+        /// A pointer to the variable that receives the number of bytes written when using a synchronous <paramref name="hFile"/> parameter.
+        /// <see cref="WriteFile"/> sets this value to zero before doing any work or error checking.
+        /// Use <see langword="null"/> for this parameter if this is an asynchronous operation to avoid potentially erroneous results.
+        /// This parameter can be <see langword="null"/> only when the <paramref name="lpOverlapped"/> parameter is not <see langword="null"/>.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure is required if the <paramref name="hFile"/> parameter
+        /// was opened with <see cref="FILE_FLAG_OVERLAPPED"/>, otherwise this parameter can be <see langword="null"/>.
+        /// For an <paramref name="hFile"/> that supports byte offsets, if you use this parameter you must specify a byte offset
+        /// at which to start writing to the file or device.
+        /// This offset is specified by setting the <see cref="OVERLAPPED.Offset"/>
+        /// and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// For an <paramref name="hFile"/> that does not support byte offsets, <see cref="OVERLAPPED.Offset"/>
+        /// and <see cref="OVERLAPPED.OffsetHigh"/> are ignored.
+        /// To write to the end of file, specify both the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members
+        /// of the <see cref="OVERLAPPED"/> structure as 0xFFFFFFFF.
+        /// This is functionally equivalent to previously calling the <see cref="CreateFile"/> function
+        /// to open <paramref name="hFile"/> using <see cref="FILE_APPEND_DATA"/> access.
+        /// For more information about different combinations of <paramref name="lpOverlapped"/> and <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// see the Remarks section and the Synchronization and File Position section.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, or is completing asynchronously, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// Note The <see cref="GetLastError"/> code <see cref="ERROR_IO_PENDING"/> is not a failure;
+        /// it designates the write operation is pending completion asynchronously.
+        /// For more information, see Remarks.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WriteFile"/> function returns when one of the following conditions occur:
+        /// The number of bytes requested is written.
+        /// A read operation releases buffer space on the read end of the pipe (if the write was blocked).
+        /// For more information, see the Pipes section.
+        /// An asynchronous handle is being used and the write is occurring asynchronously.
+        /// An error occurs.
+        /// The <see cref="WriteFile"/> function may fail with <see cref="ERROR_INVALID_USER_BUFFER"/> or <see cref="ERROR_NOT_ENOUGH_MEMORY"/>
+        /// whenever there are too many outstanding asynchronous I/O requests.
+        /// To cancel all pending asynchronous I/O operations, use either:
+        /// <see cref="CancelIo"/>—this function cancels only operations issued by the calling thread for the specified file handle.
+        /// <see cref="CancelIoEx"/>—this function cancels all operations issued by the threads for the specified file handle.
+        /// Use the <see cref="CancelSynchronousIo"/> function to cancel pending synchronous I/O operations.
+        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// The <see cref="WriteFile"/> function may fail with <see cref="ERROR_NOT_ENOUGH_QUOTA"/>,
+        /// which means the calling process's buffer could not be page-locked.
+        /// For more information, see <see cref="SetProcessWorkingSetSize"/>.
+        /// If part of the file is locked by another process and the write operation overlaps the locked portion, <see cref="WriteFile"/> fails.
+        /// When writing to a file, the last write time is not fully updated until all handles used for writing have been closed.
+        /// Therefore, to ensure an accurate last write time, close the file handle immediately after writing to the file.
+        /// Accessing the output buffer while a write operation is using the buffer may lead to corruption of the data written from that buffer.
+        /// Applications must not write to, reallocate, or free the output buffer that a write operation is using until the write operation completes.
+        /// This can be particularly problematic when using an asynchronous file handle.
+        /// Additional information regarding synchronous versus asynchronous file handles can be found later
+        /// in the Synchronization and File Position section and Synchronous and Asynchronous I/O.
+        /// Note that the time stamps may not be updated correctly for a remote file. To ensure consistent results, use unbuffered I/O.
+        /// The system interprets zero bytes to write as specifying a null write operation and WriteFile does not truncate or extend the file.
+        /// To truncate or extend a file, use the <see cref="SetEndOfFile"/> function.
+        /// Characters can be written to the screen buffer using WriteFile with a handle to console output.
+        /// The exact behavior of the function is determined by the console mode. The data is written to the current cursor position.
+        /// The cursor position is updated after the write operation. For more information about console handles, see <see cref="CreateFile"/>.
+        /// When writing to a communications device, the behavior of <see cref="WriteFile"/> is determined
+        /// by the current communication time-out as set and retrieved by using the <see cref="SetCommTimeouts"/> and <see cref="GetCommTimeouts"/> functions.
+        /// Unpredictable results can occur if you fail to set the time-out values.
+        /// For more information about communication time-outs, see <see cref="COMMTIMEOUTS"/>.
+        /// Although a single-sector write is atomic, a multi-sector write is not guaranteed to be atomic unless you are using a transaction
+        /// (that is, the handle created is a transacted handle; for example, a handle created using <see cref="CreateFileTransacted"/>).
+        /// Multi-sector writes that are cached may not always be written to the disk right away;
+        /// therefore, specify <see cref="FILE_FLAG_WRITE_THROUGH"/> in <see cref="CreateFile"/> to ensure
+        /// that an entire multi-sector write is written to the disk without potential caching delays.
+        /// If you write directly to a volume that has a mounted file system, you must first obtain exclusive access to the volume.
+        /// Otherwise, you risk causing data corruption or system instability, because your application's writes may conflict
+        /// with other changes coming from the file system and leave the contents of the volume in an inconsistent state.
+        /// To prevent these problems, the following changes have been made in Windows Vista and later:
+        /// A write on a volume handle will succeed if the volume does not have a mounted file system, or if one of the following conditions is true:
+        /// The sectors to be written to are boot sectors.
+        /// The sectors to be written to reside outside of file system space.
+        /// You have explicitly locked or dismounted the volume by using <see cref="FSCTL_LOCK_VOLUME"/> or <see cref="FSCTL_DISMOUNT_VOLUME"/>.
+        /// The volume has no actual file system. (In other words, it has a RAW file system mounted.)
+        /// A write on a disk handle will succeed if one of the following conditions is true:
+        /// The sectors to be written to do not fall within a volume's extents.
+        /// The sectors to be written to fall within a mounted volume, but you have explicitly locked or dismounted the volume
+        /// by using <see cref="FSCTL_LOCK_VOLUME"/> or <see cref="FSCTL_DISMOUNT_VOLUME"/>.
+        /// The sectors to be written to fall within a volume that has no mounted file system other than RAW.
+        /// There are strict requirements for successfully working with files opened with <see cref="CreateFile"/> using <see cref="FILE_FLAG_NO_BUFFERING"/>.
+        /// For details see File Buffering.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>, the following conditions are in effect:
+        /// The <paramref name="lpOverlapped"/> parameter must point to a valid and unique <see cref="OVERLAPPED"/> structure,
+        /// otherwise the function can incorrectly report that the write operation is complete.
+        /// The <paramref name="lpNumberOfBytesWritten"/> parameter should be set to <see langword="null"/>.
+        /// To get the number of bytes written, use the <see cref="GetOverlappedResult"/> function.
+        /// If the <paramref name="hFile"/> parameter is associated with an I/O completion port,
+        /// you can also get the number of bytes written by calling the <see cref="GetQueuedCompletionStatus"/> function.
+        /// Synchronization and File Position
+        /// If <paramref name="hFile"/> is opened with <see cref="FILE_FLAG_OVERLAPPED"/>, it is an asynchronous file handle; otherwise it is synchronous.
+        /// The rules for using the <see cref="OVERLAPPED"/> structure are slightly different for each, as previously noted.
+        /// Note If a file or device is opened for asynchronous I/O, subsequent calls to functions such as <see cref="WriteFile"/>
+        /// using that handle generally return immediately, but can also behave synchronously with respect to blocked execution.
+        /// For more information, see http://support.microsoft.com/kb/156932.
+        /// Considerations for working with asynchronous file handles:
+        /// <see cref="WriteFile"/> may return before the write operation is complete.
+        /// In this scenario, <see cref="WriteFile"/> returns <see cref="FALSE"/> and
+        /// the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>,
+        /// which allows the calling process to continue while the system completes the write operation.
+        /// The <paramref name="lpOverlapped"/> parameter must not be <see langword="null"/> and should be used with the following facts in mind:
+        /// Although the event specified in the <see cref="OVERLAPPED"/> structure is set and reset automatically by the system,
+        /// the offset that is specified in the <see cref="OVERLAPPED"/> structure is not automatically updated.
+        /// <see cref="WriteFile"/> resets the event to a nonsignaled state when it begins the I/O operation.
+        /// The event specified in the <see cref="OVERLAPPED"/> structure is set to a signaled state when the write operation is complete;
+        /// until that time, the write operation is considered pending.
+        /// Because the write operation starts at the offset that is specified in the <see cref="OVERLAPPED"/> structure,
+        /// and <see cref="WriteFile"/> may return before the system-level write operation is complete (write pending),
+        /// neither the offset nor any other part of the structure should be modified, freed,
+        /// or reused by the application until the event is signaled (that is, the write completes).
+        /// Considerations for working with synchronous file handles:
+        /// If <paramref name="lpOverlapped"/> is <see langword="null"/>, the write operation starts at the current file position
+        /// and <see cref="WriteFile"/> does not return until the operation is complete,
+        /// and the system updates the file pointer before <see cref="WriteFile"/> returns.
+        /// If <paramref name="lpOverlapped"/> is not <see langword="null"/>,
+        /// the write operation starts at the offset that is specified in the <see cref="OVERLAPPED"/> structure
+        /// and <see cref="WriteFile"/> does not return until the write operation is complete.
+        /// The system updates the <see cref="OVERLAPPED"/> offset before <see cref="WriteFile"/> returns.
+        /// For more information, see CreateFile and Synchronous and Asynchronous I/O.
+        /// Pipes
+        /// If an anonymous pipe is being used and the read handle has been closed,
+        /// when <see cref="WriteFile"/> attempts to write using the pipe's corresponding write handle,
+        /// the function returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_BROKEN_PIPE"/>.
+        /// If the pipe buffer is full when an application uses the <see cref="WriteFile"/> function to write to a pipe,
+        /// the write operation may not finish immediately.
+        /// The write operation will be completed when a read operation(using the <see cref="ReadFile"/> function)
+        /// makes more system buffer space available for the pipe.
+        /// When writing to a non-blocking, byte-mode pipe handle with insufficient buffer space,
+        /// <see cref="WriteFile"/> returns <see cref="TRUE"/> with <paramref name="lpNumberOfBytesWritten"/> &lt; <paramref name="nNumberOfBytesToWrite"/>.
+        /// For more information about pipes, see Pipes.
+        /// Transacted Operations
+        /// If there is a transaction bound to the file handle, then the file write is transacted.For more information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteFile([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite, [Out]out DWORD lpNumberOfBytesWritten,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<OVERLAPPED>))]
+        [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
 
 #pragma warning disable IDE1006
         /// <summary>
