@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.SFGAOF;
 using static Lsj.Util.Win32.Enums.SHGDNF;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -309,7 +310,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// if the folder object does not support <see cref="IShellFolder2"/>.
         /// Doing so might have unpredictable results.
         /// If you use the <see cref="SHCIDS_ALLFIELDS"/> flag, the lower sixteen bits of <paramref name="lParam"/> must be set to zero.
-        /// Use the <see cref="HRESULT_CODE"/> macro to extract the <see cref="CODE"/> field from the <see cref="HRESULT"/>,
+        /// Use the <see cref="HRESULT_CODE"/> macro to extract the CODE field from the <see cref="HRESULT"/>,
         /// then cast the result as a short.
         /// Note to Implementers
         /// To extract the sorting rule, use a bitwise AND operator (&amp;) to combine lParam with SHCIDS_COLUMNMASK(0X0000FFFF).

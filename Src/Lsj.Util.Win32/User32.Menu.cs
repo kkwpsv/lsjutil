@@ -1038,8 +1038,8 @@ namespace Lsj.Util.Win32
         /// The system uses the Boolean AND operator to combine bitmaps with the menu so that the white part becomes transparent
         /// and the black part becomes the menu-item color.
         /// If you use color bitmaps, the results may be undesirable.
-        /// Use the <see cref="GetSystemMetrics"/> function with the <see cref="CXMENUCHECK"/>
-        /// and <see cref="CYMENUCHECK"/> values to retrieve the bitmap dimensions.
+        /// Use the <see cref="GetSystemMetrics"/> function with the <see cref="SM_CXMENUCHECK"/>
+        /// and <see cref="SM_CYMENUCHECK"/> values to retrieve the bitmap dimensions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenuItemBitmaps([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]HBITMAP hBitmapUnchecked,

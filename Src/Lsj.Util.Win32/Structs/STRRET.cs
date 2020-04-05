@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.ComInterfaces;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
 {

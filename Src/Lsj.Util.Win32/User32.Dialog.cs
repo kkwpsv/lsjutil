@@ -7,7 +7,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.ComboBoxStyles;
+using static Lsj.Util.Win32.Enums.DialogBoxMessages;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
+using static Lsj.Util.Win32.Enums.DlgDirListFlags;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -661,7 +665,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirList([In]HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPathSpec, [In]int nIDListBox,
-            [In]int nIDStaticPath, [In]UINT uFileType);
+            [In]int nIDStaticPath, [In]DlgDirListFlags uFileType);
 
         /// <summary>
         /// <para>
@@ -749,12 +753,12 @@ namespace Lsj.Util.Win32
         /// The list displays short file names (the 8.3 form).
         /// You can use the <see cref="SHGetFileInfo"/> or <see cref="GetFullPathName"/> functions to get the corresponding long file name.
         /// Windows 95 or later:
-        /// <see cref="DlgDirListComboBoxW"/> is supported by the Microsoft Layer for Unicode.
+        /// <see cref="DlgDirListComboBox"/> is supported by the Microsoft Layer for Unicode.
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
         public static extern int DlgDirListComboBox([In]HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPathSpec, [In]int nIDComboBox,
-             [In]int nIDStaticPath, [In]UINT uFileType);
+             [In]int nIDStaticPath, [In]DlgDirListFlags uFileType);
 
         /// <summary>
         /// <para>

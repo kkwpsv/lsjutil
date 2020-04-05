@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -198,5 +197,10 @@ namespace Lsj.Util.Win32.Enums
         /// This flag is reserved for internal use and is not intended to be used directly from your code.
         /// </summary>
         CLSCTX_PS_DLL = 0x80000000,
+
+        /// <summary>
+        /// CLSCTX_ALL
+        /// </summary>
+        CLSCTX_ALL = CLSCTX_INPROC_SERVER | CLSCTX_INPROC_HANDLER | CLSCTX_LOCAL_SERVER | CLSCTX_REMOTE_SERVER,
     }
 }

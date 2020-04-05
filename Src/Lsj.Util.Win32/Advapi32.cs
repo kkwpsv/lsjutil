@@ -496,7 +496,7 @@ namespace Lsj.Util.Win32
         /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
         /// the function fails and stores no data in the buffer.
         /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
-        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof(<see cref="TOKEN_DEFAULT_DACL"/>) and
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
         /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="IntPtr.Zero"/>.
         /// </param>
         /// <returns>

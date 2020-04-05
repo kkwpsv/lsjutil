@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Enums.CLSCTX;
 
 namespace Lsj.Util.Win32
 {

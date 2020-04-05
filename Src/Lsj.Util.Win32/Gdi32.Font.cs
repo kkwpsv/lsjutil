@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
+using static Lsj.Util.Win32.Enums.FamilyFont;
 using static Lsj.Util.Win32.Enums.FontQualities;
 using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.FontWeights;

@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RasterOps;
@@ -317,12 +318,12 @@ namespace Lsj.Util.Win32
         /// For a device to reach optimal bitmap-drawing speed, specify fdwInit as <see cref="CBM_INIT"/>.
         /// Then, use the same color depth DIB as the video mode.
         /// When the video is running 4- or 8-bpp, use <see cref="DIB_PAL_COLORS"/>.
-        /// The <see cref="CBM_CREATDIB"/> flag for the fdwInit parameter is no longer supported.
+        /// The CBM_CREATDIB flag for the <paramref name="flInit"/> parameter is no longer supported.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]DWORD flInit,
+        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]CreateDIBitmapFlags flInit,
             [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
 
         /// <summary>
@@ -864,8 +865,9 @@ namespace Lsj.Util.Win32
         /// <paramref name="lpvBits"/> points to a buffer containing a JPEG or PNG image.
         /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of specifies the size of the buffer.
         /// The <paramref name="ColorUse"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
-        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
-        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="SetDIBitsToDevice"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/>
+        /// or <see cref="CHECKPNGFORMAT"/> escape to verify that the printer recognizes the JPEG or PNG image,
+        /// respectively, before calling <see cref="SetDIBitsToDevice"/>.
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
@@ -1187,8 +1189,9 @@ namespace Lsj.Util.Win32
         /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of the <see cref="BITMAPINFOHEADER"/> structure specifies the size of the buffer.
         /// The <paramref name="iUsage"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
         /// The <paramref name="rop"/> parameter must be set to <see cref="SRCCOPY"/>.
-        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
-        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="StretchDIBits"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/>
+        /// or <see cref="CHECKPNGFORMAT"/> escape to verify that the printer recognizes the JPEG or PNG image,
+        /// respectively, before calling <see cref="StretchDIBits"/>.
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,

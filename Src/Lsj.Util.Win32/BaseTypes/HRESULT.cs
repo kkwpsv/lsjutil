@@ -41,6 +41,46 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { _value = 0x00040172 };
 
         /// <summary>
+        /// CLASS_E_NOAGGREGATION
+        /// </summary>
+        public static readonly HRESULT CLASS_E_NOAGGREGATION = new HRESULT { _value = unchecked((int)0x80040110) };
+
+        /// <summary>
+        /// CO_E_NOTINITIALIZED
+        /// </summary>
+        public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };
+
+        /// <summary>
+        /// DV_E_CLIPFORMAT
+        /// </summary>
+        public static readonly HRESULT DV_E_CLIPFORMAT = new HRESULT { _value = unchecked((int)0x8004006A) };
+
+        /// <summary>
+        /// DV_E_DVASPECT
+        /// </summary>
+        public static readonly HRESULT DV_E_DVASPECT = new HRESULT { _value = unchecked((int)0x8004006B) };
+
+        /// <summary>
+        /// DV_E_DVTARGETDEVICE
+        /// </summary>
+        public static readonly HRESULT DV_E_DVTARGETDEVICE = new HRESULT { _value = unchecked((int)0x80040065) };
+
+        /// <summary>
+        /// DV_E_FORMATETC
+        /// </summary>
+        public static readonly HRESULT DV_E_FORMATETC = new HRESULT { _value = unchecked((int)0x80040064) };
+
+        /// <summary>
+        /// DV_E_LINDEX
+        /// </summary>
+        public static readonly HRESULT DV_E_LINDEX = new HRESULT { _value = unchecked((int)0x80040068) };
+
+        /// <summary>
+        /// DV_E_TYMED
+        /// </summary>
+        public static readonly HRESULT DV_E_TYMED = new HRESULT { _value = unchecked((int)0x80040069) };
+
+        /// <summary>
         /// Access denied.
         /// </summary>
         public static readonly HRESULT E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80070005) };
@@ -54,6 +94,16 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Invalid parameter value.
         /// </summary>
         public static readonly HRESULT E_INVALIDARG = new HRESULT { _value = unchecked((int)0x80070057) };
+
+        /// <summary>
+        /// E_NOINTERFACE
+        /// </summary>
+        public static readonly HRESULT E_NOINTERFACE = new HRESULT { _value = unchecked((int)0x80004002) };
+
+        /// <summary>
+        /// E_NOTIMPL
+        /// </summary>
+        public static readonly HRESULT E_NOTIMPL = new HRESULT { _value = unchecked((int)0x80004001) };
 
         /// <summary>
         /// Out of memory.

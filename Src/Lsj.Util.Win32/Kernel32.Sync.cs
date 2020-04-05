@@ -4,8 +4,10 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
 
@@ -89,7 +91,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// This function does not return a value.
         /// <para>
-        /// This function can raise <see cref="EXCEPTION_POSSIBLE_DEADLOCK"/> if a wait operation on the critical section times out.
+        /// This function can raise EXCEPTION_POSSIBLE_DEADLOCK if a wait operation on the critical section times out.
         /// </para>
         /// The timeout interval is specified by the following registry value:
         /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\CriticalSectionTimeout.

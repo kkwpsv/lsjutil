@@ -32,12 +32,12 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="dwTimerLowValue">
         /// The low-order portion of the UTC-based time at which the timer was signaled.
-        /// This value corresponds to the <see cref="FILETIME.dwLowDateTime"/> member of the <see cref="FILETIME"/> structure.
+        /// This value corresponds to the <see cref="Structs.FILETIME.dwLowDateTime"/> member of the <see cref="FILETIME"/> structure.
         /// For more information about UTC-based time, see System Time.
         /// </param>
         /// <param name="dwTimerHighValue">
         /// The high-order portion of the UTC-based time at which the timer was signaled.
-        /// This value corresponds to the <see cref="FILETIME.dwHighDateTime"/> member of the <see cref="FILETIME"/> structure.
+        /// This value corresponds to the <see cref="Structs.FILETIME.dwHighDateTime"/> member of the <see cref="FILETIME"/> structure.
         /// </param>
         /// <remarks>
         /// The completion routine is executed by the thread that activates the timer using <see cref="SetWaitableTimer"/>.

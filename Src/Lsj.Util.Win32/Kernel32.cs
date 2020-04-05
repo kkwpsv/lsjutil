@@ -3,9 +3,11 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -283,8 +285,8 @@ namespace Lsj.Util.Win32
         /// The character to test.
         /// </param>
         /// <returns>
-        /// Returns a <see cref="BOOL.TRUE"/> value if the test character is potentially a lead byte.
-        /// The function returns <see cref="BOOL.FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
+        /// Returns a <see cref="TRUE"/> value if the test character is potentially a lead byte.
+        /// The function returns <see cref="FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
         /// To get extended error information, the application can call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>

@@ -1,5 +1,6 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.DOCINFOFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -49,6 +50,6 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="DI_APPBANDING"/>: Applications that use banding should set this flag for optimal performance during printing.
         /// <see cref="DI_ROPS_READ_DESTINATION"/>: The application will use raster operations that involve reading from the destination surface.
         /// </summary>
-        public DWORD fwType;
+        public DOCINFOFlags fwType;
     }
 }
