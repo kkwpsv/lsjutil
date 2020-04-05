@@ -3,7 +3,10 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
 namespace Lsj.Util.Win32
 {
@@ -664,7 +667,7 @@ namespace Lsj.Util.Win32
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD MsgWaitForMultipleObjectsEx([In]DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In]HANDLE[] pHandles,
+        public static extern WaitResult MsgWaitForMultipleObjectsEx([In]DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In]HANDLE[] pHandles,
             [In]DWORD dwMilliseconds, [In]QueueStatus dwWakeMask, [In]MsgWaitForMultipleObjectsExFlags dwFlags);
 
         /// <summary>
@@ -786,7 +789,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SignalObjectAndWait([In]HANDLE hObjectToSignal, [In]HANDLE hObjectToWaitOn, [In]DWORD dwMilliseconds, [In]BOOL bAlertable);
+        public static extern WaitResult SignalObjectAndWait([In]HANDLE hObjectToSignal, [In]HANDLE hObjectToWaitOn,
+            [In]DWORD dwMilliseconds, [In]BOOL bAlertable);
 
         /// <summary>
         /// <para>
@@ -1014,7 +1018,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjects"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForMultipleObjects([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
+        public static extern WaitResult WaitForMultipleObjects([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
             [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds);
 
         /// <summary>
@@ -1119,7 +1123,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjectsEx"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForMultipleObjectsEx([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
+        public static extern WaitResult WaitForMultipleObjectsEx([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
             [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
@@ -1182,7 +1186,7 @@ namespace Lsj.Util.Win32
         /// rather than <see cref="WaitForSingleObject"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
+        public static extern WaitResult WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -1254,7 +1258,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForSingleObjectEx"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObjectEx", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForSingleObjectEx([In]IntPtr hHandle, [In]uint dwMilliseconds, [In]bool bAlertable);
+        public static extern WaitResult WaitForSingleObjectEx([In]IntPtr hHandle, [In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
         /// <para>
