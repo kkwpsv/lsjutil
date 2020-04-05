@@ -244,5 +244,65 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CoTaskMemRealloc([In]IntPtr pv, [In]IntPtr cb);
+
+        /// <summary>
+        /// <para>
+        /// Returns a pointer to an implementation of <see cref="IBindCtx"/> (a bind context object).
+        /// This object stores information about a particular moniker-binding operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createbindctx
+        /// </para>
+        /// </summary>
+        /// <param name="reserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <param name="ppbc">
+        /// Address of an <see cref="IBindCtx"/> pointer variable that receives the interface pointer to the new bind context object.
+        /// When the function is successful, the caller is responsible for calling <see cref="Marshal.ReleaseComObject(object)"/> on the bind context.
+        /// A <see langword="null"/> value for the bind context indicates that an error occurred.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// CreateBindCtx is most commonly used in the process of binding a moniker
+        /// (locating and getting a pointer to an interface by identifying it through a moniker), as in the following steps:
+        /// Get a pointer to a bind context by calling the <see cref="CreateBindCtx"/> function.
+        /// Call the <see cref="IMoniker.BindToObject"/> on the moniker, retrieving an interface pointer to the object to which the moniker refers.
+        /// Release the bind context.
+        /// Use the interface pointer.
+        /// Release the interface pointer.
+        /// The following code fragment illustrates these steps.
+        /// <code>
+        /// // pMnk is an IMoniker * that points to a previously acquired moniker 
+        /// IInterface* pInterface;
+        /// IBindCtx* pbc;
+        /// 
+        /// CreateBindCtx( 0, &amp;pbc );
+        /// pMnk-&gt;BindToObject(pbc, NULL, IID_IInterface, &amp;pInterface );
+        /// pbc-&gt;Release();
+        /// 
+        /// // pInterface now points to the object; safe to use pInterface 
+        /// pInterface-&gt;Release();
+        /// </code>
+        /// Bind contexts are also used in other methods of the <see cref="IMoniker"/> interface besides <see cref="IMoniker.BindToObject"/>
+        /// and in the <see cref="MkParseDisplayName"/> function.
+        /// A bind context retains references to the objects that are bound during the binding operation,
+        /// causing the bound objects to remain active (keeping the object's server running) until the bind context is released.
+        /// Reusing a bind context when subsequent operations bind to the same object can improve performance.
+        /// You should, however, release the bind context as soon as possible, because you could be keeping the objects activated unnecessarily.
+        /// A bind context contains a <see cref="BIND_OPTS"/> structure, which contains parameters that apply to all steps in a binding operation.
+        /// When you create a bind context using <see cref="CreateBindCtx"/>, the fields of the <see cref="BIND_OPTS"/> structure are initialized as follows.
+        /// <code>
+        /// cbStruct = sizeof(BIND_OPTS) 
+        /// grfFlags = 0 
+        /// grfMode = STGM_READWRITE 
+        /// dwTickCountDeadline = 0
+        /// </code>
+        /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
     }
 }
