@@ -1,7 +1,5 @@
 ﻿using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.FontWeights;
 
 namespace Lsj.Util.Win32.Enums
 {

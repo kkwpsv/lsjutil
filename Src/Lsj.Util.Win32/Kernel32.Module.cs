@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
@@ -512,7 +513,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpParameterBlock">
         /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
-        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="lpCmdLine"/>,
+        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="LOADPARMS32.lpCmdLine"/>,
         /// which must point to a null-terminated string if it is not used.
         /// For more information, see Remarks.
         /// </param>

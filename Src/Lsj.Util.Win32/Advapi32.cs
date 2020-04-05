@@ -6,8 +6,10 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LogonFlags;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Userenv;
@@ -949,10 +951,10 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the function returns nonzero.
-        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/> .
+        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// To set privilege information, an application can call the<see cref="AdjustTokenPrivileges"/>  function. 
+        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
         /// To set a token's groups, an application can call the AdjustTokenGroups function.
         /// Token-type information can be set only when an access token is created.
         /// </remarks>

@@ -11,10 +11,14 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
+using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
+using static Lsj.Util.Win32.Enums.HitTestResults;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
@@ -449,7 +453,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FLASE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>

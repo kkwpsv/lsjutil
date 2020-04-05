@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {

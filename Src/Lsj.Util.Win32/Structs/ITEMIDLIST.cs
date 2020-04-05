@@ -1,8 +1,6 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
-using System;
-using System.Collections.Generic;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32.Structs
 {

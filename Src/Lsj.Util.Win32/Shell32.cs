@@ -113,7 +113,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// If this function returns an icon handle in the <see cref="hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure
+        /// If this function returns an icon handle in the <see cref="SHSTOCKICONINFO.hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]

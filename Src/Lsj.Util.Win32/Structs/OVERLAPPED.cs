@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Marshals;
-using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// <remarks>
     /// Any unused members of this structure should always be initialized to zero before the structure is used in a function call.
     /// Otherwise, the function may fail and return <see cref="ERROR_INVALID_PARAMETER"/>.
-    /// The <see cref="UNIONStruct.Offset"/> and <see cref="UNIONStruct.OffsetHigh"/> members together represent a 64-bit file position.
+    /// The <see cref="Offset"/> and <see cref="OffsetHigh"/> members together represent a 64-bit file position.
     /// It is a byte offset from the start of the file or file-like device, and it is specified by the user; the system will not modify these values.
     /// The calling process must set this member before passing the <see cref="OVERLAPPED"/> structure to functions that use an offset,
     /// such as the <see cref="ReadFile"/> or <see cref="WriteFile"/> (and related) functions.

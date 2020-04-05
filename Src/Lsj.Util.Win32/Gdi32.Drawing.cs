@@ -1,8 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ExtFloodFillFlags;
+using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.PenStyles;
+using static Lsj.Util.Win32.Enums.PolyFillModes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
 
@@ -254,7 +260,7 @@ namespace Lsj.Util.Win32
         /// To determine whether a device supports this technology, use the <see cref="GetDeviceCaps"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtFloodFill", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ExtFloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color, [In]UINT type);
+        public static extern BOOL ExtFloodFill([In]HDC hdc, [In]int x, [In]int y, [In]COLORREF color, [In]ExtFloodFillFlags type);
 
         /// <summary>
         /// <para>
@@ -381,7 +387,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The brush identified by the hbr parameter must have been created by using the <see cref="CreateHatchBrush"/>, <see cref="CreatePatternBrush"/>,
         /// or <see cref="CreateSolidBrush"/> function, or retrieved by using the <see cref="GetStockObject"/> function.
-        /// If the <see cref="bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
+        /// If the <see cref="RECT.bottom"/> member of the <see cref="RECT"/> structure is less than the top member,
         /// or if the right member is less than the left member, the function does not draw the rectangle.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "FrameRect", ExactSpelling = true, SetLastError = true)]
@@ -895,6 +901,6 @@ namespace Lsj.Util.Win32
         /// The direction of each edge of the polygon is important.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetPolyFillMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetPolyFillMode([In]HDC hdc, [In]int mode);
+        public static extern int SetPolyFillMode([In]HDC hdc, [In]PolyFillModes mode);
     }
 }

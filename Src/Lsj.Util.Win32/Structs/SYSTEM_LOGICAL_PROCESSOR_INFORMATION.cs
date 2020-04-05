@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs

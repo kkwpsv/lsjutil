@@ -5,12 +5,15 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -191,7 +194,7 @@ namespace Lsj.Util.Win32
         /// <param name="pdm">
         /// A pointer to a <see cref="DEVMODE"/> structure containing device-specific initialization data for the device driver.
         /// The <see cref="DocumentProperties"/> function retrieves this structure filled in for a specified device.
-        /// The <see cref="lpdvmInit"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
+        /// The <paramref name="pdm"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
         /// (if any) specified by the user.
         /// </param>
         /// <returns>
@@ -204,7 +207,8 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
             [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))]
+            [In]StructPointerOrNullObject<DEVMODE> pdm);
 
         /// <summary>
         /// <para>
@@ -540,7 +544,7 @@ namespace Lsj.Util.Win32
         /// The following table shows the type of information the buffer receives for each type of graphics object you can specify with hgdiobj.
         /// <see cref="HBITMAP"/>: <see cref="BITMAP"/>
         /// <see cref="HBITMAP"/> returned from a call to <see cref="CreateDIBSection"/>:
-        /// <see cref="DIBSECTION"/>, if <see cref="cbBuffer"/> is set to <code>sizeof (DIBSECTION)</code>,
+        /// <see cref="DIBSECTION"/>, if <see cref="DIBSECTION.cbBuffer"/> is set to <code>sizeof (DIBSECTION)</code>,
         /// or <see cref="BITMAP"/>, if cbBuffer is set to <code>sizeof (BITMAP)</code>.
         /// <see cref="HPALETTE"/>:
         /// A <see cref="WORD"/> count of the number of entries in the logical palette

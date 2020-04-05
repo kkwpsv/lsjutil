@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.ButtonStates;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.EnableScrollBarFlags;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -446,7 +447,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="LPtoDP"/> and <see cref="DPtoLP"/> functions to convert to and from logical coordinates, if necessary.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
-        public static extern int ScrollWindowEx([In]HWND hWnd, [In]int dx, [In]int dy, [In]in RECT prcScroll, [In]in RECT prcClip,
+        public static extern RegionFlags ScrollWindowEx([In]HWND hWnd, [In]int dx, [In]int dy, [In]in RECT prcScroll, [In]in RECT prcClip,
             [In]HRGN hrgnUpdate, [Out]out RECT prcUpdate, [In]ScrollWindowExFlags flags);
 
         /// <summary>

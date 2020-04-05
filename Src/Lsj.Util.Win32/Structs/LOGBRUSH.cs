@@ -1,7 +1,13 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.BrushStyles;
+using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
+using static Lsj.Util.Win32.Enums.HatchStyles;
+using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
 using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -30,7 +36,7 @@ namespace Lsj.Util.Win32.Structs
         /// The color in which the brush is to be drawn.
         /// If <see cref="lbStyle"/> is the <see cref="BS_HOLLOW"/> or <see cref="BS_PATTERN"/> style, <see cref="lbColor"/> is ignored.
         /// If <see cref="lbStyle"/> is <see cref="BS_DIBPATTERN"/> or <see cref="BS_DIBPATTERNPT"/>,
-        /// the low-order word of <see cref="lbColor"/> specifies whether the <see cref="bmiColors"/> members of the <see cref="BITMAPINFO"/> structure
+        /// the low-order word of <see cref="lbColor"/> specifies whether the <see cref="BITMAPINFO.bmiColors"/> members of the <see cref="BITMAPINFO"/> structure
         /// contain explicit red, green, blue (RGB) values or indexes into the currently realized logical palette.
         /// The <see cref="lbColor"/> member must be one of the following values.
         /// <see cref="DIB_PAL_COLORS"/>: The color table consists of an array of 16-bit indexes into the currently realized logical palette.

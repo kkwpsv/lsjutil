@@ -5,7 +5,11 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
+using static Lsj.Util.Win32.Enums.ProductTypes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.User32;
 
@@ -33,9 +37,9 @@ namespace Lsj.Util.Win32
         /// <paramref name="ReturnedLength"/> is set to the number of bytes returned.
         /// If the buffer is not large enough to contain all of the data, the function fails,
         /// <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
-        /// and <see cref="ReturnLength"/> is set to the buffer length required to contain all of the data.
+        /// and <paramref name="ReturnedLength"/> is set to the buffer length required to contain all of the data.
         /// If the function fails with an error other than <see cref="ERROR_INSUFFICIENT_BUFFER"/>,
-        /// the value of <see cref="ReturnLength"/> is undefined.
+        /// the value of <paramref name="ReturnedLength"/> is undefined.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/> and

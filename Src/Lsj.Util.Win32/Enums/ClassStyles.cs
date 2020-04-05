@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Redraws the entire window if a movement or size adjustment changes the width of the client area.
         /// </summary>
-        HCS_HREDRAW = 0x2,
+        CS_HREDRAW = 0x2,
 
         /// <summary>
         /// Disables Close on the window menu.

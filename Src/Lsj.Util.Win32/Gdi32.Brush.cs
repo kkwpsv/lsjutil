@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.HatchStyles;
 using static Lsj.Util.Win32.User32;
 

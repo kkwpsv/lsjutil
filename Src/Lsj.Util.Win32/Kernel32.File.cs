@@ -3190,7 +3190,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFile([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite, [Out]out DWORD lpNumberOfBytesWritten,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<OVERLAPPED>))]
-        [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
+            [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
 
 #pragma warning disable IDE1006
         /// <summary>

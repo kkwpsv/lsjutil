@@ -13,6 +13,11 @@ namespace Lsj.Util.Win32.Enums
     public enum SystemErrorCodes : uint
     {
         /// <summary>
+        /// NO_ERROR
+        /// </summary>
+        NO_ERROR = 0,
+
+        /// <summary>
         /// The operation completed successfully.
         /// </summary>
         ERROR_SUCCESS = 0x0,

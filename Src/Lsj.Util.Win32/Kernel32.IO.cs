@@ -609,6 +609,6 @@ namespace Lsj.Util.Win32
         /// To get more details about a completed I/O operation,
         /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
         /// </remarks>
-        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => lpOverlapped.Internal.SafeToUInt32() != (uint)STATUS_PENDING;
+        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
     }
 }

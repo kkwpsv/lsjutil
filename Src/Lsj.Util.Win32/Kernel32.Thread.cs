@@ -3,11 +3,13 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
-using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 
 namespace Lsj.Util.Win32
 {
@@ -16,7 +18,8 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// An application-defined function that serves as the starting address for a thread.
-        /// Specify this address when calling the <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/>, or <see cref="CreateRemoteThreadEx"/> function.
+        /// Specify this address when calling the <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/>,
+        /// or <see cref="CreateRemoteThreadEx"/> function.
         /// The LPTHREAD_START_ROUTINE type defines a pointer to this callback function.
         /// <see cref="ThreadProc"/> is a placeholder for the application-defined function name.
         /// </para>

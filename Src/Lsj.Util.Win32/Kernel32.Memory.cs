@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
+using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32

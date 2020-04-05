@@ -7,7 +7,9 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
+using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -457,7 +459,7 @@ namespace Lsj.Util.Win32
         /// If an application with a locked window (or any locked child windows) calls the <see cref="GetDC"/>,
         /// <see cref="GetDCEx"/>, or <see cref="BeginPaint"/> function, the called function returns a device context with a visible region that is empty.
         /// This will occur until the application unlocks the window by calling <see cref="LockWindowUpdate"/>,
-        /// specifying a value of <see cref="NULLL"/> for <paramref name="hWndLock"/>.
+        /// specifying a value of <see cref="NULL"/> for <paramref name="hWndLock"/>.
         /// If an application attempts to draw within a locked window, the system records the extent of the attempted operation in a bounding rectangle.
         /// When the window is unlocked, the system invalidates the area within this bounding rectangle,
         /// forcing an eventual <see cref="WM_PAINT"/> message to be sent to the previously locked window and its child windows.
