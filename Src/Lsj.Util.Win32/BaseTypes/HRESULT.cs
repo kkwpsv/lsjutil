@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -9,10 +10,11 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A 4-bit reserved value.
     /// An 11-bit code, also known as a facility code, that indicates responsibility for the error or warning.
     /// A 16-bit code that describes the error or warning.
-    /// For details on HRESULT values, see [MS-ERREF].
+    /// For details on <see cref="HRESULT"/> values, see [MS-ERREF].
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/learnwin32/error-handling-in-com
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -39,19 +41,44 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { _value = 0x00040172 };
 
         /// <summary>
-        /// E_OUTOFMEMORY
+        /// Access denied.
         /// </summary>
-        public static readonly HRESULT E_OUTOFMEMORY = new HRESULT { _value = unchecked((int)0x8007000E) };
+        public static readonly HRESULT E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80070005) };
 
         /// <summary>
-        /// E_INVALIDARG
+        /// Unspecified error.
+        /// </summary>
+        public static readonly HRESULT E_FAIL = new HRESULT { _value = unchecked((int)0x80004005) };
+
+        /// <summary>
+        /// Invalid parameter value.
         /// </summary>
         public static readonly HRESULT E_INVALIDARG = new HRESULT { _value = unchecked((int)0x80070057) };
 
         /// <summary>
-        /// S_OK
+        /// Out of memory.
+        /// </summary>
+        public static readonly HRESULT E_OUTOFMEMORY = new HRESULT { _value = unchecked((int)0x8007000E) };
+
+        /// <summary>
+        /// <see cref="NULL"/> was passed incorrectly for a pointer value.
+        /// </summary>
+        public static readonly HRESULT E_POINTER = new HRESULT { _value = unchecked((int)0x80004003) };
+
+        /// <summary>
+        /// Unexpected condition.
+        /// </summary>
+        public static readonly HRESULT E_UNEXPECTED = new HRESULT { _value = unchecked((int)0x8000FFFF) };
+
+        /// <summary>
+        /// Success.
         /// </summary>
         public static readonly HRESULT S_OK = new HRESULT();
+
+        /// <summary>
+        /// Success.
+        /// </summary>
+        public static readonly HRESULT S_FALSE = new HRESULT { _value = 0x1 };
 
         [FieldOffset(0)]
         private int _value;
