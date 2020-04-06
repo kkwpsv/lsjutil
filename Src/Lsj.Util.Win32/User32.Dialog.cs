@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.DialogBoxMessages;
 using static Lsj.Util.Win32.Enums.DialogBoxStyles;
 using static Lsj.Util.Win32.Enums.DlgDirListFlags;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
+using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;

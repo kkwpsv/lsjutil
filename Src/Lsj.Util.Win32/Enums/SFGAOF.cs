@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using System;
+using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 
 namespace Lsj.Util.Win32.Enums

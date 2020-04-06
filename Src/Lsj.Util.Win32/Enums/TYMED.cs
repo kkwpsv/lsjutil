@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
+using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 

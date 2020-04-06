@@ -20,6 +20,17 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <para>
+        /// Dismounts a volume regardless of whether or not the volume is currently in use.
+        /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_dismount_volume
+        /// </para>
+        /// </summary>
+        FSCTL_DISMOUNT_VOLUME = 0x90020,
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current compression state of a file or directory on a volume whose file system supports per-stream compression.
         /// </para>
         /// <para>
@@ -27,6 +38,18 @@ namespace Lsj.Util.Win32.Enums
         /// </para>
         /// </summary>
         FSCTL_GET_COMPRESSION = 0x9003c,
+
+        /// <summary>
+        /// <para>
+        /// Locks a volume if it is not in use.
+        /// A locked volume can be accessed only through handles to the file object (*hDevice) that locks the volume.
+        /// For more information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_lock_volume
+        /// </para>
+        /// </summary>
+        FSCTL_LOCK_VOLUME = 0x90018,
 
         /// <summary>
         /// <para>
@@ -42,5 +65,15 @@ namespace Lsj.Util.Win32.Enums
             "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         FSCTL_TXFS_CREATE_MINIVERSION = 0x9817C,
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the physical location of a specified volume on one or more disks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_volume_get_volume_disk_extents
+        /// </para>
+        /// </summary>
+        IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS = 0x560000,
     }
 }

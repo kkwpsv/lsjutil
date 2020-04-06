@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.SHELLEXECUTEINFOMasks;
 using static Lsj.Util.Win32.Kernel32;
 

@@ -58,6 +58,11 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const int MM_MAX_AXES_NAMELEN = 16;
 
+        /// <summary>
+        /// GDI_ERROR
+        /// </summary>
+        public const uint GDI_ERROR = 0xFFFFFFFF;
+
 
         /// <summary>
         /// <para>

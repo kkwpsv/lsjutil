@@ -1,5 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Enums
 {

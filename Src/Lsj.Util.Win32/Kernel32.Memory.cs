@@ -207,7 +207,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GlobalFlags([In]HGLOBAL hMem);
+        public static extern GlobalMemoryFlags GlobalFlags([In]HGLOBAL hMem);
 
         /// <summary>
         /// <para>

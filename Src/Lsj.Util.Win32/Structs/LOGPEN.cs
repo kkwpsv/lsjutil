@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.PenStyles;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
 {

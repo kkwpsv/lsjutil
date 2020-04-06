@@ -10,7 +10,10 @@ using static Lsj.Util.Win32.Enums.ButtonStates;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.EnableScrollBarFlags;
+using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.Enums.ScrollBarConstants;
+using static Lsj.Util.Win32.Enums.ScrollBarMessages;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -131,7 +134,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableScrollBar", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnableScrollBar([In]HWND hWnd, [In]UINT wSBflags, [In]EnableScrollBarFlags wArrows);
+        public static extern BOOL EnableScrollBar([In]HWND hWnd, [In]ScrollBarConstants wSBflags, [In]EnableScrollBarFlags wArrows);
 
         /// <summary>
         /// <para>
@@ -178,7 +181,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetScrollPos function is provided for backward compatibility. New applications should use the GetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollPos", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetScrollPos([In]HWND hWnd, [In]int nBar);
+        public static extern int GetScrollPos([In]HWND hWnd, [In]ScrollBarConstants nBar);
 
         /// <summary>
         /// <para>
@@ -228,7 +231,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetScrollRange function is provided for compatibility only. New applications should use the GetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollRange", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetScrollRange([In]HWND hWnd, [In]int nBar, [Out]out int lpMinPos, [Out]out int lpMaxPos);
+        public static extern BOOL GetScrollRange([In]HWND hWnd, [In]ScrollBarConstants nBar, [Out]out int lpMinPos, [Out]out int lpMaxPos);
 
         /// <summary>
         /// <para>

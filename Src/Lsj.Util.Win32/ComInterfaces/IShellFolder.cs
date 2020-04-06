@@ -189,8 +189,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A pointer to an <see cref="IBindCtx"/> interface on a bind context object that can be used to pass parameters to the construction of the handler.
         /// If this parameter is not used, set it to <see langword="null"/>.
         /// Because support for this parameter is optional for folder object implementations, some folders may not support the use of bind contexts.
-        /// Information that can be provided in the bind context includes a <see cref="BIND_OPTS"/> structure that includes a <see cref="grfMode"/> member
-        /// that indicates the access mode when binding to a stream handler.
+        /// Information that can be provided in the bind context includes a <see cref="BIND_OPTS"/> structure
+        /// that includes a <see cref="BIND_OPTS.grfMode"/> member that indicates the access mode when binding to a stream handler.
         /// Other parameters can be set and discovered using <see cref="IBindCtx.RegisterObjectParam"/> and <see cref="IBindCtx.GetObjectParam"/>.
         /// </param>
         /// <param name="riid">
@@ -360,7 +360,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="IQueryInfo"/>
         /// <see cref="IShellDetails"/>
         /// <see cref="IDropTarget"/>
-        /// We recommend that you use the <see cref="IID_PPV_ARGS"/> macro, defined in Objbase.h, to package the riid and ppv parameters.
+        /// We recommend that you use the IID_PPV_ARGS macro, defined in Objbase.h, to package the riid and ppv parameters.
         /// This macro provides the correct IID based on the interface pointed to by the value in <paramref name="ppv"/>,
         /// which eliminates the possibility of a coding error in <paramref name="riid"/> that could lead to unexpected results.
         /// </remarks>
@@ -450,7 +450,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="IDropTarget"/>   The <paramref name="cidl"/> parameter can only be one.
         /// <see cref="IExtractIcon"/>  The <paramref name="cidl"/> parameter can only be one.
         /// <see cref="IQueryInfo"/>    The <paramref name="cidl"/> parameter can only be one.
-        /// We recommend that you use the <see cref="IID_PPV_ARGS"/> macro, defined in Objbase.h,
+        /// We recommend that you use the IID_PPV_ARGS macro, defined in Objbase.h,
         /// to package the <paramref name="riid"/> and <paramref name="ppv"/> parameters.
         /// This macro provides the correct IID based on the interface pointed to by the value in <paramref name="ppv"/>,
         /// which eliminates the possibility of a coding error in riid that could lead to unexpected results.
@@ -489,7 +489,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// At one time, <paramref name="pidl"/> could be a multilevel PIDL, relative to the parent folder,
         /// and could contain multiple <see cref="SHITEMID"/> structures.
         /// However, this is no longer supported and <paramref name="pidl"/> should now refer only to a single child item.
-        /// The simplest way to retrieve the display name from the structure pointed to by <see cref="pName"/> is to pass it
+        /// The simplest way to retrieve the display name from the structure pointed to by <paramref name="pName"/> is to pass it
         /// to either <see cref="StrRetToBuf"/> or <see cref="StrRetToStr"/>.
         /// These functions take a <see cref="STRRET"/> structure and return the name.
         /// You can also examine the structure's <see cref="STRRET.uType"/> member, and retrieve the name from the appropriate member.

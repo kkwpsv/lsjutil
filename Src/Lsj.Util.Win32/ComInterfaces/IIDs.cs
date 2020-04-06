@@ -61,13 +61,38 @@
         public const string IID_IOleObject = "00000112-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPropertySetStorage
+        /// </summary>
+        public const string IID_IPropertySetStorage = "0000013A-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IShellFolder
         /// </summary>
         public const string IID_IShellFolder = "000214E6-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IShellFolder2
+        /// </summary>
+        public const string IID_IShellFolder2 = "93F2F68C-1D1B-11d3-A30E-00C04F79ABD1";
+
+        /// <summary>
         /// IID_IShellItem
         /// </summary>
         public const string IID_IShellItem = "43826d1e-e718-42ee-bc55-a1e261c37bfe";
+
+        /// <summary>
+        /// IID_IShellView
+        /// </summary>
+        public const string IID_IShellView = "000214E3-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IStorage
+        /// </summary>
+        public const string IID_IStorage = "0000000b-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IStream
+        /// </summary>
+        public const string IID_IStream = "0000000c-0000-0000-C000-000000000046";
     }
 }

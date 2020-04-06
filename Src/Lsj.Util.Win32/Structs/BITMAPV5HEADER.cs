@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The color space of the DIB.
-        /// The following table specifies the values for bV5CSType.
+        /// The following table specifies the values for <see cref="bV5CSType"/>.
         /// <see cref="LCS_CALIBRATED_RGB"/>: This value implies that endpoints and gamma values are given in the appropriate fields.
         /// <see cref="LCS_sRGB"/>: Specifies that the bitmap is in sRGB color space.
         /// <see cref="LCS_WINDOWS_COLOR_SPACE"/>: 	This value indicates that the bitmap is in the system default color space, sRGB.

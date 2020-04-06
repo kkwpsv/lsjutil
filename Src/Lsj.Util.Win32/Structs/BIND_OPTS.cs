@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 

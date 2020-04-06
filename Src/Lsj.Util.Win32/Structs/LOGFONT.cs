@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Enums.FamilyFont;
 using static Lsj.Util.Win32.Enums.FontQualities;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.OutPrecisions;
 using static Lsj.Util.Win32.Enums.PitchFont;
 using static Lsj.Util.Win32.Gdi32;

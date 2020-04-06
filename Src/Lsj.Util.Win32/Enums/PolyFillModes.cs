@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
-    /// <see cref="PolyFill"/> Modes
+    /// <see cref="SetPolyFillMode"/> Modes
     /// </summary>
     public enum PolyFillModes
     {

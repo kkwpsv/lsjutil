@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;

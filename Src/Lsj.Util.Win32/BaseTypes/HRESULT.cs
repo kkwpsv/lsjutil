@@ -121,6 +121,141 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT E_UNEXPECTED = new HRESULT { _value = unchecked((int)0x8000FFFF) };
 
         /// <summary>
+        /// MK_E_NOOBJECT
+        /// </summary>
+        public static readonly HRESULT MK_E_NOOBJECT = new HRESULT { _value = unchecked((int)0x800401E5) };
+
+        /// <summary>
+        /// MK_E_CONNECTMANUALLY
+        /// </summary>
+        public static readonly HRESULT MK_E_CONNECTMANUALLY = new HRESULT { _value = unchecked((int)0x800401E0) };
+
+        /// <summary>
+        /// MK_E_EXCEEDEDDEADLINE
+        /// </summary>
+        public static readonly HRESULT MK_E_EXCEEDEDDEADLINE = new HRESULT { _value = unchecked((int)0x800401E1) };
+
+        /// <summary>
+        /// MK_E_INTERMEDIATEINTERFACENOTSUPPORTED
+        /// </summary>
+        public static readonly HRESULT MK_E_INTERMEDIATEINTERFACENOTSUPPORTED = new HRESULT { _value = unchecked((int)0x800401E7) };
+
+        /// <summary>
+        /// MK_E_NEEDGENERIC
+        /// </summary>
+        public static readonly HRESULT MK_E_NEEDGENERIC = new HRESULT { _value = unchecked((int)0x800401E2) };
+
+        /// <summary>
+        /// MK_E_MUSTBOTHERUSER
+        /// </summary>
+        public static readonly HRESULT MK_E_MUSTBOTHERUSER = new HRESULT { _value = unchecked((int)0x800401EB) };
+
+        /// <summary>
+        /// MK_E_NOSTORAGE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOSTORAGE = new HRESULT { _value = unchecked((int)0x800401ED) };
+
+        /// <summary>
+        /// MK_E_NOTBINDABLE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOTBINDABLE = new HRESULT { _value = unchecked((int)0x800401E8) };
+
+        /// <summary>
+        /// MK_E_SYNTAX
+        /// </summary>
+        public static readonly HRESULT MK_E_SYNTAX = new HRESULT { _value = unchecked((int)0x800401E4) };
+
+        /// <summary>
+        /// MK_E_UNAVAILABLE
+        /// </summary>
+        public static readonly HRESULT MK_E_UNAVAILABLE = new HRESULT { _value = unchecked((int)0x800401E3) };
+
+        /// <summary>
+        /// MK_S_HIM
+        /// </summary>
+        public static readonly HRESULT MK_S_HIM = new HRESULT { _value = 0x000401E5 };
+
+        /// <summary>
+        /// MK_S_ME
+        /// </summary>
+        public static readonly HRESULT MK_S_ME = new HRESULT { _value = 0x000401E4 };
+
+        /// <summary>
+        /// MK_S_REDUCED_TO_SELF
+        /// </summary>
+        public static readonly HRESULT MK_S_REDUCED_TO_SELF = new HRESULT { _value = 0x000401E2 };
+
+        /// <summary>
+        /// MK_S_US
+        /// </summary>
+        public static readonly HRESULT MK_S_US = new HRESULT { _value = 0x000401E6 };
+
+        /// <summary>
+        /// OLEOBJ_E_NOVERBS
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_E_NOVERBS = new HRESULT { _value = unchecked((int)0x80040180) };
+
+        /// <summary>
+        /// OLEOBJ_S_CANNOT_DOVERB_NOW
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_CANNOT_DOVERB_NOW = new HRESULT { _value = unchecked((int)0x80040181) };
+
+        /// <summary>
+        /// OLEOBJ_S_INVALIDHWND
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_INVALIDHWND = new HRESULT { _value = unchecked((int)0x80040182) };
+
+        /// <summary>
+        /// OLEOBJ_S_INVALIDVERB
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_INVALIDVERB = new HRESULT { _value = unchecked((int)0x80040180) };
+
+        /// <summary>
+        /// OLE_E_BLANK
+        /// </summary>
+        public static readonly HRESULT OLE_E_BLANK = new HRESULT { _value = unchecked((int)0x80040007) };
+
+        /// <summary>
+        /// OLE_E_CANT_BINDTOSOURCE
+        /// </summary>
+        public static readonly HRESULT OLE_E_CANT_BINDTOSOURCE = new HRESULT { _value = unchecked((int)0x8004000A) };
+
+        /// <summary>
+        /// OLE_E_CLASSDIFF
+        /// </summary>
+        public static readonly HRESULT OLE_E_CLASSDIFF = new HRESULT { _value = unchecked((int)0x80040008) };
+
+        /// <summary>
+        /// OLE_E_NOCONNECTION
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOCONNECTION = new HRESULT { _value = unchecked((int)0x80040004) };
+
+        /// <summary>
+        /// OLE_E_NOTRUNNING
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOTRUNNING = new HRESULT { _value = unchecked((int)0x80040005) };
+
+        /// <summary>
+        /// OLE_E_NOT_INPLACEACTIVE
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOT_INPLACEACTIVE = new HRESULT { _value = unchecked((int)0x80040010) };
+
+        /// <summary>
+        /// OLE_E_PROMPTSAVECANCELLED
+        /// </summary>
+        public static readonly HRESULT OLE_E_PROMPTSAVECANCELLED = new HRESULT { _value = unchecked((int)0x8004000C) };
+
+        /// <summary>
+        /// OLE_E_STATIC
+        /// </summary>
+        public static readonly HRESULT OLE_E_STATIC = new HRESULT { _value = unchecked((int)0x8004000B) };
+
+        /// <summary>
+        /// OLE_S_USEREG
+        /// </summary>
+        public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
+
+        /// <summary>
         /// Success.
         /// </summary>
         public static readonly HRESULT S_OK = new HRESULT();
