@@ -1,5 +1,8 @@
 nuget restore
 
+git rev-list HEAD --count > VersionSuffix.txt
+set /p VersionSuffix= < VersionSuffix.txt
+
 b64 -d %SnkFile% Src\LSJ.snk
 
 cd Src\Lsj.Util\

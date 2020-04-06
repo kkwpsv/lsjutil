@@ -15,7 +15,4 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <VersionSuffix>debug$([System.DateTime]::get_Now().ToString('yyyyMMddHHmmss'))</VersionSuffix>
-  </PropertyGroup>
 </Project>
