@@ -1,4 +1,8 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.ComboBoxStyles;
+using static Lsj.Util.Win32.Enums.ListBoxMessages;
+using static Lsj.Util.Win32.Enums.ListBoxStyles;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -157,6 +161,41 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Common Dialog Box Messages
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_CHOOSEFONT_GETLOGFONT"/> message to a Font dialog box
+        /// to retrieve information about the user's current font selections.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-getlogfont
+        /// </para>
+        /// </summary>
+        WM_CHOOSEFONT_GETLOGFONT = WM_USER + 1,
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_CHOOSEFONT_SETFLAGS"/> message to a Font dialog box to set the display options for the dialog box.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setflags
+        /// </para>
+        /// </summary>
+        WM_CHOOSEFONT_SETFLAGS = WM_USER + 102,
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_CHOOSEFONT_SETLOGFONT"/> message to a Font dialog box to set the current logical font information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setlogfont
+        /// </para>
+        /// </summary>
+        WM_CHOOSEFONT_SETLOGFONT = WM_USER + 101,
+
+        #endregion
+
         #region Common Dialog Box Notifications
 
         /// <summary>
@@ -200,6 +239,43 @@ namespace Lsj.Util.Win32.Enums
         /// that the dialog box is about to draw the return address portion of an envelope sample page.
         /// </summary>
         WM_PSD_YAFULLPAGERECT = WM_USER + 6,
+
+        #endregion
+
+        #region ComboBox Control Notifications
+
+        /// <summary>
+        /// <para>
+        /// Sent to determine the relative position of a new item in the sorted list of an owner-drawn combo box or list box.
+        /// Whenever the application adds a new item, the system sends this message to the owner of a combo box or list box
+        /// created with the <see cref="CBS_SORT"/> or <see cref="LBS_SORT"/> style.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-compareitem
+        /// </para>
+        /// </summary>
+        WM_COMPAREITEM = 0x0039,
+
+        /// <summary>
+        /// <para>
+        /// Sent to the parent window of an owner-drawn button, combo box, list box, or menu when a visual aspect of the button,
+        /// combo box, list box, or menu has changed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-drawitem
+        /// </para>
+        /// </summary>
+        WM_DRAWITEM = 0x002B,
+
+        /// <summary>
+        /// <para>
+        /// Sent to the owner window of a combo box, list box, list-view control, or menu item when the control or menu is created.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-measureitem
+        /// </para>
+        /// </summary>
+        WM_MEASUREITEM = 0x002C,
 
         #endregion
 
@@ -381,6 +457,37 @@ namespace Lsj.Util.Win32.Enums
         /// </para>
         /// </summary>
         WM_UNDO = 0x0304,
+
+        #endregion
+
+        #region Edit Control Notifications
+
+        /// <summary>
+        /// <para>
+        /// An edit control that is not read-only or disabled sends the <see cref="WM_CTLCOLOREDIT"/> message to its parent window
+        /// when the control is about to be drawn.
+        /// By responding to this message, the parent window can use the specified device context handle to set the text
+        /// and background colors of the edit control.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcoloredit
+        /// </para>
+        /// </summary>
+        WM_CTLCOLOREDIT = 0x0133,
+
+        #endregion
+
+        #region Font and Text Messages
+
+        /// <summary>
+        /// <para>
+        /// An application sends the <see cref="WM_FONTCHANGE"/> message to all top-level windows in the system after changing the pool of font resources.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-fontchange
+        /// </para>
+        /// </summary>
+        WM_FONTCHANGE = 0x001D,
 
         #endregion
 
@@ -624,6 +731,55 @@ namespace Lsj.Util.Win32.Enums
         /// (Test whether a target app can process <see cref="WM_UNICHAR"/> messages by sending the message with wParam set to UNICODE_NOCHAR.)
         /// </summary>
         WM_UNICHAR = 0x0109,
+
+        #endregion
+
+        #region List Box Notifications
+
+        /// <summary>
+        /// <para>
+        /// Sent by a list box with the <see cref="LBS_WANTKEYBOARDINPUT"/> style to its owner in response to a <see cref="WM_CHAR"/> message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-chartoitem
+        /// </para>
+        /// </summary>
+        WM_CHARTOITEM = 0x002F,
+
+        /// <summary>
+        /// <para>
+        /// Sent to the parent window of a list box before the system draws the list box.
+        /// By responding to this message, the parent window can set the text and background colors of the list box
+        /// by using the specified display device context handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorlistbox
+        /// </para>
+        /// </summary>
+        WM_CTLCOLORLISTBOX = 0x0134,
+
+        /// <summary>
+        /// <para>
+        /// Sent to the owner of a list box or combo box when the list box or combo box is destroyed or when items are removed
+        /// by the <see cref="LB_DELETESTRING"/>, <see cref="LB_RESETCONTENT"/>, <see cref="CB_DELETESTRING"/>, or <see cref="CB_RESETCONTENT"/> message.
+        /// The system sends a <see cref="WM_DELETEITEM"/> message for each deleted item.
+        /// The system sends the <see cref="WM_DELETEITEM"/> message for any deleted list box or combo box item with nonzero item data.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-deleteitem
+        /// </para>
+        /// </summary>
+        WM_DELETEITEM = 0x002D,
+
+        /// <summary>
+        /// <para>
+        /// Sent by a list box with the <see cref="LBS_WANTKEYBOARDINPUT"/> style to its owner in response to a <see cref="WM_KEYDOWN"/> message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-vkeytoitem
+        /// </para>
+        /// </summary>
+        WM_VKEYTOITEM = 0x002E,
 
         #endregion
 
@@ -1147,6 +1303,62 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Shell Messages and Notifications
+
+        /// <summary>
+        /// <para>
+        /// Sent when the user drops a file on the window of an application that has registered itself as a recipient of dropped files.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-dropfiles
+        /// </para>
+        /// </summary>
+        WM_DROPFILES = 0x0233,
+
+        /// <summary>
+        /// <para>
+        /// Indicates that the user pressed the F1 key.
+        /// If a menu is active when F1 is pressed, WM_HELP is sent to the window associated with the menu;
+        /// otherwise, <see cref="WM_HELP"/> is sent to the window that has the keyboard focus.
+        /// If no window has the keyboard focus, <see cref="WM_HELP"/> is sent to the currently active window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-help
+        /// </para>
+        /// </summary>
+        WM_HELP = 0x0053,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an application that has initiated a training card with Windows Help.
+        /// The message informs the application when the user clicks an authorable button.
+        /// An application initiates a training card by specifying the <see cref="HELP_TCARD"/> command in a call to the <see cref="WinHelp"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-tcard
+        /// </para>
+        /// </summary>
+        WM_TCARD = 0x0052,
+
+        #endregion
+
+        #region Static Control Notifications
+
+        /// <summary>
+        /// <para>
+        /// A static control, or an edit control that is read-only or disabled, sends the <see cref="WM_CTLCOLORSTATIC"/> message
+        /// to its parent window when the control is about to be drawn.
+        /// By responding to this message, the parent window can use the specified device context handle
+        /// to set the text foreground and background colors of the static control.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorstatic
+        /// </para>
+        /// </summary>
+        WM_CTLCOLORSTATIC = 0x0138,
+
+        #endregion
+
         #region SystemParametersInfo Messages
 
         /// <summary>
@@ -1180,6 +1392,34 @@ namespace Lsj.Util.Win32.Enums
         /// Applications should use the <see cref="WM_SETTINGCHANGE"/> message.
         /// </remarks>
         WM_WININICHANGE = 0x001A,
+
+        #endregion
+
+        #region System Shutdown Messages
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_ENDSESSION"/> message is sent to an application
+        /// after the system processes the results of the <see cref="WM_QUERYENDSESSION"/> message.
+        /// The <see cref="WM_ENDSESSION"/> message informs the application whether the session is ending.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shutdown/wm-endsession
+        /// </para>
+        /// </summary>
+        WM_ENDSESSION = 0x0016,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_QUERYENDSESSION"/> message is sent when the user chooses to end the session or
+        /// when an application calls one of the system shutdown functions.
+        /// If any application returns zero, the session is not ended. The system stops sending <see cref="WM_QUERYENDSESSION"/> messages
+        /// as soon as one application returns zero.
+        /// After processing this message, the system sends the <see cref="WM_ENDSESSION"/> message
+        /// with the wParam parameter set to the results of the <see cref="WM_QUERYENDSESSION"/> message.
+        /// </para>
+        /// </summary>
+        WM_QUERYENDSESSION = 0x0011,
 
         #endregion
 

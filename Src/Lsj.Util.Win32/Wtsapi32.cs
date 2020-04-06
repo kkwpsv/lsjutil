@@ -33,7 +33,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// Obtains the primary access token of the logged-on user specified by the session ID.
         /// To call this function successfully,  the calling application must be running within the context of the LocalSystem account 
-        /// and have the <see cref="SE_TCB_NAME"/> privilege.
+        /// and have the SeTcbPrivilege privilege.
         /// Caution <see cref="WTSQueryUserToken"/> is intended for highly trusted services.Service providers
         /// must use caution that they do not leak user tokens when calling this function.
         /// Service providers must close token handles after they have finished using them.

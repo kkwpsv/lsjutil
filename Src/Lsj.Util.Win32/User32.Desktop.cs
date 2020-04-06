@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
+using static Lsj.Util.Win32.Enums.GetUserObjectInformationIndexes;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;

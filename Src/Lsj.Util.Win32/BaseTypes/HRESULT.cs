@@ -256,6 +256,21 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
 
         /// <summary>
+        /// STG_E_ACCESSDENIED
+        /// </summary>
+        public static readonly HRESULT STG_E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80030005) };
+
+        /// <summary>
+        /// STG_E_FILEALREADYEXISTS
+        /// </summary>
+        public static readonly HRESULT STG_E_FILEALREADYEXISTS = new HRESULT { _value = unchecked((int)0x80030050) };
+
+        /// <summary>
+        /// STG_E_MEDIUMFULL
+        /// </summary>
+        public static readonly HRESULT STG_E_MEDIUMFULL = new HRESULT { _value = unchecked((int)0x80030070) };
+
+        /// <summary>
         /// Success.
         /// </summary>
         public static readonly HRESULT S_OK = new HRESULT();

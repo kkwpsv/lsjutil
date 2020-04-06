@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Enums;
+using System;
 
 namespace Lsj.Util.Win32
 {
@@ -41,6 +42,21 @@ namespace Lsj.Util.Win32
         /// MaximumAllowed access type
         /// </summary>
         public const uint MAXIMUM_ALLOWED = 0x02000000;
+
+        /// <summary>
+        /// STILL_ACTIVE
+        /// </summary>
+        public const uint STILL_ACTIVE = (uint)NTSTATUS.STATUS_PENDING;
+
+        /// <summary>
+        /// USER_TIMER_MAXIMUM
+        /// </summary>
+        public const uint USER_TIMER_MAXIMUM = 0x7FFFFFFF;
+
+        /// <summary>
+        /// USER_TIMER_MINIMUM
+        /// </summary>
+        public const uint USER_TIMER_MINIMUM = 0x0000000A;
 
         /// <summary>
         /// INVALID_HANDLE_VALUE

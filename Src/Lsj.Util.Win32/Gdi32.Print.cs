@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.SpoolerErrorCodes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -16,7 +17,7 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// DN_DEFAULTPRN
         /// </summary>
-        public const ushort DN_DEFAULTPRN= 0x0001;
+        public const ushort DN_DEFAULTPRN = 0x0001;
 
         /// <summary>
         /// <para>

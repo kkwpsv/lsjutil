@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The file is being opened or created for a backup or restore operation.
         /// The system ensures that the calling process overrides file security checks
-        /// when the process has <see cref="SE_BACKUP_NAME"/> and <see cref="SE_RESTORE_NAME"/> privileges.
+        /// when the process has SE_BACKUP_NAME and SE_RESTORE_NAME privileges.
         /// For more information, see Changing Privileges in a Token.
         /// You must set this flag to obtain a handle to a directory.
         /// A directory handle can be passed to some functions instead of a file handle.

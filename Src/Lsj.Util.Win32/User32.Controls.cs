@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.EnableScrollBarFlags;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.Enums.ScrollBarCommands;
 using static Lsj.Util.Win32.Enums.ScrollBarConstants;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;

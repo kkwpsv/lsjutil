@@ -1,5 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.User32;
 

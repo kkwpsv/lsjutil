@@ -1,13 +1,12 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
+using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -145,7 +144,7 @@ namespace Lsj.Util.Win32
         /// You can use the restricted token in the <see cref="CreateProcessAsUser"/> function to create a process
         /// that has restricted access rights and privileges.
         /// If a process calls <see cref="CreateProcessAsUser"/> using a restricted version of its own token,
-        /// the calling process does not need to have the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege.
+        /// the calling process does not need to have the SE_ASSIGNPRIMARYTOKEN_NAME privilege.
         /// You can use the restricted token in the <see cref="ImpersonateLoggedOnUser"/> function.
         ///  Applications that use restricted tokens should run the restricted application on desktops other than the default desktop.
         ///  This is necessary to prevent an attack by a restricted application, using <see cref="SendMessage"/> or <see cref="PostMessage"/>,

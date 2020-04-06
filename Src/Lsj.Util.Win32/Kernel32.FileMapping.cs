@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32
         /// If it is not, <see cref="CreateFileMapping"/> fails.
         /// When mapping a view of a file mapping object created with <see cref="SEC_LARGE_PAGES"/>,
         /// the base address and view size must also be multiples of the minimum large page size.
-        /// <see cref="SEC_LARGE_PAGES"/> requires the <see cref="SeLockMemoryPrivilege"/> privilege
+        /// <see cref="SEC_LARGE_PAGES"/> requires the SeLockMemoryPrivilege privilege
         /// to be enabled in the caller's token.
         /// If <see cref="SEC_LARGE_PAGES"/> is specified, <see cref="SEC_COMMIT"/> must also be specified.
         /// Windows Server 2003:  This value is not supported until Windows Server 2003 with SP1.
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
         /// The remainder of the name can contain any character except the backslash character ().
         /// Creating a file mapping object in the global namespace from a session other than session zero
-        /// requires the <see cref="SeCreateGlobalPrivilege"/> privilege.
+        /// requires the SeCreateGlobalPrivilege privilege.
         /// For more information, see Kernel Object Namespaces.
         /// Fast user switching is implemented by using Terminal Services sessions.
         /// The first user to log on uses session 0 (zero), the next user to log on uses session 1 (one), and so on.
@@ -394,7 +394,7 @@ namespace Lsj.Util.Win32
         /// The name can have a "Global" or "Local" prefix to explicitly create the object in the global or session namespace.
         /// The remainder of the name can contain any character except the backslash character ().
         /// Creating a file mapping object in the global namespace from a session other than session zero
-        /// requires the <see cref="SeCreateGlobalPrivilege"/> privilege.
+        /// requires the SeCreateGlobalPrivilege privilege.
         /// For more information, see Kernel Object Namespaces.
         /// Fast user switching is implemented by using Terminal Services sessions.
         /// The first user to log on uses session 0 (zero), the next user to log on uses session 1 (one), and so on.
@@ -449,7 +449,7 @@ namespace Lsj.Util.Win32
         /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
         /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
         /// Creating a file mapping object in the global namespace from a session other than session zero
-        /// requires the <see cref="SeCreateGlobalPrivilege"/> privilege.
+        /// requires the SeCreateGlobalPrivilege privilege.
         /// Note that this privilege check is limited to the creation of file mapping objects and does not apply to opening existing ones.
         /// For example, if a service or the system creates a file mapping object in the global namespace, any process running
         /// in any session can access that file mapping object provided that the caller has the required access rights.

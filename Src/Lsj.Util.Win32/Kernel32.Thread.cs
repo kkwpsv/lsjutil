@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -693,7 +694,7 @@ namespace Lsj.Util.Win32
         /// The access to the thread object.
         /// This access right is checked against the security descriptor for the thread.
         /// This parameter can be one or more of the thread access rights.
-        /// If the caller has enabled the <see cref="SeDebugPrivilege"/> privilege,
+        /// If the caller has enabled the SeDebugPrivilege privilege,
         /// the requested access is granted regardless of the contents of the security descriptor.
         /// </param>
         /// <param name="bInheritHandle">

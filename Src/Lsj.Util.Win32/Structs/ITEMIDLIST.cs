@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Structs
     /// IDLIST_ABSOLUTE: Fully qualified <see cref="ITEMIDLIST"/> relative to the root of the namespace. It may be multi-level.
     /// IDLIST_RELATIVE: <see cref="ITEMIDLIST"/> relative to a parent folder. It may be multi-level.
     /// ITEMID_CHILD: Single-level <see cref="ITEMIDLIST"/> relative to a parent folder. It contains exactly one <see cref="SHITEMID"/> structure.
-    /// These types are used if you compile your code with the symbol <see cref="STRICT_TYPED_ITEMIDS"/> before you include the Shell header files,
+    /// These types are used if you compile your code with the symbol STRICT_TYPED_ITEMIDS before you include the Shell header files,
     /// as shown in the following example code.
     /// <code>
     /// #define STRICT_TYPED_ITEMIDS    // Better type safety for IDLists

@@ -12,6 +12,8 @@ using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
+using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Userenv;
 
@@ -254,11 +256,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the specified token.
         /// It can optionally load the user profile for the specified user.
-        /// The process that calls CreateProcessWithTokenW must have the <see cref="SE_IMPERSONATE_NAME"/> privilege.
+        /// The process that calls CreateProcessWithTokenW must have the SE_IMPERSONATE_NAME privilege.
         /// If this function fails with <see cref="SystemErrorCodes.ERROR_PRIVILEGE_NOT_HELD"/>, use the <see cref="CreateProcessAsUser"/>
         /// or <see cref="CreateProcessWithLogonW"/> function instead.
-        /// Typically, the process that calls <see cref="CreateProcessAsUser"/> must have the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege
-        /// and may require the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege if the token is not assignable.
+        /// Typically, the process that calls <see cref="CreateProcessAsUser"/> must have the SE_INCREASE_QUOTA_NAME privilege
+        /// and may require the SE_ASSIGNPRIMARYTOKEN_NAME privilege if the token is not assignable.
         /// <see cref="CreateProcessWithLogonW"/> requires no special privileges, but the specified user account must be allowed to log on interactively.
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
@@ -515,8 +517,8 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Creates a new process and its primary thread.
         /// The new process runs in the security context of the user represented by the specified token.
-        /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege
-        /// and may require the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege if the token is not assignable.
+        /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the SE_INCREASE_QUOTA_NAME privilege
+        /// and may require the SE_ASSIGNPRIMARYTOKEN_NAME privilege if the token is not assignable.
         /// If this function fails with <see cref="SystemErrorCodes.ERROR_PRIVILEGE_NOT_HELD"/>,
         /// use the <see cref="CreateProcessWithLogonW"/> function instead.
         /// <see cref="CreateProcessWithLogonW"/> requires no special privileges,
@@ -537,7 +539,7 @@ namespace Lsj.Util.Win32
         /// Alternatively, you can call the <see cref="DuplicateTokenEx"/> function to convert an impersonation token into a primary token.
         /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
         /// If <paramref name="hToken"/> is a restricted version of the caller's primary token,
-        /// the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege is not required.
+        /// the SE_ASSIGNPRIMARYTOKEN_NAME privilege is not required.
         /// If the necessary privileges are not already enabled, <see cref="CreateProcessAsUser"/> enables them for the duration of the call.
         /// For more information, see Running with Special Privileges.
         /// Terminal Services:  The process is run in the session specified in the token.
@@ -890,7 +892,7 @@ namespace Lsj.Util.Win32
         /// If the security descriptor contains a system access control list (SACL), the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
         /// even if it was not requested in <paramref name="dwDesiredAccess"/>.
         /// To set the owner in the security descriptor for the new token,
-        /// the caller's process token must have the <see cref="SE_RESTORE_NAME"/> privilege set.
+        /// the caller's process token must have the SeRestorePrivilege privilege set.
         /// </param>
         /// <param name="ImpersonationLevel">
         /// Specifies a value from the <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumeration that indicates the impersonation level of the new token.

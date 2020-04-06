@@ -23,9 +23,11 @@ using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
+using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Ktmw32;
 
 namespace Lsj.Util.Win32
@@ -480,8 +482,7 @@ namespace Lsj.Util.Win32
         /// To create a directory, the application must call <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/>.
         /// To open a directory using <see cref="CreateFile"/>, specify the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> flag
         /// as part of <paramref name="dwFlagsAndAttributes"/>.
-        /// Appropriate security checks still apply when this flag is used
-        /// without <see cref="SE_BACKUP_NAME"/> and <see cref="SE_RESTORE_NAME"/> privileges.
+        /// Appropriate security checks still apply when this flag is used without SE_BACKUP_NAME and SE_RESTORE_NAME privileges.
         /// When using <see cref="CreateFile"/> to open a directory during defragmentation of a FAT or FAT32 file system volume,
         /// do not specify the <see cref="MAXIMUM_ALLOWED"/> access right.
         /// Access to the directory is denied if this is done.
@@ -809,8 +810,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/>.
         /// To open a directory using <see cref="CreateFileTransacted"/>, specify the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> flag
         /// as part of <paramref name="dwFlagsAndAttributes"/>.
-        /// Appropriate security checks still apply when this flag is used
-        /// without <see cref="SE_BACKUP_NAME"/> and <see cref="SE_RESTORE_NAME"/> privileges.
+        /// Appropriate security checks still apply when this flag is used without SE_BACKUP_NAME and SE_RESTORE_NAME privileges.
         /// When using <see cref="CreateFileTransacted"/> to open a directory during defragmentation of a FAT or FAT32 file system volume,
         /// do not specify the <see cref="MAXIMUM_ALLOWED"/> access right. Access to the directory is denied if this is done.
         /// Specify the <see cref="GENERIC_READ"/> access right instead.

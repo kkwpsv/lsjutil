@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.STRRET_TYPE;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
@@ -20,7 +22,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="STRRET_WSTR"/>, <see cref="STRRET_OFFSET"/>, <see cref="STRRET_CSTR"/>
         /// </summary>
         [FieldOffset(0)]
-        public uint uType;
+        public STRRET_TYPE uType;
 
         /// <summary>
         /// A pointer to the string.

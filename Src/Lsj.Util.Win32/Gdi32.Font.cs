@@ -18,6 +18,8 @@ using static Lsj.Util.Win32.Enums.OutPrecisions;
 using static Lsj.Util.Win32.Enums.PitchFont;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
@@ -20,6 +21,11 @@ namespace Lsj.Util.Win32
         /// CONDITION_VARIABLE_LOCKMODE_SHARED
         /// </summary>
         public const uint CONDITION_VARIABLE_LOCKMODE_SHARED = unchecked((uint)-1);
+
+        /// <summary>
+        /// SRWLOCK_INIT
+        /// </summary>
+        public readonly static SRWLOCK SRWLOCK_INIT = new SRWLOCK();
 
         /// <summary>
         /// <para>

@@ -219,7 +219,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ExitWindowsEx"/> sends these notification messages asynchronously; thus, an application cannot assume
         /// that the console notification messages have been handled when a call to <see cref="ExitWindowsEx"/> returns.
         /// To shut down or restart the system, the calling process must use the <see cref="AdjustTokenPrivileges"/> function
-        /// to enable the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// to enable the SeShutdownPrivilege privilege.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", ExactSpelling = true, SetLastError = true)]
@@ -500,7 +500,7 @@ namespace Lsj.Util.Win32
         /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
         /// To read the system access control list (SACL) from the security descriptor,
         /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
-        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// The correct way to get this access is to enable the SE_SECURITY_NAME privilege in the caller's current token,
         /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
