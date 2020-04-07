@@ -161,6 +161,54 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Color Messages
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_PALETTECHANGED"/> message is sent to all top-level and overlapped windows
+        /// after the window with the keyboard focus has realized its logical palette, thereby changing the system palette.
+        /// This message enables a window that uses a color palette but does not have the keyboard focus
+        /// to realize its logical palette and update its client area.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-palettechanged
+        /// </para>
+        /// </summary>
+        WM_PALETTECHANGED = 0x0311,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_PALETTEISCHANGING"/> message informs applications that an application is going to realize its logical palette.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paletteischanging
+        /// </para>
+        /// </summary>
+        WM_PALETTEISCHANGING = 0x0310,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_QUERYNEWPALETTE"/> message informs a window that it is about to receive the keyboard focus,
+        /// giving the window the opportunity to realize its logical palette when it receives the focus.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-querynewpalette
+        /// </para>
+        /// </summary>
+        WM_QUERYNEWPALETTE = 0x030F,
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_SYSCOLORCHANGE"/> message is sent to all top-level windows when a change is made to a system color setting.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syscolorchange
+        /// </para>
+        /// </summary>
+        WM_SYSCOLORCHANGE = 0x0015,
+
+        #endregion
+
         #region Common Dialog Box Messages
 
         /// <summary>
@@ -276,6 +324,31 @@ namespace Lsj.Util.Win32.Enums
         /// </para>
         /// </summary>
         WM_MEASUREITEM = 0x002C,
+
+        #endregion
+
+        #region Control Messages
+
+        /// <summary>
+        /// <para>
+        /// Sent by a common control to its parent window when an event has occurred or the control requires some information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notify
+        /// </para>
+        /// </summary>
+        WM_NOTIFY = 0x004E,
+
+        /// <summary>
+        /// <para>
+        /// Determines if a window accepts ANSI or Unicode structures in the <see cref="WM_NOTIFY"/> notification message.
+        /// <see cref="WM_NOTIFYFORMAT"/> messages are sent from a common control to its parent window and from the parent window to the common control.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notifyformat
+        /// </para>
+        /// </summary>
+        WM_NOTIFYFORMAT = 0x0055,
 
         #endregion
 
@@ -1239,6 +1312,344 @@ namespace Lsj.Util.Win32.Enums
         /// </para>
         /// </summary>
         WM_SYNCPAINT = 0x0088,
+
+        #endregion
+
+        #region  Pointer Input Messages and Notifications
+
+        /// <summary>
+        /// <para>
+        /// Posted when a pointer makes contact over the non-client area of a window.
+        /// The message targets the window over which the pointer makes contact.
+        /// The pointer is implicitly captured to the window so that the window continues to receive input for the pointer until it breaks contact.
+        /// If a window has captured this pointer, this message is not posted.
+        /// Instead, a <see cref="WM_POINTERDOWN"/> is posted to the window that has captured this pointer.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerdown
+        /// </para>
+        /// </summary>
+        WM_NCPOINTERDOWN = 0x0242,
+
+        /// <summary>
+        /// <para>
+        /// Posted when a pointer that made contact over the non-client area of a window breaks contact.
+        /// The message targets the window over which the pointer makes contact and the pointer is, at that point,
+        /// implicitly captured to the window so that the window continues to receive input for the pointer until it breaks contact,
+        /// including the <see cref="WM_NCPOINTERUP"/> notification.
+        /// If a window has captured this pointer, this message is not posted.
+        /// Instead, a <see cref="WM_POINTERUP"/> is posted to the window that has captured this pointer.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerup
+        /// </para>
+        /// </summary>
+        WM_NCPOINTERUP = 0x0243,
+
+        /// <summary>
+        /// <para>
+        /// Posted to provide an update on a pointer that made contact over the non-client area of a window or
+        /// when a hovering uncaptured contact moves over the non-client area of a window.
+        /// While the pointer is hovering, the message targets whichever window the pointer happens to be over.
+        /// While the pointer is in contact with the surface, the pointer is implicitly captured to the window over
+        /// which the pointer made contact and that window continues to receive input for the pointer until it breaks contact.
+        /// If a window has captured this pointer, this message is not posted.
+        /// Instead, a <see cref="WM_POINTERUPDATE"/> is posted to the window that has captured this pointer.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerupdate
+        /// </para>
+        /// </summary>
+        WM_NCPOINTERUPDATE = 0x0241,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when a significant action occurs on a descendant window.
+        /// This message is now extended to include the <see cref="WM_POINTERDOWN"/> event.
+        /// When the child window is being created, the system sends <see cref="WM_PARENTNOTIFY"/> just
+        /// before the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function that creates the window returns.
+        /// When the child window is being destroyed, the system sends the message before any processing to destroy the window takes place.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-parentnotify
+        /// </para>
+        /// </summary>
+        WM_PARENTNOTIFY = 0x0210,
+
+        /// <summary>
+        /// <para>
+        /// Sent to an inactive window when a primary pointer generates a <see cref="WM_POINTERDOWN"/> over the window.
+        /// As long as the message remains unhandled, it travels up the parent window chain until it is reaches the top-level window.
+        /// Applications can respond to this message to specify whether they wish to be activated.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointeractivate
+        /// </para>
+        /// </summary>
+        WM_POINTERACTIVATE = 0x024B,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window that is losing capture of an input pointer.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointercapturechanged
+        /// </para>
+        /// </summary>
+        WM_POINTERCAPTURECHANGED = 0x024C,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when there is a change in the settings of a monitor that has a digitizer attached to it.
+        /// This message contains information regarding the scaling of the display mode.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdevicechange
+        /// </para>
+        /// </summary>
+        WM_POINTERDEVICECHANGE = 0x238,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when a pointer device is detected within range of an input digitizer.
+        /// This message contains information regarding the device and its proximity.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceinrange
+        /// </para>
+        /// </summary>
+        WM_POINTERDEVICEINRANGE = 0x239,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when a pointer device has departed the range of an input digitizer.
+        /// This message contains information regarding the device and its proximity.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceoutofrange
+        /// </para>
+        /// </summary>
+        WM_POINTERDEVICEOUTOFRANGE = 0x23A,
+
+        /// <summary>
+        /// <para>
+        /// Posted when a pointer makes contact over the client area of a window.
+        /// This input message targets the window over which the pointer makes contact,
+        /// and the pointer is implicitly captured to the window so that the window continues to receive input for the pointer until it breaks contact.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdown
+        /// </para>
+        /// </summary>
+        WM_POINTERDOWN = 0x0246,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when a new pointer enters detection range over the window (hover) or
+        /// when an existing pointer moves within the boundaries of the window.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerenter
+        /// </para>
+        /// </summary>
+        WM_POINTERENTER = 0x0249,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window when a pointer leaves detection range over the window (hover) or when a pointer moves outside the boundaries of the window.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerleave
+        /// </para>
+        /// </summary>
+        WM_POINTERLEAVE = 0x024A,
+
+        /// <summary>
+        /// <para>
+        /// Occurs on the process receiving input when the pointer input is routed to another process.
+        /// Sent when pointer input transitions from one process to another across content configured
+        /// for cross-process chaining (<see cref="AddContentWithCrossProcessChaining"/>).
+        /// This message is sent to the process currently receiving pointer input.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedaway
+        /// </para>
+        /// </summary>
+        WM_POINTERROUTEDAWAY = 0x0252,
+
+        /// <summary>
+        /// <para>
+        /// Sent to all processes (configured for cross-process chaining
+        /// through <see cref="AddContentWithCrossProcessChaining"/> and not currently handling pointer input) ever
+        /// associated with a specific pointer ID, when a <see cref="WM_POINTERUP"/> message is received on the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedreleased
+        /// </para>
+        /// </summary>
+        WM_POINTERROUTEDRELEASED = 0x0253,
+
+        /// <summary>
+        /// <para>
+        /// Sent when ongoing pointer input, for an existing pointer ID,
+        /// transitions from one process to another across content configured for cross-process chaining (<see cref="AddContentWithCrossProcessChaining"/>).
+        /// This message is sent to the process not currently receiving pointer input.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedto
+        /// </para>
+        /// </summary>
+        WM_POINTERROUTEDTO = 0x0251,
+
+        /// <summary>
+        /// <para>
+        /// Posted when a pointer that made contact over the client area of a window breaks contact.
+        /// This input message targets the window over which the pointer makes contact and the pointer is, at that point,
+        /// implicitly captured to the window so that the window continues to receive input messages
+        /// including the <see cref="WM_POINTERUP"/> notification for the pointer until it breaks contact.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerup
+        /// </para>
+        /// </summary>
+        WM_POINTERUP = 0x0247,
+
+        /// <summary>
+        /// <para>
+        /// Posted to provide an update on a pointer that made contact over the client area of a window or
+        /// on a hovering uncaptured pointer over the client area of a window.
+        /// While the pointer is hovering, the message targets whichever window the pointer happens to be over.
+        /// While the pointer is in contact with the surface, the pointer is implicitly captured to the window
+        /// over which the pointer made contact and that window continues to receive input for the pointer until it breaks contact.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerupdate
+        /// </para>
+        /// </summary>
+        WM_POINTERUPDATE = 0x0245,
+
+        /// <summary>
+        /// <para>
+        /// Posted to the window with foreground keyboard focus when a scroll wheel is rotated.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerwheel
+        /// </para>
+        /// </summary>
+        WM_POINTERWHEEL = 0x024E,
+
+        /// <summary>
+        /// <para>
+        /// Posted to the window with foreground keyboard focus when a horizontal scroll wheel is rotated.
+        /// A window receives this message through its WindowProc function.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerhwheel
+        /// </para>
+        /// </summary>
+        WM_POINTERHWHEEL = 0x024F,
+
+        /// <summary>
+        /// <para>
+        /// Sent to a window on a touch down in order to determine the most probable touch target.
+        /// Desktop apps should be DPI aware.
+        /// If your app is not DPI aware, screen coordinates contained in pointer messages and related structures
+        /// might appear inaccurate due to DPI virtualization.
+        /// DPI virtualization provides automatic scaling support to applications that are not DPI aware
+        /// and is active by default (users can turn it off).
+        /// For more information, see Writing High-DPI Win32 Applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-touchhittesting
+        /// </para>
+        /// </summary>
+        WM_TOUCHHITTESTING = 0x024D,
 
         #endregion
 
