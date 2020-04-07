@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.CLSCTX;
+using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 
 namespace Lsj.Util.Win32
 {
@@ -152,6 +153,129 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetMalloc([In]uint dwMemContext, [Out]out IntPtr ppMalloc);
+
+        /// <summary>
+        /// <para>
+        /// Registers security and sets the default security values for the process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coinitializesecurity
+        /// </para>
+        /// </summary>
+        /// <param name="pSecDesc">
+        /// The access permissions that a server will use to receive calls.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// Its value is a pointer to one of three types: an <see cref="AppID"/>, an <see cref="IAccessControl"/> object,
+        /// or a <see cref="SECURITY_DESCRIPTOR"/>, in absolute format. See the Remarks section for more information.
+        /// </param>
+        /// <param name="cAuthSvc">
+        /// The count of entries in the <paramref name="asAuthSvc"/> parameter.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// If this parameter is 0, no authentication services will be registered and the server cannot receive secure calls.
+        /// A value of -1 tells COM to choose which authentication services to register, and if this is the case, 
+        /// the <paramref name="asAuthSvc"/> parameter must be <see langword="null"/>.
+        /// However, Schannel will never be chosen as an authentication service by the server if this parameter is -1.
+        /// </param>
+        /// <param name="asAuthSvc">
+        /// An array of authentication services that a server is willing to use to receive a call.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// For more information, see <see cref="SOLE_AUTHENTICATION_SERVICE"/>.
+        /// </param>
+        /// <param name="pReserved1">
+        /// This parameter is reserved and must be NULL.
+        /// </param>
+        /// <param name="dwAuthnLevel">
+        /// The default authentication level for the process.
+        /// Both servers and clients use this parameter when they call <see cref="CoInitializeSecurity"/>.
+        /// COM will fail calls that arrive with a lower authentication level.
+        /// By default, all proxies will use at least this authentication level.
+        /// This value should contain one of the authentication level constants.
+        /// By default, all calls to <see cref="IUnknown"/> are made at this level.
+        /// </param>
+        /// <param name="dwImpLevel">
+        /// The default impersonation level for proxies.
+        /// The value of this parameter is used only when the process is a client.
+        /// It should be a value from the impersonation level constants, except for <see cref="RPC_C_IMP_LEVEL_DEFAULT"/>,
+        /// which is not for use with <see cref="CoInitializeSecurity"/>.
+        /// Outgoing calls from the client always use the impersonation level as specified. (It is not negotiated.)
+        /// Incoming calls to the client can be at any impersonation level.
+        /// By default, all IUnknown calls are made with this impersonation level, so even security-aware applications should set this level carefully.
+        /// To determine which impersonation levels each authentication service supports,
+        /// see the description of the authentication services in COM and Security Packages.
+        /// For more information about impersonation levels, see Impersonation.
+        /// </param>
+        /// <param name="pAuthList">
+        /// A pointer to <see cref="SOLE_AUTHENTICATION_LIST"/>, which is an array of <see cref="SOLE_AUTHENTICATION_INFO"/> structures.
+        /// This list indicates the information for each authentication service that a client can use to call a server.
+        /// This parameter is used by COM only when a client calls <see cref="CoInitializeSecurity"/>.
+        /// </param>
+        /// <param name="dwCapabilities">
+        /// Additional capabilities of the client or server, specified by setting one or more <see cref="EOLE_AUTHENTICATION_CAPABILITIES"/> values.
+        /// Some of these value cannot be used simultaneously, and some cannot be set when particular authentication services are being used.
+        /// For more information about these flags, see the Remarks section.
+        /// </param>
+        /// <param name="pReserved3">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// Return code	Description
+        /// <see cref="S_OK"/>:  Indicates success.
+        /// <see cref="RPC_E_TOO_LATE"/>:  <see cref="CoInitializeSecurity"/> has already been called.
+        /// <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/>:
+        /// The <paramref name="asAuthSvc"/> parameter was not <see langword="null"/>, and none of the authentication services in the list could be registered.
+        /// Check the results saved in <paramref name="asAuthSvc"/> for authentication service–specific error codes.
+        /// <see cref="E_OUT_OF_MEMORY"/>: Out of memory.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoInitializeSecurity"/> function initializes the security layer and sets the specified values as the security default.
+        /// If a process does not call <see cref="CoInitializeSecurity"/>, COM calls it automatically the first time an interface is marshaled or unmarshaled,
+        /// registering the system default security.
+        /// No default security packages are registered until then.
+        /// This function is called exactly once per process, either explicitly or implicitly.
+        /// It can be called by the client, server, or both.
+        /// For legacy applications and other applications that do not explicitly call <see cref="CoInitializeSecurity"/>,
+        /// COM calls this function implicitly with values from the registry.
+        /// If you set processwide security using the registry and then call <see cref="CoInitializeSecurity"/>,
+        /// the AppID registry values will be ignored and the <see cref="CoInitializeSecurity"/> values will be used.
+        /// <see cref="CoInitializeSecurity"/> can be used to override both computer-wide access permissions and application-specific access permissions,
+        /// but not to override the computer-wide restriction policy.
+        /// If <paramref name="pSecDesc"/> points to an <see cref="AppID"/>, the <see cref="EOAC_APPID"/> flag
+        /// must be set in <paramref name="dwCapabilities"/> and, when the <see cref="EOAC_APPID"/> flag is set,
+        /// all other parameters to <see cref="CoInitializeSecurity"/> are ignored.
+        /// <see cref="CoInitializeSecurity"/> looks for the authentication level under the <see cref="AppID"/> key in the registry
+        /// and uses it to determine the default security.
+        /// For more information about how the <see cref="AppID"/> key is used to set security, see Setting Process-Wide Security Through the Registry.
+        /// If <paramref name="pSecDesc"/> is a pointer to an <see cref="IAccessControl"/> object,
+        /// the <see cref="EOAC_ACCESS_CONTROL"/> flag must be set and <paramref name="dwAuthnLevel"/> cannot be none.
+        /// The <see cref="IAccessControl"/> object is used to determine who can call the process.
+        /// DCOM will AddRef the <see cref="IAccessControl"/> and will Release it when <see cref="CoUninitialize"/> is called.
+        /// The state of the <see cref="IAccessControl"/> object should not be changed.
+        /// If <paramref name="pSecDesc"/> is a pointer to a <see cref="SECURITY_DESCRIPTOR"/>,
+        /// neither the <see cref="EOAC_APPID"/> nor the <see cref="EOAC_ACCESS_CONTROL"/> flag can be set in <paramref name="dwCapabilities"/>.
+        /// The owner and group of the <see cref="SECURITY_DESCRIPTOR"/> must be set,
+        /// and until DCOM supports auditing, the system ACL must be NULL.
+        /// The access-control entries (ACEs) in the discretionary ACL (DACL) of the <see cref="SECURITY_DESCRIPTOR"/> are used to find out
+        /// which callers are permitted to connect to the process's objects.
+        /// A DACL with no ACEs allows no access, while a NULL DACL will allow calls from anyone.
+        /// For more information on ACLs and ACEs, see Access Control Model.
+        /// Applications should call <see cref="AccessCheck"/> (not <see cref="IsValidSecurityDescriptor"/>) to
+        /// ensure that their <see cref="SECURITY_DESCRIPTOR"/> is correctly formed prior to calling <see cref="CoInitializeSecurity"/>.
+        /// Passing <paramref name="pSecDesc"/> as <see langword="null"/> is strongly discouraged.
+        /// An appropriate alternative might be to use a <see cref="SECURITY_DESCRIPTOR"/> that allows Everyone.
+        /// If <paramref name="pSecDesc"/> is <see langword="null"/>, the flags in <paramref name="dwCapabilities"/> determine
+        /// how <see cref="CoInitializeSecurity"/> defines the access permissions that a server will use, as follows:
+        /// If the <see cref="EOAC_APPID"/> flag is set, <see cref="CoInitializeSecurity"/> will look up the application's .exe name in the registry
+        /// and use the AppID stored there.
+        /// If the <see cref="EOAC_ACCESS_CONTROL"/> flag is set, <see cref="CoInitializeSecurity"/> will return an error.
+        /// If neither the <see cref="EOAC_APPID"/> flag nor the <see cref="EOAC_ACCESS_CONTROL"/> flag is set,
+        /// <see cref="CoInitializeSecurity"/> allows all callers including Local and Remote Anonymous Users.
+        /// The <see cref="CoInitializeSecurity"/> function returns an error
+        /// if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set in <paramref name="dwCapabilities"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitializeSecurity([In]in SECURITY_DESCRIPTOR pSecDesc, [In]LONG cAuthSvc, [In]SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
+            [In]IntPtr pReserved1, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthList, [In]DWORD dwCapabilities, [In]IntPtr pReserved3);
 
         /// <summary>
         /// <para>
