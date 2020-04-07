@@ -21,8 +21,8 @@ namespace Lsj.Util.Win32
         /// An application-defined function that serves as the starting address for a thread.
         /// Specify this address when calling the <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/>,
         /// or <see cref="CreateRemoteThreadEx"/> function.
-        /// The LPTHREAD_START_ROUTINE type defines a pointer to this callback function.
-        /// <see cref="ThreadProc"/> is a placeholder for the application-defined function name.
+        /// The <see cref="LPTHREAD_START_ROUTINE"/> type defines a pointer to this callback function.
+        /// ThreadProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686736(v=vs.85)
@@ -35,18 +35,17 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value indicates the success or failure of this function.
         /// The return value should never be set to <see cref="STILL_ACTIVE"/>, as noted in <see cref="GetExitCodeThread"/>.
-        /// Do not declare this callback function with a void return type and cast the function pointer
-        /// to <see cref="ThreadProc"/> when creating the thread.
+        /// Do not declare this callback function with a void return type and cast the function pointer to ThreadProc when creating the thread.
         /// Code that does this is common, but it can crash on 64-bit Windows.
         /// </returns>
         /// <remarks>
         /// A process can determine when a thread it created has completed by using one of the wait functions.
-        /// It can also obtain the return value of its <see cref="ThreadProc"/> by calling the <see cref="GetExitCodeThread"/> function.
+        /// It can also obtain the return value of its ThreadProc by calling the <see cref="GetExitCodeThread"/> function.
         /// Each thread receives a unique copy of the local variables of this function.
         /// Any static or global variables are shared by all threads in the process.
         /// To provide unique data to each thread using a global index, use thread local storage.
         /// </remarks>
-        public delegate uint ThreadProc([In]IntPtr lpParameter);
+        public delegate uint LPTHREAD_START_ROUTINE([In]IntPtr lpParameter);
 
         /// <summary>
         /// <para>
@@ -82,7 +81,7 @@ namespace Lsj.Util.Win32
         /// A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be executed by the thread
         /// and represents the starting address of the thread in the remote process.
         /// The function must exist in the remote process.
-        /// For more information, see <see cref="ThreadProc"/>.
+        /// For more information, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread function.
@@ -145,7 +144,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace Lsj.Util.Win32
         /// A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be executed by the thread
         /// and represents the starting address of the thread in the remote process.
         /// The function must exist in the remote process.
-        /// For more information, see <see cref="ThreadProc"/>.
+        /// For more information, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread function.
@@ -245,7 +244,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
 
         /// <summary>
@@ -272,7 +271,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpStartAddress">
         /// A pointer to the application-defined function to be executed by the thread.
-        /// This pointer represents the starting address of the thread. For more information on the thread function, see <see cref="ThreadProc"/>.
+        /// This pointer represents the starting address of the thread. For more information on the thread function, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread.
@@ -345,7 +344,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateThread(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
         /// <summary>

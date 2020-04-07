@@ -44,6 +44,11 @@ namespace Lsj.Util.Win32
         public const uint MAXIMUM_ALLOWED = 0x02000000;
 
         /// <summary>
+        /// EXCEPTION_MAXIMUM_PARAMETERS
+        /// </summary>
+        public const int EXCEPTION_MAXIMUM_PARAMETERS = 15;
+
+        /// <summary>
         /// STILL_ACTIVE
         /// </summary>
         public const uint STILL_ACTIVE = (uint)NTSTATUS.STATUS_PENDING;
