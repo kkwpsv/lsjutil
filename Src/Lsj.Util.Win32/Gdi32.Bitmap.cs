@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RasterOps;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
+using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -325,6 +326,87 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
         public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]CreateDIBitmapFlags flInit,
             [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDIBSection"/> function creates a DIB that applications can write to directly.
+        /// The function gives you a pointer to the location of the bitmap bit values.
+        /// You can supply a handle to a file-mapping object that the function will use to create the bitmap,
+        /// or you can let the system allocate the memory for the bitmap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibsection
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// If the value of <paramref name="usage"/> is <see cref="DIB_PAL_COLORS"/>,
+        /// the function uses this device context's logical palette to initialize the DIB colors.
+        /// </param>
+        /// <param name="pbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that specifies various attributes of the DIB, including the bitmap dimensions and colors.
+        /// </param>
+        /// <param name="usage">
+        /// The type of data contained in the <see cref="BITMAPINFO.bmiColors"/> array member of the <see cref="BITMAPINFO"/> structure
+        /// pointed to by <paramref name="pbmi"/> (either logical palette indexes or literal RGB values).
+        /// The following values are defined.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The <see cref="BITMAPINFO.bmiColors"/> member is an array of 16-bit indexes
+        /// into the logical palette of the device context specified by <paramref name="hdc"/>.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The <see cref="BITMAPINFO"/> structure contains an array of literal RGB values.
+        /// </param>
+        /// <param name="ppvBits">
+        /// A pointer to a variable that receives a pointer to the location of the DIB bit values.
+        /// </param>
+        /// <param name="hSection">
+        /// A handle to a file-mapping object that the function will use to create the DIB.
+        /// This parameter can be <see cref="NULL"/>.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, it must be a handle to a file-mapping object
+        /// created by calling the <see cref="CreateFileMapping"/> function with the <see cref="PAGE_READWRITE"/> or <see cref="PAGE_WRITECOPY"/> flag.
+        /// Read-only DIB sections are not supported.
+        /// Handles created by other means will cause <see cref="CreateDIBSection"/> to fail.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, the <see cref="CreateDIBSection"/> function locates the bitmap bit values
+        /// at offset <paramref name="offset"/> in the file-mapping object referred to by <paramref name="hSection"/>.
+        /// An application can later retrieve the <paramref name="hSection"/> handle by calling the <see cref="GetObject"/> function
+        /// with the <see cref="HBITMAP"/> returned by <see cref="CreateDIBSection"/>.
+        /// If <paramref name="hSection"/> is <see cref="NULL"/>, the system allocates memory for the DIB.
+        /// In this case, the <see cref="CreateDIBSection"/> function ignores the <paramref name="offset"/> parameter.
+        /// An application cannot later obtain a handle to this memory.
+        /// The <see cref="DIBSECTION.dshSection"/> member of the <see cref="DIBSECTION"/> structure filled in
+        /// by calling the <see cref="GetObject"/> function will be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="offset">
+        /// The offset from the beginning of the file-mapping object referenced by <paramref name="hSection"/>
+        /// where storage for the bitmap bit values is to begin.
+        /// This value is ignored if <paramref name="hSection"/> is <see cref="NULL"/>.
+        /// The bitmap bit values are aligned on doubleword boundaries, so <paramref name="offset"/> must be a multiple of the size of a <see cref="DWORD"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly created DIB, and <paramref name="ppvBits"/> points to the bitmap bit values.
+        /// If the function fails, the return value is <see cref="NULL"/>, and <paramref name="ppvBits"/> is <see cref="NULL"/>.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// As noted above, if <paramref name="hSection"/> is <see cref="NULL"/>, the system allocates memory for the DIB.
+        /// The system closes the handle to that memory when you later delete the DIB by calling the <see cref="DeleteObject"/> function.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, you must close the <paramref name="hSection"/> memory handle yourself
+        /// after calling <see cref="DeleteObject"/> to delete the bitmap.
+        /// You cannot paste a DIB section from one application into another application.
+        /// <see cref="CreateDIBSection"/> does not use the <see cref="BITMAPINFOHEADER"/> parameters <see cref="BITMAPINFOHEADER.biXPelsPerMeter"/>
+        /// or <see cref="BITMAPINFOHEADER.biYPelsPerMeter"/> and will not provide resolution information in the <see cref="BITMAPINFO"/> structure.
+        /// You need to guarantee that the GDI subsystem has completed any drawing to a bitmap created by <see cref="CreateDIBSection"/>
+        /// before you draw to the bitmap yourself.
+        /// Access to the bitmap must be synchronized.
+        /// Do this by calling the <see cref="GdiFlush"/> function.
+        /// This applies to any use of the pointer to the bitmap bit values,
+        /// including passing the pointer in calls to functions such as <see cref="SetDIBits"/>.
+        /// ICM: No color management is done.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
+        public static extern HBITMAP CreateDIBSection([In]HDC hdc, [In]in BITMAPINFO pbmi, [In]DIBColorTableIdentifiers usage,
+            [Out]out IntPtr ppvBits, [In]HANDLE hSection, [In]DWORD offset);
 
         /// <summary>
         /// <para>
