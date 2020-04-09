@@ -3195,9 +3195,8 @@ namespace Lsj.Util.Win32
         /// If there is a transaction bound to the file handle, then the file write is transacted.For more information, see About Transactional NTFS.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteFile([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite, [Out]out DWORD lpNumberOfBytesWritten,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<OVERLAPPED>))]
-            [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
+        public static extern BOOL WriteFile([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite,
+            [Out]out DWORD lpNumberOfBytesWritten, [In]in OVERLAPPED lpOverlapped);
 
 #pragma warning disable IDE1006
         /// <summary>
