@@ -26,6 +26,7 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -2976,6 +2977,47 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UpdateLayeredWindow([In]IntPtr hwnd, [In]IntPtr hdcDst, [In]ref POINT pptDst, [In]ref SIZE psize,
             [In]IntPtr hdcSrc, [In]ref POINT pptSrc, [In]uint crKey, [In] ref BLENDFUNCTION pblend, [In]UpdateLayeredWindowFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Waits until the specified process has finished processing its initial input and is waiting for user input with no input pending,
+        /// or until the time-out interval has elapsed.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-waitforinputidle
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// If this process is a console application or does not have a message queue, <see cref="WaitForInputIdle"/> returns immediately.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function does not return until the process is idle.
+        /// </param>
+        /// <returns>
+        /// The following table shows the possible return values for this function.
+        /// 0: The wait was satisfied successfully.
+        /// <see cref="WAIT_TIMEOUT"/>: The wait was terminated because the time-out interval elapsed.
+        /// <see cref="WAIT_FAILED"/>: An error occurred.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WaitForInputIdle"/> function enables a thread to suspend its execution
+        /// until the specified process has finished its initialization and is waiting for user input with no input pending.
+        /// If the process has multiple threads, the <see cref="WaitForInputIdle"/> function returns as soon as any thread becomes idle.
+        /// <see cref="WaitForInputIdle"/> can be used at any time, not just during application startup.
+        /// However, <see cref="WaitForInputIdle"/> waits only once for a process to become idle;
+        /// subsequent <see cref="WaitForInputIdle"/> calls return immediately, whether the process is idle or busy.
+        /// <see cref="WaitForInputIdle"/> can be useful for synchronizing a parent process and a newly created child process.
+        /// When a parent process creates a child process, the <see cref="CreateProcess"/> function returns
+        /// without waiting for the child process to finish its initialization.
+        /// Before trying to communicate with the child process, the parent process can use the <see cref="WaitForInputIdle"/> function
+        /// to determine when the child's initialization has been completed.
+        /// For example, the parent process should use the <see cref="WaitForInputIdle"/> function
+        /// before trying to find a window associated with the child process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForInputIdle", ExactSpelling = true, SetLastError = true)]
+        public static extern WaitResult WaitForInputIdle([In]HANDLE hProcess, [In]DWORD dwMilliseconds);
 
         /// <summary>
         /// <para>
