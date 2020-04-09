@@ -11,6 +11,11 @@
         public const string IID_IUnknown = "00000000-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IAdviseSink
+        /// </summary>
+        public const string IID_IAdviseSink = "0000010f-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IDataAdviseHolder
         /// </summary>
         public const string IID_IDataAdviseHolder = "00000110-0000-0000-C000-000000000046";
