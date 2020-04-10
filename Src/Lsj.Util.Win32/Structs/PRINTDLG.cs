@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
@@ -75,7 +76,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A handle to a device context or an information context, depending on whether the <see cref="Flags"/> member
-        /// specifies the <see cref="PD_RETURNDC"/> or <see cref="PC_RETURNIC"/> flag.
+        /// specifies the <see cref="PD_RETURNDC"/> or <see cref="PD_RETURNIC"/> flag.
         /// If neither flag is specified, the value of this member is undefined.
         /// If both flags are specified, <see cref="PD_RETURNDC"/> has priority.
         /// </summary>
@@ -99,7 +100,7 @@ namespace Lsj.Util.Win32.Structs
         /// is always 1 and <see cref="PD_COLLATE"/> is always <see cref="FALSE"/>.
         /// To ensure that <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/> returns the correct values in <see cref="nCopies"/> and <see cref="PD_COLLATE"/>,
         /// set <see cref="PD_RETURNDC"/> = <see cref="TRUE"/> and <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> = <see cref="FALSE"/>.
-        /// In so doing, <see cref="dmCopies"/> is always 1 and <see cref="dmCollate"/> is always <see cref="FALSE"/>.
+        /// In so doing, <see cref="DEVMODE.dmCopies"/> is always 1 and <see cref="DEVMODE.dmCollate"/> is always <see cref="FALSE"/>.
         /// On Windows Vista and Windows 7, when you call <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/>
         /// with <see cref="PD_RETURNDC"/> set to <see cref="TRUE"/> and <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> set to <see cref="FALSE"/>,
         /// the <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/> function sets the number of copies in the <see cref="nCopies"/> member

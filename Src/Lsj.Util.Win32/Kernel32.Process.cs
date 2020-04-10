@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
@@ -707,7 +708,7 @@ namespace Lsj.Util.Win32
         /// If the calling process contains threads in multiple groups, the function returns zero for both affinity masks.
         /// If the function fails, the return value is <see langword="false"/>, and the values of the variables pointed to
         /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
-        /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

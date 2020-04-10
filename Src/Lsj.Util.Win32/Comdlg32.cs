@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// or notifications intended for the dialog box procedure.
         /// To enable the hook procedure, use the <see cref="PRINTDLG"/> structure that you passed to the dialog creation function.
         /// Specify the address of the hook procedure in the <see cref="PRINTDLG.lpfnSetupHook"/> member
-        /// and specify the <see cref="PD_ENABLESETUPHOOK"/> flag in the <see cref="Flags"/> member.
+        /// and specify the <see cref="PD_ENABLESETUPHOOK"/> flag in the <see cref="PRINTDLG.Flags"/> member.
         /// The default dialog box procedure processes the <see cref="WM_INITDIALOG"/> message before passing it to the hook procedure.
         /// For all other messages, the hook procedure receives the message first.
         /// Then, the return value of the hook procedure determines whether the default dialog procedure processes the message or ignores it.
@@ -174,7 +174,7 @@ namespace Lsj.Util.Win32
         /// <see cref="PDERR_RETDEFFAILURE"/>
         /// </returns>
         /// <remarks>
-        /// If the hook procedure (pointed to by the <see cref="PRINTDLG.pfnPrintHook"/> or <see cref="PRINTDLG.pfnSetupHook"/> member
+        /// If the hook procedure (pointed to by the <see cref="PRINTDLG.lpfnPrintHook"/> or <see cref="PRINTDLG.lpfnSetupHook"/> member
         /// of the <see cref="PRINTDLG"/> structure) processes the <see cref="WM_CTLCOLORDLG"/> message,
         /// the hook procedure must return a handle to the brush that should be used to paint the control background.
         /// Note that the values of hDevMode and hDevNames in <see cref="PRINTDLG"/> may change when they are passed into <see cref="PrintDlg"/>.

@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SE_ERR_SHARE"/>: A sharing violation occurred.
         /// </returns>
         /// <remarks>
-        /// Because <see cref="using static Lsj.Util.Win32.Shell32;"/> can delegate execution to Shell extensions
+        /// Because <see cref="ShellExecute"/> can delegate execution to Shell extensions
         /// (data sources, context menu handlers, verb implementations)
         /// that are activated using Component Object Model (COM), COM should be initialized before <see cref="ShellExecute"/> is called.
         /// Some Shell extensions require the COM single-threaded apartment (STA) type.

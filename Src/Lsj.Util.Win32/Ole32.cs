@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 
@@ -271,7 +272,7 @@ namespace Lsj.Util.Win32
         /// <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/>:
         /// The <paramref name="asAuthSvc"/> parameter was not <see langword="null"/>, and none of the authentication services in the list could be registered.
         /// Check the results saved in <paramref name="asAuthSvc"/> for authentication service–specific error codes.
-        /// <see cref="E_OUT_OF_MEMORY"/>: Out of memory.
+        /// <see cref="E_OUTOFMEMORY"/>: Out of memory.
         /// </returns>
         /// <remarks>
         /// The <see cref="CoInitializeSecurity"/> function initializes the security layer and sets the specified values as the security default.
