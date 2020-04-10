@@ -139,6 +139,95 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The GetScrollInfo function retrieves the parameters of a scroll bar, including the minimum and maximum scrolling positions,
+        /// the page size, and the position of the scroll box (thumb).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the <paramref name="nBar"/> parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the type of scroll bar for which to retrieve parameters. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Retrieves the parameters for a scroll bar control.
+        /// The <paramref name="hwnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Retrieves the parameters for the window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Retrieves the parameters for the window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="lpsi">
+        /// Pointer to a <see cref="SCROLLINFO"/> structure.
+        /// Before calling <see cref="GetScrollInfo"/>, set the <see cref="SCROLLINFO.cbSize"/> member to <code>sizeof(SCROLLINFO)</code>,
+        /// and set the <see cref="SCROLLINFO.fMask"/> member to specify the scroll bar parameters to retrieve.
+        /// Before returning, the function copies the specified parameters to the appropriate members of the structure.
+        /// The <see cref="SCROLLINFO.fMask"/> member can be one or more of the following values.
+        /// <see cref="SIF_PAGE"/>:
+        /// Copies the scroll page to the <see cref="SCROLLINFO.nPage"/> member
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// <see cref="SIF_POS"/>:
+        /// Copies the scroll position to the <see cref="SCROLLINFO.nPos"/> member
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// <see cref="SIF_RANGE"/>:
+        /// Copies the scroll range to the <see cref="SCROLLINFO.nMin"/> and <see cref="SCROLLINFO.nMax"/> members
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// <see cref="SIF_TRACKPOS"/>:
+        /// Copies the current scroll box tracking position to the <see cref="SCROLLINFO.nTrackPos"/> member
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// </param>
+        /// <returns>
+        /// If the function retrieved any values, the return value is <see cref="TRUE"/>.
+        /// If the function does not retrieve any values, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetScrollInfo"/> function enables applications to use 32-bit scroll positions.
+        /// Although the messages that indicate scroll bar position, <see cref="WM_HSCROLL"/> and <see cref="WM_VSCROLL"/>,
+        /// provide only 16 bits of position data, the functions <see cref="SetScrollInfo"/> and <see cref="GetScrollInfo"/>
+        /// provide 32 bits of scroll bar position data.
+        /// Thus, an application can call <see cref="GetScrollInfo"/> while processing
+        /// either the <see cref="WM_HSCROLL"/> or <see cref="WM_VSCROLL"/> messages to obtain 32-bit scroll bar position data.
+        /// To get the 32-bit position of the scroll box (thumb) during a <see cref="SB_THUMBTRACK"/> request code
+        /// in a <see cref="WM_HSCROLL"/> or <see cref="WM_VSCROLL"/> message, call <see cref="GetScrollInfo"/> with the <see cref="SIF_TRACKPOS"/> value
+        /// in the <see cref="SCROLLINFO.fMask"/> member of the <see cref="SCROLLINFO"/> structure.
+        /// The function returns the tracking position of the scroll box
+        /// in the <see cref="SCROLLINFO.nTrackPos"/> member of the <see cref="SCROLLINFO"/> structure.
+        /// This allows you to get the position of the scroll box as the user moves it.
+        /// The following sample code illustrates the technique.
+        /// <code>
+        /// SCROLLINFO si;
+        /// case WM_HSCROLL:
+        /// switch(LOWORD(wparam)) {
+        ///     case SB_THUMBTRACK:
+        ///     // Initialize SCROLLINFO structure
+        ///     ZeroMemory(&amp;si, sizeof(si));
+        ///     si.cbSize = sizeof(si);
+        ///     si.fMask = SIF_TRACKPOS;
+        ///     // Call GetScrollInfo to get current tracking 
+        ///     //    position in si.nTrackPos
+        ///     
+        ///     if (!GetScrollInfo(hwnd, SB_HORZ, &amp;si) )
+        ///     return 1; // GetScrollInfo failed
+        ///     break;
+        ///     .
+        ///     .
+        ///     .
+        /// }
+        /// </code>
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified
+        /// by the <paramref name="hwnd"/> parameter is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_GETSCROLLINFO"/> message to the window to obtain scroll bar information.
+        /// This allows <see cref="GetScrollInfo"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle the <see cref="SBM_GETSCROLLINFO"/> message, the <see cref="GetScrollInfo"/> function fails.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetScrollInfo([In]HWND hwnd, [In]ScrollBarConstants nBar, [In][Out]ref SCROLLINFO lpsi);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetScrollPos"/> function retrieves the current position of the scroll box (thumb) in the specified scroll bar.
         /// The current position is a relative value that depends on the current scrolling range.
         /// For example, if the scrolling range is 0 through 100 and the scroll box is in the middle of the bar, the current position is 50.
