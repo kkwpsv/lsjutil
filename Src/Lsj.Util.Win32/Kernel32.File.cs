@@ -2995,10 +2995,102 @@ namespace Lsj.Util.Win32
         /// For more information, see About Transactional NTFS.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReadFile([In]HANDLE hFile, [In]LPVOID lpBuffer, [In]DWORD nNumberOfBytesToRead, [Out]out DWORD lpNumberOfBytesWritten,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<OVERLAPPED>))]
-            [In]StructPointerOrNullObject<OVERLAPPED> lpOverlapped);
+        public static extern BOOL ReadFile([In]HANDLE hFile, [In]LPVOID lpBuffer, [In]DWORD nNumberOfBytesToRead,
+            [Out]out DWORD lpNumberOfBytesWritten, [In]in OVERLAPPED lpOverlapped);
 
+        /// <summary>
+        /// <para>
+        /// Reads data from the specified file or input/output (I/O) device.
+        /// It reports its completion status asynchronously, calling the specified completion routine
+        /// when reading is completed or canceled and the calling thread is in an alertable wait state.
+        /// To read data from a file or device synchronously, use the <see cref="ReadFile"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-readfileex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or I/O device (for example, a file, file stream, physical disk, volume, console buffer,
+        /// tape drive, socket, communications resource, mailslot, or pipe).
+        /// This parameter can be any handle opened with the <see cref="FILE_FLAG_OVERLAPPED"/> flag by the <see cref="CreateFile"/> function,
+        /// or a socket handle returned by the socket or accept function.
+        /// This handle also must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information on access rights, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the data read from the file or device.
+        /// This buffer must remain valid for the duration of the read operation.
+        /// The application should not use this buffer until the read operation is completed.
+        /// </param>
+        /// <param name="nNumberOfBytesToRead">
+        /// The number of bytes to be read.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure that supplies data to be used during the asynchronous (overlapped) file read operation.
+        /// For files that support byte offsets, you must specify a byte offset at which to start reading from the file.
+        /// You specify this offset by setting the <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members
+        /// of the <see cref="OVERLAPPED"/> structure.
+        /// For files or devices that do not support byte offsets, <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> are ignored.
+        /// The <see cref="ReadFileEx"/> function ignores the <see cref="OVERLAPPED"/> structure's <see cref="OVERLAPPED.hEvent"/> member.
+        /// An application is free to use that member for its own purposes in the context of a <see cref="ReadFileEx"/> call.
+        /// <see cref="ReadFileEx"/> signals completion of its read operation by calling, or queuing a call to,
+        /// the completion routine pointed to by <paramref name="lpCompletionRoutine"/>, so it does not need an event handle.
+        /// The ReadFileEx function does use the <see cref="OVERLAPPED"/> structure's <see cref="OVERLAPPED.Internal"/>
+        /// and <see cref="OVERLAPPED.InternalHigh"/> members. An application should not set these members.
+        /// The <see cref="OVERLAPPED"/> data structure must remain valid for the duration of the read operation.
+        /// It should not be a variable that can go out of scope while the read operation is pending completion.
+        /// </param>
+        /// <param name="lpCompletionRoutine">
+        /// A pointer to the completion routine to be called when the read operation is complete and the calling thread is in an alertable wait state.
+        /// For more information about the completion routine, see <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the calling thread has an asynchronous I/O operation pending: the overlapped read operation from the file.
+        /// When this I/O operation completes, and the calling thread is blocked in an alertable wait state,
+        /// the system calls the function pointed to by <paramref name="lpCompletionRoutine"/>,
+        /// and the wait state completes with a return code of <see cref="WAIT_IO_COMPLETION"/>.
+        /// If the function succeeds, and the file reading operation completes, but the calling thread is not in an alertable wait state,
+        /// the system queues the completion routine call, holding the call until the calling thread enters an alertable wait state.
+        /// For information about alertable waits and overlapped input/output operations, see About Synchronization.
+        /// If <see cref="ReadFileEx"/> attempts to read past the end-of-file (EOF), the call to <see cref="GetOverlappedResult"/>
+        /// for that operation returns <see cref="FALSE"/> and <see cref="GetLastError"/> returns <see cref="ERROR_HANDLE_EOF"/>.
+        /// </returns>
+        /// <remarks>
+        /// When using <see cref="ReadFileEx"/> you should check <see cref="GetLastError"/> even
+        /// when the function returns "success" to check for conditions that are "successes" but have some outcome you might want to know about.
+        /// For example, a buffer overflow when calling <see cref="ReadFileEx"/> will return <see cref="TRUE"/>,
+        /// but <see cref="GetLastError"/> will report the overflow with <see cref="ERROR_MORE_DATA"/>.
+        /// If the function call is successful and there are no warning conditions, <see cref="GetLastError"/> will return <see cref="ERROR_SUCCESS"/>.
+        /// The <see cref="ReadFileEx"/> function may fail if there are too many outstanding asynchronous I/O requests.
+        /// In the event of such a failure, <see cref="GetLastError"/> can return
+        /// <see cref="ERROR_INVALID_USER_BUFFER"/> or <see cref="ERROR_NOT_ENOUGH_MEMORY"/>.
+        /// To cancel all pending asynchronous I/O operations, use either:
+        /// <see cref="CancelIo"/>—this function only cancels operations issued by the calling thread for the specified file handle.
+        /// <see cref="CancelIoEx"/>—this function cancels all operations issued by the threads for the specified file handle.
+        /// Use <see cref="CancelSynchronousIo"/> to cancel pending synchronous I/O operations.
+        /// I/O operations that are canceled complete with the error <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// If part of the file specified by <paramref name="hFile"/> is locked by another process, and the read operation specified in a call
+        /// to <see cref="ReadFileEx"/> overlaps the locked portion, the call to <see cref="ReadFileEx"/> fails.
+        /// When attempting to read data from a mailslot whose buffer is too small, <see cref="ReadFileEx"/> returns <see cref="FALSE"/>,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_INSUFFICIENT_BUFFER"/>.
+        /// Accessing the input buffer while a read operation is using the buffer may lead to corruption of the data read into that buffer.
+        /// Applications must not read from, write to, reallocate, or free the input buffer that a read operation is using until the read operation completes.
+        /// An application uses the <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
+        /// <see cref="WaitForMultipleObjectsEx"/>, and <see cref="SleepEx"/> functions to enter an alertable wait state.
+        /// For more information about alertable waits and overlapped input/output, see About Synchronization.
+        /// There are strict requirements for successfully working with files opened with <see cref="CreateFile"/> using <see cref="FILE_FLAG_NO_BUFFERING"/>.
+        /// For details see File Buffering.
+        /// Transacted Operations
+        /// If there is a transaction bound to the file handle, then the function returns data from the transacted view of the file.
+        /// A transacted read handle is guaranteed to show the same view of a file for the duration of the handle.
+        /// For additional information, see About Transactional NTFS.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFileEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadFileEx([In]HANDLE hFile, [In]LPVOID lpBuffer, [In]DWORD nNumberOfBytesToRead,
+            [In]in OVERLAPPED lpOverlapped, [In]LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
         /// <summary>
         /// 
