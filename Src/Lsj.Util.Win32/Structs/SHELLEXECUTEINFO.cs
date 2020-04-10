@@ -6,7 +6,7 @@ using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
 using static Lsj.Util.Win32.Enums.SHELLEXECUTEINFOMasks;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
-using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Structs
 {

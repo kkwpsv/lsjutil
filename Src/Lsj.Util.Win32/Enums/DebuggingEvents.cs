@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Enums.GenericAccessRights;
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;

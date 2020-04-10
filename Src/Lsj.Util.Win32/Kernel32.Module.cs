@@ -613,13 +613,14 @@ namespace Lsj.Util.Win32
         /// and none of the <see cref="LOAD_LIBRARY_SEARCH"/> flags are used.
         /// A path is specified but <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> is not used.
         /// The application has not specified a default DLL search path for the process using <see cref="SetDefaultDllDirectories"/>.
-        /// If <paramref name="lpFileName"/> specifies a relative path, the entire relative path is appended to every token in the DLL search path.
+        /// If <paramref name="lpLibFileName"/> specifies a relative path, the entire relative path is appended to every token in the DLL search path.
         /// To load a module from a relative path without searching any other path, use <see cref="GetFullPathName"/> to get a nonrelative path
         /// and call <see cref="LoadLibraryEx"/> with the nonrelative path.
         /// If the module is being loaded as a datafile and the relative path starts with "." or "..", the relative path is treated as an absolute path.
         /// If <paramref name="lpFileName"/> specifies an absolute path and <paramref name="dwFlags"/> is set to <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>,
         /// <see cref="LoadLibraryEx"/> uses the altered search path.
-        /// The behavior is undefined when <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> flag is set, and <paramref name="lpFileName"/> specifiies a relative path.
+        /// The behavior is undefined when <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> flag is set,
+        /// and <paramref name="lpLibFileName"/> specifiies a relative path.
         /// The <see cref="SetDllDirectory"/> function can be used to modify the search path.
         /// This solution is better than using <see cref="SetCurrentDirectory"/> or hard-coding the full path to the DLL.
         /// However, be aware that using <see cref="SetDllDirectory"/> effectively disables safe DLL search mode

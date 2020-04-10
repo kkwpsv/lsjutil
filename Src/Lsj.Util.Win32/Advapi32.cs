@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Userenv;
 
 namespace Lsj.Util.Win32

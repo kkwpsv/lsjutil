@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
