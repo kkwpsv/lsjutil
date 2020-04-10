@@ -4,9 +4,12 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
+using static Lsj.Util.Win32.Enums.LogonTypes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -276,7 +279,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Access Rights for Access-Token Objects.
         /// The user represented by the token must have read and execute access to the application specified
         /// by the <paramref name="lpApplicationName"/> or the <paramref name="lpCommandLine"/> parameter.
-        /// To get a primary token that represents the specified user, call the LogonUser function.
+        /// To get a primary token that represents the specified user, call the <see cref="LogonUser"/> function.
         /// Alternatively, you can call the <see cref="DuplicateTokenEx"/> function to convert an impersonation token into a primary token.
         /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
         /// Terminal Services:  The process is run in the session specified in the token.
@@ -796,6 +799,114 @@ namespace Lsj.Util.Win32
           [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
           [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="LogonUser"/> function attempts to log a user on to the local computer.
+        /// The local computer is the computer from which LogonUser was called.
+        /// You cannot use <see cref="LogonUser"/> to log on to a remote computer.
+        /// You specify the user with a user name and domain and authenticate the user with a plaintext password.
+        /// If the function succeeds, you receive a handle to a token that represents the logged-on user.
+        /// You can then use this token handle to impersonate the specified user or, in most cases,
+        /// to create a process that runs in the context of the specified user.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-logonuserw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszUsername">
+        /// A pointer to a null-terminated string that specifies the name of the user.
+        /// This is the name of the user account to log on to.
+        /// If you use the user principal name (UPN) format, User@DNSDomainName, the <paramref name="lpszDomain"/> parameter must be <see langword="null"/>.
+        /// </param>
+        /// <param name="lpszDomain">
+        /// A pointer to a null-terminated string that specifies the name of the domain or server
+        /// whose account database contains the <paramref name="lpszUsername"/> account.
+        /// If this parameter is <see langword="null"/>, the user name must be specified in UPN format.
+        /// If this parameter is ".", the function validates the account by using only the local account database.
+        /// </param>
+        /// <param name="lpszPassword">
+        /// A pointer to a null-terminated string that specifies the plaintext password for the user account specified by <paramref name="lpszUsername"/>.
+        /// When you have finished using the password, clear the password from memory by calling the <see cref="SecureZeroMemory"/> function.
+        /// For more information about protecting passwords, see Handling Passwords.
+        /// </param>
+        /// <param name="dwLogonType">
+        /// The type of logon operation to perform. This parameter can be one of the following values, defined in Winbase.h.
+        /// <see cref="LOGON32_LOGON_BATCH"/>:
+        /// This logon type is intended for batch servers, where processes may be executing on behalf of a user without their direct intervention.
+        /// This type is also for higher performance servers that process many plaintext authentication attempts at a time, such as mail or web servers.
+        /// <see cref="LOGON32_LOGON_INTERACTIVE"/>:
+        /// This logon type is intended for users who will be interactively using the computer,
+        /// such as a user being logged on by a terminal server,remote shell, or similar process.
+        /// This logon type has the additional expense of caching logon information for disconnected operations;
+        /// therefore, it is inappropriate for some client/server applications, such as a mail server.
+        /// <see cref="LOGON32_LOGON_NETWORK"/>:
+        /// This logon type is intended for high performance servers to authenticate plaintext passwords.
+        /// The <see cref="LogonUser"/> function does not cache credentials for this logon type.
+        /// <see cref="LOGON32_LOGON_NETWORK_CLEARTEXT"/>:
+        /// This logon type preserves the name and password in the authentication package,
+        /// which allows the server to make connections to other network servers while impersonating the client.
+        /// A server can accept plaintext credentials from a client, call <see cref="LogonUser"/>,
+        /// verify that the user can access the system across the network, and still communicate with other servers.
+        /// <see cref="LOGON32_LOGON_NEW_CREDENTIALS"/>:
+        /// This logon type allows the caller to clone its current token and specify new credentials for outbound connections.
+        /// The new logon session has the same local identifier but uses different credentials for other network connections.
+        /// This logon type is supported only by the <see cref="LOGON32_PROVIDER_WINNT50"/> logon provider.
+        /// <see cref="LOGON32_LOGON_SERVICE"/>:
+        /// Indicates a service-type logon. The account provided must have the service privilege enabled.
+        /// <see cref="LOGON32_LOGON_UNLOCK"/>:
+        /// GINAs are no longer supported.
+        /// Windows Server 2003 and Windows XP:
+        /// This logon type is for GINA DLLs that log on users who will be interactively using the computer.
+        /// This logon type can generate a unique audit record that shows when the workstation was unlocked.
+        /// </param>
+        /// <param name="dwLogonProvider">
+        /// Specifies the logon provider. This parameter can be one of the following values.
+        /// <see cref="LOGON32_PROVIDER_DEFAULT"/>:
+        /// Use the standard logon provider for the system.
+        /// The default security provider is negotiate, unless you pass <see langword="null"/> for the domain name and the user name is not in UPN format.
+        /// In this case, the default provider is NTLM.
+        /// <see cref="LOGON32_PROVIDER_WINNT50"/>:
+        /// Use the negotiate logon provider.
+        /// <see cref="LOGON32_PROVIDER_WINNT40"/>:
+        /// Use the NTLM logon provider.
+        /// </param>
+        /// <param name="phToken">
+        /// A pointer to a handle variable that receives a handle to a token that represents the specified user.
+        /// You can use the returned handle in calls to the <see cref="ImpersonateLoggedOnUser"/> function.
+        /// In most cases, the returned handle is a primary token that you can use in calls to the <see cref="CreateProcessAsUser"/> function.
+        /// However, if you specify the <see cref="LOGON32_LOGON_NETWORK"/> flag, <see cref="LogonUser"/> returns an impersonation token
+        /// that you cannot use in <see cref="CreateProcessAsUser"/> unless you call <see cref="DuplicateTokenEx"/> to convert it to a primary token.
+        /// When you no longer need this handle, close it by calling the <see cref="CloseHandle"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LOGON32_LOGON_NETWORK"/> logon type is fastest, but it has the following limitations:
+        /// The function returns an impersonation token, not a primary token.
+        /// You cannot use this token directly in the <see cref="CreateProcessAsUser"/> function.
+        /// However, you can call the <see cref="DuplicateTokenEx"/> function to convert the token to a primary token,
+        /// and then use it in <see cref="CreateProcessAsUser"/>.
+        /// If you convert the token to a primary token and use it in <see cref="CreateProcessAsUser"/> to start a process,
+        /// the new process cannot access other network resources, such as remote servers or printers, through the redirector.
+        /// An exception is that if the network resource is not access controlled, then the new process will be able to access it.
+        /// The SE_TCB_NAME privilege is not required for this function unless you are logging onto a Passport account.
+        /// The account specified by <paramref name="lpszUsername"/>, must have the necessary account rights.
+        /// For example, to log on a user with the <see cref="LOGON32_LOGON_INTERACTIVE"/> flag,
+        /// the user (or a group to which the user belongs) must have the SE_INTERACTIVE_LOGON_NAME account right.
+        /// For a list of the account rights that affect the various logon operations, see Account Rights Constants.
+        /// A user is considered logged on if at least one token exists.
+        /// If you call <see cref="CreateProcessAsUser"/> and then close the token,
+        /// the system considers the user as still logged on until the process (and all child processes) have ended.
+        /// If the <see cref="LogonUser"/> call is successful, the system notifies network providers that the logon occurred
+        /// by calling the provider's NPLogonNotify entry-point function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In]string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszDomain,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPassword, [In]LogonTypes dwLogonType, [In]LoginProviders dwLogonProvider, [Out]out HANDLE phToken);
 
         /// <summary>
         /// <para>
