@@ -1313,7 +1313,7 @@ namespace Lsj.Util.Win32
         /// A shared view is only acceptable if it is mapped to a paging file.
         /// <see cref="MEM_RESET_UNDO"/>:
         /// <see cref="MEM_RESET_UNDO"/> should only be called on an address range to which <see cref="MEM_RESET"/> was successfully applied earlier.
-        /// It indicates that the data in the specified memory range specified by <paramref name="lpAddress"/> and <paramref name="dwSize"/
+        /// It indicates that the data in the specified memory range specified by <paramref name="lpAddress"/> and <paramref name="dwSize"/>
         /// is of interest to the caller and attempts to reverse the effects of <see cref="MEM_RESET"/>.
         /// If the function succeeds, that means all data in the specified address range is intact.
         /// If the function fails, at least some of the data in the address range has been replaced with zeroes.
