@@ -211,7 +211,7 @@ namespace Lsj.Util.Win32
         /// <param name="pSecDesc">
         /// The access permissions that a server will use to receive calls.
         /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
-        /// Its value is a pointer to one of three types: an <see cref="AppID"/>, an <see cref="IAccessControl"/> object,
+        /// Its value is a pointer to one of three types: an AppID, an <see cref="IAccessControl"/> object,
         /// or a <see cref="SECURITY_DESCRIPTOR"/>, in absolute format. See the Remarks section for more information.
         /// </param>
         /// <param name="cAuthSvc">
@@ -286,12 +286,12 @@ namespace Lsj.Util.Win32
         /// the AppID registry values will be ignored and the <see cref="CoInitializeSecurity"/> values will be used.
         /// <see cref="CoInitializeSecurity"/> can be used to override both computer-wide access permissions and application-specific access permissions,
         /// but not to override the computer-wide restriction policy.
-        /// If <paramref name="pSecDesc"/> points to an <see cref="AppID"/>, the <see cref="EOAC_APPID"/> flag
+        /// If <paramref name="pSecDesc"/> points to an AppID, the <see cref="EOAC_APPID"/> flag
         /// must be set in <paramref name="dwCapabilities"/> and, when the <see cref="EOAC_APPID"/> flag is set,
         /// all other parameters to <see cref="CoInitializeSecurity"/> are ignored.
         /// <see cref="CoInitializeSecurity"/> looks for the authentication level under the <see cref="AppID"/> key in the registry
         /// and uses it to determine the default security.
-        /// For more information about how the <see cref="AppID"/> key is used to set security, see Setting Process-Wide Security Through the Registry.
+        /// For more information about how the AppID key is used to set security, see Setting Process-Wide Security Through the Registry.
         /// If <paramref name="pSecDesc"/> is a pointer to an <see cref="IAccessControl"/> object,
         /// the <see cref="EOAC_ACCESS_CONTROL"/> flag must be set and <paramref name="dwAuthnLevel"/> cannot be none.
         /// The <see cref="IAccessControl"/> object is used to determine who can call the process.
