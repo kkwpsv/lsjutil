@@ -7,8 +7,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HFILE;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DriveTypes;
+using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
@@ -27,7 +29,6 @@ using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Ktmw32;
 
 namespace Lsj.Util.Win32
@@ -48,6 +49,47 @@ namespace Lsj.Util.Win32
         /// STORAGE_INFO_OFFSET_UNKNOWN 
         /// </summary>
         public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
+        /// It is called when the asynchronous input and output (I/O) operation is completed or canceled and the calling thread is in an alertable state
+        /// (by using the <see cref="SleepEx"/>, <see cref="MsgWaitForMultipleObjectsEx"/>, <see cref="WaitForSingleObjectEx"/>,
+        /// or <see cref="WaitForMultipleObjectsEx"/> function with the fAlertable parameter set to <see cref="TRUE"/>).
+        /// The <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/> type defines a pointer to this callback function.
+        /// FileIOCompletionRoutine is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nc-minwinbase-lpoverlapped_completion_routine
+        /// </para>
+        /// </summary>
+        /// <param name="dwErrorCode">
+        /// The I/O completion status. This parameter can be one of the system error codes.
+        /// </param>
+        /// <param name="dwNumberOfBytesTransfered">
+        /// The number of bytes transferred. If an error occurs, this parameter is zero.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to the <see cref="OVERLAPPED"/> structure specified by the asynchronous I/O function.
+        /// The system does not use the <see cref="OVERLAPPED"/> structure after the completion routine is called,
+        /// so the completion routine can deallocate the memory used by the overlapped structure.
+        /// </param>
+        /// <remarks>
+        /// The return value for an asynchronous operation is 0 (<see cref="ERROR_SUCCESS"/>) if the operation completed successfully
+        /// or if the operation completed with a warning.
+        /// To determine whether an I/O operation was completed successfully, check that dwErrorCode is 0,
+        /// call <see cref="GetOverlappedResult"/>, then call <see cref="GetLastError"/>.
+        /// For example, if the buffer was not large enough to receive all of the data from a call to <see cref="ReadFileEx"/>,
+        /// dwErrorCode is set to 0, <see cref="GetOverlappedResult"/> fails, and <see cref="GetLastError"/> returns <see cref="ERROR_MORE_DATA"/>.
+        /// Returning from this function allows another pending I/O completion routine to be called.
+        /// All waiting completion routines are called before the alertable thread's wait is completed with a return code of <see cref="WAIT_IO_COMPLETION"/>.
+        /// The system may call the waiting completion routines in any order.
+        /// They may or may not be called in the order the I/O functions are completed.
+        /// Each time the system calls a completion routine, it uses some of the application's stack.
+        /// If the completion routine does additional asynchronous I/O and alertable waits, the stack may grow.
+        /// For more information, see Asynchronous Procedure Calls.
+        /// </remarks>
+        public delegate void LPOVERLAPPED_COMPLETION_ROUTINE([In]SystemErrorCodes dwErrorCode, [In]DWORD dwNumberOfBytesTransfered, [In]in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -3197,6 +3239,78 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFile", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteFile([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite,
             [Out]out DWORD lpNumberOfBytesWritten, [In]in OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Writes data to the specified file or input/output (I/O) device.
+        /// It reports its completion status asynchronously, calling the specified completion routine
+        /// when writing is completed or canceled and the calling thread is in an alertable wait state.
+        /// To write data to a file or device synchronously, use the <see cref="WriteFile"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-writefileex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or I/O device (for example, a file, file stream, physical disk, volume, console buffer,
+        /// tape drive, socket, communications resource, mailslot, or pipe).
+        /// This parameter can be any handle opened with the <see cref="FILE_FLAG_OVERLAPPED"/> flag by the <see cref="CreateFile"/> function,
+        /// or a socket handle returned by the socket or accept function.
+        /// Do not associate an I/O completion port with this handle.
+        /// For more information, see the Remarks section.
+        /// This handle also must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information on access rights, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer containing the data to be written to the file or device.
+        /// This buffer must remain valid for the duration of the write operation.
+        /// The caller must not use this buffer until the write operation is completed.
+        /// </param>
+        /// <param name="nNumberOfBytesToWrite">
+        /// The number of bytes to be written to the file or device.
+        /// A value of zero specifies a null write operation.
+        /// The behavior of a null write operation depends on the underlying file system.
+        /// Pipe write operations across a network are limited to 65,535 bytes per write.
+        /// For more information regarding pipes, see the Remarks section.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> data structure that supplies data to be used during the overlapped (asynchronous) write operation.
+        /// For files that support byte offsets, you must specify a byte offset at which to start writing to the file.
+        /// You specify this offset by setting the <see cref="OVERLAPPED.Offset"/>
+        /// and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// For files or devices that do not support byte offsets, <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> are ignored.
+        /// To write to the end of file, specify both the <see cref="OVERLAPPED.Offset"/>
+        /// and <see cref="OVERLAPPED.OffsetHigh"/> members of the <see cref="OVERLAPPED"/> structure as 0xFFFFFFFF.
+        /// This is functionally equivalent to previously calling the CreateFile function to open hFile using FILE_APPEND_DATA access.
+        /// The <see cref="WriteFileEx"/> function ignores the <see cref="OVERLAPPED"/> structure's <see cref="OVERLAPPED.hEvent"/> member.
+        /// An application is free to use that member for its own purposes in the context of a <see cref="WriteFileEx"/> call.
+        /// <see cref="WriteFileEx"/> signals completion of its writing operation by calling, or queuing a call to,
+        /// the completion routine pointed to by <paramref name="lpCompletionRoutine"/>, so it does not need an event handle.
+        /// The <see cref="WriteFileEx"/> function does use the <see cref="OVERLAPPED.Internal"/>
+        /// and <see cref="OVERLAPPED.InternalHigh"/> members of the <see cref="OVERLAPPED"/> structure.
+        /// You should not change the value of these members.
+        /// The <see cref="OVERLAPPED"/> data structure must remain valid for the duration of the write operation.
+        /// It should not be a variable that can go out of scope while the write operation is pending completion.
+        /// </param>
+        /// <param name="lpCompletionRoutine">
+        /// A pointer to a completion routine to be called when the write operation has been completed and the calling thread is in an alertable wait state.
+        /// For more information about this completion routine, see <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the WriteFileEx function succeeds, the calling thread has an asynchronous I/O operation pending: the overlapped write operation to the file.
+        /// When this I/O operation finishes, and the calling thread is blocked in an alertable wait state,
+        /// the operating system calls the function pointed to by <paramref name="lpCompletionRoutine"/>,
+        /// and the wait completes with a return code of <see cref="WAIT_IO_COMPLETION"/>.
+        /// If the function succeeds and the file-writing operation finishes, but the calling thread is not in an alertable wait state,
+        /// the system queues the call to *<paramref name="lpCompletionRoutine"/>, holding the call until the calling thread enters an alertable wait state.
+        /// For more information about alertable wait states and overlapped input/output operations, see About Synchronization.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteFileEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteFileEx([In]HANDLE hFile, [In]LPCVOID lpBuffer, [In]DWORD nNumberOfBytesToWrite,
+            [In]in OVERLAPPED lpOverlapped, [In]LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
 #pragma warning disable IDE1006
         /// <summary>
