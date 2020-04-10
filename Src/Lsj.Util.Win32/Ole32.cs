@@ -156,6 +156,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Initializes the COM library on the current thread and identifies the concurrency model as single-thread apartment (STA).
+        /// New applications should call <see cref="CoInitializeEx"/> instead of <see cref="CoInitialize"/>.
+        /// If you want to use the Windows Runtime, you must call Windows::Foundation::Initialize instead.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize
+        /// </para>
+        /// </summary>
+        /// <param name="pvReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The COM library was initialized successfully on this thread.
+        /// <see cref="S_FALSE"/>: The COM library is already initialized on this thread.
+        /// <see cref="RPC_E_CHANGED_MODE"/>:
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this thread as multithread apartment (MTA).
+        /// This could also indicate that a change from neutral-threaded apartment to single-threaded apartment has occurred.
+        /// </returns>
+        /// <remarks>
+        /// You need to initialize the COM library on a thread before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// After the concurrency model for a thread is set, it cannot be changed.
+        /// A call to <see cref="CoInitialize"/> on an apartment that was previously initialized as multithreaded will fail
+        /// and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// <see cref="CoInitializeEx"/> provides the same functionality as <see cref="CoInitialize"/> and also provides a parameter
+        /// to explicitly specify the thread's concurrency model.
+        /// <see cref="CoInitialize"/> calls <see cref="CoInitializeEx"/> and specifies the concurrency model as single-thread apartment.
+        /// Applications developed today should call <see cref="CoInitializeEx"/> rather than <see cref="CoInitialize"/>.
+        /// Typically, the COM library is initialized on a thread only once.
+        /// Subsequent calls to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> on the same thread will succeed,
+        /// as long as they do not attempt to change the concurrency model, but will return <see cref="S_FALSE"/>.
+        /// To close the COM library gracefully, each successful call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// including those that return <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="CoUninitialize"/>.
+        /// However, the first thread in the application that calls <see cref="CoInitialize"/> with 0
+        /// (or <see cref="CoInitializeEx"/> with <see cref="COINIT_APARTMENTTHREADED"/>) must be the last thread to call <see cref="CoUninitialize"/>.
+        /// Otherwise, subsequent calls to <see cref="CoInitialize"/> on the STA will fail and the application will not work.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+
+        /// <summary>
+        /// <para>
         /// Registers security and sets the default security values for the process.
         /// </para>
         /// <para>

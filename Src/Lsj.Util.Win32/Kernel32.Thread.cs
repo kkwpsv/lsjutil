@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32
 {

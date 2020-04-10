@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
