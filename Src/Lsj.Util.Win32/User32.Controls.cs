@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.ScrollBarCommands;
 using static Lsj.Util.Win32.Enums.ScrollBarConstants;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
+using static Lsj.Util.Win32.Enums.SCROLLINFOFlags;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -543,6 +544,70 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
         public static extern RegionFlags ScrollWindowEx([In]HWND hWnd, [In]int dx, [In]int dy, [In]in RECT prcScroll, [In]in RECT prcClip,
             [In]HRGN hrgnUpdate, [Out]out RECT prcUpdate, [In]ScrollWindowExFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetScrollInfo"/> function sets the parameters of a scroll bar,
+        /// including the minimum and maximum scrolling positions, the page size, and the position of the scroll box (thumb).
+        /// The function also redraws the scroll bar, if requested.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Handle to a scroll bar control or a window with a standard scroll bar, depending on the value of the fnBar parameter.
+        /// </param>
+        /// <param name="nBar">
+        /// Specifies the type of scroll bar for which to set parameters. This parameter can be one of the following values.
+        /// <see cref="SB_CTL"/>:
+        /// Sets the parameters of a scroll bar control. The <paramref name="hwnd"/> parameter must be the handle to the scroll bar control.
+        /// <see cref="SB_HORZ"/>:
+        /// Sets the parameters of the window's standard horizontal scroll bar.
+        /// <see cref="SB_VERT"/>:
+        /// Sets the parameters of the window's standard vertical scroll bar.
+        /// </param>
+        /// <param name="lpsi">
+        /// Pointer to a <see cref="SCROLLINFO"/> structure.
+        /// Before calling <see cref="SetScrollInfo"/>, set the <see cref="SCROLLINFO.cbSize"/> member of the structure to <code>sizeof(SCROLLINFO)</code>,
+        /// set the <see cref="SCROLLINFO.fMask"/> member to indicate the parameters to set, and specify the new parameter values in the appropriate members.
+        /// The <see cref="SCROLLINFO.fMask"/> member can be one or more of the following values.
+        /// <see cref="SIF_DISABLENOSCROLL"/>:
+        /// Disables the scroll bar instead of removing it, if the scroll bar's new parameters make the scroll bar unnecessary.
+        /// <see cref="SIF_PAGE"/>:
+        /// Sets the scroll page to the value specified in the <see cref="SCROLLINFO.nPage"/> member
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// <see cref="SIF_POS"/>:
+        /// Sets the scroll position to the value specified in the <see cref="SCROLLINFO.nPos"/> member
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// <see cref="SIF_RANGE"/>:
+        /// Sets the scroll range to the value specified in the <see cref="SCROLLINFO.nMin"/> and <see cref="SCROLLINFO.nMax"/> members
+        /// of the <see cref="SCROLLINFO"/> structure pointed to by <paramref name="lpsi"/>.
+        /// </param>
+        /// <param name="redraw">
+        /// Specifies whether the scroll bar is redrawn to reflect the changes to the scroll bar.
+        /// If this parameter is <see cref="TRUE"/>, the scroll bar is redrawn, otherwise, it is not redrawn.
+        /// </param>
+        /// <returns>
+        /// The return value is the current position of the scroll box.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetScrollInfo"/> function performs range checking on the values specified
+        /// by the <see cref="SCROLLINFO.nPage"/> and <see cref="SCROLLINFO.nPos"/> members of the <see cref="SCROLLINFO"/> structure.
+        /// The <see cref="SCROLLINFO.nPage"/> member must specify a value from 0 to <see cref="SCROLLINFO.nMax"/> - <see cref="SCROLLINFO.nMin"/> +1.
+        /// The <see cref="SCROLLINFO.nPos"/> member must specify a value between <see cref="SCROLLINFO.nMin"/>
+        /// and <see cref="SCROLLINFO.nMax"/> - max( <see cref="SCROLLINFO.nPage"/>– 1, 0).
+        /// If either value is beyond its range, the function sets it to a value that is just within the range.
+        /// If the <paramref name="nBar"/> parameter is <see cref="SB_CTL"/> and the window specified
+        /// by the <paramref name="hwnd"/> parameter is not a system scroll bar control,
+        /// the system sends the <see cref="SBM_SETSCROLLINFO"/> message to the window to set scroll bar information
+        /// (The system can optimize the message to <see cref="SBM_SETPOS"/> or <see cref="SBM_SETRANGE"/> if the request is solely for the position or range).
+        /// This allows <see cref="SetScrollInfo"/> to operate on a custom control that mimics a scroll bar.
+        /// If the window does not handle <see cref="SBM_SETSCROLLINFO"/> (or the optimized <see cref="SBM_SETPOS"/> message
+        /// or <see cref="SBM_SETRANGE"/> message), then the <see cref="SetScrollInfo"/> function fails.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetScrollInfo([In]HWND hwnd, [In]ScrollBarConstants nBar, [In]in SCROLLINFO lpsi, [In]BOOL redraw);
 
         /// <summary>
         /// <para>
