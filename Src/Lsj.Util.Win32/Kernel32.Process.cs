@@ -1049,6 +1049,70 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Searches for a specified file in a specified path.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-searchpathw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPath">
+        /// The path to be searched for the file.
+        /// If this parameter is <see cref="NULL"/>, the function searches for a matching file using a registry-dependent system search path.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="lpFileName">
+        /// The name of the file for which to search.
+        /// </param>
+        /// <param name="lpExtension">
+        /// The extension to be added to the file name when searching for the file.
+        /// The first character of the file name extension must be a period (.).
+        /// The extension is added only if the specified file name does not end with an extension.
+        /// If a file name extension is not required or if the file name contains an extension, this parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer that receives the valid path and file name (including the terminating null character), in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer to receive the path and file name of the file found. The string is a null-terminated string.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to the variable to receive the address (within <paramref name="lpBuffer"/>) of the last component of the valid path and file name,
+        /// which is the address of the character immediately following the final backslash () in the path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the value returned is the length, in TCHARs, of the string that is copied to the buffer,
+        /// not including the terminating null character.
+        /// If the return value is greater than <paramref name="nBufferLength"/>, the value returned is the size of the buffer
+        /// that is required to hold the path, including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lpPath"/> parameter is <see cref="NULL"/>, <see cref="SearchPath"/> searches
+        /// for a matching file based on the current value of the following registry value:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\SafeProcessSearchMode
+        /// When the value of this REG_DWORD registry value is set to 1,
+        /// <see cref="SearchPath"/> first searches the folders that are specified in the system path, and then searches the current working folder.
+        /// When the value of this registry value is set to 0, the computer first searches the current working folder,
+        /// and then searches the folders that are specified in the system path.
+        /// The system default value for this registry key is 0.
+        /// The search mode used by the <see cref="SearchPath"/> function can also be set per-process by calling the <see cref="SetSearchPathMode"/> function.
+        /// The <see cref="SearchPath"/> function is not recommended as a method of locating a .dll file
+        /// if the intended use of the output is in a call to the <see cref="LoadLibrary"/> function.
+        /// This can result in locating the wrong .dll file because the search order of the <see cref="SearchPath"/> function
+        /// differs from the search order used by the <see cref="LoadLibrary"/> function.
+        /// If you need to locate and load a .dll file, use the <see cref="LoadLibrary"/> function.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SearchPath"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SearchPathW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD SearchPath([MarshalAs(UnmanagedType.LPWStr)][In]string lpPath, [MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpExtension, [In]DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
+            [Out]IntPtr lpFilePart);
+
+        /// <summary>
+        /// <para>
         /// Changes the current directory for the current process.
         /// </para>
         /// <para>
