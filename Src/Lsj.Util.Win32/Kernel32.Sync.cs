@@ -1071,7 +1071,7 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see langword="true"/> and the thread is in the waiting state,
         /// the function returns when the system queues an I/O completion routine or APC, and the thread runs the routine or function.
         /// Otherwise, the function does not return and the completion routine or APC function is not executed.
-        /// A completion routine is queued when the ReadFileEx or WriteFileEx function in which it was specified has completed.
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed.
         /// The wait function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>
         /// and the calling thread is the thread that initiated the read or write operation.
         /// An APC is queued when you call <see cref="QueueUserAPC"/>.
