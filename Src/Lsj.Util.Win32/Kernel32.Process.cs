@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -933,6 +934,48 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool InitializeProcThreadAttributeList([In]IntPtr lpAttributeList, [In]uint dwAttributeCount,
             [In]uint dwFlags, [In][Out]ref IntPtr lpSize);
+
+        /// <summary>
+        /// <para>
+        /// Opens an existing local process object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the process object.
+        /// This access right is checked against the security descriptor for the process.
+        /// This parameter can be one or more of the process access rights.
+        /// If the caller has enabled the SeDebugPrivilege privilege, the requested access is granted regardless of the contents of the security descriptor.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwProcessId">
+        /// The identifier of the local process to be opened.
+        /// If the specified process is the System Process (0x00000000), the function fails and the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// If the specified process is the Idle process or one of the CSRSS processes,
+        /// this function fails and the last error code is <see cref="ERROR_ACCESS_DENIED"/>
+        /// because their access restrictions prevent user-level code from opening them.
+        /// If you are using <see cref="GetCurrentProcessId"/> as an argument to this function,
+        /// consider using <see cref="GetCurrentProcess"/> instead of <see cref="OpenProcess"/>, for improved performance.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified process.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To open a handle to another local process and obtain full access rights, you must enable the SeDebugPrivilege privilege.
+        /// For more information, see Changing Privileges in a Token.
+        /// The handle returned by the <see cref="OpenProcess"/> function can be used in any function that requires a handle to a process,
+        /// such as the wait functions, provided the appropriate access rights were requested.
+        /// When you are finished with the handle, be sure to close it using the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE OpenProcess([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [In]DWORD dwProcessId);
 
         /// <summary>
         /// <para>
