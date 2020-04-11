@@ -290,7 +290,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="pSecDesc"/> points to an AppID, the <see cref="EOAC_APPID"/> flag
         /// must be set in <paramref name="dwCapabilities"/> and, when the <see cref="EOAC_APPID"/> flag is set,
         /// all other parameters to <see cref="CoInitializeSecurity"/> are ignored.
-        /// <see cref="CoInitializeSecurity"/> looks for the authentication level under the <see cref="AppID"/> key in the registry
+        /// <see cref="CoInitializeSecurity"/> looks for the authentication level under the AppID key in the registry
         /// and uses it to determine the default security.
         /// For more information about how the AppID key is used to set security, see Setting Process-Wide Security Through the Registry.
         /// If <paramref name="pSecDesc"/> is a pointer to an <see cref="IAccessControl"/> object,
