@@ -1534,7 +1534,7 @@ namespace Lsj.Util.Win32.Enums
         /// <para>
         /// Occurs on the process receiving input when the pointer input is routed to another process.
         /// Sent when pointer input transitions from one process to another across content configured
-        /// for cross-process chaining (<see cref="AddContentWithCrossProcessChaining"/>).
+        /// for cross-process chaining (AddContentWithCrossProcessChaining).
         /// This message is sent to the process currently receiving pointer input.
         /// </para>
         /// <para>
@@ -1546,7 +1546,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// <para>
         /// Sent to all processes (configured for cross-process chaining
-        /// through <see cref="AddContentWithCrossProcessChaining"/> and not currently handling pointer input) ever
+        /// through AddContentWithCrossProcessChaining and not currently handling pointer input) ever
         /// associated with a specific pointer ID, when a <see cref="WM_POINTERUP"/> message is received on the current process.
         /// </para>
         /// <para>
@@ -1558,7 +1558,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// <para>
         /// Sent when ongoing pointer input, for an existing pointer ID,
-        /// transitions from one process to another across content configured for cross-process chaining (<see cref="AddContentWithCrossProcessChaining"/>).
+        /// transitions from one process to another across content configured for cross-process chaining (AddContentWithCrossProcessChaining).
         /// This message is sent to the process not currently receiving pointer input.
         /// </para>
         /// <para>
