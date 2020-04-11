@@ -17,6 +17,41 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Adds a directory to the process DLL search path.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-adddlldirectory
+        /// </para>
+        /// </summary>
+        /// <param name="NewDirectory">
+        /// An absolute path to the directory to add to the search path.
+        /// For example, to add the directory Dir2 to the process DLL search path, specify \Dir2.
+        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an opaque pointer
+        /// that can be passed to <see cref="RemoveDllDirectory"/> to remove the DLL from the process DLL search path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AddDllDirectory"/> function can be used to add any absolute path to the set of directories that are searched for a DLL.
+        /// If <see cref="SetDefaultDllDirectories"/> is first called with <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>,
+        /// directories specified with <see cref="AddDllDirectory"/> are added to the process DLL search path.
+        /// Otherwise, directories specified with the <see cref="AddDllDirectory"/> function are used only
+        /// for <see cref="LoadLibraryEx"/> function calls that specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// If <see cref="AddDllDirectory"/> is used to add more than one directory to the process DLL search path,
+        /// the order in which those directories are searched is unspecified.
+        /// To remove a directory added with <see cref="AddDllDirectory"/>, use the <see cref="RemoveDllDirectory"/> function.
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To use this function in an application, call <see cref="GetProcAddress"/> to retrieve the function's address from Kernel32.dll.
+        /// KB2533623 must be installed on the target platform.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddDllDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string NewDirectory);
+
+        /// <summary>
+        /// <para>
         /// Disables the <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications for the specified dynamic-link library (DLL).
         /// This can reduce the size of the working set for some applications.
         /// </para>
