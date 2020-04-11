@@ -861,7 +861,8 @@ namespace Lsj.Util.Win32
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
-        /// that specifies the <see cref="gamma"/> and <see cref="endpoints"/> members,
+        /// that specifies the <see cref="BITMAPV4HEADER.bV4GammaRed"/>, <see cref="BITMAPV4HEADER.bV4GammaGreen"/>,
+        /// <see cref="BITMAPV4HEADER.bV4GammaBlue"/> and <see cref="BITMAPV4HEADER.bV4Endpoints"/> members,
         /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="BITMAPV5HEADER.bV5GammaRed"/>,
         /// <see cref="BITMAPV5HEADER.bV5GammaGreen"/>, <see cref="BITMAPV5HEADER.bV5GammaBlue"/> and <see cref="BITMAPV5HEADER.bV5Endpoints"/> members
         /// or the <see cref="BITMAPV5HEADER.bV5ProfileData"/> and <see cref="BITMAPV5HEADER.bV5ProfileSize"/> members,
@@ -955,7 +956,8 @@ namespace Lsj.Util.Win32
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
-        /// that specifies the <see cref="gamma"/> and <see cref="endpoints"/> members,
+        /// that specifies the <see cref="BITMAPV4HEADER.bV4GammaRed"/>, <see cref="BITMAPV4HEADER.bV4GammaGreen"/>,
+        /// <see cref="BITMAPV4HEADER.bV4GammaBlue"/> and <see cref="BITMAPV4HEADER.bV4Endpoints"/> members,
         /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="BITMAPV5HEADER.bV5GammaRed"/>,
         /// <see cref="BITMAPV5HEADER.bV5GammaGreen"/>, <see cref="BITMAPV5HEADER.bV5GammaBlue"/> and <see cref="BITMAPV5HEADER.bV5Endpoints"/> members
         /// or the <see cref="BITMAPV5HEADER.bV5ProfileData"/> and <see cref="BITMAPV5HEADER.bV5ProfileSize"/> members,
