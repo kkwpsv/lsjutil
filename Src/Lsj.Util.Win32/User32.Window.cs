@@ -262,11 +262,50 @@ namespace Lsj.Util.Win32
         /// The <see cref="AdjustWindowRectEx"/> function does not take the <see cref="WS_VSCROLL"/> or <see cref="WS_HSCROLL"/> styles into account.
         /// To account for the scroll bars, call the <see cref="GetSystemMetrics"/> function with <see cref="SM_CXVSCROLL"/> or <see cref="SM_CYHSCROLL"/>.
         /// This API is not DPI aware, and should not be used if the calling thread is per-monitor DPI aware.
-        /// For the DPI-aware version of this API, see <see cref="AdjustWindowsRectExForDPI"/>.
+        /// For the DPI-aware version of this API, see <see cref="AdjustWindowRectExForDpi"/>.
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectEx([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu, [In]WindowStylesEx dwExStyle);
+
+        /// <summary>
+        /// <para>
+        /// Calculates the required size of the window rectangle, based on the desired size of the client rectangle and the provided DPI.
+        /// This window rectangle can then be passed to the <see cref="CreateWindowEx"/> function to create a window with a client area of the desired size.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectexfordpi
+        /// </para>
+        /// </summary>
+        /// <param name="lpRect">
+        /// A pointer to a <see cref="RECT"/> structure that contains the coordinates of the top-left and bottom-right corners of the desired client area.
+        /// When the function returns, the structure contains the coordinates of the top-left and bottom-right corners of the window
+        /// to accommodate the desired client area.
+        /// </param>
+        /// <param name="dwStyle">
+        /// The Window Style of the window whose required size is to be calculated.
+        /// Note that you cannot specify the <see cref="WS_OVERLAPPED"/> style.
+        /// </param>
+        /// <param name="bMenu">
+        /// Indicates whether the window has a menu.
+        /// </param>
+        /// <param name="dwExStyle">
+        /// The Extended Window Style of the window whose required size is to be calculated.
+        /// </param>
+        /// <param name="dpi">
+        /// The DPI to use for scaling.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustWindowRectExForDpi([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu,
+            [In]WindowStylesEx dwExStyle, [In]UINT dpi);
 
         /// <summary>
         /// <para>
