@@ -22,6 +22,47 @@ namespace Lsj.Util.Win32
         public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
 
         /// <summary>
+        /// <para>
+        /// Generates simple tones on the speaker.
+        /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/utilapiset/nf-utilapiset-beep
+        /// </para>
+        /// </summary>
+        /// <param name="dwFreq">
+        /// The frequency of the sound, in hertz. This parameter must be in the range 37 through 32,767 (0x25 through 0x7FFF).
+        /// </param>
+        /// <param name="dwDuration">
+        /// The duration of the sound, in milliseconds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A long time ago, all PC computers shared a common 8254 programable interval timer chip for the generation of primitive sounds.
+        /// The <see cref="Beep"/> function was written specifically to emit a beep on that piece of hardware.
+        /// On these older systems, muting and volume controls have no effect on <see cref="Beep"/>; you would still hear the tone.
+        /// To silence the tone, you used the following commands:
+        /// net stop beep
+        /// sc config beep start= disabled
+        /// Since then, sound cards have become standard equipment on almost all PC computers.
+        /// As sound cards became more common, manufacturers began to remove the old timer chip from computers.
+        /// The chips were also excluded from the design of server computers.
+        /// The result is that <see cref="Beep"/> did not work on all computers without the chip.
+        /// This was okay because most developers had moved on to calling the <see cref="MessageBeep"/> function
+        /// that uses whatever is the default sound device instead of the 8254 chip.
+        /// Eventually because of the lack of hardware to communicate with,
+        /// support for <see cref="Beep"/> was dropped in Windows Vista and Windows XP 64-Bit Edition.
+        /// In Windows 7, <see cref="Beep"/> was rewritten to pass the beep to the default sound device for the session.
+        /// This is normally the sound card, except when run under Terminal Services, in which case the beep is rendered on the client.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Beep([In]DWORD dwFreq, [In]DWORD dwDuration);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="lpProc"></param>
