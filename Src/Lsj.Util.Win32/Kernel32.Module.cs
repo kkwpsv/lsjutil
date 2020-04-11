@@ -3,13 +3,14 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using static Lsj.Util.Win32.Enums.DllMainReasons;
-using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
-using static Lsj.Util.Win32.Enums.ProcessAccessRights;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
+using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.SearchPathModes;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
