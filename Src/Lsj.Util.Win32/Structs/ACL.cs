@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.AclRevisions;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -23,11 +25,11 @@ namespace Lsj.Util.Win32.Structs
     /// An object can also have system-level security information associated with it,
     /// in the form of a system access control list (SACL) controlled by a system administrator.
     /// A SACL allows the system administrator to audit any attempts to gain access to an object.
-    /// For a list of currently defined ACE structures, see <see cref="ACE"/>.
+    /// For a list of currently defined ACE structures, see ACE.
     /// A fourth ACE structure, <see cref="SYSTEM_ALARM_ACE"/>, is not currently supported.
     /// The <see cref="ACL"/> structure is to be treated as though it were opaque and applications are not to attempt to work with its members directly.
     /// To ensure that ACLs are semantically correct, applications can use the functions listed in the See Also section to create and manipulate ACLs.
-    /// Each <see cref="ACL"/> and <see cref="ACE"/> structure begins on a <see cref="DWORD"/> boundary.
+    /// Each <see cref="ACL"/> and ACE structure begins on a <see cref="DWORD"/> boundary.
     /// The maximum size for an <see cref="ACL"/>, including its ACEs, is 64 KB.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -39,7 +41,7 @@ namespace Lsj.Util.Win32.Structs
         /// in which case this value must be <see cref="ACL_REVISION_DS"/>.
         /// All ACEs in an ACL must be at the same revision level.
         /// </summary>
-        public BYTE AclRevision;
+        public AclRevisions AclRevision;
 
         /// <summary>
         /// Specifies a zero byte of padding that aligns the AclRevision member on a 16-bit boundary.
