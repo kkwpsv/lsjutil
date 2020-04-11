@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -17,8 +18,10 @@ using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Userenv;
 
@@ -29,6 +32,97 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Advapi32
     {
+        /// <summary>
+        /// <para>
+        /// The <see cref="AdjustTokenPrivileges"/> function enables or disables privileges in the specified access token.
+        /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token that contains the privileges to be modified.
+        /// The handle must have <see cref="TOKEN_ADJUST_PRIVILEGES"/> access to the token.
+        /// If the <paramref name="PreviousState"/> parameter is not <see cref="NullRef{TOKEN_PRIVILEGES}"/>,
+        /// the handle must also have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="DisableAllPrivileges">
+        /// Specifies whether the function disables all of the token's privileges.
+        /// If this value is <see cref="TRUE"/>, the function disables all privileges and ignores the <paramref name="NewState"/> parameter.
+        /// If it is <see cref="FALSE"/>, the function modifies privileges based on the information pointed to by the <paramref name="NewState"/> parameter.
+        /// </param>
+        /// <param name="NewState">
+        /// A pointer to a <see cref="TOKEN_PRIVILEGES"/> structure that specifies an array of privileges and their attributes.
+        /// If the <paramref name="DisableAllPrivileges"/> parameter is <see cref="FALSE"/>,
+        /// the <see cref="AdjustTokenPrivileges"/> function enables, disables, or removes these privileges for the token.
+        /// The following table describes the action taken by the <see cref="AdjustTokenPrivileges"/> function, based on the privilege attribute.
+        /// <see cref="SE_PRIVILEGE_ENABLED"/>: The function enables the privilege.
+        /// <see cref="SE_PRIVILEGE_REMOVED"/>:
+        /// The privilege is removed from the list of privileges in the token.
+        /// The other privileges in the list are reordered to remain contiguous.
+        /// <see cref="SE_PRIVILEGE_REMOVED"/> supersedes <see cref="SE_PRIVILEGE_ENABLED"/>.
+        /// Because the privilege has been removed from the token, attempts to reenable the privilege result in
+        /// the warning <see cref="ERROR_NOT_ALL_ASSIGNED"/> as if the privilege had never existed.
+        /// Attempting to remove a privilege that does not exist in the token results in <see cref="ERROR_NOT_ALL_ASSIGNED"/> being returned.
+        /// Privilege checks for removed privileges result in <see cref="STATUS_PRIVILEGE_NOT_HELD"/>.
+        /// Failed privilege check auditing occurs as normal.
+        /// The removal of the privilege is irreversible, so the name of the removed privilege is not included
+        /// in the <paramref name="PreviousState"/> parameter after a call to <see cref="AdjustTokenPrivileges"/>.
+        /// Windows XP with SP1: The function cannot remove privileges. This value is not supported.
+        /// None: The function disables the privilege.
+        /// If <paramref name="DisableAllPrivileges"/> is <see cref="TRUE"/>, the function ignores this parameter.
+        /// </param>
+        /// <param name="BufferLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is NULL.
+        /// </param>
+        /// <param name="PreviousState">
+        /// A pointer to a buffer that the function fills with a <see cref="TOKEN_PRIVILEGES"/> structure
+        /// that contains the previous state of any privileges that the function modifies.
+        /// That is, if a privilege has been modified by this function, the privilege and its previous state are contained
+        /// in the <see cref="TOKEN_PRIVILEGES"/> structure referenced by <paramref name="PreviousState"/>.
+        /// If the <see cref="TOKEN_PRIVILEGES.PrivilegeCount"/> member of <see cref="TOKEN_PRIVILEGES"/> is zero,
+        /// then no privileges have been changed by this function.
+        /// This parameter can be <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
+        /// If you specify a buffer that is too small to receive the complete list of modified privileges,
+        /// the function fails and does not adjust any privileges.
+        /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
+        /// to the number of bytes required to hold the complete list of modified privileges.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the required size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// To determine whether the function adjusted all of the specified privileges, call <see cref="GetLastError"/>,
+        /// which returns one of the following values when the function succeeds:
+        /// <see cref="ERROR_SUCCESS"/>: The function adjusted all specified privileges.
+        /// <see cref="ERROR_NOT_ALL_ASSIGNED"/>:
+        /// The token does not have one or more of the privileges specified in the <paramref name="NewState"/> parameter.
+        /// The function may succeed with this error value even if no privileges were adjusted.
+        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AdjustTokenPrivileges"/> function cannot add new privileges to the access token.
+        /// It can only enable or disable the token's existing privileges.
+        /// To determine the token's privileges, call the <see cref="GetTokenInformation"/> function.
+        /// The <paramref name="NewState"/> parameter can specify privileges that the token does not have, without causing the function to fail.
+        /// In this case, the function adjusts the privileges that the token does have and ignores the other privileges so that the function succeeds.
+        /// Call the <see cref="GetLastError"/> function to determine whether the function adjusted all of the specified privileges.
+        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
+        /// The <paramref name="PreviousState"/> parameter retrieves a <see cref="TOKEN_PRIVILEGES"/> structure
+        /// that contains the original state of the adjusted privileges.
+        /// To restore the original state, pass the <paramref name="PreviousState"/> pointer as the <paramref name="NewState"/> parameter
+        /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustTokenPrivileges([In]HANDLE TokenHandle, [In]BOOL DisableAllPrivileges, [In]in TOKEN_PRIVILEGES NewState,
+            [In]DWORD BufferLength, [Out]out TOKEN_PRIVILEGES PreviousState, [Out]out DWORD ReturnLength);
+
         /// <summary>
         /// <para>
         /// Creates a new process and its primary thread. Then the new process runs the specified executable file in the security context
