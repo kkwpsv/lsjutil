@@ -90,6 +90,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         public delegate int GOBJENUMPROC([In]LPVOID lpLogObject, [In]LPARAM lpData);
 
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CancelDC"/> function cancels any pending operation on the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-canceldc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CancelDC"/> function is used by multithreaded applications to cancel lengthy drawing operations.
+        /// If thread A initiates a lengthy drawing operation, thread B may cancel that operation by calling this function.
+        /// If an operation is canceled, the affected thread returns an error and the result of its drawing operation is undefined.
+        /// The results are also undefined if no drawing operation was in progress when the function was called.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDC", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CancelDC([In]HDC hdc);
+
         /// <summary>
         /// <para>
         /// The <see cref="CreateCompatibleDC"/> function creates a memory device context (DC) compatible with the specified device.
