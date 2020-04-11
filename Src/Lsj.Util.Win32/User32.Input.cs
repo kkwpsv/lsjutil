@@ -16,6 +16,48 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Attaches or detaches the input processing mechanism of one thread to that of another thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-attachthreadinput
+        /// </para>
+        /// </summary>
+        /// <param name="idAttach">
+        /// The identifier of the thread to be attached to another thread. The thread to be attached cannot be a system thread.
+        /// </param>
+        /// <param name="idAttachTo">
+        /// The identifier of the thread to which <paramref name="idAttach"/> will be attached. This thread cannot be a system thread.
+        /// A thread cannot attach to itself. Therefore, <paramref name="idAttachTo"/> cannot equal <paramref name="idAttach"/>.
+        /// </param>
+        /// <param name="fAttach">
+        /// If this parameter is <see cref="TRUE"/>, the two threads are attached.
+        /// If the parameter is <see cref="FALSE"/>, the threads are detached.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Windows Server 2003 and Windows XP:
+        /// There is no extended error information; do not call <see cref="GetLastError"/>. This behavior changed as of Windows Vista.
+        /// </returns>
+        /// <remarks>
+        /// By using the <see cref="AttachThreadInput"/> function, a thread can share its input states
+        /// (such as keyboard states and the current focus window) with another thread.
+        /// Keyboard and mouse events received by both threads are processed in the order they were received until the threads are detached
+        /// by calling <see cref="AttachThreadInput"/> a second time and specifying <see cref="FALSE"/> for the <paramref name="fAttach"/> parameter.
+        /// The <see cref="AttachThreadInput"/> function fails if either of the specified threads does not have a message queue.
+        /// The system creates a thread's message queue when the thread makes its first call to one of the USER or GDI functions.
+        /// The <see cref="AttachThreadInput"/> function also fails if a journal record hook is installed.
+        /// Journal record hooks attach all input queues together.
+        /// Note that key state, which can be ascertained by calls to the <see cref="GetKeyState"/> or <see cref="GetKeyboardState"/> function,
+        /// is reset after a call to <see cref="AttachThreadInput"/>.
+        /// You cannot attach a thread to a thread in another desktop.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachThreadInput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AttachThreadInput([In]DWORD idAttach, [In]DWORD idAttachTo, [In]BOOL fAttach);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the window handle to the active window attached to the calling thread's message queue.
         /// </para>
         /// <para>
