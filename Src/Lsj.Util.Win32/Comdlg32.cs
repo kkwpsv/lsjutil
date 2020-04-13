@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32
 {
@@ -188,6 +189,42 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseFontW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ChooseFont([In][Out]ref CHOOSEFONT lpcf);
+
+        /// <summary>
+        /// <para>
+        /// Returns a common dialog box error code.
+        /// This code indicates the most recent error to occur during the execution of one of the common dialog box functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-commdlgextendederror
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the most recent call to a common dialog box function succeeded, the return value is undefined.
+        /// If the common dialog box function returned <see cref="FALSE"/> because the user closed or canceled the dialog box, the return value is zero.
+        /// Otherwise, the return value is a nonzero error code.
+        /// The <see cref="CommDlgExtendedError"/> function can return general error codes for any of the common dialog box functions.
+        /// In addition, there are error codes that are returned only for a specific common dialog box.
+        /// All of these error codes are defined in Cderr.h.
+        /// The following general error codes can be returned for any of the common dialog box functions.
+        /// <see cref="CDERR_DIALOGFAILURE"/>, <see cref="CDERR_FINDRESFAILURE"/>, <see cref="CDERR_INITIALIZATION"/>,
+        /// <see cref="CDERR_LOADRESFAILURE"/>, <see cref="CDERR_LOADSTRFAILURE"/>, <see cref="CDERR_LOCKRESFAILURE"/>,
+        /// <see cref="CDERR_MEMALLOCFAILURE"/>, <see cref="CDERR_MEMLOCKFAILURE"/>, <see cref="CDERR_NOHINSTANCE"/>,
+        /// <see cref="CDERR_NOHOOK"/>, <see cref="CDERR_NOTEMPLATE"/>, <see cref="CDERR_REGISTERMSGFAIL"/>, <see cref="CDERR_STRUCTSIZE"/>
+        /// The following error codes can be returned for the <see cref="PrintDlg"/> function.
+        /// <see cref="PDERR_CREATEICFAILURE"/>, <see cref="PDERR_DEFAULTDIFFERENT"/>, <see cref="PDERR_DNDMMISMATCH"/>,
+        /// <see cref="PDERR_GETDEVMODEFAIL"/>, <see cref="PDERR_INITFAILURE"/>, <see cref="PDERR_LOADDRVFAILURE"/>,
+        /// <see cref="PDERR_NODEFAULTPRN"/>, <see cref="PDERR_NODEVICES"/>, <see cref="PDERR_PARSEFAILURE"/>,
+        /// <see cref="PDERR_PRINTERNOTFOUND"/>, <see cref="PDERR_RETDEFFAILURE"/>, <see cref="PDERR_SETUPFAILURE"/>
+        /// The following error codes can be returned for the <see cref="ChooseFont"/> function.
+        /// <see cref="CFERR_MAXLESSTHANMIN"/>, <see cref="CFERR_NOFONTS"/>
+        /// The following error codes can be returned for the <see cref="GetOpenFileName"/> and <see cref="GetSaveFileName"/> functions.
+        /// <see cref="FNERR_BUFFERTOOSMALL"/>, <see cref="FNERR_INVALIDFILENAME"/>, <see cref="FNERR_SUBCLASSFAILURE"/>
+        /// The following error code can be returned for the <see cref="FindText"/> and <see cref="ReplaceText"/> functions.
+        /// <see cref="FRERR_BUFFERLENGTHZERO"/>
+        /// </returns>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommDlgExtendedError", ExactSpelling = true, SetLastError = true)]
+        public static extern CommDlgExtendedErrorCodes CommDlgExtendedError();
 
         /// <summary>
         /// <para>
