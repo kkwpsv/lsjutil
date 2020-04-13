@@ -63,6 +63,34 @@ namespace Lsj.Util.Win32
         public static extern BOOL Beep([In]DWORD dwFreq, [In]DWORD dwDuration);
 
         /// <summary>
+        /// <para>
+        /// Retrieves a pointer to the preceding character in a string.
+        /// This function can handle strings consisting of either single- or multi-byte characters.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszStart">
+        /// The beginning of the string.
+        /// </param>
+        /// <param name="lpszCurrent">
+        /// A character in a null-terminated string.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the preceding character in the string,
+        /// or to the first character in the string if the <paramref name="lpszCurrent"/> parameter equals the <paramref name="lpszStart"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// This function works with default "user" expectations of characters when dealing with diacritics.
+        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
+        /// will advance two code points, not one.
+        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CharPrev([In]IntPtr lpszStart, [In]IntPtr lpszCurrent);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="lpProc"></param>
