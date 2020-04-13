@@ -18,6 +18,51 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Receives messages or notifications intended for the default dialog box procedure of the Font dialog box.
+        /// This is an application-defined or library-defined callback procedure that is used with the <see cref="ChooseFont"/> function.
+        /// The <see cref="LPCFHOOKPROC"/> type defines a pointer to this callback function.
+        /// CFHookProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcfhookproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <param name="Arg4"></param>
+        /// <returns>
+        /// If the hook procedure returns zero, the default dialog box procedure processes the message.
+        /// If the hook procedure returns a nonzero value, the default dialog box procedure ignores the message.
+        /// </returns>
+        /// <remarks>
+        /// When you use the <see cref="ChooseFont"/> function to create a Font dialog box,
+        /// you can provide a <see cref="LPCFHOOKPROC"/> hook procedure to process messages or notifications intended for the dialog box procedure.
+        /// To enable the hook procedure, use the <see cref="CHOOSEFONT"/> structure that you passed to the dialog creation function.
+        /// Specify the address of the hook procedure in the <see cref="CHOOSEFONT.lpfnHook"/> member
+        /// and specify the <see cref="CF_ENABLEHOOK"/> flag in the <see cref="CHOOSEFONT.Flags"/> member.
+        /// The default dialog box procedure processes the <see cref="WM_INITDIALOG"/> message before passing it to the hook procedure.
+        /// For all other messages, the hook procedure receives the message first.
+        /// The return value of the hook procedure determines whether the default dialog box procedure processes the message or ignores it.
+        /// If the hook procedure processes the <see cref="WM_CTLCOLORDLG"/> message, it must return a valid brush handle
+        /// to paint the background of the dialog box.
+        /// In general, if the hook procedure processes any WM_CTLCOLOR* message,
+        /// it must return a valid brush handle to paint the background of the specified control.
+        /// Do not call the <see cref="EndDialog"/> function from the hook procedure.
+        /// Instead, the hook procedure can call the <see cref="PostMessage"/> function to post a <see cref="WM_COMMAND"/> message
+        /// with the <see cref="IDABORT"/> value to the dialog box procedure.
+        /// Posting <see cref="IDABORT"/> closes the dialog box and causes the dialog box function to return <see cref="FALSE"/>.
+        /// If you need to know why the hook procedure closed the dialog box,
+        /// you must provide your own communication mechanism between the hook procedure and your application.
+        /// You can subclass the standard controls of a common dialog box.
+        /// However, the dialog box procedure may also subclass the controls.
+        /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
+        /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
+        /// </remarks>
+        public delegate UINT_PTR LPCFHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+
+        /// <summary>
+        /// <para>
         /// Receives messages or notifications intended for the default dialog box procedure of the Print dialog box.
         /// This is an application-defined or library-defined callback function that is used with the <see cref="PrintDlg"/> function.
         /// The <see cref="LPPRINTHOOKPROC"/> type defines a pointer to this callback function.
