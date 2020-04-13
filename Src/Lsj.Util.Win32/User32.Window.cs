@@ -2575,52 +2575,52 @@ namespace Lsj.Util.Win32
         /// The type of hook procedure to be installed. This parameter can be one of the following values.
         /// <see cref="WH_CALLWNDPROC"/>:
         /// Installs a hook procedure that monitors messages before the system sends them to the destination window procedure.
-        /// For more information, see the <see cref="CallWndProc"/> hook procedure.
+        /// For more information, see the CallWndProc hook procedure.
         /// <see cref="WH_CALLWNDPROCRET"/>:
         /// Installs a hook procedure that monitors messages after they have been processed by the destination window procedure.
-        /// For more information, see the <see cref="CallWndRetProc"/> hook procedure.
+        /// For more information, see the CallWndRetProchook procedure.
         /// <see cref="WH_CBT"/>:
         /// Installs a hook procedure that receives notifications useful to a CBT application.
-        /// For more information, see the <see cref="CBTProc"/> hook procedure.
+        /// For more information, see the CBTProc hook procedure.
         /// <see cref="WH_DEBUG"/>:
         /// Installs a hook procedure useful for debugging other hook procedures.
-        /// For more information, see the <see cref="DebugProc"/> hook procedure.
+        /// For more information, see the DebugProc hook procedure.
         /// <see cref="WH_FOREGROUNDIDLE"/>:
         /// Installs a hook procedure that will be called when the application's foreground thread is about to become idle.
         /// This hook is useful for performing low priority tasks during idle time.
-        /// For more information, see the <see cref="ForegroundIdleProc"/> hook procedure.
+        /// For more information, see the ForegroundIdleProc hook procedure.
         /// <see cref="WH_GETMESSAGE"/>:
         /// Installs a hook procedure that monitors messages posted to a message queue.
-        /// For more information, see the <see cref="GetMsgProc"/> hook procedure.
+        /// For more information, see the GetMsgProc hook procedure.
         /// <see cref="WH_JOURNALPLAYBACK"/>:
         /// Installs a hook procedure that posts messages previously recorded by a <see cref="WH_JOURNALRECORD"/> hook procedure.
-        /// For more information, see the <see cref="JournalPlaybackProc"/> hook procedure.
+        /// For more information, see the JournalPlaybackProc hook procedure.
         /// <see cref="WH_JOURNALRECORD"/>:
         /// Installs a hook procedure that records input messages posted to the system message queue.
         /// This hook is useful for recording macros.
-        /// For more information, see the <see cref="JournalRecordProc"/> hook procedure.
+        /// For more information, see the JournalRecordProc hook procedure.
         /// <see cref="WH_KEYBOARD"/>:
         /// Installs a hook procedure that monitors keystroke messages.
-        /// For more information, see the <see cref="KeyboardProc"/> hook procedure.
+        /// For more information, see the KeyboardProc hook procedure.
         /// <see cref="WH_KEYBOARD_LL"/>:
         /// Installs a hook procedure that monitors low-level keyboard input events.
-        /// For more information, see the <see cref="LowLevelKeyboardProc"/> hook procedure.
+        /// For more information, see the LowLevelKeyboardProc hook procedure.
         /// <see cref="WH_MOUSE"/>:
         /// Installs a hook procedure that monitors mouse messages.
-        /// For more information, see the <see cref="MouseProc"/> hook procedure.
+        /// For more information, see the MouseProc hook procedure.
         /// <see cref="WH_MOUSE_LL"/>:
         /// Installs a hook procedure that monitors low-level mouse input events.
-        /// For more information, see the <see cref="LowLevelMouseProc"/> hook procedure.
+        /// For more information, see the LowLevelMouseProc hook procedure.
         /// <see cref="WH_MSGFILTER"/>:
         /// Installs a hook procedure that monitors messages generated as a result of an input event in a dialog box, message box, menu, or scroll bar.
-        /// For more information, see the <see cref="MessageProc"/> hook procedure.
+        /// For more information, see the MessageProc hook procedure.
         /// <see cref="WH_SHELL"/>:
         /// Installs a hook procedure that receives notifications useful to shell applications.
-        /// For more information, see the <see cref="ShellProc"/> hook procedure.
+        /// For more information, see the ShellProc hook procedure.
         /// <see cref="WH_SYSMSGFILTER"/>:
         /// Installs a hook procedure that monitors messages generated as a result of an input event in a dialog box, message box, menu, or scroll bar.
         /// The hook procedure monitors these messages for all applications in the same desktop as the calling thread.
-        /// For more information, see the <see cref="SysMsgProc"/> hook procedure.
+        /// For more information, see the SysMsgProc hook procedure.
         /// </param>
         /// <param name="lpfn">
         /// A pointer to the hook procedure.
