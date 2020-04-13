@@ -98,7 +98,8 @@ namespace Lsj.Util.Win32.Enums
         /// This value cannot be combined with <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>.
         /// For example, if Lib2.dll is a dependency of C:\Dir1\Lib1.dll, loading Lib1.dll with this value
         /// causes the system to search for Lib2.dll only in C:\Dir1.
-        /// To search for Lib2.dll in C:\Dir1 and all of the directories in the DLL search path, combine this value with <see cref="LOAD_LIBRARY_DEFAULT_DIRS"/>.
+        /// To search for Lib2.dll in C:\Dir1 and all of the directories in the DLL search path,
+        /// combine this value with <see cref="LOAD_LIBRARY_SEARCH_DEFAULT_DIRS"/>.
         /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008: This value requires KB2533623 to be installed.
         /// Windows Server 2003 and Windows XP: This value is not supported.
         /// </summary>
@@ -131,7 +132,7 @@ namespace Lsj.Util.Win32.Enums
         /// If this value is not used, or if lpFileName does not specify a path,
         /// the system uses the standard search strategy discussed in the Remarks section to find associated executable modules
         /// that the specified module causes to be loaded.
-        /// This value cannot be combined with any <see cref="LOAD_LIBRARY_SEARCH"/> flag.
+        /// This value cannot be combined with any LOAD_LIBRARY_SEARCH flag.
         /// </summary>
         LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008,
     }

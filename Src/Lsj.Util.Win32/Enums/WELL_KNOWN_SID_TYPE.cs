@@ -1,4 +1,5 @@
 ﻿using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.LogonTypes;
 
 namespace Lsj.Util.Win32.Enums
 {

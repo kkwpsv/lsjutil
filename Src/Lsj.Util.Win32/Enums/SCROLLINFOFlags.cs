@@ -13,17 +13,17 @@ namespace Lsj.Util.Win32.Enums
     public enum SCROLLINFOFlags : uint
     {
         /// <summary>
-        /// The <see cref="nMin"/> and <see cref="nMax"/> members contain the minimum and maximum values for the scrolling range.
+        /// The <see cref="SCROLLINFO.nMin"/> and <see cref="SCROLLINFO.nMax"/> members contain the minimum and maximum values for the scrolling range.
         /// </summary>
         SIF_RANGE = 0x0001,
 
         /// <summary>
-        /// The <see cref="nPage"/> member contains the page size for a proportional scroll bar.
+        /// The <see cref="SCROLLINFO.nPage"/> member contains the page size for a proportional scroll bar.
         /// </summary>
         SIF_PAGE = 0x0002,
 
         /// <summary>
-        /// The <see cref="nPos"/> member contains the scroll box position, which is not updated while the user drags the scroll box.
+        /// The <see cref="SCROLLINFO.nPos"/> member contains the scroll box position, which is not updated while the user drags the scroll box.
         /// </summary>
         SIF_POS = 0x0004,
 
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Enums
         SIF_DISABLENOSCROLL = 0x0008,
 
         /// <summary>
-        /// The <see cref="nTrackPos"/> member contains the current position of the scroll box while the user is dragging it.
+        /// The <see cref="SCROLLINFO.nTrackPos"/> member contains the current position of the scroll box while the user is dragging it.
         /// </summary>
         SIF_TRACKPOS = 0x0010,
 

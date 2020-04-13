@@ -2793,8 +2793,8 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
         /// The directories that are listed in the PATH environment variable.
         /// The lpFileName parameter cannot contain wildcard characters.
-        /// The <see cref="OpenFile"/> function does not support the <see cref="OF_SEARCH"/> flag that the 16-bit Windows <see cref="OpenFile"/> function supports.
-        /// The <see cref="OF_SEARCH"/> flag directs the system to search for a matching file even when a file name includes a full path.
+        /// The <see cref="OpenFile"/> function does not support the OF_SEARCH flag that the 16-bit Windows <see cref="OpenFile"/> function supports.
+        /// The OF_SEARCH flag directs the system to search for a matching file even when a file name includes a full path.
         /// Use the <see cref="SearchPath"/> function to search for a file.
         /// A sharing violation occurs if an attempt is made to open a file or directory for deletion on a remote machine
         /// when the value of the <paramref name="uStyle"/> parameter is the <see cref="OF_DELETE"/> access flag OR'ed with any other access flag,

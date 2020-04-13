@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;

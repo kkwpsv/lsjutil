@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32

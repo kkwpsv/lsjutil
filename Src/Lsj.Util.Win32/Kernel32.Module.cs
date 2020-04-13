@@ -646,15 +646,15 @@ namespace Lsj.Util.Win32
         /// For a list of directories and the order in which they are searched, see Dynamic-Link Library Search Order.
         /// The <see cref="LoadLibraryEx"/> function uses the standard search path in the following cases:
         /// The file name is specified without a path and the base file name does not match the base file name of a loaded module,
-        /// and none of the <see cref="LOAD_LIBRARY_SEARCH"/> flags are used.
+        /// and none of the LOAD_LIBRARY_SEARCH flags are used.
         /// A path is specified but <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> is not used.
         /// The application has not specified a default DLL search path for the process using <see cref="SetDefaultDllDirectories"/>.
         /// If <paramref name="lpLibFileName"/> specifies a relative path, the entire relative path is appended to every token in the DLL search path.
         /// To load a module from a relative path without searching any other path, use <see cref="GetFullPathName"/> to get a nonrelative path
         /// and call <see cref="LoadLibraryEx"/> with the nonrelative path.
         /// If the module is being loaded as a datafile and the relative path starts with "." or "..", the relative path is treated as an absolute path.
-        /// If <paramref name="lpFileName"/> specifies an absolute path and <paramref name="dwFlags"/> is set to <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>,
-        /// <see cref="LoadLibraryEx"/> uses the altered search path.
+        /// If <paramref name="lpLibFileName"/> specifies an absolute path and <paramref name="dwFlags"/>
+        /// is set to <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>, <see cref="LoadLibraryEx"/> uses the altered search path.
         /// The behavior is undefined when <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> flag is set,
         /// and <paramref name="lpLibFileName"/> specifiies a relative path.
         /// The <see cref="SetDllDirectory"/> function can be used to modify the search path.
@@ -664,7 +664,7 @@ namespace Lsj.Util.Win32
         /// If possible, it is best to use <see cref="AddDllDirectory"/> to modify a default process search path.
         /// For more information, see Dynamic-Link Library Search Order.
         /// An application can specify the directories to search for a single <see cref="LoadLibraryEx"/> call by using the LOAD_LIBRARY_SEARCH_* flags.
-        /// If more than one <see cref="LOAD_LIBRARY_SEARCH"/> flag is specified, the directories are searched in the following order:
+        /// If more than one LOAD_LIBRARY_SEARCH flag is specified, the directories are searched in the following order:
         /// The directory that contains the DLL (<see cref="LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR"/>).
         /// This directory is searched only for dependencies of the DLL to be loaded.
         /// The application directory (<see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>).
@@ -673,7 +673,7 @@ namespace Lsj.Util.Win32
         /// If more than one path has been added, the order in which the paths are searched is unspecified.
         /// The System32 directory (<see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>).
         /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
-        /// The <see cref="LOAD_LIBRARY_SEARCH_"/> flags are available on systems that have KB2533623 installed.
+        /// The LOAD_LIBRARY_SEARCH_ flags are available on systems that have KB2533623 installed.
         /// To determine whether the flags are available, use <see cref="GetProcAddress"/> to get the address of
         /// the <see cref="AddDllDirectory"/>, <see cref="RemoveDllDirectory"/>, or <see cref="SetDefaultDllDirectories"/> function.
         /// If <see cref="GetProcAddress"/> succeeds, the LOAD_LIBRARY_SEARCH_ flags can be used with <see cref="LoadLibraryEx"/>.
