@@ -9,10 +9,11 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.Compression;
 using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RasterOps;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
-using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
