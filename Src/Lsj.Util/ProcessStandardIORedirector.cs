@@ -74,6 +74,13 @@ namespace Lsj.Util
         }
 
         /// <summary>
+        /// Write Line To Standard Input
+        /// </summary>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        public async Task WriteLine(object o) => await WriteLine(o.ToString());
+
+        /// <summary>
         /// Read Line To Standard Ouput
         /// </summary>
         /// <returns></returns>
