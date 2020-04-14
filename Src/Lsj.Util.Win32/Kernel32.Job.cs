@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.JobAccessRights;
 
 namespace Lsj.Util.Win32
 {
