@@ -1,14 +1,15 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
 using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
-using Lsj.Util.Win32.Enums;
 
 namespace Lsj.Util.Win32
 {
