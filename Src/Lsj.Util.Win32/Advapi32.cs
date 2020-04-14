@@ -940,6 +940,51 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ImpersonateLoggedOnUser"/> function lets the calling thread impersonate the security context of a logged-on user.
+        /// The user is represented by a token handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser
+        /// </para>
+        /// </summary>
+        /// <param name="hToken">
+        /// A handle to a primary or impersonation access token that represents a logged-on user.
+        /// This can be a token handle returned by a call to <see cref="LogonUser"/>, <see cref="CreateRestrictedToken"/>,
+        /// <see cref="DuplicateToken"/>, <see cref="DuplicateTokenEx"/>, <see cref="OpenProcessToken"/>, or <see cref="OpenThreadToken"/> functions.
+        /// If <paramref name="hToken"/> is a handle to a primary token, the token must
+        /// have <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_DUPLICATE"/> access.
+        /// If <paramref name="hToken"/> is a handle to an impersonation token,
+        /// the token must have <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/> access.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The impersonation lasts until the thread exits or until it calls <see cref="RevertToSelf"/>.
+        /// The calling thread does not need to have any particular privileges to call <see cref="ImpersonateLoggedOnUser"/>.
+        /// If the call to <see cref="ImpersonateLoggedOnUser"/> fails, the client connection is not impersonated
+        /// and the client request is made in the security context of the process.
+        /// If the process is running as a highly privileged account, such as LocalSystem, or as a member of an administrative group,
+        /// the user may be able to perform actions they would otherwise be disallowed.
+        /// Therefore, it is important to always check the return value of the call, and if it fails, raise an error;
+        /// do not continue execution of the client request.
+        /// All impersonate functions, including <see cref="ImpersonateLoggedOnUser"/> allow the requested impersonation if one of the following is true:
+        /// The requested impersonation level of the token is less than <see cref="SecurityImpersonation"/>,
+        /// such as <see cref="SecurityIdentification"/> or <see cref="SecurityAnonymous"/>.
+        /// The caller has the SeImpersonatePrivilege privilege.
+        /// A process (or another process in the caller's logon session) created the token using explicit credentials
+        /// through <see cref="LogonUser"/> or <see cref="LsaLogonUser"/> function.
+        /// The authenticated identity is same as the caller.
+        /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
+        /// For more information about impersonation, see Client Impersonation.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateLoggedOnUser", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateLoggedOnUser([In]HANDLE hToken);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LogonUser"/> function attempts to log a user on to the local computer.
         /// The local computer is the computer from which LogonUser was called.
         /// You cannot use <see cref="LogonUser"/> to log on to a remote computer.
