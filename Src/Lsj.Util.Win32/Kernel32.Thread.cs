@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpContext">
         /// A pointer to a <see cref="CONTEXT"/> structure that receives the appropriate context of the specified thread.
-        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
+        /// The value of the <see cref="CONTEXT.ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
         /// The <see cref="CONTEXT"/> structure is highly processor specific.
         /// Refer to the WinNT.h header file for processor-specific definitions of this structures and any alignment requirements.
         /// </param>
@@ -536,7 +536,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// This function is used to retrieve the thread context of the specified thread.
-        /// The function retrieves a selective context based on the value of the <see cref="ContextFlags"/> member of the context structure. 
+        /// The function retrieves a selective context based on the value
+        /// of the <see cref="CONTEXT.ContextFlags"/> member of the <see cref="CONTEXT"/> structure. 
         /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
         /// but the function can also operate when the thread is not being debugged.
         /// You cannot get a valid context for a running thread.
@@ -844,7 +845,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpContext">
         /// A pointer to a <see cref="CONTEXT"/> structure that contains the context to be set in the specified thread.
-        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
+        /// The value of the <see cref="CONTEXT.ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
         /// Some values in the <see cref="CONTEXT"/> structure that cannot be specified are silently set to the correct value.
         /// This includes bits in the CPU status register that specify the privileged processor mode, global enabling bits in the debugging register,
         /// and other states that must be controlled by the operating system.
@@ -855,7 +856,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// The function sets the thread context based on the value of the <see cref="ContextFlags"/> member of the context structure.
+        /// The function sets the thread context based on the value of the <see cref="CONTEXT.ContextFlags"/> member of the <see cref="CONTEXT"/> structure.
         /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
         /// but the function can also operate even when the thread is not being debugged.
         /// Do not try to set the context for a running thread; the results are unpredictable.
