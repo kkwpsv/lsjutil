@@ -352,7 +352,8 @@ namespace Lsj.Util.Win32
         /// The calling process must have <see cref="WINSTA_READATTRIBUTES"/> access to the window station.
         /// The input desktop must be the current desktop when you call <see cref="GetCursorPos"/>.
         /// Call <see cref="OpenInputDesktop"/> to determine whether the current desktop is the input desktop.
-        /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/> returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
+        /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/>
+        /// returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCursorPos([Out]out POINT lpPoint);

@@ -574,8 +574,8 @@ namespace Lsj.Util.Win32
         /// The following table shows the type of information the buffer receives for each type of graphics object you can specify with hgdiobj.
         /// <see cref="HBITMAP"/>: <see cref="BITMAP"/>
         /// <see cref="HBITMAP"/> returned from a call to <see cref="CreateDIBSection"/>:
-        /// <see cref="DIBSECTION"/>, if <see cref="DIBSECTION.cbBuffer"/> is set to <code>sizeof (DIBSECTION)</code>,
-        /// or <see cref="BITMAP"/>, if cbBuffer is set to <code>sizeof (BITMAP)</code>.
+        /// <see cref="DIBSECTION"/>, if <paramref name="c"/> is set to <code>sizeof (DIBSECTION)</code>,
+        /// or <see cref="BITMAP"/>, if <paramref name="c"/> is set to <code>sizeof (BITMAP)</code>.
         /// <see cref="HPALETTE"/>:
         /// A <see cref="WORD"/> count of the number of entries in the logical palette
         /// <see cref="HPEN"/> returned from a call to <see cref="ExtCreatePen"/>: <see cref="EXTLOGPEN"/>

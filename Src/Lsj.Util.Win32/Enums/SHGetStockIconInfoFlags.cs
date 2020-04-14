@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.Enums
         SHGSI_ICON = 0x000000100,
 
         /// <summary>
-        /// The <see cref="SHSTOCKICONINFO.iSysImageImage"/> member of the <see cref="SHSTOCKICONINFO"/> structure
+        /// The <see cref="SHSTOCKICONINFO.iSysImageIndex"/> member of the <see cref="SHSTOCKICONINFO"/> structure
         /// receives the index of the specified icon in the system imagelist.
         /// </summary>
         SHGSI_SYSICONINDEX = 0x000004000,

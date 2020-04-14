@@ -51,6 +51,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };
 
         /// <summary>
+        /// DATA_S_SAMEFORMATETC
+        /// </summary>
+        public static readonly HRESULT DATA_S_SAMEFORMATETC = new HRESULT { _value = 0x00040130 };
+
+        /// <summary>
         /// DV_E_CLIPFORMAT
         /// </summary>
         public static readonly HRESULT DV_E_CLIPFORMAT = new HRESULT { _value = unchecked((int)0x8004006A) };
@@ -121,6 +126,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT E_UNEXPECTED = new HRESULT { _value = unchecked((int)0x8000FFFF) };
 
         /// <summary>
+        /// E_UNSPEC
+        /// </summary>
+        public static readonly HRESULT E_UNSPEC = E_FAIL;
+
+        /// <summary>
         /// MK_E_NOOBJECT
         /// </summary>
         public static readonly HRESULT MK_E_NOOBJECT = new HRESULT { _value = unchecked((int)0x800401E5) };
@@ -144,6 +154,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// MK_E_NEEDGENERIC
         /// </summary>
         public static readonly HRESULT MK_E_NEEDGENERIC = new HRESULT { _value = unchecked((int)0x800401E2) };
+
+        /// <summary>
+        /// MK_E_NOINVERSE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOINVERSE = new HRESULT { _value = unchecked((int)0x800401EC) };
 
         /// <summary>
         /// MK_E_MUSTBOTHERUSER
@@ -209,6 +224,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// OLEOBJ_S_INVALIDVERB
         /// </summary>
         public static readonly HRESULT OLEOBJ_S_INVALIDVERB = new HRESULT { _value = unchecked((int)0x80040180) };
+
+        /// <summary>
+        /// OLE_E_ADVISENOTSUPPORTED
+        /// </summary>
+        public static readonly HRESULT OLE_E_ADVISENOTSUPPORTED = new HRESULT { _value = unchecked((int)0x80040003) };
 
         /// <summary>
         /// OLE_E_BLANK

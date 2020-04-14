@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;

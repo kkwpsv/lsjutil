@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CFERR_NOFONTS"/>, <see cref="CDERR_MEMLOCKFAILURE"/>
         /// </returns>
         /// <remarks>
-        /// You can provide a <see cref="CFHookProc"/> hook procedure for a Font dialog box.
+        /// You can provide a <see cref="LPCFHOOKPROC"/> hook procedure for a Font dialog box.
         /// The hook procedure can process messages sent to the dialog box.
         /// To enable a hook procedure, set the <see cref="CF_ENABLEHOOK"/> flag in the <see cref="CHOOSEFONT.Flags"/> member
         /// of the <see cref="CHOOSEFONT"/> structure and specify the address of the hook procedure in the lpfnHook member.
