@@ -257,6 +257,9 @@ namespace Lsj.Util.Win32.Structs
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         public struct UnionStruct
         {
+            /// <summary>
+            /// 
+            /// </summary>
             [FieldOffset(0)]
             public XMM_SAVE_AREA32 FltSave;
 

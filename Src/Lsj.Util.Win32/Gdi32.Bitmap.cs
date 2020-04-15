@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.GDIEscapes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
+using static Lsj.Util.Win32.Enums.RasterCapabilities;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RasterOps;
 using static Lsj.Util.Win32.Enums.StretchBltModes;

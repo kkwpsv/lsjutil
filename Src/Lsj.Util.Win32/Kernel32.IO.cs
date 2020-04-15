@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -452,7 +453,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
         /// <see cref="GetLastError"/> returns <see cref="ERROR_IO_INCOMPLETE"/>.
         /// If <paramref name="dwMilliseconds"/> is nonzero, and an I/O completion routine or APC is queued,
-        /// GetLastError returns <see cref="WAIT_IO_COMPLETION"/>.
+        /// <see cref="GetLastError"/> returns <see cref="WAIT_IO_COMPLETION"/>.
         /// If <paramref name="dwMilliseconds"/> is nonzero and the specified timeout interval elapses,
         /// <see cref="GetLastError"/> returns <see cref="WAIT_TIMEOUT"/>.
         /// </returns>

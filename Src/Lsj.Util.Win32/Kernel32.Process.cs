@@ -9,6 +9,9 @@ using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
@@ -1399,7 +1402,7 @@ namespace Lsj.Util.Win32
         /// A process can update only the attribute keys described in this topic.
         /// The DWORD or DWORD64 pointed to by <paramref name="lpValue"/> can be one or more of the following values
         /// when you specify <see cref="PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY"/> for the <paramref name="Attribute"/> parameter:
-        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE "/>:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE"/>:
         /// Enables data execution prevention (DEP) for the child process. For more information, see Data Execution Prevention.
         /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ATL_THUNK_ENABLE "/>:
         /// Enables DEP-ATL thunk emulation for the child process.

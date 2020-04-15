@@ -267,8 +267,8 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
         /// Return code	Description
-        /// <see cref="S_OK"/>:  Indicates success.
-        /// <see cref="RPC_E_TOO_LATE"/>:  <see cref="CoInitializeSecurity"/> has already been called.
+        /// <see cref="S_OK"/>: Indicates success.
+        /// <see cref="RPC_E_TOO_LATE"/>: <see cref="CoInitializeSecurity"/> has already been called.
         /// <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/>:
         /// The <paramref name="asAuthSvc"/> parameter was not <see langword="null"/>, and none of the authentication services in the list could be registered.
         /// Check the results saved in <paramref name="asAuthSvc"/> for authentication service–specific error codes.

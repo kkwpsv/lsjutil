@@ -276,6 +276,21 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
 
         /// <summary>
+        /// RPC_E_CHANGED_MODE
+        /// </summary>
+        public static readonly HRESULT RPC_E_CHANGED_MODE = new HRESULT { _value = unchecked((int)0x80010106) };
+
+        /// <summary>
+        /// RPC_E_NO_GOOD_SECURITY_PACKAGES
+        /// </summary>
+        public static readonly HRESULT RPC_E_NO_GOOD_SECURITY_PACKAGES = new HRESULT { _value = unchecked((int)0x8001011A) };
+
+        /// <summary>
+        /// RPC_E_TOO_LATE
+        /// </summary>
+        public static readonly HRESULT RPC_E_TOO_LATE = new HRESULT { _value = unchecked((int)0x80010119) };
+
+        /// <summary>
         /// STG_E_ACCESSDENIED
         /// </summary>
         public static readonly HRESULT STG_E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80030005) };
