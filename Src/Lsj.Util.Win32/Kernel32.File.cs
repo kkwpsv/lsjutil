@@ -2469,6 +2469,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a bitmask representing the currently available disk drives.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlogicaldrives
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a bitmask representing the currently available disk drives.
+        /// Bit position 0 (the least-significant bit) is drive A, bit position 1 is drive B, bit position 2 is drive C, and so on.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDrives", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLogicalDrives();
+
+        /// <summary>
+        /// <para>
         /// Creates a name for a temporary file.
         /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
         /// </para>
