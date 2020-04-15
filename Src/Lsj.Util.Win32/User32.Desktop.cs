@@ -462,5 +462,44 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenDesktopW", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK OpenDesktop([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]DWORD dwFlags,
             [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// Opens the desktop that receives user input.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openinputdesktop
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// This parameter can be zero or the following value.
+        /// <see cref="DF_ALLOWOTHERACCOUNTHOOK"/>: Allows processes running in other accounts on the desktop to set hooks in this process.
+        /// </param>
+        /// <param name="fInherit">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the desktop. For a list of access rights, see Desktop Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the desktop that receives user input.
+        /// When you are finished using the handle, call the <see cref="CloseDesktop"/> function to close it.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The calling process must have an associated window station, either assigned by the system when the process is created,
+        /// or set by the <see cref="SetProcessWindowStation"/> function.
+        /// The window station associated with the calling process must be capable of receiving input.
+        /// If the calling process is running in a disconnected session, the function returns a handle to the desktop
+        /// that becomes active when the user restores the connection.
+        /// An application can use the <see cref="SwitchDesktop"/> function to change the input desktop.
+        /// If the <paramref name="dwDesiredAccess"/> parameter specifies the <see cref="READ_CONTROL"/>,
+        /// <see cref="WRITE_DAC"/>, or <see cref="WRITE_OWNER"/> standard access rights,
+        /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenInputDesktop", ExactSpelling = true, SetLastError = true)]
+        public static extern HDESK OpenInputDesktop([In]DWORD dwFlags, [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
     }
 }
