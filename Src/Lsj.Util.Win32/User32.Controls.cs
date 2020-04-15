@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.LONG;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ButtonControlMessages;
 using static Lsj.Util.Win32.Enums.ButtonStates;
