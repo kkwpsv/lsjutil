@@ -3,8 +3,8 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.PenStyles;
 using static Lsj.Util.Win32.Enums.BrushStyles;
+using static Lsj.Util.Win32.Enums.PenStyles;
 
 namespace Lsj.Util.Win32
 {
