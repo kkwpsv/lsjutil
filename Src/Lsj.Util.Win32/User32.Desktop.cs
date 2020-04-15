@@ -4,6 +4,8 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DesktopAccessRights;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GetUserObjectInformationIndexes;
@@ -418,5 +420,47 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetUserObjectInformation([In]IntPtr hObj, [In]GetUserObjectInformationIndexes nIndex, [In]IntPtr pvInfo,
             [In]uint nLength, [Out]out uint lpnLengthNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Opens the specified desktop object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-opendesktopw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszDesktop">
+        /// The name of the desktop to be opened. Desktop names are case-insensitive.
+        /// This desktop must belong to the current window station.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be zero or the following value.
+        /// <see cref="DF_ALLOWOTHERACCOUNTHOOK"/>:
+        /// Allows processes running in other accounts on the desktop to set hooks in this process.
+        /// </param>
+        /// <param name="fInherit">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the desktop.
+        /// For a list of access rights, see Desktop Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the opened desktop.
+        /// When you are finished using the handle, call the <see cref="CloseDesktop"/> function to close it.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The calling process must have an associated window station,
+        /// either assigned by the system at process creation time or set by the <see cref="SetProcessWindowStation"/> function.
+        /// If the <paramref name="dwDesiredAccess"/> parameter specifies the <see cref="READ_CONTROL"/>,
+        /// <see cref="WRITE_DAC"/>, or <see cref="WRITE_OWNER"/> standard access rights,
+        /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenDesktopW", ExactSpelling = true, SetLastError = true)]
+        public static extern HDESK OpenDesktop([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]DWORD dwFlags,
+            [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
     }
 }
