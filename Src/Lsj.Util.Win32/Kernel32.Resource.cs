@@ -72,6 +72,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines the location of the resource with the specified type, name, and language in the specified module.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-findresourceexa
+        /// </para>
+        /// </summary>
+        /// <param name="hModule">
+        /// A handle to the module whose portable executable file or an accompanying MUI file contains the resource.
+        /// If this parameter is <see cref="NULL"/>, the function searches the module used to create the current process.
+        /// </param>
+        /// <param name="lpType">
+        /// The resource type.
+        /// Alternately, rather than a pointer, this parameter can be <code>MAKEINTRESOURCE(ID)</code>,
+        /// where ID is the integer identifier of the given resource type.
+        /// For standard resource types, see Resource Types.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the resource. Alternately, rather than a pointer, this parameter can be <code>MAKEINTRESOURCE(ID)</code>,
+        /// where ID is the integer identifier of the resource.
+        /// For more information, see the Remarks section below.
+        /// </param>
+        /// <param name="wLanguage">
+        /// The language of the resource.
+        /// If this parameter is MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL), the current language associated with the calling thread is used.
+        /// To specify a language other than the current language, use the <see cref="MAKELANGID"/> macro to create this parameter.
+        /// For more information, see <see cref="MAKELANGID"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the specified resource's information block.
+        /// To obtain a handle to the resource, pass this handle to the <see cref="LoadResource"/> function.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindResourceExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HRSRC FindResourceEx([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][In]string lpType,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]WORD wLanguage);
+
+        /// <summary>
+        /// <para>
         /// Decrements (decreases by one) the reference count of a loaded resource.
         /// When the reference count reaches zero, the memory occupied by the resource is freed.
         /// </para>
