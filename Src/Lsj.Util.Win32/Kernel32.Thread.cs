@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -390,6 +391,32 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitThread([In]uint dwExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
+        /// Each fiber has its own slot for each FLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsgetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlsIndex">
+        /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value stored in the calling fiber's FLS slot associated with the specified index.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
+        /// After an FLS index is allocated, each fiber of the process can use it to access its own FLS slot for that index.
+        /// A fiber specifies an FLS index in a call to FlsSetValue to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="FlsSetValue"/> to retrieve the stored value.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsGetValue", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID FlsGetValue([In]DWORD dwFlsIndex);
 
         /// <summary>
         /// <para>
