@@ -1,6 +1,8 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.BorderStyles;
 using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
 using static Lsj.Util.Win32.Enums.StaticControlNotifications;
+using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;
