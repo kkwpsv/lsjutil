@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HWND;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BorderFlags;
+using static Lsj.Util.Win32.Enums.BorderStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
@@ -85,6 +87,70 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClientToScreen", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ClientToScreen([In]HWND hWnd, [In][Out]ref POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DrawEdge"/> function draws one or more edges of rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawedge
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="qrc">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the rectangle.
+        /// </param>
+        /// <param name="edge">
+        /// The type of inner and outer edges to draw.
+        /// This parameter must be a combination of one inner-border flag and one outer-border flag.
+        /// The inner-border flags are as follows.
+        /// <see cref="BDR_RAISEDINNER"/>: Raised inner edge.
+        /// <see cref="BDR_SUNKENINNER"/>: Sunken inner edge.
+        /// The outer-border flags are as follows.
+        /// <see cref="BDR_RAISEDOUTER"/>: Raised outer edge.
+        /// <see cref="BDR_SUNKENOUTER"/>: Sunken outer edge.
+        /// Alternatively, the <paramref name="edge"/> parameter can specify one of the following flags.
+        /// <see cref="EDGE_BUMP"/>: Combination of <see cref="BDR_RAISEDOUTER"/> and <see cref="BDR_SUNKENINNER"/>.
+        /// <see cref="EDGE_ETCHED"/>: Combination of <see cref="BDR_SUNKENOUTER"/> and <see cref="BDR_RAISEDINNER"/>.
+        /// <see cref="EDGE_RAISED"/>: Combination of <see cref="BDR_RAISEDOUTER"/> and <see cref="BDR_RAISEDINNER"/>.
+        /// <see cref="EDGE_SUNKEN"/>: Combination of <see cref="BDR_SUNKENOUTER"/> and <see cref="BDR_SUNKENINNER"/>.
+        /// </param>
+        /// <param name="grfFlags">
+        /// The type of border. This parameter can be a combination of the following values.
+        /// <see cref="BF_ADJUST"/>:
+        /// If this flag is passed, shrink the rectangle pointed to by the qrc parameter to exclude the edges that were drawn.
+        /// If this flag is not passed, then do not change the rectangle pointed to by the <paramref name="qrc"/> parameter.
+        /// <see cref="BF_BOTTOM"/>: Bottom of border rectangle.
+        /// <see cref="BF_BOTTOMLEFT"/>: Bottom and left side of border rectangle.
+        /// <see cref="BF_BOTTOMRIGHT"/>: Bottom and right side of border rectangle.
+        /// <see cref="BF_DIAGONAL"/>: Diagonal border.
+        /// <see cref="BF_DIAGONAL_ENDBOTTOMLEFT"/>:
+        /// Diagonal border. The end point is the lower-left corner of the rectangle; the origin is top-right corner.
+        /// <see cref="BF_DIAGONAL_ENDBOTTOMRIGHT"/>:
+        /// Diagonal border. The end point is the lower-right corner of the rectangle; the origin is top-left corner.
+        /// <see cref="BF_DIAGONAL_ENDTOPLEFT"/>:
+        /// Diagonal border. The end point is the top-left corner of the rectangle; the origin is lower-right corner.
+        /// <see cref="BF_DIAGONAL_ENDTOPRIGHT"/>:
+        /// Diagonal border. The end point is the top-right corner of the rectangle; the origin is lower-left corner.
+        /// <see cref="BF_FLAT"/>: Flat border.
+        /// <see cref="BF_LEFT"/>: Left side of border rectangle.
+        /// <see cref="BF_MIDDLE"/>: Interior of rectangle to be filled.
+        /// <see cref="BF_MONO"/>: One-dimensional border.
+        /// <see cref="BF_RECT"/>: Entire border rectangle.
+        /// <see cref="BF_RIGHT"/>: Right side of border rectangle.
+        /// <see cref="BF_SOFT"/>: Soft buttons instead of tiles.
+        /// <see cref="BF_TOP"/>: Top of border rectangle.
+        /// <see cref="BF_TOPLEFT"/>: Top and left side of border rectangle.
+        /// <see cref="BF_TOPRIGHT"/>: Top and right side of border rectangle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEdge", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DrawEdge([In]HDC hdc, [In]in RECT qrc, [In]BorderStyles edge, [In]BorderFlags grfFlags);
 
         /// <summary>
         /// <para>
