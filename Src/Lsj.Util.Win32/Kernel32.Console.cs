@@ -1,7 +1,9 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
@@ -251,5 +253,65 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetStdHandle([In]uint nStdHandle);
+
+        /// <summary>
+        /// <para>
+        /// Writes a character string to a console screen buffer beginning at the current cursor location.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsole
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that contains characters to be written to the console screen buffer.
+        /// </param>
+        /// <param name="nNumberOfCharsToWrite">
+        /// The number of characters to be written.
+        /// If the total size of the specified number of characters exceeds the available heap,
+        /// the function fails with <see cref="ERROR_NOT_ENOUGH_MEMORY"/>.
+        /// </param>
+        /// <param name="lpNumberOfCharsWritten">
+        /// A pointer to a variable that receives the number of characters actually written.
+        /// </param>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WriteConsole"/> function writes characters to the console screen buffer at the current cursor position.
+        /// The cursor position advances as characters are written.
+        /// The <see cref="SetConsoleCursorPosition"/> function sets the current cursor position.
+        /// Characters are written using the foreground and background color attributes associated with the console screen buffer.
+        /// The <see cref="SetConsoleTextAttribute"/> function changes these colors.
+        /// To determine the current color attributes and the current cursor position, use <see cref="GetConsoleScreenBufferInfo"/>.
+        /// All of the input modes that affect the behavior of the <see cref="WriteFile"/> function have the same effect on <see cref="WriteConsole"/>.
+        /// To retrieve and set the output modes of a console screen buffer, use the <see cref="GetConsoleMode"/> and <see cref="SetConsoleMode"/> functions.
+        /// The <see cref="WriteConsole"/> function uses either Unicode characters or ANSI characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// <see cref="WriteConsole"/> fails if it is used with a standard handle that is redirected to a file.
+        /// If an application processes multilingual output that can be redirected, determine whether the output handle is a console handle
+        /// (one method is to call the <see cref="GetConsoleMode"/> function and check whether it succeeds).
+        /// If the handle is a console handle, call WriteConsole. If the handle is not a console handle,
+        /// the output is redirected and you should call <see cref="WriteFile"/> to perform the I/O.
+        /// Be sure to prefix a Unicode plain text file with a byte order mark.
+        /// For more information, see Using Byte Order Marks.
+        /// Although an application can use <see cref="WriteConsole"/> in ANSI mode to write ANSI characters, consoles do not support ANSI escape sequences.
+        /// However, some functions provide equivalent functionality.
+        /// For more information, see <see cref="SetCursorPos"/>, <see cref="SetConsoleTextAttribute"/>, and <see cref="GetConsoleCursorInfo"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsole([In]HANDLE hConsoleOutput, [In]IntPtr lpBuffer, [In]DWORD nNumberOfCharsToWrite,
+            [Out]out DWORD lpNumberOfCharsWritten, [In]LPVOID lpReserved);
     }
 }
