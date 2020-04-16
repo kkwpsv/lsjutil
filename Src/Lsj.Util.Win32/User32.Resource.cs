@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
