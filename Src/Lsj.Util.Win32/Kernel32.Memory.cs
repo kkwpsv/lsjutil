@@ -12,7 +12,9 @@ using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -1447,5 +1449,49 @@ namespace Lsj.Util.Win32
         /// </summary>
         [Obsolete]
         public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
+
+        /// <summary>
+        /// <para>
+        /// Writes data to an area of memory in a specified process. The entire area to be written to must be accessible or the operation fails.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process memory to be modified.
+        /// The handle must have <see cref="PROCESS_VM_WRITE"/> and <see cref="PROCESS_VM_OPERATION"/> access to the process.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address in the specified process to which data is written.
+        /// Before data transfer occurs, the system verifies that all data in the base address and memory of the specified size
+        /// is accessible for write access, and if it is not accessible, the function fails.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer that contains data to be written in the address space of the specified process.
+        /// </param>
+        /// <param name="nSize">
+        /// The number of bytes to be written to the specified process.
+        /// </param>
+        /// <param name="lpNumberOfBytesWritten">
+        /// A pointer to a variable that receives the number of bytes transferred into the specified process.
+        /// This parameter is optional. If <paramref name="lpNumberOfBytesWritten"/> is <see cref="NullRef{SIZE_T}"/>, the parameter is ignored.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails if the requested write operation crosses into an area of the process that is inaccessible.
+        /// </returns>
+        /// <remarks>
+        /// WriteProcessMemory copies the data from the specified buffer in the current process to the address range of the specified process.
+        /// Any process that has a handle with <see cref="PROCESS_VM_WRITE"/> and <see cref="PROCESS_VM_OPERATION"/> access to the process
+        /// to be written to can call the function.
+        /// Typically but not always, the process with address space that is being written to is being debugged.
+        /// The entire area to be written to must be accessible, and if it is not accessible, the function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteProcessMemory", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteProcessMemory([In]HANDLE hProcess, [In]LPVOID lpBaseAddress, [In]LPCVOID lpBuffer,
+            [In]SIZE_T nSize, [Out]out SIZE_T lpNumberOfBytesWritten);
     }
 }
