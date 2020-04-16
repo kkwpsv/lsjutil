@@ -71,6 +71,16 @@
         public const string IID_IOleObject = "00000112-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPersist
+        /// </summary>
+        public const string IID_IPersist = "0000010c-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IPersistStream
+        /// </summary>
+        public const string IID_IPersistStream = "00000109-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IPropertySetStorage
         /// </summary>
         public const string IID_IPropertySetStorage = "0000013A-0000-0000-C000-000000000046";

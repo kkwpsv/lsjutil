@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="fClearDirty"></param>
         /// <returns></returns>
         [PreserveSig]
-        new HRESULT Save([In]IStream pStm, [MarshalAs(UnmanagedType.Bool)][In]bool fClearDirty);
+        new HRESULT Save([In]IStream pStm, [In]BOOL fClearDirty);
 
         /// <summary>
         /// From <see cref="IPersistStream"/>, just make COM happy.
@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <param name="pcbSize"></param>
         /// <returns></returns>
         [PreserveSig]
-        new HRESULT GetSizeMax([Out]out long pcbSize);
+        new HRESULT GetSizeMax([Out]out ULARGE_INTEGER pcbSize);
 
         /// <summary>
         /// Binds to the specified object.
