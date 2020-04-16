@@ -66,6 +66,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method returns <see cref="CLSID_StdURLMoniker"/>.
         /// </remarks>
         [PreserveSig]
-        new HRESULT GetClassID([Out]out Guid pClassID);
+        HRESULT GetClassID([Out]out Guid pClassID);
     }
 }
