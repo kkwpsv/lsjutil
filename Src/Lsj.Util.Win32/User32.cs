@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
 using static Lsj.Util.Win32.Enums.MessageBoxFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.SystemShutdownReasonCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
@@ -1108,7 +1109,8 @@ namespace Lsj.Util.Win32
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam, [In]PVOID pvParam, [In]UINT fWinIni);
+        public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam,
+            [In]PVOID pvParam, [In]SystemParametersInfoFlags fWinIni);
 
         /// <summary>
         /// <para>
