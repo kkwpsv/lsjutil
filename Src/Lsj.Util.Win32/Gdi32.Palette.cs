@@ -3,6 +3,12 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DeviceCapIndexes;
+using static Lsj.Util.Win32.Enums.SystemPaletteStates;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -36,7 +42,7 @@ namespace Lsj.Util.Win32
         /// An application can determine whether a device supports palette operations by calling the <see cref="GetDeviceCaps"/> function
         /// and specifying the <see cref="RASTERCAPS"/> constant.
         /// The <see cref="AnimatePalette"/> function only changes entries with the <see cref="PC_RESERVED"/> flag set
-        /// in the corresponding <see cref="palPalEntry"/> member of the <see cref="LOGPALETTE"/> structure.
+        /// in the corresponding <see cref="LOGPALETTE.palPalEntry"/> member of the <see cref="LOGPALETTE"/> structure.
         /// If the given palette is associated with the active window, the colors in the palette are replaced immediately.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimatePalette", ExactSpelling = true, SetLastError = true)]

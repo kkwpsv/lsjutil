@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -9,10 +10,11 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A 4-bit reserved value.
     /// An 11-bit code, also known as a facility code, that indicates responsibility for the error or warning.
     /// A 16-bit code that describes the error or warning.
-    /// For details on HRESULT values, see [MS-ERREF].
+    /// For details on <see cref="HRESULT"/> values, see [MS-ERREF].
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/learnwin32/error-handling-in-com
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -39,19 +41,279 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CACHE_S_SOMECACHES_NOTUPDATED = new HRESULT { _value = 0x00040172 };
 
         /// <summary>
-        /// E_OUTOFMEMORY
+        /// CLASS_E_NOAGGREGATION
         /// </summary>
-        public static readonly HRESULT E_OUTOFMEMORY = new HRESULT { _value = unchecked((int)0x8007000E) };
+        public static readonly HRESULT CLASS_E_NOAGGREGATION = new HRESULT { _value = unchecked((int)0x80040110) };
 
         /// <summary>
-        /// E_INVALIDARG
+        /// CO_E_NOTINITIALIZED
+        /// </summary>
+        public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };
+
+        /// <summary>
+        /// DATA_S_SAMEFORMATETC
+        /// </summary>
+        public static readonly HRESULT DATA_S_SAMEFORMATETC = new HRESULT { _value = 0x00040130 };
+
+        /// <summary>
+        /// DV_E_CLIPFORMAT
+        /// </summary>
+        public static readonly HRESULT DV_E_CLIPFORMAT = new HRESULT { _value = unchecked((int)0x8004006A) };
+
+        /// <summary>
+        /// DV_E_DVASPECT
+        /// </summary>
+        public static readonly HRESULT DV_E_DVASPECT = new HRESULT { _value = unchecked((int)0x8004006B) };
+
+        /// <summary>
+        /// DV_E_DVTARGETDEVICE
+        /// </summary>
+        public static readonly HRESULT DV_E_DVTARGETDEVICE = new HRESULT { _value = unchecked((int)0x80040065) };
+
+        /// <summary>
+        /// DV_E_FORMATETC
+        /// </summary>
+        public static readonly HRESULT DV_E_FORMATETC = new HRESULT { _value = unchecked((int)0x80040064) };
+
+        /// <summary>
+        /// DV_E_LINDEX
+        /// </summary>
+        public static readonly HRESULT DV_E_LINDEX = new HRESULT { _value = unchecked((int)0x80040068) };
+
+        /// <summary>
+        /// DV_E_TYMED
+        /// </summary>
+        public static readonly HRESULT DV_E_TYMED = new HRESULT { _value = unchecked((int)0x80040069) };
+
+        /// <summary>
+        /// Access denied.
+        /// </summary>
+        public static readonly HRESULT E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80070005) };
+
+        /// <summary>
+        /// Unspecified error.
+        /// </summary>
+        public static readonly HRESULT E_FAIL = new HRESULT { _value = unchecked((int)0x80004005) };
+
+        /// <summary>
+        /// Invalid parameter value.
         /// </summary>
         public static readonly HRESULT E_INVALIDARG = new HRESULT { _value = unchecked((int)0x80070057) };
 
         /// <summary>
-        /// S_OK
+        /// E_NOINTERFACE
+        /// </summary>
+        public static readonly HRESULT E_NOINTERFACE = new HRESULT { _value = unchecked((int)0x80004002) };
+
+        /// <summary>
+        /// E_NOTIMPL
+        /// </summary>
+        public static readonly HRESULT E_NOTIMPL = new HRESULT { _value = unchecked((int)0x80004001) };
+
+        /// <summary>
+        /// Out of memory.
+        /// </summary>
+        public static readonly HRESULT E_OUTOFMEMORY = new HRESULT { _value = unchecked((int)0x8007000E) };
+
+        /// <summary>
+        /// <see cref="NULL"/> was passed incorrectly for a pointer value.
+        /// </summary>
+        public static readonly HRESULT E_POINTER = new HRESULT { _value = unchecked((int)0x80004003) };
+
+        /// <summary>
+        /// Unexpected condition.
+        /// </summary>
+        public static readonly HRESULT E_UNEXPECTED = new HRESULT { _value = unchecked((int)0x8000FFFF) };
+
+        /// <summary>
+        /// E_UNSPEC
+        /// </summary>
+        public static readonly HRESULT E_UNSPEC = E_FAIL;
+
+        /// <summary>
+        /// MK_E_NOOBJECT
+        /// </summary>
+        public static readonly HRESULT MK_E_NOOBJECT = new HRESULT { _value = unchecked((int)0x800401E5) };
+
+        /// <summary>
+        /// MK_E_CONNECTMANUALLY
+        /// </summary>
+        public static readonly HRESULT MK_E_CONNECTMANUALLY = new HRESULT { _value = unchecked((int)0x800401E0) };
+
+        /// <summary>
+        /// MK_E_EXCEEDEDDEADLINE
+        /// </summary>
+        public static readonly HRESULT MK_E_EXCEEDEDDEADLINE = new HRESULT { _value = unchecked((int)0x800401E1) };
+
+        /// <summary>
+        /// MK_E_INTERMEDIATEINTERFACENOTSUPPORTED
+        /// </summary>
+        public static readonly HRESULT MK_E_INTERMEDIATEINTERFACENOTSUPPORTED = new HRESULT { _value = unchecked((int)0x800401E7) };
+
+        /// <summary>
+        /// MK_E_NEEDGENERIC
+        /// </summary>
+        public static readonly HRESULT MK_E_NEEDGENERIC = new HRESULT { _value = unchecked((int)0x800401E2) };
+
+        /// <summary>
+        /// MK_E_NOINVERSE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOINVERSE = new HRESULT { _value = unchecked((int)0x800401EC) };
+
+        /// <summary>
+        /// MK_E_MUSTBOTHERUSER
+        /// </summary>
+        public static readonly HRESULT MK_E_MUSTBOTHERUSER = new HRESULT { _value = unchecked((int)0x800401EB) };
+
+        /// <summary>
+        /// MK_E_NOSTORAGE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOSTORAGE = new HRESULT { _value = unchecked((int)0x800401ED) };
+
+        /// <summary>
+        /// MK_E_NOTBINDABLE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOTBINDABLE = new HRESULT { _value = unchecked((int)0x800401E8) };
+
+        /// <summary>
+        /// MK_E_SYNTAX
+        /// </summary>
+        public static readonly HRESULT MK_E_SYNTAX = new HRESULT { _value = unchecked((int)0x800401E4) };
+
+        /// <summary>
+        /// MK_E_UNAVAILABLE
+        /// </summary>
+        public static readonly HRESULT MK_E_UNAVAILABLE = new HRESULT { _value = unchecked((int)0x800401E3) };
+
+        /// <summary>
+        /// MK_S_HIM
+        /// </summary>
+        public static readonly HRESULT MK_S_HIM = new HRESULT { _value = 0x000401E5 };
+
+        /// <summary>
+        /// MK_S_ME
+        /// </summary>
+        public static readonly HRESULT MK_S_ME = new HRESULT { _value = 0x000401E4 };
+
+        /// <summary>
+        /// MK_S_REDUCED_TO_SELF
+        /// </summary>
+        public static readonly HRESULT MK_S_REDUCED_TO_SELF = new HRESULT { _value = 0x000401E2 };
+
+        /// <summary>
+        /// MK_S_US
+        /// </summary>
+        public static readonly HRESULT MK_S_US = new HRESULT { _value = 0x000401E6 };
+
+        /// <summary>
+        /// OLEOBJ_E_NOVERBS
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_E_NOVERBS = new HRESULT { _value = unchecked((int)0x80040180) };
+
+        /// <summary>
+        /// OLEOBJ_S_CANNOT_DOVERB_NOW
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_CANNOT_DOVERB_NOW = new HRESULT { _value = unchecked((int)0x80040181) };
+
+        /// <summary>
+        /// OLEOBJ_S_INVALIDHWND
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_INVALIDHWND = new HRESULT { _value = unchecked((int)0x80040182) };
+
+        /// <summary>
+        /// OLEOBJ_S_INVALIDVERB
+        /// </summary>
+        public static readonly HRESULT OLEOBJ_S_INVALIDVERB = new HRESULT { _value = unchecked((int)0x80040180) };
+
+        /// <summary>
+        /// OLE_E_ADVISENOTSUPPORTED
+        /// </summary>
+        public static readonly HRESULT OLE_E_ADVISENOTSUPPORTED = new HRESULT { _value = unchecked((int)0x80040003) };
+
+        /// <summary>
+        /// OLE_E_BLANK
+        /// </summary>
+        public static readonly HRESULT OLE_E_BLANK = new HRESULT { _value = unchecked((int)0x80040007) };
+
+        /// <summary>
+        /// OLE_E_CANT_BINDTOSOURCE
+        /// </summary>
+        public static readonly HRESULT OLE_E_CANT_BINDTOSOURCE = new HRESULT { _value = unchecked((int)0x8004000A) };
+
+        /// <summary>
+        /// OLE_E_CLASSDIFF
+        /// </summary>
+        public static readonly HRESULT OLE_E_CLASSDIFF = new HRESULT { _value = unchecked((int)0x80040008) };
+
+        /// <summary>
+        /// OLE_E_NOCONNECTION
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOCONNECTION = new HRESULT { _value = unchecked((int)0x80040004) };
+
+        /// <summary>
+        /// OLE_E_NOTRUNNING
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOTRUNNING = new HRESULT { _value = unchecked((int)0x80040005) };
+
+        /// <summary>
+        /// OLE_E_NOT_INPLACEACTIVE
+        /// </summary>
+        public static readonly HRESULT OLE_E_NOT_INPLACEACTIVE = new HRESULT { _value = unchecked((int)0x80040010) };
+
+        /// <summary>
+        /// OLE_E_PROMPTSAVECANCELLED
+        /// </summary>
+        public static readonly HRESULT OLE_E_PROMPTSAVECANCELLED = new HRESULT { _value = unchecked((int)0x8004000C) };
+
+        /// <summary>
+        /// OLE_E_STATIC
+        /// </summary>
+        public static readonly HRESULT OLE_E_STATIC = new HRESULT { _value = unchecked((int)0x8004000B) };
+
+        /// <summary>
+        /// OLE_S_USEREG
+        /// </summary>
+        public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
+
+        /// <summary>
+        /// RPC_E_CHANGED_MODE
+        /// </summary>
+        public static readonly HRESULT RPC_E_CHANGED_MODE = new HRESULT { _value = unchecked((int)0x80010106) };
+
+        /// <summary>
+        /// RPC_E_NO_GOOD_SECURITY_PACKAGES
+        /// </summary>
+        public static readonly HRESULT RPC_E_NO_GOOD_SECURITY_PACKAGES = new HRESULT { _value = unchecked((int)0x8001011A) };
+
+        /// <summary>
+        /// RPC_E_TOO_LATE
+        /// </summary>
+        public static readonly HRESULT RPC_E_TOO_LATE = new HRESULT { _value = unchecked((int)0x80010119) };
+
+        /// <summary>
+        /// STG_E_ACCESSDENIED
+        /// </summary>
+        public static readonly HRESULT STG_E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80030005) };
+
+        /// <summary>
+        /// STG_E_FILEALREADYEXISTS
+        /// </summary>
+        public static readonly HRESULT STG_E_FILEALREADYEXISTS = new HRESULT { _value = unchecked((int)0x80030050) };
+
+        /// <summary>
+        /// STG_E_MEDIUMFULL
+        /// </summary>
+        public static readonly HRESULT STG_E_MEDIUMFULL = new HRESULT { _value = unchecked((int)0x80030070) };
+
+        /// <summary>
+        /// Success.
         /// </summary>
         public static readonly HRESULT S_OK = new HRESULT();
+
+        /// <summary>
+        /// Success.
+        /// </summary>
+        public static readonly HRESULT S_FALSE = new HRESULT { _value = 0x1 };
 
         [FieldOffset(0)]
         private int _value;

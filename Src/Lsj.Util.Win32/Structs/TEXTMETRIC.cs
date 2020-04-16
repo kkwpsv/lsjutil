@@ -1,5 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.BackgroundModes;
+using static Lsj.Util.Win32.Enums.CharacterSets;
+using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -144,7 +148,7 @@ namespace Lsj.Util.Win32.Structs
         /// thus obtaining a value that can be directly compared with font family names to find an identical match.
         /// For information about font families, see the description of the <see cref="LOGFONT"/> structure.
         /// </summary>
-        public BYTE tmPitchAndFamily;
+        public TEXTMETRICPitchAndFamilyFlags tmPitchAndFamily;
 
         /// <summary>
         /// The character set of the font.

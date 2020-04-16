@@ -3,7 +3,12 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
+using static Lsj.Util.Win32.Enums.QueueStatus;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -451,7 +456,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// Message posting is subject to UIPI.
         /// The thread of a process can post messages only to posted-message queues of threads in processes of lesser or equal integrity level.
-        /// This thread must have the <see cref="SE_TCB_NAME"/> privilege to post a message to a thread that belongs to a process
+        /// This thread must have the SeTcbPrivilege privilege to post a message to a thread that belongs to a process
         /// with the same locally unique identifier (LUID) but is in a different desktop.
         /// Otherwise, the function fails and returns <see cref="ERROR_INVALID_THREAD_ID"/>.
         /// This thread must either belong to the same desktop as the calling thread or to a process with the same <see cref="LUID"/>.

@@ -42,5 +42,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator HCURSOR(IntPtr val) => new HCURSOR { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HICON(HCURSOR val) => val._value;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -23,6 +24,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct COLORREF
     {
+        /// <summary>
+        /// CLR_INVALID
+        /// </summary>
+        public static readonly COLORREF CLR_INVALID = new COLORREF { _value = 0xFFFFFFFF };
+
         [FieldOffset(0)]
         private uint _value;
 

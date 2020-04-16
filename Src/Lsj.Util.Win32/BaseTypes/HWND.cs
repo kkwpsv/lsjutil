@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct HWND
     {
+        /// <summary>
+        /// HWND_DESKTOP
+        /// </summary>
+        public static readonly HWND HWND_DESKTOP = new HWND();
+
         private HANDLE _value;
 
         /// <inheritdoc/>

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -99,7 +100,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The method supplies a pointer to the <see cref="IEnumSTATDATA"/> interface on this enumerator.
         /// Advisory connection information for each connection is stored in the <see cref="STATDATA"/> structure,
         /// and the enumerator must be able to enumerate these structures.
-        /// For this method, the only relevant structure members are <see cref="pAdvise"/> and <see cref="dwConnection"/>.
+        /// For this method, the only relevant structure members are <see cref="STATDATA.pAdvise"/> and <see cref="STATDATA.dwConnection"/>.
         /// Other members contain data advisory information.
         /// When you call the enumeration methods, and while an enumeration is in progress,
         /// the effect of registering or revoking advisory connections on what is to be enumerated is undefined.

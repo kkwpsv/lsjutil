@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -67,15 +68,15 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Specifies that the owner of the list box is responsible for drawing its contents and that the items in the list box are all the same height.
-        /// The owner window receives a <see cref="WindowsMessages.WM_MEASUREITEM"/> message when the combo box is created
-        /// and a <see cref="WindowsMessages.WM_DRAWITEM"/> message when a visual aspect of the combo box has changed.
+        /// The owner window receives a <see cref="WM_MEASUREITEM"/> message when the combo box is created
+        /// and a <see cref="WM_DRAWITEM"/> message when a visual aspect of the combo box has changed.
         /// </summary>
         CBS_OWNERDRAWFIXED = 0x0010,
 
         /// <summary>
         /// Specifies that the owner of the list box is responsible for drawing its contents and that the items in the list box are variable in height.
-        /// The owner window receives a <see cref="WindowsMessages.WM_MEASUREITEM"/> message for each item in the combo box 
-        /// when you create the combo box and a <see cref="WindowsMessages.WM_DRAWITEM"/> message when a visual aspect of the combo box has changed.
+        /// The owner window receives a <see cref="WM_MEASUREITEM"/> message for each item in the combo box 
+        /// when you create the combo box and a <see cref="WM_DRAWITEM"/> message when a visual aspect of the combo box has changed.
         /// </summary>
         CBS_OWNERDRAWVARIABLE = 0x0020,
 

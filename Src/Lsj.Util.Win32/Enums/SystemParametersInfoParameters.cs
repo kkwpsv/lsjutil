@@ -1056,7 +1056,7 @@ namespace Lsj.Util.Win32.Enums
         /// Set pvParam to <see langword="true"/> to enable the menu fade effect or <see langword="false"/> to disable it.
         /// If fade animation is disabled, menus use slide animation. 
         /// The menu fade effect is possible only if the system has a color depth of more than 256 colors.
-        /// This flag is ignored unless <see cref="SPI_MENUANIMATION"/> is also set.
+        /// This flag is ignored unless <see cref="SPI_SETMENUANIMATION"/> is also set.
         /// For more information, see <see cref="AnimateWindow"/>.
         /// </summary>
         SPI_SETMENUFADE = 0x1013,

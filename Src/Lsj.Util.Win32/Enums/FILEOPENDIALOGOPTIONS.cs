@@ -1,7 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using static Lsj.Util.Win32.Enums.SFGAOF;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -39,7 +37,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Enables the user to choose any item in the Shell namespace,
-        /// not just those with <see cref="SFGAO_STREAM"/> or <see cref="SFAGO_FILESYSTEM"/> attributes.
+        /// not just those with <see cref="SFGAO_STREAM"/> or <see cref="SFGAO_FILESYSTEM"/> attributes.
         /// This flag cannot be combined with <see cref="FOS_FORCEFILESYSTEM"/>.
         /// </summary>
         FOS_ALLNONSTORAGEITEMS = 0x80,

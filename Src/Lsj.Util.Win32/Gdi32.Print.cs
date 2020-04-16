@@ -1,14 +1,24 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.SpoolerErrorCodes;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
     public partial class Gdi32
     {
+        /// <summary>
+        /// DM_SPECVERSION
+        /// </summary>
+        public const ushort DM_SPECVERSION = 0x401;
+
+        /// <summary>
+        /// DN_DEFAULTPRN
+        /// </summary>
+        public const ushort DN_DEFAULTPRN = 0x0001;
+
         /// <summary>
         /// <para>
         /// The AbortProc function is an application-defined callback function used with the <see cref="SetAbortProc"/> function.

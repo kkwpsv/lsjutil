@@ -40,7 +40,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// A copy-on-write view of the file is mapped.
-        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_READ_EXECUTE"/>, <see cref="PAGE_WRITECOPY"/>,
+        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_EXECUTE_READ"/>, <see cref="PAGE_WRITECOPY"/>,
         /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, <see cref="PAGE_READWRITE"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
         /// When a process writes to a copy-on-write page, the system copies the original page to a new page that is private to the process.
         /// The new page is backed by the paging file.The protection of the new page changes from copy-on-write to read/write.

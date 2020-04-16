@@ -4,11 +4,21 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.CtrlEvents;
+using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.ExitWindowsExFlags;
+using static Lsj.Util.Win32.Enums.MessageBoxFlags;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoFlags;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.SystemShutdownReasonCodes;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WinHelpCommands;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -23,6 +33,106 @@ namespace Lsj.Util.Win32
         /// HWND_MESSAGE
         /// </summary>
         public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function that processes <see cref="WM_TIMER"/> messages.
+        /// The <see cref="TIMERPROC"/> type defines a pointer to this callback function.
+        /// TimerProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-timerproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to the window associated with the timer.
+        /// </param>
+        /// <param name="Arg2">
+        /// The WM_TIMER message.
+        /// </param>
+        /// <param name="Arg3">
+        /// The timer's identifier.
+        /// </param>
+        /// <param name="Arg4">
+        /// The number of milliseconds that have elapsed since the system was started.
+        /// This is the value returned by the <see cref="GetTickCount"/> function.
+        /// </param>
+        public delegate void TIMERPROC(HWND Arg1, UINT Arg2, UINT_PTR Arg3, DWORD Arg4);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new shape for the system caret and assigns ownership of the caret to the specified window.
+        /// The caret shape can be a line, a block, or a bitmap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcaret
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that owns the caret.
+        /// </param>
+        /// <param name="hBitmap">
+        /// A handle to the bitmap that defines the caret shape.
+        /// If this parameter is <see cref="NULL"/>, the caret is solid.
+        /// If this parameter is (HBITMAP) 1, the caret is gray.
+        /// If this parameter is a bitmap handle, the caret is the specified bitmap.
+        /// The bitmap handle must have been created by the <see cref="CreateBitmap"/>, <see cref="CreateDIBitmap"/>, or <see cref="LoadBitmap"/> function.
+        /// If <paramref name="hBitmap"/> is a bitmap handle, <see cref="CreateCaret"/>
+        /// ignores the <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters;
+        /// the bitmap defines its own width and height.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width of the caret, in logical units.
+        /// If this parameter is zero, the width is set to the system-defined window border width.
+        /// If <paramref name="hBitmap"/> is a bitmap handle, <see cref="CreateCaret"/> ignores this parameter.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height of the caret, in logical units.
+        /// If this parameter is zero, the height is set to the system-defined window border height.
+        /// If <paramref name="hBitmap"/> is a bitmap handle, <see cref="CreateCaret"/> ignores this parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters specify the caret's width and height, in logical units;
+        /// the exact width and height, in pixels, depend on the window's mapping mode.
+        /// <see cref="CreateCaret"/> automatically destroys the previous caret shape, if any, regardless of the window that owns the caret.
+        /// The caret is hidden until the application calls the <see cref="ShowCaret"/> function to make the caret visible.
+        /// The system provides one caret per queue. A window should create a caret only when it has the keyboard focus or is active.
+        /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The width and height parameters are interpreted as logical sizes in terms of the window in question.
+        /// The calling thread is not taken into consideration.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCaret", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CreateCaret([In]HWND hWnd, [In]HBITMAP hBitmap, [In]int nWidth, [In]int nHeight);
+
+        /// <summary>
+        /// <para>
+        /// Destroys the caret's current shape, frees the caret from the window, and removes the caret from the screen.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroycaret
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="DestroyCaret"/> destroys the caret only if a window in the current task owns the caret.
+        /// If a window that is not in the current task owns the caret, <see cref="DestroyCaret"/> does nothing and returns <see cref="FALSE"/>.
+        /// The system provides one caret per queue. A window should create a caret only when it has the keyboard focus or is active.
+        /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
+        /// For an example, see Destroying a Caret
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyCaret", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyCaret();
 
         /// <summary>
         /// <para>
@@ -112,7 +222,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ExitWindowsEx"/> sends these notification messages asynchronously; thus, an application cannot assume
         /// that the console notification messages have been handled when a call to <see cref="ExitWindowsEx"/> returns.
         /// To shut down or restart the system, the calling process must use the <see cref="AdjustTokenPrivileges"/> function
-        /// to enable the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// to enable the SeShutdownPrivilege privilege.
         /// For more information, see Running with Special Privileges.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", ExactSpelling = true, SetLastError = true)]
@@ -166,6 +276,49 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetAutoRotationState([In][Out]ref AR_STATE pState);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the time required to invert the caret's pixels. The user can set this value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretblinktime
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is the blink time, in milliseconds.
+        /// A return value of <see cref="INFINITE"/> indicates that the caret does not blink.
+        /// A return value is zero indicates that the function has failed.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCaretBlinkTime", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetCaretBlinkTime();
+
+        /// <summary>
+        /// <para>
+        /// Copies the caret's position to the specified <see cref="POINT"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretpos
+        /// </para>
+        /// </summary>
+        /// <param name="lpPoint">
+        /// A pointer to the POINT structure that is to receive the client coordinates of the caret.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The caret position is always given in the client coordinates of the window that contains the caret.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization. 
+        /// The returned values are interpreted as logical sizes in terms of the window in question.
+        /// The calling thread is not taken into consideration.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCaretPos", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCaretPos([Out]out POINT lpPoint);
 
         /// <summary>
         /// <para>
@@ -350,13 +503,41 @@ namespace Lsj.Util.Win32
         /// the calling process must have been granted <see cref="READ_CONTROL"/> access when the handle was opened.
         /// To read the system access control list (SACL) from the security descriptor,
         /// the calling process must have been granted <see cref="ACCESS_SYSTEM_SECURITY"/> access when the handle was opened.
-        /// The correct way to get this access is to enable the <see cref="SE_SECURITY_NAME"/> privilege in the caller's current token,
+        /// The correct way to get this access is to enable the SE_SECURITY_NAME privilege in the caller's current token,
         /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetUserObjectSecurity([In]IntPtr hObj, [In]IntPtr pSIRequested, [In]IntPtr pSID,
             [In]uint nLength, [Out]out uint lpnLengthNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Removes the caret from the screen.
+        /// Hiding a caret does not destroy its current shape or invalidate the insertion point.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-hidecaret
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that owns the caret.
+        /// If this parameter is <see cref="NULL"/>, <see cref="HideCaret"/> searches the current task for the window that owns the caret.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="HideCaret"/> hides the caret only if the specified window owns the caret.
+        /// If the specified window does not own the caret, <see cref="HideCaret"/> does nothing and returns <see cref="FALSE"/>.
+        /// Hiding is cumulative.
+        /// If your application calls <see cref="HideCaret"/> five times in a row,
+        /// it must also call <see cref="ShowCaret"/> five times before the caret is displayed.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "HideCaret", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HideCaret([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -440,6 +621,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Destroys the specified timer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-killtimer
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window associated with the specified timer.
+        /// This value must be the same as the hWnd value passed to the <see cref="SetTimer"/> function that created the timer.
+        /// </param>
+        /// <param name="uIDEvent">
+        /// The timer to be destroyed.
+        /// If the window handle passed to <see cref="SetTimer"/> is valid,
+        /// this parameter must be the same as the <paramref name="uIDEvent"/> value passed to <see cref="SetTimer"/>.
+        /// If the application calls <see cref="SetTimer"/> with <paramref name="hWnd"/> set to <see cref="NULL"/>,
+        /// this parameter must be the timer identifier returned by <see cref="SetTimer"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="KillTimer"/> function does not remove <see cref="WM_TIMER"/> messages already posted to the message queue.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "KillTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL KillTimer([In]HWND hWnd, [In]UINT_PTR uIDEvent);
+
+        /// <summary>
+        /// <para>
         /// Loads a string resource from the executable file associated with a specified module and either copies the string
         /// into a buffer with a terminating null character or returns a read-only pointer to the string resource itself.
         /// </para>
@@ -483,6 +694,115 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LoadString([In]HINSTANCE hInstance, [In]UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
             [In]int cchBufferMax);
+
+        /// <summary>
+        /// <para>
+        /// Plays a waveform sound. The waveform sound for each sound type is identified by an entry in the registry.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messagebeep
+        /// </para>
+        /// </summary>
+        /// <param name="uType">
+        /// The sound to be played.
+        /// The sounds are set by the user through the Sound control panel application, and then stored in the registry.
+        /// This parameter can be one of the following values.
+        /// 0xFFFFFFFF: A simple beep. If the sound card is not available, the sound is generated using the speaker.
+        /// <see cref="MB_ICONASTERISK"/>: See <see cref="MB_ICONINFORMATION"/>.
+        /// <see cref="MB_ICONEXCLAMATION"/>: See <see cref="MB_ICONWARNING"/>.
+        /// <see cref="MB_ICONERROR"/>: The sound specified as the Windows Critical Stop sound.
+        /// <see cref="MB_ICONHAND"/>: See <see cref="MB_ICONERROR"/>.
+        /// <see cref="MB_ICONINFORMATION"/>: The sound specified as the Windows Asterisk sound.
+        /// <see cref="MB_ICONQUESTION"/>: The sound specified as the Windows Question sound.
+        /// <see cref="MB_ICONSTOP"/>: See <see cref="MB_ICONERROR"/>.
+        /// <see cref="MB_ICONWARNING"/>: The sound specified as the Windows Exclamation sound.
+        /// <see cref="MB_OK"/>: The sound specified as the Windows Default Beep sound.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After queuing the sound, the <see cref="MessageBeep"/> function returns control to the calling function and plays the sound asynchronously.
+        /// If it cannot play the specified alert sound, <see cref="MessageBeep"/> attempts to play the system default sound.
+        /// If it cannot play the system default sound, the function produces a standard beep sound through the computer speaker.
+        /// The user can disable the warning beep by using the Sound control panel application.
+        /// Note To send a beep to a remote client, use the <see cref="Beep"/> function.
+        /// The <see cref="Beep"/> function is redirected to the client, whereas <see cref="MessageBeep"/> is not.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBeep", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MessageBeep([In]MessageBoxFlags uType);
+
+        /// <summary>
+        /// <para>
+        /// Displays a modal dialog box that contains a system icon, a set of buttons, and a brief application-specific message,
+        /// such as status or error information.
+        /// The message box returns an integer value that indicates which button the user clicked.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messageboxw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the owner window of the message box to be created.
+        /// If this parameter is <see cref="NULL"/>, the message box has no owner window.
+        /// </param>
+        /// <param name="lpText">
+        /// The message to be displayed.
+        /// If the string consists of more than one line, you can separate the lines using a carriage return and/or linefeed character between each line.
+        /// </param>
+        /// <param name="lpCaption">
+        /// The dialog box title.
+        /// If this parameter is <see langword="null"/>, the default title is Error.
+        /// </param>
+        /// <param name="uType">
+        /// The contents and behavior of the dialog box.
+        /// This parameter can be a combination of flags from the following groups of flags.
+        /// To indicate the buttons displayed in the message box, specify one of the following values.
+        /// <see cref="MB_ABORTRETRYIGNORE"/>, <see cref="MB_CANCELTRYCONTINUE"/>, <see cref="MB_HELP"/>, <see cref="MB_OK"/>,
+        /// <see cref="MB_OKCANCEL"/>, <see cref="MB_RETRYCANCEL"/>, <see cref="MB_YESNO"/>, <see cref="MB_YESNOCANCEL"/>
+        /// To display an icon in the message box, specify one of the following values.
+        /// <see cref="MB_ICONEXCLAMATION"/>, <see cref="MB_ICONWARNING"/>, <see cref="MB_ICONINFORMATION"/>, <see cref="MB_ICONASTERISK"/>,
+        /// <see cref="MB_ICONQUESTION"/>, <see cref="MB_ICONSTOP"/>, <see cref="MB_ICONERROR"/>, <see cref="MB_ICONHAND"/>
+        /// To indicate the default button, specify one of the following values.
+        /// <see cref="MB_DEFBUTTON1"/>, <see cref="MB_DEFBUTTON2"/>, <see cref="MB_DEFBUTTON3"/>, <see cref="MB_DEFBUTTON4"/>
+        /// To indicate the modality of the dialog box, specify one of the following values.
+        /// <see cref="MB_APPLMODAL"/>, <see cref="MB_SYSTEMMODAL"/>, <see cref="MB_TASKMODAL"/>
+        /// To specify other options, use one or more of the following values.
+        /// <see cref="MB_DEFAULT_DESKTOP_ONLY"/>, <see cref="MB_RIGHT"/>, <see cref="MB_RTLREADING"/>, <see cref="MB_SETFOREGROUND"/>,
+        /// <see cref="MB_TOPMOST"/>, <see cref="MB_SERVICE_NOTIFICATION"/>
+        /// </param>
+        /// <returns>
+        /// If a message box has a Cancel button, the function returns the <see cref="IDCANCEL"/> value
+        /// if either the ESC key is pressed or the Cancel button is selected.
+        /// If the message box has no Cancel button, pressing ESC has no effect.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the function succeeds, the return value is one of the following menu-item values.
+        /// <see cref="IDABORT"/>: The Abort button was selected.
+        /// <see cref="IDCANCEL"/>: The Cancel button was selected.
+        /// <see cref="IDCONTINUE"/>: The Continue button was selected.
+        /// <see cref="IDIGNORE"/>: The Ignore button was selected.
+        /// <see cref="IDNO"/>: The No button was selected.
+        /// <see cref="IDOK"/>: The OK button was selected.
+        /// <see cref="IDRETRY"/>: The Retry button was selected.
+        /// <see cref="IDTRYAGAIN"/>: The Try Again button was selected.
+        /// <see cref="IDYES"/>: The Yes button was selected.
+        /// </returns>
+        /// <remarks>
+        /// Adding two right-to-left marks (RLMs), represented by Unicode formatting character U+200F,
+        /// in the beginning of a MessageBox display string is interpreted by the MessageBox rendering engine
+        /// so as to cause the reading order of the MessageBox to be rendered as right-to-left (RTL).
+        /// When you use a system-modal message box to indicate that the system is low on memory,
+        /// the strings pointed to by the <paramref name="lpText"/> and <paramref name="lpCaption"/> parameters
+        /// should not be taken from a resource file because an attempt to load the resource may fail.
+        /// If you create a message box while a dialog box is present, use a handle to the dialog box as the <paramref name="hWnd"/> parameter.
+        /// The <paramref name="hWnd"/> parameter should not identify a child window, such as a control in a dialog box.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MessageBoxW", ExactSpelling = true, SetLastError = true)]
+        public static extern int MessageBox([In]HWND hWnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpText,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCaption, [In]MessageBoxFlags uType);
 
         /// <summary>
         /// <para>
@@ -541,6 +861,71 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the caret blink time to the specified number of milliseconds.
+        /// The blink time is the elapsed time, in milliseconds, required to invert the caret's pixels.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretblinktime
+        /// </para>
+        /// </summary>
+        /// <param name="uMSeconds">
+        /// The new blink time, in milliseconds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The user can set the blink time using the Control Panel.
+        /// Applications should respect the setting that the user has chosen.
+        /// The <see cref="SetCaretBlinkTime"/> function should only be used by application
+        /// that allow the user to set the blink time, such as a Control Panel applet.
+        /// If you change the blink time, subsequently activated applications will use the modified blink time,
+        /// even if you restore the previous blink time when you lose the keyboard focus or become inactive.
+        /// This is due to the multithreaded environment, where deactivation of your application is not synchronized with the activation of another application.
+        /// This feature allows the system to activate another application even if the current application is not responding.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCaretBlinkTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetCaretBlinkTime([In]UINT uMSeconds);
+
+        /// <summary>
+        /// <para>
+        /// Moves the caret to the specified coordinates.
+        /// If the window that owns the caret was created with the <see cref="CS_OWNDC"/> class style,
+        /// then the specified coordinates are subject to the mapping mode of the device context associated with that window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretpos
+        /// </para>
+        /// </summary>
+        /// <param name="X">
+        /// The new x-coordinate of the caret.
+        /// </param>
+        /// <param name="Y">
+        /// The new y-coordinate of the caret.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="SetCaretPos"/> moves the caret whether the caret is hidden.
+        /// The system provides one caret per queue.
+        /// A window should create a caret only when it has the keyboard focus or is active.
+        /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
+        /// A window can set the caret position only if it owns the caret.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The provided position is interpreted as logical coordinates in terms of the window associated with the caret.
+        /// The calling thread is not taken into consideration.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCaretPos", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetCaretPos([In]int X, [In]int Y);
+
+        /// <summary>
+        /// <para>
         /// Sets the colors for the specified display elements.
         /// Display elements are the various parts of a window and the display that appear on the system display screen.
         /// </para>
@@ -575,6 +960,94 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSysColors", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSysColors([In]int cElements, [MarshalAs(UnmanagedType.LPArray)][In]INT[] lpaElements,
             [MarshalAs(UnmanagedType.LPArray)][In]COLORREF[] lpaRgbValues);
+
+        /// <summary>
+        /// <para>
+        /// Creates a timer with the specified time-out value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-settimer
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be associated with the timer.
+        /// This window must be owned by the calling thread.
+        /// If a <see cref="NULL"/> value for <paramref name="hWnd"/> is passed in along with an <paramref name="nIDEvent"/> of an existing timer,
+        /// that timer will be replaced in the same way that an existing non-<see cref="NULL"/> <paramref name="hWnd"/> timer will be.
+        /// </param>
+        /// <param name="nIDEvent">
+        /// A nonzero timer identifier.
+        /// If the <paramref name="hWnd"/> parameter is <see cref="NULL"/>, and the <paramref name="nIDEvent"/> does not match an existing timer
+        /// then it is ignored and a new timer ID is generated.
+        /// If the <paramref name="hWnd"/> parameter is not <see cref="NULL"/> and the window specified
+        /// by <paramref name="hWnd"/> already has a timer with the value <paramref name="nIDEvent"/>, then the existing timer is replaced by the new timer.
+        /// When <see cref="SetTimer"/> replaces a timer, the timer is reset.
+        /// Therefore, a message will be sent after the current time-out value elapses, but the previously set time-out value is ignored.
+        /// If the call is not intended to replace an existing timer,
+        /// <paramref name="nIDEvent"/> should be 0 if the <paramref name="hWnd"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="uElapse">
+        /// If <paramref name="uElapse"/> is less than <see cref="USER_TIMER_MINIMUM"/>, the timeout is set to <see cref="USER_TIMER_MINIMUM"/>.
+        /// If <paramref name="uElapse"/> is greater than <see cref="USER_TIMER_MAXIMUM"/>, the timeout is set to <see cref="USER_TIMER_MAXIMUM"/>.
+        /// </param>
+        /// <param name="lpTimerFunc">
+        /// A pointer to the function to be notified when the time-out value elapses.
+        /// For more information about the function, see <see cref="TIMERPROC"/>.
+        /// If <paramref name="lpTimerFunc"/> is <see cref="NULL"/>, the system posts a <see cref="WM_TIMER"/> message to the application queue.
+        /// The <see cref="MSG.hwnd"/> member of the message's <see cref="MSG"/> structure contains the value of the <paramref name="hWnd"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is <see cref="NULL"/>, the return value is an integer identifying the new timer.
+        /// An application can pass this value to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function succeeds and the <paramref name="hWnd"/> parameter is not NULL, then the return value is a nonzero integer.
+        /// An application can pass the value of the <paramref name="nIDEvent"/> parameter to the <see cref="KillTimer"/> function to destroy the timer.
+        /// If the function fails to create a timer, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application can process <see cref="WM_TIMER"/> messages by including a <see cref="WM_TIMER"/> case statement in the window procedure
+        /// or by specifying a <see cref="TIMERPROC"/> callback function when creating the timer.
+        /// When you specify a <see cref="TIMERPROC"/> callback function,
+        /// the default window procedure calls the callback function when it processes <see cref="WM_TIMER"/>.
+        /// Therefore, you need to dispatch messages in the calling thread, even when you use <see cref="TIMERPROC"/> instead of processing <see cref="WM_TIMER"/>.
+        /// The wParam parameter of the <see cref="WM_TIMER"/> message contains the value of the <paramref name="nIDEvent"/> parameter.
+        /// The timer identifier, <paramref name="nIDEvent"/>, is specific to the associated window.
+        /// Another window can have its own timer which has the same identifier as a timer owned by another window.
+        /// The timers are distinct.
+        /// <see cref="SetTimer"/> can reuse timer IDs in the case where <paramref name="hWnd"/> is NULL.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT_PTR SetTimer([In]HWND hWnd, [In]UINT_PTR nIDEvent, [In]UINT uElapse, [In]TIMERPROC lpTimerFunc);
+
+        /// <summary>
+        /// <para>
+        /// Makes the caret visible on the screen at the caret's current position.
+        /// When the caret becomes visible, it begins flashing automatically.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showcaret
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window that owns the caret.
+        /// If this parameter is <see cref="NULL"/>, <see cref="ShowCaret"/> searches the current task for the window that owns the caret.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ShowCaret"/> shows the caret only if the specified window owns the caret, the caret has a shape,
+        /// and the caret has not been hidden two or more times in a row.
+        /// If one or more of these conditions is not met, <see cref="ShowCaret"/> does nothing and returns <see cref="FALSE"/>.
+        /// Hiding is cumulative. If your application calls <see cref="HideCaret"/> five times in a row,
+        /// it must also call <see cref="ShowCaret"/> five times before the caret reappears.
+        /// The system provides one caret per queue. A window should create a caret only when it has the keyboard focus or is active.
+        /// The window should destroy the caret before losing the keyboard focus or becoming inactive.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCaret", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ShowCaret([In]HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -636,6 +1109,129 @@ namespace Lsj.Util.Win32
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam, [In]PVOID pvParam, [In]UINT fWinIni);
+        public static extern BOOL SystemParametersInfo([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam,
+            [In]PVOID pvParam, [In]SystemParametersInfoFlags fWinIni);
+
+        /// <summary>
+        /// <para>
+        /// Launches Windows Help (Winhelp.exe) and passes additional data that indicates the nature of the help requested by the application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw
+        /// </para>
+        /// </summary>
+        /// <param name="hWndMain">
+        /// A handle to the window requesting help.
+        /// The <see cref="WinHelp"/> function uses this handle to keep track of which applications have requested help.
+        /// If the <paramref name="uCommand"/> parameter specifies <see cref="HELP_CONTEXTMENU"/> or <see cref="HELP_WM_HELP"/>, hWndMain identifies the control requesting help.
+        /// </param>
+        /// <param name="lpszHelp">
+        /// The address of a null-terminated string containing the path, if necessary, and the name of the Help file that <see cref="WinHelp"/> is to display.
+        /// The file name can be followed by an angle bracket (>) and the name of a secondary window
+        /// if the topic is to be displayed in a secondary window rather than in the primary window.
+        /// You must define the name of the secondary window in the [WINDOWS] section of the Help project (.hpj) file.
+        /// </param>
+        /// <param name="uCommand">
+        /// The type of help requested. For a list of possible values and how they affect the value
+        /// to place in the <paramref name="dwData"/> parameter, see the Remarks section.
+        /// </param>
+        /// <param name="dwData">
+        /// Additional data.
+        /// The value used depends on the value of the <paramref name="uCommand"/> parameter.
+        /// For a list of possible dwData values, see the Remarks section.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before closing the window that requested help, the application must call <see cref="WinHelp"/>
+        /// with the <paramref name="uCommand"/> parameter set to <see cref="HELP_QUIT"/>.
+        /// Until all applications have done this, Windows Help will not terminate.
+        /// Note that calling Windows Help with the <see cref="HELP_QUIT"/> command is not necessary
+        /// if you used the <see cref="HELP_CONTEXTPOPUP"/> command to start Windows Help.
+        /// This function fails if called from any context but the current user.
+        /// The following table shows the possible values for the <paramref name="uCommand"/> parameter
+        /// and the corresponding formats of the <paramref name="dwData"/> parameter.
+        /// <paramref name="uCommand"/>
+        /// Action
+        /// <paramref name="dwData"/>
+        /// <see cref="HELP_COMMAND"/>:
+        /// Executes a Help macro or macro string.
+        /// Address of a string that specifies the name of the Help macro(s) to run.
+        /// If the string specifies multiple macro names, the names must be separated by semicolons.
+        /// You must use the short form of the macro name for some macros because Windows Help does not support the long name.
+        /// <see cref="HELP_CONTENTS"/>
+        /// Displays the topic specified by the Contents option in the [OPTIONS] section of the .hpj file.
+        /// This command is for backward compatibility.
+        /// New applications should provide a .cnt file and use the <see cref="HELP_FINDER"/> command.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_CONTEXT"/>:
+        /// Displays the topic identified by the specified context identifier defined in the [MAP] section of the .hpj file.
+        /// Contains the context identifier for the topic.
+        /// <see cref="HELP_CONTEXTMENU"/>:
+        /// Displays the Help menu for the selected window, then displays the topic for the selected control in a pop-up window.
+        /// Address of an array of <see cref="DWORD"/> pairs.
+        /// The first <see cref="DWORD"/> in each pair is the control identifier, and the second is the context identifier for the topic.
+        /// The array must be terminated by a pair of zeros {0,0}.
+        /// If you do not want to add Help to a particular control, set its context identifier to -1.
+        /// <see cref="HELP_CONTEXTPOPUP"/>:
+        /// Displays the topic identified by the specified context identifier defined in the [MAP] section of the .hpj file in a pop-up window.
+        /// Contains the context identifier for a topic.
+        /// <see cref="HELP_FINDER"/>:
+        /// Displays the Help Topics dialog box.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_FORCEFILE"/>:
+        /// Ensures that Windows Help is displaying the correct Help file.
+        /// If the incorrect Help file is being displayed, Windows Help opens the correct one; otherwise, there is no action.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_HELPONHELP"/>:
+        /// Displays help on how to use Windows Help, if the Winhlp32.hlp file is available.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_INDEX"/>:
+        /// Displays the topic specified by the Contents option in the [OPTIONS] section of the .hpj file.
+        /// This command is for backward compatibility.
+        /// New applications should use the <see cref="HELP_FINDER"/> command.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_KEY"/>:
+        /// Displays the topic in the keyword table that matches the specified keyword, if there is an exact match.
+        /// If there is more than one match, displays the Index with the topics listed in the Topics Found list box.
+        /// Address of a keyword string. Multiple keywords must be separated by semicolons.
+        /// <see cref="HELP_MULTIKEY"/>:
+        /// Displays the topic specified by a keyword in an alternative keyword table.
+        /// Address of a <see cref="MULTIKEYHELP"/> structure that specifies a table footnote character and a keyword.
+        /// <see cref="HELP_PARTIALKEY"/>:
+        /// Displays the topic in the keyword table that matches the specified keyword, if there is an exact match.
+        /// If there is more than one match, displays the Topics Found dialog box.
+        /// To display the index without passing a keyword, use a pointer to an empty string.
+        /// Address of a keyword string. Multiple keywords must be separated by semicolons.
+        /// <see cref="HELP_QUIT"/>:
+        /// Informs Windows Help that it is no longer needed. If no other applications have asked for help, Windows closes Windows Help.
+        /// Ignored; set to 0.
+        /// <see cref="HELP_SETCONTENTS"/>:
+        /// Specifies the Contents topic. Windows Help displays this topic when the user clicks the Contents button
+        /// if the Help file does not have an associated .cnt file.
+        /// Contains the context identifier for the Contents topic.
+        /// <see cref="HELP_SETPOPUP_POS"/>:
+        /// Sets the position of the subsequent pop-up window.
+        /// Contains the position data.
+        /// Use <see cref="MAKELONG"/> to concatenate the horizontal and vertical coordinates into a single value.
+        /// The pop-up window is positioned as if the mouse cursor were at the specified point when the pop-up window was invoked.
+        /// <see cref="HELP_SETWINPOS"/>:
+        /// Displays the Windows Help window, if it is minimized or in memory, and sets its size and position as specified.
+        /// Address of a <see cref="HELPWININFO"/> structure that specifies the size and position of either a primary or secondary Help window.
+        /// <see cref="HELP_TCARD"/>:
+        /// Indicates that a command is for a training card instance of Windows Help. Combine this command with other commands using the bitwise OR operator.
+        /// Depends on the command with which this command is combined.
+        /// <see cref="HELP_WM_HELP"/>:
+        /// Displays the topic for the control identified by the <paramref name="hWndMain"/> parameter in a pop-up window.
+        /// Address of an array of <see cref="DWORD"/> pairs.
+        /// The first <see cref="DWORD"/> in each pair is a control identifier, and the second is a context identifier for a topic.
+        /// The array must be terminated by a pair of zeros {0,0}.
+        /// If you do not want to add Help to a particular control, set its context identifier to -1.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinHelpW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WinHelp([In]HWND hWndMain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszHelp,
+            [In]WinHelpCommands uCommand, [In]ULONG_PTR dwData);
     }
 }

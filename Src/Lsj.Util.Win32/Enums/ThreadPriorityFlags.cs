@@ -55,5 +55,15 @@ namespace Lsj.Util.Win32.Enums
         /// 
         /// </summary>
         THREAD_PRIORITY_ERROR_RETURN = int.MaxValue,
+
+        /// <summary>
+        /// THREAD_MODE_BACKGROUND_BEGIN
+        /// </summary>
+        THREAD_MODE_BACKGROUND_BEGIN =    0x00010000,
+
+        /// <summary>
+        /// THREAD_MODE_BACKGROUND_END
+        /// </summary>
+        THREAD_MODE_BACKGROUND_END =   0x00020000,
     }
 }

@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// <param name="Timer">
         /// A <see cref="TP_TIMER"/> structure that defines the timer object that generated the callback.
         /// </param>
-        public delegate void PTP_TIMER_CALLBACK([In]PTP_CALLBACK_INSTANCE Instance, [In]PVOID Context, [In] PTP_TIMER Timer);
+        public delegate void PTP_TIMER_CALLBACK([In]PTP_CALLBACK_INSTANCE Instance, [In]PVOID Context, [In]PTP_TIMER Timer);
 
         /// <summary>
         /// <para>

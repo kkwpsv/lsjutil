@@ -1,4 +1,7 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.ComInterfaces;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>

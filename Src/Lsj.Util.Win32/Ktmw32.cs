@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.TransactionAccessRights;
 
 namespace Lsj.Util.Win32
 {

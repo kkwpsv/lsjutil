@@ -1,9 +1,12 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
+using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
+using static Lsj.Util.Win32.Enums.SHELLEXECUTEINFOMasks;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Structs
 {

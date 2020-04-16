@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -13,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct HFILE
     {
+        /// <summary>
+        /// HFILE_ERROR
+        /// </summary>
+        public static readonly HFILE HFILE_ERROR = new HFILE { _value = -1 };
+
         [FieldOffset(0)]
         private int _value;
 

@@ -1,9 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -11,7 +12,8 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// The <see cref="ExcludeClipRect"/> function creates a new clipping region that consists of the existing clipping region minus the specified rectangle.
+        /// The <see cref="ExcludeClipRect"/> function creates a new clipping region
+        /// that consists of the existing clipping region minus the specified rectangle.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-excludecliprect
@@ -43,7 +45,7 @@ namespace Lsj.Util.Win32
         /// The lower and right edges of the specified rectangle are not excluded from the clipping region.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeClipRect", ExactSpelling = true, SetLastError = true)]
-        public static extern int ExcludeClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+        public static extern RegionFlags ExcludeClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
         /// <para>
@@ -70,7 +72,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetClipBox"/> returns logical coordinates based on the given device context.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipBox", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetClipBox([In]HDC hdc, [Out]out RECT lprect);
+        public static extern RegionFlags GetClipBox([In]HDC hdc, [Out]out RECT lprect);
 
         /// <summary>
         /// <para>
@@ -109,7 +111,7 @@ namespace Lsj.Util.Win32
         /// A clipping region is then created from the intersection of that default clipping region and the rectangle specified in the function parameters.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IntersectClipRect", ExactSpelling = true, SetLastError = true)]
-        public static extern int IntersectClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
+        public static extern RegionFlags IntersectClipRect([In]HDC hdc, [In]int left, [In]int top, [In]int right, [In]int bottom);
 
         /// <summary>
         /// <para>
@@ -136,7 +138,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR"/>: An error occurred. (The current clipping region is unaffected.)
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetClipRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int OffsetClipRgn([In]HDC hdc, [In]int x, [In]int y);
+        public static extern RegionFlags OffsetClipRgn([In]HDC hdc, [In]int x, [In]int y);
 
         /// <summary>
         /// <para>
@@ -217,6 +219,6 @@ namespace Lsj.Util.Win32
         /// To remove a device-context's clipping region, specify a <see cref="NULL"/> region handle.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectClipRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int SelectClipRgn([In]HDC hdc, [In]HRGN hrgn);
+        public static extern RegionFlags SelectClipRgn([In]HDC hdc, [In]HRGN hrgn);
     }
 }

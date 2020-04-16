@@ -2,9 +2,12 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.HatchStyles;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -53,7 +56,7 @@ namespace Lsj.Util.Win32
         /// followed by an array of bytes defining the pixels of the bitmap.
         /// </param>
         /// <param name="iUsage">
-        /// Specifies whether the <see cref="bmiColors"/> member of the <see cref="BITMAPINFO"/> structure is initialized and,
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure is initialized and,
         /// if so, whether this member contains explicit red, green, blue (RGB) values or indexes into a logical palette.
         /// The <paramref name="iUsage"/> parameter must be one of the following values.
         /// <see cref="DIB_PAL_COLORS"/>:

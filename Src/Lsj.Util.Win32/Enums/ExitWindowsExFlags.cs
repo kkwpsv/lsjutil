@@ -1,4 +1,7 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.EndSessionFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -28,14 +31,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Shuts down the system and turns off the power. The system must support the power-off feature.
-        /// The calling process must have the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// The calling process must have the SeShutdownPrivilege privilege.
         /// For more information, see the following Remarks section.
         /// </summary>
         EWX_POWEROFF = 0x00000008,
 
         /// <summary>
         /// Shuts down the system and then restarts the system.
-        /// The calling process must have the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// The calling process must have the SeShutdownPrivilege privilege.
         /// For more information, see the following Remarks section.
         /// </summary>
         EWX_REBOOT = 0x00000002,

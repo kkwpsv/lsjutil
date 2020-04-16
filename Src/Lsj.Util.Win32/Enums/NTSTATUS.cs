@@ -14,9 +14,52 @@ namespace Lsj.Util.Win32.Enums
     /// In the following descriptions, a percentage sign that is followed by one or more alphanumeric characters (for example, "%1" or "%hs") indicates
     /// a variable that is replaced by text at the time the value is returned.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
+    /// </para>
     /// </summary>
     public enum NTSTATUS : uint
     {
+        /// <summary>
+        /// The operation completed successfully.
+        /// </summary>
+        STATUS_SUCCESS = 0x00000000,
+
+        /// <summary>
+        /// The caller specified WaitAny for WaitType and one of the dispatcher objects in the Object array has been set to the signaled state.
+        /// </summary>
+        STATUS_WAIT_0 = 0x00000000,
+
+        /// <summary>
+        /// The caller specified WaitAny for WaitType and one of the dispatcher objects in the Object array has been set to the signaled state.
+        /// </summary>
+        STATUS_WAIT_1 = 0x00000001,
+
+        /// <summary>
+        /// The caller specified WaitAny for WaitType and one of the dispatcher objects in the Object array has been set to the signaled state.
+        /// </summary>
+        STATUS_WAIT_2 = 0x00000002,
+
+        /// <summary>
+        /// The caller specified WaitAny for WaitType and one of the dispatcher objects in the Object array has been set to the signaled state.
+        /// </summary>
+        STATUS_WAIT_3 = 0x00000003,
+
+        /// <summary>
+        /// The caller specified WaitAny for WaitType and one of the dispatcher objects in the Object array has been set to the signaled state.
+        /// </summary>
+        STATUS_WAIT_63 = 0x0000003F,
+
+        /// <summary>
+        /// The caller attempted to wait for a mutex that has been abandoned.
+        /// </summary>
+        STATUS_ABANDONED = 0x00000080,
+
+        /// <summary>
+        /// The caller attempted to wait for a mutex that has been abandoned.
+        /// </summary>
+        STATUS_ABANDONED_WAIT_0 = 0x00000080,
+
         /// <summary>
         /// The caller attempted to wait for a mutex that has been abandoned.
         /// </summary>

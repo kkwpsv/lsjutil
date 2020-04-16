@@ -1,4 +1,8 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.SystemMetric;
+using static Lsj.Util.Win32.Shell32;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -11,19 +15,19 @@
     public enum SHGetStockIconInfoFlags : uint
     {
         /// <summary>
-        /// The <see cref="szPath"/> and <see cref="iIcon"/> members of the <see cref="SHSTOCKICONINFO"/> structure
+        /// The <see cref="SHSTOCKICONINFO.szPath"/> and <see cref="SHSTOCKICONINFO.iIcon"/> members of the <see cref="SHSTOCKICONINFO"/> structure
         /// receive the path and icon index of the requested icon, in a format suitable for passing to the <see cref="ExtractIcon"/> function.
         /// The numerical value of this flag is zero, so you always get the icon location regardless of other flags.
         /// </summary>
         SHGSI_ICONLOCATION = 0,
 
         /// <summary>
-        /// The <see cref="hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure receives a handle to the specified icon.
+        /// The <see cref="SHSTOCKICONINFO.hIcon"/> member of the <see cref="SHSTOCKICONINFO"/> structure receives a handle to the specified icon.
         /// </summary>
         SHGSI_ICON = 0x000000100,
 
         /// <summary>
-        /// The <see cref="iSysImageImage"/> member of the <see cref="SHSTOCKICONINFO"/> structure
+        /// The <see cref="SHSTOCKICONINFO.iSysImageIndex"/> member of the <see cref="SHSTOCKICONINFO"/> structure
         /// receives the index of the specified icon in the system imagelist.
         /// </summary>
         SHGSI_SYSICONINDEX = 0x000004000,

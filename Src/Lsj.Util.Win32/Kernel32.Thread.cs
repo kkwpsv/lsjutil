@@ -1,11 +1,18 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
-using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32
 {
@@ -14,9 +21,10 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// An application-defined function that serves as the starting address for a thread.
-        /// Specify this address when calling the <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/>, or <see cref="CreateRemoteThreadEx"/> function.
-        /// The LPTHREAD_START_ROUTINE type defines a pointer to this callback function.
-        /// <see cref="ThreadProc"/> is a placeholder for the application-defined function name.
+        /// Specify this address when calling the <see cref="CreateThread"/>, <see cref="CreateRemoteThread"/>,
+        /// or <see cref="CreateRemoteThreadEx"/> function.
+        /// The <see cref="LPTHREAD_START_ROUTINE"/> type defines a pointer to this callback function.
+        /// ThreadProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686736(v=vs.85)
@@ -29,18 +37,17 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// The return value indicates the success or failure of this function.
         /// The return value should never be set to <see cref="STILL_ACTIVE"/>, as noted in <see cref="GetExitCodeThread"/>.
-        /// Do not declare this callback function with a void return type and cast the function pointer
-        /// to <see cref="ThreadProc"/> when creating the thread.
+        /// Do not declare this callback function with a void return type and cast the function pointer to ThreadProc when creating the thread.
         /// Code that does this is common, but it can crash on 64-bit Windows.
         /// </returns>
         /// <remarks>
         /// A process can determine when a thread it created has completed by using one of the wait functions.
-        /// It can also obtain the return value of its <see cref="ThreadProc"/> by calling the <see cref="GetExitCodeThread"/> function.
+        /// It can also obtain the return value of its ThreadProc by calling the <see cref="GetExitCodeThread"/> function.
         /// Each thread receives a unique copy of the local variables of this function.
         /// Any static or global variables are shared by all threads in the process.
         /// To provide unique data to each thread using a global index, use thread local storage.
         /// </remarks>
-        public delegate uint ThreadProc([In]IntPtr lpParameter);
+        public delegate uint LPTHREAD_START_ROUTINE([In]IntPtr lpParameter);
 
         /// <summary>
         /// <para>
@@ -76,7 +83,7 @@ namespace Lsj.Util.Win32
         /// A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be executed by the thread
         /// and represents the starting address of the thread in the remote process.
         /// The function must exist in the remote process.
-        /// For more information, see <see cref="ThreadProc"/>.
+        /// For more information, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread function.
@@ -139,7 +146,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
         /// <summary>
@@ -175,7 +182,7 @@ namespace Lsj.Util.Win32
         /// A pointer to the application-defined function of type LPTHREAD_START_ROUTINE to be executed by the thread
         /// and represents the starting address of the thread in the remote process.
         /// The function must exist in the remote process.
-        /// For more information, see <see cref="ThreadProc"/>.
+        /// For more information, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread function.
@@ -239,7 +246,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
 
         /// <summary>
@@ -266,7 +273,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpStartAddress">
         /// A pointer to the application-defined function to be executed by the thread.
-        /// This pointer represents the starting address of the thread. For more information on the thread function, see <see cref="ThreadProc"/>.
+        /// This pointer represents the starting address of the thread. For more information on the thread function, see <see cref="LPTHREAD_START_ROUTINE"/>.
         /// </param>
         /// <param name="lpParameter">
         /// A pointer to a variable to be passed to the thread.
@@ -339,7 +346,7 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateThread(
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
             [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] ThreadProc lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
         /// <summary>
@@ -384,6 +391,32 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
         public static extern void ExitThread([In]uint dwExitCode);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
+        /// Each fiber has its own slot for each FLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsgetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlsIndex">
+        /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the value stored in the calling fiber's FLS slot associated with the specified index.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
+        /// After an FLS index is allocated, each fiber of the process can use it to access its own FLS slot for that index.
+        /// A fiber specifies an FLS index in a call to FlsSetValue to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="FlsSetValue"/> to retrieve the stored value.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsGetValue", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID FlsGetValue([In]DWORD dwFlsIndex);
 
         /// <summary>
         /// <para>
@@ -519,7 +552,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpContext">
         /// A pointer to a <see cref="CONTEXT"/> structure that receives the appropriate context of the specified thread.
-        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
+        /// The value of the <see cref="CONTEXT.ContextFlags"/> member of this structure specifies which portions of a thread's context are retrieved.
         /// The <see cref="CONTEXT"/> structure is highly processor specific.
         /// Refer to the WinNT.h header file for processor-specific definitions of this structures and any alignment requirements.
         /// </param>
@@ -530,7 +563,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// This function is used to retrieve the thread context of the specified thread.
-        /// The function retrieves a selective context based on the value of the <see cref="ContextFlags"/> member of the context structure. 
+        /// The function retrieves a selective context based on the value
+        /// of the <see cref="CONTEXT.ContextFlags"/> member of the <see cref="CONTEXT"/> structure. 
         /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
         /// but the function can also operate when the thread is not being debugged.
         /// You cannot get a valid context for a running thread.
@@ -688,7 +722,7 @@ namespace Lsj.Util.Win32
         /// The access to the thread object.
         /// This access right is checked against the security descriptor for the thread.
         /// This parameter can be one or more of the thread access rights.
-        /// If the caller has enabled the <see cref="SeDebugPrivilege"/> privilege,
+        /// If the caller has enabled the SeDebugPrivilege privilege,
         /// the requested access is granted regardless of the contents of the security descriptor.
         /// </param>
         /// <param name="bInheritHandle">
@@ -838,7 +872,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpContext">
         /// A pointer to a <see cref="CONTEXT"/> structure that contains the context to be set in the specified thread.
-        /// The value of the <see cref="ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
+        /// The value of the <see cref="CONTEXT.ContextFlags"/> member of this structure specifies which portions of a thread's context to set.
         /// Some values in the <see cref="CONTEXT"/> structure that cannot be specified are silently set to the correct value.
         /// This includes bits in the CPU status register that specify the privileged processor mode, global enabling bits in the debugging register,
         /// and other states that must be controlled by the operating system.
@@ -849,7 +883,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// The function sets the thread context based on the value of the <see cref="ContextFlags"/> member of the context structure.
+        /// The function sets the thread context based on the value of the <see cref="CONTEXT.ContextFlags"/> member of the <see cref="CONTEXT"/> structure.
         /// The thread identified by the <paramref name="hThread"/> parameter is typically being debugged,
         /// but the function can also operate even when the thread is not being debugged.
         /// Do not try to set the context for a running thread; the results are unpredictable.

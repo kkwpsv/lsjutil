@@ -1,8 +1,19 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Enums;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
+using static Lsj.Util.Win32.Enums.QueueStatus;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -12,6 +23,11 @@ namespace Lsj.Util.Win32
         /// CONDITION_VARIABLE_LOCKMODE_SHARED
         /// </summary>
         public const uint CONDITION_VARIABLE_LOCKMODE_SHARED = unchecked((uint)-1);
+
+        /// <summary>
+        /// SRWLOCK_INIT
+        /// </summary>
+        public readonly static SRWLOCK SRWLOCK_INIT = new SRWLOCK();
 
         /// <summary>
         /// <para>
@@ -84,7 +100,7 @@ namespace Lsj.Util.Win32
         /// <returns>
         /// This function does not return a value.
         /// <para>
-        /// This function can raise <see cref="EXCEPTION_POSSIBLE_DEADLOCK"/> if a wait operation on the critical section times out.
+        /// This function can raise EXCEPTION_POSSIBLE_DEADLOCK if a wait operation on the critical section times out.
         /// </para>
         /// The timeout interval is specified by the following registry value:
         /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\CriticalSectionTimeout.
@@ -557,6 +573,128 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Waits until one or all of the specified objects are in the signaled state or the time-out interval elapses.
+        /// The objects can include input event objects, which you specify using the <paramref name="dwWakeMask"/> parameter.
+        /// To enter an alertable wait state, use the <see cref="MsgWaitForMultipleObjectsEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects
+        /// </para>
+        /// </summary>
+        /// <param name="nCount">
+        /// The number of object handles in the array pointed to by <paramref name="pHandles"/>.
+        /// The maximum number of object handles is <see cref="MAXIMUM_WAIT_OBJECTS"/> minus one.
+        /// If this parameter has the value zero, then the function waits only for an input event.
+        /// </param>
+        /// <param name="pHandles">
+        /// An array of object handles.
+        /// For a list of the object types whose handles can be specified, see the following Remarks section.
+        /// The array can contain handles of objects of different types. It may not contain multiple copies of the same handle.
+        /// If one of these handles is closed while the wait is still pending, the function's behavior is undefined.
+        /// The handles must have the <see cref="SYNCHRONIZE"/> access right.
+        /// For more information, see Standard Access Rights.
+        /// </param>
+        /// <param name="fWaitAll">
+        /// If this parameter is <see cref="TRUE"/>, the function returns when the states of all objects
+        /// in the <paramref name="pHandles"/> array have been set to signaled and an input event has been received.
+        /// If this parameter is <see cref="FALSE"/>, the function returns
+        /// when the state of any one of the objects is set to signaled or an input event has been received.
+        /// In this case, the return value indicates the object whose state caused the function to return.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// If a nonzero value is specified, the function waits until the specified objects are signaled or the interval elapses.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function does not enter a wait state if the specified objects are not signaled;
+        /// it always returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function will return only when the specified objects are signaled.
+        /// </param>
+        /// <param name="dwWakeMask">
+        /// The input types for which an input event object handle will be added to the array of object handles.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="QS_ALLEVENTS"/>, <see cref="QS_ALLINPUT"/>, <see cref="QS_ALLPOSTMESSAGE"/>, <see cref="QS_HOTKEY"/>,
+        /// <see cref="QS_INPUT"/>, <see cref="QS_KEY"/>, <see cref="QS_MOUSE"/>, <see cref="QS_MOUSEBUTTON"/>, <see cref="QS_MOUSEMOVE"/>,
+        /// <see cref="QS_PAINT"/>, <see cref="QS_POSTMESSAGE"/>, <see cref="QS_RAWINPUT"/>, <see cref="QS_SENDMESSAGE"/>, <see cref="QS_TIMER"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value indicates the event that caused the function to return.
+        /// It can be one of the following values.
+        /// (Note that <see cref="WAIT_OBJECT_0"/> is defined as 0 and <see cref="WAIT_ABANDONED_0"/> is defined as 0x00000080L.)
+        /// <see cref="WAIT_OBJECT_0"/> to (<see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>– 1):
+        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the return value indicates that the state of all specified objects is signaled.
+        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_OBJECT_0"/> indicates
+        /// the <paramref name="pHandles"/> array index of the object that satisfied the wait.
+        /// <see cref="WAIT_OBJECT_0"/> + <paramref name="nCount"/>:
+        /// New input of the type specified in the <paramref name="dwWakeMask"/> parameter is available in the thread's input queue.
+        /// Functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, and <see cref="WaitMessage"/> mark messages in the queue as old messages.
+        /// Therefore, after you call one of these functions, a subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return
+        /// until new input of the specified type arrives.
+        /// This value is also returned upon the occurrence of a system event that requires the thread's action, such as foreground activation.
+        /// Therefore, <see cref="MsgWaitForMultipleObjects"/> can return
+        /// even though no appropriate input is available and even if <paramref name="dwWakeMask"/> is set to 0.
+        /// If this occurs, call <see cref="GetMessage"/> or <see cref="PeekMessage"/> to process the system event
+        /// before trying the call to <see cref="MsgWaitForMultipleObjects"/> again.
+        /// <see cref="WAIT_ABANDONED_0"/> to (<see cref="WAIT_ABANDONED_0"/> + <paramref name="nCount"/>– 1):
+        /// If <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the return value indicates that the state of all specified objects is signaled
+        /// and at least one of the objects is an abandoned mutex object.
+        /// If <paramref name="fWaitAll"/> is <see cref="FALSE"/>, the return value minus <see cref="WAIT_ABANDONED_0"/> indicates
+        /// the <paramref name="pHandles"/> array index of an abandoned mutex object that satisfied the wait.
+        /// Ownership of the mutex object is granted to the calling thread, and the mutex is set to nonsignaled.
+        /// If the mutex was protecting persistent state information, you should check it for consistency.
+        /// <see cref="WAIT_TIMEOUT"/>:
+        /// The time-out interval elapsed and the conditions specified
+        /// by the <paramref name="fWaitAll"/> and <paramref name="dwWakeMask"/> parameters were not satisfied.
+        /// <see cref="WAIT_FAILED"/>:
+        /// The function has failed. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="MsgWaitForMultipleObjects"/> function determines whether the wait criteria have been met.
+        /// If the criteria have not been met, the calling thread enters the wait state until the conditions of the wait criteria
+        /// have been met or the time-out interval elapses.
+        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the function does not modify the states of the specified objects
+        /// until the states of all objects have been set to signaled.
+        /// For example, a mutex can be signaled, but the thread does not get ownership until the states of the other objects have also been set to signaled.
+        /// In the meantime, some other thread may get ownership of the mutex, thereby setting its state to nonsignaled.
+        /// When <paramref name="fWaitAll"/> is <see cref="TRUE"/>, the function's wait is completed only when the states of all objects have been set
+        /// to signaled and an input event has been received.
+        /// Therefore, setting <paramref name="fWaitAll"/> to <see cref="TRUE"/> prevents input from being processed
+        /// until the state of all objects in the <paramref name="pHandles"/> array have been set to signaled.
+        /// For this reason, if you set <paramref name="fWaitAll"/> to <see cref="TRUE"/>,
+        /// you should use a short timeout value in <paramref name="dwMilliseconds"/>.
+        /// If you have a thread that creates windows waiting for all objects in the <paramref name="pHandles"/> array,
+        /// including input events specified by <paramref name="dwWakeMask"/>, with no timeout interval, the system will deadlock.
+        /// This is because threads that create windows must process messages.
+        /// DDE sends message to all windows in the system.
+        /// Therefore, if a thread creates windows, do not set the <paramref name="fWaitAll"/> parameter to <see cref="TRUE"/>
+        /// in calls to <see cref="MsgWaitForMultipleObjects"/> made from that thread.
+        /// When <paramref name="fWaitAll"/> is <see cref="FALSE"/>, this function checks the handles in the array in order starting with index 0,
+        /// until one of the objects is signaled.
+        /// If multiple objects become signaled, the function returns the index of the first handle in the array whose object was signaled.
+        /// <see cref="MsgWaitForMultipleObjects"/> does not return if there is unread input of the specified type in the message queue
+        /// after the thread has called a function to check the queue.
+        /// This is because functions such as <see cref="PeekMessage"/>, <see cref="GetMessage"/>, <see cref="GetQueueStatus"/>,
+        /// and <see cref="WaitMessage"/> check the queue and then change the state information for the queue so that the input is no longer considered new.
+        /// A subsequent call to <see cref="MsgWaitForMultipleObjects"/> will not return until new input of the specified type arrives.
+        /// The existing unread input (received prior to the last time the thread checked the queue) is ignored.
+        /// The function modifies the state of some types of synchronization objects.
+        /// Modification occurs only for the object or objects whose signaled state caused the function to return.
+        /// For example, the count of a semaphore object is decreased by one.
+        /// For more information, see the documentation for the individual synchronization objects.
+        /// The <see cref="MsgWaitForMultipleObjects"/> function can specify handles of any of the following object types
+        /// in the <paramref name="pHandles"/> array:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
+        /// The <see cref="QS_ALLPOSTMESSAGE"/> and <see cref="QS_POSTMESSAGE"/> flags differ in when they are cleared.
+        /// <see cref="QS_POSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>,
+        /// whether or not you are filtering messages.
+        /// <see cref="QS_ALLPOSTMESSAGE"/> is cleared when you call <see cref="GetMessage"/> or <see cref="PeekMessage"/>
+        /// without filtering messages (wMsgFilterMin and wMsgFilterMax are 0).
+        /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
+        public static extern WaitResult MsgWaitForMultipleObjects([In]DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In]HANDLE[] pHandles,
+          [In]BOOL fWaitAll, [In]DWORD dwMilliseconds, [In]QueueStatus dwWakeMask);
+
+        /// <summary>
+        /// <para>
         /// Waits until one or all of the specified objects are in the signaled state,
         /// an I/O completion routine or asynchronous procedure call (APC) is queued to the thread, or the time-out interval elapses.
         /// The array of objects can include input event objects, which you specify using the dwWakeMask parameter.
@@ -663,8 +801,62 @@ namespace Lsj.Util.Win32
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MsgWaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD MsgWaitForMultipleObjectsEx([In]DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In]HANDLE[] pHandles,
+        public static extern WaitResult MsgWaitForMultipleObjectsEx([In]DWORD nCount, [MarshalAs(UnmanagedType.LPArray)][In]HANDLE[] pHandles,
             [In]DWORD dwMilliseconds, [In]QueueStatus dwWakeMask, [In]MsgWaitForMultipleObjectsExFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Opens an existing named mutex object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openmutexw
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the mutex object.
+        /// Only the <see cref="SYNCHRONIZE"/> access right is required to use a mutex;
+        /// to change the mutex's security, specify <see cref="MUTEX_ALL_ACCESS"/>.
+        /// The function fails if the security descriptor of the specified object does not permit the requested access for the calling process.
+        /// For a list of access rights, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the mutex to be opened.
+        /// Name comparisons are case sensitive.
+        /// This function can open objects in a private namespace. For more information, see Object Namespaces.
+        /// Terminal Services:
+        /// The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// Note
+        /// Fast user switching is implemented using Terminal Services sessions.
+        /// The first user to log on uses session 0, the next user to log on uses session 1, and so on.
+        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the mutex object.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If a named mutex does not exist, the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OpenMutex"/> function enables multiple processes to open handles of the same mutex object.
+        /// The function succeeds only if some process has already created the mutex by using the <see cref="CreateMutex"/> function.
+        /// The calling process can use the returned handle in any function that requires a handle to a mutex object, such as the wait functions,
+        /// subject to the limitations of the access specified in the <paramref name="dwDesiredAccess"/> parameter.
+        /// The handle can be duplicated by using the <see cref="DuplicateHandle"/> function.
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// The system closes the handle automatically when the process terminates.
+        /// The mutex object is destroyed when its last handle has been closed.
+        /// If your multithreaded application must repeatedly create, open, and close a named mutex object, a race condition can occur.
+        /// In this situation, it is better to use <see cref="CreateMutex"/> instead of <see cref="OpenMutex"/>,
+        /// because <see cref="CreateMutex"/> opens a mutex if it exists and creates it if it does not.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE OpenMutex([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
         /// <para>
@@ -785,7 +977,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SignalObjectAndWait", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SignalObjectAndWait([In]HANDLE hObjectToSignal, [In]HANDLE hObjectToWaitOn, [In]DWORD dwMilliseconds, [In]BOOL bAlertable);
+        public static extern WaitResult SignalObjectAndWait([In]HANDLE hObjectToSignal, [In]HANDLE hObjectToWaitOn,
+            [In]DWORD dwMilliseconds, [In]BOOL bAlertable);
 
         /// <summary>
         /// <para>
@@ -1013,7 +1206,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjects"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForMultipleObjects([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
+        public static extern WaitResult WaitForMultipleObjects([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
             [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds);
 
         /// <summary>
@@ -1056,7 +1249,7 @@ namespace Lsj.Util.Win32
         /// If this parameter is <see langword="true"/> and the thread is in the waiting state,
         /// the function returns when the system queues an I/O completion routine or APC, and the thread runs the routine or function.
         /// Otherwise, the function does not return and the completion routine or APC function is not executed.
-        /// A completion routine is queued when the ReadFileEx or WriteFileEx function in which it was specified has completed.
+        /// A completion routine is queued when the <see cref="ReadFileEx"/> or <see cref="WriteFileEx"/> function in which it was specified has completed.
         /// The wait function returns and the completion routine is called only if <paramref name="bAlertable"/> is <see langword="true"/>
         /// and the calling thread is the thread that initiated the read or write operation.
         /// An APC is queued when you call <see cref="QueueUserAPC"/>.
@@ -1118,7 +1311,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForMultipleObjectsEx"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForMultipleObjectsEx", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForMultipleObjectsEx([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
+        public static extern WaitResult WaitForMultipleObjectsEx([In]uint nCount, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 0)][In]IntPtr[] lpHandles,
             [MarshalAs(UnmanagedType.Bool)][In]bool bWaitAll, [In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
@@ -1181,7 +1374,7 @@ namespace Lsj.Util.Win32
         /// rather than <see cref="WaitForSingleObject"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObject", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
+        public static extern WaitResult WaitForSingleObject([In]IntPtr hHandle, [In]uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -1253,7 +1446,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MsgWaitForMultipleObjectsEx"/>, rather than <see cref="WaitForSingleObjectEx"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForSingleObjectEx", ExactSpelling = true, SetLastError = true)]
-        public static extern uint WaitForSingleObjectEx([In]IntPtr hHandle, [In]uint dwMilliseconds, [In]bool bAlertable);
+        public static extern WaitResult WaitForSingleObjectEx([In]IntPtr hHandle, [In]uint dwMilliseconds, [In]bool bAlertable);
 
         /// <summary>
         /// <para>

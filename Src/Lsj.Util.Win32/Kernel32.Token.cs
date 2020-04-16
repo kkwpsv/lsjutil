@@ -1,13 +1,15 @@
-﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
-using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.CheckTokenMembershipExFlags;
 using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
+using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -16,48 +18,37 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
-        /// The <see cref="CheckTokenMembership"/> function determines whether a specified security identifier (SID) is enabled in an access token.
-        /// If you want to determine group membership for app container tokens, you need to use the <see cref="CheckTokenMembershipEx"/> function.
+        /// The <see cref="CheckTokenMembershipEx"/> function determines whether the specified SID is enabled in the specified token.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembershipex
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
         /// A handle to an access token.
-        /// The handle must have <see cref="TOKEN_QUERY"/> access to the token.
-        /// The token must be an impersonation token.
-        /// If <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>,
-        /// <see cref="CheckTokenMembership"/> uses the impersonation token of the calling thread.
-        /// If the thread is not impersonating, the function duplicates the thread's primary token to create an impersonation token.
+        /// If present, this token is checked for the SID.
+        /// If not present, then the current effective token is used. This must be an impersonation token.
         /// </param>
         /// <param name="SidToCheck">
-        /// A pointer to a <see cref="SID"/> structure.
-        /// The <see cref="CheckTokenMembership"/> function checks for the presence of this SID in the user and group SIDs of the access token.
+        /// A pointer to a SID structure.
+        /// The function checks for the presence of this SID in the presence of the token.
+        /// </param>
+        /// <param name="Flags">
+        /// Flags that affect the behavior of the function.
+        /// Currently the only valid flag is <see cref="CTMF_INCLUDE_APPCONTAINER"/> which allows app containers
+        /// to pass the call as long as the other requirements of the token are met, such as the group specified is present and enabled.
         /// </param>
         /// <param name="IsMember">
-        /// A pointer to a variable that receives the results of the check
-        /// If the <see cref="SID"/> is present and has the <see cref="SE_GROUP_ENABLED"/> attribute,
-        /// IsMember returns <see langword="true"/>; otherwise, it returns <see langword="false"/>.
+        /// <see cref="TRUE"/> if the SID is enabled in the token; otherwise, <see cref="FALSE"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
-        /// <remarks>
-        /// The <see cref="CheckTokenMembership"/> function simplifies the process of determining whether a SID is both present and enabled in an access token.
-        /// Even if a SID is present in the token, the system may not use the SID in an access check.
-        /// The SID may be disabled or have the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
-        /// The system uses only enabled SIDs to grant access when performing an access check.
-        /// For more information, see SID Attributes in an Access Token.
-        /// If <paramref name="TokenHandle"/> is a restricted token, or if <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>
-        /// and the current effective token of the calling thread is a restricted token,
-        /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CheckTokenMembership([In]IntPtr TokenHandle, [In]IntPtr SidToCheck, [Out]out bool IsMember);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembershipEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckTokenMembershipEx([In]HANDLE TokenHandle, [In]PSID SidToCheck,
+            [In]CheckTokenMembershipExFlags Flags, [Out]out BOOL IsMember);
 
         /// <summary>
         /// <para>
@@ -145,7 +136,7 @@ namespace Lsj.Util.Win32
         /// You can use the restricted token in the <see cref="CreateProcessAsUser"/> function to create a process
         /// that has restricted access rights and privileges.
         /// If a process calls <see cref="CreateProcessAsUser"/> using a restricted version of its own token,
-        /// the calling process does not need to have the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege.
+        /// the calling process does not need to have the SE_ASSIGNPRIMARYTOKEN_NAME privilege.
         /// You can use the restricted token in the <see cref="ImpersonateLoggedOnUser"/> function.
         ///  Applications that use restricted tokens should run the restricted application on desktops other than the default desktop.
         ///  This is necessary to prevent an attack by a restricted application, using <see cref="SendMessage"/> or <see cref="PostMessage"/>,

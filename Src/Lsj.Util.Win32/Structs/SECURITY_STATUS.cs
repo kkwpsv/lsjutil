@@ -5,6 +5,9 @@
     /// </summary>
     public struct SECURITY_STATUS
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int Value;
     }
 }

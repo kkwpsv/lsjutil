@@ -1,8 +1,13 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DebuggingEvents;
+using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 
 namespace Lsj.Util.Win32
 {
@@ -43,6 +48,52 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool ContinueDebugEvent([In]uint dwProcessId, [In]uint dwThreadId, [In]DebugContinueStatus dwContinueStatus);
+
+        /// <summary>
+        /// <para>
+        /// Enables a debugger to attach to an active process and debug it.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugactiveprocess
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The identifier for the process to be debugged.
+        /// The debugger is granted debugging access to the process as if it created the process with the <see cref="DEBUG_ONLY_THIS_PROCESS"/> flag.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To stop debugging the process, you must exit the process or call the <see cref="DebugActiveProcessStop"/> function.
+        /// Exiting the debugger also exits the process unless you use the <see cref="DebugSetProcessKillOnExit"/> function.
+        /// The debugger must have appropriate access to the target process, and it must be able to open the process for <see cref="PROCESS_ALL_ACCESS"/>.
+        /// <see cref="DebugActiveProcess"/> can fail if the target process is created with a security descriptor
+        /// that grants the debugger anything less than full access.
+        /// If the debugging process has the SE_DEBUG_NAME privilege granted and enabled, it can debug any process.
+        /// After the system checks the process identifier and determines
+        /// that a valid debugging attachment is being made, the function returns <see cref="TRUE"/>.
+        /// Then the debugger is expected to wait for debugging events by using the <see cref="WaitForDebugEvent"/> function.
+        /// The system suspends all threads in the process, and sends the debugger events that represents the current state of the process.
+        /// The system sends the debugger a single <see cref="CREATE_PROCESS_DEBUG_EVENT"/> debugging event
+        /// that represents the process specified by the <paramref name="dwProcessId"/> parameter.
+        /// The <see cref="CREATE_PROCESS_DEBUG_INFO.lpStartAddress"/> member of the <see cref="CREATE_PROCESS_DEBUG_INFO"/> structure is <see cref="NULL"/>.
+        /// For each thread that is currently part of the process, the system sends a <see cref="CREATE_THREAD_DEBUG_EVENT"/> debugging event.
+        /// The <see cref="CREATE_THREAD_DEBUG_INFO.lpStartAddress"/> member of the <see cref="CREATE_THREAD_DEBUG_INFO"/> structure is <see cref="NULL"/>.
+        /// For each dynamic-link library (DLL) that is currently loaded into the address space of the target process,
+        /// the system sends a <see cref="LOAD_DLL_DEBUG_EVENT"/> debugging event.
+        /// The system arranges for the first thread in the process to execute a breakpoint instruction after it resumes.
+        /// Continuing this thread causes it to return to doing the same thing as before the debugger is attached.
+        /// After all of this is done, the system resumes all threads in the process.
+        /// When the first thread in the process resumes, it executes a breakpoint instruction
+        /// that causes an <see cref="EXCEPTION_DEBUG_EVENT"/> debugging event to be sent to the debugger.
+        /// All future debugging events are sent to the debugger by using the normal mechanism and rules.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugActiveProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DebugActiveProcess([In]DWORD dwProcessId);
 
         /// <summary>
         /// <para>
@@ -132,7 +183,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Sends a string to the debugger for display.
         /// Important
-        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugStringW"/> and instead only output ASCII strings.
+        /// In the past, the operating system did not output Unicode strings via <see cref="OutputDebugString"/> and instead only output ASCII strings.
         /// To force <see cref="OutputDebugString"/> to correctly output Unicode strings,
         /// debuggers are required to call <see cref="WaitForDebugEventEx"/> to opt into the new behavior.
         /// On calling <see cref="WaitForDebugEventEx"/>, the operating system will know that the debugger supports Unicode

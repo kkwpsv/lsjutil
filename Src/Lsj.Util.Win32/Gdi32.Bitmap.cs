@@ -2,9 +2,21 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
+using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
+using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
+using static Lsj.Util.Win32.Enums.RasterCapabilities;
+using static Lsj.Util.Win32.Enums.RasterCodes;
+using static Lsj.Util.Win32.Enums.RasterOps;
+using static Lsj.Util.Win32.Enums.StretchBltModes;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
@@ -112,7 +124,8 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is performed when blits occur.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "BitBlt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1, [In]RasterCodes rop);
+        public static extern BOOL BitBlt([In]HDC hdc, [In]int x, [In]int y, [In]int cx, [In]int cy, [In]HDC hdcSrc, [In]int x1, [In]int y1,
+            [In]RasterCodes rop);
 
         /// <summary>
         /// <para>
@@ -174,7 +187,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="pbm">
         /// A pointer to a <see cref="BITMAP"/> structure that contains information about the bitmap.
-        /// If an application sets the <see cref="bmWidth"/> or <see cref="bmHeight"/> members to zero,
+        /// If an application sets the <see cref="BITMAP.bmWidth"/> or <see cref="BITMAP.bmHeight"/> members to zero,
         /// <see cref="CreateBitmapIndirect"/> returns the handle to a 1-by-1 pixel, monochrome bitmap.
         /// </param>
         /// <returns>
@@ -281,7 +294,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="pjBits">
         /// A pointer to an array of bytes containing the initial bitmap data.
-        /// The format of the data depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// The format of the data depends on the <see cref="BITMAPINFOHEADER.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
         /// to which the <paramref name="pbmi"/> parameter points.
         /// </param>
         /// <param name="pbmi">
@@ -308,13 +321,94 @@ namespace Lsj.Util.Win32
         /// For a device to reach optimal bitmap-drawing speed, specify fdwInit as <see cref="CBM_INIT"/>.
         /// Then, use the same color depth DIB as the video mode.
         /// When the video is running 4- or 8-bpp, use <see cref="DIB_PAL_COLORS"/>.
-        /// The <see cref="CBM_CREATDIB"/> flag for the fdwInit parameter is no longer supported.
+        /// The CBM_CREATDIB flag for the <paramref name="flInit"/> parameter is no longer supported.
         /// When you no longer need the bitmap, call the <see cref="DeleteObject"/> function to delete it.
         /// ICM: No color management is performed. The contents of the resulting bitmap are not color matched after the bitmap has been created.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBitmap", ExactSpelling = true, SetLastError = true)]
-        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]DWORD flInit,
+        public static extern HBITMAP CreateDIBitmap([In]HDC hdc, [In]in BITMAPINFOHEADER pbmih, [In]CreateDIBitmapFlags flInit,
             [In]IntPtr pjBits, [In]in BITMAPINFO pbmi, [In]UINT iUsage);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDIBSection"/> function creates a DIB that applications can write to directly.
+        /// The function gives you a pointer to the location of the bitmap bit values.
+        /// You can supply a handle to a file-mapping object that the function will use to create the bitmap,
+        /// or you can let the system allocate the memory for the bitmap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibsection
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// If the value of <paramref name="usage"/> is <see cref="DIB_PAL_COLORS"/>,
+        /// the function uses this device context's logical palette to initialize the DIB colors.
+        /// </param>
+        /// <param name="pbmi">
+        /// A pointer to a <see cref="BITMAPINFO"/> structure that specifies various attributes of the DIB, including the bitmap dimensions and colors.
+        /// </param>
+        /// <param name="usage">
+        /// The type of data contained in the <see cref="BITMAPINFO.bmiColors"/> array member of the <see cref="BITMAPINFO"/> structure
+        /// pointed to by <paramref name="pbmi"/> (either logical palette indexes or literal RGB values).
+        /// The following values are defined.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// The <see cref="BITMAPINFO.bmiColors"/> member is an array of 16-bit indexes
+        /// into the logical palette of the device context specified by <paramref name="hdc"/>.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// The <see cref="BITMAPINFO"/> structure contains an array of literal RGB values.
+        /// </param>
+        /// <param name="ppvBits">
+        /// A pointer to a variable that receives a pointer to the location of the DIB bit values.
+        /// </param>
+        /// <param name="hSection">
+        /// A handle to a file-mapping object that the function will use to create the DIB.
+        /// This parameter can be <see cref="NULL"/>.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, it must be a handle to a file-mapping object
+        /// created by calling the <see cref="CreateFileMapping"/> function with the <see cref="PAGE_READWRITE"/> or <see cref="PAGE_WRITECOPY"/> flag.
+        /// Read-only DIB sections are not supported.
+        /// Handles created by other means will cause <see cref="CreateDIBSection"/> to fail.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, the <see cref="CreateDIBSection"/> function locates the bitmap bit values
+        /// at offset <paramref name="offset"/> in the file-mapping object referred to by <paramref name="hSection"/>.
+        /// An application can later retrieve the <paramref name="hSection"/> handle by calling the <see cref="GetObject"/> function
+        /// with the <see cref="HBITMAP"/> returned by <see cref="CreateDIBSection"/>.
+        /// If <paramref name="hSection"/> is <see cref="NULL"/>, the system allocates memory for the DIB.
+        /// In this case, the <see cref="CreateDIBSection"/> function ignores the <paramref name="offset"/> parameter.
+        /// An application cannot later obtain a handle to this memory.
+        /// The <see cref="DIBSECTION.dshSection"/> member of the <see cref="DIBSECTION"/> structure filled in
+        /// by calling the <see cref="GetObject"/> function will be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="offset">
+        /// The offset from the beginning of the file-mapping object referenced by <paramref name="hSection"/>
+        /// where storage for the bitmap bit values is to begin.
+        /// This value is ignored if <paramref name="hSection"/> is <see cref="NULL"/>.
+        /// The bitmap bit values are aligned on doubleword boundaries, so <paramref name="offset"/> must be a multiple of the size of a <see cref="DWORD"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the newly created DIB, and <paramref name="ppvBits"/> points to the bitmap bit values.
+        /// If the function fails, the return value is <see cref="NULL"/>, and <paramref name="ppvBits"/> is <see cref="NULL"/>.
+        /// This function can return the following value.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: One or more of the input parameters is invalid.
+        /// </returns>
+        /// <remarks>
+        /// As noted above, if <paramref name="hSection"/> is <see cref="NULL"/>, the system allocates memory for the DIB.
+        /// The system closes the handle to that memory when you later delete the DIB by calling the <see cref="DeleteObject"/> function.
+        /// If <paramref name="hSection"/> is not <see cref="NULL"/>, you must close the <paramref name="hSection"/> memory handle yourself
+        /// after calling <see cref="DeleteObject"/> to delete the bitmap.
+        /// You cannot paste a DIB section from one application into another application.
+        /// <see cref="CreateDIBSection"/> does not use the <see cref="BITMAPINFOHEADER"/> parameters <see cref="BITMAPINFOHEADER.biXPelsPerMeter"/>
+        /// or <see cref="BITMAPINFOHEADER.biYPelsPerMeter"/> and will not provide resolution information in the <see cref="BITMAPINFO"/> structure.
+        /// You need to guarantee that the GDI subsystem has completed any drawing to a bitmap created by <see cref="CreateDIBSection"/>
+        /// before you draw to the bitmap yourself.
+        /// Access to the bitmap must be synchronized.
+        /// Do this by calling the <see cref="GdiFlush"/> function.
+        /// This applies to any use of the pointer to the bitmap bit values,
+        /// including passing the pointer in calls to functions such as <see cref="SetDIBits"/>.
+        /// ICM: No color management is done.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBSection", ExactSpelling = true, SetLastError = true)]
+        public static extern HBITMAP CreateDIBSection([In]HDC hdc, [In]in BITMAPINFO pbmi, [In]DIBColorTableIdentifiers usage,
+            [Out]out IntPtr ppvBits, [In]HANDLE hSection, [In]DWORD offset);
 
         /// <summary>
         /// <para>
@@ -735,7 +829,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpBits">
         /// A pointer to the DIB color data, stored as an array of bytes.
-        /// The format of the bitmap values depends on the <see cref="BITMAPINFO.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
+        /// The format of the bitmap values depends on the <see cref="BITMAPINFOHEADER.biBitCount"/> member of the <see cref="BITMAPINFO"/> structure
         /// pointed to by the <paramref name="lpbmi"/> parameter.
         /// </param>
         /// <param name="lpbmi">
@@ -768,9 +862,12 @@ namespace Lsj.Util.Win32
         /// The origin for bottom-up DIBs is the lower-left corner of the bitmap; the origin for top-down DIBs is the upper-left corner of the bitmap.
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
-        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,
-        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
-        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
+        /// that specifies the <see cref="BITMAPV4HEADER.bV4GammaRed"/>, <see cref="BITMAPV4HEADER.bV4GammaGreen"/>,
+        /// <see cref="BITMAPV4HEADER.bV4GammaBlue"/> and <see cref="BITMAPV4HEADER.bV4Endpoints"/> members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="BITMAPV5HEADER.bV5GammaRed"/>,
+        /// <see cref="BITMAPV5HEADER.bV5GammaGreen"/>, <see cref="BITMAPV5HEADER.bV5GammaBlue"/> and <see cref="BITMAPV5HEADER.bV5Endpoints"/> members
+        /// or the <see cref="BITMAPV5HEADER.bV5ProfileData"/> and <see cref="BITMAPV5HEADER.bV5ProfileSize"/> members,
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
@@ -855,14 +952,17 @@ namespace Lsj.Util.Win32
         /// <paramref name="lpvBits"/> points to a buffer containing a JPEG or PNG image.
         /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of specifies the size of the buffer.
         /// The <paramref name="ColorUse"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
-        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
-        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="SetDIBitsToDevice"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/>
+        /// or <see cref="CHECKPNGFORMAT"/> escape to verify that the printer recognizes the JPEG or PNG image,
+        /// respectively, before calling <see cref="SetDIBitsToDevice"/>.
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/>
-        /// that specifies the <see cref="gamma"/> and <see cref="endpoints"/> members,
-        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
-        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// that specifies the <see cref="BITMAPV4HEADER.bV4GammaRed"/>, <see cref="BITMAPV4HEADER.bV4GammaGreen"/>,
+        /// <see cref="BITMAPV4HEADER.bV4GammaBlue"/> and <see cref="BITMAPV4HEADER.bV4Endpoints"/> members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="BITMAPV5HEADER.bV5GammaRed"/>,
+        /// <see cref="BITMAPV5HEADER.bV5GammaGreen"/>, <see cref="BITMAPV5HEADER.bV5GammaBlue"/> and <see cref="BITMAPV5HEADER.bV5Endpoints"/> members
+        /// or the <see cref="BITMAPV5HEADER.bV5ProfileData"/> and <see cref="BITMAPV5HEADER.bV5ProfileSize"/> members,
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>
@@ -1139,7 +1239,7 @@ namespace Lsj.Util.Win32
         /// <param name="iUsage">
         /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure was provided and,
         /// if so, whether <see cref="BITMAPINFO.bmiColors"/> contains explicit red, green, blue (RGB) values or indexes.
-        /// The <see cref="iUsage"/> parameter must be one of the following values.
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
         /// <see cref="DIB_PAL_COLORS"/>:
         /// The array contains 16-bit indexes into the logical palette of the source device context.
         /// <see cref="DIB_RGB_COLORS"/>:
@@ -1178,13 +1278,15 @@ namespace Lsj.Util.Win32
         /// The <see cref="BITMAPINFOHEADER.biSizeImage"/> member of the <see cref="BITMAPINFOHEADER"/> structure specifies the size of the buffer.
         /// The <paramref name="iUsage"/> parameter must be set to <see cref="DIB_RGB_COLORS"/>.
         /// The <paramref name="rop"/> parameter must be set to <see cref="SRCCOPY"/>.
-        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/> or <see cref="CHECKPNGFORMAT"/> escape
-        /// to verify that the printer recognizes the JPEG or PNG image, respectively, before calling <see cref="StretchDIBits"/>.
+        /// To ensure proper metafile spooling while printing, applications must call the <see cref="CHECKJPEGFORMAT"/>
+        /// or <see cref="CHECKPNGFORMAT"/> escape to verify that the printer recognizes the JPEG or PNG image,
+        /// respectively, before calling <see cref="StretchDIBits"/>.
         /// ICM: Color management is performed if color management has been enabled with a call to <see cref="SetICMMode"/>
         /// with the iEnableICM parameter set to <see cref="ICM_ON"/>.
         /// If the bitmap specified by <paramref name="lpbmi"/> has a <see cref="BITMAPV4HEADER"/> that specifies the gamma and endpoints members,
-        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="gamma"/> and <see cref="endpoints"/> members
-        /// or the <see cref="profileData"/> and <see cref="profileSize"/> members,
+        /// or a <see cref="BITMAPV5HEADER"/> that specifies either the <see cref="BITMAPV5HEADER.bV5GammaRed"/>,
+        /// <see cref="BITMAPV5HEADER.bV5GammaGreen"/>, <see cref="BITMAPV5HEADER.bV5GammaBlue"/> and <see cref="BITMAPV5HEADER.bV5Endpoints"/> members
+        /// or the <see cref="BITMAPV5HEADER.bV5ProfileData"/> and <see cref="BITMAPV5HEADER.bV5ProfileSize"/> members,
         /// then the call treats the bitmap's pixels as being expressed in the color space described by those members,
         /// rather than in the device context's source color space.
         /// </remarks>

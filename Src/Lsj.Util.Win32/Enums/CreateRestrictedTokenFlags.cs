@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Enums
     public enum CreateRestrictedTokenFlags : uint
     {
         /// <summary>
-        /// Disables all privileges in the new token except the <see cref="SeChangeNotifyPrivilege"/> privilege.
+        /// Disables all privileges in the new token except the SeChangeNotifyPrivilege privilege.
         /// If this value is specified, the DeletePrivilegeCount and PrivilegesToDelete parameters are ignored.
         /// </summary>
         DISABLE_MAX_PRIVILEGE = 0x1,

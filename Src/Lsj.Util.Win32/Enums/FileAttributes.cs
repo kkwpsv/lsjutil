@@ -144,5 +144,10 @@ namespace Lsj.Util.Win32.Enums
         /// This value is reserved for system use.
         /// </summary>
         FILE_ATTRIBUTE_VIRTUAL = 0x00010000,
+
+        /// <summary>
+        /// INVALID_FILE_ATTRIBUTES
+        /// </summary>
+        INVALID_FILE_ATTRIBUTES = unchecked((uint)-1),
     }
 }

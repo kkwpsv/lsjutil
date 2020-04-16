@@ -1,10 +1,7 @@
-﻿using Lsj.Util.Win32.Enums;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {

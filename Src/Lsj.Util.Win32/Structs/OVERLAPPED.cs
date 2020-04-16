@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -16,7 +18,7 @@ namespace Lsj.Util.Win32.Structs
     /// <remarks>
     /// Any unused members of this structure should always be initialized to zero before the structure is used in a function call.
     /// Otherwise, the function may fail and return <see cref="ERROR_INVALID_PARAMETER"/>.
-    /// The <see cref="UNIONStruct.Offset"/> and <see cref="UNIONStruct.OffsetHigh"/> members together represent a 64-bit file position.
+    /// The <see cref="Offset"/> and <see cref="OffsetHigh"/> members together represent a 64-bit file position.
     /// It is a byte offset from the start of the file or file-like device, and it is specified by the user; the system will not modify these values.
     /// The calling process must set this member before passing the <see cref="OVERLAPPED"/> structure to functions that use an offset,
     /// such as the <see cref="ReadFile"/> or <see cref="WriteFile"/> (and related) functions.
@@ -43,19 +45,54 @@ namespace Lsj.Util.Win32.Structs
         /// When the request is completed, the system sets this member to the status code for the completed request.
         /// The <see cref="Internal"/> member was originally reserved for system use and its behavior may change.
         /// </summary>
-        public UIntPtr Internal;
+        public ULONG_PTR Internal;
 
         /// <summary>
         /// The number of bytes transferred for the I/O request.
         /// The system sets this member if the request is completed without errors.
         /// The <see cref="InternalHigh"/> member was originally reserved for system use and its behavior may change.
         /// </summary>
-        public UIntPtr InternalHigh;
+        public ULONG_PTR InternalHigh;
 
         /// <summary>
         /// 
         /// </summary>
-        public UNIONStruct UNIONStructName;
+        private UnionStruct<InternalStruct, PVOID> DUMMYUNIONNAME;
+
+        /// <summary>
+        /// The low-order portion of the file position at which to start the I/O request, as specified by the user.
+        /// This member is nonzero only when performing I/O requests on a seeking device that supports the concept of an offset
+        /// (also referred to as a file pointer mechanism), such as a file.
+        /// Otherwise, this member must be zero.
+        /// For additional information, see Remarks.
+        /// </summary>
+        public uint Offset
+        {
+            get => DUMMYUNIONNAME.Struct1.Offset;
+            set => DUMMYUNIONNAME.Struct1.Offset = value;
+        }
+
+        /// <summary>
+        /// The high-order portion of the file position at which to start the I/O request, as specified by the user.
+        /// This member is nonzero only when performing I/O requests on a seeking device that supports the concept of an offset
+        /// (also referred to as a file pointer mechanism), such as a file.
+        /// Otherwise, this member must be zero.
+        /// For additional information, see Remarks.
+        /// </summary>
+        public uint OffsetHigh
+        {
+            get => DUMMYUNIONNAME.Struct1.OffsetHigh;
+            set => DUMMYUNIONNAME.Struct1.OffsetHigh = value;
+        }
+
+        /// <summary>
+        /// Reserved for system use; do not use after initialization to zero.
+        /// </summary>
+        public PVOID Pointer
+        {
+            get => DUMMYUNIONNAME.Struct2;
+            set => DUMMYUNIONNAME.Struct2 = value;
+        }
 
         /// <summary>
         /// A handle to the event that will be set to a signaled state by the system when the operation has completed.
@@ -71,39 +108,14 @@ namespace Lsj.Util.Win32.Structs
         /// your application can stop responding if you wait for the operation to complete and
         /// then call <see cref="GetOverlappedResult"/> with the bWait parameter set to <see langword="true"/>.
         /// </summary>
-        public IntPtr hEvent;
+        public HANDLE hEvent;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
-        public struct UNIONStruct
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct InternalStruct
         {
-            /// <summary>
-            /// The low-order portion of the file position at which to start the I/O request, as specified by the user.
-            /// This member is nonzero only when performing I/O requests on a seeking device that supports the concept of an offset
-            /// (also referred to as a file pointer mechanism), such as a file.
-            /// Otherwise, this member must be zero.
-            /// For additional information, see Remarks.
-            /// </summary>
-            [FieldOffset(0)]
             public uint Offset;
-
-            /// <summary>
-            /// The high-order portion of the file position at which to start the I/O request, as specified by the user.
-            /// This member is nonzero only when performing I/O requests on a seeking device that supports the concept of an offset
-            /// (also referred to as a file pointer mechanism), such as a file.
-            /// Otherwise, this member must be zero.
-            /// For additional information, see Remarks.
-            /// </summary>
-            [FieldOffset(4)]
             public uint OffsetHigh;
-
-            /// <summary>
-            /// Reserved for system use; do not use after initialization to zero.
-            /// </summary>
-            [FieldOffset(0)]
-            public uint Pointer;
         }
+
     }
 }

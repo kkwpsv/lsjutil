@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
@@ -295,5 +297,23 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitAtomTable", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InitAtomTable([In]DWORD nSize);
+
+        /// <summary>
+        /// <para>
+        /// Converts the specified atom into a string, so it can be passed to functions which accept either atoms or strings.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-makeintatom
+        /// </para>
+        /// </summary>
+        /// <param name="i">
+        /// The numeric value to be made into an integer atom. This parameter can be either an integer atom or a string atom.
+        /// </param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Although the return value of the <see cref="MAKEINTATOM"/> macro is cast as an LPTSTR value,
+        /// it cannot be used as a string pointer except when it is passed to atom-management functions that require an LPTSTR argument.
+        /// </remarks>
+        public static IntPtr MAKEINTATOM(int i) => new IntPtr(i);
     }
 }

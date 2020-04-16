@@ -5,10 +5,16 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
-using static Lsj.Util.Win32.Enums.CharacterSets;
-using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
-using static Lsj.Util.Win32.Enums.FontTypes;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
+using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.GDIEscapes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.RegionFlags;
+using static Lsj.Util.Win32.Enums.StockObjectIndexes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -54,6 +60,12 @@ namespace Lsj.Util.Win32
         public const int MM_MAX_AXES_NAMELEN = 16;
 
         /// <summary>
+        /// GDI_ERROR
+        /// </summary>
+        public const uint GDI_ERROR = 0xFFFFFFFF;
+
+
+        /// <summary>
         /// <para>
         /// The EnumObjectsProc function is an application-defined callback function used with the <see cref="EnumObjects"/> function.
         /// It is used to process the object data.
@@ -78,6 +90,31 @@ namespace Lsj.Util.Win32
         /// An application must register this function by passing its address to the <see cref="EnumObjects"/> function.
         /// </remarks>
         public delegate int GOBJENUMPROC([In]LPVOID lpLogObject, [In]LPARAM lpData);
+
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CancelDC"/> function cancels any pending operation on the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-canceldc
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CancelDC"/> function is used by multithreaded applications to cancel lengthy drawing operations.
+        /// If thread A initiates a lengthy drawing operation, thread B may cancel that operation by calling this function.
+        /// If an operation is canceled, the affected thread returns an error and the result of its drawing operation is undefined.
+        /// The results are also undefined if no drawing operation was in progress when the function was called.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDC", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CancelDC([In]HDC hdc);
 
         /// <summary>
         /// <para>
@@ -147,14 +184,15 @@ namespace Lsj.Util.Win32
         /// When this thread is destroyed, the <see cref="HDC"/> is no longer valid.
         /// Thus, if you create the HDC and pass it to another thread, then exit the first thread, the second thread will not be able to use the HDC.
         /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a display device, you must pass to <paramref name="pdm"/>
-        /// either <see langword="null"/> or a pointer to <see cref="DEVMODE"/> that
+        /// either <see cref="NULL"/> or a pointer to <see cref="DEVMODE"/> that
         /// matches the current <see cref="DEVMODE"/> of the display device that <paramref name="pwszDevice"/> specifies.
         /// We recommend to pass <see langword="null"/> and not to try to exactly match the <see cref="DEVMODE"/> for the current display device.
         /// When you call <see cref="CreateDC"/> to create the <see cref="HDC"/> for a printer device, the printer driver validates the <see cref="DEVMODE"/>.
-        /// If the printer driver determines that the <see cref="DEVMODE"/> is invalid (that is, printer driver can’t convert or consume the <see cref="DEVMODE"/>),
+        /// If the printer driver determines that the <see cref="DEVMODE"/> is invalid
+        /// (that is, printer driver can’t convert or consume the <see cref="DEVMODE"/>),
         /// the printer driver provides a default <see cref="DEVMODE"/> to create the <see cref="HDC"/> for the printer device.
-        /// ICM: To enable ICM, set the <see cref="dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
-        /// (pointed to by the <see cref="pInitData"/> parameter) to the appropriate value.
+        /// ICM: To enable ICM, set the <see cref="DEVMODE.dmICMMethod"/> member of the <see cref="DEVMODE"/> structure
+        /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
@@ -187,7 +225,7 @@ namespace Lsj.Util.Win32
         /// <param name="pdm">
         /// A pointer to a <see cref="DEVMODE"/> structure containing device-specific initialization data for the device driver.
         /// The <see cref="DocumentProperties"/> function retrieves this structure filled in for a specified device.
-        /// The <see cref="lpdvmInit"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
+        /// The <paramref name="pdm"/> parameter must be <see langword="null"/> if the device driver is to use the default initialization
         /// (if any) specified by the user.
         /// </param>
         /// <returns>
@@ -200,7 +238,8 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
         public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
             [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))]
+            [In]StructPointerOrNullObject<DEVMODE> pdm);
 
         /// <summary>
         /// <para>
@@ -536,8 +575,8 @@ namespace Lsj.Util.Win32
         /// The following table shows the type of information the buffer receives for each type of graphics object you can specify with hgdiobj.
         /// <see cref="HBITMAP"/>: <see cref="BITMAP"/>
         /// <see cref="HBITMAP"/> returned from a call to <see cref="CreateDIBSection"/>:
-        /// <see cref="DIBSECTION"/>, if <see cref="cbBuffer"/> is set to <code>sizeof (DIBSECTION)</code>,
-        /// or <see cref="BITMAP"/>, if cbBuffer is set to <code>sizeof (BITMAP)</code>.
+        /// <see cref="DIBSECTION"/>, if <paramref name="c"/> is set to <code>sizeof (DIBSECTION)</code>,
+        /// or <see cref="BITMAP"/>, if <paramref name="c"/> is set to <code>sizeof (BITMAP)</code>.
         /// <see cref="HPALETTE"/>:
         /// A <see cref="WORD"/> count of the number of entries in the logical palette
         /// <see cref="HPEN"/> returned from a call to <see cref="ExtCreatePen"/>: <see cref="EXTLOGPEN"/>
@@ -560,7 +599,7 @@ namespace Lsj.Util.Win32
         /// <see cref="LOGBRUSH"/>, <see cref="LOGFONT"/>, or <see cref="LOGPEN"/> structure, or a count of table entries (for a logical palette).
         /// If <paramref name="h"/> is a handle to a bitmap created by calling <see cref="CreateDIBSection"/>, and the specified buffer is large enough,
         /// the <see cref="GetObject"/> function returns a <see cref="DIBSECTION"/> structure.
-        /// In addition, the <see cref="bmBits"/> member of the <see cref="BITMAP"/> structure contained
+        /// In addition, the <see cref="BITMAP.bmBits"/> member of the <see cref="BITMAP"/> structure contained
         /// within the <see cref="DIBSECTION"/> will contain a pointer to the bitmap's bit values.
         /// If <paramref name="h"/> is a handle to a bitmap created by any other means,
         /// <see cref="GetObject"/> returns only the width, height, and color format information of the bitmap.
@@ -1175,7 +1214,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MM_ANISOTROPIC"/> mode allows the x-coordinates and y-coordinates to be adjusted independently.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetMapMode([In]HDC hdc, [In]int iMode);
+        public static extern int SetMapMode([In]HDC hdc, [In]MappingModes iMode);
 
         /// <summary>
         /// <para>

@@ -1,6 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Structs;
+using System;
+using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
+using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -26,21 +29,21 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The storage medium is a global memory handle (HGLOBAL).
         /// Allocate the global handle with the <see cref="GMEM_MOVEABLE"/> flag.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member of <see cref="STGMEDIUM"/> is NULL,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member of <see cref="STGMEDIUM"/> is NULL,
         /// the destination process should use <see cref="GlobalFree"/> to release the memory.
         /// </summary>
         TYMED_HGLOBAL = 1,
 
         /// <summary>
         /// The storage medium is a disk file identified by a path.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is NULL, the destination process should use <see cref="OpenFile"/> to delete the file.
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is NULL, the destination process should use <see cref="OpenFile"/> to delete the file.
         /// </summary>
         TYMED_FILE = 2,
 
         /// <summary>
         /// The storage medium is a stream object identified by an <see cref="IStream"/> pointer.
         /// Use <see cref="ISequentialStream.Read"/> to read the data.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
         /// the destination process should use Release to release the stream component.
         /// </summary>
         TYMED_ISTREAM = 4,
@@ -48,14 +51,14 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The storage medium is a storage component identified by an <see cref="IStorage"/> pointer.
         /// The data is in the streams and storages contained by this <see cref="IStorage"/> instance.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
         /// the destination process should use Release to release the storage component.
         /// </summary>
         TYMED_ISTORAGE = 8,
 
         /// <summary>
         /// The storage medium is a GDI component (HBITMAP).
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
         /// the destination process should use <see cref="DeleteObject"/> to delete the bitmap.
         /// </summary>
         TYMED_GDI = 16,
@@ -63,14 +66,14 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The storage medium is a metafile (HMETAFILE).
         /// Use the GDI functions to access the metafile's data.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
         /// the destination process should use <see cref="DeleteMetaFile"/> to delete the bitmap.
         /// </summary>
         TYMED_MFPICT = 32,
 
         /// <summary>
         /// The storage medium is an enhanced metafile.
-        /// If the <see cref="STGMEDIUM.punkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member is not <see cref="IntPtr.Zero"/>,
         /// the destination process should use <see cref="DeleteEnhMetaFile"/> to delete the bitmap.
         /// </summary>
         TYMED_ENHMF = 64,

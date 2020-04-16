@@ -1,8 +1,11 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -106,6 +109,42 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CancelIoEx([In]IntPtr hFile, [In][Out]ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Marks pending synchronous I/O operations that are issued by the specified thread as canceled.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/fileio/cancelsynchronousio-func
+        /// </para>
+        /// </summary>
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If this function cannot find a request to cancel, the return value is <see cref="FALSE"/>,
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// The caller must have the <see cref="THREAD_TERMINATE"/> access right.
+        /// If there are any pending I/O operations in progress for the specified thread,
+        /// the <see cref="CancelSynchronousIo"/> function marks them for cancellation.
+        /// Most types of operations can be canceled immediately; other operations can continue toward completion
+        /// before they are actually canceled and the caller is notified.
+        /// The <see cref="CancelSynchronousIo"/> function does not wait for all canceled operations to complete.
+        /// For more information, see I/O Completion/Cancellation Guidelines.
+        /// The operation being canceled is completed with one of three statuses; you must check the completion status to determine the completion state.
+        /// The three statuses are:
+        /// The operation completed normally. This can occur even if the operation was canceled,
+        /// because the cancel request might not have been submitted in time to cancel the operation.
+        /// The operation was canceled. The <see cref="GetLastError"/> function returns <see cref="ERROR_OPERATION_ABORTED"/>.
+        /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelSynchronousIo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CancelSynchronousIo([In]HANDLE hThread);
 
         /// <summary>
         /// <para>
@@ -414,7 +453,7 @@ namespace Lsj.Util.Win32
         /// If <paramref name="dwMilliseconds"/> is zero and the operation is still in progress,
         /// <see cref="GetLastError"/> returns <see cref="ERROR_IO_INCOMPLETE"/>.
         /// If <paramref name="dwMilliseconds"/> is nonzero, and an I/O completion routine or APC is queued,
-        /// GetLastError returns <see cref="WAIT_IO_COMPLETION"/>.
+        /// <see cref="GetLastError"/> returns <see cref="WAIT_IO_COMPLETION"/>.
         /// If <paramref name="dwMilliseconds"/> is nonzero and the specified timeout interval elapses,
         /// <see cref="GetLastError"/> returns <see cref="WAIT_TIMEOUT"/>.
         /// </returns>
@@ -609,6 +648,6 @@ namespace Lsj.Util.Win32
         /// To get more details about a completed I/O operation,
         /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
         /// </remarks>
-        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => lpOverlapped.Internal.SafeToUInt32() != (uint)STATUS_PENDING;
+        public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
     }
 }

@@ -1,8 +1,12 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Comdlg32;
+using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Gdi32;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -83,10 +87,10 @@ namespace Lsj.Util.Win32.Structs
         public IntPtr lCustData;
 
         /// <summary>
-        /// A pointer to a <see cref="CFHookProc"/> hook procedure that can process messages intended for the dialog box.
+        /// A pointer to a <see cref="LPCFHOOKPROC"/> hook procedure that can process messages intended for the dialog box.
         /// This member is ignored unless the <see cref="CF_ENABLEHOOK"/> flag is set in the <see cref="Flags"/> member.
         /// </summary>
-        public IntPtr lpfnHook;
+        public LPCFHOOKPROC lpfnHook;
 
         /// <summary>
         /// The name of the dialog box template resource in the module identified by the <see cref="hInstance"/> member.

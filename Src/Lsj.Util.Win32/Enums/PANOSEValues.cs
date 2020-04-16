@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -43,7 +41,8 @@ namespace Lsj.Util.Win32.Enums
         /// Pictorial
         /// </summary>
         PAN_FAMILY_PICTORIAL = 5,
-        /// <summary>
+
+        /// <summary>
         /// Cove
         /// </summary>
         PAN_SERIF_COVE = 2,
@@ -112,7 +111,8 @@ namespace Lsj.Util.Win32.Enums
         /// Rounded
         /// </summary>
         PAN_SERIF_ROUNDED = 15,
-        /// <summary>
+
+        /// <summary>
         /// Very light
         /// </summary>
         PAN_WEIGHT_VERY_LIGHT = 2,
@@ -161,7 +161,8 @@ namespace Lsj.Util.Win32.Enums
         /// NORD
         /// </summary>
         PAN_WEIGHT_NORD = 11,
-        /// <summary>
+
+        /// <summary>
         /// Old style
         /// </summary>
         PAN_PROP_OLD_STYLE = 2,

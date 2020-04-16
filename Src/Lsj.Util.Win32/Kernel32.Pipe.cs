@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.PipeModes;
 using static Lsj.Util.Win32.Enums.PipeOpenModes;
+using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 

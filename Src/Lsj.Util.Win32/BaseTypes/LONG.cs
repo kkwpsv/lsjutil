@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct LONG
     {
+        /// <summary>
+        /// MAXLONG
+        /// </summary>
+        public static LONG MAXLONG = 0x7fffffff;
+
         [FieldOffset(0)]
         private int _value;
 

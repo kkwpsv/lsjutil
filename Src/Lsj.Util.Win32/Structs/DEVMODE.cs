@@ -1,5 +1,16 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.DEVMODEBinConstants;
+using static Lsj.Util.Win32.Enums.DEVMODECollations;
+using static Lsj.Util.Win32.Enums.DEVMODEColors;
+using static Lsj.Util.Win32.Enums.DEVMODEDisplayOrientations;
+using static Lsj.Util.Win32.Enums.DEVMODEDuplexes;
+using static Lsj.Util.Win32.Enums.DEVMODEFields;
+using static Lsj.Util.Win32.Enums.DEVMODEFixedOutputs;
+using static Lsj.Util.Win32.Enums.DEVMODENups;
+using static Lsj.Util.Win32.Enums.DEVMODEOrientations;
+using static Lsj.Util.Win32.Enums.DEVMODEPrintQualities;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -36,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
     /// together with a new member, <see cref="dmNup"/>.
     /// This member is described in the preceding Members section.
     /// In Windows XP, a new struct member was added.
-    /// This struct member contains an existing <see cref="DEVMODEW"/> structure member, <see cref="dmPosition"/>, together with two new members, 
+    /// This struct member contains an existing <see cref="DEVMODE"/> structure member, <see cref="dmPosition"/>, together with two new members, 
     /// <see cref="dmDisplayOrientation"/> and <see cref="dmDisplayFixedOutput"/>.
     /// These members are described in the preceding Members section.
     /// Also for Windows XP, several members of the <see cref="DEVMODE"/> structure were moved to different locations in this structure.
@@ -89,7 +100,7 @@ namespace Lsj.Util.Win32.Structs
         /// The DM_XXX flags are defined in wingdi.h.
         /// </summary>
         [FieldOffset(72)]
-        public DWORD dmFields;
+        public DEVMODEFields dmFields;
 
         /// <summary>
         /// For printers, specifies the paper orientation.
@@ -97,7 +108,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(76)]
-        public short dmOrientation;
+        public DEVMODEOrientations dmOrientation;
 
         /// <summary>
         /// For printers, specifies the size of the paper to be printed on.
@@ -161,7 +172,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(90)]
-        public short dmPrintQuality;
+        public DEVMODEPrintQualities dmPrintQuality;
 
         /// <summary>
         /// For displays, specifies a <see cref="POINTL"/> structure containing the x- and y-coordinates of upper-left corner of the display,
@@ -182,7 +193,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see Returning Display Modes: DrvGetModes.
         /// </summary>
         [FieldOffset(84)]
-        public DWORD dmDisplayOrientation;
+        public DEVMODEDisplayOrientations dmDisplayOrientation;
 
         /// <summary>
         /// This member is defined only for Windows XP and later.
@@ -199,7 +210,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see Returning Display Modes: DrvGetModes.
         /// </summary>
         [FieldOffset(88)]
-        public DWORD dmDisplayFixedOutput;
+        public DEVMODEFixedOutputs dmDisplayFixedOutput;
 
         /// <summary>
         /// For printers, specifies whether a color printer should print color or monochrome.
@@ -207,7 +218,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(92)]
-        public short dmColor;
+        public DEVMODEColors dmColor;
 
         /// <summary>
         /// For printers, specifies duplex (double-sided) printing for duplex-capable printers.
@@ -215,7 +226,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="DMDUP_HORIZONTAL"/>, <see cref="DMDUP_SIMPLEX"/>, <see cref="DMDUP_VERTICAL"/>
         /// </summary>
         [FieldOffset(94)]
-        public short dmDuplex;
+        public DEVMODEDuplexes dmDuplex;
 
         /// <summary>
         /// For printers, specifies the y resolution of the printer, in DPI.
@@ -234,12 +245,13 @@ namespace Lsj.Util.Win32.Structs
         public short dmTTOption;
 
         /// <summary>
-        /// For printers, specifies whether multiple copies should be collated. This member can be one of the following values:
+        /// For printers, specifies whether multiple copies should be collated.
+        /// This member can be one of the following values:
         /// <see cref="DMCOLLATE_TRUE"/>, <see cref="DMCOLLATE_FALSE"/>
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(100)]
-        public short dmCollate;
+        public DEVMODECollations dmCollate;
 
         /// <summary>
         /// For printers, specifies the name of the form to use; such as "Letter" or "Legal".
@@ -293,7 +305,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(180)]
-        public DWORD dmNup;
+        public DEVMODENups dmNup;
 
         /// <summary>
         /// For displays, specifies the frequency, in hertz, of a display device in its current mode.

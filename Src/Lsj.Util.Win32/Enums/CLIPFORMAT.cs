@@ -1,7 +1,8 @@
-﻿using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -14,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats
     /// </para>
     /// </summary>
-    public enum CLIPFORMAT
+    public enum CLIPFORMAT : uint
     {
         /// <summary>
         /// Text format.
@@ -126,6 +127,10 @@ namespace Lsj.Util.Win32.Enums
         /// A memory object containing a <see cref="BITMAPV5HEADER"/> structure followed by the bitmap color space information and the bitmap bits.
         /// </summary>
         CF_DIBV5 = 17,
+
+        /// <summary>
+        /// 
+        /// </summary>
         CF_MAX = 18,
 
         /// <summary>

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Lsj.Util.Win32.Enums.ButtonControlMessages;
+using static Lsj.Util.Win32.Enums.ButtonControlNotifications;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -18,11 +18,11 @@ namespace Lsj.Util.Win32.Enums
     /// <remarks>
     /// For illustrations of the principal button styles such as <see cref="BS_CHECKBOX"/> and <see cref="BS_GROUPBOX"/>, see Button Types.
     /// The appearance of text or an icon or both on a button control depends on the <see cref="BS_ICON"/> and <see cref="BS_BITMAP"/> styles,
-    /// and whether the <see cref="ButtonControlMessages.BM_SETIMAGE"/> message is sent. The possible results are as follows.
-    /// BS_ICON or BS_BITMAP set: Yes. BM_SETIMAGE called: Yes. Result: Show icon only.
-    /// BS_ICON or BS_BITMAP set: No. BM_SETIMAGE called: Yes. Result: Show icon and text.
-    /// BS_ICON or BS_BITMAP set: Yes. BM_SETIMAGE called: No. Result: Show text only.
-    /// BS_ICON or BS_BITMAP set: No. BM_SETIMAGE called: No. Result: Show text only.
+    /// and whether the <see cref="BM_SETIMAGE"/> message is sent. The possible results are as follows.
+    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: Yes. <see cref="BM_SETIMAGE"/> called: Yes. Result: Show icon only.
+    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: No. <see cref="BM_SETIMAGE"/> called: Yes. Result: Show icon and text.
+    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: Yes. <see cref="BM_SETIMAGE"/> called: No. Result: Show text only.
+    /// <see cref="BS_ICON"/> or <see cref="BS_BITMAP"/> set: No. <see cref="BM_SETIMAGE"/> called: No. Result: Show text only.
     /// </remarks>
     public enum ButtonStyles
     {
@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Creates a command link button that behaves like a <see cref="BS_PUSHBUTTON"/> style button,
         /// but the command link button has a green arrow on the left pointing to the button text.
-        /// A caption for the button text can be set by sending the <see cref="ButtonControlMessages.BCM_SETNOTE"/> message to the button.
+        /// A caption for the button text can be set by sending the <see cref="BCM_SETNOTE"/> message to the button.
         /// </summary>
         BS_COMMANDLINK = 0x0000000E,
 
@@ -141,23 +141,23 @@ namespace Lsj.Util.Win32.Enums
         BS_MULTILINE = 0x00002000,
 
         /// <summary>
-        /// Enables a button to send <see cref="ButtonControlNotifications.BN_KILLFOCUS"/> and
-        /// <see cref="ButtonControlNotifications.BN_SETFOCUS"/> notification codes to its parent window.
-        /// Note that buttons send the <see cref="ButtonControlNotifications.BN_CLICKED"/> notification code regardless of whether it has this style.
-        /// To get <see cref="ButtonControlNotifications.BN_DBLCLK"/> notification codes,
+        /// Enables a button to send <see cref="BN_KILLFOCUS"/> and
+        /// <see cref="BN_SETFOCUS"/> notification codes to its parent window.
+        /// Note that buttons send the <see cref="BN_CLICKED"/> notification code regardless of whether it has this style.
+        /// To get <see cref="BN_DBLCLK"/> notification codes,
         /// the button must have the <see cref="BS_RADIOBUTTON"/> or <see cref="BS_OWNERDRAW"/> style.
         /// </summary>
         BS_NOTIFY = 0x00004000,
 
         /// <summary>
         /// Creates an owner-drawn button.
-        /// The owner window receives a <see cref="WindowsMessages.WM_DRAWITEM"/> message when a visual aspect of the button has changed.
+        /// The owner window receives a <see cref="WM_DRAWITEM"/> message when a visual aspect of the button has changed.
         /// Do not combine the <see cref="BS_OWNERDRAW"/> style with any other button styles.
         /// </summary>
         BS_OWNERDRAW = 0x0000000B,
 
         /// <summary>
-        /// Creates a push button that posts a <see cref="WindowsMessages.WM_COMMAND"/> message to the owner window when the user selects the button.
+        /// Creates a push button that posts a <see cref="WM_COMMAND"/> message to the owner window when the user selects the button.
         /// </summary>
         BS_PUSHBUTTON = 0x00000000,
 

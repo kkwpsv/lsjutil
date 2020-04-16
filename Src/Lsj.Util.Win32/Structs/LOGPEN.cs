@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.PenStyles;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -30,7 +32,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The <see cref="POINT"/> structure that contains the pen width, in logical units.
         /// If the pointer member is NULL, the pen is one pixel wide on raster devices.
-        /// The <see cref="y"/> member in the <see cref="POINT"/> structure for <see cref="lopnWidth"/> is not used.
+        /// The <see cref="POINT.y"/> member in the <see cref="POINT"/> structure for <see cref="lopnWidth"/> is not used.
         /// </summary>
         public POINT lopnWidth;
 

@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.Structs;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -11,18 +13,18 @@
     public enum STRRET_TYPE : uint
     {
         /// <summary>
-        /// The string is returned in the <see cref="cStr"/> member.
+        /// The string is returned in the <see cref="STRRET.cStr"/> member.
         /// </summary>
         STRRET_WSTR = 0,
 
         /// <summary>
-        /// The <see cref="uOffset"/> member value indicates the number of bytes
+        /// The <see cref="STRRET.uOffset"/> member value indicates the number of bytes
         /// from the beginning of the item identifier list where the string is located.
         /// </summary>
         STRRET_OFFSET = 0x1,
 
         /// <summary>
-        /// The string is at the address specified by <see cref="pOleStr"/> member.
+        /// The string is at the address specified by <see cref="STRRET.pOleStr"/> member.
         /// </summary>
         STRRET_CSTR = 0x2
     }

@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
-using Lsj.Util.Win32.Enums;
+using static Lsj.Util.Win32.Enums.ListBoxMessages;
+using static Lsj.Util.Win32.Enums.ListBoxStyles;
+using static Lsj.Util.Win32.Enums.OwnerDrawActions;
+using static Lsj.Util.Win32.Enums.OwnerDrawControlTypes;
+using static Lsj.Util.Win32.Enums.OwnerDrawStates;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -9,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// Provides information that the owner window uses to determine how to paint an owner-drawn control or menu item.
     /// The owner window of the owner-drawn control or menu item receives a pointer
-    /// to this structure as the lParam parameter of the <see cref="WindowsMessages.WM_DRAWITEM"/> message.
+    /// to this structure as the lParam parameter of the <see cref="WM_DRAWITEM"/> message.
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-drawitemstruct
@@ -23,9 +28,9 @@ namespace Lsj.Util.Win32.Structs
     {
         /// <summary>
         /// The control type. This member can be one of the following values. See Remarks.
-        /// <see cref="OwnerDrawControlTypes.ODT_BUTTON"/>, <see cref="OwnerDrawControlTypes.ODT_COMBOBOX"/>, <see cref="OwnerDrawControlTypes.ODT_LISTBOX"/>,
-        /// <see cref="OwnerDrawControlTypes.ODT_LISTVIEW"/>, <see cref="OwnerDrawControlTypes.ODT_MENU"/>, <see cref="OwnerDrawControlTypes.ODT_STATIC"/>,
-        /// <see cref="OwnerDrawControlTypes.ODT_TAB"/>
+        /// <see cref="ODT_BUTTON"/>, <see cref="ODT_COMBOBOX"/>, <see cref="ODT_LISTBOX"/>,
+        /// <see cref="ODT_LISTVIEW"/>, <see cref="ODT_MENU"/>, <see cref="ODT_STATIC"/>,
+        /// <see cref="ODT_TAB"/>
         /// </summary>
         public OwnerDrawControlTypes CtlType;
 
@@ -47,17 +52,17 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// The required drawing action. This member can be one or more of the values.
-        /// <see cref="OwnerDrawActions.ODA_DRAWENTIRE"/>, <see cref="OwnerDrawActions.ODA_FOCUS"/>, <see cref="OwnerDrawActions.ODA_SELECT"/>
+        /// <see cref="ODA_DRAWENTIRE"/>, <see cref="ODA_FOCUS"/>, <see cref="ODA_SELECT"/>
         /// </summary>
         public OwnerDrawActions itemAction;
 
         /// <summary>
         /// The visual state of the item after the current drawing action takes place.
         /// This member can be a combination of the values shown in the following table.
-        /// <see cref="OwnerDrawStates.ODS_CHECKED"/>, <see cref="OwnerDrawStates.ODS_COMBOBOXEDIT"/>, <see cref="OwnerDrawStates.ODS_DEFAULT"/>,
-        /// <see cref="OwnerDrawStates.ODS_DISABLED"/>, <see cref="OwnerDrawStates.ODS_FOUCUS"/>, <see cref="OwnerDrawStates.ODS_GRAYED"/>,
-        /// <see cref="OwnerDrawStates.ODS_HOTLIGHT"/>, <see cref="OwnerDrawStates.ODS_INACTIVE"/>, <see cref="OwnerDrawStates.ODS_NOACCEL"/>,
-        /// <see cref="OwnerDrawStates.ODS_NOFOCUSRECT"/>, <see cref="OwnerDrawStates.ODS_SELECTED"/>
+        /// <see cref="ODS_CHECKED"/>, <see cref="ODS_COMBOBOXEDIT"/>, <see cref="ODS_DEFAULT"/>,
+        /// <see cref="ODS_DISABLED"/>, <see cref="ODS_FOUCUS"/>, <see cref="ODS_GRAYED"/>,
+        /// <see cref="ODS_HOTLIGHT"/>, <see cref="ODS_INACTIVE"/>, <see cref="ODS_NOACCEL"/>,
+        /// <see cref="ODS_NOFOCUSRECT"/>, <see cref="ODS_SELECTED"/>
         /// </summary>
         public OwnerDrawStates itemState;
 
@@ -91,8 +96,8 @@ namespace Lsj.Util.Win32.Structs
         /// one of the following messages:
         /// <see cref="ComboBoxControlMessages.CB_ADDSTRING"/>, <see cref="ComboBoxControlMessages.CB_INSERTSTRING"/>,
         /// <see cref="LB_ADDSTRING"/>, <see cref="LB_INSERTSTRING"/>
-        /// If <see cref="CtlType"/> is <see cref="OwnerDrawControlTypes.ODT_BUTTON"/> or
-        /// <see cref="OwnerDrawControlTypes.ODT_STATIC"/>, <see cref="itemData"/> is zero.
+        /// If <see cref="CtlType"/> is <see cref="ODT_BUTTON"/> or
+        /// <see cref="ODT_STATIC"/>, <see cref="itemData"/> is zero.
         /// </summary>
         public UIntPtr itemData;
     }

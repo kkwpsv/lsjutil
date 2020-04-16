@@ -1,4 +1,6 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Enums.TYMED;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -4,8 +4,26 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.LoginProviders;
+using static Lsj.Util.Win32.Enums.LogonFlags;
+using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
+using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
+using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Shell32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Userenv;
 
 namespace Lsj.Util.Win32
 {
@@ -14,6 +32,141 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Advapi32
     {
+        /// <summary>
+        /// <para>
+        /// The <see cref="AdjustTokenPrivileges"/> function enables or disables privileges in the specified access token.
+        /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token that contains the privileges to be modified.
+        /// The handle must have <see cref="TOKEN_ADJUST_PRIVILEGES"/> access to the token.
+        /// If the <paramref name="PreviousState"/> parameter is not <see cref="NullRef{TOKEN_PRIVILEGES}"/>,
+        /// the handle must also have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="DisableAllPrivileges">
+        /// Specifies whether the function disables all of the token's privileges.
+        /// If this value is <see cref="TRUE"/>, the function disables all privileges and ignores the <paramref name="NewState"/> parameter.
+        /// If it is <see cref="FALSE"/>, the function modifies privileges based on the information pointed to by the <paramref name="NewState"/> parameter.
+        /// </param>
+        /// <param name="NewState">
+        /// A pointer to a <see cref="TOKEN_PRIVILEGES"/> structure that specifies an array of privileges and their attributes.
+        /// If the <paramref name="DisableAllPrivileges"/> parameter is <see cref="FALSE"/>,
+        /// the <see cref="AdjustTokenPrivileges"/> function enables, disables, or removes these privileges for the token.
+        /// The following table describes the action taken by the <see cref="AdjustTokenPrivileges"/> function, based on the privilege attribute.
+        /// <see cref="SE_PRIVILEGE_ENABLED"/>: The function enables the privilege.
+        /// <see cref="SE_PRIVILEGE_REMOVED"/>:
+        /// The privilege is removed from the list of privileges in the token.
+        /// The other privileges in the list are reordered to remain contiguous.
+        /// <see cref="SE_PRIVILEGE_REMOVED"/> supersedes <see cref="SE_PRIVILEGE_ENABLED"/>.
+        /// Because the privilege has been removed from the token, attempts to reenable the privilege result in
+        /// the warning <see cref="ERROR_NOT_ALL_ASSIGNED"/> as if the privilege had never existed.
+        /// Attempting to remove a privilege that does not exist in the token results in <see cref="ERROR_NOT_ALL_ASSIGNED"/> being returned.
+        /// Privilege checks for removed privileges result in <see cref="STATUS_PRIVILEGE_NOT_HELD"/>.
+        /// Failed privilege check auditing occurs as normal.
+        /// The removal of the privilege is irreversible, so the name of the removed privilege is not included
+        /// in the <paramref name="PreviousState"/> parameter after a call to <see cref="AdjustTokenPrivileges"/>.
+        /// Windows XP with SP1: The function cannot remove privileges. This value is not supported.
+        /// None: The function disables the privilege.
+        /// If <paramref name="DisableAllPrivileges"/> is <see cref="TRUE"/>, the function ignores this parameter.
+        /// </param>
+        /// <param name="BufferLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is NULL.
+        /// </param>
+        /// <param name="PreviousState">
+        /// A pointer to a buffer that the function fills with a <see cref="TOKEN_PRIVILEGES"/> structure
+        /// that contains the previous state of any privileges that the function modifies.
+        /// That is, if a privilege has been modified by this function, the privilege and its previous state are contained
+        /// in the <see cref="TOKEN_PRIVILEGES"/> structure referenced by <paramref name="PreviousState"/>.
+        /// If the <see cref="TOKEN_PRIVILEGES.PrivilegeCount"/> member of <see cref="TOKEN_PRIVILEGES"/> is zero,
+        /// then no privileges have been changed by this function.
+        /// This parameter can be <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
+        /// If you specify a buffer that is too small to receive the complete list of modified privileges,
+        /// the function fails and does not adjust any privileges.
+        /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
+        /// to the number of bytes required to hold the complete list of modified privileges.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the required size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_PRIVILEGES}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// To determine whether the function adjusted all of the specified privileges, call <see cref="GetLastError"/>,
+        /// which returns one of the following values when the function succeeds:
+        /// <see cref="ERROR_SUCCESS"/>: The function adjusted all specified privileges.
+        /// <see cref="ERROR_NOT_ALL_ASSIGNED"/>:
+        /// The token does not have one or more of the privileges specified in the <paramref name="NewState"/> parameter.
+        /// The function may succeed with this error value even if no privileges were adjusted.
+        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AdjustTokenPrivileges"/> function cannot add new privileges to the access token.
+        /// It can only enable or disable the token's existing privileges.
+        /// To determine the token's privileges, call the <see cref="GetTokenInformation"/> function.
+        /// The <paramref name="NewState"/> parameter can specify privileges that the token does not have, without causing the function to fail.
+        /// In this case, the function adjusts the privileges that the token does have and ignores the other privileges so that the function succeeds.
+        /// Call the <see cref="GetLastError"/> function to determine whether the function adjusted all of the specified privileges.
+        /// The <paramref name="PreviousState"/> parameter indicates the privileges that were adjusted.
+        /// The <paramref name="PreviousState"/> parameter retrieves a <see cref="TOKEN_PRIVILEGES"/> structure
+        /// that contains the original state of the adjusted privileges.
+        /// To restore the original state, pass the <paramref name="PreviousState"/> pointer as the <paramref name="NewState"/> parameter
+        /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustTokenPrivileges([In]HANDLE TokenHandle, [In]BOOL DisableAllPrivileges, [In]in TOKEN_PRIVILEGES NewState,
+            [In]DWORD BufferLength, [Out]out TOKEN_PRIVILEGES PreviousState, [Out]out DWORD ReturnLength);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CheckTokenMembership"/> function determines whether a specified security identifier (SID) is enabled in an access token.
+        /// If you want to determine group membership for app container tokens, you need to use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token.
+        /// The handle must have <see cref="TOKEN_QUERY"/> access to the token.
+        /// The token must be an impersonation token.
+        /// If <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>,
+        /// <see cref="CheckTokenMembership"/> uses the impersonation token of the calling thread.
+        /// If the thread is not impersonating, the function duplicates the thread's primary token to create an impersonation token.
+        /// </param>
+        /// <param name="SidToCheck">
+        /// A pointer to a <see cref="SID"/> structure.
+        /// The <see cref="CheckTokenMembership"/> function checks for the presence of this SID in the user and group SIDs of the access token.
+        /// </param>
+        /// <param name="IsMember">
+        /// A pointer to a variable that receives the results of the check
+        /// If the <see cref="SID"/> is present and has the <see cref="SE_GROUP_ENABLED"/> attribute,
+        /// IsMember returns <see langword="true"/>; otherwise, it returns <see langword="false"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CheckTokenMembership"/> function simplifies the process of determining whether a SID is both present and enabled in an access token.
+        /// Even if a SID is present in the token, the system may not use the SID in an access check.
+        /// The SID may be disabled or have the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// The system uses only enabled SIDs to grant access when performing an access check.
+        /// For more information, see SID Attributes in an Access Token.
+        /// If <paramref name="TokenHandle"/> is a restricted token, or if <paramref name="TokenHandle"/> is <see cref="IntPtr.Zero"/>
+        /// and the current effective token of the calling thread is a restricted token,
+        /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CheckTokenMembership([In]HANDLE TokenHandle, [In]PSID SidToCheck, [Out]out BOOL IsMember);
+
         /// <summary>
         /// <para>
         /// Creates a new process and its primary thread. Then the new process runs the specified executable file in the security context
@@ -246,11 +399,11 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Creates a new process and its primary thread. The new process runs in the security context of the specified token.
         /// It can optionally load the user profile for the specified user.
-        /// The process that calls CreateProcessWithTokenW must have the <see cref="SE_IMPERSONATE_NAME"/> privilege.
+        /// The process that calls CreateProcessWithTokenW must have the SE_IMPERSONATE_NAME privilege.
         /// If this function fails with <see cref="SystemErrorCodes.ERROR_PRIVILEGE_NOT_HELD"/>, use the <see cref="CreateProcessAsUser"/>
         /// or <see cref="CreateProcessWithLogonW"/> function instead.
-        /// Typically, the process that calls <see cref="CreateProcessAsUser"/> must have the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege
-        /// and may require the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege if the token is not assignable.
+        /// Typically, the process that calls <see cref="CreateProcessAsUser"/> must have the SE_INCREASE_QUOTA_NAME privilege
+        /// and may require the SE_ASSIGNPRIMARYTOKEN_NAME privilege if the token is not assignable.
         /// <see cref="CreateProcessWithLogonW"/> requires no special privileges, but the specified user account must be allowed to log on interactively.
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
@@ -264,7 +417,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Access Rights for Access-Token Objects.
         /// The user represented by the token must have read and execute access to the application specified
         /// by the <paramref name="lpApplicationName"/> or the <paramref name="lpCommandLine"/> parameter.
-        /// To get a primary token that represents the specified user, call the LogonUser function.
+        /// To get a primary token that represents the specified user, call the <see cref="LogonUser"/> function.
         /// Alternatively, you can call the <see cref="DuplicateTokenEx"/> function to convert an impersonation token into a primary token.
         /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
         /// Terminal Services:  The process is run in the session specified in the token.
@@ -489,7 +642,7 @@ namespace Lsj.Util.Win32
         /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
         /// the function fails and stores no data in the buffer.
         /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
-        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof(<see cref="TOKEN_DEFAULT_DACL"/>) and
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
         /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="IntPtr.Zero"/>.
         /// </param>
         /// <returns>
@@ -507,8 +660,8 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Creates a new process and its primary thread.
         /// The new process runs in the security context of the user represented by the specified token.
-        /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the <see cref="SE_INCREASE_QUOTA_NAME"/> privilege
-        /// and may require the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege if the token is not assignable.
+        /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the SE_INCREASE_QUOTA_NAME privilege
+        /// and may require the SE_ASSIGNPRIMARYTOKEN_NAME privilege if the token is not assignable.
         /// If this function fails with <see cref="SystemErrorCodes.ERROR_PRIVILEGE_NOT_HELD"/>,
         /// use the <see cref="CreateProcessWithLogonW"/> function instead.
         /// <see cref="CreateProcessWithLogonW"/> requires no special privileges,
@@ -529,7 +682,7 @@ namespace Lsj.Util.Win32
         /// Alternatively, you can call the <see cref="DuplicateTokenEx"/> function to convert an impersonation token into a primary token.
         /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
         /// If <paramref name="hToken"/> is a restricted version of the caller's primary token,
-        /// the <see cref="SE_ASSIGNPRIMARYTOKEN_NAME"/> privilege is not required.
+        /// the SE_ASSIGNPRIMARYTOKEN_NAME privilege is not required.
         /// If the necessary privileges are not already enabled, <see cref="CreateProcessAsUser"/> enables them for the duration of the call.
         /// For more information, see Running with Special Privileges.
         /// Terminal Services:  The process is run in the session specified in the token.
@@ -787,6 +940,159 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ImpersonateLoggedOnUser"/> function lets the calling thread impersonate the security context of a logged-on user.
+        /// The user is represented by a token handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser
+        /// </para>
+        /// </summary>
+        /// <param name="hToken">
+        /// A handle to a primary or impersonation access token that represents a logged-on user.
+        /// This can be a token handle returned by a call to <see cref="LogonUser"/>, <see cref="CreateRestrictedToken"/>,
+        /// <see cref="DuplicateToken"/>, <see cref="DuplicateTokenEx"/>, <see cref="OpenProcessToken"/>, or <see cref="OpenThreadToken"/> functions.
+        /// If <paramref name="hToken"/> is a handle to a primary token, the token must
+        /// have <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_DUPLICATE"/> access.
+        /// If <paramref name="hToken"/> is a handle to an impersonation token,
+        /// the token must have <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/> access.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The impersonation lasts until the thread exits or until it calls <see cref="RevertToSelf"/>.
+        /// The calling thread does not need to have any particular privileges to call <see cref="ImpersonateLoggedOnUser"/>.
+        /// If the call to <see cref="ImpersonateLoggedOnUser"/> fails, the client connection is not impersonated
+        /// and the client request is made in the security context of the process.
+        /// If the process is running as a highly privileged account, such as LocalSystem, or as a member of an administrative group,
+        /// the user may be able to perform actions they would otherwise be disallowed.
+        /// Therefore, it is important to always check the return value of the call, and if it fails, raise an error;
+        /// do not continue execution of the client request.
+        /// All impersonate functions, including <see cref="ImpersonateLoggedOnUser"/> allow the requested impersonation if one of the following is true:
+        /// The requested impersonation level of the token is less than <see cref="SecurityImpersonation"/>,
+        /// such as <see cref="SecurityIdentification"/> or <see cref="SecurityAnonymous"/>.
+        /// The caller has the SeImpersonatePrivilege privilege.
+        /// A process (or another process in the caller's logon session) created the token using explicit credentials
+        /// through <see cref="LogonUser"/> or <see cref="LsaLogonUser"/> function.
+        /// The authenticated identity is same as the caller.
+        /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
+        /// For more information about impersonation, see Client Impersonation.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateLoggedOnUser", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateLoggedOnUser([In]HANDLE hToken);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="LogonUser"/> function attempts to log a user on to the local computer.
+        /// The local computer is the computer from which LogonUser was called.
+        /// You cannot use <see cref="LogonUser"/> to log on to a remote computer.
+        /// You specify the user with a user name and domain and authenticate the user with a plaintext password.
+        /// If the function succeeds, you receive a handle to a token that represents the logged-on user.
+        /// You can then use this token handle to impersonate the specified user or, in most cases,
+        /// to create a process that runs in the context of the specified user.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-logonuserw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszUsername">
+        /// A pointer to a null-terminated string that specifies the name of the user.
+        /// This is the name of the user account to log on to.
+        /// If you use the user principal name (UPN) format, User@DNSDomainName, the <paramref name="lpszDomain"/> parameter must be <see langword="null"/>.
+        /// </param>
+        /// <param name="lpszDomain">
+        /// A pointer to a null-terminated string that specifies the name of the domain or server
+        /// whose account database contains the <paramref name="lpszUsername"/> account.
+        /// If this parameter is <see langword="null"/>, the user name must be specified in UPN format.
+        /// If this parameter is ".", the function validates the account by using only the local account database.
+        /// </param>
+        /// <param name="lpszPassword">
+        /// A pointer to a null-terminated string that specifies the plaintext password for the user account specified by <paramref name="lpszUsername"/>.
+        /// When you have finished using the password, clear the password from memory by calling the <see cref="SecureZeroMemory"/> function.
+        /// For more information about protecting passwords, see Handling Passwords.
+        /// </param>
+        /// <param name="dwLogonType">
+        /// The type of logon operation to perform. This parameter can be one of the following values, defined in Winbase.h.
+        /// <see cref="LOGON32_LOGON_BATCH"/>:
+        /// This logon type is intended for batch servers, where processes may be executing on behalf of a user without their direct intervention.
+        /// This type is also for higher performance servers that process many plaintext authentication attempts at a time, such as mail or web servers.
+        /// <see cref="LOGON32_LOGON_INTERACTIVE"/>:
+        /// This logon type is intended for users who will be interactively using the computer,
+        /// such as a user being logged on by a terminal server,remote shell, or similar process.
+        /// This logon type has the additional expense of caching logon information for disconnected operations;
+        /// therefore, it is inappropriate for some client/server applications, such as a mail server.
+        /// <see cref="LOGON32_LOGON_NETWORK"/>:
+        /// This logon type is intended for high performance servers to authenticate plaintext passwords.
+        /// The <see cref="LogonUser"/> function does not cache credentials for this logon type.
+        /// <see cref="LOGON32_LOGON_NETWORK_CLEARTEXT"/>:
+        /// This logon type preserves the name and password in the authentication package,
+        /// which allows the server to make connections to other network servers while impersonating the client.
+        /// A server can accept plaintext credentials from a client, call <see cref="LogonUser"/>,
+        /// verify that the user can access the system across the network, and still communicate with other servers.
+        /// <see cref="LOGON32_LOGON_NEW_CREDENTIALS"/>:
+        /// This logon type allows the caller to clone its current token and specify new credentials for outbound connections.
+        /// The new logon session has the same local identifier but uses different credentials for other network connections.
+        /// This logon type is supported only by the <see cref="LOGON32_PROVIDER_WINNT50"/> logon provider.
+        /// <see cref="LOGON32_LOGON_SERVICE"/>:
+        /// Indicates a service-type logon. The account provided must have the service privilege enabled.
+        /// <see cref="LOGON32_LOGON_UNLOCK"/>:
+        /// GINAs are no longer supported.
+        /// Windows Server 2003 and Windows XP:
+        /// This logon type is for GINA DLLs that log on users who will be interactively using the computer.
+        /// This logon type can generate a unique audit record that shows when the workstation was unlocked.
+        /// </param>
+        /// <param name="dwLogonProvider">
+        /// Specifies the logon provider. This parameter can be one of the following values.
+        /// <see cref="LOGON32_PROVIDER_DEFAULT"/>:
+        /// Use the standard logon provider for the system.
+        /// The default security provider is negotiate, unless you pass <see langword="null"/> for the domain name and the user name is not in UPN format.
+        /// In this case, the default provider is NTLM.
+        /// <see cref="LOGON32_PROVIDER_WINNT50"/>:
+        /// Use the negotiate logon provider.
+        /// <see cref="LOGON32_PROVIDER_WINNT40"/>:
+        /// Use the NTLM logon provider.
+        /// </param>
+        /// <param name="phToken">
+        /// A pointer to a handle variable that receives a handle to a token that represents the specified user.
+        /// You can use the returned handle in calls to the <see cref="ImpersonateLoggedOnUser"/> function.
+        /// In most cases, the returned handle is a primary token that you can use in calls to the <see cref="CreateProcessAsUser"/> function.
+        /// However, if you specify the <see cref="LOGON32_LOGON_NETWORK"/> flag, <see cref="LogonUser"/> returns an impersonation token
+        /// that you cannot use in <see cref="CreateProcessAsUser"/> unless you call <see cref="DuplicateTokenEx"/> to convert it to a primary token.
+        /// When you no longer need this handle, close it by calling the <see cref="CloseHandle"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LOGON32_LOGON_NETWORK"/> logon type is fastest, but it has the following limitations:
+        /// The function returns an impersonation token, not a primary token.
+        /// You cannot use this token directly in the <see cref="CreateProcessAsUser"/> function.
+        /// However, you can call the <see cref="DuplicateTokenEx"/> function to convert the token to a primary token,
+        /// and then use it in <see cref="CreateProcessAsUser"/>.
+        /// If you convert the token to a primary token and use it in <see cref="CreateProcessAsUser"/> to start a process,
+        /// the new process cannot access other network resources, such as remote servers or printers, through the redirector.
+        /// An exception is that if the network resource is not access controlled, then the new process will be able to access it.
+        /// The SE_TCB_NAME privilege is not required for this function unless you are logging onto a Passport account.
+        /// The account specified by <paramref name="lpszUsername"/>, must have the necessary account rights.
+        /// For example, to log on a user with the <see cref="LOGON32_LOGON_INTERACTIVE"/> flag,
+        /// the user (or a group to which the user belongs) must have the SE_INTERACTIVE_LOGON_NAME account right.
+        /// For a list of the account rights that affect the various logon operations, see Account Rights Constants.
+        /// A user is considered logged on if at least one token exists.
+        /// If you call <see cref="CreateProcessAsUser"/> and then close the token,
+        /// the system considers the user as still logged on until the process (and all child processes) have ended.
+        /// If the <see cref="LogonUser"/> call is successful, the system notifies network providers that the logon occurred
+        /// by calling the provider's NPLogonNotify entry-point function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In]string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszDomain,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPassword, [In]LogonTypes dwLogonType, [In]LoginProviders dwLogonProvider, [Out]out HANDLE phToken);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
         /// </para>
         /// <para>
@@ -820,6 +1126,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
+        /// </para>
+        /// </summary>
+        /// <param name="ExistingTokenHandle">
+        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// </param>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <param name="DuplicateTokenHandle">
+        /// A pointer to a variable that receives a handle to the duplicate token.
+        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
+        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
+        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
+        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
+        /// which requires a primary token.
+        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DuplicateTokenEx"/> function creates a new access token that duplicates an existing token.
         /// This function can create either a primary token or an impersonation token.
         /// </para>
@@ -846,7 +1188,7 @@ namespace Lsj.Util.Win32
         /// If the security descriptor contains a system access control list (SACL), the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
         /// even if it was not requested in <paramref name="dwDesiredAccess"/>.
         /// To set the owner in the security descriptor for the new token,
-        /// the caller's process token must have the <see cref="SE_RESTORE_NAME"/> privilege set.
+        /// the caller's process token must have the SeRestorePrivilege privilege set.
         /// </param>
         /// <param name="ImpersonationLevel">
         /// Specifies a value from the <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumeration that indicates the impersonation level of the new token.
@@ -887,42 +1229,6 @@ namespace Lsj.Util.Win32
             [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
 
         /// <summary>
-        /// <para>
-        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
-        /// </para>
-        /// </summary>
-        /// <param name="ExistingTokenHandle">
-        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
-        /// </param>
-        /// <param name="ImpersonationLevel">
-        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
-        /// </param>
-        /// <param name="DuplicateTokenHandle">
-        /// A pointer to a variable that receives a handle to the duplicate token.
-        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
-        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
-        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
-        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
-        /// which requires a primary token.
-        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
-        /// </remarks>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out]out IntPtr DuplicateTokenHandle);
-
-        /// <summary>
         /// The SetTokenInformation function sets various types of information for a specified access token. 
         /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
         /// <para>
@@ -944,15 +1250,16 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the function returns nonzero.
-        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/> .
+        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// To set privilege information, an application can call the<see cref="AdjustTokenPrivileges"/>  function. 
+        /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
         /// To set a token's groups, an application can call the AdjustTokenGroups function.
         /// Token-type information can be set only when an access token is created.
         /// </remarks>
 
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass, [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
+        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In]LPVOID TokenInformation, [In]DWORD TokenInformationLength);
     }
 }

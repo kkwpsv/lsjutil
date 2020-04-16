@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -14,8 +15,7 @@ namespace Lsj.Util.Win32.Enums
     public enum QueueStatus : uint
     {
         /// <summary>
-        /// An input, <see cref="WindowsMessages.WM_TIMER"/>, <see cref="WindowsMessages.WM_PAINT"/>,
-        /// <see cref="WindowsMessages.WM_HOTKEY"/>, or posted message is in the queue.
+        /// An input, <see cref="WM_TIMER"/>, <see cref="WM_PAINT"/>, <see cref="WM_HOTKEY"/>, or posted message is in the queue.
         /// </summary>
         QS_ALLEVENTS = QS_INPUT | QS_POSTMESSAGE | QS_TIMER | QS_PAINT | QS_HOTKEY,
 
@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.Enums
         QS_ALLPOSTMESSAGE = 0x0100,
 
         /// <summary>
-        /// A <see cref="WindowsMessages.WM_HOTKEY"/> message is in the queue.
+        /// A <see cref="WM_HOTKEY"/> message is in the queue.
         /// </summary>
         QS_HOTKEY = 0x0080,
 
@@ -40,29 +40,27 @@ namespace Lsj.Util.Win32.Enums
         QS_INPUT = QS_MOUSE | QS_KEY | QS_RAWINPUT,
 
         /// <summary>
-        /// A <see cref="WindowsMessages.WM_KEYUP"/>, <see cref="WindowsMessages.WM_KEYDOWN"/>, 
-        /// <see cref="WindowsMessages.WM_SYSKEYUP"/>, or <see cref="WindowsMessages.WM_SYSKEYDOWN"/> message is in the queue.
+        /// A <see cref="WM_KEYUP"/>, <see cref="WM_KEYDOWN"/>,  <see cref="WM_SYSKEYUP"/>, or <see cref="WM_SYSKEYDOWN"/> message is in the queue.
         /// </summary>
         QS_KEY = 0x0001,
 
         /// <summary>
-        /// A <see cref="WindowsMessages.WM_MOUSEMOVE"/> message or mouse-button message
-        /// (<see cref="WindowsMessages.WM_LBUTTONUP"/>, <see cref="WindowsMessages.WM_RBUTTONDOWN"/>, and so on).
+        /// A <see cref="WM_MOUSEMOVE"/> message or mouse-button message (<see cref="WM_LBUTTONUP"/>, <see cref="WM_RBUTTONDOWN"/>, and so on).
         /// </summary>
         QS_MOUSE = QS_MOUSEMOVE | QS_MOUSEBUTTON,
 
         /// <summary>
-        /// A mouse-button message <see cref="WindowsMessages.WM_LBUTTONUP"/>, <see cref="WindowsMessages.WM_RBUTTONDOWN"/>, and so on).
+        /// A mouse-button message <see cref="WM_LBUTTONUP"/>, <see cref="WM_RBUTTONDOWN"/>, and so on).
         /// </summary>
         QS_MOUSEBUTTON = 0x0004,
 
         /// <summary>
-        /// A <see cref="WindowsMessages.WM_MOUSEMOVE"/> message is in the queue.
+        /// A <see cref="WM_MOUSEMOVE"/> message is in the queue.
         /// </summary>
         QS_MOUSEMOVE = 0x0002,
 
         /// <summary>
-        /// A <see cref="WindowsMessages.WM_PAINT"/> message is in the queue.
+        /// A <see cref="WM_PAINT"/> message is in the queue.
         /// </summary>
         QS_PAINT = 0x0020,
 

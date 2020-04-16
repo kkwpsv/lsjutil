@@ -183,7 +183,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="DV_E_TYMED"/>: The value is not valid for pformatetc->tymed.
         /// <see cref="DV_E_DVASPECT"/>: The value is not valid for pformatetc->dwAspect.
         /// <see cref="OLE_E_BLANK"/>: There is an uninitialized object.
-        /// <see cref="DV_E_TARGETDEVICE"/>: The object is static and pformatetc->ptd is non-NULL.
+        /// <see cref="DV_E_DVTARGETDEVICE"/>: The object is static and pformatetc->ptd is non-NULL.
         /// <see cref="STG_E_MEDIUMFULL"/>: The storage medium is full.
         /// </returns>
         /// <remarks>

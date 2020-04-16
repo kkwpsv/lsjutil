@@ -3,14 +3,54 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
+using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.SearchPathModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Adds a directory to the process DLL search path.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-adddlldirectory
+        /// </para>
+        /// </summary>
+        /// <param name="NewDirectory">
+        /// An absolute path to the directory to add to the search path.
+        /// For example, to add the directory Dir2 to the process DLL search path, specify \Dir2.
+        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an opaque pointer
+        /// that can be passed to <see cref="RemoveDllDirectory"/> to remove the DLL from the process DLL search path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AddDllDirectory"/> function can be used to add any absolute path to the set of directories that are searched for a DLL.
+        /// If <see cref="SetDefaultDllDirectories"/> is first called with <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>,
+        /// directories specified with <see cref="AddDllDirectory"/> are added to the process DLL search path.
+        /// Otherwise, directories specified with the <see cref="AddDllDirectory"/> function are used only
+        /// for <see cref="LoadLibraryEx"/> function calls that specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// If <see cref="AddDllDirectory"/> is used to add more than one directory to the process DLL search path,
+        /// the order in which those directories are searched is unspecified.
+        /// To remove a directory added with <see cref="AddDllDirectory"/>, use the <see cref="RemoveDllDirectory"/> function.
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To use this function in an application, call <see cref="GetProcAddress"/> to retrieve the function's address from Kernel32.dll.
+        /// KB2533623 must be installed on the target platform.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddDllDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string NewDirectory);
+
         /// <summary>
         /// <para>
         /// Disables the <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications for the specified dynamic-link library (DLL).
@@ -492,6 +532,187 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Loads the specified module into the address space of the calling process. The specified module may cause other modules to be loaded.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpLibFileName">
+        /// A string that specifies the file name of the module to load.
+        /// This name is not related to the name stored in a library module itself, as specified by the LIBRARY keyword in the module-definition (.def) file.
+        /// The module can be a library module (a .dll file) or an executable module (an .exe file).
+        /// If the specified module is an executable module, static imports are not loaded;
+        /// instead, the module is loaded as if <see cref="DONT_RESOLVE_DLL_REFERENCES"/> was specified.
+        /// See the <paramref name="dwFlags"/> parameter for more information.
+        /// If the string specifies a module name without a path and the file name extension is omitted,
+        /// the function appends the default library extension .dll to the module name.
+        /// To prevent the function from appending .dll to the module name, include a trailing point character (.) in the module name string.
+        /// If the string specifies a fully qualified path, the function searches only that path for the module.
+        /// When specifying a path, be sure to use backslashes (), not forward slashes (/).
+        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// If the string specifies a module name without a path and more than one loaded module has the same base name and extension,
+        /// the function returns a handle to the module that was loaded first.
+        /// If the string specifies a module name without a path and a module of the same name is not already loaded,
+        /// or if the string specifies a module name with a relative path, the function searches for the specified module.
+        /// The function also searches for modules if loading the specified module causes the system to load other associated modules
+        /// (that is, if the module has dependencies). The directories that are searched
+        /// and the order in which they are searched depend on the specified path and the <paramref name="dwFlags"/> parameter.
+        /// For more information, see Remarks.
+        /// If the function cannot find the module or one of its dependencies, the function fails.
+        /// </param>
+        /// <param name="hFile">
+        /// This parameter is reserved for future use. It must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The action to be taken when loading the module.
+        /// If no flags are specified, the behavior of this function is identical to that of the <see cref="LoadLibrary"/> function.
+        /// This parameter can be one of the following values.
+        /// <see cref="DONT_RESOLVE_DLL_REFERENCES"/>, <see cref="LOAD_IGNORE_CODE_AUTHZ_LEVEL"/>, <see cref="LOAD_LIBRARY_AS_DATAFILE"/>,
+        /// <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/>, <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/>,
+        /// <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>, <see cref="LOAD_LIBRARY_SEARCH_DEFAULT_DIRS"/>,
+        /// <see cref="LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR"/>, <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>,
+        /// <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>, <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the loaded module.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LoadLibraryEx"/> function is very similar to the <see cref="LoadLibrary"/> function.
+        /// The differences consist of a set of optional behaviors that <see cref="LoadLibraryEx"/> provides:
+        /// <see cref="LoadLibraryEx"/> can load a DLL module without calling the DllMain function of the DLL.
+        /// <see cref="LoadLibraryEx"/> can load a module in a way that is optimized for the case where the module will never be executed,
+        /// loading the module as if it were a data file.
+        /// <see cref="LoadLibraryEx"/> can find modules and their associated modules by using either of two search strategies
+        /// or it can search a process-specific set of directories.
+        /// You select these optional behaviors by setting the <paramref name="dwFlags"/> parameter;
+        /// if <paramref name="dwFlags"/> is zero, <see cref="LoadLibraryEx"/> behaves identically to <see cref="LoadLibrary"/>.
+        /// The calling process can use the handle returned by <see cref="LoadLibraryEx"/> to identify the module
+        /// in calls to the <see cref="GetProcAddress"/>, <see cref="FindResource"/>, and <see cref="LoadResource"/> functions.
+        /// To enable or disable error messages displayed by the loader during DLL loads, use the <see cref="SetErrorMode"/> function.
+        /// It is not safe to call <see cref="LoadLibraryEx"/> from DllMain.
+        /// For more information, see the Remarks section in DllMain.
+        /// Visual C++: The Visual C++ compiler supports a syntax that enables you to declare thread-local variables: _declspec(thread).
+        /// If you use this syntax in a DLL, you will not be able to load the DLL explicitly using <see cref="LoadLibraryEx"/>
+        /// on versions of Windows prior to Windows Vista.
+        /// If your DLL will be loaded explicitly, you must use the thread local storage functions instead of _declspec(thread).
+        /// For an example, see Using Thread Local Storage in a Dynamic Link Library.
+        /// Loading a DLL as a Data File or Image Resource
+        /// The <see cref="LOAD_LIBRARY_AS_DATAFILE"/>, <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/>,
+        /// and <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/> values affect the per-process reference count and the loading of the specified module.
+        /// If any of these values is specified for the dwFlags parameter, the loader checks whether the module was already loaded
+        /// by the process as an executable DLL.
+        /// If so, this means that the module is already mapped into the virtual address space of the calling process.
+        /// In this case, <see cref="LoadLibraryEx"/> returns a handle to the DLL and increments the DLL reference count.
+        /// If the DLL module was not already loaded as a DLL, the system maps the module as a data or image file and not as an executable DLL.
+        /// In this case, <see cref="LoadLibraryEx"/> returns a handle to the loaded data or image file
+        /// but does not increment the reference count for the module and does not make the module visible to functions
+        /// such as <see cref="CreateToolhelp32Snapshot"/> or <see cref="EnumProcessModules"/>.
+        /// If <see cref="LoadLibraryEx"/> is called twice for the same file with <see cref="LOAD_LIBRARY_AS_DATAFILE"/>,
+        /// <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/>, or <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/>, two separate mappings are created for the file.
+        /// When the <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/> value is used, the module is loaded as an image
+        /// using portable executable (PE) section alignment expansion.
+        /// Relative virtual addresses (RVA) do not have to be mapped to disk addresses, so resources can be more quickly retrieved from the module.
+        /// Specifying <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/> prevents other processes from modifying the module while it is loaded.
+        /// Unless an application depends on specific image mapping characteristics, the <see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/> value
+        /// should be used with either <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/> or <see cref="LOAD_LIBRARY_AS_DATAFILE"/>.
+        /// This allows the loader to choose whether to load the module as an image resource or a data file,
+        /// selecting whichever option enables the system to share pages more effectively.
+        /// Resource functions such as FindResource can use either mapping.
+        /// To determine how a module was loaded, use one of the following macros to test the handle returned by <see cref="LoadLibraryEx"/>.
+        /// <code>
+        /// #define LDR_IS_DATAFILE(handle)      (((ULONG_PTR)(handle)) &amp;  (ULONG_PTR)1)
+        /// #define LDR_IS_IMAGEMAPPING(handle)  (((ULONG_PTR)(handle)) &amp; (ULONG_PTR)2)
+        /// #define LDR_IS_RESOURCE(handle)      (LDR_IS_IMAGEMAPPING(handle) || LDR_IS_DATAFILE(handle))
+        /// </code>
+        /// The following table describes these macros.
+        /// LDR_IS_DATAFILE(handle):
+        /// If this macro returns <see cref="TRUE"/>, the module was loaded as a data file
+        /// (<see cref="LOAD_LIBRARY_AS_DATAFILE"/> or <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/>).
+        /// LDR_IS_IMAGEMAPPING(handle):
+        /// If this macro returns <see cref="TRUE"/>, the module was loaded as an image file (<see cref="LOAD_LIBRARY_AS_IMAGE_RESOURCE"/>).
+        /// LDR_IS_RESOURCE(handle):
+        /// If this macro returns <see cref="TRUE"/>, the module was loaded as either a data file or an image file.
+        /// Use the <see cref="FreeLibrary"/> function to free a loaded module, whether or not loading the module caused its reference count to be incremented.
+        /// If the module was loaded as a data or image file, the mapping is destroyed but the reference count is not decremented.
+        /// Otherwise, the DLL reference count is decremented.
+        /// Therefore, it is safe to call <see cref="FreeLibrary"/> with any handle returned by <see cref="LoadLibraryEx"/>.
+        /// Searching for DLLs and Dependencies
+        /// The search path is the set of directories that are searched for a DLL.
+        /// The <see cref="LoadLibraryEx"/> function can search for a DLL using a standard search path or an altered search path,
+        /// or it can use a process-specific search path established with the <see cref="SetDefaultDllDirectories"/> and <see cref="AddDllDirectory"/> functions.
+        /// For a list of directories and the order in which they are searched, see Dynamic-Link Library Search Order.
+        /// The <see cref="LoadLibraryEx"/> function uses the standard search path in the following cases:
+        /// The file name is specified without a path and the base file name does not match the base file name of a loaded module,
+        /// and none of the LOAD_LIBRARY_SEARCH flags are used.
+        /// A path is specified but <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> is not used.
+        /// The application has not specified a default DLL search path for the process using <see cref="SetDefaultDllDirectories"/>.
+        /// If <paramref name="lpLibFileName"/> specifies a relative path, the entire relative path is appended to every token in the DLL search path.
+        /// To load a module from a relative path without searching any other path, use <see cref="GetFullPathName"/> to get a nonrelative path
+        /// and call <see cref="LoadLibraryEx"/> with the nonrelative path.
+        /// If the module is being loaded as a datafile and the relative path starts with "." or "..", the relative path is treated as an absolute path.
+        /// If <paramref name="lpLibFileName"/> specifies an absolute path and <paramref name="dwFlags"/>
+        /// is set to <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/>, <see cref="LoadLibraryEx"/> uses the altered search path.
+        /// The behavior is undefined when <see cref="LOAD_WITH_ALTERED_SEARCH_PATH"/> flag is set,
+        /// and <paramref name="lpLibFileName"/> specifiies a relative path.
+        /// The <see cref="SetDllDirectory"/> function can be used to modify the search path.
+        /// This solution is better than using <see cref="SetCurrentDirectory"/> or hard-coding the full path to the DLL.
+        /// However, be aware that using <see cref="SetDllDirectory"/> effectively disables safe DLL search mode
+        /// while the specified directory is in the search path and it is not thread safe.
+        /// If possible, it is best to use <see cref="AddDllDirectory"/> to modify a default process search path.
+        /// For more information, see Dynamic-Link Library Search Order.
+        /// An application can specify the directories to search for a single <see cref="LoadLibraryEx"/> call by using the LOAD_LIBRARY_SEARCH_* flags.
+        /// If more than one LOAD_LIBRARY_SEARCH flag is specified, the directories are searched in the following order:
+        /// The directory that contains the DLL (<see cref="LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR"/>).
+        /// This directory is searched only for dependencies of the DLL to be loaded.
+        /// The application directory (<see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>).
+        /// Paths explicitly added to the application search path with the <see cref="AddDllDirectory"/> function (<see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>)
+        /// or the <see cref="SetDllDirectory"/> function.
+        /// If more than one path has been added, the order in which the paths are searched is unspecified.
+        /// The System32 directory (<see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>).
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// The LOAD_LIBRARY_SEARCH_ flags are available on systems that have KB2533623 installed.
+        /// To determine whether the flags are available, use <see cref="GetProcAddress"/> to get the address of
+        /// the <see cref="AddDllDirectory"/>, <see cref="RemoveDllDirectory"/>, or <see cref="SetDefaultDllDirectories"/> function.
+        /// If <see cref="GetProcAddress"/> succeeds, the LOAD_LIBRARY_SEARCH_ flags can be used with <see cref="LoadLibraryEx"/>.
+        /// If the application has used the <see cref="SetDefaultDllDirectories"/> function to establish a DLL search path
+        /// for the process and none of the LOAD_LIBRARY_SEARCH_* flags are used,
+        /// the <see cref="LoadLibraryEx"/> function uses the process DLL search path instead of the standard search path.
+        /// If a path is specified and there is a redirection file associated with the application,
+        /// the <see cref="LoadLibraryEx"/> function searches for the module in the application directory.
+        /// If the module exists in the application directory, <see cref="LoadLibraryEx"/> ignores the path specification
+        /// and loads the module from the application directory.
+        /// If the module does not exist in the application directory, the function loads the module from the specified directory.
+        /// For more information, see Dynamic Link Library Redirection.
+        /// If you call <see cref="LoadLibraryEx"/> with the name of an assembly without a path specification
+        /// and the assembly is listed in the system compatible manifest, the call is automatically redirected to the side-by-side assembly.
+        /// Security Remarks
+        /// <see cref="LOAD_LIBRARY_AS_DATAFILE"/> does not prevent other processes from modifying the module while it is loaded.
+        /// Because this can make your application less secure, you should use <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/>
+        /// instead of <see cref="LOAD_LIBRARY_AS_DATAFILE"/> when loading a module as a data file,
+        /// unless you specifically need to use <see cref="LOAD_LIBRARY_AS_DATAFILE"/>.
+        /// Specifying <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/> prevents other processes from modifying the module while it is loaded.
+        /// Do not specify <see cref="LOAD_LIBRARY_AS_DATAFILE"/> and <see cref="LOAD_LIBRARY_AS_DATAFILE_EXCLUSIVE"/> in the same call.
+        /// Do not use the <see cref="SearchPath"/> function to retrieve a path to a DLL for a subsequent <see cref="LoadLibraryEx"/> call.
+        /// The <see cref="SearchPath"/> function uses a different search order than <see cref="LoadLibraryEx"/>
+        /// and it does not use safe process search mode unless this is explicitly enabled
+        /// by calling <see cref="SetSearchPathMode"/> with <see cref="BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE"/>.
+        /// Therefore, SearchPath is likely to first search the user’s current working directory for the specified DLL.
+        /// If an attacker has copied a malicious version of a DLL into the current working directory,
+        /// the path retrieved by <see cref="SearchPath"/> will point to the malicious DLL, which <see cref="LoadLibraryEx"/> will then load.
+        /// Do not make assumptions about the operating system version based on a <see cref="LoadLibraryEx"/> call that searches for a DLL.
+        /// If the application is running in an environment where the DLL is legitimately not present but a malicious version of the DLL is in the search path,
+        /// the malicious version of the DLL may be loaded.
+        /// Instead, use the recommended techniques described in Getting the System Version.
+        /// For a general discussion of DLL security issues, see Dynamic-Link Library Security.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HMODULE LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpLibFileName, [In]HANDLE hFile, [In]LoadLibraryExFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Loads and executes an application or creates a new instance of an existing application.
         /// </para>
         /// <para>
@@ -512,7 +733,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="lpParameterBlock">
         /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
-        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="lpCmdLine"/>,
+        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="LOADPARMS32.lpCmdLine"/>,
         /// which must point to a null-terminated string if it is not used.
         /// For more information, see Remarks.
         /// </param>

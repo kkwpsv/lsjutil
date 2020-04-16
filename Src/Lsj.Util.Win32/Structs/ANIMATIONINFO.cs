@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
-using Lsj.Util.Win32.Enums;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -7,8 +8,8 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// Describes the animation effects associated with user actions.
     /// This structure is used with the <see cref="SystemParametersInfo"/> function
-    /// when the <see cref="SystemParametersInfoParameters.SPI_GETANIMATION"/>
-    /// or <see cref="SystemParametersInfoParameters.SPI_SETANIMATION"/> action value is specified.
+    /// when the <see cref="SPI_GETANIMATION"/>
+    /// or <see cref="SPI_SETANIMATION"/> action value is specified.
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-animationinfo

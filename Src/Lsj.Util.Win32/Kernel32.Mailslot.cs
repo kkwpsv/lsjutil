@@ -1,10 +1,10 @@
-﻿using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.Marshals;
+using Lsj.Util.Win32.Structs;
 using System;
-using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.FileShareModes;
 using System.Runtime.InteropServices;
-using Lsj.Util.Win32.Marshals;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.FileShareModes;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {

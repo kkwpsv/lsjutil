@@ -1,11 +1,14 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
-using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using Lsj.Util.Win32.BaseTypes;
+using static Lsj.Util.Win32.Enums.DVASPECT;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -376,7 +379,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The object does not support any verbs.
         /// <see cref="OLEOBJ_S_INVALIDVERB"/>:
         /// Link source is across a network that is not connected to a drive on this computer.
-        /// <see cref="MK_E_CONNECT"/>:
+        /// <see cref="MK_E_CONNECTMANUALLY"/>:
         /// Link source is across a network that is not connected to a drive on this computer.
         /// <see cref="OLE_E_CLASSDIFF"/>:
         /// Class for source of link has undergone a conversion.
@@ -439,7 +442,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the object's embedding container calls <see cref="DoVerb"/>, the client-site pointer (pClientSite)
         /// passed to <see cref="DoVerb"/> is the same as that of the embedding site.
         /// If the embedded object is a link source, the pointer passed to <see cref="DoVerb"/> is that of the linking client's client site.
-        /// When <see cref="DoVerb"/> is invoked on an OLE link, it may return <see cref="OLE_E_CLASSDIFF"/> or <see cref="MK_CONNECTMANUALLY"/>.
+        /// When <see cref="DoVerb"/> is invoked on an OLE link, it may return <see cref="OLE_E_CLASSDIFF"/> or <see cref="MK_E_CONNECTMANUALLY"/>.
         /// The link object returns the former error when the link source has been subjected to some sort of conversion while the link was passive.
         /// The link object returns the latter error when the link source is located on a network drive
         /// that is not currently connected to the caller's computer.

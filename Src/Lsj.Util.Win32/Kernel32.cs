@@ -1,10 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Enums.CodePages;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -17,6 +21,75 @@ namespace Lsj.Util.Win32
         /// NUMA_NO_PREFERRED_NODE
         /// </summary>
         public const uint NUMA_NO_PREFERRED_NODE = 0xffffffff;
+
+        /// <summary>
+        /// <para>
+        /// Generates simple tones on the speaker.
+        /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/utilapiset/nf-utilapiset-beep
+        /// </para>
+        /// </summary>
+        /// <param name="dwFreq">
+        /// The frequency of the sound, in hertz. This parameter must be in the range 37 through 32,767 (0x25 through 0x7FFF).
+        /// </param>
+        /// <param name="dwDuration">
+        /// The duration of the sound, in milliseconds.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A long time ago, all PC computers shared a common 8254 programable interval timer chip for the generation of primitive sounds.
+        /// The <see cref="Beep"/> function was written specifically to emit a beep on that piece of hardware.
+        /// On these older systems, muting and volume controls have no effect on <see cref="Beep"/>; you would still hear the tone.
+        /// To silence the tone, you used the following commands:
+        /// net stop beep
+        /// sc config beep start= disabled
+        /// Since then, sound cards have become standard equipment on almost all PC computers.
+        /// As sound cards became more common, manufacturers began to remove the old timer chip from computers.
+        /// The chips were also excluded from the design of server computers.
+        /// The result is that <see cref="Beep"/> did not work on all computers without the chip.
+        /// This was okay because most developers had moved on to calling the <see cref="MessageBeep"/> function
+        /// that uses whatever is the default sound device instead of the 8254 chip.
+        /// Eventually because of the lack of hardware to communicate with,
+        /// support for <see cref="Beep"/> was dropped in Windows Vista and Windows XP 64-Bit Edition.
+        /// In Windows 7, <see cref="Beep"/> was rewritten to pass the beep to the default sound device for the session.
+        /// This is normally the sound card, except when run under Terminal Services, in which case the beep is rendered on the client.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Beep([In]DWORD dwFreq, [In]DWORD dwDuration);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pointer to the preceding character in a string.
+        /// This function can handle strings consisting of either single- or multi-byte characters.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszStart">
+        /// The beginning of the string.
+        /// </param>
+        /// <param name="lpszCurrent">
+        /// A character in a null-terminated string.
+        /// </param>
+        /// <returns>
+        /// The return value is a pointer to the preceding character in the string,
+        /// or to the first character in the string if the <paramref name="lpszCurrent"/> parameter equals the <paramref name="lpszStart"/> parameter.
+        /// </returns>
+        /// <remarks>
+        /// This function works with default "user" expectations of characters when dealing with diacritics.
+        /// For example: A string that contains U+0061 U+030a "LATIN SMALL LETTER A" + COMBINING RING ABOVE" — which looks like "å",
+        /// will advance two code points, not one.
+        /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CharPrev([In]IntPtr lpszStart, [In]IntPtr lpszCurrent);
 
         /// <summary>
         /// 
@@ -282,8 +355,8 @@ namespace Lsj.Util.Win32
         /// The character to test.
         /// </param>
         /// <returns>
-        /// Returns a <see cref="BOOL.TRUE"/> value if the test character is potentially a lead byte.
-        /// The function returns <see cref="BOOL.FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
+        /// Returns a <see cref="TRUE"/> value if the test character is potentially a lead byte.
+        /// The function returns <see cref="FALSE"/> if the test character is not a lead byte or if it is a single-byte character.
         /// To get extended error information, the application can call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>

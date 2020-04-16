@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Causes the dialog box to display the controls that allow the user to specify strikeout, underline, and text color options.
         /// If this flag is set, you can use the <see cref="CHOOSEFONT.rgbColors"/> member to specify the initial text color.
-        /// You can use the <see cref="CHOOSEFONT.lfStrikeOut"/> and <see cref="CHOOSEFONT.lfUnderline"/> members of the structure pointed to
+        /// You can use the <see cref="LOGFONT.lfStrikeOut"/> and <see cref="LOGFONT.lfUnderline"/> members of the structure pointed to
         /// by <see cref="CHOOSEFONT.lpLogFont"/> to specify the initial settings of the strikeout and underline check boxes.
         /// <see cref="ChooseFont"/> can use these members to return the user's selections.
         /// </summary>

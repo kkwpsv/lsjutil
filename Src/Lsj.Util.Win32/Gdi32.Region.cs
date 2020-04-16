@@ -1,10 +1,12 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
-using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CombineRgnModes;
+using static Lsj.Util.Win32.Enums.PolyFillModes;
+using static Lsj.Util.Win32.Enums.RegionFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -46,7 +48,7 @@ namespace Lsj.Util.Win32
         /// For example, the <paramref name="hrgnSrc1"/> parameter can equal the <paramref name="hrgnDst"/> parameter.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CombineRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int CombineRgn([In]HRGN hrgnDst, [In]HRGN hrgnSrc1, [In]HRGN hrgnSrc2, [In]CombineRgnModes iMode);
+        public static extern RegionFlags CombineRgn([In]HRGN hrgnDst, [In]HRGN hrgnSrc1, [In]HRGN hrgnSrc2, [In]CombineRgnModes iMode);
 
         /// <summary>
         /// <para>
@@ -141,7 +143,7 @@ namespace Lsj.Util.Win32
         /// If you were to call <see cref="PtInRegion"/> for such a point, it would return zero as the result.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePolygonRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern HRGN CreatePolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl, [In]int cPoint, [In]int iMode);
+        public static extern HRGN CreatePolygonRgn([MarshalAs(UnmanagedType.LPArray)][In]POINT[] pptl, [In]int cPoint, [In]PolyFillModes iMode);
 
         /// <summary>
         /// <para>
@@ -325,7 +327,7 @@ namespace Lsj.Util.Win32
         /// If the <paramref name="hrgn"/> parameter does not identify a valid region, the return value is zero.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRgnBox", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetRgnBox([In]HRGN hrgn, [Out]out RECT lprc);
+        public static extern RegionFlags GetRgnBox([In]HRGN hrgn, [Out]out RECT lprc);
 
         /// <summary>
         /// <para>
@@ -352,7 +354,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR"/>: No region is created.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int OffsetRgn([In]HRGN hrgn, [In]int x, [In]int y);
+        public static extern RegionFlags OffsetRgn([In]HRGN hrgn, [In]int x, [In]int y);
 
         /// <summary>
         /// <para>

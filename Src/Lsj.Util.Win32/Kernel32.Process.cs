@@ -1,15 +1,23 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
+using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.LogonFlags;
+using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
+using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
-using static Lsj.Util.Win32.Userenv;
-using static Lsj.Util.Win32.Enums.DllMainReasons;
-using System.Text;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Shell32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -703,7 +711,7 @@ namespace Lsj.Util.Win32
         /// If the calling process contains threads in multiple groups, the function returns zero for both affinity masks.
         /// If the function fails, the return value is <see langword="false"/>, and the values of the variables pointed to
         /// by <paramref name="lpProcessAffinityMask"/> and <paramref name="lpSystemAffinityMask"/> are undefined.
-        /// To get extended error information, call <see cref="lpSystemAffinityMask"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessAffinityMask", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -934,6 +942,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Opens an existing local process object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the process object.
+        /// This access right is checked against the security descriptor for the process.
+        /// This parameter can be one or more of the process access rights.
+        /// If the caller has enabled the SeDebugPrivilege privilege, the requested access is granted regardless of the contents of the security descriptor.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwProcessId">
+        /// The identifier of the local process to be opened.
+        /// If the specified process is the System Process (0x00000000), the function fails and the last error code is <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// If the specified process is the Idle process or one of the CSRSS processes,
+        /// this function fails and the last error code is <see cref="ERROR_ACCESS_DENIED"/>
+        /// because their access restrictions prevent user-level code from opening them.
+        /// If you are using <see cref="GetCurrentProcessId"/> as an argument to this function,
+        /// consider using <see cref="GetCurrentProcess"/> instead of <see cref="OpenProcess"/>, for improved performance.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified process.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To open a handle to another local process and obtain full access rights, you must enable the SeDebugPrivilege privilege.
+        /// For more information, see Changing Privileges in a Token.
+        /// The handle returned by the <see cref="OpenProcess"/> function can be used in any function that requires a handle to a process,
+        /// such as the wait functions, provided the appropriate access rights were requested.
+        /// When you are finished with the handle, be sure to close it using the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE OpenProcess([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [In]DWORD dwProcessId);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the full name of the executable image for the specified process.
         /// </para>
         /// <para>
@@ -1000,6 +1050,70 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryProcessCycleTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool QueryProcessCycleTime([In]IntPtr ProcessHandle, [Out]out ulong CycleTime);
+
+        /// <summary>
+        /// <para>
+        /// Searches for a specified file in a specified path.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-searchpathw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPath">
+        /// The path to be searched for the file.
+        /// If this parameter is <see cref="NULL"/>, the function searches for a matching file using a registry-dependent system search path.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="lpFileName">
+        /// The name of the file for which to search.
+        /// </param>
+        /// <param name="lpExtension">
+        /// The extension to be added to the file name when searching for the file.
+        /// The first character of the file name extension must be a period (.).
+        /// The extension is added only if the specified file name does not end with an extension.
+        /// If a file name extension is not required or if the file name contains an extension, this parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer that receives the valid path and file name (including the terminating null character), in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the buffer to receive the path and file name of the file found. The string is a null-terminated string.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to the variable to receive the address (within <paramref name="lpBuffer"/>) of the last component of the valid path and file name,
+        /// which is the address of the character immediately following the final backslash () in the path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the value returned is the length, in TCHARs, of the string that is copied to the buffer,
+        /// not including the terminating null character.
+        /// If the return value is greater than <paramref name="nBufferLength"/>, the value returned is the size of the buffer
+        /// that is required to hold the path, including the terminating null character.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the <paramref name="lpPath"/> parameter is <see cref="NULL"/>, <see cref="SearchPath"/> searches
+        /// for a matching file based on the current value of the following registry value:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\SafeProcessSearchMode
+        /// When the value of this REG_DWORD registry value is set to 1,
+        /// <see cref="SearchPath"/> first searches the folders that are specified in the system path, and then searches the current working folder.
+        /// When the value of this registry value is set to 0, the computer first searches the current working folder,
+        /// and then searches the folders that are specified in the system path.
+        /// The system default value for this registry key is 0.
+        /// The search mode used by the <see cref="SearchPath"/> function can also be set per-process by calling the <see cref="SetSearchPathMode"/> function.
+        /// The <see cref="SearchPath"/> function is not recommended as a method of locating a .dll file
+        /// if the intended use of the output is in a call to the <see cref="LoadLibrary"/> function.
+        /// This can result in locating the wrong .dll file because the search order of the <see cref="SearchPath"/> function
+        /// differs from the search order used by the <see cref="LoadLibrary"/> function.
+        /// If you need to locate and load a .dll file, use the <see cref="LoadLibrary"/> function.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="SearchPath"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SearchPathW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD SearchPath([MarshalAs(UnmanagedType.LPWStr)][In]string lpPath, [MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpExtension, [In]DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
+            [Out]IntPtr lpFilePart);
 
         /// <summary>
         /// <para>
@@ -1288,7 +1402,7 @@ namespace Lsj.Util.Win32
         /// A process can update only the attribute keys described in this topic.
         /// The DWORD or DWORD64 pointed to by <paramref name="lpValue"/> can be one or more of the following values
         /// when you specify <see cref="PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY"/> for the <paramref name="Attribute"/> parameter:
-        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE "/>:
+        /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ENABLE"/>:
         /// Enables data execution prevention (DEP) for the child process. For more information, see Data Execution Prevention.
         /// <see cref="PROCESS_CREATION_MITIGATION_POLICY_DEP_ATL_THUNK_ENABLE "/>:
         /// Enables DEP-ATL thunk emulation for the child process.

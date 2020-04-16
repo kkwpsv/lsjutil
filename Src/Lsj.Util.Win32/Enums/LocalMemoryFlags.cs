@@ -72,5 +72,10 @@ namespace Lsj.Util.Win32.Enums
         /// NONZEROLPTR
         /// </summary>
         NONZEROLPTR = LMEM_FIXED,
+
+        /// <summary>
+        /// LMEM_LOCKCOUNT
+        /// </summary>
+        LMEM_LOCKCOUNT = 0x00FF,
     }
 }

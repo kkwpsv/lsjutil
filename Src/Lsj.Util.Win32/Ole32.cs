@@ -5,6 +5,9 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CLSCTX;
+using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 
 namespace Lsj.Util.Win32
 {
@@ -44,7 +47,7 @@ namespace Lsj.Util.Win32
         /// CreateBindCtx(0, &amp;pbc); 
         /// pmk-&gt;BindToObject(pbc, NULL, riid, ppvObj);
         /// </code>
-        /// <see cref="CreateBindCtx"/> creates a bind context object that supports the system implementation of <see cref="IBindContext"/>.
+        /// <see cref="CreateBindCtx"/> creates a bind context object that supports the system implementation of <see cref="IBindCtx"/>.
         /// The <paramref name="pmk"/> parameter is actually a pointer to the <see cref="IMoniker"/> implementation on a moniker object
         /// This implementation's <see cref="IMoniker.BindToObject"/> method supplies the pointer to the requested interface pointer.
         /// If you have several monikers to bind in quick succession and if you know that those monikers will activate the same object,
@@ -154,6 +157,175 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Initializes the COM library on the current thread and identifies the concurrency model as single-thread apartment (STA).
+        /// New applications should call <see cref="CoInitializeEx"/> instead of <see cref="CoInitialize"/>.
+        /// If you want to use the Windows Runtime, you must call Windows::Foundation::Initialize instead.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-coinitialize
+        /// </para>
+        /// </summary>
+        /// <param name="pvReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The COM library was initialized successfully on this thread.
+        /// <see cref="S_FALSE"/>: The COM library is already initialized on this thread.
+        /// <see cref="RPC_E_CHANGED_MODE"/>:
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this thread as multithread apartment (MTA).
+        /// This could also indicate that a change from neutral-threaded apartment to single-threaded apartment has occurred.
+        /// </returns>
+        /// <remarks>
+        /// You need to initialize the COM library on a thread before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// After the concurrency model for a thread is set, it cannot be changed.
+        /// A call to <see cref="CoInitialize"/> on an apartment that was previously initialized as multithreaded will fail
+        /// and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// <see cref="CoInitializeEx"/> provides the same functionality as <see cref="CoInitialize"/> and also provides a parameter
+        /// to explicitly specify the thread's concurrency model.
+        /// <see cref="CoInitialize"/> calls <see cref="CoInitializeEx"/> and specifies the concurrency model as single-thread apartment.
+        /// Applications developed today should call <see cref="CoInitializeEx"/> rather than <see cref="CoInitialize"/>.
+        /// Typically, the COM library is initialized on a thread only once.
+        /// Subsequent calls to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> on the same thread will succeed,
+        /// as long as they do not attempt to change the concurrency model, but will return <see cref="S_FALSE"/>.
+        /// To close the COM library gracefully, each successful call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// including those that return <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="CoUninitialize"/>.
+        /// However, the first thread in the application that calls <see cref="CoInitialize"/> with 0
+        /// (or <see cref="CoInitializeEx"/> with <see cref="COINIT_APARTMENTTHREADED"/>) must be the last thread to call <see cref="CoUninitialize"/>.
+        /// Otherwise, subsequent calls to <see cref="CoInitialize"/> on the STA will fail and the application will not work.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+
+        /// <summary>
+        /// <para>
+        /// Registers security and sets the default security values for the process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coinitializesecurity
+        /// </para>
+        /// </summary>
+        /// <param name="pSecDesc">
+        /// The access permissions that a server will use to receive calls.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// Its value is a pointer to one of three types: an AppID, an <see cref="IAccessControl"/> object,
+        /// or a <see cref="SECURITY_DESCRIPTOR"/>, in absolute format. See the Remarks section for more information.
+        /// </param>
+        /// <param name="cAuthSvc">
+        /// The count of entries in the <paramref name="asAuthSvc"/> parameter.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// If this parameter is 0, no authentication services will be registered and the server cannot receive secure calls.
+        /// A value of -1 tells COM to choose which authentication services to register, and if this is the case, 
+        /// the <paramref name="asAuthSvc"/> parameter must be <see langword="null"/>.
+        /// However, Schannel will never be chosen as an authentication service by the server if this parameter is -1.
+        /// </param>
+        /// <param name="asAuthSvc">
+        /// An array of authentication services that a server is willing to use to receive a call.
+        /// This parameter is used by COM only when a server calls <see cref="CoInitializeSecurity"/>.
+        /// For more information, see <see cref="SOLE_AUTHENTICATION_SERVICE"/>.
+        /// </param>
+        /// <param name="pReserved1">
+        /// This parameter is reserved and must be NULL.
+        /// </param>
+        /// <param name="dwAuthnLevel">
+        /// The default authentication level for the process.
+        /// Both servers and clients use this parameter when they call <see cref="CoInitializeSecurity"/>.
+        /// COM will fail calls that arrive with a lower authentication level.
+        /// By default, all proxies will use at least this authentication level.
+        /// This value should contain one of the authentication level constants.
+        /// By default, all calls to <see cref="IUnknown"/> are made at this level.
+        /// </param>
+        /// <param name="dwImpLevel">
+        /// The default impersonation level for proxies.
+        /// The value of this parameter is used only when the process is a client.
+        /// It should be a value from the impersonation level constants, except for <see cref="RPC_C_IMP_LEVEL_DEFAULT"/>,
+        /// which is not for use with <see cref="CoInitializeSecurity"/>.
+        /// Outgoing calls from the client always use the impersonation level as specified. (It is not negotiated.)
+        /// Incoming calls to the client can be at any impersonation level.
+        /// By default, all IUnknown calls are made with this impersonation level, so even security-aware applications should set this level carefully.
+        /// To determine which impersonation levels each authentication service supports,
+        /// see the description of the authentication services in COM and Security Packages.
+        /// For more information about impersonation levels, see Impersonation.
+        /// </param>
+        /// <param name="pAuthList">
+        /// A pointer to <see cref="SOLE_AUTHENTICATION_LIST"/>, which is an array of <see cref="SOLE_AUTHENTICATION_INFO"/> structures.
+        /// This list indicates the information for each authentication service that a client can use to call a server.
+        /// This parameter is used by COM only when a client calls <see cref="CoInitializeSecurity"/>.
+        /// </param>
+        /// <param name="dwCapabilities">
+        /// Additional capabilities of the client or server, specified by setting one or more <see cref="EOLE_AUTHENTICATION_CAPABILITIES"/> values.
+        /// Some of these value cannot be used simultaneously, and some cannot be set when particular authentication services are being used.
+        /// For more information about these flags, see the Remarks section.
+        /// </param>
+        /// <param name="pReserved3">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// Return code	Description
+        /// <see cref="S_OK"/>: Indicates success.
+        /// <see cref="RPC_E_TOO_LATE"/>: <see cref="CoInitializeSecurity"/> has already been called.
+        /// <see cref="RPC_E_NO_GOOD_SECURITY_PACKAGES"/>:
+        /// The <paramref name="asAuthSvc"/> parameter was not <see langword="null"/>, and none of the authentication services in the list could be registered.
+        /// Check the results saved in <paramref name="asAuthSvc"/> for authentication service–specific error codes.
+        /// <see cref="E_OUTOFMEMORY"/>: Out of memory.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoInitializeSecurity"/> function initializes the security layer and sets the specified values as the security default.
+        /// If a process does not call <see cref="CoInitializeSecurity"/>, COM calls it automatically the first time an interface is marshaled or unmarshaled,
+        /// registering the system default security.
+        /// No default security packages are registered until then.
+        /// This function is called exactly once per process, either explicitly or implicitly.
+        /// It can be called by the client, server, or both.
+        /// For legacy applications and other applications that do not explicitly call <see cref="CoInitializeSecurity"/>,
+        /// COM calls this function implicitly with values from the registry.
+        /// If you set processwide security using the registry and then call <see cref="CoInitializeSecurity"/>,
+        /// the AppID registry values will be ignored and the <see cref="CoInitializeSecurity"/> values will be used.
+        /// <see cref="CoInitializeSecurity"/> can be used to override both computer-wide access permissions and application-specific access permissions,
+        /// but not to override the computer-wide restriction policy.
+        /// If <paramref name="pSecDesc"/> points to an AppID, the <see cref="EOAC_APPID"/> flag
+        /// must be set in <paramref name="dwCapabilities"/> and, when the <see cref="EOAC_APPID"/> flag is set,
+        /// all other parameters to <see cref="CoInitializeSecurity"/> are ignored.
+        /// <see cref="CoInitializeSecurity"/> looks for the authentication level under the AppID key in the registry
+        /// and uses it to determine the default security.
+        /// For more information about how the AppID key is used to set security, see Setting Process-Wide Security Through the Registry.
+        /// If <paramref name="pSecDesc"/> is a pointer to an <see cref="IAccessControl"/> object,
+        /// the <see cref="EOAC_ACCESS_CONTROL"/> flag must be set and <paramref name="dwAuthnLevel"/> cannot be none.
+        /// The <see cref="IAccessControl"/> object is used to determine who can call the process.
+        /// DCOM will AddRef the <see cref="IAccessControl"/> and will Release it when <see cref="CoUninitialize"/> is called.
+        /// The state of the <see cref="IAccessControl"/> object should not be changed.
+        /// If <paramref name="pSecDesc"/> is a pointer to a <see cref="SECURITY_DESCRIPTOR"/>,
+        /// neither the <see cref="EOAC_APPID"/> nor the <see cref="EOAC_ACCESS_CONTROL"/> flag can be set in <paramref name="dwCapabilities"/>.
+        /// The owner and group of the <see cref="SECURITY_DESCRIPTOR"/> must be set,
+        /// and until DCOM supports auditing, the system ACL must be NULL.
+        /// The access-control entries (ACEs) in the discretionary ACL (DACL) of the <see cref="SECURITY_DESCRIPTOR"/> are used to find out
+        /// which callers are permitted to connect to the process's objects.
+        /// A DACL with no ACEs allows no access, while a NULL DACL will allow calls from anyone.
+        /// For more information on ACLs and ACEs, see Access Control Model.
+        /// Applications should call <see cref="AccessCheck"/> (not <see cref="IsValidSecurityDescriptor"/>) to
+        /// ensure that their <see cref="SECURITY_DESCRIPTOR"/> is correctly formed prior to calling <see cref="CoInitializeSecurity"/>.
+        /// Passing <paramref name="pSecDesc"/> as <see langword="null"/> is strongly discouraged.
+        /// An appropriate alternative might be to use a <see cref="SECURITY_DESCRIPTOR"/> that allows Everyone.
+        /// If <paramref name="pSecDesc"/> is <see langword="null"/>, the flags in <paramref name="dwCapabilities"/> determine
+        /// how <see cref="CoInitializeSecurity"/> defines the access permissions that a server will use, as follows:
+        /// If the <see cref="EOAC_APPID"/> flag is set, <see cref="CoInitializeSecurity"/> will look up the application's .exe name in the registry
+        /// and use the AppID stored there.
+        /// If the <see cref="EOAC_ACCESS_CONTROL"/> flag is set, <see cref="CoInitializeSecurity"/> will return an error.
+        /// If neither the <see cref="EOAC_APPID"/> flag nor the <see cref="EOAC_ACCESS_CONTROL"/> flag is set,
+        /// <see cref="CoInitializeSecurity"/> allows all callers including Local and Remote Anonymous Users.
+        /// The <see cref="CoInitializeSecurity"/> function returns an error
+        /// if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set in <paramref name="dwCapabilities"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitializeSecurity([In]in SECURITY_DESCRIPTOR pSecDesc, [In]LONG cAuthSvc, [In]SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
+            [In]IntPtr pReserved1, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthList, [In]DWORD dwCapabilities, [In]IntPtr pReserved3);
+
+        /// <summary>
+        /// <para>
         /// Allocates a block of task memory in the same way that IMalloc::Alloc does.
         /// </para>
         /// <para>
@@ -244,5 +416,65 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CoTaskMemRealloc([In]IntPtr pv, [In]IntPtr cb);
+
+        /// <summary>
+        /// <para>
+        /// Returns a pointer to an implementation of <see cref="IBindCtx"/> (a bind context object).
+        /// This object stores information about a particular moniker-binding operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createbindctx
+        /// </para>
+        /// </summary>
+        /// <param name="reserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <param name="ppbc">
+        /// Address of an <see cref="IBindCtx"/> pointer variable that receives the interface pointer to the new bind context object.
+        /// When the function is successful, the caller is responsible for calling <see cref="Marshal.ReleaseComObject(object)"/> on the bind context.
+        /// A <see langword="null"/> value for the bind context indicates that an error occurred.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// CreateBindCtx is most commonly used in the process of binding a moniker
+        /// (locating and getting a pointer to an interface by identifying it through a moniker), as in the following steps:
+        /// Get a pointer to a bind context by calling the <see cref="CreateBindCtx"/> function.
+        /// Call the <see cref="IMoniker.BindToObject"/> on the moniker, retrieving an interface pointer to the object to which the moniker refers.
+        /// Release the bind context.
+        /// Use the interface pointer.
+        /// Release the interface pointer.
+        /// The following code fragment illustrates these steps.
+        /// <code>
+        /// // pMnk is an IMoniker * that points to a previously acquired moniker 
+        /// IInterface* pInterface;
+        /// IBindCtx* pbc;
+        /// 
+        /// CreateBindCtx( 0, &amp;pbc );
+        /// pMnk-&gt;BindToObject(pbc, NULL, IID_IInterface, &amp;pInterface );
+        /// pbc-&gt;Release();
+        /// 
+        /// // pInterface now points to the object; safe to use pInterface 
+        /// pInterface-&gt;Release();
+        /// </code>
+        /// Bind contexts are also used in other methods of the <see cref="IMoniker"/> interface besides <see cref="IMoniker.BindToObject"/>
+        /// and in the <see cref="MkParseDisplayName"/> function.
+        /// A bind context retains references to the objects that are bound during the binding operation,
+        /// causing the bound objects to remain active (keeping the object's server running) until the bind context is released.
+        /// Reusing a bind context when subsequent operations bind to the same object can improve performance.
+        /// You should, however, release the bind context as soon as possible, because you could be keeping the objects activated unnecessarily.
+        /// A bind context contains a <see cref="BIND_OPTS"/> structure, which contains parameters that apply to all steps in a binding operation.
+        /// When you create a bind context using <see cref="CreateBindCtx"/>, the fields of the <see cref="BIND_OPTS"/> structure are initialized as follows.
+        /// <code>
+        /// cbStruct = sizeof(BIND_OPTS) 
+        /// grfFlags = 0 
+        /// grfMode = STGM_READWRITE 
+        /// dwTickCountDeadline = 0
+        /// </code>
+        /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
     }
 }

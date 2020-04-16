@@ -89,5 +89,15 @@ namespace Lsj.Util.Win32.Enums
         /// GPTR
         /// </summary>
         GPTR = GMEM_FIXED | GMEM_ZEROINIT,
+
+        /// <summary>
+        /// GMEM_DISCARDED
+        /// </summary>
+        GMEM_DISCARDED = 0x4000,
+
+        /// <summary>
+        /// GMEM_LOCKCOUNT
+        /// </summary>
+        GMEM_LOCKCOUNT = 0x00FF,
     }
 }

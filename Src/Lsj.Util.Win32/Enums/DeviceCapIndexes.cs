@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Gdi32;
+﻿using static Lsj.Util.Win32.Enums.RasterCapabilities;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -230,7 +231,6 @@ namespace Lsj.Util.Win32.Enums
         /// Not in document but in header file.
         /// </summary>
         DESKTOPHORZRES = 118,
-
     }
 
 }

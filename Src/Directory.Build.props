@@ -7,15 +7,13 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <LangVersion>8.0</LangVersion>
     <DebugType>portable</DebugType>
+    <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <VersionSuffix>debug$([System.DateTime]::get_Now().ToString('yyyyMMddHHmmss'))</VersionSuffix>
+    <VersionSuffix>debug$(VersionSuffix)</VersionSuffix>
   </PropertyGroup>
 </Project>

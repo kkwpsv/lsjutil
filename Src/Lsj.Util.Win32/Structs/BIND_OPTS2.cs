@@ -2,6 +2,9 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -23,8 +26,8 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="CreateBindCtx"/> function creates a bind context with the bind options set to default values that are suitable for most situations;
     /// the BindMoniker function does the same thing when creating a bind context for use in binding a moniker.
     /// If you want to modify the values of these bind options, you can do so by passing a <see cref="BIND_OPTS2"/> structure
-    /// to the <see cref="IBindCtx::SetBindOptions"/> method.
-    /// Moniker implementers can pass a <see cref="BIND_OPTS2"/> structure to the <see cref="IBindCtx::GetBindOptions"/> method
+    /// to the <see cref="IBindCtx.SetBindOptions"/> method.
+    /// Moniker implementers can pass a <see cref="BIND_OPTS2"/> structure to the <see cref="IBindCtx.GetBindOptions"/> method
     /// to retrieve the values of these bind options.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
