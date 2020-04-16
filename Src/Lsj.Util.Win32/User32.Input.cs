@@ -1,11 +1,13 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
+using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
@@ -661,6 +663,42 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true, SetLastError = true)]
         public static extern int ToAscii([In]UINT uVirtKey, [In]UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState,
             [Out]out WORD lpChar, [In]UINT uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Posts messages when the mouse pointer leaves a window or hovers over a window for a specified amount of time.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackmouseevent
+        /// </para>
+        /// </summary>
+        /// <param name="lpEventTrack">
+        /// A pointer to a <see cref="TRACKMOUSEEVENT"/> structure that contains tracking information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The mouse pointer is considered to be hovering when it stays within a specified rectangle for a specified period of time.
+        /// Call <see cref="SystemParametersInfo"/>. and use the values <see cref="SPI_GETMOUSEHOVERWIDTH"/>,
+        /// <see cref="SPI_GETMOUSEHOVERHEIGHT"/>, and <see cref="SPI_GETMOUSEHOVERTIME"/> to retrieve the size of the rectangle and the time.
+        /// The function can post the following messages.
+        /// <see cref="WM_NCMOUSEHOVER"/>: The same meaning as <see cref="WM_MOUSEHOVER"/> except this is for the nonclient area of the window.
+        /// <see cref="WM_NCMOUSELEAVE"/>: The same meaning as <see cref="WM_MOUSELEAVE"/> except this is for the nonclient area of the window.
+        /// <see cref="WM_MOUSEHOVER"/>:
+        /// The mouse hovered over the client area of the window for the period of time specified in a prior call to <see cref="TrackMouseEvent"/>.
+        /// Hover tracking stops when this message is generated.
+        /// The application must call <see cref="TrackMouseEvent"/> again if it requires further tracking of mouse hover behavior.
+        /// <see cref="WM_MOUSELEAVE"/>:
+        /// The mouse left the client area of the window specified in a prior call to <see cref="TrackMouseEvent"/>.
+        /// All tracking requested by <see cref="TrackMouseEvent"/> is canceled when this message is generated.
+        /// The application must call <see cref="TrackMouseEvent"/> when the mouse reenters its window
+        /// if it requires further tracking of mouse hover behavior.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackMouseEvent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TrackMouseEvent([In]in TRACKMOUSEEVENT lpEventTrack);
 
         /// <summary>
         /// <para>
