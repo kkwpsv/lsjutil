@@ -134,6 +134,79 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an instance of a specific class on a specific computer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cocreateinstanceex
+        /// </para>
+        /// </summary>
+        /// <param name="Clsid">
+        /// The CLSID of the object to be created.
+        /// </param>
+        /// <param name="punkOuter">
+        /// If this parameter non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is currently not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/> will be returned if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// A value from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pServerInfo">
+        /// Information about the computer on which to instantiate the object. See <see cref="COSERVERINFO"/>.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the local computer 
+        /// or at the computer specified in the registry under the class's RemoteServerName value,
+        /// according to the interpretation of the <paramref name="dwClsCtx"/> parameter.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>. This value must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (pIID), the location
+        /// to return the interface pointer (pItf) and the return value of the call to QueryInterface (hr).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: Indicates success.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>:
+        /// A specified class is not registered in the registration database.
+        /// Also can indicate that the type of server you requested in the <see cref="CLSCTX"/> enumeration is not registered
+        /// or the values for the server types in the registry are corrupt.
+        /// <see cref="CLASS_E_NOAGGREGATION"/>: This class cannot be created as part of an aggregate.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures in <paramref name="pResults"/>
+        /// indicates with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned.
+        /// <see cref="E_NOINTERFACE"/>: None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoCreateInstanceEx"/> creates a single uninitialized object associated with the given CLSID on a specified remote computer.
+        /// This is an extension of the function <see cref="CoCreateInstance"/>, which creates an object on the local computer only.
+        /// In addition, rather than requesting a single interface and obtaining a single pointer to that interface,
+        /// <see cref="CoCreateInstanceEx"/> makes it possible to specify an array of structures, each pointing to an interface identifier (IID) on input,
+        /// and, on return, containing (if available) a pointer to the requested interface and the return value of the QueryInterface call
+        /// for that interface. This permits fewer round trips between computers.
+        /// This function encapsulates three calls: first, to <see cref="CoGetClassObject"/> to connect to the class object
+        /// associated with the specified CLSID, specifying the location of the class; second,to <see cref="IClassFactory.CreateInstance"/> to
+        /// create an uninitialized instance, and finally, to <see cref="IClassFactory.Release"/>, to release the class object.
+        /// The object so created must still be initialized through a call
+        /// to one of the initialization interfaces (such as <see cref="IPersistStorage.Load"/>).
+        /// Two functions, <see cref="CoGetInstanceFromFile"/> and <see cref="CoGetInstanceFromIStorage"/> encapsulate
+        /// both the instance creation and initialization from the obvious sources.
+        /// The <see cref="COSERVERINFO"/> structure passed as the <paramref name="pServerInfo"/> parameter contains the security settings
+        /// that COM will use when creating a new instance of the specified object.
+        /// Note that this parameter does not influence the security settings used when making method calls on the instantiated object.
+        /// Those security settings are configurable, on a per-interface basis, with the <see cref="CoSetProxyBlanket"/> function.
+        /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In]Guid Clsid,
+            [MarshalAs(UnmanagedType.IUnknown)]object punkOuter, [In]CLSCTX dwClsCtx, [In]in COSERVERINFO pServerInfo,
+            [In]DWORD dwCount, [In][Out]MULTI_QI[] pResults);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pointer to the default OLE task memory allocator (which supports the system implementation of the <see cref="IMalloc"/> interface)
         /// so applications can call its methods to manage memory.
         /// </para>
