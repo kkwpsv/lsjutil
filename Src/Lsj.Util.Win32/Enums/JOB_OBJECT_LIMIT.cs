@@ -65,7 +65,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Establishes a user-mode execution time limit for the job.
-        /// The <see cref="PerJobUserTimeLimit"/> member contains additional information.
+        /// The <see cref="JOBOBJECT_BASIC_LIMIT_INFORMATION.PerJobUserTimeLimit"/> member contains additional information.
         /// This flag cannot be used with <see cref="JOB_OBJECT_LIMIT_PRESERVE_JOB_TIME"/>.
         /// </summary>
         JOB_OBJECT_LIMIT_JOB_TIME = 0x00000004,
