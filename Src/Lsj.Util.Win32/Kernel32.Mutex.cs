@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
@@ -260,5 +261,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenMutex([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
+        /// Releases ownership of the specified mutex object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasemutex
+        /// </para>
+        /// </summary>
+        /// <param name="hMutex">
+        /// A handle to the mutex object. The <see cref="CreateMutex"/> or <see cref="OpenMutex"/> function returns this handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The ReleaseMutex function fails if the calling thread does not own the mutex object.
+        /// A thread obtains ownership of a mutex either by creating it with the bInitialOwner parameter set to <see cref="TRUE"/>
+        /// or by specifying its handle in a call to one of the wait functions.
+        /// When the thread no longer needs to own the mutex object,
+        /// it calls the <see cref="ReleaseMutex"/> function so that another thread can acquire ownership.
+        /// A thread can specify a mutex that it already owns in a call to one of the wait functions without blocking its execution.
+        /// This prevents a thread from deadlocking itself while waiting for a mutex that it already owns.
+        /// However, to release its ownership, the thread must call <see cref="ReleaseMutex"/> one time for each time
+        /// that it obtained ownership (either through <see cref="CreateMutex"/> or a wait function).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutex", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReleaseMutex([In]HANDLE hMutex);
     }
 }
