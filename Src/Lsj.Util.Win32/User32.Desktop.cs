@@ -465,6 +465,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Opens the specified window station.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openwindowstationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszWinSta">
+        /// The name of the window station to be opened.
+        /// Window station names are case-insensitive.
+        /// This window station must belong to the current session.
+        /// </param>
+        /// <param name="fInherit">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the window station.
+        /// For a list of access rights, see Window Station Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the specified window station.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWINSTA OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpszWinSta, [In]BOOL fInherit,
+            [In]ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
         /// Opens the desktop that receives user input.
         /// </para>
         /// <para>
