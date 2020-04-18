@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.PaletteEntryFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
