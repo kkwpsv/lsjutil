@@ -198,6 +198,74 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new image (icon, cursor, or bitmap) and copies the attributes of the specified image to the new one.
+        /// If necessary, the function stretches the bits to fit the desired size of the new image.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyimage
+        /// </para>
+        /// </summary>
+        /// <param name="h">
+        /// A handle to the image to be copied.
+        /// </param>
+        /// <param name="type">
+        /// The type of image to be copied. This parameter can be one of the following values.
+        /// <see cref="IMAGE_BITMAP"/>: Copies a bitmap.
+        /// <see cref="IMAGE_CURSOR"/>: Copies a cursor.
+        /// <see cref="IMAGE_ICON"/>: Copies an icon.
+        /// </param>
+        /// <param name="cx">
+        /// The desired width, in pixels, of the image.
+        /// If this is zero, then the returned image will have the same width as the original <paramref name="h"/>.
+        /// </param>
+        /// <param name="cy">
+        /// The desired height, in pixels, of the image.
+        /// If this is zero, then the returned image will have the same height as the original <paramref name="h"/>.
+        /// </param>
+        /// <param name="flags">
+        /// This parameter can be one or more of the following values.
+        /// <see cref="LR_COPYDELETEORG"/>: Deletes the original image after creating the copy.
+        /// <see cref="LR_COPYFROMRESOURCE"/>:
+        /// Tries to reload an icon or cursor resource from the original resource file rather than simply copying the current image.
+        /// This is useful for creating a different-sized copy when the resource file contains multiple sizes of the resource.
+        /// Without this flag, <see cref="CopyImage"/> stretches the original image to the new size.
+        /// If this flag is set, <see cref="CopyImage"/> uses the size in the resource file closest to the desired size.
+        /// This will succeed only if <paramref name="h"/> was loaded by <see cref="LoadIcon"/> or <see cref="LoadCursor"/>,
+        /// or by <see cref="LoadImage"/> with the <see cref="LR_SHARED"/> flag.
+        /// <see cref="LR_COPYRETURNORG"/>:
+        /// Returns the original hImage if it satisfies the criteria for the copy—that is,
+        /// correct dimensions and color depth—in which case the <see cref="LR_COPYDELETEORG"/> flag is ignored.
+        /// If this flag is not specified, a new object is always created.
+        /// <see cref="LR_CREATEDIBSECTION"/>:
+        /// If this is set and a new bitmap is created, the bitmap is created as a DIB section.
+        /// Otherwise, the bitmap image is created as a device-dependent bitmap.
+        /// This flag is only valid if <paramref name="type"/> is <see cref="IMAGE_BITMAP"/>.
+        /// <see cref="LR_DEFAULTSIZE"/>:
+        /// Uses the width or height specified by the system metric values for cursors or icons,
+        /// if the <paramref name="cx"/> or <paramref name="cy"/> values are set to zero.
+        /// If this flag is not specified and <paramref name="cx"/> and <paramref name="cy"/> are set to zero,
+        /// the function uses the actual resource size.
+        /// If the resource contains multiple images, the function uses the size of the first image.
+        /// <see cref="LR_MONOCHROME"/>: Creates a new monochrome image.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the newly created image.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When you are finished using the resource, you can release its associated memory by calling one of the functions in the following table.
+        /// Bitmap: <see cref="DeleteObject"/>
+        /// Cursor: <see cref="DestroyCursor"/>
+        /// Icon: <see cref="DestroyIcon"/>
+        /// The system automatically deletes the resource when its process terminates, however,
+        /// calling the appropriate function saves memory and decreases the size of the process's working set.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE CopyImage([In]HANDLE h, [In]ImageTypes type, [In]int cx, [In]int cy, [In]LoadImageFlags flags);
+
+        /// <summary>
+        /// <para>
         /// Destroys a cursor and frees any memory the cursor occupied.
         /// Do not use this function to destroy a shared cursor.
         /// </para>
