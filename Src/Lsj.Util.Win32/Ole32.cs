@@ -641,5 +641,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
+
+        /// <summary>
+        /// <para>
+        /// Creates an advise holder object for managing compound document notifications.
+        /// It returns a pointer to the object's OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-createoleadviseholder
+        /// </para>
+        /// </summary>
+        /// <param name="ppOAHolder">
+        /// Address of <see cref="IOleAdviseHolder"/> pointer variable that receives the interface pointer to the new advise holder object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function <see cref="CreateOleAdviseHolder"/> creates an instance of an advise holder,
+        /// which supports the OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
+        /// The methods of this interface are intended to be used to implement the advisory methods of <see cref="IOleObject"/>,
+        /// and, when advisory connections have been set up with objects supporting an advisory sink,
+        /// to send notifications of changes in the object to the advisory sink.
+        /// The advise holder returned by <see cref="CreateOleAdviseHolder"/> will suffice for the great majority of applications.
+        /// The OLE-provided implementation does not, however, support <see cref="IOleAdviseHolder.EnumAdvise"/>,
+        /// so if you need to use this method, you will need to implement your own advise holder.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateOleAdviseHolder([Out]out IOleAdviseHolder ppOAHolder);
     }
 }
