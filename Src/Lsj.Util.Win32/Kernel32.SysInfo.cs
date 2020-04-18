@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// PRODUCT_*_SERVER_CORE values are not returned in Windows Server 2012, and later.
         /// For example, the base server edition, Server Datacenter,
         /// is used to build the two different installation options: "full server" and "core server".
-        /// With Windows Server 2012, <see cref="GetProductInfo"/> will return <see cref="PRODUCT_DATACENTER"/> regardless of
+        /// With Windows Server 2012, <see cref="GetProductInfo"/> will return PRODUCT_DATACENTER regardless of
         /// the option used during product installation.
         /// As noted above, for Server Core installations of Windows Server 2012 and later, use the method Determining whether Server Core is running.
         /// The following table indicates the product types that were introduced in 6.1.0.0,
