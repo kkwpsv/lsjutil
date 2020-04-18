@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.Compression;
 using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.RasterCapabilities;
 using static Lsj.Util.Win32.Enums.RasterCodes;
