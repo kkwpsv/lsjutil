@@ -1702,6 +1702,22 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the foreground window (the window with which the user is currently working).
+        /// The system assigns a slightly higher priority to the thread that creates the foreground window than it does to other threads.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the foreground window.
+        /// The foreground window can be <see cref="NULL"/> in certain circumstances, such as when a window is losing activation.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetForegroundWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetForegroundWindow();
+
+        /// <summary>
+        /// <para>
         /// Determines which pop-up window owned by the specified window was most recently active.
         /// </para>
         /// <para>
