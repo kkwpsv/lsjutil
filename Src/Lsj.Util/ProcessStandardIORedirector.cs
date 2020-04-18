@@ -37,6 +37,11 @@ namespace Lsj.Util
         }
 
         /// <summary>
+        /// IsRunning
+        /// </summary>
+        public bool IsRunning => _process != null & !_process.HasExited;
+
+        /// <summary>
         /// Kill Process
         /// </summary>
         public void KillProcess()
