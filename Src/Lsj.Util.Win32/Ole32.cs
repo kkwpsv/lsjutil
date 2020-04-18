@@ -7,7 +7,9 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
+using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -200,6 +202,67 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+
+        /// <summary>
+        /// <para>
+        /// Initializes the COM library for use by the calling thread, sets the thread's concurrency model,
+        /// and creates a new apartment for the thread if one is required.
+        /// You should call Windows::Foundation::Initialize to initialize the thread instead of <see cref="CoInitializeEx"/>
+        /// if you want to use the Windows Runtime APIs or if you want to use both COM and Windows Runtime components.
+        /// Windows::Foundation::Initialize is sufficient to use for COM components.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex
+        /// </para>
+        /// </summary>
+        /// <param name="pvReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwCoInit">
+        /// The concurrency model and initialization options for the thread.
+        /// Values for this parameter are taken from the <see cref="COINIT"/> enumeration.
+        /// Any combination of values from <see cref="COINIT"/> can be used,
+        /// except that the <see cref="COINIT_APARTMENTTHREADED"/> and <see cref="COINIT_MULTITHREADED"/> flags cannot both be set.
+        /// The default is <see cref="COINIT_MULTITHREADED"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The COM library was initialized successfully on this thread.
+        /// <see cref="S_FALSE"/>: The COM library is already initialized on this thread.
+        /// <see cref="RPC_E_CHANGED_MODE"/>:
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this thread as multithread apartment (MTA).
+        /// This could also indicate that a change from neutral-threaded apartment to single-threaded apartment has occurred.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoInitializeEx"/> must be called at least once, and is usually called only once, for each thread that uses the COM library.
+        /// Multiple calls to <see cref="CoInitializeEx"/> by the same thread are allowed as long as they pass the same concurrency flag,
+        /// but subsequent valid calls return <see cref="S_FALSE"/>.
+        /// To close the COM library gracefully on a thread, each successful call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// including any call that returns <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="CoUninitialize"/>.
+        /// You need to initialize the COM library on a thread before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// Otherwise, the COM function will return <see cref="CO_E_NOTINITIALIZED"/>.
+        /// After the concurrency model for a thread is set, it cannot be changed.
+        /// A call to <see cref="CoInitialize"/> on an apartment that was previously initialized as multithreaded
+        /// will fail and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// Objects created in a single-threaded apartment (STA) receive method calls only from their apartment's thread,
+        /// so calls are serialized and arrive only at message-queue boundaries
+        /// (when the <see cref="PeekMessage"/> or <see cref="SendMessage"/> function is called).
+        /// Objects created on a COM thread in a multithread apartment (MTA) must be able to receive method calls from other threads at any time.
+        /// You would typically implement some form of concurrency control in a multithreaded object's code
+        /// using synchronization primitives such as critical sections, semaphores, or mutexes to help protect the object's data.
+        /// When an object that is configured to run in the neutral threaded apartment (NTA) is called
+        /// by a thread that is in either an STA or the MTA, that thread transfers to the NTA.
+        /// If this thread subsequently calls <see cref="CoInitializeEx"/>, the call fails and returns <see cref="RPC_E_CHANGED_MODE"/>.
+        /// Because OLE technologies are not thread-safe, the <see cref="OleInitialize"/> function
+        /// calls <see cref="CoInitializeEx"/> with the <see cref="COINIT_APARTMENTTHREADED"/> flag.
+        /// As a result, an apartment that is initialized for multithreaded object concurrency cannot use the features enabled by <see cref="OleInitialize"/>.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitializeEx([In]LPVOID pvReserved, [In]COINIT dwCoInit);
 
         /// <summary>
         /// <para>
