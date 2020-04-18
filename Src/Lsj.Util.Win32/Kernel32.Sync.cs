@@ -31,6 +31,20 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined completion routine.
+        /// Specify this address when calling the <see cref="QueueUserAPC"/> function.
+        /// The <see cref="PAPCFUNC"/> type defines a pointer to this callback function.
+        /// APCProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-papcfunc
+        /// </para>
+        /// </summary>
+        /// <param name="Parameter"></param>
+        public delegate void PAPCFUNC(ULONG_PTR Parameter);
+
+        /// <summary>
+        /// <para>
         /// Acquires a slim reader/writer (SRW) lock in exclusive mode.
         /// </para>
         /// <para>
@@ -806,57 +820,60 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Opens an existing named mutex object.
+        /// Adds a user-mode asynchronous procedure call (APC) object to the APC queue of the specified thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openmutexw
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc
         /// </para>
         /// </summary>
-        /// <param name="dwDesiredAccess">
-        /// The access to the mutex object.
-        /// Only the <see cref="SYNCHRONIZE"/> access right is required to use a mutex;
-        /// to change the mutex's security, specify <see cref="MUTEX_ALL_ACCESS"/>.
-        /// The function fails if the security descriptor of the specified object does not permit the requested access for the calling process.
-        /// For a list of access rights, see Synchronization Object Security and Access Rights.
+        /// <param name="pfnAPC">
+        /// A pointer to the application-supplied APC function to be called when the specified thread performs an alertable wait operation.
+        /// For more information, see <see cref="PAPCFUNC"/>.
         /// </param>
-        /// <param name="bInheritHandle">
-        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
-        /// Otherwise, the processes do not inherit this handle.
+        /// <param name="hThread">
+        /// A handle to the thread.
+        /// The handle must have the <see cref="THREAD_SET_CONTEXT"/> access right.
+        /// For more information, see Synchronization Object Security and Access Rights.
         /// </param>
-        /// <param name="lpName">
-        /// The name of the mutex to be opened.
-        /// Name comparisons are case sensitive.
-        /// This function can open objects in a private namespace. For more information, see Object Namespaces.
-        /// Terminal Services:
-        /// The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
-        /// The remainder of the name can contain any character except the backslash character ().
-        /// For more information, see Kernel Object Namespaces.
-        /// Note
-        /// Fast user switching is implemented using Terminal Services sessions.
-        /// The first user to log on uses session 0, the next user to log on uses session 1, and so on.
-        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// <param name="dwData">
+        /// A single value that is passed to the APC function pointed to by the <paramref name="pfnAPC"/> parameter.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is a handle to the mutex object.
-        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
-        /// If a named mutex does not exist, the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// Windows Server 2003 and Windows XP:
+        /// There are no error values defined for this function that can be retrieved by calling <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// The <see cref="OpenMutex"/> function enables multiple processes to open handles of the same mutex object.
-        /// The function succeeds only if some process has already created the mutex by using the <see cref="CreateMutex"/> function.
-        /// The calling process can use the returned handle in any function that requires a handle to a mutex object, such as the wait functions,
-        /// subject to the limitations of the access specified in the <paramref name="dwDesiredAccess"/> parameter.
-        /// The handle can be duplicated by using the <see cref="DuplicateHandle"/> function.
-        /// Use the <see cref="CloseHandle"/> function to close the handle.
-        /// The system closes the handle automatically when the process terminates.
-        /// The mutex object is destroyed when its last handle has been closed.
-        /// If your multithreaded application must repeatedly create, open, and close a named mutex object, a race condition can occur.
-        /// In this situation, it is better to use <see cref="CreateMutex"/> instead of <see cref="OpenMutex"/>,
-        /// because <see cref="CreateMutex"/> opens a mutex if it exists and creates it if it does not.
+        /// The APC support provided in the operating system allows an application to queue an APC object to a thread.
+        /// To ensure successful execution of functions used by the APC, APCs should be queued only to threads in the caller's process.
+        /// Note Queuing APCs to threads outside the caller's process is not recommended for a number of reasons.
+        /// DLL rebasing can cause the addresses of functions used by the APC to be incorrect when the functions are executed outside the caller's process.
+        /// Similarly, if a 64-bit process queues an APC to a 32-bit process or vice versa, addresses will be incorrect and the application will crash.
+        /// Other factors can prevent successful function execution, even if the address is known.
+        /// Each thread has its own APC queue. The queuing of an APC is a request for the thread to call the APC function.
+        /// The operating system issues a software interrupt to direct the thread to call the APC function.
+        /// When a user-mode APC is queued, the thread is not directed to call the APC function unless it is in an alertable state.
+        /// After the thread is in an alertable state, the thread handles all pending APCs in first in, first out (FIFO) order,
+        /// and the wait operation returns <see cref="WAIT_IO_COMPLETION"/>.
+        /// A thread enters an alertable state by using <see cref="SleepEx"/>, <see cref="SignalObjectAndWait"/>, <see cref="WaitForSingleObjectEx"/>,
+        /// <see cref="WaitForMultipleObjectsEx"/>, or <see cref="MsgWaitForMultipleObjectsEx"/> to perform an alertable wait operation.
+        /// If an application queues an APC before the thread begins running, the thread begins by calling the APC function.
+        /// After the thread calls an APC function, it calls the APC functions for all APCs in its APC queue.
+        /// It is possible to sleep or wait for an object within the APC.
+        /// If you perform an alertable wait inside an APC, it will recursively dispatch the APCs. This can cause a stack overflow.
+        /// When the thread is terminated using the <see cref="ExitThread"/> or <see cref="TerminateThread"/> function, the APCs in its APC queue are lost.
+        /// The APC functions are not called.
+        /// When the thread is in the process of being terminated, calling <see cref="QueueUserAPC"/> to add to the thread's APC queue
+        /// will fail with (31) <see cref="ERROR_GEN_FAILURE"/>.
+        /// Note that the <see cref="ReadFileEx"/>, <see cref="SetWaitableTimer"/>, and <see cref="WriteFileEx"/> functions are implemented
+        /// using an APC as the completion notification callback mechanism.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenMutex([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD QueueUserAPC([In]PAPCFUNC pfnAPC, [In]HANDLE hThread, [In]ULONG_PTR dwData);
 
         /// <summary>
         /// <para>
@@ -1111,7 +1128,6 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TryEnterCriticalSection([In][Out]ref CRITICAL_SECTION lpCriticalSection);
-
 
         /// <summary>
         /// <para>
