@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -465,5 +466,48 @@ namespace Lsj.Util.Win32
              [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
              [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpFileMappingAttributes, [In]uint flProtect, [In]uint dwMaximumSizeHigh,
              [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nndPreferred);
+
+        /// <summary>
+        /// <para>
+        /// Opens a named file mapping object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-openfilemappingw
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the file mapping object. This access is checked against any security descriptor on the target file mapping object.
+        /// For a list of values, see File Mapping Security and Access Rights.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this parameter is TRUE, a process created by the <see cref="CreateProcess"/> function can inherit the handle;
+        /// otherwise, the handle cannot be inherited.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the file mapping object to be opened.
+        /// If there is an open handle to a file mapping object by this name and the security descriptor
+        /// on the mapping object does not conflict with the <paramref name="dwDesiredAccess"/> parameter, the open operation succeeds.
+        /// The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// Fast user switching is implemented using Terminal Services sessions.
+        /// The first user to log on uses session 0, the next user to log on uses session 1, and so on.
+        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified file mapping object.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The handle that OpenFileMapping returns can be used with any function that requires a handle to a file mapping object.
+        /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
+        /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
+        /// When it is no longer needed, the caller should call release
+        /// the handle returned by <see cref="OpenFileMapping"/> with a call to <see cref="CloseHandle"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenFileMappingW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE OpenFileMapping([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
     }
 }
