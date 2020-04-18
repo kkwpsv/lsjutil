@@ -555,6 +555,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes the COM library on the current thread, unloads all DLLs loaded by the thread,
+        /// frees any other resources that the thread maintains, and forces all RPC connections on the thread to close.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-couninitialize
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// A thread must call <see cref="CoUninitialize"/> once for each successful call it
+        /// has made to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> function, including any call that returns <see cref="S_FALSE"/>.
+        /// Only the <see cref="CoUninitialize"/> call corresponding to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> call
+        /// that initialized the library can close it.
+        /// Calls to <see cref="OleInitialize"/> must be balanced by calls to <see cref="OleUninitialize"/>.
+        /// The <see cref="OleUninitialize"/> function calls <see cref="CoUninitialize"/> internally,
+        /// so applications that call <see cref="OleUninitialize"/> do not also need to call <see cref="CoUninitialize"/>.
+        /// <see cref="CoUninitialize"/> should be called on application shutdown, as the last call made to the COM library
+        /// after the application hides its main windows and falls through its main message loop.
+        /// If there are open conversations remaining, <see cref="CoUninitialize"/> starts a modal message loop and dispatches any pending messages
+        /// from the containers or server for this COM application.
+        /// By dispatching the messages, <see cref="CoUninitialize"/> ensures that the application does not quit
+        /// before receiving all of its pending messages. Non-COM messages are discarded.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern void CoUninitialize();
+
+        /// <summary>
+        /// <para>
         /// Returns a pointer to an implementation of <see cref="IBindCtx"/> (a bind context object).
         /// This object stores information about a particular moniker-binding operation.
         /// </para>
