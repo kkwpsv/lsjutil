@@ -145,5 +145,20 @@ namespace Lsj.Util.Win32.Enums
         /// If the job is nested, the effective working set size is the smallest working set size in the job chain.
         /// </summary>
         JOB_OBJECT_LIMIT_WORKINGSET = 0x00000001,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_JOB_READ_BYTES
+        /// </summary>
+        JOB_OBJECT_LIMIT_JOB_READ_BYTES =         0x00010000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_JOB_WRITE_BYTES
+        /// </summary>
+        JOB_OBJECT_LIMIT_JOB_WRITE_BYTES = 0x00020000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_RATE_CONTROL
+        /// </summary>
+        JOB_OBJECT_LIMIT_RATE_CONTROL = 0x00040000,
     }
 }
