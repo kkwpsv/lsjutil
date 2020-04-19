@@ -45,6 +45,6 @@ namespace Lsj.Util.Win32.Enums
         /// If you set <see cref="JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE"/>,
         /// you can set neither <see cref="JOB_OBJECT_CPU_RATE_CONTROL_WEIGHT_BASED"/> nor <see cref="JOB_OBJECT_CPU_RATE_CONTROL_HARD_CAP"/>.
         /// </summary>
-        JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE = 0x10.
+        JOB_OBJECT_CPU_RATE_CONTROL_MIN_MAX_RATE = 0x10,
     }
 }
