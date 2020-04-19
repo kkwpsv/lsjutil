@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.HKEY;
+using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Userenv;
 
 namespace Lsj.Util.Win32.Structs

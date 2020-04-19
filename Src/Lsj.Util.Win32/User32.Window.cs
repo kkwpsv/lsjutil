@@ -7,9 +7,11 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
@@ -26,7 +28,6 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
-using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -93,7 +94,7 @@ namespace Lsj.Util.Win32
         /// The system calls this function after the <see cref="SendMessage"/> function is called.
         /// The hook procedure can examine the message; it cannot modify it.
         /// The <see cref="HOOKPROC"/> type defines a pointer to this callback function.
-        /// <see cref="CallWndRetProc"/> is a placeholder for the application-defined or library-defined function name.
+        /// CallWndRetProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc

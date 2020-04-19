@@ -12,6 +12,22 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+
+        /// <summary>
+        /// EXCEPTION_EXECUTE_HANDLER
+        /// </summary>
+        public const int EXCEPTION_EXECUTE_HANDLER = 1;
+
+        /// <summary>
+        /// EXCEPTION_CONTINUE_SEARCH
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_SEARCH = 0;
+
+        /// <summary>
+        /// EXCEPTION_CONTINUE_EXECUTION
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_EXECUTION = unchecked(-1);
+
         /// <summary>
         /// <para>
         /// Displays a message box and terminates the application when the message box is closed.

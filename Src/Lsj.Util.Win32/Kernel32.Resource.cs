@@ -41,7 +41,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// If <see cref="IS_INTRESOURCE"/> is TRUE for x = <paramref name="lpName"/> or <paramref name="lpType"/>,
+        /// If <see cref="IS_INTRESOURCE"/> is <see cref="IS_INTRESOURCE"/> for x = <paramref name="lpName"/> or <paramref name="lpType"/>,
         /// x specifies the integer identifier of the name or type of the given resource.
         /// Otherwise, those parameters are long pointers to null-terminated strings.
         /// If the first character of the string is a pound sign (#), the remaining characters represent a decimal number

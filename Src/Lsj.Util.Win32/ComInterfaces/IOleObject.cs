@@ -791,8 +791,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// This method returns <see cref="S_OK"/> on success. Other possible return values include the following.
         /// <see cref="OLE_S_USEREG"/>: Delegate the retrieval of miscellaneous status information to the default handler's implementation of this method.
-        /// <see cref="CO_E_CLASSNOTREG"/>: There is no CLSID registered for the object.
-        /// <see cref="CO_E_READREGDB"/>: Error accessing the registry.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>: There is no CLSID registered for the object.
+        /// <see cref="REGDB_E_READREGDB"/>: Error accessing the registry.
         /// </returns>
         /// <remarks>
         /// A container normally calls <see cref="GetMiscStatus"/> when it creates or loads an object in order to determine
