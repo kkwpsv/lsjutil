@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.GamutMappingIntent;
+using static Lsj.Util.Win32.Enums.LogicalColorSpace;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -221,7 +223,7 @@ namespace Lsj.Util.Win32.Structs
         /// that contains the profile to be used (gamma and endpoints values are ignored).
         /// See the <see cref="LOGCOLORSPACE"/> structure for information that defines a logical color space.
         /// </summary>
-        public uint bV5CSType;
+        public LogicalColorSpace bV5CSType;
 
         /// <summary>
         /// A <see cref="CIEXYZTRIPLE"/> structure that specifies the x, y, and z coordinates of the three colors
@@ -268,7 +270,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="LCS_GM_IMAGES"/>             Picture     Perceptual
         /// Maintains contrast. Used for photographs and natural images.
         /// </summary>
-        public uint bV5Intent;
+        public GamutMappingIntent bV5Intent;
 
         /// <summary>
         /// The offset, in bytes, from the beginning of the <see cref="BITMAPV5HEADER"/> structure to the start of the profile data.

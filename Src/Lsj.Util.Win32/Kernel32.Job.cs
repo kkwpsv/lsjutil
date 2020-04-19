@@ -4,11 +4,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
+using static Lsj.Util.Win32.Enums.JobAccessRights;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.JobAccessRights;
 
 namespace Lsj.Util.Win32
 {

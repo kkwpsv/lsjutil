@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32.Structs
         }
 
         /// <summary>
-        /// If the ControlFlags member specifies <see cref="JOB_OBJECT_CPU_RATE_WEIGHT_BASED"/>,
+        /// If the <see cref="ControlFlags"/> member specifies <see cref="JOB_OBJECT_CPU_RATE_CONTROL_WEIGHT_BASED"/>,
         /// this member specifies the scheduling weight of the job object, which determines the share of processor time
         /// given to the job relative to other workloads on the processor.
         /// This member can be a value from 1 through 9, where 1 is the smallest share and 9 is the largest share.

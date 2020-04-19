@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// the limit actually enforced is 6 minutes.
         /// The system periodically checks to determine whether the sum of the user-mode execution time
         /// for all processes is greater than this end-of-job limit.
-        /// If it is, the action specified in the <see cref="EndOfJobTimeAction"/> member
+        /// If it is, the action specified in the <see cref="JOBOBJECT_END_OF_JOB_TIME_INFORMATION.EndOfJobTimeAction"/> member
         /// of the <see cref="JOBOBJECT_END_OF_JOB_TIME_INFORMATION"/> structure is carried out.
         /// By default, all processes are terminated and the status code is set to <see cref="ERROR_NOT_ENOUGH_QUOTA"/>.
         /// To register for notification when this limit is exceeded without terminating processes,

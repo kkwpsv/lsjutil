@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
