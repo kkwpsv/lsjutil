@@ -1,12 +1,7 @@
-﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
-using Lsj.Util.Win32.Structs;
+﻿using Lsj.Util.Win32.BaseTypes;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
-using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
-using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
-using Lsj.Util.Win32.BaseTypes;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -37,6 +32,37 @@ namespace Lsj.Util.Win32
         /// A <see cref="TP_TIMER"/> structure that defines the timer object that generated the callback.
         /// </param>
         public delegate void PTP_TIMER_CALLBACK([In]PTP_CALLBACK_INSTANCE Instance, [In]PVOID Context, [In]PTP_TIMER Timer);
+
+        /// <summary>
+        /// <para>
+        /// Indicates that the callback may not return quickly.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-callbackmayrunlong
+        /// </para>
+        /// </summary>
+        /// <param name="pci">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance. The structure is passed to the callback function.
+        /// </param>
+        /// <returns>
+        /// The function returns <see cref="TRUE"/> if another thread in the thread pool is available for processing callbacks
+        /// or the thread pool was able to spin up a new thread. In this case, the current callback function may use the current thread indefinitely.
+        /// The function returns <see cref="FALSE"/> if another thread in the thread pool is not available to process callbacks
+        /// and the thread pool was not able to spin up a new thread.
+        /// The thread pool will attempt to spin up a new thread after a delay, but if the current callback function runs long,
+        /// the thread pool may lose efficiency.
+        /// </returns>
+        /// <remarks>
+        /// The thread pool may use this information to better determine when a new thread should be created.
+        /// The <see cref="CallbackMayRunLong"/> function should be called only by the thread that is processing the callback.
+        /// Calling this function from another thread may cause a race condition.
+        /// The <see cref="CallbackMayRunLong"/> function always marks the callback as long-running,
+        /// whether or not a thread is available for processing callbacks or the threadpool is able to allocate a new thread.
+        /// Therefore, this function should be called only once, even if it returns <see cref="FALSE"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallbackMayRunLong", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CallbackMayRunLong([In]PTP_CALLBACK_INSTANCE pci);
 
         /// <summary>
         /// <para>
