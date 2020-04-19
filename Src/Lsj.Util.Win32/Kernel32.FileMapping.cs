@@ -469,6 +469,131 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Maps a view of a file mapping into the address space of a calling process.
+        /// To specify a suggested base address for the view, use the <see cref="MapViewOfFileEx"/> function.
+        /// However, this practice is not recommended.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile
+        /// </para>
+        /// </summary>
+        /// <param name="hFileMappingObject">
+        /// A handle to a file mapping object.
+        /// The <see cref="CreateFileMapping"/> and <see cref="OpenFileMapping"/> functions return this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The type of access to a file mapping object, which determines the page protection of the pages.
+        /// This parameter can be one of the following values, or a bitwise OR combination of multiple values where appropriate.
+        /// <see cref="FILE_MAP_ALL_ACCESS"/>:
+        /// A read/write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READWRITE"/> or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When used with the <see cref="MapViewOfFile"/> function, <see cref="FILE_MAP_ALL_ACCESS"/> is equivalent to <see cref="FILE_MAP_WRITE"/>.
+        /// <see cref="FILE_MAP_READ"/>:
+        /// A read-only view of the file is mapped. An attempt to write to the file view results in an access violation.
+        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_READWRITE"/>,
+        /// <see cref="PAGE_EXECUTE_READ"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// <see cref="FILE_MAP_WRITE"/>:
+        /// A read/write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READWRITE"/> or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When used with <see cref="MapViewOfFile"/>, <code>(FILE_MAP_WRITE | FILE_MAP_READ)</code> and <see cref="FILE_MAP_ALL_ACCESS"/>
+        /// are equivalent to <see cref="FILE_MAP_WRITE"/>.
+        /// Using bitwise OR, you can combine the values above with these values.
+        /// <see cref="FILE_MAP_COPY"/>:
+        /// A copy-on-write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_EXECUTE_READ"/>, <see cref="PAGE_WRITECOPY"/>,
+        /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, <see cref="PAGE_READWRITE"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When a process writes to a copy-on-write page, the system copies the original page to a new page that is private to the process.
+        /// The new page is backed by the paging file. The protection of the new page changes from copy-on-write to read/write.
+        /// When copy-on-write access is specified, the system and process commit charge taken is for the entire view
+        /// because the calling process can potentially write to every page in the view, making all pages private.
+        /// The contents of the new page are never written back to the original file and are lost when the view is unmapped.
+        /// <see cref="FILE_MAP_EXECUTE"/>:
+        /// An executable view of the file is mapped (mapped memory can be run as code).
+        /// The file mapping object must have been created with <see cref="PAGE_EXECUTE_READ"/>,
+        /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// Windows Server 2003 and Windows XP: This value is available starting with Windows XP with SP2 and Windows Server 2003 with SP1.
+        /// <see cref="FILE_MAP_LARGE_PAGES"/>:
+        /// Starting with Windows 10, version 1703, this flag specifies that the view should be mapped using large page support.
+        /// The size of the view must be a multiple of the size of a large page reported by the <see cref="GetLargePageMinimum"/> function,
+        /// and the file-mapping object must have been created using the <see cref="SEC_LARGE_PAGES"/> option.
+        /// If you provide a non-null value for lpBaseAddress, then the value must be a multiple of <see cref="GetLargePageMinimum"/>.
+        /// Note: On OS versions before Windows 10, version 1703, the <see cref="FILE_MAP_LARGE_PAGES"/> flag has no effect.
+        /// On these releases, the view is automatically mapped using large pages if the section was created with the <see cref="SEC_LARGE_PAGES"/> flag set.
+        /// <see cref="FILE_MAP_TARGETS_INVALID"/>:
+        /// Sets all the locations in the mapped file as invalid targets for Control Flow Guard (CFG).
+        /// This flag is similar to <see cref="PAGE_TARGETS_INVALID"/>.
+        /// Use this flag in combination with the execute access right <see cref="FILE_MAP_EXECUTE"/>.
+        /// Any indirect call to locations in those pages will fail CFG checks, and the process will be terminated.
+        /// The default behavior for executable pages allocated is to be marked valid call targets for CFG.
+        /// For file mapping objects created with the <see cref="SEC_IMAGE"/> attribute, the <paramref name="dwDesiredAccess"/> parameter has no effect,
+        /// and should be set to any valid value such as <see cref="FILE_MAP_READ"/>.
+        /// For more information about access to file mapping objects, see File Mapping Security and Access Rights.
+        /// </param>
+        /// <param name="dwFileOffsetHigh">
+        /// A high-order <see cref="DWORD"/> of the file offset where the view begins.
+        /// </param>
+        /// <param name="dwFileOffsetLow">
+        /// A low-order <see cref="DWORD"/> of the file offset where the view is to begin.
+        /// The combination of the high and low offsets must specify an offset within the file mapping.
+        /// They must also match the memory allocation granularity of the system.
+        /// That is, the offset must be a multiple of the allocation granularity.
+        /// To obtain the memory allocation granularity of the system, use the <see cref="GetSystemInfo"/> function,
+        /// which fills in the members of a <see cref="SYSTEM_INFO"/> structure.
+        /// </param>
+        /// <param name="dwNumberOfBytesToMap">
+        /// The number of bytes of a file mapping to map to the view.
+        /// All bytes must be within the maximum size specified by <see cref="CreateFileMapping"/>.
+        /// If this parameter is 0 (zero), the mapping extends from the specified offset to the end of the file mapping.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the starting address of the mapped view.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Mapping a file makes the specified portion of a file visible in the address space of the calling process.
+        /// For files that are larger than the address space, you can only map a small portion of the file data at one time.
+        /// When the first view is complete, you can unmap it and map a new view.
+        /// To obtain the size of a view, use the <see cref="VirtualQuery"/> function.
+        /// Multiple views of a file (or a file mapping object and its mapped file) are coherent if they contain identical data at a specified time.
+        /// This occurs if the file views are derived from any file mapping object that is backed by the same file.
+        /// A process can duplicate a file mapping object handle into another process by using the <see cref="DuplicateHandle"/> function,
+        /// or another process can open a file mapping object by name by using the <see cref="OpenFileMapping"/> function.
+        /// With one important exception, file views derived from any file mapping object that is backed by the same file are coherent
+        /// or identical at a specific time.
+        /// Coherency is guaranteed for views within a process and for views that are mapped by different processes.
+        /// The exception is related to remote files.
+        /// Although <see cref="MapViewOfFile"/> works with remote files, it does not keep them coherent.
+        /// For example, if two computers both map a file as writable, and both change the same page, each computer only sees its own writes to the page.
+        /// When the data gets updated on the disk, it is not merged.
+        /// A mapped view of a file is not guaranteed to be coherent with a file
+        /// that is being accessed by the <see cref="ReadFile"/> or <see cref="WriteFile"/> function.
+        /// Do not store pointers in the memory mapped file; store offsets from the base of the file mapping so that the mapping can be used at any address.
+        /// To guard against <see cref="EXCEPTION_IN_PAGE_ERROR"/> exceptions, use structured exception handling 
+        /// to protect any code that writes to or reads from a memory mapped view of a file other than the page file.
+        /// For more information, see Reading and Writing From a File View.
+        /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
+        /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
+        /// If a file mapping object is backed by the paging file (<see cref="CreateFileMapping"/> is called with the hFile parameter
+        /// set to <see cref="INVALID_HANDLE_VALUE"/>), the paging file must be large enough to hold the entire mapping.
+        /// If it is not, <see cref="MapViewOfFile"/> fails.
+        /// The initial contents of the pages in a file mapping object backed by the paging file are 0 (zero).
+        /// When a file mapping object that is backed by the paging file is created, the caller can specify whether <see cref="MapViewOfFile"/> should
+        /// reserve and commit pages at the same time (<see cref="SEC_COMMIT"/>) or simply reserve pages (<see cref="SEC_RESERVE"/>).
+        /// Mapping the file makes the entire mapped virtual address range unavailable to other allocations in the process.
+        /// After a page from the reserved range is committed, it cannot be freed or decommitted by calling <see cref="VirtualFree"/>.
+        /// Reserved and committed pages are released when the view is unmapped and the file mapping object is closed.
+        /// For details, see the <see cref="UnmapViewOfFile"/> and <see cref="CloseHandle"/> functions.
+        /// To have a file with executable permissions, an application must call <see cref="CreateFileMapping"/>
+        /// with either <see cref="PAGE_EXECUTE_READWRITE"/> or <see cref="PAGE_EXECUTE_READ"/>,
+        /// and then call <see cref="MapViewOfFile"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern LPVOID MapViewOfFile([In]HANDLE hFileMappingObject, [In]DWORD dwDesiredAccess, [In]DWORD dwFileOffsetHigh,
+            [In]DWORD dwFileOffsetLow, [In]SIZE_T dwNumberOfBytesToMap);
+
+        /// <summary>
+        /// <para>
         /// Opens a named file mapping object.
         /// </para>
         /// <para>
