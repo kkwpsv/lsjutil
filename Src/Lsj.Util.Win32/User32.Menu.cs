@@ -253,6 +253,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Destroys an accelerator table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroyacceleratortable
+        /// </para>
+        /// </summary>
+        /// <param name="hAccel">
+        /// A handle to the accelerator table to be destroyed.
+        /// This handle must have been created by a call to the <see cref="CreateAcceleratorTable"/> or <see cref="LoadAccelerators"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// However, if the table has been loaded more than one call to <see cref="LoadAccelerators"/>,
+        /// the function will return a nonzero value only when <see cref="DestroyAcceleratorTable"/> has been called an equal number of times.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyAcceleratorTable([In]HACCEL hAccel);
+
+        /// <summary>
+        /// <para>
         /// Destroys the specified menu and frees any memory that the menu occupies.
         /// </para>
         /// <para>
