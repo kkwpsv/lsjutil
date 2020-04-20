@@ -81,7 +81,43 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrush([In]HGLOBAL h, [In]UINT iUsage);
+        public static extern HBRUSH CreateDIBPatternBrush([In]HGLOBAL h, [In]DIBColorTableIdentifiers iUsage);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateDIBPatternBrushPt"/> function creates a logical brush that has the pattern specified by the device-independent bitmap (DIB).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibpatternbrushpt
+        /// </para>
+        /// </summary>
+        /// <param name="lpPackedDIB">
+        /// A pointer to a packed DIB consisting of a <see cref="BITMAPINFO"/> structure immediately
+        /// followed by an array of bytes defining the pixels of the bitmap.
+        /// </param>
+        /// <param name="iUsage">
+        /// Specifies whether the <see cref="BITMAPINFO.bmiColors"/> member of the <see cref="BITMAPINFO"/> structure contains a valid color table and,
+        /// if so, whether the entries in this color table contain explicit red, green, blue (RGB) values or palette indexes.
+        /// The <paramref name="iUsage"/> parameter must be one of the following values.
+        /// <see cref="DIB_PAL_COLORS"/>:
+        /// A color table is provided and consists of an array of 16-bit indexes into the logical palette of the device context
+        /// into which the brush is to be selected.
+        /// <see cref="DIB_RGB_COLORS"/>:
+        /// A color table is provided and contains literal RGB values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value identifies a logical brush.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// After an application creates a brush by calling <see cref="CreateDIBPatternBrushPt"/>, it can select that brush into any device context
+        /// by calling the <see cref="SelectObject"/> function.
+        /// When you no longer need the brush, call the <see cref="DeleteObject"/> function to delete it.
+        /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
+        public static extern HBRUSH CreateDIBPatternBrushPt([In]IntPtr lpPackedDIB, [In]DIBColorTableIdentifiers iUsage);
 
         /// <summary>
         /// <para>
