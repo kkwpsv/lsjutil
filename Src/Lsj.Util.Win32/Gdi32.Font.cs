@@ -384,6 +384,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="CreateFontIndirectEx"/> function specifies a logical font that has the characteristics in the specified structure.
+        /// The font can subsequently be selected as the current font for any device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectexw
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// Pointer to an <see cref="ENUMLOGFONTEXDV"/> structure that defines the characteristics of a multiple master font.
+        /// Note, this function ignores the <see cref="ENUMLOGFONTEXDV.elfDesignVector"/> member in <see cref="ENUMLOGFONTEXDV"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the new <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// If the function fails, the return value is <see cref="NULL"/>. No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateFontIndirectEx"/> function creates a logical font
+        /// with the characteristics specified in the <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// When this font is selected by using the <see cref="SelectObject"/> function,
+        /// GDI's font mapper attempts to match the logical font with an existing physical font.
+        /// If it fails to find an exact match, it provides an alternative whose characteristics match as many of the requested characteristics as possible.
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
+        /// both the English and the localized typeface name, regardless of locale.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HFONT CreateFontIndirectEx([In]in ENUMLOGFONTEXDV Arg1);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="CreateScalableFontResource"/> function creates a font resource file for a scalable font.
         /// </para>
         /// <para>
