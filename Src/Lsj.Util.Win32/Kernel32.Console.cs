@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -253,6 +254,66 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetStdHandle([In]uint nStdHandle);
+
+        /// <summary>
+        /// <para>
+        /// Reads character input from the console input buffer and removes it from the buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/readconsole
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the data read from the console input buffer.
+        /// </param>
+        /// <param name="nNumberOfCharsToRead">
+        /// The number of characters to be read.
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter should be
+        /// at least <paramref name="nNumberOfCharsToRead"/> * sizeof(TCHAR) bytes.
+        /// </param>
+        /// <param name="lpNumberOfCharsRead">
+        /// A pointer to a variable that receives the number of characters actually read.
+        /// </param>
+        /// <param name="pInputControl">
+        /// A pointer to a <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure that specifies a control character to signal the end of the read operation.
+        /// This parameter can be <see cref="NullRef{CONSOLE_READCONSOLE_CONTROL}"/>.
+        /// This parameter requires Unicode input by default.
+        /// For ANSI mode, set this parameter to <see cref="NullRef{CONSOLE_READCONSOLE_CONTROL}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ReadConsole"/> reads keyboard input from a console's input buffer.
+        /// It behaves like the <see cref="ReadFile"/> function, except that it can read in either Unicode (wide-character) or ANSI mode.
+        /// To have applications that maintain a single set of sources compatible with both modes,
+        /// use <see cref="ReadConsole"/> rather than <see cref="ReadFile"/>.
+        /// Although <see cref="ReadConsole"/> can only be used with a console input buffer handle,
+        /// <see cref="ReadFile"/> can be used with other handles (such as files or pipes).
+        /// <see cref="ReadConsole"/> fails if used with a standard handle that has been redirected to be something other than a console handle.
+        /// All of the input modes that affect the behavior of <see cref="ReadFile"/> have the same effect on <see cref="ReadConsole"/>.
+        /// To retrieve and set the input modes of a console input buffer, use the <see cref="GetConsoleMode"/> and <see cref="SetConsoleMode"/> functions.
+        /// If the input buffer contains input events other than keyboard events (such as mouse events or window-resizing events), they are discarded.
+        /// Those events can only be read by using the <see cref="ReadConsoleInput"/> function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// The <paramref name="pInputControl"/> parameter can be used to enable intermediate wakeups
+        /// from the read in response to a file-completion control character specified in a <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure.
+        /// This feature requires command extensions to be enabled, the standard output handle to be a console output handle, and input to be Unicode.
+        /// Windows Server 2003 and Windows XP/2000: The intermediate read feature is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsole", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsole([In]HANDLE hConsoleInput, [Out]LPVOID lpBuffer, [In]DWORD nNumberOfCharsToRead,
+            [Out]out DWORD lpNumberOfCharsRead, [In]in CONSOLE_READCONSOLE_CONTROL pInputControl);
 
         /// <summary>
         /// <para>
