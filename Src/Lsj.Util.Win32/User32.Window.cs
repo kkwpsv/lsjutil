@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
+using static Lsj.Util.Win32.Enums.ChildWindowFromPointExFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
@@ -633,6 +634,42 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND ChildWindowFromPoint([In]HWND hWndParent, [In]POINT Point);
+
+        /// <summary>
+        /// <para>
+        /// Determines which, if any, of the child windows belonging to the specified parent window contains the specified point.
+        /// The function can ignore invisible, disabled, and transparent child windows.
+        /// The search is restricted to immediate child windows.
+        /// Grandchildren and deeper descendants are not searched.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompointex
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the parent window.
+        /// </param>
+        /// <param name="pt">
+        /// A structure that defines the client coordinates (relative to <paramref name="hwnd"/>) of the point to be checked.
+        /// </param>
+        /// <param name="flags">
+        /// The child windows to be skipped. This parameter can be one or more of the following values.
+        /// <see cref="CWP_ALL"/>, <see cref="CWP_SKIPDISABLED"/>, <see cref="CWP_SKIPINVISIBLE"/>, <see cref="CWP_SKIPTRANSPARENT"/>
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the first child window that contains the point and meets the criteria specified by <paramref name="flags"/>.
+        /// If the point is within the parent window but not within any child window that meets the criteria,
+        /// the return value is a handle to the parent window.
+        /// If the point lies outside the parent window or if the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system maintains an internal list that contains the handles of the child windows associated with a parent window.
+        /// The order of the handles in the list depends on the Z order of the child windows.
+        /// If more than one child window contains the specified point, the system returns a handle to the first window in the list
+        /// that contains the point and meets the criteria specified by <paramref name="flags"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPointEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND ChildWindowFromPointEx([In]HWND hwnd, [In]POINT pt, [In]ChildWindowFromPointExFlags flags);
 
         /// <summary>
         /// <para>
