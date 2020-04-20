@@ -47,108 +47,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Creates a cursor having the specified size, bit patterns, and hot spot.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcursor
-        /// </para>
-        /// </summary>
-        /// <param name="hInst">
-        /// A handle to the current instance of the application creating the cursor.
-        /// </param>
-        /// <param name="xHotSpot">
-        /// The horizontal position of the cursor's hot spot.
-        /// </param>
-        /// <param name="yHotSpot">
-        /// The vertical position of the cursor's hot spot.
-        /// </param>
-        /// <param name="nWidth">
-        /// The width of the cursor, in pixels.
-        /// </param>
-        /// <param name="nHeight">
-        /// The height of the cursor, in pixels.
-        /// </param>
-        /// <param name="pvANDPlane">
-        /// An array of bytes that contains the bit values for the AND mask of the cursor, as in a device-dependent monochrome bitmap.
-        /// </param>
-        /// <param name="pvXORPlane">
-        /// An array of bytes that contains the bit values for the XOR mask of the cursor, as in a device-dependent monochrome bitmap.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to the cursor.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters must specify a width and height
-        /// that are supported by the current display driver, because the system cannot create cursors of other sizes.
-        /// To determine the width and height supported by the display driver, use the <see cref="GetSystemMetrics"/> function,
-        /// specifying the <see cref="SM_CXCURSOR"/> or <see cref="SM_CYCURSOR"/> value.
-        /// Before closing, an application must call the <see cref="DestroyCursor"/> function to free any system resources associated with the cursor.
-        /// DPI Virtualization
-        /// This API does not participate in DPI virtualization.
-        /// The output returned is in terms of physical coordinates, and is not affected by the DPI of the calling thread.
-        /// Note that the cursor created may still be scaled to match the DPI of any given window it is drawn into.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR CreateCursor([In]HINSTANCE hInst, [In]int xHotSpot, [In]int yHotSpot, [In]int nWidth, [In]int nHeight,
-            [In]IntPtr pvANDPlane, [In]IntPtr pvXORPlane);
-
-        /// <summary>
-        /// <para>
-        /// Creates an icon that has the specified size, colors, and bit patterns.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createicon
-        /// </para>
-        /// </summary>
-        /// <param name="hInstance">
-        /// A handle to the instance of the module creating the icon.
-        /// </param>
-        /// <param name="nWidth">
-        /// The width, in pixels, of the icon.
-        /// </param>
-        /// <param name="nHeight">
-        /// The height, in pixels, of the icon.
-        /// </param>
-        /// <param name="cPlanes">
-        /// The number of planes in the XOR bitmask of the icon.
-        /// </param>
-        /// <param name="cBitsPixel">
-        /// The number of bits-per-pixel in the XOR bitmask of the icon.
-        /// </param>
-        /// <param name="lpbANDbits">
-        /// An array of bytes that contains the bit values for the AND bitmask of the icon.
-        /// This bitmask describes a monochrome bitmap.
-        /// </param>
-        /// <param name="lpbXORbits">
-        /// An array of bytes that contains the bit values for the XOR bitmask of the icon.
-        /// This bitmask describes a monochrome or device-dependent color bitmap.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to an icon.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters must specify a width and height supported by the current display driver,
-        /// because the system cannot create icons of other sizes.
-        /// To determine the width and height supported by the display driver, use the <see cref="GetSystemMetrics"/> function,
-        /// specifying the <see cref="SM_CXICON"/> or <see cref="SM_CYICON"/> value.
-        /// CreateIcon applies the following truth table to the AND and XOR bitmasks.
-        /// AND bitmask     XOR bitmask     Display
-        /// 0               0               Black
-        /// 0               1               White
-        /// 1               0               Screen
-        /// 1               1               Reverse screen
-        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIcon([In]HINSTANCE hInstance, [In]int nWidth, [In]int nHeight, [In]BYTE cPlanes, [In]BYTE cBitsPixel,
-            [In]IntPtr lpbANDbits, [In]IntPtr lpbXORbits);
-
-        /// <summary>
-        /// <para>
         /// Copies the specified cursor.
         /// </para>
         /// <para>
@@ -263,6 +161,245 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE CopyImage([In]HANDLE h, [In]ImageTypes type, [In]int cx, [In]int cy, [In]LoadImageFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// Creates a cursor having the specified size, bit patterns, and hot spot.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcursor
+        /// </para>
+        /// </summary>
+        /// <param name="hInst">
+        /// A handle to the current instance of the application creating the cursor.
+        /// </param>
+        /// <param name="xHotSpot">
+        /// The horizontal position of the cursor's hot spot.
+        /// </param>
+        /// <param name="yHotSpot">
+        /// The vertical position of the cursor's hot spot.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width of the cursor, in pixels.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height of the cursor, in pixels.
+        /// </param>
+        /// <param name="pvANDPlane">
+        /// An array of bytes that contains the bit values for the AND mask of the cursor, as in a device-dependent monochrome bitmap.
+        /// </param>
+        /// <param name="pvXORPlane">
+        /// An array of bytes that contains the bit values for the XOR mask of the cursor, as in a device-dependent monochrome bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the cursor.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters must specify a width and height
+        /// that are supported by the current display driver, because the system cannot create cursors of other sizes.
+        /// To determine the width and height supported by the display driver, use the <see cref="GetSystemMetrics"/> function,
+        /// specifying the <see cref="SM_CXCURSOR"/> or <see cref="SM_CYCURSOR"/> value.
+        /// Before closing, an application must call the <see cref="DestroyCursor"/> function to free any system resources associated with the cursor.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The output returned is in terms of physical coordinates, and is not affected by the DPI of the calling thread.
+        /// Note that the cursor created may still be scaled to match the DPI of any given window it is drawn into.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
+        public static extern HCURSOR CreateCursor([In]HINSTANCE hInst, [In]int xHotSpot, [In]int yHotSpot, [In]int nWidth, [In]int nHeight,
+            [In]IntPtr pvANDPlane, [In]IntPtr pvXORPlane);
+
+        /// <summary>
+        /// <para>
+        /// Creates an icon that has the specified size, colors, and bit patterns.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createicon
+        /// </para>
+        /// </summary>
+        /// <param name="hInstance">
+        /// A handle to the instance of the module creating the icon.
+        /// </param>
+        /// <param name="nWidth">
+        /// The width, in pixels, of the icon.
+        /// </param>
+        /// <param name="nHeight">
+        /// The height, in pixels, of the icon.
+        /// </param>
+        /// <param name="cPlanes">
+        /// The number of planes in the XOR bitmask of the icon.
+        /// </param>
+        /// <param name="cBitsPixel">
+        /// The number of bits-per-pixel in the XOR bitmask of the icon.
+        /// </param>
+        /// <param name="lpbANDbits">
+        /// An array of bytes that contains the bit values for the AND bitmask of the icon.
+        /// This bitmask describes a monochrome bitmap.
+        /// </param>
+        /// <param name="lpbXORbits">
+        /// An array of bytes that contains the bit values for the XOR bitmask of the icon.
+        /// This bitmask describes a monochrome or device-dependent color bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to an icon.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="nWidth"/> and <paramref name="nHeight"/> parameters must specify a width and height supported by the current display driver,
+        /// because the system cannot create icons of other sizes.
+        /// To determine the width and height supported by the display driver, use the <see cref="GetSystemMetrics"/> function,
+        /// specifying the <see cref="SM_CXICON"/> or <see cref="SM_CYICON"/> value.
+        /// CreateIcon applies the following truth table to the AND and XOR bitmasks.
+        /// AND bitmask     XOR bitmask     Display
+        /// 0               0               Black
+        /// 0               1               White
+        /// 1               0               Screen
+        /// 1               1               Reverse screen
+        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON CreateIcon([In]HINSTANCE hInstance, [In]int nWidth, [In]int nHeight, [In]BYTE cPlanes, [In]BYTE cBitsPixel,
+            [In]IntPtr lpbANDbits, [In]IntPtr lpbXORbits);
+
+        /// <summary>
+        /// <para>
+        /// Creates an icon or cursor from resource bits describing the icon.
+        /// To specify a desired height or width, use the <see cref="CreateIconFromResourceEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconfromresource
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The buffer containing the icon or cursor resource bits.
+        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectory"/>,
+        /// <see cref="LookupIconIdFromDirectoryEx"/>, and <see cref="LoadResource"/> functions.
+        /// </param>
+        /// <param name="dwResSize">
+        /// The size, in bytes, of the set of bits pointed to by the <paramref name="presbits"/> parameter.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is to be created.
+        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
+        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// </param>
+        /// <param name="dwVer">
+        /// The version number of the icon or cursor format for the resource bits pointed to by the presbits parameter.
+        /// The value must be greater than or equal to 0x00020000 and less than or equal to 0x00030000.
+        /// This parameter is generally set to 0x00030000.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the icon or cursor.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
+        /// <see cref="GetIconInfo"/>, <see cref="LookupIconIdFromDirectory"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions
+        /// allow shell applications and icon browsers to examine and use resources throughout the system.
+        /// The <see cref="CreateIconFromResource"/> function calls <see cref="CreateIconFromResourceEx"/>
+        /// passing <code>LR_DEFAULTSIZE|LR_SHARED</code> as flags.
+        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON CreateIconFromResource([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer);
+
+        /// <summary>
+        /// <para>
+        /// Creates an icon or cursor from resource bits describing the icon.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconfromresourceex
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The icon or cursor resource bits.
+        /// These bits are typically loaded by calls to the <see cref="LookupIconIdFromDirectoryEx"/> and <see cref="LoadResource"/> functions.
+        /// </param>
+        /// <param name="dwResSize">
+        /// The size, in bytes, of the set of bits pointed to by the <paramref name="presbits"/> parameter.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is to be created.
+        /// If this parameter is <see cref="TRUE"/>, an icon is to be created.
+        /// If it is <see cref="FALSE"/>, a cursor is to be created.
+        /// </param>
+        /// <param name="dwVer">
+        /// The version number of the icon or cursor format for the resource bits pointed to by the <paramref name="presbits"/> parameter.
+        /// The value must be greater than or equal to 0x00020000 and less than or equal to 0x00030000.
+        /// This parameter is generally set to 0x00030000.
+        /// </param>
+        /// <param name="cxDesired">
+        /// The desired width, in pixels, of the icon or cursor.
+        /// If this parameter is zero, the function uses the <see cref="SM_CXICON"/> or <see cref="SM_CXCURSOR"/> system metric value to set the width.
+        /// </param>
+        /// <param name="cyDesired">
+        /// The desired height, in pixels, of the icon or cursor.
+        /// If this parameter is zero, the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value to set the height.
+        /// </param>
+        /// <param name="Flags">
+        /// A combination of the following values.
+        /// <see cref="LR_DEFAULTCOLOR"/>: Uses the default color format.
+        /// <see cref="LR_DEFAULTSIZE"/>:
+        /// Uses the width or height specified by the system metric values for cursors or icons,
+        /// if the <paramref name="cxDesired"/> or <paramref name="cyDesired"/> values are set to zero.
+        /// If this flag is not specified and <paramref name="cxDesired"/> and <paramref name="cyDesired"/> are set to zero,
+        /// the function uses the actual resource size.
+        /// If the resource contains multiple images, the function uses the size of the first image.
+        /// <see cref="LR_MONOCHROME"/>: Creates a monochrome icon or cursor.
+        /// <see cref="LR_SHARED"/>:
+        /// Shares the icon or cursor handle if the icon or cursor is created multiple times.
+        /// If <see cref="LR_SHARED"/> is not set, a second call to <see cref="CreateIconFromResourceEx"/> for the same resource
+        /// will create the icon or cursor again and return a different handle
+        /// When you use this flag, the system will destroy the resource when it is no longer needed.
+        /// Do not use <see cref="LR_SHARED"/> for icons or cursors that have non-standard sizes,
+        /// that may change after loading, or that are loaded from a file.
+        /// When loading a system icon or cursor, you must use <see cref="LR_SHARED"/> or the function will fail to load the resource.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the icon or cursor.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateIconFromResource"/>, <see cref="CreateIconFromResourceEx"/>, <see cref="CreateIconIndirect"/>,
+        /// <see cref="GetIconInfo"/>, and <see cref="LookupIconIdFromDirectoryEx"/> functions allow shell applications
+        /// and icon browsers to examine and use resources throughout the system.
+        /// You should call DestroyIcon for icons created with <see cref="CreateIconFromResourceEx"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON CreateIconFromResourceEx([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer,
+            [In]int cxDesired, [In]int cyDesired, [In]LoadImageFlags Flags);
+
+        /// <summary>
+        /// <para>
+        /// Creates an icon or cursor from an <see cref="ICONINFO"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createiconindirect
+        /// </para>
+        /// </summary>
+        /// <param name="piconinfo">
+        /// A pointer to an <see cref="ICONINFO"/> structure the function uses to create the icon or cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the icon or cursor that is created.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system copies the bitmaps in the <see cref="ICONINFO"/> structure before creating the icon or cursor.
+        /// Because the system may temporarily select the bitmaps in a device context,
+        /// the <see cref="ICONINFO.hbmMask"/> and <see cref="ICONINFO.hbmColor"/> members of the <see cref="ICONINFO"/> structure
+        /// should not already be selected into a device context.
+        /// The application must continue to manage the original bitmaps and delete them when they are no longer necessary.
+        /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconIndirect", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON CreateIconIndirect([In]in ICONINFO piconinfo);
 
         /// <summary>
         /// <para>
