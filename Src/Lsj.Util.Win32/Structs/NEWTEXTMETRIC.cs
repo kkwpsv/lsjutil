@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.Enums;
+using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.NEWTEXTMETRICFlags;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -164,7 +166,7 @@ namespace Lsj.Util.Win32.Structs
         /// 20  <see cref="NTM_TYPE1"/>             Type 1 font
         /// 21  <see cref="NTM_DSIG"/>              font with a digital signature. This allows traceability and ensures that the font has been tested and is not corrupted
         /// </summary>
-        public uint ntmFlags;
+        public NEWTEXTMETRICFlags ntmFlags;
 
         /// <summary>
         /// The size of the em square for the font.
