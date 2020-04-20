@@ -1540,6 +1540,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the handle to the ancestor of the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getancestor
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose ancestor is to be retrieved.
+        /// If this parameter is the desktop window, the function returns <see cref="NULL"/>.
+        /// </param>
+        /// <param name="gaFlags">
+        /// The ancestor to be retrieved. This parameter can be one of the following values.
+        /// <see cref="GA_PARENT"/>, <see cref="GA_ROOT"/>, <see cref="GA_ROOTOWNER"/>
+        /// </param>
+        /// <returns>
+        /// The return value is the handle to the ancestor window.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAncestor", ExactSpelling = true, SetLastError = true)]
+        private static extern HWND GetAncestor([In]HWND hwnd, [In]GetAncestorFlags gaFlags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about a window class.
         /// The <see cref="GetClassInfo"/> function has been superseded by the <see cref="GetClassInfoEx"/> function.
         /// You can still use <see cref="GetClassInfo"/>, however, if you do not need information about the class small icon.
