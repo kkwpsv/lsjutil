@@ -745,8 +745,33 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
         /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
         /// </returns>
-        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows.Applications should use the CreateProcess function.")]
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName, [In]LPVOID lpParameterBlock);
+
+        /// <summary>
+        /// <para>
+        /// Removes a directory that was added to the process DLL search path by using <see cref="AddDllDirectory"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-removedlldirectory
+        /// </para>
+        /// </summary>
+        /// <param name="Cookie">
+        /// The cookie returned by <see cref="AddDllDirectory"/> when the directory was added to the search path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After <see cref="RemoveDllDirectory"/> returns, the cookie is no longer valid and should not be used.
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
+        /// KB2533623 must be installed on the target platform.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveDllDirectory([In]DLL_DIRECTORY_COOKIE Cookie);
     }
 }
