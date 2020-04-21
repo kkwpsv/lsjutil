@@ -29,6 +29,7 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -2274,6 +2275,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowVisible", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWindowVisible([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// The foreground process can call the <see cref="LockSetForegroundWindow"/> function
+        /// to disable calls to the <see cref="SetForegroundWindow"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-locksetforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <param name="uLockCode">
+        /// Specifies whether to enable or disable calls to <see cref="SetForegroundWindow"/>.
+        /// This parameter can be one of the following values.
+        /// <see cref="LSFW_LOCK"/>, <see cref="LSFW_UNLOCK"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system automatically enables calls to <see cref="SetForegroundWindow"/> if the user presses the ALT key
+        /// or takes some action that causes the system itself to change the foreground window (for example, clicking a background window).
+        /// This function is provided so applications can prevent other applications from making a foreground change
+        /// that can interrupt its interaction with the user.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockSetForegroundWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockSetForegroundWindow([In]LockSetForegroundWindowFlags uLockCode);
 
         /// <summary>
         /// <para>
