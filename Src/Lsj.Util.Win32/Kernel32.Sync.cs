@@ -152,6 +152,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Initializes a condition variable.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializeconditionvariable
+        /// </para>
+        /// </summary>
+        /// <param name="ConditionVariable">
+        /// A pointer to the condition variable.
+        /// </param>
+        /// <remarks>
+        /// Threads can atomically release a lock and enter the sleeping state
+        /// using the <see cref="SleepConditionVariableCS"/> or <see cref="SleepConditionVariableSRW"/> function.
+        /// The threads are woken using the <see cref="WakeConditionVariable"/> or <see cref="WakeAllConditionVariable"/> function.
+        /// Condition variables are user-mode objects that cannot be shared across processes.
+        /// A condition variable cannot be moved or copied. The process must not modify the object, and must instead treat it as logically opaque.
+        /// Only use the condition variable functions to manage condition variables.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeConditionVariable", ExactSpelling = true, SetLastError = true)]
+        public static extern void InitializeConditionVariable([Out]out CONDITION_VARIABLE ConditionVariable);
+
+        /// <summary>
+        /// <para>
         /// Initializes a critical section object.
         /// </para>
         /// <para>
