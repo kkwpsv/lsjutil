@@ -18,6 +18,7 @@ using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.HitTestResults;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
+using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
@@ -29,7 +30,6 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
-using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -2374,6 +2374,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenIcon([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the child window at the specified point.
+        /// The search is restricted to immediate child windows; grandchildren and deeper descendant windows are not searched.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-realchildwindowfrompoint
+        /// </para>
+        /// </summary>
+        /// <param name="hwndParent">
+        /// A handle to the window whose child is to be retrieved.
+        /// </param>
+        /// <param name="ptParentClientCoords">
+        /// A <see cref="POINT"/> structure that defines the client coordinates of the point to be checked.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the child window that contains the specified point.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="RealChildWindowFromPoint"/> treats <see cref="HTTRANSPARENT"/> areas of a standard control
+        /// differently from other areas of the control; it returns the child window behind a transparent part of a control.
+        /// In contrast, <see cref="ChildWindowFromPoint"/> treats <see cref="HTTRANSPARENT"/> areas of a control the same as other areas.
+        /// For example, if the point is in a transparent area of a groupbox, <see cref="RealChildWindowFromPoint"/> returns the child window
+        /// behind a groupbox, whereas <see cref="ChildWindowFromPoint"/> returns the groupbox.
+        /// However, both APIs return a static field, even though it, too, returns <see cref="HTTRANSPARENT"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND RealChildWindowFromPoint([In]HWND hwndParent, [In]POINT ptParentClientCoords);
 
         /// <summary>
         /// <para>
