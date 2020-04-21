@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.ControlKeyStates;
 using static Lsj.Util.Win32.Enums.MouseButtonStates;
-using static Lsj.Util.Win32.Enums.MouseEventFlags;
+using static Lsj.Util.Win32.Enums.MouseEventRecordFlags;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -53,6 +53,6 @@ namespace Lsj.Util.Win32.Structs
         /// Otherwise, this member is one of the following values.
         /// <see cref="DOUBLE_CLICK"/>, <see cref="MOUSE_HWHEELED"/>, <see cref="MOUSE_MOVED"/>, <see cref="MOUSE_WHEELED"/>
         /// </summary>
-        public MouseEventFlags dwEventFlags;
+        public MouseEventRecordFlags dwEventFlags;
     }
 }
