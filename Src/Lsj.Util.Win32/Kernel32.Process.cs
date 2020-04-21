@@ -554,6 +554,23 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process identifier of the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the process identifier of the calling process.
+        /// </returns>
+        /// <remarks>
+        /// Until the process terminates, the process identifier uniquely identifies the process throughout the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessId", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetCurrentProcessId();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the environment variables for the current process.
         /// </para>
         /// <para>
