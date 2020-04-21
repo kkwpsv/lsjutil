@@ -544,6 +544,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the global cursor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcursorinfo
+        /// </para>
+        /// </summary>
+        /// <param name="pci">
+        /// A pointer to a <see cref="CURSORINFO"/> structure that receives the information.
+        /// Note that you must set the <see cref="CURSORINFO.cbSize"/> member to <code>sizeof(CURSORINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCursorInfo([In][Out]ref CURSORINFO pci);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the position of the mouse cursor, in screen coordinates.
         /// </para>
         /// <para>
