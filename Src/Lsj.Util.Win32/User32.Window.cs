@@ -1778,6 +1778,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the active window or a specified GUI thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getguithreadinfo
+        /// </para>
+        /// </summary>
+        /// <param name="idThread">
+        /// The identifier for the thread for which information is to be retrieved.
+        /// To retrieve this value, use the <see cref="GetWindowThreadProcessId"/> function.
+        /// If this parameter is <see cref="NULL"/>, the function returns information for the foreground thread.
+        /// </param>
+        /// <param name="pgui">
+        /// A pointer to a <see cref="GUITHREADINFO"/> structure that receives information describing the thread.
+        /// Note that you must set the <see cref="GUITHREADINFO.cbSize"/> member to <code>sizeof(GUITHREADINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function succeeds even if the active window is not owned by the calling process.
+        /// If the specified thread does not exist or have an input queue, the function will fail.
+        /// This function is useful for retrieving out-of-context information about a thread.
+        /// The information retrieved is the same as if an application retrieved the information about itself.
+        /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle contains the caret plus information on text direction and padding.
+        /// Thus, it may not give the correct position of the cursor.
+        /// The Sans Serif font uses four characters for the cursor:
+        /// <see cref="CURSOR_LTR"/>: 0xf00c
+        /// <see cref="CURSOR_RTL"/>: 0xf00d
+        /// <see cref="CURSOR_THAI"/>: 0xf00e
+        /// <see cref="CURSOR_USA"/>: 0xfff (this is a marker value with no associated glyph)
+        /// To get the actual insertion point in the rcCaret rectangle, perform the following steps.
+        /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
+        /// Determine the character used for the cursor, based on the current input language.
+        /// Call <see cref="CreateFont"/> using Sans Serif for the font, the height given by <see cref="GUITHREADINFO.rcCaret"/>, and a width of zero.
+        /// For fnWeight, call <code>SystemParametersInfo(SPI_GETCARETWIDTH, 0, pvParam, 0)</code>.
+        /// If pvParam is greater than 1, set fnWeight to 700, otherwise set fnWeight to 400.
+        /// Select the font into a device context (DC) and use <see cref="GetCharABCWidths"/> to get the B width of the appropriate cursor character.
+        /// Add the B width to rcCaret.left to obtain the actual insertion point.
+        /// The function may not return valid window handles in the <see cref="GUITHREADINFO"/> structure
+        /// when called to retrieve information for the foreground thread, such as when a window is losing activation.
+        /// DPI Virtualization
+        /// The coordinates returned in the <see cref="GUITHREADINFO.rcCaret"/> rect of the <see cref="GUITHREADINFO"/> struct
+        /// are logical coordinates in terms of the window associated with the caret.
+        /// They are not virtualized into the mode of the calling thread.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGUIThreadInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetGUIThreadInfo([In]DWORD idThread, [In][Out]ref GUITHREADINFO pgui);
+
+        /// <summary>
+        /// <para>
         /// Determines which pop-up window owned by the specified window was most recently active.
         /// </para>
         /// <para>
