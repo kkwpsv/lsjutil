@@ -368,6 +368,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Reads data from a console input buffer and removes it from the buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/readconsoleinput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to an array of <see cref="INPUT_RECORD"/> structures that receives the input buffer data.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the array pointed to by the <paramref name="lpBuffer"/> parameter, in array elements.
+        /// </param>
+        /// <param name="lpNumberOfEventsRead">
+        /// A pointer to a variable that receives the number of input records read.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of records requested in the <paramref name="nLength"/> parameter exceeds the number of records available in the buffer,
+        /// the number available is read.
+        /// The function does not return until at least one input record has been read.
+        /// A process can specify a console input buffer handle in one of the wait functions to determine when there is unread console input.
+        /// When the input buffer is not empty, the state of a console input buffer handle is signaled.
+        /// To determine the number of unread input records in a console's input buffer, use the <see cref="GetNumberOfConsoleInputEvents"/> function.
+        /// To read input records from a console input buffer without affecting the number of unread records,
+        /// use the <see cref="PeekConsoleInput"/> function.
+        /// To discard all unread records in a console's input buffer, use the <see cref="FlushConsoleInputBuffer"/> function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleInput([In]HANDLE hConsoleInput, [Out]out INPUT_RECORD[] lpBuffer,
+            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsRead);
+
+        /// <summary>
+        /// <para>
         /// Writes a character string to a console screen buffer beginning at the current cursor location.
         /// </para>
         /// <para>

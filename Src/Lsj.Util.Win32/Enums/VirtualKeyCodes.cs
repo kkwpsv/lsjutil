@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
     /// </para>
     /// </summary>
-    public enum VirtualKeyCodes
+    public enum VirtualKeyCodes : ushort
     {
         /// <summary>
         /// Left mouse button
