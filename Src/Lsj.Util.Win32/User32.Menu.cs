@@ -19,6 +19,61 @@ namespace Lsj.Util.Win32
     public partial class User32
     {
         /// <summary>
+        /// HBMMENU_CALLBACK
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_CALLBACK = (IntPtr)(-1);
+
+        /// <summary>
+        /// HBMMENU_SYSTEM
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_SYSTEM = (IntPtr)1;
+
+        /// <summary>
+        /// HBMMENU_MBAR_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_RESTORE = (IntPtr)2;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE = (IntPtr)3;
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE = (IntPtr)5;
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE_D = (IntPtr)6;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE_D = (IntPtr)7;
+
+        /// <summary>
+        /// HBMMENU_POPUP_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_CLOSE = (IntPtr)8;
+
+        /// <summary>
+        /// HBMMENU_POPUP_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_RESTORE = (IntPtr)9;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MAXIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MAXIMIZE = (IntPtr)10;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = (IntPtr)11;
+
+        /// <summary>
         /// <para>
         /// Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu.
         /// You can use this function to specify the content, appearance, and behavior of the menu item.
@@ -757,6 +812,44 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InsertMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]UINT_PTR uIDNewItem,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewItem);
+
+        /// <summary>
+        /// <para>
+        /// Inserts a new menu item at the specified position in a menu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuitemw
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu in which the new menu item is inserted.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item before which to insert the new item.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPosition"/>.
+        /// </param>
+        /// <param name="fByPosition">
+        /// Controls the meaning of <paramref name="item"/>.
+        /// If this parameter is <see cref="FALSE"/>, <paramref name="item"/> is a menu item identifier.
+        /// Otherwise, it is a menu item position.
+        /// See Accessing Menu Items Programmatically for more information.
+        /// </param>
+        /// <param name="lpmi">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that contains information about the new menu item.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// In order for keyboard accelerators to work with bitmap or owner-drawn menu items,
+        /// the owner of the menu must process the <see cref="WM_MENUCHAR"/> message.
+        /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuItemW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InsertMenuItem([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmi);
 
         /// <summary>
         /// <para>
