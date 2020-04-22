@@ -13,6 +13,16 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </summary>
     public struct ACCESS_MASK
     {
+        /// <summary>
+        /// AccessSystemAcl access type
+        /// </summary>
+        public static readonly ACCESS_MASK ACCESS_SYSTEM_SECURITY = new ACCESS_MASK { _value = 0x01000000 };
+
+        /// <summary>
+        /// MaximumAllowed access type
+        /// </summary>
+        public static readonly ACCESS_MASK MAXIMUM_ALLOWED = new ACCESS_MASK { _value = 0x02000000 };
+
         private uint _value;
 
         /// <summary>

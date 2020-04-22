@@ -405,6 +405,21 @@ namespace Lsj.Util.Win32.Enums
 
         #endregion
 
+        #region Device Context Messages
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_DEVMODECHANGE"/> message is sent to all top-level windows whenever the user changes device-mode settings.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-devmodechange
+        /// </para>
+        /// </summary>
+        WM_DEVMODECHANGE = 0x001B,
+
+        #endregion
+
         #region Device Management Messages
 
         /// <summary>

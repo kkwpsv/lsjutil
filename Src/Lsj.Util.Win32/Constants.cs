@@ -29,19 +29,9 @@ namespace Lsj.Util.Win32
         public const int MAX_PATH = 260;
 
         /// <summary>
-        /// AccessSystemAcl access type
-        /// </summary>
-        public const uint ACCESS_SYSTEM_SECURITY = 0x01000000;
-
-        /// <summary>
         /// INFINITE
         /// </summary>
         public const uint INFINITE = 0xFFFFFFFF;
-
-        /// <summary>
-        /// MaximumAllowed access type
-        /// </summary>
-        public const uint MAXIMUM_ALLOWED = 0x02000000;
 
         /// <summary>
         /// EXCEPTION_MAXIMUM_PARAMETERS
@@ -72,5 +62,10 @@ namespace Lsj.Util.Win32
         /// NULL
         /// </summary>
         public readonly static IntPtr NULL = IntPtr.Zero;
+
+        /// <summary>
+        /// WHEEL_DELTA
+        /// </summary>
+        public static int WHEEL_DELTA = 120;
     }
 }

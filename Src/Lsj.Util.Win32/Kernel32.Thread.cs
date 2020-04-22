@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
@@ -19,6 +20,16 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// TLS_MINIMUM_AVAILABLE
+        /// </summary>
+        public static readonly DWORD TLS_MINIMUM_AVAILABLE = 64; 
+
+        /// <summary>
+        /// TLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD TLS_OUT_OF_INDEXES = 0xFFFFFFFF;
+
         /// <summary>
         /// <para>
         /// An application-defined function that serves as the starting address for a thread.

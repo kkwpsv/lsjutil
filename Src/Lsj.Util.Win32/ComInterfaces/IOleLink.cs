@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.OLELINKBIND;
+using static Lsj.Util.Win32.Enums.OLEUPDATE;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -48,7 +49,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The dialog box calls your <see cref="IOleUILinkContainer.SetLinkUpdateOptions"/> method to specify the update option chosen by the end user.
         /// Your implementation of this method should call the <see cref="SetUpdateOptions"/> method to pass the selected option to the linked object.
         /// Notes to Implementers
-        /// The default update option is <see cref="OLEUDPATE_ALWAYS"/>.
+        /// The default update option is <see cref="OLEUPDATE_ALWAYS"/>.
         /// The linked object's implementation of <see cref="IPersistStorage.Save"/> saves the current update option.
         /// If <see cref="OLEUDPATE_ALWAYS"/> is specified as the update option, the linked object updates the link's caches in the following situations:
         /// When the update option is changed from manual to automatic, if the link source is running.

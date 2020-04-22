@@ -23,24 +23,35 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public InputTypes type;
 
+#pragma warning disable IDE1006
         private UnionStruct<MOUSEINPUT, KEYBDINPUT, HARDWAREINPUT> DUMMYUNIONNAME;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public MOUSEINPUT mi
         {
             get => DUMMYUNIONNAME.Struct1;
             set => DUMMYUNIONNAME.Struct1 = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public KEYBDINPUT ki
         {
             get => DUMMYUNIONNAME.Struct2;
             set => DUMMYUNIONNAME.Struct2 = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public HARDWAREINPUT hi
         {
             get => DUMMYUNIONNAME.Struct3;
             set => DUMMYUNIONNAME.Struct3 = value;
         }
+#pragma warning restore IDE1006
     }
 }

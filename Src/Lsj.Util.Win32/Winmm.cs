@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.MMRESULT;
 
 namespace Lsj.Util.Win32
 {
@@ -8,6 +9,7 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Winmm
     {
+#pragma warning disable IDE1006
         /// <summary>
         /// <para>
         /// The <see cref="timeBeginPeriod"/> function requests a minimum resolution for periodic timers.
@@ -62,5 +64,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeEndPeriod", ExactSpelling = true, SetLastError = true)]
         public static extern MMRESULT timeEndPeriod([In]UINT uPeriod);
+#pragma warning restore IDE1006
     }
 }
