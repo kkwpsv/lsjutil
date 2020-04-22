@@ -588,5 +588,36 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetThreadDesktop([In]HDESK hDesktop);
+
+        /// <summary>
+        /// <para>
+        /// Makes the specified desktop visible and activates it.
+        /// This enables the desktop to receive input from the user.
+        /// The calling process must have <see cref="DESKTOP_SWITCHDESKTOP"/> access to the desktop for the <see cref="SwitchDesktop"/> function to succeed.
+        /// </para>
+        /// </summary>
+        /// <param name="hDesktop">
+        /// A handle to the desktop.
+        /// This handle is returned by the <see cref="CreateDesktop"/> and <see cref="OpenDesktop"/> functions.
+        /// This desktop must be associated with the current window station for the process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// However, <see cref="SwitchDesktop"/> only sets the last error for the following cases:
+        /// When the desktop belongs to an invisible window station
+        /// When <paramref name="hDesktop"/> is an invalid handle, refers to a destroyed desktop,
+        /// or belongs to a different session than that of the calling process
+        /// </returns>
+        /// <remarks>
+        /// The SwitchDesktop function fails if the desktop belongs to an invisible window station.
+        /// <see cref="SwitchDesktop"/> also fails when called from a process that is associated with a secured desktop
+        /// such as the WinLogon and ScreenSaver desktops.
+        /// Processes that are associated with a secured desktop include custom UserInit processes.
+        /// Such calls typically fail with an "access denied" error.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchDesktop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SwitchDesktop([In]HDESK hDesktop);
     }
 }
