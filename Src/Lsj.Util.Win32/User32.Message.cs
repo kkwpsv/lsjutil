@@ -778,6 +778,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sends the specified message to a window or windows.
+        /// If the window was created by the calling thread, <see cref="SendNotifyMessage"/> calls the window procedure for the window
+        /// and does not return until the window procedure has processed the message.
+        /// If the window was created by a different thread, <see cref="SendNotifyMessage"/> passes the message to the window procedure and returns immediately;
+        /// it does not wait for the window procedure to finish processing the message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendnotifymessagew
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure will receive the message.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// its message parameters cannot include pointers.
+        /// Otherwise, the operation will fail. The functions will return before the receiving thread has had a chance
+        /// to process the message and the sender will free the memory before it is used.
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
+        /// to obtain a unique message for inter-application communication.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SendNotifyMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Translates virtual-key messages into character messages.
         /// The character messages are posted to the calling thread's message queue, 
         /// to be read the next time the thread calls the <see cref="GetMessage"/> or <see cref="PeekMessage"/> function.
