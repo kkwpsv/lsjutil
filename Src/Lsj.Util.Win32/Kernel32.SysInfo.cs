@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {

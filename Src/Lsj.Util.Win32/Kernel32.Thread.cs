@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {
