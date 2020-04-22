@@ -558,5 +558,35 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWindowStation([In]HWINSTA hWinSta);
+
+        /// <summary>
+        /// <para>
+        /// Assigns the specified desktop to the calling thread.
+        /// All subsequent operations on the desktop use the access rights granted to the desktop.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddesktop
+        /// </para>
+        /// </summary>
+        /// <param name="hDesktop">
+        /// A handle to the desktop to be assigned to the calling thread.
+        /// This handle is returned by the <see cref="CreateDesktop"/>, <see cref="GetThreadDesktop"/>,
+        /// <see cref="OpenDesktop"/>, or <see cref="OpenInputDesktop"/> function.
+        /// This desktop must be associated with the current window station for the process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetThreadDesktop"/> function will fail if the calling thread has any windows or hooks on its current desktop
+        /// (unless the hDesktop parameter is a handle to the current desktop).
+        /// Warning There is a significant security risk for any service that opens a window on the interactive desktop.
+        /// By opening a desktop window, a service makes itself vulnerable to attack from the logged-on user,
+        /// whose application could send malicious messages to the service's desktop window and affect its ability to function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDesktop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadDesktop([In]HDESK hDesktop);
     }
 }
