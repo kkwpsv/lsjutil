@@ -310,5 +310,46 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFileRecord", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PlayMetaFileRecord([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHandleTable,
             [In]in METARECORD lpMR, [In]UINT noObjs);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetWinMetaFileBits"/> function converts a metafile from the older Windows format
+        /// to the new enhanced format and stores the new metafile in memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwinmetafilebits
+        /// </para>
+        /// </summary>
+        /// <param name="nSize">
+        /// The size, in bytes, of the buffer that contains the Windows-format metafile.
+        /// </param>
+        /// <param name="lpMeta16Data">
+        /// A pointer to a buffer that contains the Windows-format metafile data.
+        /// (It is assumed that the data was obtained by using the <see cref="GetMetaFileBitsEx"/> or <see cref="GetWinMetaFileBits"/> function.)
+        /// </param>
+        /// <param name="hdcRef">
+        /// A handle to a reference device context.
+        /// </param>
+        /// <param name="lpMFP">
+        /// A pointer to a <see cref="METAFILEPICT"/> structure that contains the suggested size of the metafile picture and the mapping mode
+        /// that was used when the picture was created.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to a memory-based enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows uses the reference device context's resolution data and the data in the <see cref="METAFILEPICT"/> structure to scale a picture.
+        /// If the <paramref name="hdcRef"/> parameter is <see cref="NULL"/>, the system uses resolution data for the current output device.
+        /// If the <paramref name="lpMFP"/> parameter is <see cref="NULL"/>, the system uses the <see cref="MM_ANISOTROPIC"/> mapping mode
+        /// to scale the picture so that it fits the entire device surface.
+        /// The <see cref="METAFILEPICT.hMF"/> member of the <see cref="METAFILEPICT"/> structure is not used.
+        /// When the application no longer needs the enhanced metafile handle, it should delete it by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// The handle returned by this function can be used with other enhanced-metafile functions.
+        /// If the reference device context is not identical to the device in which the metafile was originally created,
+        /// some GDI functions that use device units may not draw the picture correctly.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWinMetaFileBits", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE SetWinMetaFileBits([In]UINT nSize, [In]IntPtr lpMeta16Data, [In]HDC hdcRef, [In]in METAFILEPICT lpMFP);
     }
 }
