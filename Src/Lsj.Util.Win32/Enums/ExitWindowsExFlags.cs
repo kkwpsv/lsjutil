@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Shuts down the system to a point at which it is safe to turn off the power.
         /// All file buffers have been flushed to disk, and all running processes have stopped.
-        /// The calling process must have the <see cref="SE_SHUTDOWN_NAME"/> privilege.
+        /// The calling process must have the SE_SHUTDOWN_NAME privilege.
         /// For more information, see the following Remarks section.
         /// Specifying this flag will not turn off the power even if the system supports the power-off feature.
         /// You must specify <see cref="EWX_POWEROFF"/> to do this.

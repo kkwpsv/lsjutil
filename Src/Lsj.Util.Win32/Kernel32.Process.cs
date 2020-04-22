@@ -1400,7 +1400,8 @@ namespace Lsj.Util.Win32
         /// This can degrade the performance of other applications and the system as a whole.
         /// It can also lead to failures of operations that require physical memory to be present
         /// (for example, creating processes, threads, and kernel pool).
-        /// Thus, you must use the <see cref="SetProcessWorkingSetSize"/> function carefully. You must always consider the performance of the whole system when you are designing an application.
+        /// Thus, you must use the <see cref="SetProcessWorkingSetSize"/> function carefully.
+        /// You must always consider the performance of the whole system when you are designing an application.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWorkingSetSize([In]HANDLE hProcess, [In]SIZE_T dwMinimumWorkingSetSize, [In]SIZE_T dwMaximumWorkingSetSize);
