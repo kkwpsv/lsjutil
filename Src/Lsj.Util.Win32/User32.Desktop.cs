@@ -534,5 +534,29 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenInputDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK OpenInputDesktop([In]DWORD dwFlags, [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// Assigns the specified window station to the calling process.
+        /// This enables the process to access objects in the window station such as desktops, the clipboard, and global atoms.
+        /// All subsequent operations on the window station use the access rights granted to <paramref name="hWinSta"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocesswindowstation
+        /// </para>
+        /// </summary>
+        /// <param name="hWinSta">
+        /// A handle to the window station.
+        /// This can be a handle returned by the <see cref="CreateWindowStation"/>,
+        /// <see cref="OpenWindowStation"/>, or <see cref="GetProcessWindowStation"/> function.
+        /// This window station must be associated with the current session.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessWindowStation([In]HWINSTA hWinSta);
     }
 }
