@@ -414,6 +414,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setstdhandle
+        /// </para>
+        /// </summary>
+        /// <param name="nStdHandle">
+        /// The standard device for which the handle is to be set. This parameter can be one of the following values.
+        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device.
+        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device.
+        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device.
+        /// </param>
+        /// <param name="hHandle">
+        /// The handle for the standard device.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The standard handles of a process may have been redirected by a call to <see cref="SetStdHandle"/>,
+        /// in which case <see cref="GetStdHandle"/> will return the redirected handle.
+        /// If the standard handles have been redirected, you can specify the CONIN$ value
+        /// in a call to the <see cref="CreateFile"/> function to get a handle to a console's input buffer.
+        /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetStdHandle([In]DWORD nStdHandle, [In]HANDLE hHandle);
+
+        /// <summary>
+        /// <para>
         /// Writes a character string to a console screen buffer beginning at the current cursor location.
         /// </para>
         /// <para>
