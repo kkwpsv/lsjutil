@@ -1244,6 +1244,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates a thread local storage (TLS) index.
+        /// Any thread of the process can subsequently use this index to store and retrieve values that are local to the thread,
+        /// because each thread receives its own slot for the index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsalloc
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a TLS index. The slots for the index are initialized to zero.
+        /// If the function fails, the return value is <see cref="TLS_OUT_OF_INDEXES"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// Refer to <see cref="FlsAlloc"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// Refer to FlsAlloc for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// The threads of the process can use the TLS index in subsequent calls to the <see cref="TlsFree"/>,
+        /// <see cref="TlsSetValue"/>, or <see cref="TlsGetValue"/> functions.
+        /// The value of the TLS index should be treated as an opaque value; do not assume that it is an index into a zero-based array.
+        /// TLS indexes are typically allocated during process or dynamic-link library (DLL) initialization.
+        /// When a TLS index is allocated, its storage slots are initialized to <see cref="NULL"/>.
+        /// After a TLS index has been allocated, each thread of the process can use it to access its own TLS storage slot.
+        /// To store a value in its TLS slot, a thread specifies the index in a call to <see cref="TlsSetValue"/>.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/>, to retrieve the stored value.
+        /// TLS indexes are not valid across process boundaries. A DLL cannot assume that an index assigned in one process is valid in another process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsAlloc", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD TlsAlloc();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
@@ -1291,6 +1331,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
+
+        /// <summary>
+        /// <para>
+        /// Stores a value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
+        /// Each thread of a process has its own slot for each TLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlssetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <param name="lpTlsValue">
+        /// The value to be stored in the calling thread's TLS slot for the index.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// Refer to <see cref="FlsSetValue"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// Refer to <see cref="FlsSetValue"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// TLS indexes are typically allocated by the <see cref="TlsAlloc"/> function during process or DLL initialization.
+        /// When a TLS index is allocated, its storage slots are initialized to NULL.
+        /// After a TLS index is allocated, each thread of the process can use it to access its own TLS slot for that index.
+        /// A thread specifies a TLS index in a call to <see cref="TlsSetValue"/>, to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/>, to retrieve the stored value.
+        /// <see cref="TlsSetValue"/> was implemented with speed as the primary goal.
+        /// The function performs minimal parameter validation and error checking.
+        /// In particular, it succeeds if <paramref name="dwTlsIndex"/> is in the range 0 through (<see cref="TLS_MINIMUM_AVAILABLE"/> – 1).
+        /// It is up to the programmer to ensure that the index is valid before calling <see cref="TlsGetValue"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsSetValue", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TlsSetValue([In]DWORD dwTlsIndex, [In]LPVOID lpTlsValue);
 
         /// <summary>
         /// <para>
