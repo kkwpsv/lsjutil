@@ -7,6 +7,7 @@ using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MenuFlags;
+using static Lsj.Util.Win32.Enums.MENUITEMINFOMasks;
 using static Lsj.Util.Win32.Enums.SystemCommands;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -1159,6 +1160,44 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenuItemBitmaps([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]HBITMAP hBitmapUnchecked,
             [In]HBITMAP hBitmapChecked);
+
+        /// <summary>
+        /// <para>
+        /// Changes information about a menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuiteminfow
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu that contains the menu item.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item to change.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPositon"/>.
+        /// </param>
+        /// <param name="fByPositon">
+        /// The meaning of <paramref name="item"/>.
+        /// If this parameter is <see cref="FALSE"/>, <paramref name="item"/> is a menu item identifier.
+        /// Otherwise, it is a menu item position. See About Menus for more information.
+        /// </param>
+        /// <param name="lpmii">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that contains information about the menu item
+        /// and specifies which menu item attributes to change.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// In order for keyboard accelerators to work with bitmap or owner-drawn menu items,
+        /// the owner of the menu must process the <see cref="WM_MENUCHAR"/> message.
+        /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPositon, [In]in MENUITEMINFO lpmii);
 
         /// <summary>
         /// <para>
