@@ -188,8 +188,8 @@ namespace Lsj.Util.Win32
         /// and, on return, containing (if available) a pointer to the requested interface and the return value of the QueryInterface call
         /// for that interface. This permits fewer round trips between computers.
         /// This function encapsulates three calls: first, to <see cref="CoGetClassObject"/> to connect to the class object
-        /// associated with the specified CLSID, specifying the location of the class; second,to <see cref="IClassFactory.CreateInstance"/> to
-        /// create an uninitialized instance, and finally, to <see cref="IClassFactory.Release"/>, to release the class object.
+        /// associated with the specified CLSID, specifying the location of the class; second, to <see cref="IClassFactory.CreateInstance"/> to
+        /// create an uninitialized instance, and finally, to Release, to release the class object.
         /// The object so created must still be initialized through a call
         /// to one of the initialization interfaces (such as <see cref="IPersistStorage.Load"/>).
         /// Two functions, <see cref="CoGetInstanceFromFile"/> and <see cref="CoGetInstanceFromIStorage"/> encapsulate
@@ -212,7 +212,7 @@ namespace Lsj.Util.Win32
         /// Call <see cref="CoGetClassObject"/> directly to create multiple objects through a class object
         /// for which there is a CLSID in the system registry.
         /// You can also retrieve a class object from a specific remote computer.Most class objects implement the <see cref="IClassFactory"/> interface.
-        /// You would then call <see cref="CreateInstance"/> to create an uninitialized object.
+        /// You would then call <see cref="IClassFactory.CreateInstance"/> to create an uninitialized object.
         /// It is not always necessary to go through this process however.
         /// To create a single object, call the <see cref="CoCreateInstanceEx"/> function, which allows you to create an instance on a remote machine.
         /// This replaces the <see cref="CoCreateInstance"/> function, which can still be used to create an instance on a local computer.
@@ -292,7 +292,7 @@ namespace Lsj.Util.Win32
         /// and call, among other functions, <see cref="CoGetClassObject"/>.
         /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the class object.
         /// In most cases, this interface is <see cref="IClassFactory"/>.
-        /// This provides access to the <see cref="CreateInstance"/> method, through which the caller can then create an uninitialized object
+        /// This provides access to the <see cref="IClassFactory.CreateInstance"/> method, through which the caller can then create an uninitialized object
         /// of the kind specified in its implementation.
         /// All classes registered in the system with a CLSID must implement <see cref="IClassFactory"/>.
         /// In rare cases, however, you may want to specify some other interface that defines operations common to a set of objects.
