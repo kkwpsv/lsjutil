@@ -97,6 +97,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Stops the debugger from debugging the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugactiveprocessstop
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The identifier of the process to stop debugging.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugActiveProcessStop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DebugActiveProcessStop([In]DWORD dwProcessId);
+
+        /// <summary>
+        /// <para>
         /// Causes a breakpoint exception to occur in the current process.
         /// This allows the calling thread to signal the debugger to handle the exception.
         /// To cause a breakpoint exception in another process, use the <see cref="DebugBreakProcess"/> function.
