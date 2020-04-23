@@ -151,6 +151,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DeleteEnhMetaFile"/> function deletes an enhanced-format metafile or an enhanced-format metafile handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteenhmetafile
+        /// </para>
+        /// </summary>
+        /// <param name="hmf">
+        /// A handle to an enhanced metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the hemf parameter identifies an enhanced metafile stored in memory, the <see cref="DeleteEnhMetaFile"/> function deletes the metafile.
+        /// If hemf identifies a metafile stored on a disk, the function deletes the metafile handle but does not destroy the actual metafile.
+        /// An application can retrieve the file by calling the <see cref="GetEnhMetaFile"/> function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteEnhMetaFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DeleteEnhMetaFile([In]HENHMETAFILE hmf);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DeleteMetaFile"/> function deletes a Windows-format metafile or Windows-format metafile handle.
         /// </para>
         /// <para>
