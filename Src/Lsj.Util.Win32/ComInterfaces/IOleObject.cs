@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
