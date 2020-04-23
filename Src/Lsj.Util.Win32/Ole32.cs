@@ -750,6 +750,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a pointer to the OLE implementation of <see cref="IDataAdviseHolder"/> on the data advise holder object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createdataadviseholder
+        /// </para>
+        /// </summary>
+        /// <param name="ppDAHolder">
+        /// Address of an <see cref="IDataAdviseHolder"/> pointer variable that receives the interface pointer to the new advise holder object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory for the operation.
+        /// </returns>
+        /// <remarks>
+        /// Call <see cref="CreateDataAdviseHolder"/> in your implementation of <see cref="IDataObject.DAdvise"/> to get a pointer
+        /// to the OLE implementation of <see cref="IDataAdviseHolder"/> interface.
+        /// With this pointer, you can then complete the implementation of <see cref="IDataObject.DAdvise"/>
+        /// by calling the <see cref="IDataAdviseHolder.Advise"/> method, which creates an advisory connection
+        /// between the calling object and the data object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateDataAdviseHolder([Out]out IDataAdviseHolder ppDAHolder);
+
+        /// <summary>
+        /// <para>
         /// Creates an advise holder object for managing compound document notifications.
         /// It returns a pointer to the object's OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
         /// </para>
