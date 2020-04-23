@@ -345,6 +345,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes the specified list of attributes for process and thread creation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-deleteprocthreadattributelist
+        /// </para>
+        /// </summary>
+        /// <param name="lpAttributeList">
+        /// The attribute list.
+        /// This list is created by the <see cref="InitializeProcThreadAttributeList"/> function.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteProcThreadAttributeList", ExactSpelling = true, SetLastError = true)]
+        public static extern void DeleteProcThreadAttributeList([In]LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList);
+
+        /// <summary>
+        /// <para>
         /// Ends the calling process and all its threads.
         /// </para>
         /// <para>
