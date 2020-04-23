@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
+using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
@@ -27,6 +28,40 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
 
+
+        /// <summary>
+        /// <para>
+        /// An application-defined callback function used with the <see cref="SendMessageCallback"/> function.
+        /// The system passes the message to the callback function after passing the message to the destination window procedure.
+        /// The <see cref="SENDASYNCPROC"/> type defines a pointer to this callback function.
+        /// SendAsyncProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-sendasyncproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to the window whose window procedure received the message.
+        /// If the <see cref="SendMessageCallback"/> function was called with its hwnd parameter set to <see cref="HWND_BROADCAST"/>,
+        /// the system calls the SendAsyncProc function once for each top-level window.
+        /// </param>
+        /// <param name="Arg2">
+        /// The message.
+        /// </param>
+        /// <param name="Arg3">
+        /// An application-defined value sent from the <see cref="SendMessageCallback"/> function.
+        /// </param>
+        /// <param name="Arg4">
+        /// The result of the message processing.
+        /// This value depends on the message.
+        /// </param>
+        /// <remarks>
+        /// You install a SendAsyncProc application-defined callback function by passing a <see cref="SENDASYNCPROC"/> pointer
+        /// to the <see cref="SendMessageCallback"/> function.
+        /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/>
+        /// calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
+        /// </remarks>
+        public delegate void SENDASYNCPROC([In]HWND Arg1, [In]WindowsMessages Arg2, [In]ULONG_PTR Arg3, [In]LRESULT Arg4);
 
         /// <summary>
         /// <para>
@@ -614,6 +649,125 @@ namespace Lsj.Util.Win32
         public static extern LRESULT SendMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
+        /// <para>
+        /// Sends the specified message to a window or windows.
+        /// It calls the window procedure for the specified window and returns immediately if the window belongs to another thread.
+        /// After the window procedure processes the message, the system calls the specified callback function,
+        /// passing the result of the message processing and an application-defined value to the callback function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagecallbackw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure will receive the message.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lpResultCallBack">
+        /// A pointer to a callback function that the system calls after the window procedure processes the message.
+        /// For more information, see <see cref="SENDASYNCPROC"/>.
+        /// If hWnd is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the system calls the <see cref="SENDASYNCPROC"/> callback function
+        /// once for each top-level window.
+        /// </param>
+        /// <param name="dwData">
+        /// An application-defined value to be sent to the callback function pointed to by the <paramref name="lpResultCallBack"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the target window belongs to the same thread as the caller, then the window procedure is called synchronously,
+        /// and the callback function is called immediately after the window procedure returns.
+        /// If the target window belongs to a different thread from the caller, then the callback function is called
+        /// only when the thread that called <see cref="SendMessageCallback"/> also calls <see cref="GetMessage"/>,
+        /// <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// its message parameters cannot include pointers. Otherwise, the operation will fail.
+        /// The functions will return before the receiving thread has had a chance to process the message and the sender will free the memory before it is used.
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
+        /// to obtain a unique message for inter-application communication.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageCallbackW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SendMessageCallback([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam,
+            [In]SENDASYNCPROC lpResultCallBack, [In]ULONG_PTR dwData);
+
+        /// <summary>
+        /// <para>
+        /// Sends the specified message to one or more windows.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure will receive the message.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows.
+        /// The function does not return until each window has timed out.
+        /// Therefore, the total wait time can be up to the value of <paramref name="uTimeout"/> multiplied by the number of top-level windows.
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </param>
+        /// <param name="wParam">
+        /// Any additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Any additional message-specific information.
+        /// </param>
+        /// <param name="fuFlags">
+        /// The behavior of this function. This parameter can be one or more of the following values.
+        /// <see cref="SMTO_ABORTIFHUNG"/>, <see cref="SMTO_BLOCK"/>, <see cref="SMTO_NORMAL"/>,
+        /// <see cref="SMTO_NOTIMEOUTIFNOTHUNG"/>, <see cref="SMTO_ERRORONEXIT"/>
+        /// </param>
+        /// <param name="uTimeout">
+        /// The duration of the time-out period, in milliseconds.
+        /// If the message is a broadcast message, each window can use the full time-out period.
+        /// For example, if you specify a five second time-out period and there are three top-level windows that fail to process the message,
+        /// you could have up to a 15 second delay.
+        /// </param>
+        /// <param name="lpdwResult">
+        /// The result of the message processing. The value of this parameter depends on the message that is specified.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// <see cref="SendMessageTimeout"/> does not provide information about individual windows timing out if <see cref="HWND_BROADCAST"/> is used.
+        /// If the function fails or times out, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If <see cref="GetLastError"/> returns <see cref="ERROR_TIMEOUT"/>, then the function timed out.
+        /// Windows 2000: If <see cref="GetLastError"/> returns 0, then the function timed out.
+        /// </returns>
+        /// <remarks>
+        /// The function calls the window procedure for the specified window and, if the specified window belongs to a different thread,
+        /// does not return until the window procedure has processed the message or the specified time-out period has elapsed.
+        /// If the window receiving the message belongs to the same queue as the current thread,
+        /// the window procedure is called directly—the time-out value is ignored.
+        /// This function considers that a thread is not responding if it has not called <see cref="GetMessage"/> or a similar function within five seconds.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", ExactSpelling = true, SetLastError = true)]
+        public static extern LRESULT SendMessageTimeout([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam,
+            [In]SendMessageTimeoutFlags fuFlags, [In]UINT uTimeout, [Out]out DWORD_PTR lpdwResult);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="cMessagesMax"></param>
@@ -621,6 +775,52 @@ namespace Lsj.Util.Win32
         [Obsolete]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageQueue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMessageQueue(int cMessagesMax);
+
+        /// <summary>
+        /// <para>
+        /// Sends the specified message to a window or windows.
+        /// If the window was created by the calling thread, <see cref="SendNotifyMessage"/> calls the window procedure for the window
+        /// and does not return until the window procedure has processed the message.
+        /// If the window was created by a different thread, <see cref="SendNotifyMessage"/> passes the message to the window procedure and returns immediately;
+        /// it does not wait for the window procedure to finish processing the message.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendnotifymessagew
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window procedure will receive the message.
+        /// If this parameter is <see cref="HWND_BROADCAST"/> ((HWND)0xffff), the message is sent to all top-level windows in the system,
+        /// including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+        /// </param>
+        /// <param name="Msg">
+        /// The message to be sent.
+        /// For lists of the system-provided messages, see System-Defined Messages.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message-specific information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If you send a message in the range below <see cref="WM_USER"/> to the asynchronous message functions
+        /// (<see cref="PostMessage"/>, <see cref="SendNotifyMessage"/>, and <see cref="SendMessageCallback"/>),
+        /// its message parameters cannot include pointers.
+        /// Otherwise, the operation will fail. The functions will return before the receiving thread has had a chance
+        /// to process the message and the sender will free the memory before it is used.
+        /// Applications that need to communicate using <see cref="HWND_BROADCAST"/> should use the <see cref="RegisterWindowMessage"/> function
+        /// to obtain a unique message for inter-application communication.
+        /// The system only does marshalling for system messages (those in the range 0 to (<see cref="WM_USER"/>-1)).
+        /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SendNotifyMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>

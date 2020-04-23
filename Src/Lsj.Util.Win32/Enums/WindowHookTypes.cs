@@ -98,11 +98,11 @@
         /// <summary>
         /// WH_MINHOOK
         /// </summary>
-        WH_MINHOOK =       WH_MIN,
+        WH_MINHOOK = WH_MIN,
 
         /// <summary>
         /// WH_MAXHOOK
         /// </summary>
-        WH_MAXHOOK =      WH_MAX,
+        WH_MAXHOOK = WH_MAX,
     }
 }

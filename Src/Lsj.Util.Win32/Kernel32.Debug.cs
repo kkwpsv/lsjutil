@@ -97,6 +97,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Stops the debugger from debugging the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/debugapi/nf-debugapi-debugactiveprocessstop
+        /// </para>
+        /// </summary>
+        /// <param name="dwProcessId">
+        /// The identifier of the process to stop debugging.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugActiveProcessStop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DebugActiveProcessStop([In]DWORD dwProcessId);
+
+        /// <summary>
+        /// <para>
         /// Causes a breakpoint exception to occur in the current process.
         /// This allows the calling thread to signal the debugger to handle the exception.
         /// To cause a breakpoint exception in another process, use the <see cref="DebugBreakProcess"/> function.
@@ -111,6 +130,56 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreak", ExactSpelling = true, SetLastError = true)]
         public static extern void DebugBreak();
+
+        /// <summary>
+        /// <para>
+        /// Causes a breakpoint exception to occur in the specified process.
+        /// This allows the calling thread to signal the debugger to handle the exception.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-debugbreakprocess
+        /// </para>
+        /// </summary>
+        /// <param name="Process">
+        /// A handle to the process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the process is not being debugged, the function uses the search logic of a standard exception handler.
+        /// In most cases, this causes the process to terminate because of an unhandled breakpoint exception.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreakProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DebugBreakProcess([In]HANDLE Process);
+
+        /// <summary>
+        /// <para>
+        /// Sets the action to be performed when the calling thread exits.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-debugsetprocesskillonexit
+        /// </para>
+        /// </summary>
+        /// <param name="KillOnExit">
+        /// If this parameter is <see cref="TRUE"/>, the thread terminates all attached processes on exit (note that this is the default).
+        /// Otherwise, the thread detaches from all processes being debugged on exit.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The calling thread must have established at least one debugging connection using the <see cref="CreateProcess"/>
+        /// or <see cref="DebugActiveProcess"/> function before calling this function.
+        /// <see cref="DebugSetProcessKillOnExit"/> affects all current and future debuggees connected to the calling thread.
+        /// A thread can call this function multiple times to change the action as needed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugSetProcessKillOnExit", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DebugSetProcessKillOnExit([In]BOOL KillOnExit);
 
         /// <summary>
         /// <para>

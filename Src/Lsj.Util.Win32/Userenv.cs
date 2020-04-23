@@ -1,9 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HKEY;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -75,5 +80,61 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
+
+        /// <summary>
+        /// <para>
+        /// Loads the specified user's profile. The profile can be a local user profile or a roaming user profile.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-loaduserprofilew
+        /// </para>
+        /// </summary>
+        /// <param name="hToken">
+        /// Token for the user, which is returned by the <see cref="LogonUser"/>, <see cref="CreateRestrictedToken"/>,
+        /// <see cref="DuplicateToken"/>, <see cref="OpenProcessToken"/>, or <see cref="OpenThreadToken"/> function.
+        /// The token must have <see cref="TOKEN_QUERY"/>, <see cref="TOKEN_IMPERSONATE"/>, and <see cref="TOKEN_DUPLICATE"/> access.
+        /// For more information, see Access Rights for Access-Token Objects.
+        /// </param>
+        /// <param name="lpProfileInfo">
+        /// Pointer to a <see cref="PROFILEINFO"/> structure.
+        /// <see cref="LoadUserProfile"/> fails and returns <see cref="ERROR_INVALID_PARAMETER"/>
+        /// if the <see cref="PROFILEINFO.dwSize"/> member of the structure is not set to <code>sizeof(PROFILEINFO)</code> or
+        /// if the <see cref="PROFILEINFO.lpUserName"/> member is <see cref="NULL"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>. To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails and returns <see cref="ERROR_INVALID_PARAMETER"/> if the <see cref="PROFILEINFO.dwSize"/> member
+        /// of the structure at <paramref name="lpProfileInfo"/> is not set to <code>sizeof(PROFILEINFO)</code> or
+        /// if the <see cref="PROFILEINFO.lpUserName"/> member is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When a user logs on interactively, the system automatically loads the user's profile.
+        /// If a service or an application impersonates a user, the system does not load the user's profile.
+        /// Therefore, the service or application should load the user's profile with <see cref="LoadUserProfile"/>.
+        /// Services and applications that call <see cref="LoadUserProfile"/> should check to see if the user has a roaming profile.
+        /// If the user has a roaming profile, specify its path as the <see cref="PROFILEINFO.lpProfilePath"/> member of <see cref="PROFILEINFO"/>.
+        /// To retrieve the user's roaming profile path, you can call the <see cref="NetUserGetInfo"/> function, specifying information level 3 or 4.
+        /// Upon successful return, the <see cref="PROFILEINFO.hProfile"/> member of <see cref="PROFILEINFO"/> is
+        /// a registry key handle opened to the root of the user's hive.
+        /// It has been opened with full access (<see cref="KEY_ALL_ACCESS"/>).
+        /// If a service that is impersonating a user needs to read or write to the user's registry file,
+        /// use this handle instead of <see cref="HKEY_CURRENT_USER"/>. Do not close the <see cref="PROFILEINFO.hProfile"/> handle.
+        /// Instead, pass it to the <see cref="UnloadUserProfile"/> function. This function closes the handle.
+        /// You should ensure that all handles to keys in the user's registry hive are closed.
+        /// If you do not close all open registry handles, the user's profile fails to unload.
+        /// For more information, see Registry Key Security and Access Rights and Registry Hives.
+        /// Note that it is your responsibility to load the user's registry hive into the <see cref="HKEY_USERS"/> registry key
+        /// with the <see cref="LoadUserProfile"/> function before you call <see cref="CreateProcessAsUser"/>.
+        /// This is because <see cref="CreateProcessAsUser"/> does not load the specified user's profile into <see cref="HKEY_USERS"/>.
+        /// This means that access to information in the <see cref="HKEY_CURRENT_USER"/> registry key
+        /// may not produce results consistent with a normal interactive logon.
+        /// The calling process must have the SE_RESTORE_NAME and SE_BACKUP_NAME privileges.
+        /// For more information, see Running with Special Privileges.
+        /// Starting with Windows XP Service Pack 2 (SP2) and Windows Server 2003, the caller must be an administrator or the LocalSystem account.
+        /// It is not sufficient for the caller to merely impersonate the administrator or LocalSystem account.
+        /// </remarks>
+        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadUserProfileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LoadUserProfile([In]HANDLE hToken, [In]in PROFILEINFO lpProfileInfo);
     }
 }

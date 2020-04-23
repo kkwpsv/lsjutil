@@ -345,6 +345,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes the specified list of attributes for process and thread creation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-deleteprocthreadattributelist
+        /// </para>
+        /// </summary>
+        /// <param name="lpAttributeList">
+        /// The attribute list.
+        /// This list is created by the <see cref="InitializeProcThreadAttributeList"/> function.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteProcThreadAttributeList", ExactSpelling = true, SetLastError = true)]
+        public static extern void DeleteProcThreadAttributeList([In]LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList);
+
+        /// <summary>
+        /// <para>
+        /// Removes as many pages as possible from the working set of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-emptyworkingset
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right
+        /// and the <see cref="PROCESS_SET_QUOTA"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can also empty the working set by calling the <see cref="SetProcessWorkingSetSize"/> or <see cref="SetProcessWorkingSetSizeEx"/> function
+        /// with the dwMinimumWorkingSetSize and dwMaximumWorkingSetSize parameters set to the value <code>(SIZE_T)(-1)</code>.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EmptyWorkingSet in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as K32EmptyWorkingSet in Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper
+        /// that calls K32EmptyWorkingSet.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7
+        /// and later versions should always call this function as K32EmptyWorkingSet.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EmptyWorkingSet", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EmptyWorkingSet([In]HANDLE hProcess);
+
+        /// <summary>
+        /// <para>
         /// Ends the calling process and all its threads.
         /// </para>
         /// <para>
@@ -551,6 +601,23 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcess", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetCurrentProcess();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the process identifier of the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the process identifier of the calling process.
+        /// </returns>
+        /// <remarks>
+        /// Until the process terminates, the process identifier uniquely identifies the process throughout the system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessId", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetCurrentProcessId();
 
         /// <summary>
         /// <para>
@@ -1317,6 +1384,77 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetProcessPriorityBoost([In]IntPtr hProcess, [In]bool bDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
+        /// Sets the minimum and maximum working set sizes for the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setprocessworkingsetsize
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose working set sizes is to be set.
+        /// The handle must have the <see cref="PROCESS_SET_QUOTA"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="dwMinimumWorkingSetSize">
+        /// The minimum working set size for the process, in bytes.
+        /// The virtual memory manager attempts to keep at least this much memory resident in the process whenever the process is active.
+        /// This parameter must be greater than zero but less than or equal to the maximum working set size.
+        /// The default size is 50 pages (for example, this is 204,800 bytes on systems with a 4K page size).
+        /// If the value is greater than zero but less than 20 pages, the minimum value is set to 20 pages.
+        /// If both <paramref name="dwMinimumWorkingSetSize"/> and <paramref name="dwMaximumWorkingSetSize"/> have the value (<see cref="SIZE_T"/>)–1,
+        /// the function removes as many pages as possible from the working set of the specified process.
+        /// </param>
+        /// <param name="dwMaximumWorkingSetSize">
+        /// The maximum working set size for the process, in bytes.
+        /// The virtual memory manager attempts to keep no more than this much memory resident in the process
+        /// whenever the process is active and available memory is low.
+        /// This parameter must be greater than or equal to 13 pages (for example, 53,248 on systems with a 4K page size),
+        /// and less than the system-wide maximum (number of available pages minus 512 pages).
+        /// The default size is 345 pages (for example, this is 1,413,120 bytes on systems with a 4K page size).
+        /// If both <paramref name="dwMinimumWorkingSetSize"/> and <paramref name="dwMaximumWorkingSetSize"/> have the value (<see cref="SIZE_T"/>)–1,
+        /// the function removes as many pages as possible from the working set of the specified process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// Call <see cref="GetLastError"/> to obtain extended error information.
+        /// </returns>
+        /// <remarks>
+        /// The working set of a process is the set of memory pages in the virtual address space of the process
+        /// that are currently resident in physical memory.
+        /// These pages are available for an application to use without triggering a page fault.
+        /// For more information about page faults, see Working Set.
+        /// The minimum and maximum working set sizes affect the virtual memory paging behavior of a process.
+        /// The working set of the specified process can be emptied by specifying the value (<see cref="SIZE_T"/>)–1
+        /// for both the minimum and maximum working set sizes.
+        /// This removes as many pages as possible from the working set.
+        /// The <see cref="EmptyWorkingSet"/> function can also be used for this purpose.
+        /// If the values of either <paramref name="dwMinimumWorkingSetSize"/> or <paramref name="dwMaximumWorkingSetSize"/> are
+        /// greater than the process' current working set sizes, the specified process must have the SE_INC_WORKING_SET_NAME privilege.
+        /// All users generally have this privilege. For more information about security privileges, see Privileges.
+        /// Windows Server 2003 and Windows XP: The specified process must have the SE_INC_BASE_PRIORITY_NAME privilege.
+        /// Users in the Administrators and Power Users groups generally have this privilege.
+        /// The operating system allocates working set sizes on a first-come, first-served basis.
+        /// For example, if an application successfully sets 40 megabytes as its minimum working set size on a 64-megabyte system,
+        /// and a second application requests a 40-megabyte working set size, the operating system denies the second application's request.
+        /// Using the <see cref="SetProcessWorkingSetSize"/> function to set an application's minimum and maximum working set sizes
+        /// does not guarantee that the requested memory will be reserved, or that it will remain resident at all times.
+        /// When the application is idle, or a low-memory situation causes a demand for memory,
+        /// the operating system can reduce the application's working set.
+        /// An application can use the <see cref="VirtualLockfunction"/> to lock ranges of the application's virtual address space in memory;
+        /// however, that can potentially degrade the performance of the system.
+        /// When you increase the working set size of an application, you are taking away physical memory from the rest of the system.
+        /// This can degrade the performance of other applications and the system as a whole.
+        /// It can also lead to failures of operations that require physical memory to be present
+        /// (for example, creating processes, threads, and kernel pool).
+        /// Thus, you must use the <see cref="SetProcessWorkingSetSize"/> function carefully.
+        /// You must always consider the performance of the whole system when you are designing an application.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessWorkingSetSize([In]HANDLE hProcess, [In]SIZE_T dwMinimumWorkingSetSize, [In]SIZE_T dwMaximumWorkingSetSize);
 
         /// <summary>
         /// <para>

@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {

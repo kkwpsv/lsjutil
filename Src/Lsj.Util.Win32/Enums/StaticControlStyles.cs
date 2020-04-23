@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.Enums
     /// <remarks>
     /// To use a style which truncates words or strings with an ellipsis for multiline text,
     /// <see cref="DrawThemeText"/> or <see cref="DrawText"/> can be used on a owner-draw control
-    /// with formatting flags <see cref="DT_WORDBREAK"/> and <see cref="DT_ENDELLIPSIS"/> set.
+    /// with formatting flags <see cref="DT_WORDBREAK"/> and <see cref="DT_END_ELLIPSIS"/> set.
     /// </remarks>
     public enum StaticControlStyles : uint
     {

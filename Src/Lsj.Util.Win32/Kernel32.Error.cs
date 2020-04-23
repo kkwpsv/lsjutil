@@ -4,6 +4,8 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Enums.ErrorModes;
+using static Lsj.Util.Win32.Enums.ExceptionCodes;
+using static Lsj.Util.Win32.Enums.ExceptionFlags;
 using static Lsj.Util.Win32.Enums.FacilityCodes;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -12,6 +14,22 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+
+        /// <summary>
+        /// EXCEPTION_EXECUTE_HANDLER
+        /// </summary>
+        public const int EXCEPTION_EXECUTE_HANDLER = 1;
+
+        /// <summary>
+        /// EXCEPTION_CONTINUE_SEARCH
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_SEARCH = 0;
+
+        /// <summary>
+        /// EXCEPTION_CONTINUE_EXECUTION
+        /// </summary>
+        public const int EXCEPTION_CONTINUE_EXECUTION = unchecked(-1);
+
         /// <summary>
         /// <para>
         /// Displays a message box and terminates the application when the message box is closed.
@@ -244,6 +262,57 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         public static HRESULT HRESULT_FROM_WIN32(SystemErrorCodes x) =>
             unchecked((int)x) <= 0 ? (HRESULT)(uint)x : (HRESULT)((((uint)x) & 0x0000FFFF) | ((int)FACILITY_WIN32 << 16) | 0x80000000);
+
+        /// <summary>
+        /// <para>
+        /// Raises an exception in the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-raiseexception
+        /// </para>
+        /// </summary>
+        /// <param name="dwExceptionCode">
+        /// An application-defined exception code of the exception being raised.
+        /// The filter expression and exception-handler block of an exception handler can use the <see cref="GetExceptionCode"/> function
+        /// to retrieve this value.
+        /// Note that the system will clear bit 28 of <paramref name="dwExceptionCode"/> before displaying a message.
+        /// This bit is a reserved exception bit, used by the system for its own purposes.
+        /// </param>
+        /// <param name="dwExceptionFlags">
+        /// The exception flags.
+        /// This can be either zero to indicate a continuable exception, or <see cref="EXCEPTION_NONCONTINUABLE"/> to indicate a noncontinuable exception.
+        /// Any attempt to continue execution after a noncontinuable exception causes the <see cref="EXCEPTION_NONCONTINUABLE_EXCEPTION"/> exception.
+        /// </param>
+        /// <param name="nNumberOfArguments">
+        /// The number of arguments in the <paramref name="lpArguments"/> array.
+        /// This value must not exceed <see cref="EXCEPTION_MAXIMUM_PARAMETERS"/>.
+        /// This parameter is ignored if <paramref name="lpArguments"/> is <see langword="null"/>.
+        /// </param>
+        /// <param name="lpArguments">
+        /// An array of arguments. This parameter can be <see langword="null"/>.
+        /// These arguments can contain any application-defined data that needs to be passed to the filter expression of the exception handler.
+        /// </param>
+        /// <remarks>
+        /// The <see cref="RaiseException"/> function enables a process to use structured exception handling to handle private,
+        /// software-generated, application-defined exceptions.
+        /// Raising an exception causes the exception dispatcher to go through the following search for an exception handler:
+        /// The system first attempts to notify the process's debugger, if any.
+        /// If the process is not being debugged, or if the associated debugger does not handle the exception,
+        /// the system attempts to locate a frame-based exception handler by searching the stack frames of the thread in which the exception occurred.
+        /// The system searches the current stack frame first, then proceeds backward through preceding stack frames.
+        /// If no frame-based handler can be found, or no frame-based handler handles the exception,
+        /// the system makes a second attempt to notify the process's debugger.
+        /// If the process is not being debugged, or if the associated debugger does not handle the exception,
+        /// the system provides default handling based on the exception type.
+        /// For most exceptions, the default action is to call the <see cref="ExitProcess"/> function.
+        /// The values specified in the <paramref name="dwExceptionCode"/>, <paramref name="dwExceptionFlags"/>, <paramref name="nNumberOfArguments"/>,
+        /// and <paramref name="lpArguments"/> parameters can be retrieved in the filter expression of a frame-based exception handler
+        /// by calling the <see cref="GetExceptionInformation"/> function.
+        /// A debugger can retrieve these values by calling the <see cref="WaitForDebugEvent"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true, SetLastError = true)]
+        public static extern void RaiseException([In]ExceptionCodes dwExceptionCode, [In]ExceptionFlags dwExceptionFlags,
+            [In]DWORD nNumberOfArguments, [MarshalAs(UnmanagedType.LPArray)][In]ULONG_PTR[] lpArguments);
 
         /// <summary>
         /// <para>

@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Sequential)]
     public struct HBITMAP
     {
+        /// <summary>
+        /// ERROR_INVALID_BITMAP
+        /// </summary>
+        public static readonly HBITMAP ERROR_INVALID_BITMAP = new HBITMAP();
+
         private HANDLE _value;
 
         /// <inheritdoc/>

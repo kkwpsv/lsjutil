@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CheckTokenMembershipExFlags;
 using static Lsj.Util.Win32.Enums.CreateRestrictedTokenFlags;
+using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;

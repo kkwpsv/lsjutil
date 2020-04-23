@@ -5,11 +5,14 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.COLORREF;
+using static Lsj.Util.Win32.BaseTypes.HBITMAP;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.Compression;
 using static Lsj.Util.Win32.Enums.CreateDIBitmapFlags;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.GDIEscapes;
+using static Lsj.Util.Win32.Enums.ICMModes;
+using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.RasterCapabilities;
 using static Lsj.Util.Win32.Enums.RasterCodes;
@@ -17,6 +20,7 @@ using static Lsj.Util.Win32.Enums.RasterOps;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {

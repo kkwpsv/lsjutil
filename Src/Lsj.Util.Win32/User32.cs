@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ClassStyles;
@@ -58,6 +59,32 @@ namespace Lsj.Util.Win32
         /// This is the value returned by the <see cref="GetTickCount"/> function.
         /// </param>
         public delegate void TIMERPROC(HWND Arg1, UINT Arg2, UINT_PTR Arg3, DWORD Arg4);
+
+        /// <summary>
+        /// <para>
+        /// Translates a string into the OEM-defined character set.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-chartooemw
+        /// </para>
+        /// </summary>
+        /// <param name="pSrc">
+        /// The null-terminated string to be translated.
+        /// </param>
+        /// <param name="pDst">
+        /// The destination buffer, which receives the translated string.
+        /// If the CharToOem function is being used as an ANSI function, the string can be translated in place
+        /// by setting the <paramref name="pDst"/> parameter to the same address as the <paramref name="pSrc"/> parameter.
+        /// This cannot be done if CharToOem is being used as a wide-character function.
+        /// </param>
+        /// <returns>
+        /// The return value is always <see langword="true"/> except when you pass the same address
+        /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
+        /// In this case the function returns <see langword="false"/> and
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CharToOem([MarshalAs(UnmanagedType.LPWStr)][In]string pSrc, [In]IntPtr pDst);
 
         /// <summary>
         /// <para>
@@ -227,33 +254,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitWindowsEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ExitWindowsEx([In]ExitWindowsExFlags uFlags, [In]SystemShutdownReasonCodes dwReason);
-
-        /// <summary>
-        /// <para>
-        /// Translates a string into the OEM-defined character set.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-chartooemw
-        /// </para>
-        /// </summary>
-        /// <param name="pSrc">
-        /// The null-terminated string to be translated.
-        /// </param>
-        /// <param name="pDst">
-        /// The destination buffer, which receives the translated string.
-        /// If the CharToOem function is being used as an ANSI function, the string can be translated in place
-        /// by setting the <paramref name="pDst"/> parameter to the same address as the <paramref name="pSrc"/> parameter.
-        /// This cannot be done if CharToOem is being used as a wide-character function.
-        /// </param>
-        /// <returns>
-        /// The return value is always <see langword="true"/> except when you pass the same address
-        /// to <paramref name="pSrc"/> and <paramref name="pDst"/> in the wide-character version of the function.
-        /// In this case the function returns <see langword="false"/> and
-        /// <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_ADDRESS"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharToOemW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CharToOem([MarshalAs(UnmanagedType.LPWStr)][In]string pSrc, [In]IntPtr pDst);
 
         /// <summary>
         /// <para>
@@ -512,6 +512,20 @@ namespace Lsj.Util.Win32
             [In]uint nLength, [Out]out uint lpnLengthNeeded);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp"></param>
+        /// <returns></returns>
+        public static int GET_X_LPARAM(DWORD lp) => (short)LOWORD(lp);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="lp"></param>
+        /// <returns></returns>
+        public static int GET_Y_LPARAM(DWORD lp) => (short)HIWORD(lp);
+
+        /// <summary>
         /// <para>
         /// Removes the caret from the screen.
         /// Hiding a caret does not destroy its current shape or invalidate the insertion point.
@@ -538,6 +552,13 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "HideCaret", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL HideCaret([In]HWND hWnd);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l"></param>
+        /// <returns></returns>
+        public static WORD HIWORD(DWORD l) => unchecked((ushort)(((uint)l) >> 16));
 
         /// <summary>
         /// <para>
@@ -694,6 +715,13 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
         public static extern int LoadString([In]HINSTANCE hInstance, [In]UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpBuffer,
             [In]int cchBufferMax);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="l"></param>
+        /// <returns></returns>
+        public static WORD LOWORD(DWORD l) => unchecked((ushort)(uint)l);
 
         /// <summary>
         /// <para>

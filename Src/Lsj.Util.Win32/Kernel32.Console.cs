@@ -5,11 +5,13 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.CtrlEventFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -209,6 +211,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current input mode of a console's input buffer or the current output mode of a console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/getconsolemode
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleHandle">
+        /// A handle to the console input buffer or the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpMode">
+        /// A pointer to a variable that receives the current mode of the specified buffer.
+        /// If the <paramref name="hConsoleHandle"/> parameter is an input handle, the mode can be one or more of the following values.
+        /// When a console is created, all input modes except <see cref="ENABLE_WINDOW_INPUT"/> are enabled by default.
+        /// <see cref="ENABLE_ECHO_INPUT"/>, <see cref="ENABLE_INSERT_MODE"/>, <see cref="ENABLE_LINE_INPUT"/>,
+        /// <see cref="ENABLE_MOUSE_INPUT"/>,<see cref="ENABLE_PROCESSED_INPUT"/>, <see cref="ENABLE_QUICK_EDIT_MODE"/>,
+        /// <see cref="ENABLE_WINDOW_INPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_INPUT"/>
+        /// If the <paramref name="hConsoleHandle"/> parameter is a screen buffer handle, the mode can be one or more of the following values.
+        /// When a screen buffer is created, both output modes are enabled by default.
+        /// <see cref="ENABLE_PROCESSED_OUTPUT"/>, <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_PROCESSING"/>,
+        /// <see cref="DISABLE_NEWLINE_AUTO_RETURN"/>, <see cref="ENABLE_LVB_GRID_WORLDWIDE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A console consists of an input buffer and one or more screen buffers.
+        /// The mode of a console buffer determines how the console behaves during input or output (I/O) operations.
+        /// One set of flag constants is used with input handles, and another set is used with screen buffer (output) handles.
+        /// Setting the output modes of one screen buffer does not affect the output modes of other screen buffers.
+        /// The <see cref="ENABLE_LINE_INPUT"/> and <see cref="ENABLE_ECHO_INPUT"/> modes only affect processes
+        /// that use <see cref="ReadFile"/> or <see cref="ReadConsole"/> to read from the console's input buffer.
+        /// Similarly, the <see cref="ENABLE_PROCESSED_INPUT"/> mode primarily affects <see cref="ReadFile"/> and <see cref="ReadConsole"/> users,
+        /// except that it also determines whether CTRL+C input is reported in the input buffer (to be read by the <see cref="ReadConsoleInput"/> function)
+        /// or is passed to a function defined by the application.
+        /// The <see cref="ENABLE_WINDOW_INPUT"/> and <see cref="ENABLE_MOUSE_INPUT"/> modes determine
+        /// whether user interactions involving window resizing and mouse actions are reported in the input buffer or discarded.
+        /// These events can be read by <see cref="ReadConsoleInput"/>, but they are always filtered by <see cref="ReadFile"/> and <see cref="ReadConsole"/>.
+        /// The <see cref="ENABLE_PROCESSED_OUTPUT"/> and <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/> modes only affect
+        /// processes using <see cref="ReadFile"/> or <see cref="ReadConsole"/> and <see cref="WriteFile"/> or <see cref="WriteConsole"/>.
+        /// To change a console's I/O modes, call <see cref="SetConsoleMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetConsoleMode([In]HANDLE hConsoleHandle, [Out]out ConsoleModes lpMode);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a handle to the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
@@ -253,6 +305,144 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr GetStdHandle([In]uint nStdHandle);
+
+        /// <summary>
+        /// <para>
+        /// Reads character input from the console input buffer and removes it from the buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/readconsole
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the data read from the console input buffer.
+        /// </param>
+        /// <param name="nNumberOfCharsToRead">
+        /// The number of characters to be read.
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter should be
+        /// at least <paramref name="nNumberOfCharsToRead"/> * sizeof(TCHAR) bytes.
+        /// </param>
+        /// <param name="lpNumberOfCharsRead">
+        /// A pointer to a variable that receives the number of characters actually read.
+        /// </param>
+        /// <param name="pInputControl">
+        /// A pointer to a <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure that specifies a control character to signal the end of the read operation.
+        /// This parameter can be <see cref="NullRef{CONSOLE_READCONSOLE_CONTROL}"/>.
+        /// This parameter requires Unicode input by default.
+        /// For ANSI mode, set this parameter to <see cref="NullRef{CONSOLE_READCONSOLE_CONTROL}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ReadConsole"/> reads keyboard input from a console's input buffer.
+        /// It behaves like the <see cref="ReadFile"/> function, except that it can read in either Unicode (wide-character) or ANSI mode.
+        /// To have applications that maintain a single set of sources compatible with both modes,
+        /// use <see cref="ReadConsole"/> rather than <see cref="ReadFile"/>.
+        /// Although <see cref="ReadConsole"/> can only be used with a console input buffer handle,
+        /// <see cref="ReadFile"/> can be used with other handles (such as files or pipes).
+        /// <see cref="ReadConsole"/> fails if used with a standard handle that has been redirected to be something other than a console handle.
+        /// All of the input modes that affect the behavior of <see cref="ReadFile"/> have the same effect on <see cref="ReadConsole"/>.
+        /// To retrieve and set the input modes of a console input buffer, use the <see cref="GetConsoleMode"/> and <see cref="SetConsoleMode"/> functions.
+        /// If the input buffer contains input events other than keyboard events (such as mouse events or window-resizing events), they are discarded.
+        /// Those events can only be read by using the <see cref="ReadConsoleInput"/> function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// The <paramref name="pInputControl"/> parameter can be used to enable intermediate wakeups
+        /// from the read in response to a file-completion control character specified in a <see cref="CONSOLE_READCONSOLE_CONTROL"/> structure.
+        /// This feature requires command extensions to be enabled, the standard output handle to be a console output handle, and input to be Unicode.
+        /// Windows Server 2003 and Windows XP/2000: The intermediate read feature is not supported.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsole", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsole([In]HANDLE hConsoleInput, [Out]LPVOID lpBuffer, [In]DWORD nNumberOfCharsToRead,
+            [Out]out DWORD lpNumberOfCharsRead, [In]in CONSOLE_READCONSOLE_CONTROL pInputControl);
+
+        /// <summary>
+        /// <para>
+        /// Reads data from a console input buffer and removes it from the buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/readconsoleinput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to an array of <see cref="INPUT_RECORD"/> structures that receives the input buffer data.
+        /// </param>
+        /// <param name="nLength">
+        /// The size of the array pointed to by the <paramref name="lpBuffer"/> parameter, in array elements.
+        /// </param>
+        /// <param name="lpNumberOfEventsRead">
+        /// A pointer to a variable that receives the number of input records read.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of records requested in the <paramref name="nLength"/> parameter exceeds the number of records available in the buffer,
+        /// the number available is read.
+        /// The function does not return until at least one input record has been read.
+        /// A process can specify a console input buffer handle in one of the wait functions to determine when there is unread console input.
+        /// When the input buffer is not empty, the state of a console input buffer handle is signaled.
+        /// To determine the number of unread input records in a console's input buffer, use the <see cref="GetNumberOfConsoleInputEvents"/> function.
+        /// To read input records from a console input buffer without affecting the number of unread records,
+        /// use the <see cref="PeekConsoleInput"/> function.
+        /// To discard all unread records in a console's input buffer, use the <see cref="FlushConsoleInputBuffer"/> function.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadConsoleInput([In]HANDLE hConsoleInput, [Out]out INPUT_RECORD[] lpBuffer,
+            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsRead);
+
+        /// <summary>
+        /// <para>
+        /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setstdhandle
+        /// </para>
+        /// </summary>
+        /// <param name="nStdHandle">
+        /// The standard device for which the handle is to be set. This parameter can be one of the following values.
+        /// <see cref="STD_INPUT_HANDLE"/>: The standard input device.
+        /// <see cref="STD_OUTPUT_HANDLE"/>: The standard output device.
+        /// <see cref="STD_ERROR_HANDLE"/>: The standard error device.
+        /// </param>
+        /// <param name="hHandle">
+        /// The handle for the standard device.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The standard handles of a process may have been redirected by a call to <see cref="SetStdHandle"/>,
+        /// in which case <see cref="GetStdHandle"/> will return the redirected handle.
+        /// If the standard handles have been redirected, you can specify the CONIN$ value
+        /// in a call to the <see cref="CreateFile"/> function to get a handle to a console's input buffer.
+        /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetStdHandle([In]DWORD nStdHandle, [In]HANDLE hHandle);
 
         /// <summary>
         /// <para>

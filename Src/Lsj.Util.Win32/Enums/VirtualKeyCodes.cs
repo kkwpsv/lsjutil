@@ -1,4 +1,6 @@
-﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -13,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
     /// </para>
     /// </summary>
-    public enum VirtualKeyCodes
+    public enum VirtualKeyCodes : ushort
     {
         /// <summary>
         /// Left mouse button

@@ -1,8 +1,11 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
@@ -204,5 +207,89 @@ namespace Lsj.Util.Win32
                 [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
                 [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
                 [In]uint dwFlags, [In]uint dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// Opens an existing named mutex object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openmutexw
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the mutex object.
+        /// Only the <see cref="SYNCHRONIZE"/> access right is required to use a mutex;
+        /// to change the mutex's security, specify <see cref="MUTEX_ALL_ACCESS"/>.
+        /// The function fails if the security descriptor of the specified object does not permit the requested access for the calling process.
+        /// For a list of access rights, see Synchronization Object Security and Access Rights.
+        /// </param>
+        /// <param name="bInheritHandle">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="lpName">
+        /// The name of the mutex to be opened.
+        /// Name comparisons are case sensitive.
+        /// This function can open objects in a private namespace. For more information, see Object Namespaces.
+        /// Terminal Services:
+        /// The name can have a "Global" or "Local" prefix to explicitly open an object in the global or session namespace.
+        /// The remainder of the name can contain any character except the backslash character ().
+        /// For more information, see Kernel Object Namespaces.
+        /// Note
+        /// Fast user switching is implemented using Terminal Services sessions.
+        /// The first user to log on uses session 0, the next user to log on uses session 1, and so on.
+        /// Kernel object names must follow the guidelines outlined for Terminal Services so that applications can support multiple users.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the mutex object.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If a named mutex does not exist, the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OpenMutex"/> function enables multiple processes to open handles of the same mutex object.
+        /// The function succeeds only if some process has already created the mutex by using the <see cref="CreateMutex"/> function.
+        /// The calling process can use the returned handle in any function that requires a handle to a mutex object, such as the wait functions,
+        /// subject to the limitations of the access specified in the <paramref name="dwDesiredAccess"/> parameter.
+        /// The handle can be duplicated by using the <see cref="DuplicateHandle"/> function.
+        /// Use the <see cref="CloseHandle"/> function to close the handle.
+        /// The system closes the handle automatically when the process terminates.
+        /// The mutex object is destroyed when its last handle has been closed.
+        /// If your multithreaded application must repeatedly create, open, and close a named mutex object, a race condition can occur.
+        /// In this situation, it is better to use <see cref="CreateMutex"/> instead of <see cref="OpenMutex"/>,
+        /// because <see cref="CreateMutex"/> opens a mutex if it exists and creates it if it does not.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE OpenMutex([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
+        /// Releases ownership of the specified mutex object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasemutex
+        /// </para>
+        /// </summary>
+        /// <param name="hMutex">
+        /// A handle to the mutex object. The <see cref="CreateMutex"/> or <see cref="OpenMutex"/> function returns this handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The ReleaseMutex function fails if the calling thread does not own the mutex object.
+        /// A thread obtains ownership of a mutex either by creating it with the bInitialOwner parameter set to <see cref="TRUE"/>
+        /// or by specifying its handle in a call to one of the wait functions.
+        /// When the thread no longer needs to own the mutex object,
+        /// it calls the <see cref="ReleaseMutex"/> function so that another thread can acquire ownership.
+        /// A thread can specify a mutex that it already owns in a call to one of the wait functions without blocking its execution.
+        /// This prevents a thread from deadlocking itself while waiting for a mutex that it already owns.
+        /// However, to release its ownership, the thread must call <see cref="ReleaseMutex"/> one time for each time
+        /// that it obtained ownership (either through <see cref="CreateMutex"/> or a wait function).
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutex", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReleaseMutex([In]HANDLE hMutex);
     }
 }

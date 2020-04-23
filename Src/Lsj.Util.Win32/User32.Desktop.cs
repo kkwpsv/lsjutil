@@ -465,6 +465,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Opens the specified window station.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openwindowstationw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszWinSta">
+        /// The name of the window station to be opened.
+        /// Window station names are case-insensitive.
+        /// This window station must belong to the current session.
+        /// </param>
+        /// <param name="fInherit">
+        /// If this value is <see cref="TRUE"/>, processes created by this process will inherit the handle.
+        /// Otherwise, the processes do not inherit this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The access to the window station.
+        /// For a list of access rights, see Window Station Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the specified window station.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWINSTA OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpszWinSta, [In]BOOL fInherit,
+            [In]ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
         /// Opens the desktop that receives user input.
         /// </para>
         /// <para>
@@ -501,5 +534,90 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenInputDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern HDESK OpenInputDesktop([In]DWORD dwFlags, [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
+
+        /// <summary>
+        /// <para>
+        /// Assigns the specified window station to the calling process.
+        /// This enables the process to access objects in the window station such as desktops, the clipboard, and global atoms.
+        /// All subsequent operations on the window station use the access rights granted to <paramref name="hWinSta"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocesswindowstation
+        /// </para>
+        /// </summary>
+        /// <param name="hWinSta">
+        /// A handle to the window station.
+        /// This can be a handle returned by the <see cref="CreateWindowStation"/>,
+        /// <see cref="OpenWindowStation"/>, or <see cref="GetProcessWindowStation"/> function.
+        /// This window station must be associated with the current session.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessWindowStation([In]HWINSTA hWinSta);
+
+        /// <summary>
+        /// <para>
+        /// Assigns the specified desktop to the calling thread.
+        /// All subsequent operations on the desktop use the access rights granted to the desktop.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddesktop
+        /// </para>
+        /// </summary>
+        /// <param name="hDesktop">
+        /// A handle to the desktop to be assigned to the calling thread.
+        /// This handle is returned by the <see cref="CreateDesktop"/>, <see cref="GetThreadDesktop"/>,
+        /// <see cref="OpenDesktop"/>, or <see cref="OpenInputDesktop"/> function.
+        /// This desktop must be associated with the current window station for the process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetThreadDesktop"/> function will fail if the calling thread has any windows or hooks on its current desktop
+        /// (unless the hDesktop parameter is a handle to the current desktop).
+        /// Warning There is a significant security risk for any service that opens a window on the interactive desktop.
+        /// By opening a desktop window, a service makes itself vulnerable to attack from the logged-on user,
+        /// whose application could send malicious messages to the service's desktop window and affect its ability to function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDesktop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadDesktop([In]HDESK hDesktop);
+
+        /// <summary>
+        /// <para>
+        /// Makes the specified desktop visible and activates it.
+        /// This enables the desktop to receive input from the user.
+        /// The calling process must have <see cref="DESKTOP_SWITCHDESKTOP"/> access to the desktop for the <see cref="SwitchDesktop"/> function to succeed.
+        /// </para>
+        /// </summary>
+        /// <param name="hDesktop">
+        /// A handle to the desktop.
+        /// This handle is returned by the <see cref="CreateDesktop"/> and <see cref="OpenDesktop"/> functions.
+        /// This desktop must be associated with the current window station for the process.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// However, <see cref="SwitchDesktop"/> only sets the last error for the following cases:
+        /// When the desktop belongs to an invisible window station
+        /// When <paramref name="hDesktop"/> is an invalid handle, refers to a destroyed desktop,
+        /// or belongs to a different session than that of the calling process
+        /// </returns>
+        /// <remarks>
+        /// The SwitchDesktop function fails if the desktop belongs to an invisible window station.
+        /// <see cref="SwitchDesktop"/> also fails when called from a process that is associated with a secured desktop
+        /// such as the WinLogon and ScreenSaver desktops.
+        /// Processes that are associated with a secured desktop include custom UserInit processes.
+        /// Such calls typically fail with an "access denied" error.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchDesktop", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SwitchDesktop([In]HDESK hDesktop);
     }
 }

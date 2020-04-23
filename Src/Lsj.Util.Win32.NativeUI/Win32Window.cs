@@ -4,22 +4,24 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.SystemColors;
-using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Enums.WindowStylesEx;
+using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.NativeUI
 {
     /// <summary>
     /// Native Win32 Window
     /// </summary>
-    public class Win32Window
+    public class Win32Window : DisposableClass
     {
-        private readonly HWND _window;
+        private HWND _window;
+        private readonly WNDPROC _wndProc;
 
         /// <summary>
         /// Window Handle
@@ -37,18 +39,31 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// 
         /// </summary>
+        protected override void CleanUpUnmanagedResources()
+        {
+            if (_window != NULL)
+            {
+                DestroyWindow(_window);
+                _window = NULL;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="windowClassName"></param>
         /// <param name="windowName"></param>
         public Win32Window(string windowClassName, string windowName)
         {
-            var hInstance = Process.GetCurrentProcess().Handle;
+            var hInstance = GetModuleHandle(null);
+            _wndProc = WindowProc;
 
             using var marshal = new StringToIntPtrMarshaler(windowClassName);
             var wndclass = new WNDCLASSEX
             {
                 cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
                 style = CS_DBLCLKS,
-                lpfnWndProc = WindowProc,
+                lpfnWndProc = _wndProc,
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = hInstance,

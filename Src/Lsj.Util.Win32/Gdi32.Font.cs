@@ -21,6 +21,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.FontResourceFlags;
+using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
@@ -381,6 +382,36 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", ExactSpelling = true, SetLastError = true)]
         public static extern HFONT CreateFontIndirect([In]in LOGFONT lplf);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="CreateFontIndirectEx"/> function specifies a logical font that has the characteristics in the specified structure.
+        /// The font can subsequently be selected as the current font for any device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectexw
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// Pointer to an <see cref="ENUMLOGFONTEXDV"/> structure that defines the characteristics of a multiple master font.
+        /// Note, this function ignores the <see cref="ENUMLOGFONTEXDV.elfDesignVector"/> member in <see cref="ENUMLOGFONTEXDV"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the new <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// If the function fails, the return value is <see cref="NULL"/>. No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateFontIndirectEx"/> function creates a logical font
+        /// with the characteristics specified in the <see cref="ENUMLOGFONTEXDV"/> structure.
+        /// When this font is selected by using the <see cref="SelectObject"/> function,
+        /// GDI's font mapper attempts to match the logical font with an existing physical font.
+        /// If it fails to find an exact match, it provides an alternative whose characteristics match as many of the requested characteristics as possible.
+        /// When you no longer need the font, call the <see cref="DeleteObject"/> function to delete it.
+        /// The font mapper for <see cref="CreateFont"/>, <see cref="CreateFontIndirect"/>, and <see cref="CreateFontIndirectEx"/> recognizes
+        /// both the English and the localized typeface name, regardless of locale.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HFONT CreateFontIndirectEx([In]in ENUMLOGFONTEXDV Arg1);
 
         /// <summary>
         /// <para>
@@ -916,8 +947,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// The GetRasterizerCaps function enables applications and printer drivers to determine whether TrueType fonts are installed.
-        /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member of the <see cref="RASTERIZER_STATUS"/> structure,
-        /// at least one TrueType font is installed.
+        /// If the <see cref="TT_AVAILABLE"/> flag is set in the <see cref="RASTERIZER_STATUS.wFlags"/> member
+        /// of the <see cref="RASTERIZER_STATUS"/> structure, at least one TrueType font is installed.
         /// If the <see cref="TT_ENABLED"/> flag is set, TrueType is enabled for the system.
         /// The actual number of bytes copied is either the member specified in the <see cref="RASTERIZER_STATUS.nSize"/> parameter
         /// or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
@@ -1017,6 +1048,49 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveFontResource([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RemoveFontResourceEx"/> function removes the fonts in the specified file from the system font table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourceexw
+        /// </para>
+        /// </summary>
+        /// <param name="name">
+        /// A pointer to a null-terminated string that names a font resource file.
+        /// </param>
+        /// <param name="fl">
+        /// The characteristics of the font to be removed from the system.
+        /// In order for the font to be removed, the flags used must be the same
+        /// as when the font was added with the <see cref="AddFontResourceEx"/> function.
+        /// See the <see cref="AddFontResourceEx"/> function for more information.
+        /// </param>
+        /// <param name="pdv">
+        /// Reserved. Must be zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// No extended error information is available.
+        /// </returns>
+        /// <remarks>
+        /// This function will only remove the font if the flags specified are the same as
+        /// when then font was added with the <see cref="AddFontResourceEx"/> function.
+        /// When you try to replace an existing font file that contains a font with outstanding references to it, you might get an error
+        /// that indicates that the original font can't be deleted because it’s in use even after you call <see cref="RemoveFontResourceEx"/>.
+        /// If your app requires that the font file be replaced, to reduce the resource count of the original font to zero,
+        /// call <see cref="RemoveFontResourceEx"/> in a loop as shown in this example code.
+        /// If you continue to get errors, this is an indication that the font file remains loaded in other sessions.
+        /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
+        /// Note
+        /// Apps where the original font file is in use will still be able to access the original file and won't use the new font until the font reloads.
+        /// Call <see cref="AddFontResourceEx"/> to reload the font.
+        /// We recommend that you call <see cref="AddFontResourceEx"/> the same number of times
+        /// as the call to <see cref="RemoveFontResourceEx"/> succeeded as shown in this example code.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In]string name, [In]DWORD fl, [In]PVOID pdv);
 
         /// <summary>
         /// <para>

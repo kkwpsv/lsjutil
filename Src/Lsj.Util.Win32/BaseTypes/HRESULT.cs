@@ -51,6 +51,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };
 
         /// <summary>
+        /// CO_S_NOTALLINTERFACES
+        /// </summary>
+        public static readonly HRESULT CO_S_NOTALLINTERFACES = new HRESULT { _value = 0x00080012 };
+
+        /// <summary>
         /// DATA_S_SAMEFORMATETC
         /// </summary>
         public static readonly HRESULT DATA_S_SAMEFORMATETC = new HRESULT { _value = 0x00040130 };
@@ -276,6 +281,16 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
 
         /// <summary>
+        /// REGDB_E_CLASSNOTREG
+        /// </summary>
+        public static readonly HRESULT REGDB_E_CLASSNOTREG = new HRESULT { _value = unchecked((int)0x80040154) };
+
+        /// <summary>
+        /// REGDB_E_READREGDB
+        /// </summary>
+        public static readonly HRESULT REGDB_E_READREGDB = new HRESULT { _value = unchecked((int)0x80040150) };
+
+        /// <summary>
         /// RPC_E_CHANGED_MODE
         /// </summary>
         public static readonly HRESULT RPC_E_CHANGED_MODE = new HRESULT { _value = unchecked((int)0x80010106) };
@@ -355,5 +370,19 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator HRESULT(uint val) => new HRESULT { _value = unchecked((int)val) };
+
+        /// <summary>
+        /// <para>
+        /// Extracts the code portion of the specified <see cref="HRESULT"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-hresult_code
+        /// </para>
+        /// </summary>
+        /// <param name="hr">
+        /// The <see cref="HRESULT"/> value.
+        /// </param>
+        /// <returns></returns>
+        public static int HRESULT_CODE(HRESULT hr) => hr._value & 0xff;
     }
 }

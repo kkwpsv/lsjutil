@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Enums.ProductTypes;
@@ -12,6 +13,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {
@@ -198,7 +200,7 @@ namespace Lsj.Util.Win32
         /// PRODUCT_*_SERVER_CORE values are not returned in Windows Server 2012, and later.
         /// For example, the base server edition, Server Datacenter,
         /// is used to build the two different installation options: "full server" and "core server".
-        /// With Windows Server 2012, <see cref="GetProductInfo"/> will return <see cref="PRODUCT_DATACENTER"/> regardless of
+        /// With Windows Server 2012, <see cref="GetProductInfo"/> will return PRODUCT_DATACENTER regardless of
         /// the option used during product installation.
         /// As noted above, for Server Core installations of Windows Server 2012 and later, use the method Determining whether Server Core is running.
         /// The following table indicates the product types that were introduced in 6.1.0.0,
@@ -553,6 +555,48 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]UINT uSize);
+
+        /// <summary>
+        /// <para>
+        /// Gets the current unbiased interrupt-time count, in units of 100 nanoseconds.
+        /// The unbiased interrupt-time count does not include time the system spends in sleep or hibernation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryunbiasedinterrupttime
+        /// </para>
+        /// </summary>
+        /// <param name="UnbiasedTime"></param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails because it is called with a null parameter, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The interrupt-time count begins at zero when the system starts and is incremented at each clock interrupt by the length of a clock tick.
+        /// The exact length of a clock tick depends on underlying hardware and can vary between systems.
+        /// The interrupt-time count retrieved by the <see cref="QueryUnbiasedInterruptTime"/> function reflects only the time
+        /// that the system is in the working state.
+        /// Therefore, the interrupt-time count is not "biased" by time the system spends in sleep or hibernation.
+        /// The system uses biased interrupt time for some operations, such as ensuring that relative timers that would have expired
+        /// during sleep expire immediately upon waking.
+        /// Unlike system time, the interrupt-time count is not subject to adjustments by users or the Windows time service.
+        /// Applications can use the interrupt-time count to measure finer durations than are possible with system time.
+        /// Applications that require greater precision than the interrupt-time count should use a high-resolution timer.
+        /// Use the <see cref="QueryPerformanceFrequency"/> function to retrieve the frequency of the high-resolution timer
+        /// and the <see cref="QueryPerformanceCounter"/> function to retrieve the counter's value.
+        /// The timer resolution set by the <see cref="timeBeginPeriod"/> and <see cref="timeEndPeriod"/> functions
+        /// affects the resolution of the <see cref="QueryUnbiasedInterruptTime"/> function.
+        /// However, increasing the timer resolution is not recommended because it can reduce overall system performance
+        /// and increase system power consumption by preventing the processor from entering power-saving states.
+        /// Instead, applications should use a high-resolution timer.
+        /// Note The <see cref="QueryUnbiasedInterruptTime"/> function produces different results on debug ("checked") builds of Windows,
+        /// because the interrupt-time count and tick count are advanced by approximately 49 days.
+        /// This helps to identify bugs that might not occur until the system has been running for a long time.
+        /// The checked build is available to MSDN subscribers through the Microsoft Developer Network (MSDN) Web site.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0601 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryUnbiasedInterruptTime([Out]out ULONGLONG UnbiasedTime);
 
         /// <summary>
         /// <para>

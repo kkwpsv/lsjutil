@@ -745,8 +745,92 @@ namespace Lsj.Util.Win32
         /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file was not found.
         /// <see cref="ERROR_PATH_NOT_FOUND"/>: The specified path was not found.
         /// </returns>
-        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows.Applications should use the CreateProcess function.")]
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName, [In]LPVOID lpParameterBlock);
+
+        /// <summary>
+        /// <para>
+        /// Removes a directory that was added to the process DLL search path by using <see cref="AddDllDirectory"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-removedlldirectory
+        /// </para>
+        /// </summary>
+        /// <param name="Cookie">
+        /// The cookie returned by <see cref="AddDllDirectory"/> when the directory was added to the search path.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After <see cref="RemoveDllDirectory"/> returns, the cookie is no longer valid and should not be used.
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
+        /// KB2533623 must be installed on the target platform.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveDllDirectory([In]DLL_DIRECTORY_COOKIE Cookie);
+
+        /// <summary>
+        /// <para>
+        /// Specifies a default set of directories to search when the calling process loads a DLL.
+        /// This search path is used when <see cref="LoadLibraryEx"/> is called with no LOAD_LIBRARY_SEARCH flags.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-setdefaultdlldirectories
+        /// </para>
+        /// </summary>
+        /// <param name="DirectoryFlags">
+        /// The directories to search. This parameter can be any combination of the following values.
+        /// <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>:
+        /// If this value is used, the application's installation directory is searched.
+        /// <see cref="LOAD_LIBRARY_SEARCH_DEFAULT_DIRS"/>:
+        /// This value is a combination of <see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>,
+        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>, and <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// This value represents the recommended maximum number of directories an application should include in its DLL search path.
+        /// <see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>:
+        /// If this value is used, %windows%\system32 is searched.
+        /// <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>:
+        /// If this value is used, any path explicitly added using the <see cref="AddDllDirectory"/> or <see cref="SetDllDirectory"/> function is searched.
+        /// If more than one directory has been added, the order in which those directories are searched is unspecified.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The DLL search path is the set of directories that are searched for a DLL when a full path is not specified
+        /// in a <see cref="LoadLibrary"/> or <see cref="LoadLibraryEx"/> function call, or when a full path to the DLL is specified
+        /// but the system must search for dependent DLLs.
+        /// For more information about the standard DLL search path, see Dynamic-Link Library Search Order.
+        /// The standard DLL search path contains directories that can be vulnerable to a DLL pre-loading attack.
+        /// An application can use the <see cref="SetDefaultDllDirectories"/> function to specify a default DLL search path
+        /// for the process that eliminates the most vulnerable directories and limits the other directories that are searched.
+        /// The process DLL search path applies only to the calling process and persists for the life of the process.
+        /// If the DirectoryFlags parameter specifies more than one flag, the directories are searched in the following order:
+        /// The directory that contains the DLL (<see cref="LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR"/>).
+        /// This directory is searched only for dependencies of the DLL being loaded.
+        /// The application directory (<see cref="LOAD_LIBRARY_SEARCH_APPLICATION_DIR"/>).
+        /// Paths explicitly added to the application search path with the <see cref="AddDllDirectory"/> function
+        /// (<see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>) or the <see cref="SetDllDirectory"/> function.
+        /// If more than one path has been added, the order in which the paths are searched is unspecified.
+        /// The System directory (<see cref="LOAD_LIBRARY_SEARCH_SYSTEM32"/>).
+        /// If <see cref="SetDefaultDllDirectories"/> does not specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>,
+        /// directories specified with the <see cref="AddDllDirectory"/> function are used only for <see cref="LoadLibraryEx"/> function calls
+        /// that specify <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// It is not possible to revert to the standard DLL search path or remove any directory
+        /// specified with <see cref="SetDefaultDllDirectories"/> from the search path.
+        /// However, the process DLL search path can be overridden by calling <see cref="LoadLibraryEx"/> with one or more LOAD_LIBRARY_SEARCH flags,
+        /// and directories added with <see cref="AddDllDirectory"/> can be removed by calling <see cref="RemoveDllDirectory"/>.
+        /// Windows 7, Windows Server 2008 R2, Windows Vista and Windows Server 2008:
+        /// To call this function in an application, use the <see cref="GetProcAddress"/> function to retrieve its address from Kernel32.dll.
+        /// KB2533623 must be installed on the target platform.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetDefaultDllDirectories([In]LoadLibraryExFlags DirectoryFlags);
     }
 }

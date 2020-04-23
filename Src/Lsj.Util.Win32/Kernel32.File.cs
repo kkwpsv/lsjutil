@@ -5,10 +5,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HFILE;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.ConsoleModes;
 using static Lsj.Util.Win32.Enums.DriveTypes;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
@@ -3108,6 +3110,41 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadFileEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadFileEx([In]HANDLE hFile, [In]LPVOID lpBuffer, [In]DWORD nNumberOfBytesToRead,
             [In]in OVERLAPPED lpOverlapped, [In]LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+
+        /// <summary>
+        /// <para>
+        /// Deletes an existing empty directory.
+        /// To perform this operation as a transacted operation, use the <see cref="RemoveDirectoryTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-removedirectoryw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The path of the directory to be removed.
+        /// This path must specify an empty directory,and the calling process must have delete access to the directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming a File.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="RemoveDirectory"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="RemoveDirectory"/> function marks a directory for deletion on close.
+        /// Therefore, the directory is not removed until the last handle to the directory is closed.
+        /// To recursively delete the files in a directory, use the <see cref="SHFileOperation"/> function.
+        /// <see cref="RemoveDirectory"/> removes a directory junction, even if the contents of the target are not empty;
+        /// the function removes directory junctions regardless of the state of the target object.
+        /// For more information on junctions, see Hard Links and Junctions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
 
         /// <summary>
         /// 

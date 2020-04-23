@@ -1,5 +1,6 @@
 ﻿using System;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums
 {

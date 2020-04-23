@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LsjUtilVersionPrefix>4.0.4</LsjUtilVersionPrefix>
+    <LsjUtilVersionPrefix>4.0.5</LsjUtilVersionPrefix>
     <LsjUtilAPIsAlipayVersionPrefix>4.0.0</LsjUtilAPIsAlipayVersionPrefix>
     <LsjUtilAPIsUmeTripVersionPrefix>4.0.0</LsjUtilAPIsUmeTripVersionPrefix>
     <LsjUtilAPIsWeChatVersionPrefix>4.0.0</LsjUtilAPIsWeChatVersionPrefix>
@@ -15,8 +15,8 @@
     <LsjUtilOfficeVersionPrefix>4.0.1</LsjUtilOfficeVersionPrefix>
     <LsjUtilProtobufVersionPrefix>4.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>4.0.0</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>4.1.3</LsjUtilWin32VersionPrefix>
-    <LsjUtilWin32NativeUIVersionPrefix>4.0.4</LsjUtilWin32NativeUIVersionPrefix>
+    <LsjUtilWin32VersionPrefix>4.1.4</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32NativeUIVersionPrefix>4.0.5</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>4.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>4.1.4</LsjUtilWPFVersionPrefix>
   </PropertyGroup>

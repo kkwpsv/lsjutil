@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ExceptionFlags;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {

@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -899,6 +900,38 @@ namespace Lsj.Util.Win32
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ResetDC"/> function updates the specified printer or plotter device context (DC) using the specified information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resetdcw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC to update.
+        /// </param>
+        /// <param name="lpdm">
+        /// A pointer to a <see cref="DEVMODE"/> structure containing information about the new DC.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the original DC.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application will typically use the <see cref="ResetDC"/> function when a window receives a <see cref="WM_DEVMODECHANGE"/> message.
+        /// <see cref="ResetDC"/> can also be used to change the paper orientation or paper bins while printing a document.
+        /// The <see cref="ResetDC"/> function cannot be used to change the driver name, device name, or the output port.
+        /// When the user changes the port connection or device name, the application must delete the original DC
+        /// and create a new DC with the new information.
+        /// An application can pass an information DC to the <see cref="ResetDC"/> function.
+        /// In that situation, <see cref="ResetDC"/> will always return a printer DC.
+        /// ICM: The color profile of the DC specified by the <paramref name="hdc"/> parameter will be reset
+        /// based on the information contained in the lpInitData member of the <see cref="DEVMODE"/> structure.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetDCW", ExactSpelling = true, SetLastError = true)]
+        public static extern HDC ResetDC([In]HDC hdc, [In]in DEVMODE lpdm);
 
         /// <summary>
         /// <para>

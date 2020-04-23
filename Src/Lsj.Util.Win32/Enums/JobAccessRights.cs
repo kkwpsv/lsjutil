@@ -1,5 +1,6 @@
-﻿using static Lsj.Util.Win32.Kernel32;
+﻿using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
 {

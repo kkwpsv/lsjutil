@@ -19,6 +19,11 @@ namespace Lsj.Util.Win32
     public static class Comdlg32
     {
         /// <summary>
+        /// HELPMSGSTRING
+        /// </summary>
+        public const string HELPMSGSTRING = "commdlg_help";
+
+        /// <summary>
         /// <para>
         /// Receives messages or notifications intended for the default dialog box procedure of the Font dialog box.
         /// This is an application-defined or library-defined callback procedure that is used with the <see cref="ChooseFont"/> function.

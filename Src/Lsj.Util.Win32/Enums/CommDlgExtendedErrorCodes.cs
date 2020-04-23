@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;
 

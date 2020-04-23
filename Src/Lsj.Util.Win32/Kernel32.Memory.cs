@@ -1255,6 +1255,50 @@ namespace Lsj.Util.Win32
         public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
 
         /// <summary>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process with memory that is being read.
+        /// The handle must have <see cref="PROCESS_VM_READ"/> access to the process.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address in the specified process from which to read.
+        /// Before any data transfer occurs, the system verifies that all data in the base address and memory of the specified size
+        /// is accessible for read access, and if it is not accessible the function fails.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the contents from the address space of the specified process.
+        /// </param>
+        /// <param name="nSize">
+        /// The number of bytes to be read from the specified process.
+        /// </param>
+        /// <param name="lpNumberOfBytesRead">
+        /// A pointer to a variable that receives the number of bytes transferred into the specified buffer.
+        /// If <paramref name="lpNumberOfBytesRead"/> is <see cref="NullRef{SIZE_T}"/>, the parameter is ignored.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The function fails if the requested read operation crosses into an area of the process that is inaccessible.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="ReadProcessMemory"/> copies the data in the specified address range from the address space of the specified process
+        /// into the specified buffer of the current process.
+        /// Any process that has a handle with <see cref="PROCESS_VM_READ"/> access can call the function.
+        /// The entire area to be read must be accessible, and if it is not accessible, the function fails.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadProcessMemory", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadProcessMemory([In]HANDLE hProcess, [In]LPCVOID lpBaseAddress, [In]LPVOID lpBuffer,
+            [In]SIZE_T nSize, [Out]out SIZE_T lpNumberOfBytesRead);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Obsolete]
+        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
+
+        /// <summary>
         /// <para>
         /// Reserves, commits, or changes the state of a region of pages in the virtual address space of the calling process.
         /// Memory allocated by this function is automatically initialized to zero.
@@ -1579,12 +1623,6 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
             [Out]out MemoryProtectionConstants lpflOldProtect);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Obsolete]
-        public static void UnlockSegment(UINT w) => GlobalUnfix((HANDLE)(IntPtr)(int)w);
 
         /// <summary>
         /// <para>

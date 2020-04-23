@@ -1,9 +1,12 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -13,6 +16,7 @@ using static Lsj.Util.Win32.Enums.PipeOpenModes;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -542,5 +546,94 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetNamedPipeInfo([In]IntPtr hNamedPipe, [Out]uint lpFlags, [Out]uint lpOutBufferSize,
             [Out]uint lpInBufferSize, [Out]uint lpMaxInstances);
+
+        /// <summary>
+        /// <para>
+        /// Combines the functions that write a message to and read a message from the specified named pipe into a single network operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-transactnamedpipe
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the named pipe returned by the <see cref="CreateNamedPipe"/> or <see cref="CreateFile"/> function.
+        /// This parameter can also be a handle to an anonymous pipe, as returned by the <see cref="CreatePipe"/> function.
+        /// </param>
+        /// <param name="lpInBuffer">
+        /// A pointer to the buffer containing the data to be written to the pipe.
+        /// </param>
+        /// <param name="nInBufferSize">
+        /// The size of the input buffer, in bytes.
+        /// </param>
+        /// <param name="lpOutBuffer">
+        /// A pointer to the buffer that receives the data read from the pipe.
+        /// </param>
+        /// <param name="nOutBufferSize">
+        /// The size of the output buffer, in bytes.
+        /// </param>
+        /// <param name="lpBytesRead">
+        /// A pointer to the variable that receives the number of bytes read from the pipe.
+        /// If <paramref name="lpOverlapped"/> is <see cref="NullRef{OVERLAPPED}"/>, <paramref name="lpBytesRead"/> cannot be <see cref="NullRef{DWORD}"/>.
+        /// If <paramref name="lpOverlapped"/> is not <see cref="NullRef{OVERLAPPED}"/>, <paramref name="lpBytesRead"/> can be <see cref="NullRef{DWORD}"/>.
+        /// If this is an overlapped read operation, you can get the number of bytes read by calling <see cref="GetOverlappedResult"/>.
+        /// If <paramref name="hNamedPipe"/> is associated with an I/O completion port, you can get the number of bytes read
+        /// by calling <see cref="GetQueuedCompletionStatus"/>.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure.
+        /// This structure is required if <paramref name="hNamedPipe"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>.
+        /// If <paramref name="hNamedPipe"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// the <paramref name="lpOverlapped"/> parameter must not be <see cref="NullRef{OVERLAPPED}"/>.
+        /// It must point to a valid <see cref="OVERLAPPED"/> structure.
+        /// If <paramref name="hNamedPipe"/> was created with <see cref="FILE_FLAG_OVERLAPPED"/>
+        /// and <paramref name="lpOverlapped"/> is <see cref="NullRef{OVERLAPPED}"/>,
+        /// the function can incorrectly report that the operation is complete.
+        /// If <paramref name="hNamedPipe"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>
+        /// and <paramref name="lpOverlapped"/> is not <see cref="NullRef{OVERLAPPED}"/>,
+        /// <see cref="TransactNamedPipe"/> is executed as an overlapped operation.
+        /// The <see cref="OVERLAPPED"/> structure should contain a manual-reset event object
+        /// (which can be created by using the <see cref="CreateEvent"/> function).
+        /// If the operation cannot be completed immediately, <see cref="TransactNamedPipe"/> returns <see cref="FALSE"/>
+        /// and <see cref="GetLastError"/> returns <see cref="ERROR_IO_PENDING"/>.
+        /// In this situation, the event object is set to the nonsignaled state before <see cref="TransactNamedPipe"/> returns,
+        /// and it is set to the signaled state when the transaction has finished.
+        /// Also, you can be notified when an overlapped operation completes
+        /// by using the <see cref="GetQueuedCompletionStatus"/> or <see cref="GetQueuedCompletionStatusEx"/> functions.
+        /// In this case, you do not need to assign the manual-reset event in the <see cref="OVERLAPPED"/> structure,
+        /// and the completion happens against <paramref name="hNamedPipe"/> in the same way as an asynchronous read or write operation.
+        /// For more information about overlapped operations, see Pipes.
+        /// If <paramref name="hNamedPipe"/> was not opened with <see cref="FILE_FLAG_OVERLAPPED"/>, 
+        /// <see cref="TransactNamedPipe"/> does not return until the operation is complete.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the message to be read is longer than the buffer specified by the <paramref name="nOutBufferSize"/> parameter,
+        /// <see cref="TransactNamedPipe"/> returns <see cref="FALSE"/> and the <see cref="GetLastError"/> function returns <see cref="ERROR_MORE_DATA"/>.
+        /// The remainder of the message can be read by a subsequent call to <see cref="ReadFile"/>, <see cref="ReadFileEx"/>, or <see cref="PeekNamedPipe"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="TransactNamedPipe"/> fails if the server did not create the pipe as a message-type pipe
+        /// or if the pipe handle is not in message-read mode.
+        /// For example, if a client is running on the same machine as the server and uses the \.\pipe&lt;i&gt;pipename format to open the pipe,
+        /// the pipe is opened in byte mode by the named pipe file system (NPFS).
+        /// If the client uses the form \server\pipe&lt;i&gt;pipename, the redirector opens the pipe in message mode.
+        /// A byte mode pipe handle can be changed to message-read mode with the <see cref="SetNamedPipeHandleState"/> function.
+        /// The function cannot be completed successfully until data is written into the buffer specified by the <paramref name="lpOutBuffer"/> parameter.
+        /// The <paramref name="lpOverlapped"/> parameter is available to enable the calling thread to perform other tasks
+        /// while the operation is executing in the background.
+        /// The maximum guaranteed size of a named pipe transaction is 64 kilobytes.
+        /// In some limited cases, transactions beyond 64 kilobytes are possible,
+        /// depending on OS versions participating in the transaction and dynamic network conditions.
+        /// However, there is no guarantee that transactions above 64 kilobytes will succeed.
+        /// Therefore it's recommended that named pipe transactions be limited to 64 kilobytes of data.
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TransactNamedPipe", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TransactNamedPipe([In]HANDLE hNamedPipe, [In]LPVOID lpInBuffer, [In]DWORD nInBufferSize, [In]LPVOID lpOutBuffer,
+            [In]DWORD nOutBufferSize, [Out]out DWORD lpBytesRead, [In]in OVERLAPPED lpOverlapped);
     }
 }

@@ -1,4 +1,4 @@
-﻿using static Lsj.Util.Win32.Constants;
+﻿using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 
 namespace Lsj.Util.Win32.Enums

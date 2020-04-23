@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
+using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
 {

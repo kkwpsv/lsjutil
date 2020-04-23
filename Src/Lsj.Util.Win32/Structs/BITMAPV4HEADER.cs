@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.Compression;
+using static Lsj.Util.Win32.Enums.LogicalColorSpace;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -185,11 +186,12 @@ namespace Lsj.Util.Win32.Structs
         public DWORD bV4AlphaMask;
 
         /// <summary>
-        /// The color space of the DIB. The following table lists the value for <see cref="bV4CSType"/>.
+        /// The color space of the DIB.
+        /// The following table lists the value for <see cref="bV4CSType"/>.
         /// <see cref="LCS_CALIBRATED_RGB"/>: This value indicates that endpoints and gamma values are given in the appropriate fields.
         /// See the <see cref="LOGCOLORSPACE"/> structure for information that defines a logical color space.
         /// </summary>
-        public DWORD bV4CSType;
+        public LogicalColorSpace bV4CSType;
 
         /// <summary>
         /// A <see cref="CIEXYZTRIPLE"/> structure that specifies the x, y, and z coordinates of the three colors

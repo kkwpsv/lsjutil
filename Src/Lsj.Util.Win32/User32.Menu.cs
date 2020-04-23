@@ -7,6 +7,7 @@ using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MenuFlags;
+using static Lsj.Util.Win32.Enums.MENUITEMINFOMasks;
 using static Lsj.Util.Win32.Enums.SystemCommands;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -18,6 +19,61 @@ namespace Lsj.Util.Win32
 {
     public partial class User32
     {
+        /// <summary>
+        /// HBMMENU_CALLBACK
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_CALLBACK = (IntPtr)(-1);
+
+        /// <summary>
+        /// HBMMENU_SYSTEM
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_SYSTEM = (IntPtr)1;
+
+        /// <summary>
+        /// HBMMENU_MBAR_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_RESTORE = (IntPtr)2;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE = (IntPtr)3;
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE = (IntPtr)5;
+
+        /// <summary>
+        /// HBMMENU_MBAR_CLOSE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_CLOSE_D = (IntPtr)6;
+
+        /// <summary>
+        /// HBMMENU_MBAR_MINIMIZE_D
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_MBAR_MINIMIZE_D = (IntPtr)7;
+
+        /// <summary>
+        /// HBMMENU_POPUP_CLOSE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_CLOSE = (IntPtr)8;
+
+        /// <summary>
+        /// HBMMENU_POPUP_RESTORE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_RESTORE = (IntPtr)9;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MAXIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MAXIMIZE = (IntPtr)10;
+
+        /// <summary>
+        /// HBMMENU_POPUP_MINIMIZE
+        /// </summary>
+        public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = (IntPtr)11;
+
         /// <summary>
         /// <para>
         /// Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu.
@@ -168,6 +224,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an accelerator table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createacceleratortablew
+        /// </para>
+        /// </summary>
+        /// <param name="paccel">
+        /// An array of <see cref="ACCEL"/> structures that describes the accelerator table.
+        /// </param>
+        /// <param name="cAccel">
+        /// The number of <see cref="ACCEL"/> structures in the array.
+        /// This must be within the range 1 to 32767 or the function will fail.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the created accelerator table;
+        /// otherwise, it is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before an application closes, it can use the <see cref="DestroyAcceleratorTable"/> function to destroy any accelerator tables
+        /// that it created by using the <see cref="CreateAcceleratorTable"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
+        public static extern HACCEL CreateAcceleratorTable([MarshalAs(UnmanagedType.LPArray)][In]ACCEL[] paccel, [In]int cAccel);
+
+        /// <summary>
+        /// <para>
         /// Creates a menu.
         /// The menu is initially empty, but it can be filled with menu items
         /// by using the <see cref="InsertMenuItem"/>, <see cref="AppendMenu"/>, and <see cref="InsertMenu"/> functions.
@@ -250,6 +333,27 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMenu", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DeleteMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Destroys an accelerator table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroyacceleratortable
+        /// </para>
+        /// </summary>
+        /// <param name="hAccel">
+        /// A handle to the accelerator table to be destroyed.
+        /// This handle must have been created by a call to the <see cref="CreateAcceleratorTable"/> or <see cref="LoadAccelerators"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// However, if the table has been loaded more than one call to <see cref="LoadAccelerators"/>,
+        /// the function will return a nonzero value only when <see cref="DestroyAcceleratorTable"/> has been called an equal number of times.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyAcceleratorTable([In]HACCEL hAccel);
 
         /// <summary>
         /// <para>
@@ -389,6 +493,49 @@ namespace Lsj.Util.Win32
             "Applications should use the GetSystemMetrics function with the CXMENUCHECK and CYMENUCHECK values to retrieve the bitmap dimensions.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuCheckMarkDimensions", ExactSpelling = true, SetLastError = true)]
         public static extern LONG GetMenuCheckMarkDimensions();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about a menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuiteminfow
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu that contains the menu item.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item to get information about.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPosition"/>.
+        /// </param>
+        /// <param name="fByPosition">
+        /// The meaning of uItem. If this parameter is <see cref="FALSE"/>, uItem is a menu item identifier.
+        /// Otherwise, it is a menu item position.
+        /// See Accessing Menu Items Programmatically for more information.
+        /// </param>
+        /// <param name="lpmii">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that specifies the information to retrieve and receives information about the menu item.
+        /// Note that you must set the <see cref="MENUITEMINFO.cbSize"/> member to <code>sizeof(MENUITEMINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve a menu item of type <see cref="MFT_STRING"/>, first find the size of the string
+        /// by setting the <see cref="MENUITEMINFO.dwTypeData"/> member of <see cref="MENUITEMINFO"/> to <see langword="null"/>
+        /// and then calling <see cref="GetMenuItemInfo"/>.
+        /// The value of cch+1 is the size needed.
+        /// Then allocate a buffer of this size, place the pointer to the buffer in <see cref="MENUITEMINFO.dwTypeData"/>,
+        /// increment cch by one, and then call <see cref="GetMenuItemInfo"/> once again to fill the buffer with the string.
+        /// If the retrieved menu item is of some other type, then <see cref="GetMenuItemInfo"/>
+        /// sets the <see cref="MENUITEMINFO.dwTypeData"/> member to a value
+        /// whose type is specified by the <see cref="MENUITEMINFO.fType"/> member and sets cch to 0.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmii);
 
         /// <summary>
         /// <para>
@@ -739,6 +886,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Inserts a new menu item at the specified position in a menu.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuitemw
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu in which the new menu item is inserted.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item before which to insert the new item.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPosition"/>.
+        /// </param>
+        /// <param name="fByPosition">
+        /// Controls the meaning of <paramref name="item"/>.
+        /// If this parameter is <see cref="FALSE"/>, <paramref name="item"/> is a menu item identifier.
+        /// Otherwise, it is a menu item position.
+        /// See Accessing Menu Items Programmatically for more information.
+        /// </param>
+        /// <param name="lpmi">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that contains information about the new menu item.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// In order for keyboard accelerators to work with bitmap or owner-drawn menu items,
+        /// the owner of the menu must process the <see cref="WM_MENUCHAR"/> message.
+        /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuItemW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InsertMenuItem([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmi);
+
+        /// <summary>
+        /// <para>
         /// Loads the specified accelerator table.
         /// </para>
         /// <para>
@@ -1045,6 +1230,44 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetMenuItemBitmaps([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]HBITMAP hBitmapUnchecked,
             [In]HBITMAP hBitmapChecked);
+
+        /// <summary>
+        /// <para>
+        /// Changes information about a menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuiteminfow
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu that contains the menu item.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item to change.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPositon"/>.
+        /// </param>
+        /// <param name="fByPositon">
+        /// The meaning of <paramref name="item"/>.
+        /// If this parameter is <see cref="FALSE"/>, <paramref name="item"/> is a menu item identifier.
+        /// Otherwise, it is a menu item position. See About Menus for more information.
+        /// </param>
+        /// <param name="lpmii">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that contains information about the menu item
+        /// and specifies which menu item attributes to change.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
+        /// In order for keyboard accelerators to work with bitmap or owner-drawn menu items,
+        /// the owner of the menu must process the <see cref="WM_MENUCHAR"/> message.
+        /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPositon, [In]in MENUITEMINFO lpmii);
 
         /// <summary>
         /// <para>

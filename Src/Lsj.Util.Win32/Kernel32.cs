@@ -413,6 +413,43 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsWow64Process([In]IntPtr hProcess, [Out]out bool Wow64Process);
 
+        /// <summary>
+        /// <para>
+        /// Determines whether the specified process is running under WOW64; also returns additional machine process and architecture information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process2
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> or <see cref="PROCESS_QUERY_LIMITED_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="pProcessMachine">
+        /// On success, returns a pointer to an IMAGE_FILE_MACHINE_* value.
+        /// The value will be <see cref="IMAGE_FILE_MACHINE_UNKNOWN"/> if the target process is not a WOW64 process;
+        /// otherwise, it will identify the type of WoW process.
+        /// </param>
+        /// <param name="pNativeMachine">
+        /// On success, returns a pointer to a possible IMAGE_FILE_MACHINE_* value identifying the native architecture of host system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// IsWow64Process2 provides an improved direct replacement for <see cref="IsWow64Process"/>.
+        /// In addition to determining if the specified process is running under WOW64,
+        /// <see cref="IsWow64Process2"/> returns the following information:
+        /// Whether the target process, specified by <paramref name="hProcess"/>, is running under Wow or not.
+        /// The architecture of the target process.
+        /// Optionally, the architecture of the host system.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process2", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsWow64Process2([In]HANDLE hProcess, [Out]out USHORT pProcessMachine, [Out]out USHORT pNativeMachine);
+
 #pragma warning disable IDE1006
 
         /// <summary>

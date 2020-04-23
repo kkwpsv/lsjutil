@@ -4,8 +4,10 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -13,11 +15,22 @@ using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// TLS_MINIMUM_AVAILABLE
+        /// </summary>
+        public static readonly DWORD TLS_MINIMUM_AVAILABLE = 64;
+
+        /// <summary>
+        /// TLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD TLS_OUT_OF_INDEXES = 0xFFFFFFFF;
+
         /// <summary>
         /// <para>
         /// An application-defined function that serves as the starting address for a thread.
@@ -48,6 +61,28 @@ namespace Lsj.Util.Win32
         /// To provide unique data to each thread using a global index, use thread local storage.
         /// </remarks>
         public delegate uint LPTHREAD_START_ROUTINE([In]IntPtr lpParameter);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined function.
+        /// If the FLS slot is in use, FlsCallback is called on fiber deletion, thread exit, and when an FLS index is freed.
+        /// Specify this function when calling the <see cref="FlsAlloc"/> function.
+        /// The <see cref="PFLS_CALLBACK_FUNCTION"/> type defines a pointer to this callback function.
+        /// FlsCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-pfls_callback_function
+        /// </para>
+        /// </summary>
+        /// <param name="lpFlsData">
+        /// The value stored in the FLS slot for the calling fiber.
+        /// </param>
+        /// <remarks>
+        /// Each FLS index has an associated FlsCallback function.
+        /// The callback function can be used for any purpose, but it is intended to be used primarily to free memory.
+        /// </remarks>
+        public delegate void PFLS_CALLBACK_FUNCTION([In]PVOID lpFlsData);
+
 
         /// <summary>
         /// <para>
@@ -394,6 +429,66 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates a fiber local storage (FLS) index.
+        /// Any fiber in the process can subsequently use this index to store and retrieve values that are local to the fiber.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsalloc
+        /// </para>
+        /// </summary>
+        /// <param name="lpCallback">
+        /// A pointer to the application-defined callback function of type <see cref="PFLS_CALLBACK_FUNCTION"/>.
+        /// This parameter is optional.
+        /// For more information, see <see cref="PFLS_CALLBACK_FUNCTION"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an FLS index initialized to zero.
+        /// If the function fails, the return value is <see cref="FLS_OUT_OF_INDEXES"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The fibers of the process can use the FLS index in subsequent calls to the <see cref="FlsFree"/>,
+        /// <see cref="FlsSetValue"/>, or <see cref="FlsGetValue"/> functions.
+        /// FLS indexes are typically allocated during process or dynamic-link library (DLL) initialization.
+        /// After an FLS index has been allocated, each fiber of the process can use it to access its own FLS storage slot.
+        /// To store a value in its FLS slot, a fiber specifies the index in a call to <see cref="FlsSetValue"/>.
+        /// The fiber specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
+        /// FLS indexes are not valid across process boundaries.
+        /// A DLL cannot assume that an index assigned in one process is valid in another process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsAlloc", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD FlsAlloc([In]PFLS_CALLBACK_FUNCTION lpCallback);
+
+        /// <summary>
+        /// <para>
+        /// Releases a fiber local storage (FLS) index, making it available for reuse.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsfree
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlsIndex">
+        /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Freeing an FLS index frees the index for all instances of FLS in the current process.
+        /// Freeing an FLS index also causes the associated callback routine to be called for each fiber,
+        /// if the corresponding FLS slot contains a non-NULL value.
+        /// If the fibers of the process have allocated memory and stored a pointer to the memory in an FLS slot,
+        /// they should free the memory before calling <see cref="FlsFree"/>.
+        /// The <see cref="FlsFree"/> function does not free memory blocks whose addresses have been stored in the FLS slots associated with the FLS index.
+        /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsFree", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FlsFree([In]DWORD dwFlsIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
         /// Each fiber has its own slot for each FLS index.
         /// </para>
@@ -417,6 +512,38 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsGetValue", ExactSpelling = true, SetLastError = true)]
         public static extern PVOID FlsGetValue([In]DWORD dwFlsIndex);
+
+        /// <summary>
+        /// <para>
+        /// Stores a value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
+        /// Each fiber has its own slot for each FLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flssetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlsIndex">
+        /// The FLS index that was allocated by the FlsAlloc function.
+        /// </param>
+        /// <param name="lpFlsData">
+        /// The value to be stored in the FLS slot for the calling fiber.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="zero"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following errors can be returned.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.
+        /// <see cref="ERROR_NO_MEMORY"/>: The FLS array has not been allocated.
+        /// </returns>
+        /// <remarks>
+        /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
+        /// After an FLS index is allocated, each fiber of the process can use it to access its own FLS slot for that index.
+        /// A thread specifies an FLS index in a call to <see cref="FlsSetValue"/> to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsSetValue", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FlsSetValue([In]DWORD dwFlsIndex, [In]PVOID lpFlsData);
 
         /// <summary>
         /// <para>
@@ -1243,6 +1370,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates a thread local storage (TLS) index.
+        /// Any thread of the process can subsequently use this index to store and retrieve values that are local to the thread,
+        /// because each thread receives its own slot for the index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsalloc
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is a TLS index. The slots for the index are initialized to zero.
+        /// If the function fails, the return value is <see cref="TLS_OUT_OF_INDEXES"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// Refer to <see cref="FlsAlloc"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// Refer to FlsAlloc for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsAlloc"/>.
+        /// The threads of the process can use the TLS index in subsequent calls to the <see cref="TlsFree"/>,
+        /// <see cref="TlsSetValue"/>, or <see cref="TlsGetValue"/> functions.
+        /// The value of the TLS index should be treated as an opaque value; do not assume that it is an index into a zero-based array.
+        /// TLS indexes are typically allocated during process or dynamic-link library (DLL) initialization.
+        /// When a TLS index is allocated, its storage slots are initialized to <see cref="NULL"/>.
+        /// After a TLS index has been allocated, each thread of the process can use it to access its own TLS storage slot.
+        /// To store a value in its TLS slot, a thread specifies the index in a call to <see cref="TlsSetValue"/>.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/>, to retrieve the stored value.
+        /// TLS indexes are not valid across process boundaries. A DLL cannot assume that an index assigned in one process is valid in another process.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsAlloc", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD TlsAlloc();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
@@ -1290,6 +1457,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
+
+        /// <summary>
+        /// <para>
+        /// Stores a value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
+        /// Each thread of a process has its own slot for each TLS index.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlssetvalue
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <param name="lpTlsValue">
+        /// The value to be stored in the calling thread's TLS slot for the index.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// Refer to <see cref="FlsSetValue"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// Refer to <see cref="FlsSetValue"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsSetValue"/>.
+        /// TLS indexes are typically allocated by the <see cref="TlsAlloc"/> function during process or DLL initialization.
+        /// When a TLS index is allocated, its storage slots are initialized to NULL.
+        /// After a TLS index is allocated, each thread of the process can use it to access its own TLS slot for that index.
+        /// A thread specifies a TLS index in a call to <see cref="TlsSetValue"/>, to store a value in its slot.
+        /// The thread specifies the same index in a subsequent call to <see cref="TlsGetValue"/>, to retrieve the stored value.
+        /// <see cref="TlsSetValue"/> was implemented with speed as the primary goal.
+        /// The function performs minimal parameter validation and error checking.
+        /// In particular, it succeeds if <paramref name="dwTlsIndex"/> is in the range 0 through (<see cref="TLS_MINIMUM_AVAILABLE"/> – 1).
+        /// It is up to the programmer to ensure that the index is valid before calling <see cref="TlsGetValue"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsSetValue", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TlsSetValue([In]DWORD dwTlsIndex, [In]LPVOID lpTlsValue);
 
         /// <summary>
         /// <para>

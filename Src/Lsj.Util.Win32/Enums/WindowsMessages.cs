@@ -3,6 +3,7 @@ using static Lsj.Util.Win32.Enums.ComboBoxStyles;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
 using static Lsj.Util.Win32.Enums.ListBoxStyles;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.WinHelpCommands;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -401,6 +402,21 @@ namespace Lsj.Util.Win32.Enums
         /// Sent when a Desktop Window Manager (DWM) composed window is maximized.
         /// </summary>
         WM_DWMWINDOWMAXIMIZEDCHANGE = 0x0321,
+
+        #endregion
+
+        #region Device Context Messages
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WM_DEVMODECHANGE"/> message is sent to all top-level windows whenever the user changes device-mode settings.
+        /// A window receives this message through its WindowProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-devmodechange
+        /// </para>
+        /// </summary>
+        WM_DEVMODECHANGE = 0x001B,
 
         #endregion
 

@@ -16,6 +16,16 @@
         public const string IID_IAdviseSink = "0000010f-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IClassFactory
+        /// </summary>
+        public const string IID_IClassFactory = "00000001-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IClassFactory2
+        /// </summary>
+        public const string IID_IClassFactory2 = "B196B28F-BAB4-101A-B69C-00AA00341D07";
+
+        /// <summary>
         /// IID_IDataAdviseHolder
         /// </summary>
         public const string IID_IDataAdviseHolder = "00000110-0000-0000-C000-000000000046";

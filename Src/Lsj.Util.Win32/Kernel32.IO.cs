@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Mswsock;
 
 namespace Lsj.Util.Win32

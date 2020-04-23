@@ -7,14 +7,18 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AnimateWindowFlags;
+using static Lsj.Util.Win32.Enums.ChildWindowFromPointExFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
 using static Lsj.Util.Win32.Enums.GetWindowCommands;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.HitTestResults;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
+using static Lsj.Util.Win32.Enums.LockSetForegroundWindowFlags;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
@@ -26,7 +30,6 @@ using static Lsj.Util.Win32.Enums.WindowHookTypes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
-using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -93,7 +96,7 @@ namespace Lsj.Util.Win32
         /// The system calls this function after the <see cref="SendMessage"/> function is called.
         /// The hook procedure can examine the message; it cannot modify it.
         /// The <see cref="HOOKPROC"/> type defines a pointer to this callback function.
-        /// <see cref="CallWndRetProc"/> is a placeholder for the application-defined or library-defined function name.
+        /// CallWndRetProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc
@@ -632,6 +635,42 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
         public static extern HWND ChildWindowFromPoint([In]HWND hWndParent, [In]POINT Point);
+
+        /// <summary>
+        /// <para>
+        /// Determines which, if any, of the child windows belonging to the specified parent window contains the specified point.
+        /// The function can ignore invisible, disabled, and transparent child windows.
+        /// The search is restricted to immediate child windows.
+        /// Grandchildren and deeper descendants are not searched.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompointex
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the parent window.
+        /// </param>
+        /// <param name="pt">
+        /// A structure that defines the client coordinates (relative to <paramref name="hwnd"/>) of the point to be checked.
+        /// </param>
+        /// <param name="flags">
+        /// The child windows to be skipped. This parameter can be one or more of the following values.
+        /// <see cref="CWP_ALL"/>, <see cref="CWP_SKIPDISABLED"/>, <see cref="CWP_SKIPINVISIBLE"/>, <see cref="CWP_SKIPTRANSPARENT"/>
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the first child window that contains the point and meets the criteria specified by <paramref name="flags"/>.
+        /// If the point is within the parent window but not within any child window that meets the criteria,
+        /// the return value is a handle to the parent window.
+        /// If the point lies outside the parent window or if the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system maintains an internal list that contains the handles of the child windows associated with a parent window.
+        /// The order of the handles in the list depends on the Z order of the child windows.
+        /// If more than one child window contains the specified point, the system returns a handle to the first window in the list
+        /// that contains the point and meets the criteria specified by <paramref name="flags"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChildWindowFromPointEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND ChildWindowFromPointEx([In]HWND hwnd, [In]POINT pt, [In]ChildWindowFromPointExFlags flags);
 
         /// <summary>
         /// <para>
@@ -1502,6 +1541,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the handle to the ancestor of the specified window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getancestor
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window whose ancestor is to be retrieved.
+        /// If this parameter is the desktop window, the function returns <see cref="NULL"/>.
+        /// </param>
+        /// <param name="gaFlags">
+        /// The ancestor to be retrieved. This parameter can be one of the following values.
+        /// <see cref="GA_PARENT"/>, <see cref="GA_ROOT"/>, <see cref="GA_ROOTOWNER"/>
+        /// </param>
+        /// <returns>
+        /// The return value is the handle to the ancestor window.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAncestor", ExactSpelling = true, SetLastError = true)]
+        private static extern HWND GetAncestor([In]HWND hwnd, [In]GetAncestorFlags gaFlags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about a window class.
         /// The <see cref="GetClassInfo"/> function has been superseded by the <see cref="GetClassInfoEx"/> function.
         /// You can still use <see cref="GetClassInfo"/>, however, if you do not need information about the class small icon.
@@ -1699,6 +1760,74 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClientRect", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetClientRect([In]HWND hWnd, [Out]out RECT lpRect);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the foreground window (the window with which the user is currently working).
+        /// The system assigns a slightly higher priority to the thread that creates the foreground window than it does to other threads.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is a handle to the foreground window.
+        /// The foreground window can be <see cref="NULL"/> in certain circumstances, such as when a window is losing activation.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetForegroundWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetForegroundWindow();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the active window or a specified GUI thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getguithreadinfo
+        /// </para>
+        /// </summary>
+        /// <param name="idThread">
+        /// The identifier for the thread for which information is to be retrieved.
+        /// To retrieve this value, use the <see cref="GetWindowThreadProcessId"/> function.
+        /// If this parameter is <see cref="NULL"/>, the function returns information for the foreground thread.
+        /// </param>
+        /// <param name="pgui">
+        /// A pointer to a <see cref="GUITHREADINFO"/> structure that receives information describing the thread.
+        /// Note that you must set the <see cref="GUITHREADINFO.cbSize"/> member to <code>sizeof(GUITHREADINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function succeeds even if the active window is not owned by the calling process.
+        /// If the specified thread does not exist or have an input queue, the function will fail.
+        /// This function is useful for retrieving out-of-context information about a thread.
+        /// The information retrieved is the same as if an application retrieved the information about itself.
+        /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle contains the caret plus information on text direction and padding.
+        /// Thus, it may not give the correct position of the cursor.
+        /// The Sans Serif font uses four characters for the cursor:
+        /// <see cref="CURSOR_LTR"/>: 0xf00c
+        /// <see cref="CURSOR_RTL"/>: 0xf00d
+        /// <see cref="CURSOR_THAI"/>: 0xf00e
+        /// <see cref="CURSOR_USA"/>: 0xfff (this is a marker value with no associated glyph)
+        /// To get the actual insertion point in the rcCaret rectangle, perform the following steps.
+        /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
+        /// Determine the character used for the cursor, based on the current input language.
+        /// Call <see cref="CreateFont"/> using Sans Serif for the font, the height given by <see cref="GUITHREADINFO.rcCaret"/>, and a width of zero.
+        /// For fnWeight, call <code>SystemParametersInfo(SPI_GETCARETWIDTH, 0, pvParam, 0)</code>.
+        /// If pvParam is greater than 1, set fnWeight to 700, otherwise set fnWeight to 400.
+        /// Select the font into a device context (DC) and use <see cref="GetCharABCWidths"/> to get the B width of the appropriate cursor character.
+        /// Add the B width to rcCaret.left to obtain the actual insertion point.
+        /// The function may not return valid window handles in the <see cref="GUITHREADINFO"/> structure
+        /// when called to retrieve information for the foreground thread, such as when a window is losing activation.
+        /// DPI Virtualization
+        /// The coordinates returned in the <see cref="GUITHREADINFO.rcCaret"/> rect of the <see cref="GUITHREADINFO"/> struct
+        /// are logical coordinates in terms of the window associated with the caret.
+        /// They are not virtualized into the mode of the calling thread.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGUIThreadInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetGUIThreadInfo([In]DWORD idThread, [In][Out]ref GUITHREADINFO pgui);
 
         /// <summary>
         /// <para>
@@ -2149,6 +2278,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The foreground process can call the <see cref="LockSetForegroundWindow"/> function
+        /// to disable calls to the <see cref="SetForegroundWindow"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-locksetforegroundwindow
+        /// </para>
+        /// </summary>
+        /// <param name="uLockCode">
+        /// Specifies whether to enable or disable calls to <see cref="SetForegroundWindow"/>.
+        /// This parameter can be one of the following values.
+        /// <see cref="LSFW_LOCK"/>, <see cref="LSFW_UNLOCK"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The system automatically enables calls to <see cref="SetForegroundWindow"/> if the user presses the ALT key
+        /// or takes some action that causes the system itself to change the foreground window (for example, clicking a background window).
+        /// This function is provided so applications can prevent other applications from making a foreground change
+        /// that can interrupt its interaction with the user.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockSetForegroundWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockSetForegroundWindow([In]LockSetForegroundWindowFlags uLockCode);
+
+        /// <summary>
+        /// <para>
         /// Changes the position and dimensions of the specified window.
         /// For a top-level window, the position and dimensions are relative to the upper-left corner of the screen.
         /// For a child window, they are relative to the upper-left corner of the parent window's client area.
@@ -2217,6 +2374,35 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenIcon([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle to the child window at the specified point.
+        /// The search is restricted to immediate child windows; grandchildren and deeper descendant windows are not searched.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-realchildwindowfrompoint
+        /// </para>
+        /// </summary>
+        /// <param name="hwndParent">
+        /// A handle to the window whose child is to be retrieved.
+        /// </param>
+        /// <param name="ptParentClientCoords">
+        /// A <see cref="POINT"/> structure that defines the client coordinates of the point to be checked.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to the child window that contains the specified point.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="RealChildWindowFromPoint"/> treats <see cref="HTTRANSPARENT"/> areas of a standard control
+        /// differently from other areas of the control; it returns the child window behind a transparent part of a control.
+        /// In contrast, <see cref="ChildWindowFromPoint"/> treats <see cref="HTTRANSPARENT"/> areas of a control the same as other areas.
+        /// For example, if the point is in a transparent area of a groupbox, <see cref="RealChildWindowFromPoint"/> returns the child window
+        /// behind a groupbox, whereas <see cref="ChildWindowFromPoint"/> returns the groupbox.
+        /// However, both APIs return a static field, even though it, too, returns <see cref="HTTRANSPARENT"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RealChildWindowFromPoint", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND RealChildWindowFromPoint([In]HWND hwndParent, [In]POINT ptParentClientCoords);
 
         /// <summary>
         /// <para>

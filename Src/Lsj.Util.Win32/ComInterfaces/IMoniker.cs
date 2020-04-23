@@ -839,7 +839,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Your implementation of this method must return <see cref="MKSYS_NONE"/>.
         /// You cannot use this function to identify your own monikers (for example, in your implementation of <see cref="ComposeWith"/>).
         /// Instead, you should use your moniker's implementation of <see cref="IPersist.GetClassID"/>
-        /// or use <see cref="QueryInterface"/> to test for your own private interface.
+        /// or use QueryInterface to test for your own private interface.
         /// </remarks>
         [PreserveSig]
         HRESULT IsSystemMoniker([Out]out MKSYS pdwMksys);

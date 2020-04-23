@@ -4,21 +4,25 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
 using static Lsj.Util.Win32.Enums.LogonTypes;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SECURITY_IMPERSONATION_LEVEL;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.TOKEN_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.TOKEN_TYPE;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -643,7 +647,7 @@ namespace Lsj.Util.Win32
         /// the function fails and stores no data in the buffer.
         /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
         /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
-        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="IntPtr.Zero"/>.
+        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see langword="true"/>.
@@ -940,6 +944,110 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
+        /// </para>
+        /// </summary>
+        /// <param name="ExistingTokenHandle">
+        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// </param>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <param name="DuplicateTokenHandle">
+        /// A pointer to a variable that receives a handle to the duplicate token.
+        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
+        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
+        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
+        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
+        /// which requires a primary token.
+        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DuplicateTokenEx"/> function creates a new access token that duplicates an existing token.
+        /// This function can create either a primary token or an impersonation token.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex
+        /// </para>
+        /// </summary>
+        /// <param name="ExistingTokenHandle">
+        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// Specifies the requested access rights for the new token.
+        /// The <see cref="DuplicateTokenEx"/> function compares the requested access rights with the existing token's
+        /// discretionary access control list (DACL) to determine which rights are granted or denied.
+        /// To request the same access rights as the existing token, specify zero.
+        /// To request all access rights that are valid for the caller, specify <see cref="MAXIMUM_ALLOWED"/>.
+        /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
+        /// </param>
+        /// <param name="lpTokenAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies a security descriptor for the new token and
+        /// determines whether child processes can inherit the token.
+        /// If <paramref name="lpTokenAttributes"/> is <see langword="null"/>, the token gets a default security descriptor and
+        /// the handle cannot be inherited.
+        /// If the security descriptor contains a system access control list (SACL), the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
+        /// even if it was not requested in <paramref name="dwDesiredAccess"/>.
+        /// To set the owner in the security descriptor for the new token,
+        /// the caller's process token must have the SeRestorePrivilege privilege set.
+        /// </param>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a value from the <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumeration that indicates the impersonation level of the new token.
+        /// </param>
+        /// <param name="TokenType">
+        /// Specifies one of the following values from the <see cref="TOKEN_TYPE"/> enumeration.
+        /// <see cref="TokenPrimary"/>: The new token is a primary token that you can use in the <see cref="CreateProcessAsUser"/> function.
+        /// <see cref="TokenImpersonation"/>: The new token is an impersonation token.
+        /// </param>
+        /// <param name="DuplicateTokenHandle">
+        /// A pointer to a HANDLE variable that receives the new token.
+        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DuplicateTokenEx"/> function allows you to create a primary token
+        /// that you can use in the <see cref="CreateProcessAsUser"/> function.
+        /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
+        /// Note that the <see cref="DuplicateToken"/> function can create only impersonation tokens,
+        /// which are not valid for <see cref="CreateProcessAsUser"/>.
+        /// The following is a typical scenario for using <see cref="DuplicateTokenEx"/> to create a primary token.
+        /// A server application creates a thread that calls one of the impersonation functions,
+        /// such as <see cref="ImpersonateNamedPipeClient"/>, to impersonate a client.
+        /// The impersonating thread then calls the <see cref="OpenThreadToken"/> function to get its own token,
+        /// which is an impersonation token that has the security context of the client.
+        /// The thread specifies this impersonation token in a call to <see cref="DuplicateTokenEx"/>, specifying the <see cref="TokenPrimary"/> flag.
+        /// The <see cref="DuplicateTokenEx"/> function creates a primary token that has the security context of the client.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
+            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTokenAttributes, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ImpersonateLoggedOnUser"/> function lets the calling thread impersonate the security context of a logged-on user.
         /// The user is represented by a token handle.
         /// </para>
@@ -1126,107 +1234,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
+        /// The <see cref="OpenThreadToken"/> function opens the access token associated with a thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthreadtoken
         /// </para>
         /// </summary>
-        /// <param name="ExistingTokenHandle">
-        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
+        /// <param name="ThreadHandle">
+        /// A handle to the thread whose access token is opened.
         /// </param>
-        /// <param name="ImpersonationLevel">
-        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
-        /// </param>
-        /// <param name="DuplicateTokenHandle">
-        /// A pointer to a variable that receives a handle to the duplicate token.
-        /// This handle has <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_QUERY"/> access to the new token.
-        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="DuplicateToken"/> function creates an impersonation token,
-        /// which you can use in functions such as <see cref="SetThreadToken"/> and <see cref="ImpersonateLoggedOnUser"/>.
-        /// The token created by <see cref="DuplicateToken"/> cannot be used in the <see cref="CreateProcessAsUser"/> function,
-        /// which requires a primary token.
-        /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
-        /// </remarks>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out]out IntPtr DuplicateTokenHandle);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="DuplicateTokenEx"/> function creates a new access token that duplicates an existing token.
-        /// This function can create either a primary token or an impersonation token.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex
-        /// </para>
-        /// </summary>
-        /// <param name="ExistingTokenHandle">
-        /// A handle to an access token opened with <see cref="TOKEN_DUPLICATE"/> access.
-        /// </param>
-        /// <param name="dwDesiredAccess">
-        /// Specifies the requested access rights for the new token.
-        /// The <see cref="DuplicateTokenEx"/> function compares the requested access rights with the existing token's
-        /// discretionary access control list (DACL) to determine which rights are granted or denied.
-        /// To request the same access rights as the existing token, specify zero.
-        /// To request all access rights that are valid for the caller, specify <see cref="MAXIMUM_ALLOWED"/>.
+        /// <param name="DesiredAccess">
+        /// Specifies an access mask that specifies the requested types of access to the access token.
+        /// These requested access types are reconciled against the token's discretionary access control list (DACL) to determine
+        /// which accesses are granted or denied.
         /// For a list of access rights for access tokens, see Access Rights for Access-Token Objects.
         /// </param>
-        /// <param name="lpTokenAttributes">
-        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies a security descriptor for the new token and
-        /// determines whether child processes can inherit the token.
-        /// If <paramref name="lpTokenAttributes"/> is <see langword="null"/>, the token gets a default security descriptor and
-        /// the handle cannot be inherited.
-        /// If the security descriptor contains a system access control list (SACL), the token gets <see cref="ACCESS_SYSTEM_SECURITY"/> access right,
-        /// even if it was not requested in <paramref name="dwDesiredAccess"/>.
-        /// To set the owner in the security descriptor for the new token,
-        /// the caller's process token must have the SeRestorePrivilege privilege set.
+        /// <param name="OpenAsSelf">
+        /// <see cref="TRUE"/> if the access check is to be made against the process-level security context.
+        /// <see cref="FALSE"/> if the access check is to be made against
+        /// the current security context of the thread calling the <see cref="OpenThreadToken"/> function.
+        /// The <paramref name="OpenAsSelf"/> parameter allows the caller of this function to open the access token of a specified thread
+        /// when the caller is impersonating a token at <see cref="SecurityIdentification"/> level.
+        /// Without this parameter, the calling thread cannot open the access token on the specified thread
+        /// because it is impossible to open executive-level objects by using the <see cref="SecurityIdentification"/> impersonation level.
         /// </param>
-        /// <param name="ImpersonationLevel">
-        /// Specifies a value from the <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumeration that indicates the impersonation level of the new token.
-        /// </param>
-        /// <param name="TokenType">
-        /// Specifies one of the following values from the <see cref="TOKEN_TYPE"/> enumeration.
-        /// <see cref="TokenPrimary"/>: The new token is a primary token that you can use in the <see cref="CreateProcessAsUser"/> function.
-        /// <see cref="TokenImpersonation"/>: The new token is an impersonation token.
-        /// </param>
-        /// <param name="DuplicateTokenHandle">
-        /// A pointer to a HANDLE variable that receives the new token.
-        /// When you have finished using the new token, call the <see cref="CloseHandle"/> function to close the token handle.
+        /// <param name="TokenHandle">
+        /// A pointer to a variable that receives the handle to the newly opened access token.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the token has the anonymous impersonation level, the token will not be opened
+        /// and <see cref="OpenThreadToken"/> sets <see cref="ERROR_CANT_OPEN_ANONYMOUS"/> as the error.
         /// </returns>
         /// <remarks>
-        /// The <see cref="DuplicateTokenEx"/> function allows you to create a primary token
-        /// that you can use in the <see cref="CreateProcessAsUser"/> function.
-        /// This allows a server application that is impersonating a client to create a process that has the security context of the client.
-        /// Note that the <see cref="DuplicateToken"/> function can create only impersonation tokens,
-        /// which are not valid for <see cref="CreateProcessAsUser"/>.
-        /// The following is a typical scenario for using <see cref="DuplicateTokenEx"/> to create a primary token.
-        /// A server application creates a thread that calls one of the impersonation functions,
-        /// such as <see cref="ImpersonateNamedPipeClient"/>, to impersonate a client.
-        /// The impersonating thread then calls the <see cref="OpenThreadToken"/> function to get its own token,
-        /// which is an impersonation token that has the security context of the client.
-        /// The thread specifies this impersonation token in a call to <see cref="DuplicateTokenEx"/>, specifying the <see cref="TokenPrimary"/> flag.
-        /// The <see cref="DuplicateTokenEx"/> function creates a primary token that has the security context of the client.
+        /// Tokens with the anonymous impersonation level cannot be opened.
+        /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </remarks>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTokenAttributes, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL OpenThreadToken([In]HANDLE ThreadHandle, [In]ACCESS_MASK DesiredAccess, [In]BOOL OpenAsSelf, [Out]out HANDLE TokenHandle);
 
         /// <summary>
         /// The SetTokenInformation function sets various types of information for a specified access token. 

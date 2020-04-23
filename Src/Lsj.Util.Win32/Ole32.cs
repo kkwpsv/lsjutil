@@ -5,9 +5,12 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
+using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -132,6 +135,185 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an instance of a specific class on a specific computer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cocreateinstanceex
+        /// </para>
+        /// </summary>
+        /// <param name="Clsid">
+        /// The CLSID of the object to be created.
+        /// </param>
+        /// <param name="punkOuter">
+        /// If this parameter non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is currently not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/> will be returned if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// A value from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pServerInfo">
+        /// Information about the computer on which to instantiate the object. See <see cref="COSERVERINFO"/>.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the local computer 
+        /// or at the computer specified in the registry under the class's RemoteServerName value,
+        /// according to the interpretation of the <paramref name="dwClsCtx"/> parameter.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>. This value must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (pIID), the location
+        /// to return the interface pointer (pItf) and the return value of the call to QueryInterface (hr).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: Indicates success.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>:
+        /// A specified class is not registered in the registration database.
+        /// Also can indicate that the type of server you requested in the <see cref="CLSCTX"/> enumeration is not registered
+        /// or the values for the server types in the registry are corrupt.
+        /// <see cref="CLASS_E_NOAGGREGATION"/>: This class cannot be created as part of an aggregate.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures in <paramref name="pResults"/>
+        /// indicates with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned.
+        /// <see cref="E_NOINTERFACE"/>: None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoCreateInstanceEx"/> creates a single uninitialized object associated with the given CLSID on a specified remote computer.
+        /// This is an extension of the function <see cref="CoCreateInstance"/>, which creates an object on the local computer only.
+        /// In addition, rather than requesting a single interface and obtaining a single pointer to that interface,
+        /// <see cref="CoCreateInstanceEx"/> makes it possible to specify an array of structures, each pointing to an interface identifier (IID) on input,
+        /// and, on return, containing (if available) a pointer to the requested interface and the return value of the QueryInterface call
+        /// for that interface. This permits fewer round trips between computers.
+        /// This function encapsulates three calls: first, to <see cref="CoGetClassObject"/> to connect to the class object
+        /// associated with the specified CLSID, specifying the location of the class; second, to <see cref="IClassFactory.CreateInstance"/> to
+        /// create an uninitialized instance, and finally, to Release, to release the class object.
+        /// The object so created must still be initialized through a call
+        /// to one of the initialization interfaces (such as <see cref="IPersistStorage.Load"/>).
+        /// Two functions, <see cref="CoGetInstanceFromFile"/> and <see cref="CoGetInstanceFromIStorage"/> encapsulate
+        /// both the instance creation and initialization from the obvious sources.
+        /// The <see cref="COSERVERINFO"/> structure passed as the <paramref name="pServerInfo"/> parameter contains the security settings
+        /// that COM will use when creating a new instance of the specified object.
+        /// Note that this parameter does not influence the security settings used when making method calls on the instantiated object.
+        /// Those security settings are configurable, on a per-interface basis, with the <see cref="CoSetProxyBlanket"/> function.
+        /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In]Guid Clsid,
+            [MarshalAs(UnmanagedType.IUnknown)]object punkOuter, [In]CLSCTX dwClsCtx, [In]in COSERVERINFO pServerInfo,
+            [In]DWORD dwCount, [In][Out]MULTI_QI[] pResults);
+
+        /// <summary>
+        /// <para>
+        /// Provides a pointer to an interface on a class object associated with a specified CLSID.
+        /// <see cref="CoGetClassObject"/> locates, and if necessary, dynamically loads the executable code required to do this.
+        /// Call <see cref="CoGetClassObject"/> directly to create multiple objects through a class object
+        /// for which there is a CLSID in the system registry.
+        /// You can also retrieve a class object from a specific remote computer.Most class objects implement the <see cref="IClassFactory"/> interface.
+        /// You would then call <see cref="IClassFactory.CreateInstance"/> to create an uninitialized object.
+        /// It is not always necessary to go through this process however.
+        /// To create a single object, call the <see cref="CoCreateInstanceEx"/> function, which allows you to create an instance on a remote machine.
+        /// This replaces the <see cref="CoCreateInstance"/> function, which can still be used to create an instance on a local computer.
+        /// Both functions encapsulate connecting to the class object, creating the instance, and releasing the class object.
+        /// Two other functions, <see cref="CoGetInstanceFromFile"/> and <see cref="CoGetInstanceFromIStorage"/>,
+        /// provide both instance creation on a remote system and object activation.
+        /// There are numerous functions and interface methods whose purpose is to create objects of a single type
+        /// and provide a pointer to an interface on that object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cogetclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The CLSID associated with the data and code that you will use to create the objects.
+        /// </param>
+        /// <param name="dwClsContext">
+        /// The context in which the executable code is to be run.
+        /// To enable a remote activation, include <see cref="CLSCTX_REMOTE_SERVER"/>.
+        /// For more information on the context values and their use, see the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pvReserved">
+        /// A pointer to computer on which to instantiate the class object.
+        /// If this parameter is <see cref="NULL"/>, the class object is instantiated on the current computer or
+        /// at the computer specified under the class's RemoteServerName key,
+        /// according to the interpretation of the <paramref name="dwClsContext"/> parameter.
+        /// See <see cref="COSERVERINFO"/>.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface, which will be supplied in ppv on successful return.
+        /// This interface will be used to communicate with the class object.
+        /// Typically this value is <see cref="IID_IClassFactory"/>, although other values such as <see cref="IID_IClassFactory2"/>
+        /// which supports a form of licensing are allowed.
+        /// All OLE-defined interface IIDs are defined in the OLE header files as IID_interfacename,
+        /// where interfacename is the name of the interface.
+        /// </param>
+        /// <param name="ppv">
+        /// The address of pointer variable that receives the interface pointer requested in riid.
+        /// Upon successful return, <paramref name="ppv"/> contains the requested interface pointer.
+        /// </param>
+        /// <returns>
+        /// This function can return the following values.
+        /// <see cref="S_OK"/>: Location and connection to the specified class object was successful.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>:
+        /// The CLSID is not properly registered.
+        /// This error can also indicate that the value you specified in <paramref name="dwClsContext"/> is not in the registry.
+        /// <see cref="E_NOINTERFACE"/>:
+        /// Either the object pointed to by <paramref name="ppv"/> does not support the interface identified by <paramref name="riid"/>,
+        /// or the QueryInterface operation on the class object returned <see cref="E_NOINTERFACE"/>.
+        /// <see cref="REGDB_E_READREGDB"/>: There was an error reading the registration database.
+        /// <see cref="CO_E_DLLNOTFOUND"/>: Either the in-process DLL or handler DLL was not found (depending on the context).
+        /// <see cref="CO_E_APPNOTFOUND"/>: The executable (.exe) was not found (<see cref="CLSCTX_LOCAL_SERVER"/> only).
+        /// <see cref="E_ACCESSDENIED"/>: There was a general access failure on load.
+        /// <see cref="CO_E_ERRORINDLL"/>: There is an error in the executable image.
+        /// <see cref="CO_E_APPDIDNTREG"/>: The executable was launched, but it did not register the class object (and it may have shut down).
+        /// </returns>
+        /// <remarks>
+        /// A class object in OLE is an intermediate object that supports an interface that permits operations common to a group of objects.
+        /// The objects in this group are instances derived from the same object definition represented by a single CLSID.
+        /// Usually, the interface implemented on a class object is <see cref="IClassFactory"/>,
+        /// through which you can create object instances of a given definition (class).
+        /// A call to <see cref="CoGetClassObject"/> creates, initializes, and gives the caller access
+        /// (through a pointer to an interface specified with the riid parameter) to the class object.
+        /// The class object is the one associated with the CLSID that you specify in the rclsid parameter.
+        /// The details of how the system locates the associated code and data within a computer are transparent to the caller,
+        /// as is the dynamic loading of any code that is not already loaded.
+        /// If the class context is <see cref="CLSCTX_REMOTE_SERVER"/>, indicating remote activation is required,
+        /// the <see cref="COSERVERINFO"/> structure provided in the pServerInfo parameter allows you
+        /// to specify the computer on which the server is located.
+        /// For information on the algorithm used to locate a remote server when pServerInfo is NULL, refer to the <see cref="CLSCTX"/> enumeration.
+        /// The registry holds an association between CLSIDs and file suffixes, and between CLSIDs and file signatures
+        /// for determining the class of an object.
+        /// When an object is saved to persistent storage, its CLSID is stored with its data.
+        /// To create and initialize embedded or linked OLE document objects, it is not necessary to call <see cref="CoGetClassObject"/> directly.
+        /// Instead, call the <see cref="OleCreate"/> or OleCreateXXX function.
+        /// These functions encapsulate the entire object instantiation and initialization process,
+        /// and call, among other functions, <see cref="CoGetClassObject"/>.
+        /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the class object.
+        /// In most cases, this interface is <see cref="IClassFactory"/>.
+        /// This provides access to the <see cref="IClassFactory.CreateInstance"/> method, through which the caller can then create an uninitialized object
+        /// of the kind specified in its implementation.
+        /// All classes registered in the system with a CLSID must implement <see cref="IClassFactory"/>.
+        /// In rare cases, however, you may want to specify some other interface that defines operations common to a set of objects.
+        /// For example, in the way OLE implements monikers, the interface on the class object is <see cref="IParseDisplayName"/>,
+        /// used to transform the display name of an object into a moniker.
+        /// The <paramref name="dwClsContext"/> parameter specifies the execution context,
+        /// allowing one CLSID to be associated with different pieces of code in different execution contexts.
+        /// The <see cref="CLSCTX"/> enumeration specifies the available context flags.
+        /// <see cref="CoGetClassObject"/> consults (as appropriate for the context indicated) both the registry
+        /// and the class objects that are currently registered by calling the <see cref="CoRegisterClassObject"/> function.
+        /// To release a class object, use the class object's Release method.
+        /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
+            [In]CLSCTX dwClsContext, [In]LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pointer to the default OLE task memory allocator (which supports the system implementation of the <see cref="IMalloc"/> interface)
         /// so applications can call its methods to manage memory.
         /// </para>
@@ -200,6 +382,67 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+
+        /// <summary>
+        /// <para>
+        /// Initializes the COM library for use by the calling thread, sets the thread's concurrency model,
+        /// and creates a new apartment for the thread if one is required.
+        /// You should call Windows::Foundation::Initialize to initialize the thread instead of <see cref="CoInitializeEx"/>
+        /// if you want to use the Windows Runtime APIs or if you want to use both COM and Windows Runtime components.
+        /// Windows::Foundation::Initialize is sufficient to use for COM components.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex
+        /// </para>
+        /// </summary>
+        /// <param name="pvReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwCoInit">
+        /// The concurrency model and initialization options for the thread.
+        /// Values for this parameter are taken from the <see cref="COINIT"/> enumeration.
+        /// Any combination of values from <see cref="COINIT"/> can be used,
+        /// except that the <see cref="COINIT_APARTMENTTHREADED"/> and <see cref="COINIT_MULTITHREADED"/> flags cannot both be set.
+        /// The default is <see cref="COINIT_MULTITHREADED"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The COM library was initialized successfully on this thread.
+        /// <see cref="S_FALSE"/>: The COM library is already initialized on this thread.
+        /// <see cref="RPC_E_CHANGED_MODE"/>:
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this thread as multithread apartment (MTA).
+        /// This could also indicate that a change from neutral-threaded apartment to single-threaded apartment has occurred.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoInitializeEx"/> must be called at least once, and is usually called only once, for each thread that uses the COM library.
+        /// Multiple calls to <see cref="CoInitializeEx"/> by the same thread are allowed as long as they pass the same concurrency flag,
+        /// but subsequent valid calls return <see cref="S_FALSE"/>.
+        /// To close the COM library gracefully on a thread, each successful call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// including any call that returns <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="CoUninitialize"/>.
+        /// You need to initialize the COM library on a thread before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// Otherwise, the COM function will return <see cref="CO_E_NOTINITIALIZED"/>.
+        /// After the concurrency model for a thread is set, it cannot be changed.
+        /// A call to <see cref="CoInitialize"/> on an apartment that was previously initialized as multithreaded
+        /// will fail and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// Objects created in a single-threaded apartment (STA) receive method calls only from their apartment's thread,
+        /// so calls are serialized and arrive only at message-queue boundaries
+        /// (when the <see cref="PeekMessage"/> or <see cref="SendMessage"/> function is called).
+        /// Objects created on a COM thread in a multithread apartment (MTA) must be able to receive method calls from other threads at any time.
+        /// You would typically implement some form of concurrency control in a multithreaded object's code
+        /// using synchronization primitives such as critical sections, semaphores, or mutexes to help protect the object's data.
+        /// When an object that is configured to run in the neutral threaded apartment (NTA) is called
+        /// by a thread that is in either an STA or the MTA, that thread transfers to the NTA.
+        /// If this thread subsequently calls <see cref="CoInitializeEx"/>, the call fails and returns <see cref="RPC_E_CHANGED_MODE"/>.
+        /// Because OLE technologies are not thread-safe, the <see cref="OleInitialize"/> function
+        /// calls <see cref="CoInitializeEx"/> with the <see cref="COINIT_APARTMENTTHREADED"/> flag.
+        /// As a result, an apartment that is initialized for multithreaded object concurrency cannot use the features enabled by <see cref="OleInitialize"/>.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoInitializeEx([In]LPVOID pvReserved, [In]COINIT dwCoInit);
 
         /// <summary>
         /// <para>
@@ -419,6 +662,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes the COM library on the current thread, unloads all DLLs loaded by the thread,
+        /// frees any other resources that the thread maintains, and forces all RPC connections on the thread to close.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-couninitialize
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// A thread must call <see cref="CoUninitialize"/> once for each successful call it
+        /// has made to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> function, including any call that returns <see cref="S_FALSE"/>.
+        /// Only the <see cref="CoUninitialize"/> call corresponding to the <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/> call
+        /// that initialized the library can close it.
+        /// Calls to <see cref="OleInitialize"/> must be balanced by calls to <see cref="OleUninitialize"/>.
+        /// The <see cref="OleUninitialize"/> function calls <see cref="CoUninitialize"/> internally,
+        /// so applications that call <see cref="OleUninitialize"/> do not also need to call <see cref="CoUninitialize"/>.
+        /// <see cref="CoUninitialize"/> should be called on application shutdown, as the last call made to the COM library
+        /// after the application hides its main windows and falls through its main message loop.
+        /// If there are open conversations remaining, <see cref="CoUninitialize"/> starts a modal message loop and dispatches any pending messages
+        /// from the containers or server for this COM application.
+        /// By dispatching the messages, <see cref="CoUninitialize"/> ensures that the application does not quit
+        /// before receiving all of its pending messages. Non-COM messages are discarded.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern void CoUninitialize();
+
+        /// <summary>
+        /// <para>
         /// Returns a pointer to an implementation of <see cref="IBindCtx"/> (a bind context object).
         /// This object stores information about a particular moniker-binding operation.
         /// </para>
@@ -476,5 +748,58 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a pointer to the OLE implementation of <see cref="IDataAdviseHolder"/> on the data advise holder object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createdataadviseholder
+        /// </para>
+        /// </summary>
+        /// <param name="ppDAHolder">
+        /// Address of an <see cref="IDataAdviseHolder"/> pointer variable that receives the interface pointer to the new advise holder object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory for the operation.
+        /// </returns>
+        /// <remarks>
+        /// Call <see cref="CreateDataAdviseHolder"/> in your implementation of <see cref="IDataObject.DAdvise"/> to get a pointer
+        /// to the OLE implementation of <see cref="IDataAdviseHolder"/> interface.
+        /// With this pointer, you can then complete the implementation of <see cref="IDataObject.DAdvise"/>
+        /// by calling the <see cref="IDataAdviseHolder.Advise"/> method, which creates an advisory connection
+        /// between the calling object and the data object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateDataAdviseHolder([Out]out IDataAdviseHolder ppDAHolder);
+
+        /// <summary>
+        /// <para>
+        /// Creates an advise holder object for managing compound document notifications.
+        /// It returns a pointer to the object's OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-createoleadviseholder
+        /// </para>
+        /// </summary>
+        /// <param name="ppOAHolder">
+        /// Address of <see cref="IOleAdviseHolder"/> pointer variable that receives the interface pointer to the new advise holder object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function <see cref="CreateOleAdviseHolder"/> creates an instance of an advise holder,
+        /// which supports the OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
+        /// The methods of this interface are intended to be used to implement the advisory methods of <see cref="IOleObject"/>,
+        /// and, when advisory connections have been set up with objects supporting an advisory sink,
+        /// to send notifications of changes in the object to the advisory sink.
+        /// The advise holder returned by <see cref="CreateOleAdviseHolder"/> will suffice for the great majority of applications.
+        /// The OLE-provided implementation does not, however, support <see cref="IOleAdviseHolder.EnumAdvise"/>,
+        /// so if you need to use this method, you will need to implement your own advise holder.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateOleAdviseHolder([Out]out IOleAdviseHolder ppOAHolder);
     }
 }
