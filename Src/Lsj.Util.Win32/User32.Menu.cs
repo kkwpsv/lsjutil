@@ -496,6 +496,49 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about a menu item.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuiteminfow
+        /// </para>
+        /// </summary>
+        /// <param name="hmenu">
+        /// A handle to the menu that contains the menu item.
+        /// </param>
+        /// <param name="item">
+        /// The identifier or position of the menu item to get information about.
+        /// The meaning of this parameter depends on the value of <paramref name="fByPosition"/>.
+        /// </param>
+        /// <param name="fByPosition">
+        /// The meaning of uItem. If this parameter is <see cref="FALSE"/>, uItem is a menu item identifier.
+        /// Otherwise, it is a menu item position.
+        /// See Accessing Menu Items Programmatically for more information.
+        /// </param>
+        /// <param name="lpmii">
+        /// A pointer to a <see cref="MENUITEMINFO"/> structure that specifies the information to retrieve and receives information about the menu item.
+        /// Note that you must set the <see cref="MENUITEMINFO.cbSize"/> member to <code>sizeof(MENUITEMINFO)</code> before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve a menu item of type <see cref="MFT_STRING"/>, first find the size of the string
+        /// by setting the <see cref="MENUITEMINFO.dwTypeData"/> member of <see cref="MENUITEMINFO"/> to <see langword="null"/>
+        /// and then calling <see cref="GetMenuItemInfo"/>.
+        /// The value of cch+1 is the size needed.
+        /// Then allocate a buffer of this size, place the pointer to the buffer in <see cref="MENUITEMINFO.dwTypeData"/>,
+        /// increment cch by one, and then call <see cref="GetMenuItemInfo"/> once again to fill the buffer with the string.
+        /// If the retrieved menu item is of some other type, then <see cref="GetMenuItemInfo"/>
+        /// sets the <see cref="MENUITEMINFO.dwTypeData"/> member to a value
+        /// whose type is specified by the <see cref="MENUITEMINFO.fType"/> member and sets cch to 0.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmii);
+
+        /// <summary>
+        /// <para>
         /// Determines the number of items in the specified menu.
         /// </para>
         /// <para>
