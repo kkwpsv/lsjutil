@@ -224,6 +224,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an accelerator table.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createacceleratortablew
+        /// </para>
+        /// </summary>
+        /// <param name="paccel">
+        /// An array of <see cref="ACCEL"/> structures that describes the accelerator table.
+        /// </param>
+        /// <param name="cAccel">
+        /// The number of <see cref="ACCEL"/> structures in the array.
+        /// This must be within the range 1 to 32767 or the function will fail.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the handle to the created accelerator table;
+        /// otherwise, it is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before an application closes, it can use the <see cref="DestroyAcceleratorTable"/> function to destroy any accelerator tables
+        /// that it created by using the <see cref="CreateAcceleratorTable"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
+        public static extern HACCEL CreateAcceleratorTable([MarshalAs(UnmanagedType.LPArray)][In]ACCEL[] paccel, [In]int cAccel);
+
+        /// <summary>
+        /// <para>
         /// Creates a menu.
         /// The menu is initially empty, but it can be filled with menu items
         /// by using the <see cref="InsertMenuItem"/>, <see cref="AppendMenu"/>, and <see cref="InsertMenu"/> functions.
