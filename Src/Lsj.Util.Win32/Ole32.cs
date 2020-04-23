@@ -207,6 +207,112 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Provides a pointer to an interface on a class object associated with a specified CLSID.
+        /// <see cref="CoGetClassObject"/> locates, and if necessary, dynamically loads the executable code required to do this.
+        /// Call <see cref="CoGetClassObject"/> directly to create multiple objects through a class object
+        /// for which there is a CLSID in the system registry.
+        /// You can also retrieve a class object from a specific remote computer.Most class objects implement the <see cref="IClassFactory"/> interface.
+        /// You would then call <see cref="CreateInstance"/> to create an uninitialized object.
+        /// It is not always necessary to go through this process however.
+        /// To create a single object, call the <see cref="CoCreateInstanceEx"/> function, which allows you to create an instance on a remote machine.
+        /// This replaces the <see cref="CoCreateInstance"/> function, which can still be used to create an instance on a local computer.
+        /// Both functions encapsulate connecting to the class object, creating the instance, and releasing the class object.
+        /// Two other functions, <see cref="CoGetInstanceFromFile"/> and <see cref="CoGetInstanceFromIStorage"/>,
+        /// provide both instance creation on a remote system and object activation.
+        /// There are numerous functions and interface methods whose purpose is to create objects of a single type
+        /// and provide a pointer to an interface on that object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cogetclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The CLSID associated with the data and code that you will use to create the objects.
+        /// </param>
+        /// <param name="dwClsContext">
+        /// The context in which the executable code is to be run.
+        /// To enable a remote activation, include <see cref="CLSCTX_REMOTE_SERVER"/>.
+        /// For more information on the context values and their use, see the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pvReserved">
+        /// A pointer to computer on which to instantiate the class object.
+        /// If this parameter is <see cref="NULL"/>, the class object is instantiated on the current computer or
+        /// at the computer specified under the class's RemoteServerName key,
+        /// according to the interpretation of the <paramref name="dwClsContext"/> parameter.
+        /// See <see cref="COSERVERINFO"/>.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface, which will be supplied in ppv on successful return.
+        /// This interface will be used to communicate with the class object.
+        /// Typically this value is <see cref="IID_IClassFactory"/>, although other values such as <see cref="IID_IClassFactory2"/>
+        /// which supports a form of licensing are allowed.
+        /// All OLE-defined interface IIDs are defined in the OLE header files as IID_interfacename,
+        /// where interfacename is the name of the interface.
+        /// </param>
+        /// <param name="ppv">
+        /// The address of pointer variable that receives the interface pointer requested in riid.
+        /// Upon successful return, <paramref name="ppv"/> contains the requested interface pointer.
+        /// </param>
+        /// <returns>
+        /// This function can return the following values.
+        /// <see cref="S_OK"/>: Location and connection to the specified class object was successful.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>:
+        /// The CLSID is not properly registered.
+        /// This error can also indicate that the value you specified in <paramref name="dwClsContext"/> is not in the registry.
+        /// <see cref="E_NOINTERFACE"/>:
+        /// Either the object pointed to by <paramref name="ppv"/> does not support the interface identified by <paramref name="riid"/>,
+        /// or the QueryInterface operation on the class object returned <see cref="E_NOINTERFACE"/>.
+        /// <see cref="REGDB_E_READREGDB"/>: There was an error reading the registration database.
+        /// <see cref="CO_E_DLLNOTFOUND"/>: Either the in-process DLL or handler DLL was not found (depending on the context).
+        /// <see cref="CO_E_APPNOTFOUND"/>: The executable (.exe) was not found (<see cref="CLSCTX_LOCAL_SERVER"/> only).
+        /// <see cref="E_ACCESSDENIED"/>: There was a general access failure on load.
+        /// <see cref="CO_E_ERRORINDLL"/>: There is an error in the executable image.
+        /// <see cref="CO_E_APPDIDNTREG"/>: The executable was launched, but it did not register the class object (and it may have shut down).
+        /// </returns>
+        /// <remarks>
+        /// A class object in OLE is an intermediate object that supports an interface that permits operations common to a group of objects.
+        /// The objects in this group are instances derived from the same object definition represented by a single CLSID.
+        /// Usually, the interface implemented on a class object is <see cref="IClassFactory"/>,
+        /// through which you can create object instances of a given definition (class).
+        /// A call to <see cref="CoGetClassObject"/> creates, initializes, and gives the caller access
+        /// (through a pointer to an interface specified with the riid parameter) to the class object.
+        /// The class object is the one associated with the CLSID that you specify in the rclsid parameter.
+        /// The details of how the system locates the associated code and data within a computer are transparent to the caller,
+        /// as is the dynamic loading of any code that is not already loaded.
+        /// If the class context is <see cref="CLSCTX_REMOTE_SERVER"/>, indicating remote activation is required,
+        /// the <see cref="COSERVERINFO"/> structure provided in the pServerInfo parameter allows you
+        /// to specify the computer on which the server is located.
+        /// For information on the algorithm used to locate a remote server when pServerInfo is NULL, refer to the <see cref="CLSCTX"/> enumeration.
+        /// The registry holds an association between CLSIDs and file suffixes, and between CLSIDs and file signatures
+        /// for determining the class of an object.
+        /// When an object is saved to persistent storage, its CLSID is stored with its data.
+        /// To create and initialize embedded or linked OLE document objects, it is not necessary to call <see cref="CoGetClassObject"/> directly.
+        /// Instead, call the <see cref="OleCreate"/> or OleCreateXXX function.
+        /// These functions encapsulate the entire object instantiation and initialization process,
+        /// and call, among other functions, <see cref="CoGetClassObject"/>.
+        /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the class object.
+        /// In most cases, this interface is <see cref="IClassFactory"/>.
+        /// This provides access to the <see cref="CreateInstance"/> method, through which the caller can then create an uninitialized object
+        /// of the kind specified in its implementation.
+        /// All classes registered in the system with a CLSID must implement <see cref="IClassFactory"/>.
+        /// In rare cases, however, you may want to specify some other interface that defines operations common to a set of objects.
+        /// For example, in the way OLE implements monikers, the interface on the class object is <see cref="IParseDisplayName"/>,
+        /// used to transform the display name of an object into a moniker.
+        /// The <paramref name="dwClsContext"/> parameter specifies the execution context,
+        /// allowing one CLSID to be associated with different pieces of code in different execution contexts.
+        /// The <see cref="CLSCTX"/> enumeration specifies the available context flags.
+        /// <see cref="CoGetClassObject"/> consults (as appropriate for the context indicated) both the registry
+        /// and the class objects that are currently registered by calling the <see cref="CoRegisterClassObject"/> function.
+        /// To release a class object, use the class object's Release method.
+        /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
+            [In]CLSCTX dwClsContext, [In]LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+
+        /// <summary>
+        /// <para>
         /// Retrieves a pointer to the default OLE task memory allocator (which supports the system implementation of the <see cref="IMalloc"/> interface)
         /// so applications can call its methods to manage memory.
         /// </para>
