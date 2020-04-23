@@ -13,25 +13,49 @@ namespace Lsj.Util
         private Process _process;
         private StreamWriter _input;
         private StreamReader _output;
+        private ProcessStartInfo _startInfo;
 
         /// <summary>
         /// Start Process
         /// </summary>
         /// <param name="filename"></param>
-        public void StartProcess(string filename)
+        public bool StartProcess(string filename, string workingDirectory = null)
         {
             if (_process != null && !_process.HasExited)
             {
                 throw new InvalidOperationException($"Process has started. Process ID: {_process.Id}");
             }
-            var startInfo = new ProcessStartInfo
+            _startInfo = new ProcessStartInfo
             {
                 CreateNoWindow = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 FileName = filename,
+                UseShellExecute = false,
+                WorkingDirectory = workingDirectory,
             };
-            _process = Process.Start(startInfo);
+            DoStartProcess();
+            return IsRunning;
+        }
+
+        /// <summary>
+        /// Restart Process
+        /// </summary>
+        /// <returns></returns>
+
+        public bool RestartProcess()
+        {
+            if (_process != null && !_process.HasExited)
+            {
+                throw new InvalidOperationException($"Process has started. Process ID: {_process.Id}");
+            }
+            DoStartProcess();
+            return IsRunning;
+        }
+
+        private void DoStartProcess()
+        {
+            _process = Process.Start(_startInfo);
             _input = _process.StandardInput;
             _output = _process.StandardOutput;
         }
