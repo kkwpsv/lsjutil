@@ -3187,6 +3187,68 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the attributes for a file or directory.
+        /// To perform this operation as a transacted operation, use the <see cref="SetFileAttributesTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfileattributesw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file whose attributes are to be set.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="SetFileAttributes"/>)
+        /// and prepend "\\?\" to the path.
+        /// For more information, see File Names, Paths, and Namespaces.
+        /// Tip Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="SetFileAttributes"/>),
+        /// you can opt-in to remove the MAX_PATH character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFileAttributes">
+        /// The file attributes to set for the file.
+        /// This parameter can be one or more values, combined using the bitwise-OR operator.
+        /// However, all other values override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
+        /// Not all attributes are supported by this function. For more information, see the Remarks section.
+        /// The following is a list of supported attribute values.
+        /// <see cref="FILE_ATTRIBUTE_ARCHIVE"/>, <see cref="FILE_ATTRIBUTE_HIDDEN"/>, <see cref="FILE_ATTRIBUTE_NORMAL"/>,
+        /// <see cref="FILE_ATTRIBUTE_NOT_CONTENT_INDEXED"/>, <see cref="FILE_ATTRIBUTE_OFFLINE"/>, <see cref="FILE_ATTRIBUTE_READONLY"/>,
+        /// <see cref="FILE_ATTRIBUTE_SYSTEM"/>, <see cref="FILE_ATTRIBUTE_TEMPORARY"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The following table describes how to set the attributes that cannot be set using <see cref="SetFileAttributes"/>.
+        /// For a complete list of all file attribute values and their descriptions, see File Attribute Constants.
+        /// <see cref="FILE_ATTRIBUTE_COMPRESSED"/>:
+        /// To set a file's compression state, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_COMPRESSION"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_DEVICE"/>: Reserved; do not use.
+        /// <see cref="FILE_ATTRIBUTE_DIRECTORY"/>:
+        /// Files cannot be converted into directories.
+        /// To create a directory, use the <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/> function.
+        /// <see cref="FILE_ATTRIBUTE_ENCRYPTED"/>:
+        /// To create an encrypted file, use the <see cref="CreateFile"/> function with the <see cref="FILE_ATTRIBUTE_ENCRYPTED"/> attribute.
+        /// To convert an existing file into an encrypted file, use the <see cref="EncryptFile"/> function.
+        /// <see cref="FILE_ATTRIBUTE_REPARSE_POINT"/>:
+        /// To associate a reparse point with a file or directory,
+        /// use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_REPARSE_POINT"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_SPARSE_FILE"/>:
+        /// To set a file's sparse attribute, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_SPARSE"/> operation.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file
+        /// before the transaction is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAttributes dwFileAttributes);
+
+        /// <summary>
+        /// <para>
         /// Sets the file information for the specified file.
         /// To retrieve file information using a file handle, see <see cref="GetFileInformationByHandle"/> or <see cref="GetFileInformationByHandleEx"/>.
         /// </para>
