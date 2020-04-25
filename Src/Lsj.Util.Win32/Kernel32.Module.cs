@@ -832,5 +832,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetDefaultDllDirectories([In]LoadLibraryExFlags DirectoryFlags);
+
+        /// <summary>
+        /// <para>
+        /// Adds a directory to the search path used to locate DLLs for the application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setdlldirectoryw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The directory to be added to the search path.
+        /// If this parameter is an empty string (""), the call removes the current directory from the default DLL search order.
+        /// If this parameter is <see langword="null"/>, the function restores the default search order.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetDllDirectory"/> function affects all subsequent calls to the <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/> functions.
+        /// It also effectively disables safe DLL search mode while the specified directory is in the search path.
+        /// After calling <see cref="SetDllDirectory"/>, the standard DLL search path is:
+        /// The directory from which the application loaded.
+        /// The directory specified by the <paramref name="lpPathName"/> parameter.
+        /// The system directory. Use the GetSystemDirectory function to get the path of this directory. The name of this directory is System32.
+        /// The 16-bit system directory. There is no function that obtains the path of this directory, but it is searched.
+        /// The name of this directory is System.
+        /// The Windows directory. Use the <see cref="GetWindowsDirectory"/> function to get the path of this directory.
+        /// The directories that are listed in the PATH environment variable.
+        /// Each time the <see cref="SetDllDirectory"/> function is called,
+        /// it replaces the directory specified in the previous <see cref="SetDllDirectory"/> call.
+        /// To specify more than one directory, use the <see cref="AddDllDirectory"/> function
+        /// and call <see cref="LoadLibraryEx"/> with <see cref="LOAD_LIBRARY_SEARCH_USER_DIRS"/>.
+        /// To revert to the standard search path used by <see cref="LoadLibrary"/> and <see cref="LoadLibraryEx"/>,
+        /// call <see cref="SetDllDirectory"/> with <see langword="null"/>.
+        /// This also restores safe DLL search mode based on the SafeDllSearchMode registry value.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0502 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDllDirectoryW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
     }
 }
