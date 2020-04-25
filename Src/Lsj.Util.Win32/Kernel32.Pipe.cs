@@ -549,6 +549,65 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the read mode and the blocking mode of the specified named pipe.
+        /// If the specified handle is to the client end of a named pipe and if the named pipe server process is on a remote computer,
+        /// the function can also be used to control local buffering.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-setnamedpipehandlestate
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the named pipe instance.
+        /// This parameter can be a handle to the server end of the pipe, as returned by the <see cref="CreateNamedPipe"/> function,
+        /// or to the client end of the pipe, as returned by the <see cref="CreateFile"/> function.
+        /// The handle must have <see cref="GENERIC_WRITE"/> access to the named pipe for a write-only or read/write pipe,
+        /// or it must have <see cref="GENERIC_READ"/> and <see cref="FILE_WRITE_ATTRIBUTES"/> access for a read-only pipe.
+        /// This parameter can also be a handle to an anonymous pipe, as returned by the <see cref="CreatePipe"/> function.
+        /// </param>
+        /// <param name="lpMode">
+        /// The new pipe mode. The mode is a combination of a read-mode flag and a wait-mode flag.
+        /// This parameter can be <see cref="NullRef{PipeModes}"/> if the mode is not being set.
+        /// Specify one of the following modes.
+        /// <see cref="PIPE_READMODE_BYTE"/>:
+        /// Data is read from the pipe as a stream of bytes. This mode is the default if no read-mode flag is specified.
+        /// <see cref="PIPE_READMODE_MESSAGE"/>:
+        /// Data is read from the pipe as a stream of messages. The function fails if this flag is specified for a byte-type pipe.
+        /// One of the following wait modes can be specified.
+        /// <see cref="PIPE_WAIT"/>, <see cref="PIPE_NOWAIT"/>
+        /// </param>
+        /// <param name="lpMaxCollectionCount">
+        /// The maximum number of bytes collected on the client computer before transmission to the server.
+        /// This parameter must be <see cref="NullRef{DWORD}"/> if the specified pipe handle is to the server end of a named pipe
+        /// or if client and server processes are on the same machine.
+        /// This parameter is ignored if the client process specifies the <see cref="FILE_FLAG_WRITE_THROUGH"/> flag
+        /// in the <see cref="CreateFile"/> function when the handle was created.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> if the collection count is not being set.
+        /// </param>
+        /// <param name="lpCollectDataTimeout">
+        /// The maximum time, in milliseconds, that can pass before a remote named pipe transfers information over the network.
+        /// This parameter must be <see cref="NullRef{DWORD}"/> if the specified pipe handle is to the server end of a named pipe
+        /// or if client and server processes are on the same computer.
+        /// This parameter is ignored if the client process specified the <see cref="FILE_FLAG_WRITE_THROUGH"/> flag
+        /// in the <see cref="CreateFile"/> function when the handle was created.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> if the collection count is not being set.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetNamedPipeHandleState", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetNamedPipeHandleState([In]HANDLE hNamedPipe, [In]in PipeModes lpMode,
+            [In]in DWORD lpMaxCollectionCount, [In]in DWORD lpCollectDataTimeout);
+
+        /// <summary>
+        /// <para>
         /// Combines the functions that write a message to and read a message from the specified named pipe into a single network operation.
         /// </para>
         /// <para>
