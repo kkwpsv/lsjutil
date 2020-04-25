@@ -32,6 +32,7 @@ using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -3240,6 +3241,60 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Sets the date and time that the specified file or directory was created, last accessed, or last modified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfiletime
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or directory.
+        /// The handle must have been created using the <see cref="CreateFile"/> function with the <see cref="FILE_WRITE_ATTRIBUTES"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new creation date and time for the file or directory.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// </param>
+        /// <param name="lpLastAccessTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new last access date and time for the file or directory.
+        /// The last access time includes the last time the file or directory was written to, read from, or (in the case of executable files) run.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// To prevent file operations using the given handle from modifying the last access time,
+        /// call <see cref="SetFileTime"/> immediately after opening the file handle and pass a <see cref="FILETIME"/> structure
+        /// that has both the <see cref="FILETIME.dwLowDateTime"/> and <see cref="FILETIME.dwHighDateTime"/> members set to 0xFFFFFFFF.
+        /// </param>
+        /// <param name="lpLastWriteTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new last modified date and time for the file or directory.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// To prevent file operations using the given handle from modifying the last access time,
+        /// call <see cref="SetFileTime"/> immediately after opening the file handle and pass a <see cref="FILETIME"/> structure
+        /// that has both the <see cref="FILETIME.dwLowDateTime"/> and <see cref="FILETIME.dwHighDateTime"/> members set to 0xFFFFFFFF.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Not all file systems can record creation and last access times and not all file systems record them in the same manner.
+        /// For example, on FAT, create time has a resolution of 10 milliseconds, write time has a resolution of 2 seconds,
+        /// and access time has a resolution of 1 day (really, the access date).
+        /// Therefore, the <see cref="GetFileTime"/> function may not return the same file time information set using <see cref="SetFileTime"/>.
+        /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in FILETIME lpCreationTime, [In]in FILETIME lpLastAccessTime,
+            [In]in FILETIME lpLastWriteTime);
 
         /// <summary>
         /// 
