@@ -17,6 +17,7 @@ using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.ICMModes;
 
 namespace Lsj.Util.Win32
 {
@@ -1198,6 +1199,65 @@ namespace Lsj.Util.Win32
         public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<RECT>))][In]StructPointerOrNullObject<RECT> lprect,
             [In]BoundsAccumulationFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetICMMode"/> function causes Image Color Management to be enabled, disabled, or queried on a given device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Identifies handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// Turns on and off image color management. This parameter can take one of the following constant values.
+        /// <see cref="ICM_ON"/>: Turns on color management. Turns off old-style color correction of halftones.
+        /// <see cref="ICM_OFF"/>: Turns off color management. Turns on old-style color correction of halftones.
+        /// <see cref="ICM_QUERY"/>: Queries the current state of color management.
+        /// <see cref="ICM_DONE_OUTSIDEDC"/>:
+        /// Turns off color management inside DC. Under Windows 2000, also turns off old-style color correction of halftones.
+        /// Not supported under Windows 95.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, the return value is a nonzero value.
+        /// If this function fails, the return value is zero.
+        /// If <see cref="ICM_QUERY"/> is specified and the function succeeds,
+        /// the nonzero value returned is <see cref="ICM_ON"/> or <see cref="ICM_OFF"/> to indicate the current mode.
+        /// </returns>
+        /// <remarks>
+        /// If the system cannot find an ICC color profile to match the state of the device, <see cref="SetICMMode"/> fails and returns zero.
+        /// Once WCS is enabled for a device context (DC), colors passed into the DC using most Win32 API functions are color matched.
+        /// The primary exceptions are <see cref="BitBlt"/> and <see cref="StretchBlt"/>.
+        /// The assumption is that when performing a bit block transfer (blit) from one DC to another,
+        /// the two DCs are already compatible and need no color correction.
+        /// If this is not the case, color correction may be performed.
+        /// Specifically, if a device independent bitmap (DIB) is used as the source for a blit,
+        /// and the blit is performed into a DC that has WCS enabled, color matching will be performed.
+        /// If this is not what you want, turn WCS off for the destination DC
+        /// by calling <see cref="SetICMMode"/> before calling <see cref="BitBlt"/> or <see cref="StretchBlt"/>.
+        /// If the <see cref="CreateCompatibleDC"/> function is used to create a bitmap in a DC,
+        /// it is possible for the bitmap to be color matched twice, once when it is created and once when a blit is performed.
+        /// The reason is that a bitmap in a DC created by the <see cref="CreateCompatibleDC"/> function acquires the current brush,
+        /// pens, and palette of the source DC.
+        /// However, WCS will be disabled by default for the new DC.
+        /// If WCS is later enabled for the new DC by using the <see cref="SetICMMode"/> function, a color correction will be done.
+        /// To prevent double color corrections through the use of the <see cref="CreateCompatibleDC"/> function,
+        /// use the <see cref="SetICMMode"/> function to turn WCS off for the source DC before the <see cref="CreateCompatibleDC"/> function is called.
+        /// When a compatible DC is created from a printer's DC (see <see cref="CreateCompatibleDC"/>),
+        /// the default is for color matching to always be performed if it is enabled for the printer's DC.
+        /// The default color profile for the printer is used when a blit is performed into the printer's DC
+        /// using <see cref="SetDIBitsToDevice"/> or <see cref="StretchDIBits"/>.
+        /// If this is not what you want, turn WCS off for the printer's DC by calling <see cref="SetICMMode"/>
+        /// before calling <see cref="SetDIBitsToDevice"/> or <see cref="StretchDIBits"/>.
+        /// Also, when printing to a printer's DC with WCS turned on, the <see cref="SetICMMode"/> function needs to be called
+        /// after every call to the <see cref="StartPage"/> function to turn back on WCS.
+        /// The StartPage function calls the <see cref="RestoreDC"/> and <see cref="SaveDC"/> functions,
+        /// which result in WCS being turned off for the printer's DC.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetICMMode", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetICMMode([In]HDC hdc, [In]ICMModes mode);
 
         /// <summary>
         /// <para>
