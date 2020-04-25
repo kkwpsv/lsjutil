@@ -3147,13 +3147,42 @@ namespace Lsj.Util.Win32
         public static extern BOOL RemoveDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
 
         /// <summary>
-        /// 
+        /// <para>
+        /// Sets the physical file size for the specified file to the current position of the file pointer.
+        /// The physical file size is also referred to as the end of the file.
+        /// The <see cref="SetEndOfFile"/> function can be used to truncate or extend a file.
+        /// To set the logical end of a file, use the <see cref="SetFileValidData"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setendoffile
+        /// </para>
         /// </summary>
-        /// <param name="uNumber"></param>
-        /// <returns></returns>
-        [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SetHandleCount([In]uint uNumber);
+        /// <param name="hFile">
+        /// A handle to the file to be extended or truncated.
+        /// The file handle must be created with the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The SetEndOfFile function can be used to truncate or extend a file.
+        /// If the file is extended, the contents of the file between the old end of the file and the new end of the file are not defined.
+        /// Each file stream has the following:
+        /// File size: the size of the data in a file, to the byte.
+        /// Allocation size: the size of the space that is allocated for a file on a disk, which is always an even multiple of the cluster size.
+        /// Valid data length: the length of the data in a file that is actually written, to the byte.
+        /// This value is always less than or equal to the file size.
+        /// The <see cref="SetEndOfFile"/> function sets the file size.
+        /// Use <see cref="SetFileValidData"/> to set the valid data length.
+        /// If <see cref="CreateFileMapping"/> is called to create a file mapping object for <paramref name="hFile"/>,
+        /// <see cref="UnmapViewOfFile"/> must be called first to unmap all views
+        /// and call <see cref="CloseHandle"/> to close the file mapping object before you can call <see cref="SetEndOfFile"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEndOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetEndOfFile([In]HANDLE hFile);
 
         /// <summary>
         /// <para>
@@ -3211,6 +3240,15 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uNumber"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT SetHandleCount([In]uint uNumber);
 
         /// <summary>
         /// <para>
