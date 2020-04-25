@@ -174,7 +174,7 @@ namespace Lsj.Util.Win32
         /// <param name="wParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <param name="lParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <returns>The return value is the result of the message processing and depends on the message sent.</returns>
-        public delegate IntPtr WNDPROC([In]IntPtr hWnd, [In]WindowsMessages uMsg, [In]UIntPtr wParam, [In]IntPtr lParam);
+        public delegate LRESULT WNDPROC([In]HWND hWnd, [In]WindowsMessages uMsg, [In]WPARAM wParam, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>

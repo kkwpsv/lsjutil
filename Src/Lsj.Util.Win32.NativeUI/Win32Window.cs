@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        protected virtual IntPtr WindowProc(IntPtr hWnd, WindowsMessages msg, UIntPtr wParam, IntPtr lParam)
+        protected virtual LRESULT WindowProc(HWND hWnd, WindowsMessages msg, WPARAM wParam, LPARAM lParam)
         {
             try
             {
