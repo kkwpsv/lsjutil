@@ -3355,8 +3355,8 @@ namespace Lsj.Util.Win32
         /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileTime", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in FILETIME lpCreationTime, [In]in FILETIME lpLastAccessTime,
-            [In]in FILETIME lpLastWriteTime);
+        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in Structs.FILETIME lpCreationTime,
+            [In]in Structs.FILETIME lpLastAccessTime, [In]in Structs.FILETIME lpLastWriteTime);
 
         /// <summary>
         /// 
