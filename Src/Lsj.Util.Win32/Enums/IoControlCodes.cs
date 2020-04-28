@@ -53,6 +53,18 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <para>
+        /// Marks the indicated file as sparse or not sparse.
+        /// In a sparse file, large ranges of zeros may not require disk allocation.
+        /// Space for nonzero data will be allocated as needed as the file is written.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_sparse?redirectedfrom=MSDN
+        /// </para>
+        /// </summary>
+        FSCTL_SET_SPARSE = 0x900c4,
+
+        /// <summary>
+        /// <para>
         /// Creates a new miniversion for the specified file. Miniversions allow you to refer to a snapshot of the file during a transaction.
         /// Miniversions are discarded when a transaction is committed or rolled back.
         /// </para>
