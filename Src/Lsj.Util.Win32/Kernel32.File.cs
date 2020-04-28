@@ -2566,11 +2566,11 @@ namespace Lsj.Util.Win32
         /// <param name="lpRootPathName">
         /// A pointer to a string that contains the root directory of the volume to be described.
         /// If this parameter is <see langword="null"/>, the root of the current directory is used. A trailing backslash is required.
-        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare", or the C drive as "C:".
+        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare\", or the C drive as "C:\".
         /// </param>
         /// <param name="lpVolumeNameBuffer">
         /// A pointer to a buffer that receives the name of a specified volume.
-        /// The buffer size is specified by the<paramref name="nVolumeNameSize"/> parameter.
+        /// The buffer size is specified by the <paramref name="nVolumeNameSize"/> parameter.
         /// </param>
         /// <param name="nVolumeNameSize">
         /// The length of a volume name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
@@ -2605,8 +2605,8 @@ namespace Lsj.Util.Win32
         /// This parameter is ignored if the file system name buffer is not supplied.
         /// </param>
         /// <returns>
-        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
-        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// If all the requested information is retrieved, the return value is <see cref="TRUE"/>.
+        /// If not all the requested information is retrieved, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -2633,11 +2633,10 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
-            [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
+        public static extern BOOL GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpVolumeNameBuffer, [In]DWORD nVolumeNameSize, [Out]out DWORD lpVolumeSerialNumber,
+            [Out]out DWORD lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpFileSystemNameBuffer, [In]DWORD nFileSystemNameSize);
 
         /// <summary>
         /// <para>
