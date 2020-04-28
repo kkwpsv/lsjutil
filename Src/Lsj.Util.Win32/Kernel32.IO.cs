@@ -339,9 +339,8 @@ namespace Lsj.Util.Win32
         /// Volume Management Control Codes
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeviceIoControl([In]IntPtr hDevice, [In]IoControlCodes dwIoControlCode, [In]IntPtr lpInBuffer, [In]uint nInBufferSize,
-            [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesReturned, [In] IntPtr lpOverlapped);
+        public static extern BOOL DeviceIoControl([In]HANDLE hDevice, [In]IoControlCodes dwIoControlCode, [In]LPVOID lpInBuffer, [In]DWORD nInBufferSize,
+            [In]LPVOID lpOutBuffer, [In]DWORD nOutBufferSize, [Out]out DWORD lpBytesReturned, [In]in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
