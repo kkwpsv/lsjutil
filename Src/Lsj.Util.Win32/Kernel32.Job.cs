@@ -1,8 +1,9 @@
-﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
 using static Lsj.Util.Win32.Enums.JobAccessRights;
@@ -10,6 +11,7 @@ using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -43,8 +45,8 @@ namespace Lsj.Util.Win32
         /// Terminal Services:  All processes within a job must run within the same session as the job.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FLASE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -92,8 +94,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later. For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AssignProcessToJobObject", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AssignProcessToJobObject([In]IntPtr hJob, [In]IntPtr hProcess);
+        public static extern BOOL AssignProcessToJobObject([In]HANDLE hJob, [In]HANDLE hProcess);
 
         /// <summary>
         /// <para>
@@ -106,7 +107,7 @@ namespace Lsj.Util.Win32
         /// <param name="lpJobAttributes">
         /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that specifies the security descriptor for the job object
         /// and determines whether child processes can inherit the returned handle.
-        /// If <paramref name="lpJobAttributes"/> is <see langword="null"/>, the job object gets a default security descriptor 
+        /// If <paramref name="lpJobAttributes"/> is <see cref="NullRef{SECURITY_ATTRIBUTES}"/>, the job object gets a default security descriptor 
         /// and the handle cannot be inherited.
         /// The ACLs in the default security descriptor for a job object come from the primary or impersonation token of the creator.
         /// </param>
@@ -126,7 +127,7 @@ namespace Lsj.Util.Win32
         /// The handle has the <see cref="JOB_OBJECT_ALL_ACCESS"/> access right.
         /// If the object existed before the function call, the function returns a handle to the existing job object
         /// and <see cref="GetLastError"/> returns <see cref="ERROR_ALREADY_EXISTS"/>.
-        /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
+        /// If the function fails, the return value is <see cref="NULL"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -145,10 +146,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateJobObjectW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateJobObject(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-        [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpJobAttributes,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE CreateJobObject([In]in SECURITY_ATTRIBUTES lpJobAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
         /// <para>
@@ -409,8 +407,8 @@ namespace Lsj.Util.Win32
         /// The size of the job information being set, in bytes.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -426,9 +424,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetInformationJobObject", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetInformationJobObject([In]IntPtr hJob, [In]JOBOBJECTINFOCLASS JobObjectInformationClass,
-            [In]IntPtr lpJobObjectInformation, [In]uint cbJobObjectInformationLength);
+        public static extern BOOL SetInformationJobObject([In]HANDLE hJob, [In]JOBOBJECTINFOCLASS JobObjectInformationClass,
+            [In]LPVOID lpJobObjectInformation, [In]DWORD cbJobObjectInformationLength);
 
         /// <summary>
         /// <para>
