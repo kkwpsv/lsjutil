@@ -471,8 +471,15 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="nExitCode">
         /// The application exit code.
-        /// This value is used as the <see cref="MSG.wParam"/> parameter of the <see cref="WM_DESTROY"/> message.
+        /// This value is used as the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
         /// </param>
+        /// <remarks>
+        /// The <see cref="PostQuitMessage"/> function posts a <see cref="WM_QUIT"/> message to the thread's message queue and returns immediately;
+        /// the function simply indicates to the system that the thread is requesting to quit at some time in the future.
+        /// When the thread retrieves the <see cref="WM_QUIT"/> message from its message queue,
+        /// it should exit its message loop and return control to the system.
+        /// The exit value returned to the system must be the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
+        /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", ExactSpelling = true, SetLastError = true)]
         public static extern void PostQuitMessage([In]int nExitCode);
 
