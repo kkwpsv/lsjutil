@@ -19,6 +19,7 @@ namespace Lsj.Util
         /// Start Process
         /// </summary>
         /// <param name="filename"></param>
+        /// <param name="workingDirectory"></param>
         public bool StartProcess(string filename, string workingDirectory = null)
         {
             if (_process != null && !_process.HasExited)
