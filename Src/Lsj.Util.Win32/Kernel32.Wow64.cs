@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 
@@ -79,5 +80,117 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process2", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsWow64Process2([In]HANDLE hProcess, [Out]out USHORT pProcessMachine, [Out]out USHORT pNativeMachine);
+
+        /// <summary>
+        /// <para>
+        /// Disables file system redirection for the calling thread. File system redirection is enabled by default.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64disablewow64fsredirection
+        /// </para>
+        /// </summary>
+        /// <param name="OldValue">
+        /// The WOW64 file system redirection value.
+        /// The system uses this parameter to store information necessary to revert (re-enable) file system redirection.
+        /// Note  This value is for system use only. To avoid unpredictable behavior, do not modify this value in any way.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="TRUE"/> value.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function is useful for 32-bit applications that want to gain access to the native system32 directory.
+        /// By default, WOW64 file system redirection is enabled.
+        /// The <see cref="Wow64DisableWow64FsRedirection"/>/<see cref="Wow64RevertWow64FsRedirection"/> function pairing is a replacement
+        /// for the functionality of the <see cref="Wow64EnableWow64FsRedirection"/> function.
+        /// To restore file system redirection, call the <see cref="Wow64RevertWow64FsRedirection"/> function.
+        /// Every successful call to the <see cref="Wow64DisableWow64FsRedirection"/> function must have a matching call
+        /// to the <see cref="Wow64RevertWow64FsRedirection"/> function.
+        /// This will ensure redirection is re-enabled and frees associated system resources.
+        /// Note The <see cref="Wow64DisableWow64FsRedirection"/> function affects all file operations performed by the current thread,
+        /// which can have unintended consequences if file system redirection is disabled for any length of time.
+        /// For example, DLL loading depends on file system redirection, so disabling file system redirection will cause DLL loading to fail.
+        /// Also, many feature implementations use delayed loading and will fail while redirection is disabled.
+        /// The failure state of the initial delay-load operation is persisted, so any subsequent use of the delay-load function
+        /// will fail even after file system redirection is re-enabled.
+        /// To avoid these problems, disable file system redirection immediately before calls to specific file I/O functions
+        /// (such as <see cref="CreateFile"/>) that must not be redirected, and re-enable file system redirection immediately
+        /// afterward using <see cref="Wow64RevertWow64FsRedirection"/>.
+        /// Disabling file system redirection affects only operations made by the current thread.
+        /// Some functions, such as <see cref="CreateProcessAsUser"/>, do their work on another thread,
+        /// which is not affected by the state of file system redirection in the calling thread.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64DisableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Wow64DisableWow64FsRedirection([Out]out PVOID OldValue);
+
+        /// <summary>
+        /// <para>
+        /// Enables or disables file system redirection for the calling thread.
+        /// This function may not work reliably when there are nested calls.
+        /// Therefore, this function has been replaced by the <see cref="Wow64DisableWow64FsRedirection"/>
+        /// and <see cref="Wow64RevertWow64FsRedirection"/> functions.
+        /// Note These two methods of controlling file system redirection cannot be combined in any way.
+        /// Do not use the <see cref="Wow64EnableWow64FsRedirection"/> function with either the <see cref="Wow64DisableWow64FsRedirection"/>
+        /// or the <see cref="Wow64RevertWow64FsRedirection"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wow64enablewow64fsredirection
+        /// </para>
+        /// </summary>
+        /// <param name="Wow64FsEnableRedirection">
+        /// Indicates the type of request for WOW64 system folder redirection.
+        /// If <see cref="BOOLEAN.TRUE"/>, requests redirection be enabled; if <see cref="BOOLEAN.FALSE"/>, requests redirection be disabled.
+        /// </param>
+        /// <returns>
+        /// Boolean value indicating whether the function succeeded.
+        /// If <see cref="BOOLEAN.TRUE"/>, the function succeeded; if <see cref="BOOLEAN.FALSE"/>, the function failed.
+        /// </returns>
+        /// <remarks>
+        /// This function is useful for 32-bit applications that want to gain access to the native system32 directory.
+        /// By default, WOW64 file system redirection is enabled.
+        /// Note The <see cref="Wow64EnableWow64FsRedirection"/> function affects all file operations performed by the current thread,
+        /// which can have unintended consequences if file system redirection is disabled for any length of time.
+        /// For example, DLL loading depends on file system redirection, so disabling file system redirection will cause DLL loading to fail.
+        /// Also, many feature implementations use delayed loading and will fail while redirection is disabled.
+        /// The failure state of the initial delay-load operation is persisted, so any subsequent use of the delay-load function
+        /// will fail even after file system redirection is re-enabled.
+        /// To avoid these problems, disable file system redirection immediately before calls to specific file I/O functions
+        /// (such as <see cref="CreateFile"/>) that must not be redirected, and re-enable file system redirection immediately
+        /// afterward using <code>Wow64EnableWow64FsRedirection(TRUE)</code>.
+        /// File redirection is enabled or disabled only for the thread calling this function.
+        /// This affects only operations made by the current thread.
+        /// Some functions, such as <see cref="CreateProcessAsUser"/>, do their work on another thread,
+        /// which is not affected by the state of file system redirection in the calling thread.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64EnableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOLEAN Wow64EnableWow64FsRedirection([In]BOOLEAN Wow64FsEnableRedirection);
+
+        /// <summary>
+        /// <para>
+        /// Restores file system redirection for the calling thread.
+        /// This function should not be called without a previous call to the <see cref="Wow64DisableWow64FsRedirection"/> function.
+        /// Any data allocation on behalf of the <see cref="Wow64DisableWow64FsRedirection"/> function is cleaned up by this function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64revertwow64fsredirection
+        /// </para>
+        /// </summary>
+        /// <param name="OlValue"></param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="TRUE"/> value.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="Wow64DisableWow64FsRedirection"/>/<see cref="Wow64RevertWow64FsRedirection"/> function pair
+        /// is a replacement for the functionality of the <see cref="Wow64EnableWow64FsRedirection"/> function.
+        /// To disable file system redirection, call the <see cref="Wow64DisableWow64FsRedirection"/> function.
+        /// Every call to the <b>Wow64DisableWow64FsRedirection</b> function must have a matching call
+        /// to the <see cref="Wow64RevertWow64FsRedirection"/> function.
+        /// This will ensure redirection is re-enabled and frees associated system resources.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64RevertWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Wow64RevertWow64FsRedirection([In]PVOID OlValue);
     }
 }
