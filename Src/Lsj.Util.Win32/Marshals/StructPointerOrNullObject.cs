@@ -8,6 +8,7 @@ namespace Lsj.Util.Win32.Marshals
     /// StructPointerOrNullObject
     /// </summary>
     /// <typeparam name="T">struct type</typeparam>
+    [Obsolete]
     public class StructPointerOrNullObject<T> where T : struct
     {
         /// <summary>
