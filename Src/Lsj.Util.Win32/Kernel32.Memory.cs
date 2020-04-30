@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
 
 namespace Lsj.Util.Win32
 {
@@ -1569,6 +1570,182 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAllocEx", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID VirtualAllocEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize,
             [In]MemoryAllocationTypes flAllocationType, [In]DWORD flProtect);
+
+        /// <summary>
+        /// <para>
+        /// Releases, decommits, or releases and decommits a region of pages within the virtual address space of the calling process.
+        /// To free memory allocated in another process by the <see cref="VirtualAllocEx"/> function, use the <see cref="VirtualFreeEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfree
+        /// </para>
+        /// </summary>
+        /// <param name="lpAddress">
+        /// A pointer to the base address of the region of pages to be freed.
+        /// If the <paramref name="dwFreeType"/> parameter is <see cref="MEM_RELEASE"/>, this parameter must be the base address returned
+        /// by the <see cref="VirtualAlloc"/> function when the region of pages is reserved.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region of memory to be freed, in bytes.
+        /// If the <paramref name="dwFreeType"/> parameter is <see cref="MEM_RELEASE"/>, this parameter must be 0 (zero).
+        /// The function frees the entire region that is reserved in the initial allocation call to <see cref="VirtualAlloc"/>.
+        /// If the <paramref name="dwFreeType"/> parameter is <see cref="MEM_DECOMMIT"/>, the function decommits all memory pages
+        /// that contain one or more bytes in the range from the <paramref name="lpAddress"/> parameter
+        /// to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means, for example, that a 2-byte region of memory that straddles a page boundary causes both pages to be decommitted.
+        /// If <paramref name="lpAddress"/> is the base address returned by <see cref="VirtualAlloc"/> and <paramref name="dwSize"/> is 0 (zero),
+        /// the function decommits the entire region that is allocated by <see cref="VirtualAlloc"/>.
+        /// After that, the entire region is in the reserved state.
+        /// </param>
+        /// <param name="dwFreeType">
+        /// The type of free operation. This parameter can be one of the following values.
+        /// <see cref="MEM_COALESCE_PLACEHOLDERS"/>:
+        /// To coalesce two adjacent placeholders, specify <code>MEM_RELEASE | MEM_COALESCE_PLACEHOLDERS</code>.
+        /// When you coalesce placeholders, <paramref name="lpAddress"/> and <paramref name="dwSize"/> must exactly match those of the placeholder.
+        /// <see cref="MEM_PRESERVE_PLACEHOLDER"/>:
+        /// Frees an allocation back to a placeholder (after you've replaced a placeholder with a private allocation
+        /// using <see cref="VirtualAlloc2"/> or <see cref="Virtual2AllocFromApp"/>).
+        /// To split a placeholder into two placeholders, specify <code>MEM_RELEASE | MEM_PRESERVE_PLACEHOLDER</code>.
+        /// <see cref="MEM_DECOMMIT"/>:
+        /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state.
+        /// The function does not fail if you attempt to decommit an uncommitted page.
+        /// This means that you can decommit a range of pages without first determining the current commitment state.
+        /// Do not use this value with <see cref="MEM_RELEASE"/>.
+        /// The <see cref="MEM_DECOMMIT"/> value is not supported when the <paramref name="lpAddress"/> parameter provides the base address for an enclave.
+        /// <see cref="MEM_RELEASE"/>:
+        /// Releases the specified region of pages, or placeholder (for a placeholder, the address space is released and available for other allocations).
+        /// After this operation, the pages are in the free state.
+        /// If you specify this value, <paramref name="dwSize"/> must be 0 (zero), and <paramref name="lpAddress"/> must point to the base address
+        /// returned by the <see cref="VirtualAlloc"/> function when the region is reserved.
+        /// The function fails if either of these conditions is not met.
+        /// If any pages in the region are committed currently, the function first decommits, and then releases them.
+        /// The function does not fail if you attempt to release pages that are in different states, some reserved and some committed.
+        /// This means that you can release a range of pages without first determining the current commitment state.
+        /// Do not use this value with <see cref="MEM_DECOMMIT"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each page of memory in a process virtual address space has a Page State.
+        /// The <see cref="VirtualFree"/> function can decommit a range of pages that are in different states, some committed and some uncommitted.
+        /// This means that you can decommit a range of pages without first determining the current commitment state of each page.
+        /// Decommitting a page releases its physical storage, either in memory or in the paging file on disk.
+        /// If a page is decommitted but not released, its state changes to reserved.
+        /// Subsequently, you can call <see cref="VirtualAlloc"/> to commit it, or <see cref="VirtualFree"/> to release it.
+        /// Attempts to read from or write to a reserved page results in an access violation exception.
+        /// The <see cref="VirtualFree"/> function can release a range of pages that are in different states, some reserved and some committed.
+        /// This means that you can release a range of pages without first determining the current commitment state of each page.
+        /// The entire range of pages originally reserved by the <see cref="VirtualAlloc"/> function must be released at the same time.
+        /// If a page is released, its state changes to free, and it is available for subsequent allocation operations.
+        /// After memory is released or decommited, you can never refer to the memory again.
+        /// Any information that may have been in that memory is gone forever.
+        /// Attempting to read from or write to a free page results in an access violation exception.
+        /// If you need to keep information, do not decommit or free memory that contains the information.
+        /// The <see cref="VirtualFree"/> function can be used on an AWE region of memory,
+        /// and it invalidates any physical page mappings in the region when freeing the address space.
+        /// However, the physical page is not deleted, and the application can use them.
+        /// The application must explicitly call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// When the process is terminated, all resources are cleaned up automatically.
+        /// To delete an enclave when you finish using it, specify the following values:
+        /// The base address of the enclave for the <paramref name="lpAddress"/> parameter.
+        /// 0 for the <paramref name="dwSize"/> parameter.
+        /// <see cref="MEM_RELEASE"/> for the <paramref name="dwFreeType"/> parameter. The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFree", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VirtualFree([In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]VirtualFreeTypes dwFreeType);
+
+        /// <summary>
+        /// <para>
+        /// Releases, decommits, or releases and decommits a region of memory within the virtual address space of a specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfreeex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process. The function frees memory within the virtual address space of the process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpAddress">
+        /// A pointer to the starting address of the region of memory to be freed.
+        /// If the <paramref name="dwFreeType"/> parameter is <see cref="MEM_RELEASE"/>, <paramref name="lpAddress"/> must be
+        /// the base address returned by the <see cref="VirtualAllocEx"/> function when the region is reserved.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region of memory to free, in bytes.
+        /// If the dwFreeType parameter is <see cref="MEM_RELEASE"/>, <paramref name="dwSize"/> must be 0 (zero).
+        /// The function frees the entire region that is reserved in the initial allocation call to <see cref="VirtualAllocEx"/>.
+        /// If <paramref name="dwFreeType"/> is <see cref="MEM_DECOMMIT"/>, the function decommits all memory pages that contain one or more bytes
+        /// in the range from the <paramref name="lpAddress"/> parameter to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means, for example, that a 2-byte region of memory that straddles a page boundary causes both pages to be decommitted.
+        /// If <paramref name="lpAddress"/> is the base address returned by <see cref="VirtualAllocEx"/> and <paramref name="dwSize"/> is 0 (zero),
+        /// the function decommits the entire region that is allocated by <see cref="VirtualAllocEx"/>.
+        /// After that, the entire region is in the reserved state.
+        /// </param>
+        /// <param name="dwFreeType">
+        /// The type of free operation. This parameter can be one of the following values.
+        /// <see cref="MEM_COALESCE_PLACEHOLDERS"/>:
+        /// To coalesce two adjacent placeholders, specify <code>MEM_RELEASE | MEM_COALESCE_PLACEHOLDERS</code>.
+        /// When you coalesce placeholders, <paramref name="lpAddress"/> and <paramref name="dwSize"/> must exactly match those of the placeholder.
+        /// <see cref="MEM_PRESERVE_PLACEHOLDER"/>:
+        /// Frees an allocation back to a placeholder (after you've replaced a placeholder with a private allocation
+        /// using <see cref="VirtualAlloc2"/> or <see cref="Virtual2AllocFromApp"/>).
+        /// To split a placeholder into two placeholders, specify <code>MEM_RELEASE | MEM_PRESERVE_PLACEHOLDER</code>.
+        /// <see cref="MEM_DECOMMIT"/>:
+        /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state.
+        /// The function does not fail if you attempt to decommit an uncommitted page.
+        /// This means that you can decommit a range of pages without first determining their current commitment state.
+        /// Do not use this value with <see cref="MEM_RELEASE"/>.
+        /// The <see cref="MEM_DECOMMIT"/> value is not supported when the <paramref name="lpAddress"/> parameter provides the base address for an enclave.
+        /// <see cref="MEM_RELEASE"/>:
+        /// Releases the specified region of pages, or placeholder (for a placeholder, the address space is released and available for other allocations).
+        /// After the operation, the pages are in the free state.
+        /// If you specify this value, <paramref name="dwSize"/> must be 0 (zero), and lpAddress must point to the base address returned
+        /// by the <see cref="VirtualAllocEx"/> function when the region is reserved.
+        /// The function fails if either of these conditions is not met.
+        /// If any pages in the region are committed currently, the function first decommits, and then releases them.
+        /// The function does not fail if you attempt to release pages that are in different states, some reserved and some committed.
+        /// This means that you can release a range of pages without first determining the current commitment state.
+        /// Do not use this value with <see cref="MEM_DECOMMIT"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="TRUE"/> value.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each page of memory in a process virtual address space has a Page State.
+        /// The <see cref="VirtualFreeEx"/> function can decommit a range of pages that are in different states, some committed and some uncommitted.
+        /// This means that you can decommit a range of pages without first determining the current commitment state of each page.
+        /// Decommitting a page releases its physical storage, either in memory or in the paging file on disk.
+        /// If a page is decommitted but not released, its state changes to reserved.
+        /// Subsequently, you can call <see cref="VirtualAllocEx"/> to commit it, or VirtualFreeEx to release it.
+        /// Attempting to read from or write to a reserved page results in an access violation exception.
+        /// The VirtualFreeEx function can release a range of pages that are in different states, some reserved and some committed.
+        /// This means that you can release a range of pages without first determining the current commitment state of each page.
+        /// The entire range of pages originally reserved by VirtualAllocEx must be released at the same time.
+        /// If a page is released, its state changes to free, and it is available for subsequent allocation operations.
+        /// After memory is released or decommitted, you can never refer to the memory again.
+        /// Any information that may have been in that memory is gone forever.
+        /// Attempts to read from or write to a free page results in an access violation exception.
+        /// If you need to keep information, do not decommit or free memory that contains the information.
+        /// The <see cref="VirtualFreeEx"/> function can be used on an AWE region of memory and it invalidates
+        /// any physical page mappings in the region when freeing the address space.
+        /// However, the physical pages are not deleted, and the application can use them.
+        /// The application must explicitly call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// When the process is terminated, all resources are automatically cleaned up.
+        /// To delete an enclave when you finish using it, specify the following values:
+        /// The base address of the enclave for the <paramref name="lpAddress"/> parameter.
+        /// 0 for the <paramref name="dwSize"/> parameter.
+        /// <see cref="MEM_RELEASE"/> for the <paramref name="dwFreeType"/> parameter.
+        /// The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFreeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VirtualFreeEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]VirtualFreeTypes dwFreeType);
 
         /// <summary>
         /// <para>
