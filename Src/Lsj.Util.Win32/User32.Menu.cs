@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TrackPopupMenuFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -1357,6 +1358,86 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackPopupMenu", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TrackPopupMenu([In]HMENU hMenu, [In]TrackPopupMenuFlags uFlags, [In]int x, [In]int y, [In]int nReserved,
             [In]HWND hWnd, [In]in RECT prcRect);
+
+        /// <summary>
+        /// <para>
+        /// Displays a shortcut menu at the specified location and tracks the selection of items on the shortcut menu.
+        /// The shortcut menu can appear anywhere on the screen.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenuex
+        /// </para>
+        /// </summary>
+        /// <param name="hMenu">
+        /// A handle to the shortcut menu to be displayed.
+        /// This handle can be obtained by calling the <see cref="CreatePopupMenu"/> function to create a new shortcut menu
+        /// or by calling the <see cref="GetSubMenu"/> function to retrieve a handle to a submenu associated with an existing menu item.
+        /// </param>
+        /// <param name="uFlags">
+        /// Specifies function options.
+        /// Use one of the following flags to specify how the function positions the shortcut menu horizontally.
+        /// <see cref="TPM_CENTERALIGN"/>, <see cref="TPM_LEFTALIGN"/>, <see cref="TPM_RIGHTALIGN"/>
+        /// Use one of the following flags to specify how the function positions the shortcut menu vertically.
+        /// <see cref="TPM_BOTTOMALIGN"/>, <see cref="TPM_TOPALIGN"/>, <see cref="TPM_VCENTERALIGN"/>
+        /// Use the following flags to control discovery of the user selection without having to set up a parent window for the menu.
+        /// <see cref="TPM_NONOTIFY"/>, <see cref="TPM_RETURNCMD"/>
+        /// Use one of the following flags to specify which mouse button the shortcut menu tracks.
+        /// <see cref="TPM_LEFTBUTTON"/>, <see cref="TPM_RIGHTBUTTON"/>
+        /// Use any reasonable combination of the following flags to modify the animation of a menu.
+        /// For example, by selecting a horizontal and a vertical flag, you can achieve diagonal animation.
+        /// <see cref="TPM_HORNEGANIMATION"/>, <see cref="TPM_HORPOSANIMATION"/>, <see cref="TPM_NOANIMATION"/>,
+        /// <see cref="TPM_VERNEGANIMATION"/>, <see cref="TPM_VERPOSANIMATION"/>
+        /// For any animation to occur, the <see cref="SystemParametersInfo"/> function must set <see cref="SPI_SETMENUANIMATION"/>.
+        /// Also, all the TPM_*ANIMATION flags, except <see cref="TPM_NOANIMATION"/>, are ignored if menu fade animation is on.
+        /// For more information, see the <see cref="SPI_GETMENUFADE"/> flag in <see cref="SystemParametersInfo"/>.
+        /// Use the <see cref="TPM_RECURSE"/> flag to display a menu when another menu is already displayed.
+        /// This is intended to support context menus within a menu.
+        /// Use one of the following flags to specify whether to accommodate horizontal or vertical alignment.
+        /// <see cref="TPM_HORIZONTAL"/>, <see cref="TPM_VERTICAL"/>
+        /// The excluded rectangle is a portion of the screen that the menu should not overlap; it is specified by the lptpm parameter.
+        /// For right-to-left text layout, use <see cref="TPM_LAYOUTRTL"/>. By default, the text layout is left-to-right.
+        /// </param>
+        /// <param name="x">
+        /// The horizontal location of the shortcut menu, in screen coordinates.
+        /// </param>
+        /// <param name="y">
+        /// The vertical location of the shortcut menu, in screen coordinates.
+        /// </param>
+        /// <param name="hwnd">
+        /// A handle to the window that owns the shortcut menu.
+        /// This window receives all messages from the menu.
+        /// The window does not receive a <see cref="WM_COMMAND"/> message from the menu until the function returns.
+        /// If you specify <see cref="TPM_NONOTIFY"/> in the <paramref name="uFlags"/> parameter,
+        /// the function does not send messages to the window identified by <paramref name="hwnd"/>.
+        /// However, you must still pass a window handle in <paramref name="hwnd"/>.
+        /// It can be any window handle from your application.
+        /// </param>
+        /// <param name="lptpm">
+        /// A pointer to a <see cref="TPMPARAMS"/> structure that specifies an area of the screen the menu should not overlap.
+        /// This parameter can be <see cref="NullRef{TPMPARAMS}"/>.
+        /// </param>
+        /// <returns>
+        /// If you specify <see cref="TPM_RETURNCMD"/> in the <paramref name="uFlags"/> parameter,
+        /// the return value is the menu-item identifier of the item that the user selected.
+        /// If the user cancels the menu without making a selection, or if an error occurs, the return value is <see cref="FALSE"/>.
+        /// If you do not specify <see cref="TPM_RETURNCMD"/> in the <paramref name="uFlags"/> parameter,
+        /// the return value is <see cref="TRUE"/> if the function succeeds and <see cref="FALSE"/> if it fails.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Call GetSystemMetrics with <see cref="SM_MENUDROPALIGNMENT"/> to determine
+        /// the correct horizontal alignment flag (<see cref="TPM_LEFTALIGN"/> or <see cref="TPM_RIGHTALIGN"/>)
+        /// and/or horizontal animation direction flag (<see cref="TPM_HORPOSANIMATION"/> or <see cref="TPM_HORNEGANIMATION"/>)
+        /// to pass to <see cref="TrackPopupMenu"/> or <see cref="TrackPopupMenuEx"/>.
+        /// This is essential for creating an optimal user experience, especially when developing Microsoft Tablet PC applications.
+        /// To display a context menu for a notification icon, the current window must be the foreground window
+        /// before the application calls <see cref="TrackPopupMenu"/> or <see cref="TrackPopupMenuEx"/>.
+        /// Otherwise, the menu will not disappear when the user clicks outside of the menu or the window that created the menu (if it is visible).
+        /// If the current window is a child window, you must set the (top-level) parent window as the foreground window.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackPopupMenuEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TrackPopupMenuEx([In]HMENU hMenu, [In]TrackPopupMenuFlags uFlags, [In] int x, [In]int y,
+            [In]HWND hwnd, [In]in TPMPARAMS lptpm);
 
         /// <summary>
         /// <para>
