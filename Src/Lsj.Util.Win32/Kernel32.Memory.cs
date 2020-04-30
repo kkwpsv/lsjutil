@@ -1841,9 +1841,66 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool VirtualProtect([In]IntPtr lpAddress, [In]IntPtr dwSize, [In]MemoryProtectionConstants flNewProtect,
+        public static extern BOOL VirtualProtect([In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]MemoryProtectionConstants flNewProtect,
             [Out]out MemoryProtectionConstants lpflOldProtect);
+
+        /// <summary>
+        /// <para>
+        /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose memory protection is to be changed.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpAddress">
+        /// A pointer to the base address of the region of pages whose access protection attributes are to be changed.
+        /// All pages in the specified region must be within the same reserved region allocated
+        /// when calling the <see cref="VirtualAlloc"/> or <see cref="VirtualAllocEx"/> function using <see cref="MEM_RESERVE"/>.
+        /// The pages cannot span adjacent reserved regions that were allocated
+        /// by separate calls to <see cref="VirtualAlloc"/> or <see cref="VirtualAllocEx"/> using <see cref="MEM_RESERVE"/>.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region whose access protection attributes are changed, in bytes.
+        /// The region of affected pages includes all pages containing one or more bytes in the range
+        /// from the <paramref name="lpAddress"/> parameter to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means that a 2-byte range straddling a page boundary causes the protection attributes of both pages to be changed.
+        /// </param>
+        /// <param name="flNewProtect">
+        /// The memory protection option. This parameter can be one of the memory protection constants.
+        /// For mapped views, this value must be compatible with the access protection specified when the view was mapped
+        /// (see <see cref="MapViewOfFile"/>, <see cref="MapViewOfFileEx"/>, and <see cref="MapViewOfFileExNuma"/>).
+        /// </param>
+        /// <param name="lpflOldProtect">
+        /// A pointer to a variable that receives the previous access protection of the first page in the specified region of pages.
+        /// If this parameter is <see cref="NullRef{MemoryProtectionConstants}"/> or does not point to a valid variable, the function fails.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The access protection value can be set only on committed pages.
+        /// If the state of any page in the specified region is not committed, the function fails
+        /// and returns without modifying the access protection of any pages in the specified region.
+        /// The <see cref="PAGE_GUARD"/> protection modifier establishes guard pages. Guard pages act as one-shot access alarms.
+        /// For more information, see Creating Guard Pages.
+        /// It is best to avoid using <see cref="VirtualProtectEx"/> to change page protections on memory blocks
+        /// allocated by <see cref="GlobalAlloc"/>, <see cref="HeapAlloc"/>, or <see cref="LocalAlloc"/>,
+        /// because multiple memory blocks can exist on a single page.
+        /// The heap manager assumes that all pages in the heap grant at least read and write access.
+        /// When protecting a region that will be executable, the calling program bears responsibility for ensuring cache coherency
+        /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
+        /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtectEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VirtualProtectEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize,
+            [In]MemoryProtectionConstants flNewProtect, [Out]out MemoryProtectionConstants lpflOldProtect);
 
         /// <summary>
         /// <para>
