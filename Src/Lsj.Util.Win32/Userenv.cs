@@ -136,5 +136,38 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadUserProfileW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LoadUserProfile([In]HANDLE hToken, [In]in PROFILEINFO lpProfileInfo);
+
+        /// <summary>
+        /// <para>
+        /// Unloads a user's profile that was loaded by the <see cref="LoadUserProfile"/> function.
+        /// The caller must have administrative privileges on the computer.
+        /// For more information, see the Remarks section of the <see cref="LoadUserProfile"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/userenv/nf-userenv-unloaduserprofile
+        /// </para>
+        /// </summary>
+        /// <param name="hToken">
+        /// Token for the user, returned from the <see cref="LogonUser"/>, <see cref="CreateRestrictedToken"/>, <see cref="DuplicateToken"/>,
+        /// <see cref="OpenProcessToken"/>, or <see cref="OpenThreadToken"/> function.
+        /// The token must have <see cref="TOKEN_IMPERSONATE"/> and <see cref="TOKEN_DUPLICATE"/> access.
+        /// For more information, see Access Rights for Access-Token Objects.
+        /// </param>
+        /// <param name="hProfile">
+        /// Handle to the registry key. This value is the <see cref="PROFILEINFO.hProfile"/> member of the <see cref="PROFILEINFO"/> structure.
+        /// For more information see the Remarks section of <see cref="LoadUserProfile"/> and Registry Key Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Before calling UnloadUserProfile you should ensure that all handles to keys that you have opened in the user's registry hive are closed.
+        /// If you do not close all open registry handles, the user's profile fails to unload.
+        /// For more information, see Registry Key Security and Access Rights and Registry Hives.
+        /// For more information about calling functions that require administrator privileges, see Running with Special Privileges.
+        /// </remarks>
+        [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "UnloadUserProfile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnloadUserProfile([In]HANDLE hToken, [In]HANDLE hProfile);
     }
 }
