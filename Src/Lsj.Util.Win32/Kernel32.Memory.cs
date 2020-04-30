@@ -1749,6 +1749,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Locks the specified region of the process's virtual address space into physical memory,
+        /// ensuring that subsequent access to the region will not incur a page fault.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtuallock
+        /// </para>
+        /// </summary>
+        /// <param name="lpAddress">
+        /// A pointer to the base address of the region of pages to be locked.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region to be locked, in bytes.
+        /// The region of affected pages includes all pages that contain one or more bytes in the range
+        /// from the <paramref name="lpAddress"/> parameter to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means that a 2-byte range straddling a page boundary causes both pages to be locked.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// All pages in the specified region must be committed. Memory protected with <see cref="PAGE_NOACCESS"/> cannot be locked.
+        /// Locking pages into memory may degrade the performance of the system by reducing the available RAM and forcing the system
+        /// to swap out other critical pages to the paging file.
+        /// Each version of Windows has a limit on the maximum number of pages a process can lock.
+        /// This limit is intentionally small to avoid severe performance degradation.
+        /// Applications that need to lock larger numbers of pages must first call the <see cref="SetProcessWorkingSetSize"/> function
+        /// to increase their minimum and maximum working set sizes.
+        /// The maximum number of pages that a process can lock is equal to the number of pages in its minimum working set minus a small overhead.
+        /// Pages that a process has locked remain in physical memory until the process unlocks them or terminates.
+        /// These pages are guaranteed not to be written to the pagefile while they are locked.
+        /// To unlock a region of locked pages, use the <see cref="VirtualUnlock"/> function.
+        /// Locked pages are automatically unlocked when the process terminates.
+        /// This function is not like the <see cref="GlobalLock"/> or <see cref="LocalLock"/> function in that
+        /// it does not increment a lock count and translate a handle into a pointer.
+        /// There is no lock count for virtual pages, so multiple calls to the <see cref="VirtualUnlock"/> function
+        /// are never required to unlock a region of pages.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualLock", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VirtualLock([In]LPVOID lpAddress, [In]SIZE_T dwSize);
+
+        /// <summary>
+        /// <para>
         /// Changes the protection on a region of committed pages in the virtual address space of the calling process.
         /// To change the access protection of any process, use the <see cref="VirtualProtectEx"/> function.
         /// </para>

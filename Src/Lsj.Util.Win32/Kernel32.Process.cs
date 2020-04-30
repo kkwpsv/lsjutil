@@ -1444,7 +1444,7 @@ namespace Lsj.Util.Win32
         /// does not guarantee that the requested memory will be reserved, or that it will remain resident at all times.
         /// When the application is idle, or a low-memory situation causes a demand for memory,
         /// the operating system can reduce the application's working set.
-        /// An application can use the <see cref="VirtualLockfunction"/> to lock ranges of the application's virtual address space in memory;
+        /// An application can use the <see cref="VirtualLock"/> function to lock ranges of the application's virtual address space in memory;
         /// however, that can potentially degrade the performance of the system.
         /// When you increase the working set size of an application, you are taking away physical memory from the rest of the system.
         /// This can degrade the performance of other applications and the system as a whole.
