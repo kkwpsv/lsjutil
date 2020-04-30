@@ -1076,17 +1076,16 @@ namespace Lsj.Util.Win32
         /// On success, receives the number of characters written to the buffer, not including the null-terminating character.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
+        public static extern BOOL QueryFullProcessImageName([In]HANDLE hProcess, [In]DWORD dwFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpExeName, [In][Out]ref DWORD lpdwSize);
 
         /// <summary>
         /// <para>
