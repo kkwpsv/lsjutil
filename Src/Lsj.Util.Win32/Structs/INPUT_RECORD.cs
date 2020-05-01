@@ -30,15 +30,15 @@ namespace Lsj.Util.Win32.Structs
         /// The event information.
         /// The format of this member depends on the event type specified by the <see cref="EventType"/> member.
         /// </summary>
-        public UnionStruct<KEY_EVENT_RECORD, MOUSE_EVENT_RECORD, WINDOW_BUFFER_SIZE_RECORD, MENU_EVENT_RECORD, FOCUS_EVENT_RECORD> Event;
+        public UnionStruct Event;
 
         /// <summary>
         /// 
         /// </summary>
         public KEY_EVENT_RECORD KeyEvent
         {
-            get => Event.Struct1;
-            set => Event.Struct1 = value;
+            get => Event.KeyEvent;
+            set => Event.KeyEvent = value;
         }
 
         /// <summary>
@@ -46,8 +46,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public MOUSE_EVENT_RECORD MouseEvent
         {
-            get => Event.Struct2;
-            set => Event.Struct2 = value;
+            get => Event.MouseEvent;
+            set => Event.MouseEvent = value;
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WINDOW_BUFFER_SIZE_RECORD WindowBufferSizeEvent
         {
-            get => Event.Struct3;
-            set => Event.Struct3 = value;
+            get => Event.WindowBufferSizeEvent;
+            set => Event.WindowBufferSizeEvent = value;
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public MENU_EVENT_RECORD MenuEvent
         {
-            get => Event.Struct4;
-            set => Event.Struct4 = value;
+            get => Event.MenuEvent;
+            set => Event.MenuEvent = value;
         }
 
         /// <summary>
@@ -73,8 +73,45 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public FOCUS_EVENT_RECORD FocusEvent
         {
-            get => Event.Struct5;
-            set => Event.Struct5 = value;
+            get => Event.FocusEvent;
+            set => Event.FocusEvent = value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        public struct UnionStruct
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public KEY_EVENT_RECORD KeyEvent;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public MOUSE_EVENT_RECORD MouseEvent;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public WINDOW_BUFFER_SIZE_RECORD WindowBufferSizeEvent;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public MENU_EVENT_RECORD MenuEvent;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public FOCUS_EVENT_RECORD FocusEvent;
         }
     }
 }

@@ -81,26 +81,66 @@ namespace Lsj.Util.Win32.Structs
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         public M128A[] FloatRegisters;
 
-        private UnionStruct<UnionStructx86, UnionStructx64> unionStruct;
+        /// <summary>
+        /// 
+        /// </summary>
+        public UnionStruct unionStruct;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct UnionStructx86
+        public struct UnionStructx86
         {
+            /// <summary>
+            /// XmmRegisters
+            /// </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public M128A[] XmmRegisters;
 
+            /// <summary>
+            /// Reserved4
+            /// </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 224)]
             public BYTE[] Reserved4;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct UnionStructx64
+        public struct UnionStructx64
         {
+            /// <summary>
+            /// XmmRegisters
+            /// </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             public M128A[] XmmRegisters;
 
+            /// <summary>
+            /// Reserved4
+            /// </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 96)]
             public BYTE[] Reserved4;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        public struct UnionStruct
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public UnionStructx86 UnionStructx86;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public UnionStructx64 UnionStructx64;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_CPU_RATE_CONTROL;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
@@ -47,8 +46,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public DWORD CpuRate
         {
-            get => DUMMYUNIONNAME.Struct1;
-            set => DUMMYUNIONNAME.Struct1 = value;
+            get => DUMMYUNIONNAME.CpuRate;
+            set => DUMMYUNIONNAME.CpuRate = value;
         }
 
         /// <summary>
@@ -61,8 +60,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public DWORD Weight
         {
-            get => DUMMYUNIONNAME.Struct2;
-            set => DUMMYUNIONNAME.Struct2 = value;
+            get => DUMMYUNIONNAME.Weight;
+            set => DUMMYUNIONNAME.Weight = value;
         }
 
         /// <summary>
@@ -73,8 +72,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WORD MinRate
         {
-            get => DUMMYUNIONNAME.Struct3.Struct1;
-            set => DUMMYUNIONNAME.Struct3.Struct1 = value;
+            get => DUMMYUNIONNAME.MinRate;
+            set => DUMMYUNIONNAME.MinRate = value;
         }
 
         /// <summary>
@@ -84,10 +83,26 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WORD MaxRate
         {
-            get => DUMMYUNIONNAME.Struct3.Struct2;
-            set => DUMMYUNIONNAME.Struct3.Struct2 = value;
+            get => DUMMYUNIONNAME.MaxRate;
+            set => DUMMYUNIONNAME.MaxRate = value;
         }
 
-        private UnionStruct<DWORD, DWORD, UnionStruct<WORD, WORD>> DUMMYUNIONNAME;
+        private UnionStruct DUMMYUNIONNAME;
+
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct UnionStruct
+        {
+            [FieldOffset(0)]
+            public DWORD CpuRate;
+
+            [FieldOffset(0)]
+            public DWORD Weight;
+
+            [FieldOffset(0)]
+            public WORD MaxRate;
+
+            [FieldOffset(2)]
+            public WORD MinRate;
+        }
     }
 }

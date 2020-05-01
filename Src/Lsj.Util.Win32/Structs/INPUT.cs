@@ -24,15 +24,15 @@ namespace Lsj.Util.Win32.Structs
         public InputTypes type;
 
 #pragma warning disable IDE1006
-        private UnionStruct<MOUSEINPUT, KEYBDINPUT, HARDWAREINPUT> DUMMYUNIONNAME;
+        private UnionStruct DUMMYUNIONNAME;
 
         /// <summary>
         /// 
         /// </summary>
         public MOUSEINPUT mi
         {
-            get => DUMMYUNIONNAME.Struct1;
-            set => DUMMYUNIONNAME.Struct1 = value;
+            get => DUMMYUNIONNAME.mi;
+            set => DUMMYUNIONNAME.mi = value;
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public KEYBDINPUT ki
         {
-            get => DUMMYUNIONNAME.Struct2;
-            set => DUMMYUNIONNAME.Struct2 = value;
+            get => DUMMYUNIONNAME.ki;
+            set => DUMMYUNIONNAME.ki = value;
         }
 
         /// <summary>
@@ -49,9 +49,22 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HARDWAREINPUT hi
         {
-            get => DUMMYUNIONNAME.Struct3;
-            set => DUMMYUNIONNAME.Struct3 = value;
+            get => DUMMYUNIONNAME.hi;
+            set => DUMMYUNIONNAME.hi = value;
         }
 #pragma warning restore IDE1006
+
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct UnionStruct
+        {
+            [FieldOffset(0)]
+            public MOUSEINPUT mi;
+
+            [FieldOffset(0)]
+            public KEYBDINPUT ki;
+
+            [FieldOffset(0)]
+            public HARDWAREINPUT hi;
+        }
     }
 }

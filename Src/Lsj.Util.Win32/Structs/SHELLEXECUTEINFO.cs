@@ -1,5 +1,4 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
@@ -192,7 +191,7 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public uint dwHotKey;
 
-        private UnionStruct<IntPtr, IntPtr> _union;
+        private UnionStruct _union;
 
         /// <summary>
         /// A handle to the icon for the file type.
@@ -201,8 +200,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr hIcon
         {
-            get => _union.Struct1;
-            set => _union.Struct1 = value;
+            get => _union.hIcon;
+            set => _union.hIcon = value;
         }
 
         /// <summary>
@@ -211,8 +210,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public IntPtr hMonitor
         {
-            get => _union.Struct1;
-            set => _union.Struct1 = value;
+            get => _union.hMonitor;
+            set => _union.hMonitor = value;
         }
 
         /// <summary>
@@ -226,5 +225,15 @@ namespace Lsj.Util.Win32.Structs
         /// For example, an <see cref="hProcess"/> does not return when you use <see cref="SEE_MASK_INVOKEIDLIST"/> to invoke IContextMenu.
         /// </summary>
         public IntPtr hProcess;
+
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct UnionStruct
+        {
+            [FieldOffset(0)]
+            public IntPtr hIcon;
+
+            [FieldOffset(0)]
+            public IntPtr hMonitor;
+        }
     }
 }
