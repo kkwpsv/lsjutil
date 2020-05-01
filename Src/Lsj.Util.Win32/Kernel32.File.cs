@@ -33,6 +33,7 @@ using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
@@ -997,7 +998,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FileTimeToSystemTime([In]ref Structs.FILETIME lpFileTime, [In][Out]ref SYSTEMTIME lpSystemTime);
+        public static extern bool FileTimeToSystemTime([In]ref FILETIME lpFileTime, [In][Out]ref SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>
@@ -2358,8 +2359,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileTime([In]IntPtr hFile, [Out]out Structs.FILETIME lpCreationTime,
-            [Out]out Structs.FILETIME lpLastAccessTime, [Out]out Structs.FILETIME lpLastWriteTime);
+        public static extern bool GetFileTime([In]IntPtr hFile, [Out]out FILETIME lpCreationTime,
+            [Out]out FILETIME lpLastAccessTime, [Out]out FILETIME lpLastWriteTime);
 
         /// <summary>
         /// <para>
@@ -2753,8 +2754,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool LocalFileTimeToFileTime([In]in Structs.FILETIME lpLocalFileTime,
-            [Out]out Structs.FILETIME lpFileTime);
+        public static extern bool LocalFileTimeToFileTime([In]in FILETIME lpLocalFileTime,
+            [Out]out FILETIME lpFileTime);
 
         /// <summary>
         /// <para>
@@ -3344,8 +3345,8 @@ namespace Lsj.Util.Win32
         /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileTime", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in Structs.FILETIME lpCreationTime,
-            [In]in Structs.FILETIME lpLastAccessTime, [In]in Structs.FILETIME lpLastWriteTime);
+        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in FILETIME lpCreationTime,
+            [In]in FILETIME lpLastAccessTime, [In]in FILETIME lpLastWriteTime);
 
         /// <summary>
         /// 
