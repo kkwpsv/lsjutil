@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32.Enums
         MOUSE_EVENT = 0x0002,
 
         /// <summary>
-        /// The <see cref="Event"/> member contains a <see cref="WINDOW_BUFFER_SIZE_RECORD"/> structure with information
+        /// The <see cref="INPUT_RECORD.Event"/> member contains a <see cref="WINDOW_BUFFER_SIZE_RECORD"/> structure with information
         /// about the new size of the console screen buffer.
         /// </summary>
         WINDOW_BUFFER_SIZE_EVENT = 0x0004,
