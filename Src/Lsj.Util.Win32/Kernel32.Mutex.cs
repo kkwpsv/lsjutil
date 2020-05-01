@@ -113,9 +113,8 @@ namespace Lsj.Util.Win32
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateMutex(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpMutexAttributes, [In]bool bInitialOwner, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern IntPtr CreateMutex([In]in SECURITY_ATTRIBUTES lpMutexAttributes, [In]BOOL bInitialOwner,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
         /// <para>
@@ -203,9 +202,7 @@ namespace Lsj.Util.Win32
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateMutexEx(
-                [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-                [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+        public static extern IntPtr CreateMutexEx([In]in SECURITY_ATTRIBUTES lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
                 [In]uint dwFlags, [In]uint dwDesiredAccess);
 
         /// <summary>

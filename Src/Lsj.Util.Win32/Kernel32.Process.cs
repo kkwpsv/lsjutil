@@ -333,15 +333,11 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
-          [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]in SECURITY_ATTRIBUTES lpProcessAttributes,
+            [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>

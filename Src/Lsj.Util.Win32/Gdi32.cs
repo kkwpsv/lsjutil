@@ -197,9 +197,8 @@ namespace Lsj.Util.Win32
         /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
+        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -238,10 +237,8 @@ namespace Lsj.Util.Win32
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))]
-            [In]StructPointerOrNullObject<DEVMODE> pdm);
+        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -899,8 +896,7 @@ namespace Lsj.Util.Win32
         /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1059,8 +1055,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1100,8 +1095,7 @@ namespace Lsj.Util.Win32
         ///  yNewVE = (yOldVE* Ynum) / Ydenom
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1196,9 +1190,7 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<RECT>))][In]StructPointerOrNullObject<RECT> lprect,
-            [In]BoundsAccumulationFlags flags);
+        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc, [In]in RECT lprect, [In]BoundsAccumulationFlags flags);
 
         /// <summary>
         /// <para>
@@ -1350,8 +1342,7 @@ namespace Lsj.Util.Win32
         /// for display because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1392,8 +1383,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1437,8 +1427,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1479,8 +1468,7 @@ namespace Lsj.Util.Win32
         /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>

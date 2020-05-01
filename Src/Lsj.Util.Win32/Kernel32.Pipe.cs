@@ -323,9 +323,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint dwOpenMode, [In]uint dwPipeMode,
-            [In]uint nMaxInstances, [In]uint nOutBufferSize, [In]uint nInBufferSize, [In]uint nDefaultTimeOut,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+            [In]uint nMaxInstances, [In]uint nOutBufferSize, [In]uint nInBufferSize, [In]uint nDefaultTimeOut, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -354,8 +352,8 @@ namespace Lsj.Util.Win32
         /// If this parameter is zero, the system uses the default buffer size.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -379,10 +377,7 @@ namespace Lsj.Util.Win32
         /// An instance of a pipe is always deleted when the last handle to the instance of the named pipe is closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePipe", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreatePipe([Out]out IntPtr hReadPipe, [Out]out IntPtr hWritePipe,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpPipeAttributes, [In] uint nSize);
+        public static extern BOOL CreatePipe([Out]out IntPtr hReadPipe, [Out]out IntPtr hWritePipe, [In]in SECURITY_ATTRIBUTES lpPipeAttributes, [In]uint nSize);
 
         /// <summary>
         /// <para>

@@ -96,9 +96,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Distributed Transaction Coordinator and Access Control Components.
         /// </remarks>
         [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTransaction", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateTransaction(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))][In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTransactionAttributes,
-            [In]IntPtr UOW, [In]uint CreateOptions, [In]uint IsolationLevel, [In]uint IsolationFlags,
-            [In]uint Timeout, [MarshalAs(UnmanagedType.LPWStr)][In]string Description);
+        public static extern IntPtr CreateTransaction([In]in SECURITY_ATTRIBUTES lpTransactionAttributes, [In]IntPtr UOW, [In]uint CreateOptions,
+            [In]uint IsolationLevel, [In]uint IsolationFlags, [In]uint Timeout, [MarshalAs(UnmanagedType.LPWStr)][In]string Description);
     }
 }

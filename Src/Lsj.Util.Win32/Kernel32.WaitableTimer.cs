@@ -132,9 +132,7 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateWaitableTimer(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTimerAttributes, [In]bool bManualReset,
+        public static extern IntPtr CreateWaitableTimer([In]in SECURITY_ATTRIBUTES lpTimerAttributes, [In]BOOL bManualReset,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName);
 
         /// <summary>
@@ -197,9 +195,7 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateWaitableTimerEx(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName,
+        public static extern IntPtr CreateWaitableTimerEx([In]in SECURITY_ATTRIBUTES lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName,
             [In]IntPtr dwFlags, [In]uint dwDesiredAccess);
 
         /// <summary>

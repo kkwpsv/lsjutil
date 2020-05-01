@@ -143,9 +143,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -210,9 +208,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -281,9 +277,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, IntPtr hTransaction);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, IntPtr hTransaction);
 
         /// <summary>
         /// <para>
@@ -652,9 +646,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFile", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)] [In] string lpFileName, [In]uint dwDesiredAccess,
-            [In]FileShareModes dwShareMode,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
+            [In]FileShareModes dwShareMode, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
             [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile);
 
         /// <summary>
@@ -867,9 +859,7 @@ namespace Lsj.Util.Win32
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAccessRights dwDesiredAccess,
-            [In]FileShareModes dwShareMode,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
+            [In]FileShareModes dwShareMode, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
             [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile, [In]IntPtr hTransaction, [In]IntPtr pusMiniVersion, [In]IntPtr lpExtendedParameter);
 
         /// <summary>
