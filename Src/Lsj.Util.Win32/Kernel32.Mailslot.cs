@@ -74,7 +74,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateMailslot([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nMaxMessageSize, [In]uint lReadTimeout,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+            [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
     }
 }

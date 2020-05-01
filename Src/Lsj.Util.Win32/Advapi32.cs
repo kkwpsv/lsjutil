@@ -932,13 +932,9 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcessAsUser([In]IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
-          [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]in SECURITY_ATTRIBUTES lpProcessAttributes,
+          [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags,
+          [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
           [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
 
@@ -1041,10 +1037,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpTokenAttributes, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpTokenAttributes,
+            [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
 
         /// <summary>
         /// <para>

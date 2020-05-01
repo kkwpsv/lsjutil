@@ -1940,7 +1940,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Sent when an application requests that a window be created by calling 
-        /// the <see cref="CreateWindowEx"/> or CreateWindow function.
+        /// the <see cref="CreateWindowEx"/> or <see cref="CreateWindow"/> function.
         /// (The message is sent before the function returns.)
         /// The window procedure of the new window receives this message after the window is created, but before the window becomes visible.
         /// A window receives this message through its WindowProc function.

@@ -53,15 +53,15 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A union of the following members.
         /// </summary>
-        public UnionStruct<WCHAR, CHAR> uChar;
+        public UnionStruct uChar;
 
         /// <summary>
         /// Translated Unicode character.
         /// </summary>
         public WCHAR UnicodeChar
         {
-            get => uChar.Struct1;
-            set => uChar.Struct1 = value;
+            get => uChar.UnicodeChar;
+            set => uChar.UnicodeChar = value;
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public CHAR AsciiChar
         {
-            get => uChar.Struct2;
-            set => uChar.Struct2 = value;
+            get => uChar.AsciiChar;
+            set => uChar.AsciiChar = value;
         }
 
         /// <summary>
@@ -80,5 +80,15 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="SHIFT_PRESSED"/>
         /// </summary>
         public ControlKeyStates dwControlKeyState;
+
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        public struct UnionStruct
+        {
+            [FieldOffset(0)]
+            public WCHAR UnicodeChar;
+
+            [FieldOffset(0)]
+            public CHAR AsciiChar;
+        }
     }
 }

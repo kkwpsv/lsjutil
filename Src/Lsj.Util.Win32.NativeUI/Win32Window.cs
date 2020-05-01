@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32.NativeUI
             {
                 _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
                     CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
-                if (_window == IntPtr.Zero)
+                if (_window == NULL)
                 {
                     throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
@@ -119,7 +119,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         public void StartMessageLoop()
         {
-            while (GetMessage(out var msg, _window, 0, 0))
+            while (GetMessage(out var msg, NULL, 0, 0))
             {
                 try
                 {
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        protected virtual IntPtr WindowProc(IntPtr hWnd, WindowsMessages msg, UIntPtr wParam, IntPtr lParam)
+        protected virtual LRESULT WindowProc(HWND hWnd, WindowsMessages msg, WPARAM wParam, LPARAM lParam)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Lsj.Util.Win32.NativeUI
                 {
                     case WindowsMessages.WM_DESTROY:
                         PostQuitMessage(0);
-                        return IntPtr.Zero;
+                        return 0;
                     default:
                         return DefWindowProc(hWnd, msg, wParam, lParam);
                 }
@@ -159,7 +159,7 @@ namespace Lsj.Util.Win32.NativeUI
                 //This may be because this method was called by system code.
                 //So we must handle exception here.
                 DestroyWindow(_window);
-                return IntPtr.Zero;
+                return 0;
             }
         }
     }

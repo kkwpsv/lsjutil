@@ -17,6 +17,7 @@ using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.ICMModes;
 
 namespace Lsj.Util.Win32
 {
@@ -196,9 +197,8 @@ namespace Lsj.Util.Win32
         /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))][In]StructPointerOrNullObject<DEVMODE> pdm);
+        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -237,10 +237,8 @@ namespace Lsj.Util.Win32
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice, [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<DEVMODE>))]
-            [In]StructPointerOrNullObject<DEVMODE> pdm);
+        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -898,8 +896,7 @@ namespace Lsj.Util.Win32
         /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1058,8 +1055,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1099,8 +1095,7 @@ namespace Lsj.Util.Win32
         ///  yNewVE = (yOldVE* Ynum) / Ydenom
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1195,9 +1190,66 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<RECT>))][In]StructPointerOrNullObject<RECT> lprect,
-            [In]BoundsAccumulationFlags flags);
+        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc, [In]in RECT lprect, [In]BoundsAccumulationFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetICMMode"/> function causes Image Color Management to be enabled, disabled, or queried on a given device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// Identifies handle to the device context.
+        /// </param>
+        /// <param name="mode">
+        /// Turns on and off image color management. This parameter can take one of the following constant values.
+        /// <see cref="ICM_ON"/>: Turns on color management. Turns off old-style color correction of halftones.
+        /// <see cref="ICM_OFF"/>: Turns off color management. Turns on old-style color correction of halftones.
+        /// <see cref="ICM_QUERY"/>: Queries the current state of color management.
+        /// <see cref="ICM_DONE_OUTSIDEDC"/>:
+        /// Turns off color management inside DC. Under Windows 2000, also turns off old-style color correction of halftones.
+        /// Not supported under Windows 95.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, the return value is a nonzero value.
+        /// If this function fails, the return value is zero.
+        /// If <see cref="ICM_QUERY"/> is specified and the function succeeds,
+        /// the nonzero value returned is <see cref="ICM_ON"/> or <see cref="ICM_OFF"/> to indicate the current mode.
+        /// </returns>
+        /// <remarks>
+        /// If the system cannot find an ICC color profile to match the state of the device, <see cref="SetICMMode"/> fails and returns zero.
+        /// Once WCS is enabled for a device context (DC), colors passed into the DC using most Win32 API functions are color matched.
+        /// The primary exceptions are <see cref="BitBlt"/> and <see cref="StretchBlt"/>.
+        /// The assumption is that when performing a bit block transfer (blit) from one DC to another,
+        /// the two DCs are already compatible and need no color correction.
+        /// If this is not the case, color correction may be performed.
+        /// Specifically, if a device independent bitmap (DIB) is used as the source for a blit,
+        /// and the blit is performed into a DC that has WCS enabled, color matching will be performed.
+        /// If this is not what you want, turn WCS off for the destination DC
+        /// by calling <see cref="SetICMMode"/> before calling <see cref="BitBlt"/> or <see cref="StretchBlt"/>.
+        /// If the <see cref="CreateCompatibleDC"/> function is used to create a bitmap in a DC,
+        /// it is possible for the bitmap to be color matched twice, once when it is created and once when a blit is performed.
+        /// The reason is that a bitmap in a DC created by the <see cref="CreateCompatibleDC"/> function acquires the current brush,
+        /// pens, and palette of the source DC.
+        /// However, WCS will be disabled by default for the new DC.
+        /// If WCS is later enabled for the new DC by using the <see cref="SetICMMode"/> function, a color correction will be done.
+        /// To prevent double color corrections through the use of the <see cref="CreateCompatibleDC"/> function,
+        /// use the <see cref="SetICMMode"/> function to turn WCS off for the source DC before the <see cref="CreateCompatibleDC"/> function is called.
+        /// When a compatible DC is created from a printer's DC (see <see cref="CreateCompatibleDC"/>),
+        /// the default is for color matching to always be performed if it is enabled for the printer's DC.
+        /// The default color profile for the printer is used when a blit is performed into the printer's DC
+        /// using <see cref="SetDIBitsToDevice"/> or <see cref="StretchDIBits"/>.
+        /// If this is not what you want, turn WCS off for the printer's DC by calling <see cref="SetICMMode"/>
+        /// before calling <see cref="SetDIBitsToDevice"/> or <see cref="StretchDIBits"/>.
+        /// Also, when printing to a printer's DC with WCS turned on, the <see cref="SetICMMode"/> function needs to be called
+        /// after every call to the <see cref="StartPage"/> function to turn back on WCS.
+        /// The StartPage function calls the <see cref="RestoreDC"/> and <see cref="SaveDC"/> functions,
+        /// which result in WCS being turned off for the printer's DC.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetICMMode", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetICMMode([In]HDC hdc, [In]ICMModes mode);
 
         /// <summary>
         /// <para>
@@ -1290,8 +1342,7 @@ namespace Lsj.Util.Win32
         /// for display because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1332,8 +1383,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1377,8 +1427,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SIZE>))][In]StructPointerOrNullObject<SIZE> lpsz);
+        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1419,8 +1468,7 @@ namespace Lsj.Util.Win32
         /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<POINT>))][In]StructPointerOrNullObject<POINT> lppt);
+        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
 
         /// <summary>
         /// <para>

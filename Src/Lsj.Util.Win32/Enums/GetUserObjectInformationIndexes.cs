@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.User32;
+﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.FileMapAccessRights;
@@ -235,10 +236,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMapping([In]IntPtr hFile,
-             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-             [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpFileMappingAttributes, [In]uint flProtect, [In]uint dwMaximumSizeHigh,
-             [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern IntPtr CreateFileMapping([In]IntPtr hFile, [In]in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In]uint flProtect,
+            [In]uint dwMaximumSizeHigh, [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
         /// <para>
@@ -463,10 +462,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingNumaW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMappingNuma([In]IntPtr hFile,
-             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-             [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpFileMappingAttributes, [In]uint flProtect, [In]uint dwMaximumSizeHigh,
-             [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nndPreferred);
+        public static extern IntPtr CreateFileMappingNuma([In]IntPtr hFile, [In]in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In]uint flProtect,
+            [In]uint dwMaximumSizeHigh, [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nndPreferred);
 
         /// <summary>
         /// <para>
@@ -767,5 +764,41 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenFileMappingW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE OpenFileMapping([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle,
             [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+
+        /// <summary>
+        /// <para>
+        /// Unmaps a mapped view of a file from the calling process's address space.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile
+        /// </para>
+        /// </summary>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address of the mapped view of a file that is to be unmapped.
+        /// This value must be identical to the value returned
+        /// by a previous call to the <see cref="MapViewOfFile"/> or <see cref="MapViewOfFileEx"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unmapping a mapped view of a file invalidates the range occupied by the view in the address space of the process
+        /// and makes the range available for other allocations.
+        /// It removes the working set entry for each unmapped virtual page that was part of the working set of the process
+        /// and reduces the working set size of the process.
+        /// It also decrements the share count of the corresponding physical page.
+        /// Modified pages in the unmapped view are not written to disk until their share count reaches zero,
+        /// or in other words, until they are unmapped or trimmed from the working sets of all processes that share the pages.
+        /// Even then, the modified pages are written "lazily" to disk; that is, modifications may be cached in memory and written to disk at a later time.
+        /// To minimize the risk of data loss in the event of a power failure or a system crash,
+        /// applications should explicitly flush modified pages using the <see cref="FlushViewOfFile"/> function.
+        /// Although an application may close the file handle used to create a file mapping object,
+        /// the system holds the corresponding file open until the last view of the file is unmapped.
+        /// Files for which the last view has not yet been unmapped are held open with no sharing restrictions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnmapViewOfFile([In]LPCVOID lpBaseAddress);
     }
 }

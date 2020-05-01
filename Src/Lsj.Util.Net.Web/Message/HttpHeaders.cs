@@ -19,22 +19,21 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public string this[HttpHeader x]
+        public string this[Protocol.HttpHeaders x]
         {
             get
             {
-                return this[Header.GetNameByHeader(x)];
+                return this[HttpHeadersHelper.GetNameByHeader(x)];
             }
             set
             {
-                this[Header.GetNameByHeader(x)] = value;
+                this[HttpHeadersHelper.GetNameByHeader(x)] = value;
             }
         }
-        internal void Add(HttpHeader x, string content)
+
+        internal void Add(Protocol.HttpHeaders x, string content)
         {
-            this.Add(Header.GetNameByHeader(x), content);
+            Add(HttpHeadersHelper.GetNameByHeader(x), content);
         }
-
-
     }
 }

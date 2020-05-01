@@ -333,15 +333,11 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateProcess([MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpProcessAttributes,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-          [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes,
-          [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
-          [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]in SECURITY_ATTRIBUTES lpProcessAttributes,
+            [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>
@@ -1076,17 +1072,16 @@ namespace Lsj.Util.Win32
         /// On success, receives the number of characters written to the buffer, not including the null-terminating character.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryFullProcessImageName([In]IntPtr hProcess, [In]uint dwFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpExeName, [In][Out]ref uint lpdwSize);
+        public static extern BOOL QueryFullProcessImageName([In]HANDLE hProcess, [In]DWORD dwFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpExeName, [In][Out]ref DWORD lpdwSize);
 
         /// <summary>
         /// <para>
@@ -1444,7 +1439,7 @@ namespace Lsj.Util.Win32
         /// does not guarantee that the requested memory will be reserved, or that it will remain resident at all times.
         /// When the application is idle, or a low-memory situation causes a demand for memory,
         /// the operating system can reduce the application's working set.
-        /// An application can use the <see cref="VirtualLockfunction"/> to lock ranges of the application's virtual address space in memory;
+        /// An application can use the <see cref="VirtualLock"/> function to lock ranges of the application's virtual address space in memory;
         /// however, that can potentially degrade the performance of the system.
         /// When you increase the working set size of an application, you are taking away physical memory from the rest of the system.
         /// This can degrade the performance of other applications and the system as a whole.

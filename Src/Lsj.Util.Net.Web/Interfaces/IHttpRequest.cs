@@ -15,7 +15,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <summary>
         /// Method
         /// </summary>
-        HttpMethod Method
+        HttpMethods Method
         {
             get;
         }

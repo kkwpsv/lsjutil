@@ -11,7 +11,7 @@ namespace Lsj.Util.Net.Web.Message
             this.HttpVersion = new Version(1, 1);
             this._content = new MemoryStream();
         }
-        public void SetMethod(HttpMethod method)
+        public void SetMethod(HttpMethods method)
         {
             this.Method = method;
         }
@@ -25,11 +25,11 @@ namespace Lsj.Util.Net.Web.Message
         }
         public override string GetHttpHeader()
         {
-            this.Headers[HttpHeader.Connection] = "close";
-            this.Headers[HttpHeader.ContentLength] = this.Content.Length.ToString();
-            this.Headers[HttpHeader.AcceptEncoding] = "identity";
-            this.Headers[HttpHeader.Host] = this.Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
-            this.Headers[HttpHeader.UserAgent] = "LsjWebClient/1.0 (compatible)";
+            this.Headers[Protocol.HttpHeaders.Connection] = "close";
+            this.Headers[Protocol.HttpHeaders.ContentLength] = this.Content.Length.ToString();
+            this.Headers[Protocol.HttpHeaders.AcceptEncoding] = "identity";
+            this.Headers[Protocol.HttpHeaders.Host] = this.Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
+            this.Headers[Protocol.HttpHeaders.UserAgent] = "LsjWebClient/1.0 (compatible)";
             return base.GetHttpHeader();
         }
     }

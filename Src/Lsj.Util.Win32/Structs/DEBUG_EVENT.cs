@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DebuggingEvents;
 using static Lsj.Util.Win32.Kernel32;
@@ -72,9 +71,7 @@ namespace Lsj.Util.Win32.Structs
         /// This union takes on the type and value appropriate to the type of debugging event,
         /// as described in the <see cref="dwDebugEventCode"/> member.
         /// </summary>
-        private UnionStruct<EXCEPTION_DEBUG_INFO, CREATE_THREAD_DEBUG_INFO, CREATE_PROCESS_DEBUG_INFO,
-                            EXIT_THREAD_DEBUG_INFO, EXIT_PROCESS_DEBUG_INFO, LOAD_DLL_DEBUG_INFO,
-                            UNLOAD_DLL_DEBUG_INFO, OUTPUT_DEBUG_STRING_INFO, RIP_INFO> u;
+        private UnionStruct u;
 
         /// <summary>
         /// If the <see cref="dwDebugEventCode"/> is <see cref="EXCEPTION_DEBUG_EVENT"/> (1),
@@ -82,8 +79,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public EXCEPTION_DEBUG_INFO Exception
         {
-            get => u.Struct1;
-            set => u.Struct1 = value;
+            get => u.Exception;
+            set => u.Exception = value;
         }
 
         /// <summary>
@@ -92,8 +89,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public CREATE_THREAD_DEBUG_INFO CreateThread
         {
-            get => u.Struct2;
-            set => u.Struct2 = value;
+            get => u.CreateThread;
+            set => u.CreateThread = value;
         }
 
         /// <summary>
@@ -102,8 +99,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public CREATE_PROCESS_DEBUG_INFO CreateProcessInfo
         {
-            get => u.Struct3;
-            set => u.Struct3 = value;
+            get => u.CreateProcessInfo;
+            set => u.CreateProcessInfo = value;
         }
 
         /// <summary>
@@ -112,8 +109,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public EXIT_THREAD_DEBUG_INFO ExitThread
         {
-            get => u.Struct4;
-            set => u.Struct4 = value;
+            get => u.ExitThread;
+            set => u.ExitThread = value;
         }
 
         /// <summary>
@@ -122,8 +119,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public EXIT_PROCESS_DEBUG_INFO ExitProcess
         {
-            get => u.Struct5;
-            set => u.Struct5 = value;
+            get => u.ExitProcess;
+            set => u.ExitProcess = value;
         }
 
         /// <summary>
@@ -132,8 +129,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public LOAD_DLL_DEBUG_INFO LoadDll
         {
-            get => u.Struct6;
-            set => u.Struct6 = value;
+            get => u.LoadDll;
+            set => u.LoadDll = value;
         }
 
         /// <summary>
@@ -142,8 +139,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public UNLOAD_DLL_DEBUG_INFO UnloadDll
         {
-            get => u.Struct7;
-            set => u.Struct7 = value;
+            get => u.UnloadDll;
+            set => u.UnloadDll = value;
         }
 
         /// <summary>
@@ -152,8 +149,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public OUTPUT_DEBUG_STRING_INFO DebugString
         {
-            get => u.Struct8;
-            set => u.Struct8 = value;
+            get => u.DebugString;
+            set => u.DebugString = value;
         }
 
         /// <summary>
@@ -162,8 +159,39 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public RIP_INFO RipInfo
         {
-            get => u.Struct9;
-            set => u.Struct9 = value;
+            get => u.RipInfo;
+            set => u.RipInfo = value;
+        }
+
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct UnionStruct
+        {
+            [FieldOffset(0)]
+            public EXCEPTION_DEBUG_INFO Exception;
+
+            [FieldOffset(0)]
+            public CREATE_THREAD_DEBUG_INFO CreateThread;
+
+            [FieldOffset(0)]
+            public CREATE_PROCESS_DEBUG_INFO CreateProcessInfo;
+
+            [FieldOffset(0)]
+            public EXIT_THREAD_DEBUG_INFO ExitThread;
+
+            [FieldOffset(0)]
+            public EXIT_PROCESS_DEBUG_INFO ExitProcess;
+
+            [FieldOffset(0)]
+            public LOAD_DLL_DEBUG_INFO LoadDll;
+
+            [FieldOffset(0)]
+            public UNLOAD_DLL_DEBUG_INFO UnloadDll;
+
+            [FieldOffset(0)]
+            public OUTPUT_DEBUG_STRING_INFO DebugString;
+
+            [FieldOffset(0)]
+            public RIP_INFO RipInfo;
         }
     }
 }

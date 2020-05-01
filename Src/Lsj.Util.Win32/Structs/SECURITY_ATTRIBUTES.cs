@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -22,7 +24,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size, in bytes, of this structure. Set this value to the size of the <see cref="SECURITY_ATTRIBUTES"/> structure.
         /// </summary>
-        public uint nLength;
+        public DWORD nLength;
 
         /// <summary>
         /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure that controls access to the object.
@@ -32,12 +34,12 @@ namespace Lsj.Util.Win32.Structs
         /// By default, the default DACL in the access token of a process allows access only to the user represented by the access token.
         /// For information about creating a security descriptor, see Creating a Security Descriptor.
         /// </summary>
-        public IntPtr lpSecurityDescriptor;
+        public LPVOID lpSecurityDescriptor;
 
         /// <summary>
-        /// A <see cref="bool"/> value that specifies whether the returned handle is inherited when a new process is created.
-        /// If this member is <see langword="true"/>, the new process inherits the handle.
+        /// A <see cref="BOOL"/> value that specifies whether the returned handle is inherited when a new process is created.
+        /// If this member is <see cref="TRUE"/>, the new process inherits the handle.
         /// </summary>
-        public bool bInheritHandle;
+        public BOOL bInheritHandle;
     }
 }

@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="string"/> value of <see cref="lpTitleString"/>,
         /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
         /// </summary>
-        public unsafe string lpTitleString => Marshal.PtrToStringUni(lpTitle);
+        public string lpTitleString => Marshal.PtrToStringUni(lpTitle);
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEPOSITION"/>,

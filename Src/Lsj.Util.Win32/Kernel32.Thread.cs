@@ -178,9 +178,7 @@ namespace Lsj.Util.Win32
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
+        public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess, [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
             [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
@@ -278,9 +276,7 @@ namespace Lsj.Util.Win32
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
+        public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess, [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
             [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
 
@@ -378,9 +374,7 @@ namespace Lsj.Util.Win32
         /// If a thread created using <see cref="CreateThread"/> calls the CRT, the CRT may terminate the process in low - memory conditions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateThread(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpThreadAttributes, [In]UIntPtr dwStackSize,
+        public static extern IntPtr CreateThread([In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
             [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
             [Out]out uint lpThreadId);
 
@@ -472,7 +466,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="zero"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -530,7 +524,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="zero"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// The following errors can be returned.
         /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.

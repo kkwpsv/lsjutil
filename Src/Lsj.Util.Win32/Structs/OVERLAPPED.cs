@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        private UnionStruct<InternalStruct, PVOID> DUMMYUNIONNAME;
+        private UnionStruct DUMMYUNIONNAME;
 
         /// <summary>
         /// The low-order portion of the file position at which to start the I/O request, as specified by the user.
@@ -68,8 +68,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public uint Offset
         {
-            get => DUMMYUNIONNAME.Struct1.Offset;
-            set => DUMMYUNIONNAME.Struct1.Offset = value;
+            get => DUMMYUNIONNAME.Offset;
+            set => DUMMYUNIONNAME.Offset = value;
         }
 
         /// <summary>
@@ -81,8 +81,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public uint OffsetHigh
         {
-            get => DUMMYUNIONNAME.Struct1.OffsetHigh;
-            set => DUMMYUNIONNAME.Struct1.OffsetHigh = value;
+            get => DUMMYUNIONNAME.OffsetHigh;
+            set => DUMMYUNIONNAME.OffsetHigh = value;
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public PVOID Pointer
         {
-            get => DUMMYUNIONNAME.Struct2;
-            set => DUMMYUNIONNAME.Struct2 = value;
+            get => DUMMYUNIONNAME.Pointer;
+            set => DUMMYUNIONNAME.Pointer = value;
         }
 
         /// <summary>
@@ -110,12 +110,26 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public HANDLE hEvent;
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        private struct InternalStruct
+        [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
+        private struct UnionStruct
         {
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
             public uint Offset;
-            public uint OffsetHigh;
-        }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(4)]
+            public uint OffsetHigh;
+
+            /// <summary>
+            /// 
+            /// </summary>
+            [FieldOffset(0)]
+            public PVOID Pointer;
+        }
     }
 }

@@ -32,6 +32,7 @@ using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -142,9 +143,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -209,9 +208,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -280,9 +277,7 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, IntPtr hTransaction);
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewDirectory, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, IntPtr hTransaction);
 
         /// <summary>
         /// <para>
@@ -651,9 +646,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFile", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)] [In] string lpFileName, [In]uint dwDesiredAccess,
-            [In]FileShareModes dwShareMode,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
+            [In]FileShareModes dwShareMode, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
             [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile);
 
         /// <summary>
@@ -866,9 +859,7 @@ namespace Lsj.Util.Win32
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAccessRights dwDesiredAccess,
-            [In]FileShareModes dwShareMode,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In] StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
+            [In]FileShareModes dwShareMode, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
             [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile, [In]IntPtr hTransaction, [In]IntPtr pusMiniVersion, [In]IntPtr lpExtendedParameter);
 
         /// <summary>
@@ -2565,11 +2556,11 @@ namespace Lsj.Util.Win32
         /// <param name="lpRootPathName">
         /// A pointer to a string that contains the root directory of the volume to be described.
         /// If this parameter is <see langword="null"/>, the root of the current directory is used. A trailing backslash is required.
-        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare", or the C drive as "C:".
+        /// For example, you specify \MyServer\MyShare as "\MyServer\MyShare\", or the C drive as "C:\".
         /// </param>
         /// <param name="lpVolumeNameBuffer">
         /// A pointer to a buffer that receives the name of a specified volume.
-        /// The buffer size is specified by the<paramref name="nVolumeNameSize"/> parameter.
+        /// The buffer size is specified by the <paramref name="nVolumeNameSize"/> parameter.
         /// </param>
         /// <param name="nVolumeNameSize">
         /// The length of a volume name buffer, in TCHARs. The maximum buffer size is <see cref="MAX_PATH"/>+1.
@@ -2604,8 +2595,8 @@ namespace Lsj.Util.Win32
         /// This parameter is ignored if the file system name buffer is not supplied.
         /// </param>
         /// <returns>
-        /// If all the requested information is retrieved, the return value is <see langword="true"/>.
-        /// If not all the requested information is retrieved, the return value is <see langword="false"/>.
+        /// If all the requested information is retrieved, the return value is <see cref="TRUE"/>.
+        /// If not all the requested information is retrieved, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
@@ -2632,11 +2623,10 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpVolumeNameBuffer, [In]uint nVolumeNameSize, [Out]out uint lpVolumeSerialNumber,
-            [Out]out uint lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpFileSystemNameBuffer, [In]uint nFileSystemNameSize);
+        public static extern BOOL GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In]string lpRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpVolumeNameBuffer, [In]DWORD nVolumeNameSize, [Out]out DWORD lpVolumeSerialNumber,
+            [Out]out DWORD lpMaximumComponentLength, [Out]out FileSystemFlags lpFileSystemFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpFileSystemNameBuffer, [In]DWORD nFileSystemNameSize);
 
         /// <summary>
         /// <para>
@@ -3147,13 +3137,104 @@ namespace Lsj.Util.Win32
         public static extern BOOL RemoveDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
 
         /// <summary>
-        /// 
+        /// <para>
+        /// Sets the physical file size for the specified file to the current position of the file pointer.
+        /// The physical file size is also referred to as the end of the file.
+        /// The <see cref="SetEndOfFile"/> function can be used to truncate or extend a file.
+        /// To set the logical end of a file, use the <see cref="SetFileValidData"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setendoffile
+        /// </para>
         /// </summary>
-        /// <param name="uNumber"></param>
-        /// <returns></returns>
-        [Obsolete]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SetHandleCount([In]uint uNumber);
+        /// <param name="hFile">
+        /// A handle to the file to be extended or truncated.
+        /// The file handle must be created with the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The SetEndOfFile function can be used to truncate or extend a file.
+        /// If the file is extended, the contents of the file between the old end of the file and the new end of the file are not defined.
+        /// Each file stream has the following:
+        /// File size: the size of the data in a file, to the byte.
+        /// Allocation size: the size of the space that is allocated for a file on a disk, which is always an even multiple of the cluster size.
+        /// Valid data length: the length of the data in a file that is actually written, to the byte.
+        /// This value is always less than or equal to the file size.
+        /// The <see cref="SetEndOfFile"/> function sets the file size.
+        /// Use <see cref="SetFileValidData"/> to set the valid data length.
+        /// If <see cref="CreateFileMapping"/> is called to create a file mapping object for <paramref name="hFile"/>,
+        /// <see cref="UnmapViewOfFile"/> must be called first to unmap all views
+        /// and call <see cref="CloseHandle"/> to close the file mapping object before you can call <see cref="SetEndOfFile"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEndOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetEndOfFile([In]HANDLE hFile);
+
+        /// <summary>
+        /// <para>
+        /// Sets the attributes for a file or directory.
+        /// To perform this operation as a transacted operation, use the <see cref="SetFileAttributesTransacted"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfileattributesw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file whose attributes are to be set.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function (<see cref="SetFileAttributes"/>)
+        /// and prepend "\\?\" to the path.
+        /// For more information, see File Names, Paths, and Namespaces.
+        /// Tip Starting in Windows 10, version 1607, for the unicode version of this function (<see cref="SetFileAttributes"/>),
+        /// you can opt-in to remove the MAX_PATH character limitation without prepending "\\?\".
+        /// See the "Maximum Path Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwFileAttributes">
+        /// The file attributes to set for the file.
+        /// This parameter can be one or more values, combined using the bitwise-OR operator.
+        /// However, all other values override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
+        /// Not all attributes are supported by this function. For more information, see the Remarks section.
+        /// The following is a list of supported attribute values.
+        /// <see cref="FILE_ATTRIBUTE_ARCHIVE"/>, <see cref="FILE_ATTRIBUTE_HIDDEN"/>, <see cref="FILE_ATTRIBUTE_NORMAL"/>,
+        /// <see cref="FILE_ATTRIBUTE_NOT_CONTENT_INDEXED"/>, <see cref="FILE_ATTRIBUTE_OFFLINE"/>, <see cref="FILE_ATTRIBUTE_READONLY"/>,
+        /// <see cref="FILE_ATTRIBUTE_SYSTEM"/>, <see cref="FILE_ATTRIBUTE_TEMPORARY"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The following table describes how to set the attributes that cannot be set using <see cref="SetFileAttributes"/>.
+        /// For a complete list of all file attribute values and their descriptions, see File Attribute Constants.
+        /// <see cref="FILE_ATTRIBUTE_COMPRESSED"/>:
+        /// To set a file's compression state, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_COMPRESSION"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_DEVICE"/>: Reserved; do not use.
+        /// <see cref="FILE_ATTRIBUTE_DIRECTORY"/>:
+        /// Files cannot be converted into directories.
+        /// To create a directory, use the <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/> function.
+        /// <see cref="FILE_ATTRIBUTE_ENCRYPTED"/>:
+        /// To create an encrypted file, use the <see cref="CreateFile"/> function with the <see cref="FILE_ATTRIBUTE_ENCRYPTED"/> attribute.
+        /// To convert an existing file into an encrypted file, use the <see cref="EncryptFile"/> function.
+        /// <see cref="FILE_ATTRIBUTE_REPARSE_POINT"/>:
+        /// To associate a reparse point with a file or directory,
+        /// use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_REPARSE_POINT"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_SPARSE_FILE"/>:
+        /// To set a file's sparse attribute, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_SPARSE"/> operation.
+        /// Transacted Operations
+        /// If a file is open for modification in a transaction, no other thread can open the file for modification until the transaction is committed.
+        /// So if a transacted thread opens the file first, any subsequent threads that try modifying the file
+        /// before the transaction is committed receives a sharing violation.
+        /// If a non-transacted thread modifies the file before the transacted thread does,
+        /// and the file is still open when the transaction attempts to open it,
+        /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAttributes dwFileAttributes);
 
         /// <summary>
         /// <para>
@@ -3211,6 +3292,69 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetFileInformationByHandle([In]IntPtr hFile, [In]FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
           [In]IntPtr lpFileInformation, [In]uint dwBufferSize);
+
+        /// <summary>
+        /// <para>
+        /// Sets the date and time that the specified file or directory was created, last accessed, or last modified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-setfiletime
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file or directory.
+        /// The handle must have been created using the <see cref="CreateFile"/> function with the <see cref="FILE_WRITE_ATTRIBUTES"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpCreationTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new creation date and time for the file or directory.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// </param>
+        /// <param name="lpLastAccessTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new last access date and time for the file or directory.
+        /// The last access time includes the last time the file or directory was written to, read from, or (in the case of executable files) run.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// To prevent file operations using the given handle from modifying the last access time,
+        /// call <see cref="SetFileTime"/> immediately after opening the file handle and pass a <see cref="FILETIME"/> structure
+        /// that has both the <see cref="FILETIME.dwLowDateTime"/> and <see cref="FILETIME.dwHighDateTime"/> members set to 0xFFFFFFFF.
+        /// </param>
+        /// <param name="lpLastWriteTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that contains the new last modified date and time for the file or directory.
+        /// If the application does not need to change this information, set this parameter either to <see cref="NullRef{FILETIME}"/>
+        /// or to a pointer to a <see cref="FILETIME"/> structure that has both the <see cref="FILETIME.dwLowDateTime"/>
+        /// and <see cref="FILETIME.dwHighDateTime"/> members set to 0.
+        /// To prevent file operations using the given handle from modifying the last access time,
+        /// call <see cref="SetFileTime"/> immediately after opening the file handle and pass a <see cref="FILETIME"/> structure
+        /// that has both the <see cref="FILETIME.dwLowDateTime"/> and <see cref="FILETIME.dwHighDateTime"/> members set to 0xFFFFFFFF.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Not all file systems can record creation and last access times and not all file systems record them in the same manner.
+        /// For example, on FAT, create time has a resolution of 10 milliseconds, write time has a resolution of 2 seconds,
+        /// and access time has a resolution of 1 day (really, the access date).
+        /// Therefore, the <see cref="GetFileTime"/> function may not return the same file time information set using <see cref="SetFileTime"/>.
+        /// NTFS delays updates to the last access time for a file by up to one hour after the last access.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileTime", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileTime([In]HANDLE hFile, [In]in Structs.FILETIME lpCreationTime,
+            [In]in Structs.FILETIME lpLastAccessTime, [In]in Structs.FILETIME lpLastWriteTime);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uNumber"></param>
+        /// <returns></returns>
+        [Obsolete]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT SetHandleCount([In]uint uNumber);
 
         /// <summary>
         /// <para>

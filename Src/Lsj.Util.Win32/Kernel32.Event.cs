@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -97,10 +98,8 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateEvent(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpEventAttributes, [MarshalAs(UnmanagedType.Bool)][In]bool bManualReset,
-            [MarshalAs(UnmanagedType.Bool)][In]bool bInitialState, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern IntPtr CreateEvent([In]in SECURITY_ATTRIBUTES lpEventAttributes, [In]BOOL bManualReset, [In]BOOL bInitialState,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
 
         /// <summary>
         /// <para>
@@ -170,9 +169,7 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateEventEx(
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
+        public static extern IntPtr CreateEventEx([In]in SECURITY_ATTRIBUTES lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
             [In]CreateEventExFlags dwFlags, [In]uint dwDesiredAccess);
 
         /// <summary>

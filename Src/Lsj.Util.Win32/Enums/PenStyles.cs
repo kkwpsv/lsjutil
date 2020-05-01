@@ -60,6 +60,11 @@
         PS_ALTERNATE = 8,
 
         /// <summary>
+        /// PS_STYLE_MASK
+        /// </summary>
+        PS_STYLE_MASK = 0x0000000F,
+
+        /// <summary>
         /// End caps are round.
         /// </summary>
         PS_ENDCAP_ROUND = 0x00000000,

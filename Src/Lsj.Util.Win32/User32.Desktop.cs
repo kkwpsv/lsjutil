@@ -117,9 +117,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateDesktop([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]IntPtr lpszDevice, [In]IntPtr pDevmode,
-            [In]uint dwFlags, [In]uint dwDesiredAccess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa);
+            [In]uint dwFlags, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
         /// <para>
@@ -194,9 +192,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopExW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]IntPtr lpszDevice, [In]IntPtr pDevmode,
-            [In]uint dwFlags, [In]uint dwDesiredAccess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa, [In]uint ulHeapSize, [In]IntPtr pvoid);
+            [In]uint dwFlags, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa, [In]uint ulHeapSize, [In]IntPtr pvoid);
 
         /// <summary>
         /// <para>
@@ -244,9 +240,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpwinsta, [In]uint dwFlags,
-            [In]uint dwDesiredAccess,
-            [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(StructPointerOrNullObjectMarshaler<SECURITY_ATTRIBUTES>))]
-            [In]StructPointerOrNullObject<SECURITY_ATTRIBUTES> lpsa);
+            [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
         /// <para>

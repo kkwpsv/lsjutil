@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
     /// to retrieve the size of the rectangle within which the mouse pointer has to stay for <see cref="TrackMouseEvent"/>
     /// to generate a <see cref="WM_MOUSEHOVER"/> message.
     /// </remarks>
-    [StructLayout(LayoutKind.Auto, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct TRACKMOUSEEVENT
     {
         /// <summary>

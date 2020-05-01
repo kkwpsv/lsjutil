@@ -7,6 +7,8 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.HatchStyles;
+using static Lsj.Util.Win32.Enums.StretchBltModes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -249,5 +251,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetBrushOrgEx([In]HDC hdc, [Out]out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetBrushOrgEx"/> function sets the brush origin that GDI assigns to the next brush
+        /// an application selects into the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbrushorgex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="x">
+        /// The x-coordinate, in device units, of the new brush origin.
+        /// If this value is greater than the brush width, its value is reduced using the modulus operator (<paramref name="x"/> mod brush width).
+        /// </param>
+        /// <param name="y">
+        /// The y-coordinate, in device units, of the new brush origin.
+        /// If this value is greater than the brush height, its value is reduced using the modulus operator (<paramref name="y"/> mod brush height).
+        /// </param>
+        /// <param name="lppt">
+        /// A pointer to a <see cref="POINT"/> structure that receives the previous brush origin.
+        /// This parameter can be <see cref="NullRef{POINT}"/> if the previous brush origin is not required.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A brush is a bitmap that the system uses to paint the interiors of filled shapes.
+        /// The brush origin is a pair of coordinates specifying the location of one pixel in the bitmap.
+        /// The default brush origin coordinates are (0,0).
+        /// For horizontal coordinates, the value 0 corresponds to the leftmost column of pixels; the width corresponds to the rightmost column.
+        /// For vertical coordinates, the value 0 corresponds to the uppermost row of pixels; the height corresponds to the lowermost row.
+        /// The system automatically tracks the origin of all window-managed device contexts and adjusts their brushes as necessary
+        /// to maintain an alignment of patterns on the surface.
+        /// The brush origin that is set with this call is relative to the upper-left corner of the client area.
+        /// An application should call <see cref="SetBrushOrgEx"/> after setting the bitmap stretching mode
+        /// to <see cref="HALFTONE"/> by using <see cref="SetStretchBltMode"/>.
+        /// This must be done to avoid brush misalignment.
+        /// The system automatically tracks the origin of all window-managed device contexts and adjusts their brushes
+        /// as necessary to maintain an alignment of patterns on the surface.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetBrushOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
     }
 }
