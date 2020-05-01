@@ -165,7 +165,7 @@ namespace Lsj.Util.Net.Web
         {
             try
             {
-                var host = x.Request.Headers[HttpHeader.Host];
+                var host = x.Request.Headers[HttpHeaders.Host];
                 var website = Websites[host] ?? Websites[""];
                 if (website == null)
                 {

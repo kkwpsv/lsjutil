@@ -10,7 +10,7 @@ namespace Lsj.Util.Net.Web.Message
 {
     class FileResponse : HttpResponse
     {
-        public override long ContentLength => Headers[HttpHeader.ContentLength].ConvertToLong();
+        public override long ContentLength => Headers[Protocol.HttpHeaders.ContentLength].ConvertToLong();
 
         public override Stream Content => content;
 
@@ -19,9 +19,9 @@ namespace Lsj.Util.Net.Web.Message
             var file = new FileInfo(path);
             var fileStream = file.OpenRead();
             var time = file.LastWriteTime.ToUniversalTime().ToString("r");
-            Headers[HttpHeader.ContentType] = MIME.GetContentTypeByExtension(System.IO.Path.GetExtension(path));
+            Headers[Protocol.HttpHeaders.ContentType] = MIMEHelper.GetContentTypeByExtension(System.IO.Path.GetExtension(path));
             Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
-            if (time == request.Headers[HttpHeader.IfModifiedSince])
+            if (time == request.Headers[Protocol.HttpHeaders.IfModifiedSince])
             {
                 this.Write304();
             }
@@ -30,7 +30,7 @@ namespace Lsj.Util.Net.Web.Message
                 bool is206 = false;
                 (long start, long length) fileRange = (0, fileStream.Length);
 
-                var range = request.Headers[HttpHeader.Range]?.Trim();
+                var range = request.Headers[Protocol.HttpHeaders.Range]?.Trim();
                 if (!range.IsNullOrEmpty())
                 {
                     if (range.StartsWith("bytes="))
@@ -56,20 +56,20 @@ namespace Lsj.Util.Net.Web.Message
                 }
 
                 fileStream.Seek(fileRange.start, SeekOrigin.Begin);
-                Headers[HttpHeader.ContentRange] = $"bytes {fileRange.start}-{fileRange.start + fileRange.length - 1}/{fileStream.Length}";
+                Headers[Protocol.HttpHeaders.ContentRange] = $"bytes {fileRange.start}-{fileRange.start + fileRange.length - 1}/{fileStream.Length}";
                 this.ErrorCode = is206 ? 206 : 200;
 
-                if (request.Headers[HttpHeader.AcceptEncoding].Contains("gzip") && fileRange.length < 10 * 1024 * 1024)
+                if (request.Headers[Protocol.HttpHeaders.AcceptEncoding].Contains("gzip") && fileRange.length < 10 * 1024 * 1024)
                 {
                     using (var compress = new GZipStream(content, CompressionMode.Compress, true))
                     {
                         fileStream.CopyToWithCount(compress, fileRange.length);
                     }
-                    Headers[HttpHeader.ContentEncoding] = "gzip";
+                    Headers[Protocol.HttpHeaders.ContentEncoding] = "gzip";
                 }
                 else
                 {
-                    Headers[HttpHeader.ContentLength] = fileRange.length.ToString();
+                    Headers[Protocol.HttpHeaders.ContentLength] = fileRange.length.ToString();
                     this.content = fileStream;
                 }
             }

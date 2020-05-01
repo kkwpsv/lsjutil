@@ -47,7 +47,7 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public IHttpResponse Get(URI uri)
         {
-            Build(uri, null, HttpMethod.GET);
+            Build(uri, null, HttpMethods.GET);
             return Do();
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace Lsj.Util.Net.Web
         /// <returns></returns>
         public IHttpResponse Post(URI uri, byte[] postdata)
         {
-            Build(uri, postdata, HttpMethod.POST);
+            Build(uri, postdata, HttpMethods.POST);
             return Do();
         }
         /// <summary>
@@ -75,7 +75,7 @@ namespace Lsj.Util.Net.Web
         /// <param name="content"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public void Build(URI uri, byte[] content, HttpMethod method) => Build(uri, content, method, null);
+        public void Build(URI uri, byte[] content, HttpMethods method) => Build(uri, content, method, null);
         /// <summary>
         /// Do
         /// </summary>
@@ -84,7 +84,7 @@ namespace Lsj.Util.Net.Web
         /// <param name="method"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public void Build(URI uri, byte[] content, HttpMethod method, IDictionary<string, string> headers)
+        public void Build(URI uri, byte[] content, HttpMethods method, IDictionary<string, string> headers)
         {
             //确保HTTP
             if (uri.Scheme == "https")

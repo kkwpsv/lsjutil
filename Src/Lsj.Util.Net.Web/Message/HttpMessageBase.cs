@@ -119,6 +119,7 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         /// <param name="start"></param>
         /// <param name="length"></param>
+        /// <param name="errorcode"></param>
         /// <returns></returns>
         protected unsafe bool ParseLine(byte* start, int length, out int errorcode)
         {
@@ -133,7 +134,7 @@ namespace Lsj.Util.Net.Web.Message
                         var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
                         if (ValidateHeader(name, content, out errorcode))
                         {
-                            if (name != Header.GetNameByHeader(HttpHeader.Cookie))
+                            if (name != HttpHeadersHelper.GetNameByHeader(Protocol.HttpHeaders.Cookie))
                             {
                                 Headers.Add(name, content);
                             }

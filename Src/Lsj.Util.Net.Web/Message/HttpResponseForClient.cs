@@ -16,6 +16,6 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// ContentLength
         /// </summary>
-        public override long ContentLength => Headers[HttpHeader.ContentLength].ConvertToLong();
+        public override long ContentLength => Headers[Protocol.HttpHeaders.ContentLength].ConvertToLong();
     }
 }

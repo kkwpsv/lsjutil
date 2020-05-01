@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Static
 {
     /// <summary>
-    /// StatusCode
+    /// Status Codes Helper
     /// </summary>
-    public static class StatusCode
+    public static class StatusCodesHelper
     {
         /// <summary>
         /// GetStringByCode

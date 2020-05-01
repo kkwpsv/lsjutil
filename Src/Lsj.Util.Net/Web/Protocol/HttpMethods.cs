@@ -2,9 +2,9 @@
 namespace Lsj.Util.Net.Web.Protocol
 {
     /// <summary>
-    /// Http Method
+    /// Http Methods
     /// </summary>
-    public enum HttpMethod : byte
+    public enum HttpMethods : byte
     {
         /// <summary>
         /// UnParsed

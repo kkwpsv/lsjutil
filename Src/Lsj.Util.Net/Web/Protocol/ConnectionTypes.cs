@@ -6,9 +6,9 @@ using System.Text;
 namespace Lsj.Util.Net.Web.Protocol
 {
     /// <summary>
-    /// ConnectionType
+    /// Connection Types
     /// </summary>
-    public enum ConnectionType
+    public enum ConnectionTypes
     {
         /// <summary>
         /// Close

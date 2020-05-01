@@ -35,8 +35,8 @@ namespace Lsj.Util.Net.Web.Error
                 ErrorCode = code
             };
             response.Write(BuildPage(code, extraCode, server));
-            response.Headers[HttpHeader.ContentType] = "text/html;charset=utf8";
-            response.Headers[HttpHeader.Connection] = "close";
+            response.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf8";
+            response.Headers[Protocol.HttpHeaders.Connection] = "close";
             return response;
         }
         /// <summary>
@@ -54,8 +54,8 @@ namespace Lsj.Util.Net.Web.Error
                 ErrorCode = code
             };
             response.Write(BuildPage(code, extraCode, server, errorString));
-            response.Headers[HttpHeader.ContentType] = "text/html;charset=utf8";
-            response.Headers[HttpHeader.Connection] = "close";
+            response.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf8";
+            response.Headers[Protocol.HttpHeaders.Connection] = "close";
             return response;
         }
 
@@ -75,7 +75,7 @@ namespace Lsj.Util.Net.Web.Error
         /// <param name="server">Server</param>
         public static string BuildPage(int code, int extraCode, string server)
         {
-            var ErrorString = StatusCode.GetStringByCode(code, extraCode);
+            var ErrorString = StatusCodesHelper.GetStringByCode(code, extraCode);
             var ErrorPage = new HtmlPage();
             ErrorPage.Head.Add(new Title
             {

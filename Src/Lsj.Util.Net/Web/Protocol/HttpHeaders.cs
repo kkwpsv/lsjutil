@@ -4,7 +4,7 @@ namespace Lsj.Util.Net.Web.Protocol
     /// <summary>
     /// HttpHeader
     /// </summary>
-    public enum HttpHeader : byte
+    public enum HttpHeaders : byte
     {
         /// <summary>
         /// UnKnown

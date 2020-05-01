@@ -177,9 +177,9 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="str"></param>
         public override void Write(string str)
         {
-            if (this.Headers[HttpHeader.ContentType] == "")
+            if (this.Headers[Protocol.HttpHeaders.ContentType] == "")
             {
-                this.Headers[HttpHeader.ContentType] = "text/html;charset=utf-8";
+                this.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf-8";
             }
             this.Write(str.ConvertToBytes(Encoding.UTF8));
         }
@@ -198,9 +198,9 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         public override string GetHttpHeader()
         {
-            this.Headers[HttpHeader.ContentLength] = this.ContentLength.ToString();
+            this.Headers[Protocol.HttpHeaders.ContentLength] = this.ContentLength.ToString();
             var sb = new StringBuilder();
-            sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {StatusCode.GetStringByCode(ErrorCode)}\r\n");
+            sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {StatusCodesHelper.GetStringByCode(ErrorCode)}\r\n");
             foreach (var header in Headers)
             {
                 sb.Append($"{header.Key}: {header.Value}\r\n");
@@ -234,7 +234,7 @@ namespace Lsj.Util.Net.Web.Message
         public void Redirect(string uri)
         {
             this.ErrorCode = 301;
-            this.Headers[HttpHeader.Location] = uri;
+            this.Headers[Protocol.HttpHeaders.Location] = uri;
         }
     }
 }

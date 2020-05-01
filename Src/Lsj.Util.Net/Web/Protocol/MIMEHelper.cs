@@ -9,7 +9,7 @@ namespace Lsj.Util.Net.Web.Static
     /// <summary>
     /// Mime
     /// </summary>
-    public class MIME : SafeDictionary<string, string>
+    public class MIMEHelper : SafeDictionary<string, string>
     {
         /// <summary>
         /// Get ContentType by Extension
@@ -30,7 +30,7 @@ namespace Lsj.Util.Net.Web.Static
                 return "*/*";
             }
         }
-        private static readonly MIME MIMETypesDictionary = new MIME
+        private static readonly MIMEHelper MIMETypesDictionary = new MIMEHelper
         {
             {".3gp", "video/3gpp"},
             {".aac", "audio/aac"},

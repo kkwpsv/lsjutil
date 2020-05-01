@@ -256,7 +256,7 @@ namespace Lsj.Util.Net.Web
                 if (_socket.Connected)
                 {
                     Status = ContextStatus.Sending;
-                    Response.Headers.Add(HttpHeader.Server, _server.Name);
+                    Response.Headers.Add(Protocol.HttpHeaders.Server, _server.Name);
 
                     await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
 
@@ -272,7 +272,7 @@ namespace Lsj.Util.Net.Web
 
                     await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
 
-                    if (Response.Headers[HttpHeader.Connection].ToLower() == "keep-alive")
+                    if (Response.Headers[Protocol.HttpHeaders.Connection].ToLower() == "keep-alive")
                     {
                         ProcessNextRequest(120 * 1000);
                     }
