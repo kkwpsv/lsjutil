@@ -689,5 +689,46 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TransactNamedPipe", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL TransactNamedPipe([In]HANDLE hNamedPipe, [In]LPVOID lpInBuffer, [In]DWORD nInBufferSize, [In]LPVOID lpOutBuffer,
             [In]DWORD nOutBufferSize, [Out]out DWORD lpBytesRead, [In]in OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Waits until either a time-out interval elapses or an instance of the specified named pipe is available for connection
+        /// (that is, the pipe's server process has a pending <see cref="ConnectNamedPipe"/> operation on the pipe).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitnamedpipea
+        /// </para>
+        /// </summary>
+        /// <param name="lpNamedPipeName">
+        /// The name of the named pipe.
+        /// The string must include the name of the computer on which the server process is executing.
+        /// A period may be used for the servername if the pipe is local.
+        /// The following pipe name format is used:
+        /// \\servername\pipe\pipename
+        /// </param>
+        /// <param name="nTimeOut">
+        /// The number of milliseconds that the function will wait for an instance of the named pipe to be available.
+        /// You can used one of the following values instead of specifying a number of milliseconds.
+        /// <see cref="NMPWAIT_USE_DEFAULT_WAIT"/>:
+        /// The time-out interval is the default value specified by the server process in the <see cref="CreateNamedPipe"/> function.
+        /// <see cref="NMPWAIT_WAIT_FOREVER"/>:
+        /// The function does not return until an instance of the named pipe is available.
+        /// </param>
+        /// <returns>
+        /// If an instance of the pipe is available before the time-out interval elapses, the return value is <see cref="TRUE"/>.
+        /// If an instance of the pipe is not available before the time-out interval elapses, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If no instances of the specified named pipe exist, the <see cref="WaitNamedPipe"/> function returns immediately,
+        /// regardless of the time-out value.
+        /// If the time-out interval expires, the <see cref="WaitNamedPipe"/> function will fail with the error <see cref="ERROR_SEM_TIMEOUT"/>.
+        /// If the function succeeds, the process should use the CreateFile function to open a handle to the named pipe.
+        /// A return value of <see cref="TRUE"/> indicates that there is at least one instance of the pipe available.
+        /// A subsequent <see cref="CreateFile"/> call to the pipe can fail, because the instance was closed by the server or opened by another client.
+        /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app. Also, named pipes must use the syntax "\\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitNamedPipeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WaitNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpNamedPipeName, [In]DWORD nTimeOut);
     }
 }
