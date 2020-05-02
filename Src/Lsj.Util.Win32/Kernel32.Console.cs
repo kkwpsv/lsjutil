@@ -414,6 +414,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the input code page used by the console associated with the calling process.
+        /// A console uses its input code page to translate keyboard input into the corresponding character value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsolecp
+        /// </para>
+        /// </summary>
+        /// <param name="wCodePageID">
+        /// The identifier of the code page to be set. For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A code page maps 256 character codes to individual characters.
+        /// Different code pages include different special characters, typically customized for a language or a group of languages.
+        /// To find the code pages that are installed or supported by the operating system, use the <see cref="EnumSystemCodePages"/> function.
+        /// The identifiers of the code pages available on the local computer are also stored in the registry under the following key:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage
+        /// However, it is better to use <see cref="EnumSystemCodePages"/> to enumerate code pages
+        /// because the registry can differ in different versions of Windows.
+        /// To determine whether a particular code page is valid, use the <see cref="IsValidCodePage"/> function.
+        /// To retrieve more information about a code page, including its name, use the <see cref="GetCPInfoEx"/> function.
+        /// For a list of available code page identifiers, see Code Page Identifiers.
+        /// To determine a console's current input code page, use the <see cref="GetConsoleCP"/> function.
+        /// To set and retrieve a console's output code page, use the <see cref="SetConsoleOutputCP"/> and <see cref="GetConsoleOutputCP"/> functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleCP([In]UINT wCodePageID);
+
+        /// <summary>
+        /// <para>
         /// Sets the input mode of a console's input buffer or the output mode of a console screen buffer.
         /// </para>
         /// <para>
