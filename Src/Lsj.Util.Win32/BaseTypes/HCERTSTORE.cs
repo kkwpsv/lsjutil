@@ -24,6 +24,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator HCERTSTORE(IntPtr val) => new HANDLE { _value = val };
+        public static implicit operator HCERTSTORE(IntPtr val) => new HCERTSTORE { _value = val };
     }
 }
