@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CommEvents;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileShareModes;
@@ -14,6 +15,7 @@ using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Mswsock;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -649,5 +651,63 @@ namespace Lsj.Util.Win32
         /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
         /// </remarks>
         public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
+
+        /// <summary>
+        /// <para>
+        /// Waits for an event to occur for a specified communications device.
+        /// The set of events that are monitored by this function is contained in the event mask associated with the device handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitcommevent
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the communications device.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="lpEvtMask">
+        /// A pointer to a variable that receives a mask indicating the type of event that occurred.
+        /// If an error occurs, the value is zero; otherwise, it is one of the following values.
+        /// <see cref="EV_BREAK"/>, <see cref="EV_CTS"/>, <see cref="EV_DSR"/>, <see cref="EV_ERR"/>, <see cref="EV_RING"/>,
+        /// <see cref="EV_RLSD"/>, <see cref="EV_RXCHAR"/>, <see cref="EV_RXFLAG"/>, <see cref="EV_TXEMPTY"/>
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure.
+        /// This structure is required if <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// the <paramref name="lpOverlapped"/> parameter must not be <see cref="NullRef{OVERLAPPED}"/>.
+        /// It must point to a valid <see cref="OVERLAPPED"/> structure.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and
+        /// <paramref name="lpOverlapped"/> is <see cref="NullRef{OVERLAPPED}"/>, the function can incorrectly report that the operation is complete.
+        /// If <paramref name="hFile"/> was opened with <see cref="FILE_FLAG_OVERLAPPED"/> and
+        /// <paramref name="lpOverlapped"/> is not <see cref="NullRef{OVERLAPPED}"/>, <see cref="WaitCommEvent"/> is performed as an overlapped operation.
+        /// In this case, the OVERLAPPED structure must contain a handle to a manual-reset event object
+        /// (created by using the <see cref="CreateEvent"/> function).
+        /// If <paramref name="hFile"/> was not opened with <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// <see cref="WaitCommEvent"/> does not return until one of the specified events or an error occurs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The WaitCommEvent function monitors a set of events for a specified communications resource.
+        /// To set and query the current event mask of a communications resource, use the <see cref="SetCommMask"/> and <see cref="GetCommMask"/> functions.
+        /// If the overlapped operation cannot be completed immediately, the function returns <see cref="FALSE"/> and
+        /// the <see cref="GetLastError"/> function returns <see cref="ERROR_IO_PENDING"/>, indicating that the operation is executing in the background.
+        /// When this happens, the system sets the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure
+        /// to the not-signaled state before <see cref="WaitCommEvent"/> returns, and then it sets it to the signaled state
+        /// when one of the specified events or an error occurs.
+        /// The calling process can use one of the wait functions to determine the event object's state
+        /// and then use the <see cref="GetOverlappedResult"/> function to determine the results of the <see cref="WaitCommEvent"/> operation.
+        /// <see cref="GetOverlappedResult"/> reports the success or failure of the operation,
+        /// and the variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to indicate the event that occurred.
+        /// If a process attempts to change the device handle's event mask by using the <see cref="SetCommMask"/> function
+        /// while an overlapped <see cref="WaitCommEvent"/> operation is in progress, <see cref="WaitCommEvent"/> returns immediately.
+        /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitCommEvent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WaitCommEvent([In]HANDLE hFile, [Out]out CommEvents lpEvtMask, [In]in OVERLAPPED lpOverlapped);
     }
 }
