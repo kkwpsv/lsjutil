@@ -312,11 +312,10 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This return value instructs the default object handler to call <see cref="OleRegEnumFormatEtc"/>.
         /// Object applications that are implemented as DLL object applications cannot return <see cref="OLE_S_USEREG"/>,
         /// so must call <see cref="OleRegEnumFormatEtc"/> directly.
-        /// Private formats can be enumerated for OLE 1 objects, if they are registered
-        /// with the <see cref="RequestDataFormats"/> or <see cref="SetDataFormats"/> keys in the registry.
+        /// Private formats can be enumerated for OLE 1 objects, if they are registered  with the RequestDataFormats or SetDataFormats keys in the registry.
         /// Also, private formats can be enumerated for OLE objects (all versions after OLE 1),
-        /// if they are registered with the <see cref="GetDataFormats"/> or <see cref="SetDataFormats"/> keys.
-        /// For OLE 1 objects whose servers do not have <see cref="RequestDataFormats"/> or <see cref="SetDataFormats"/> information registered in the registry,
+        /// if they are registered with the GetDataFormats or SetDataFormats keys.
+        /// For OLE 1 objects whose servers do not have RequestDataFormats or SetDataFormats information registered in the registry,
         /// a call to <see cref="EnumFormatEtc"/> passing <see cref="DATADIR_GET"/> only enumerates the native and metafile formats,
         /// regardless of whether they support these formats or others.
         /// Calling <see cref="EnumFormatEtc"/> passing <see cref="DATADIR_SET"/> on such objects only enumerates native,
