@@ -46,6 +46,26 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CLASS_E_NOAGGREGATION = new HRESULT { _value = unchecked((int)0x80040110) };
 
         /// <summary>
+        /// CO_E_APPDIDNTREG
+        /// </summary>
+        public static readonly HRESULT CO_E_APPDIDNTREG = new HRESULT { _value = unchecked((int)0x800401FE) };
+
+        /// <summary>
+        /// CO_E_APPNOTFOUND
+        /// </summary>
+        public static readonly HRESULT CO_E_APPNOTFOUND = new HRESULT { _value = unchecked((int)0x800401F5) };
+
+        /// <summary>
+        /// CO_E_DLLNOTFOUND
+        /// </summary>
+        public static readonly HRESULT CO_E_DLLNOTFOUND = new HRESULT { _value = unchecked((int)0x800401F8) };
+
+        /// <summary>
+        /// CO_E_ERRORINDLL
+        /// </summary>
+        public static readonly HRESULT CO_E_ERRORINDLL = new HRESULT { _value = unchecked((int)0x800401F9) };
+
+        /// <summary>
         /// CO_E_NOTINITIALIZED
         /// </summary>
         public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };

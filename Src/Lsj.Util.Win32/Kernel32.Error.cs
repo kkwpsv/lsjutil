@@ -31,6 +31,11 @@ namespace Lsj.Util.Win32
         public const int EXCEPTION_CONTINUE_EXECUTION = unchecked(-1);
 
         /// <summary>
+        /// EXCEPTION_MAXIMUM_PARAMETERS
+        /// </summary>
+        public const int EXCEPTION_MAXIMUM_PARAMETERS = 15;
+
+        /// <summary>
         /// <para>
         /// Displays a message box and terminates the application when the message box is closed.
         /// If the system is running with a debug version of Kernel32.dll,

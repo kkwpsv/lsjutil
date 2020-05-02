@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The APIs for writing character attributes including <see cref="WriteConsoleOutput"/> and <see cref="WriteConsoleOutputAttribute"/>
         /// allow the usage of flags from character attributes to adjust the color of the foreground and background of text.
-        /// Additionally, a range of DBCS flags was specified with the <see cref="COMMON_LVB"/> prefix.
+        /// Additionally, a range of DBCS flags was specified with the COMMON_LVB prefix.
         /// Historically, these flags only functioned in DBCS code pages for Chinese, Japanese, and Korean languages.
         /// With exception of the leading byte and trailing byte flags, the remaining flags describing line drawing and reverse video
         /// (swap foreground and background colors) can be useful for other languages to emphasize portions of output.

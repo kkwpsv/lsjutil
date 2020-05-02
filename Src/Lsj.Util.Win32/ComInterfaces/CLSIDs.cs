@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.ComInterfaces
+﻿using System;
+
+namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// CLSIDs
@@ -9,6 +11,11 @@
         /// CLSID_FileOpenDialog
         /// </summary>
         public const string CLSID_FileOpenDialog = "DC1C5A9C-E88A-4dde-A5A1-60F82A20AEF7";
+
+        /// <summary>
+        /// CLSID_NULL
+        /// </summary>
+        public static readonly Guid CLSID_NULL = Guid.Empty;
 
         /// <summary>
         /// CLSID_ShellItem

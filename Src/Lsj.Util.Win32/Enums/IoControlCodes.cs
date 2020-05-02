@@ -52,6 +52,17 @@ namespace Lsj.Util.Win32.Enums
         FSCTL_LOCK_VOLUME = 0x90018,
 
         /// <summary>
+        /// Sets the compression state of a file or directory on a volume whose file system supports per-file and per-directory compression.
+        /// You can use <see cref="FSCTL_SET_COMPRESSION"/> to compress or uncompress a file or directory on such a volume.
+        /// </summary>
+        FSCTL_SET_COMPRESSION = 0x9c040,
+
+        /// <summary>
+        /// Sets a reparse point on a file or directory.
+        /// </summary>
+        FSCTL_SET_REPARSE_POINT = 0x000900a4,
+
+        /// <summary>
         /// <para>
         /// Marks the indicated file as sparse or not sparse.
         /// In a sparse file, large ranges of zeros may not require disk allocation.

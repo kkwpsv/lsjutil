@@ -22,6 +22,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
+        /// FLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD FLS_OUT_OF_INDEXES = 0xFFFFFFFF;
+
+        /// <summary>
         /// TLS_MINIMUM_AVAILABLE
         /// </summary>
         public static readonly DWORD TLS_MINIMUM_AVAILABLE = 64;
@@ -528,7 +533,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// The following errors can be returned.
         /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.
-        /// <see cref="ERROR_NO_MEMORY"/>: The FLS array has not been allocated.
+        /// ERROR_NO_MEMORY: The FLS array has not been allocated.
         /// </returns>
         /// <remarks>
         /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
