@@ -464,6 +464,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the output code page used by the console associated with the calling process.
+        /// A console uses its output code page to translate the character values written 
+        /// by the various output functions into the images displayed in the console window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsoleoutputcp
+        /// </para>
+        /// </summary>
+        /// <param name="wCodePageID">
+        /// The identifier of the code page to set. For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A code page maps 256 character codes to individual characters.
+        /// Different code pages include different special characters, typically customized for a language or a group of languages.
+        /// If the current font is a fixed-pitch Unicode font, <see cref="SetConsoleOutputCP"/> changes the mapping of the character values
+        /// into the glyph set of the font, rather than loading a separate font each time it is called.
+        /// This affects how extended characters (ASCII value greater than 127) are displayed in a console window.
+        /// However, if the current font is a raster font, <see cref="SetConsoleOutputCP"/> does not affect how extended characters are displayed.
+        /// To find the code pages that are installed or supported by the operating system, use the <see cref="EnumSystemCodePages"/> function.
+        /// The identifiers of the code pages available on the local computer are also stored in the registry under the following key:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage
+        /// However, it is better to use <see cref="EnumSystemCodePages"/> to enumerate code pages
+        /// because the registry can differ in different versions of Window.
+        /// To determine whether a particular code page is valid, use the <see cref="IsValidCodePage"/> function.
+        /// To retrieve more information about a code page, including its name, use the <see cref="GetCPInfoEx"/> function.
+        /// For a list of available code page identifiers, see Code Page Identifiers.
+        /// To determine a console's current output code page, use the <see cref="GetConsoleOutputCP"/> function.
+        /// To set and retrieve a console's input code page, use the <see cref="SetConsoleCP"/> and <see cref="GetConsoleCP"/> functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleOutputCP([In]UINT wCodePageID);
+
+        /// <summary>
+        /// <para>
         /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
