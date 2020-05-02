@@ -726,7 +726,9 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the process should use the CreateFile function to open a handle to the named pipe.
         /// A return value of <see cref="TRUE"/> indicates that there is at least one instance of the pipe available.
         /// A subsequent <see cref="CreateFile"/> call to the pipe can fail, because the instance was closed by the server or opened by another client.
-        /// Windows 10, version 1709:  Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app. Also, named pipes must use the syntax "\\.\pipe\LOCAL" for the pipe name.
+        /// Windows 10, version 1709:
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitNamedPipeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WaitNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpNamedPipeName, [In]DWORD nTimeOut);
