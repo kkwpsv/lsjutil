@@ -26,6 +26,11 @@
         public const string IID_IClassFactory2 = "B196B28F-BAB4-101A-B69C-00AA00341D07";
 
         /// <summary>
+        /// IID_IClientSecurity
+        /// </summary>
+        public const string IID_IClientSecurity = "0000013D-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IDataAdviseHolder
         /// </summary>
         public const string IID_IDataAdviseHolder = "00000110-0000-0000-C000-000000000046";

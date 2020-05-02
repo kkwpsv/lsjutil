@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Sets static cloaking.
         /// When this flag is set, DCOM uses the thread token (if present) when determining the client's identity.
-        /// However, the client's identity is determined on the first call on each proxy (if <see cref="SetBlanket"/> is not called)
+        /// However, the client's identity is determined on the first call on each proxy (if <see cref="IClientSecurity.SetBlanket"/> is not called)
         /// and each time <see cref="CoSetProxyBlanket"/> is called on the proxy.
         /// For more information about static cloaking, see Cloaking.
         /// <see cref="CoInitializeSecurity"/> and <see cref="IClientSecurity.SetBlanket"/> return errors if both cloaking flags are set
