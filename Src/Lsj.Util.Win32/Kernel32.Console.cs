@@ -414,6 +414,56 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the input mode of a console's input buffer or the output mode of a console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsolemode
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleHandle">
+        /// A handle to the console input buffer or a console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="dwMode">
+        /// The input or output mode to be set.
+        /// If the <paramref name="hConsoleHandle"/> parameter is an input handle, the mode can be one or more of the following values.
+        /// When a console is created, all input modes except <see cref="ENABLE_WINDOW_INPUT"/> are enabled by default.
+        /// <see cref="ENABLE_ECHO_INPUT"/>, <see cref="ENABLE_EXTENDED_FLAGS"/>, <see cref="ENABLE_INSERT_MODE"/>,
+        /// <see cref="ENABLE_LINE_INPUT"/>, <see cref="ENABLE_MOUSE_INPUT"/>, <see cref="ENABLE_PROCESSED_INPUT"/>,
+        /// <see cref="ENABLE_QUICK_EDIT_MODE"/>, <see cref="ENABLE_WINDOW_INPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_INPUT"/>
+        /// If the <paramref name="hConsoleHandle"/> parameter is a screen buffer handle, the mode can be one or more of the following values.
+        /// When a screen buffer is created, both output modes are enabled by default.
+        /// <see cref="ENABLE_PROCESSED_OUTPUT"/>, <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_PROCESSING"/>,
+        /// <see cref="DISABLE_NEWLINE_AUTO_RETURN"/>, <see cref="ENABLE_LVB_GRID_WORLDWIDE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A console consists of an input buffer and one or more screen buffers.
+        /// The mode of a console buffer determines how the console behaves during input and output (I/O) operations.
+        /// One set of flag constants is used with input handles, and another set is used with screen buffer (output) handles.
+        /// Setting the output modes of one screen buffer does not affect the output modes of other screen buffers.
+        /// The <see cref="ENABLE_LINE_INPUT"/> and <see cref="ENABLE_ECHO_INPUT"/> modes only affect processes
+        /// that use <see cref="ReadFile"/> or <see cref="ReadConsole"/> to read from the console's input buffer.
+        /// Similarly, the <see cref="ENABLE_PROCESSED_INPUT"/> mode primarily affects <see cref="ReadFile"/> and <see cref="ReadConsole"/> users,
+        /// except that it also determines whether Ctrl+C input is reported in the input buffer (to be read by the <see cref="ReadConsoleInput"/> function)
+        /// or is passed to a <see cref="HandlerRoutine"/> function defined by the application.
+        /// The <see cref="ENABLE_WINDOW_INPUT"/> and <see cref="ENABLE_MOUSE_INPUT"/> modes determine whether user interactions
+        /// involving window resizing and mouse actions are reported in the input buffer or discarded.
+        /// These events can be read by <see cref="ReadConsoleInput"/>, but they are always filtered by <see cref="ReadFile"/> and <see cref="ReadConsole"/>.
+        /// The <see cref="ENABLE_PROCESSED_OUTPUT"/> and <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/> modes only affect processes
+        /// using <see cref="ReadFile"/> or <see cref="ReadConsole"/> and <see cref="WriteFile"/> or <see cref="WriteConsole"/>.
+        /// To determine the current mode of a console input buffer or a screen buffer, use the <see cref="GetConsoleMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleMode([In]HANDLE hConsoleHandle, [In]ConsoleModes dwMode);
+
+        /// <summary>
+        /// <para>
         /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
