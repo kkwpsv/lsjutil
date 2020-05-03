@@ -30,6 +30,11 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// </summary>
         public IList<FileDialogFileTypeItem> FileTypes { get; set; }
 
+        /// <summary>
+        /// Title
+        /// </summary>
+        public string Title { get; set; }
+
         /// <inheritdoc/>
         public override ShowDialogResult ShowDialog(IntPtr owner)
         {
@@ -38,6 +43,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
             {
                 SetOptions();
                 SetFileTypes();
+                SetTitle();
                 if (_dialog.Show(owner))
                 {
                     GetResult();
@@ -86,6 +92,16 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                     pszName = x.Name,
                     pszSpec = x.Pattern
                 }).ToArray()))
+            {
+                return;
+            }
+            throw Marshal.GetExceptionForHR(result);
+        }
+
+        private void SetTitle()
+        {
+            var result = S_OK;
+            if (Title == null || _dialog.SetTitle(Title))
             {
                 return;
             }
