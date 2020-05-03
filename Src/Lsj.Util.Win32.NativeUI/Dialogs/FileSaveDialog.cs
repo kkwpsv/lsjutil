@@ -8,14 +8,14 @@ using static Lsj.Util.Win32.Ole32;
 namespace Lsj.Util.Win32.NativeUI.Dialogs
 {
     /// <summary>
-    /// FileOpenDialog
+    /// FileSaveDialog
     /// </summary>
-    public class FileOpenDialog : FileDialog
+    public class FileSaveDialog : FileDialog
     {
         /// <inheritdoc/>
         protected override IFileDialog CreateDialog()
         {
-            var result = CoCreateInstance(CLSID_FileOpenDialog.ToGuid(), null, CLSCTX_INPROC_SERVER, IID_IUnknown.ToGuid(), out var obj);
+            var result = CoCreateInstance(CLSID_FileSaveDialog.ToGuid(), null, CLSCTX_INPROC_SERVER, IID_IUnknown.ToGuid(), out var obj);
             if (result)
             {
                 return obj as IFileDialog;

@@ -13,6 +13,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public const string CLSID_FileOpenDialog = "DC1C5A9C-E88A-4dde-A5A1-60F82A20AEF7";
 
         /// <summary>
+        /// CLSID_FileSaveDialog
+        /// </summary>
+        public const string CLSID_FileSaveDialog = "C0B4E2F3-BA21-4773-8DBA-335EC946EB8B";
+
+        /// <summary>
         /// CLSID_NULL
         /// </summary>
         public static readonly Guid CLSID_NULL = Guid.Empty;
