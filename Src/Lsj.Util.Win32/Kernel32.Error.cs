@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ExceptionFlags;
@@ -29,11 +30,6 @@ namespace Lsj.Util.Win32
         /// EXCEPTION_CONTINUE_EXECUTION
         /// </summary>
         public const int EXCEPTION_CONTINUE_EXECUTION = unchecked(-1);
-
-        /// <summary>
-        /// EXCEPTION_MAXIMUM_PARAMETERS
-        /// </summary>
-        public const int EXCEPTION_MAXIMUM_PARAMETERS = 15;
 
         /// <summary>
         /// <para>
