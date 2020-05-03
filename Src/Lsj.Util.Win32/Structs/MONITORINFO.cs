@@ -7,15 +7,20 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
+    /// The MONITORINFO structure contains information about a display monitor.
+    /// The <see cref="GetMonitorInfo"/> function stores information in a <see cref="MONITORINFO"/> structure or a <see cref="MONITORINFOEX"/> structure.
+    /// The <see cref="MONITORINFO"/> structure is a subset of the <see cref="MONITORINFOEX"/> structure.
+    /// The <see cref="MONITORINFOEX"/> structure adds a string member to contain a name for the display monitor.
+    /// </para>
+    /// <para>
     /// The <see cref="MONITORINFOEX"/> structure contains information about a display monitor.
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfoexw
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct MONITORINFOEX
+    public struct MONITORINFO
     {
         /// <summary>
         /// <para>
@@ -44,11 +49,5 @@ namespace Lsj.Util.Win32.Structs
         /// A set of flags that represent attributes of the display monitor.
         /// </summary>
         public MONITORINFOFlags dwFlags;
-
-        /// <summary>
-        /// A string that specifies the device name of the monitor being used.
-        /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string szDevice;
     }
 }
