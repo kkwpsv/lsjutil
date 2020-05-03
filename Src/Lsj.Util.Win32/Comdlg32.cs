@@ -4,12 +4,15 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CHOOSECOLORFlags;
 using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
 using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -19,9 +22,59 @@ namespace Lsj.Util.Win32
     public static class Comdlg32
     {
         /// <summary>
+        /// FINDMSGSTRING
+        /// </summary>
+        public const string FINDMSGSTRING = "commdlg_FindReplace";
+
+        /// <summary>
         /// HELPMSGSTRING
         /// </summary>
         public const string HELPMSGSTRING = "commdlg_help";
+
+        /// <summary>
+        /// <para>
+        /// Receives messages or notifications intended for the default dialog box procedure of the Color dialog box.
+        /// This is an application-defined or library-defined callback function that is used with the <see cref="ChooseColor"/> function.
+        /// The <see cref="LPCCHOOKPROC"/> type defines a pointer to this callback function.
+        /// CCHookProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcchookproc?redirectedfrom=MSDN
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <param name="Arg4"></param>
+        /// <returns>
+        /// If the hook procedure returns zero, the default dialog box procedure processes the message.
+        /// If the hook procedure returns a nonzero value, the default dialog box procedure ignores the message.
+        /// </returns>
+        /// <remarks>
+        /// When you use the <see cref="ChooseColor"/> function to create a Color dialog box,
+        /// you can provide a CCHookProc hook procedure to process messages or notifications intended for the dialog box procedure.
+        /// To enable the hook procedure, use the <see cref="CHOOSECOLOR"/> structure that you passed to the dialog creation function.
+        /// Specify the address of the hook procedure in the <see cref="CHOOSECOLOR.lpfnHook"/> member
+        /// and specify the <see cref="CC_ENABLEHOOK"/> flag in the Flags member.
+        /// The default dialog box procedure processes the <see cref="WM_INITDIALOG"/> message before passing it to the hook procedure.
+        /// For all other messages, the hook procedure receives the message first.
+        /// Then, the return value of the hook procedure determines whether the default dialog procedure processes the message or ignores it.
+        /// If the hook procedure processes the <see cref="WM_CTLCOLORDLG"/> message,
+        /// it must return a valid brush handle to painting the background of the dialog box.
+        /// In general, if the hook procedure processes any WM_CTLCOLOR* message,
+        /// it must return a valid brush handle to painting the background of the specified control.
+        /// Do not call the <see cref="EndDialog"/> function from the hook procedure.
+        /// Instead, the hook procedure can call the <see cref="PostMessage"/> function to post a <see cref="WM_COMMAND"/> message
+        /// with the <see cref="IDABORT"/> value to the dialog box procedure.
+        /// Posting <see cref="IDABORT"/> closes the dialog box and causes the dialog box function to return <see cref="FALSE"/>.
+        /// If you need to know why the hook procedure closed the dialog box,
+        /// you must provide your own communication mechanism between the hook procedure and your application.
+        /// You can subclass the standard controls of a common dialog box.
+        /// However, the dialog box procedure may also subclass the controls.
+        /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
+        /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
+        /// </remarks>
+        public delegate UINT_PTR LPCCHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -67,6 +120,52 @@ namespace Lsj.Util.Win32
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
         public delegate UINT_PTR LPCFHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+
+        /// <summary>
+        /// <para>
+        /// Receives messages or notifications intended for the default dialog box procedure of the Find or Replace dialog box.
+        /// The FRHookProc hook procedure is an application-defined or library-defined callback function
+        /// that is used with the <see cref="FindText"/> or <see cref="ReplaceText"/> function.
+        /// The <see cref="LPFRHOOKPROC"/> type defines a pointer to this callback function.
+        /// FRHookProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpfrhookproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <param name="Arg4"></param>
+        /// <returns>
+        /// If the hook procedure returns zero, the default dialog box procedure processes the message.
+        /// If the hook procedure returns a nonzero value, the default dialog box procedure ignores the message.
+        /// </returns>
+        /// <remarks>
+        /// When you use the <see cref="FindText"/> or <see cref="ReplaceText"/> functions to create a Find or Replace dialog box,
+        /// you can provide an FRHookProc hook procedure to process messages or notifications intended for the dialog box procedure.
+        /// To enable the hook procedure, use the <see cref="FINDREPLACE"/> structure that you passed to the dialog creation function.
+        /// Specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member
+        /// and specify the <see cref="FR_ENABLEHOOK"/> flag in the <see cref="FINDREPLACE.Flags"/> member.
+        /// The default dialog box procedure processes the <see cref="WM_INITDIALOG"/> message before passing it to the hook procedure.
+        /// For all other messages, the hook procedure receives the message first.
+        /// Then, the return value of the hook procedure determines whether the default dialog procedure processes the message or ignores it.
+        /// If the hook procedure processes the <see cref="WM_CTLCOLORDLG"/> message,
+        /// it must return a valid brush handle for painting the background of the dialog box.
+        /// In general, if the hook procedure processes any WM_CTLCOLOR* message,
+        /// it must return a valid brush handle for painting the background of the specified control.
+        /// Do not call the <see cref="EndDialog"/> function from the hook procedure.
+        /// Instead, the hook procedure can call the <see cref="PostMessage"/> function to post a <see cref="WM_COMMAND"/> message
+        /// with the <see cref="IDABORT"/> value to the dialog box procedure.
+        /// Posting <see cref="IDABORT"/> closes the dialog box and causes the dialog box function to return <see cref="FALSE"/>.
+        /// If you need to know why the hook procedure closed the dialog box,
+        /// you must provide your own communication mechanism between the hook procedure and your application.
+        /// You can subclass the standard controls of a common dialog box.
+        /// However, the dialog box procedure may also subclass the controls.
+        /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
+        /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
+        /// </remarks>
+        public delegate UINT_PTR LPFRHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -162,6 +261,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a Color dialog box that enables the user to select a color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646912(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="lpcc">
+        /// A pointer to a <see cref="CHOOSECOLOR"/> structure that contains information used to initialize the dialog box.
+        /// When <see cref="ChooseColor"/> returns, this structure contains information about the user's color selection.
+        /// </param>
+        /// <returns>
+        /// If the user clicks the OK button of the dialog box, the return value is <see cref="TRUE"/>.
+        /// The rgbResult member of the <see cref="CHOOSECOLOR"/> structure contains the RGB color value of the color selected by the user.
+        /// If the user cancels or closes the Color dialog box or an error occurs, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call the <see cref="CommDlgExtendedError"/> function, which can return one of the following values:
+        /// <see cref="CDERR_DIALOGFAILURE"/>, <see cref="CDERR_FINDRESFAILURE"/>, <see cref="CDERR_MEMLOCKFAILURE"/>,
+        /// <see cref="CDERR_INITIALIZATION"/>, <see cref="CDERR_NOHINSTANCE"/>, <see cref="CDERR_NOHOOK"/>,
+        /// <see cref="CDERR_LOADRESFAILURE"/>, <see cref="CDERR_NOTEMPLATE"/>, <see cref="CDERR_LOADSTRFAILURE"/>,
+        /// <see cref="CDERR_STRUCTSIZE"/>, <see cref="CDERR_MEMALLOCFAILURE"/>
+        /// </returns>
+        /// <remarks>
+        /// The Color dialog box does not support palettes.
+        /// The color choices offered by the dialog box are limited to the system colors and dithered versions of those colors.
+        /// You can provide a <see cref="LPCCHOOKPROC"/> hook procedure for a Color dialog box.
+        /// The hook procedure can process messages sent to the dialog box.
+        /// To enable a hook procedure, set the <see cref="CC_ENABLEHOOK"/> flag in the <see cref="CHOOSECOLOR.Flags"/> member
+        /// of the <see cref="CHOOSECOLOR"/> structure and specify the address of the hook procedure in the <see cref="CHOOSECOLOR.lpfnHook"/> member.
+        /// </remarks>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseColorW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ChooseColor([In][Out]CHOOSECOLOR lpcc);
+
+        /// <summary>
+        /// <para>
         /// Creates a Font dialog box that enables the user to choose attributes for a logical font.
         /// These attributes include a font family and associated font style, a point size, effects (underline, strikeout, and text color),
         /// and a script (or character set).
@@ -234,6 +366,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a system-defined modeless Find dialog box that lets the user specify a string
+        /// to search for and options to use when searching for text in a document.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-findtextw
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A pointer to a <see cref="FINDREPLACE"/> structure that contains information used to initialize the dialog box.
+        /// The dialog box uses this structure to send information about the user's input to your application.
+        /// For more information, see the following Remarks section.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the window handle to the dialog box.
+        /// You can use the window handle to communicate with or to close the dialog box.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call the <see cref="CommDlgExtendedError"/> function.
+        /// <see cref="CommDlgExtendedError"/> may return one of the following error codes:
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="FindText"/> function does not perform a search operation.
+        /// Instead, the dialog box sends <see cref="FINDMSGSTRING"/> registered messages to the window procedure of the owner window of the dialog box.
+        /// When you create the dialog box, the hwndOwner member of the <see cref="FINDREPLACE"/> structure is a handle to the owner window.
+        /// Before calling <see cref="FindText"/>, you must call the <see cref="RegisterWindowMessage"/> function
+        /// to get the identifier for the <see cref="FINDMSGSTRING"/> message.
+        /// The dialog box procedure uses this identifier to send messages when the user clicks the Find Next button, or when the dialog box is closing.
+        /// The lParam parameter of the <see cref="FINDMSGSTRING"/> message contains a pointer to a <see cref="FINDREPLACE"/> structure.
+        /// The <see cref="FINDREPLACE.Flags"/> member of this structure indicates the event that caused the message.
+        /// Other members of the structure indicate the user's input.
+        /// If you create a Find dialog box, you must also use the <see cref="IsDialogMessage"/> function
+        /// in the main message loop of your application to ensure that the dialog box correctly processes keyboard input, such as the TAB and ESC keys.
+        /// <see cref="IsDialogMessage"/> returns a value that indicates whether the Find dialog box processed the message.
+        /// You can provide an <see cref="FRHookProc"/> hook procedure for a Find dialog box.
+        /// The hook procedure can process messages sent to the dialog box.
+        /// To enable a hook procedure, set the <see cref="FR_ENABLEHOOK"/> flag in the <see cref="FINDREPLACE.Flags"/> member
+        /// of the <see cref="FINDREPLACE"/> structure and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
+        /// </remarks>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindTextW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND FindText([In][Out]ref FINDREPLACE Arg1);
+
+        /// <summary>
+        /// <para>
         /// Displays a Print Dialog Box or a Print Setup dialog box.
         /// The Print dialog box enables the user to specify the properties of a particular print job.
         /// </para>
@@ -278,5 +452,49 @@ namespace Lsj.Util.Win32
             "It may be altered or unavailable in subsequent versions. Instead, use PrintDlgEx or PageSetupDlg.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PrintDlg([In][Out]ref PRINTDLG lppd);
+
+        /// <summary>
+        /// <para>
+        /// Creates a system-defined modeless dialog box that lets the user specify a string
+        /// to search for and a replacement string, as well as options to control the find and replace operations.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-replacetextw
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A pointer to a <see cref="FINDREPLACE"/> structure that contains information used to initialize the dialog box.
+        /// The dialog box uses this structure to send information about the user's input to your application.
+        /// For more information, see the following Remarks section.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the window handle to the dialog box.
+        /// You can use the window handle to communicate with the dialog box or close it.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call the <see cref="CommDlgExtendedError"/> function,
+        /// which can return one of the following error codes:
+        /// </returns>
+        /// <remarks>
+        /// The ReplaceText function does not perform a text replacement operation.
+        /// Instead, the dialog box sends <see cref="FINDMSGSTRING"/> registered messages to the window procedure of the owner window of the dialog box.
+        /// When you create the dialog box, the <see cref="FINDREPLACE.hwndOwner"/> member
+        /// of the <see cref="FINDREPLACE"/> structure is a handle to the owner window.
+        /// Before calling <see cref="ReplaceText"/>, you must call the <see cref="RegisterWindowMessage"/> function
+        /// to get the identifier for the <see cref="FINDMSGSTRING"/> message.
+        /// The dialog box procedure uses this identifier to send messages when the user clicks the Find Next, Replace,
+        /// or Replace All buttons, or when the dialog box is closing.
+        /// The lParam parameter of a <see cref="FINDMSGSTRING"/> message contains a pointer to the <see cref="FINDREPLACE"/> structure.
+        /// The <see cref="FINDREPLACE.Flags"/> member of this structure indicates the event that caused the message.
+        /// Other members of the structure indicate the user's input.
+        /// If you create a Replace dialog box, you must also use the <see cref="IsDialogMessage"/> function
+        /// in the main message loop of your application to ensure that the dialog box correctly processes keyboard input, such as the TAB and ESC keys.
+        /// The <see cref="IsDialogMessage"/> function returns a value that indicates whether the Replace dialog box processed the message.
+        /// You can provide an FRHookProc hook procedure for a Replace dialog box.
+        /// The hook procedure can process messages sent to the dialog box.
+        /// To enable a hook procedure, set the <see cref="FR_ENABLEHOOK"/> flag in the <see cref="FINDREPLACE.Flags"/> member
+        /// of the <see cref="FINDREPLACE"/> structure and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
+        /// </remarks>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceTextW", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND ReplaceText([In][Out]ref FINDREPLACE Arg1);
     }
 }
