@@ -1,5 +1,8 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
@@ -22,6 +25,11 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// </summary>
         public bool IsPickFolders { get; set; }
 
+        /// <summary>
+        /// FileTypes
+        /// </summary>
+        public IList<FileDialogFileTypeItem> FileTypes { get; set; }
+
         /// <inheritdoc/>
         public override ShowDialogResult ShowDialog(IntPtr owner)
         {
@@ -29,6 +37,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
             try
             {
                 SetOptions();
+                SetFileTypes();
                 if (_dialog.Show(owner))
                 {
                     GetResult();
@@ -63,6 +72,22 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 {
                     return;
                 }
+            }
+            throw Marshal.GetExceptionForHR(result);
+        }
+
+        private void SetFileTypes()
+        {
+            var result = S_OK;
+            if (FileTypes == null || FileTypes.Count == 0 ||
+                _dialog.SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                new COMDLG_FILTERSPEC
+                {
+                    pszName = x.Name,
+                    pszSpec = x.Pattern
+                }).ToArray()))
+            {
+                return;
             }
             throw Marshal.GetExceptionForHR(result);
         }
