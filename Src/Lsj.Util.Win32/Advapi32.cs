@@ -1270,6 +1270,32 @@ namespace Lsj.Util.Win32
         public static extern BOOL OpenThreadToken([In]HANDLE ThreadHandle, [In]ACCESS_MASK DesiredAccess, [In]BOOL OpenAsSelf, [Out]out HANDLE TokenHandle);
 
         /// <summary>
+        /// <para>
+        /// The <see cref="RevertToSelf"/> function terminates the impersonation of a client application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process should call the <see cref="RevertToSelf"/> function after finishing any impersonation begun
+        /// by using the <see cref="DdeImpersonateClient"/>, <see cref="ImpersonateDdeClientWindow"/>, <see cref="ImpersonateLoggedOnUser"/>,
+        /// <see cref="ImpersonateNamedPipeClient"/>, <see cref="ImpersonateSelf"/>, <see cref="ImpersonateAnonymousToken"/>
+        /// or <see cref="SetThreadToken"/> function.
+        /// An RPC server that used the <see cref="RpcImpersonateClient"/> function to impersonate a client must call
+        /// the <see cref="RpcRevertToSelf"/> or <see cref="RpcRevertToSelfEx"/> to end the impersonation.
+        /// If <see cref="RevertToSelf"/> fails, your application continues to run in the context of the client, which is not appropriate.
+        /// You should shut down the process if <see cref="RevertToSelf"/> fails.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RevertToSelf", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RevertToSelf();
+
+        /// <summary>
         /// The SetTokenInformation function sets various types of information for a specified access token. 
         /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
         /// <para>
