@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types
     /// </para>
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, Size = 2)]
+    [StructLayout(LayoutKind.Explicit, Size = 2, CharSet = CharSet.Unicode)]
     public struct WCHAR
     {
         [FieldOffset(0)]
