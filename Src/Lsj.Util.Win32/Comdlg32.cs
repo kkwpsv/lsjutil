@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CHOOSECOLORFlags;
 using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
@@ -328,7 +329,7 @@ namespace Lsj.Util.Win32
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
         public delegate UINT_PTR LPPAGESETUPHOOK([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
-        
+
         /// <summary>
         /// <para>
         /// Receives messages or notifications intended for the default dialog box procedure of the Print dialog box.
@@ -718,6 +719,54 @@ namespace Lsj.Util.Win32
             "It may be altered or unavailable in subsequent versions. Instead, use PrintDlgEx or PageSetupDlg.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PrintDlg([In][Out]ref PRINTDLG lppd);
+
+        /// <summary>
+        /// <para>
+        /// Displays a Print property sheet that enables the user to specify the properties of a particular print job.
+        /// A Print property sheet has a General page that contains controls similar to the Print dialog box.
+        /// The property sheet can also have additional application-specific and driver-specific property pages as well as the General page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646942(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="lppd">
+        /// A pointer to a <see cref="PRINTDLGEX"/> structure that contains information used to initialize the property sheet.
+        /// When <see cref="PrintDlgEx"/> returns, this structure contains information about the user's selections.
+        /// This structure must be declared dynamically using a memory allocation function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="S_OK"/>
+        /// and the <see cref="PRINTDLGEX.dwResultAction"/> member of the <see cref="PRINTDLGEX"/> structure contains one of the following values.
+        /// <see cref="PD_RESULT_APPLY"/>:
+        /// The user clicked the Apply button and later clicked the Cancel button.
+        /// This indicates that the user wants to apply the changes made in the property sheet, but does not yet want to print.
+        /// The <see cref="PRINTDLGEX"/> structure contains the information specified by the user at the time the Apply button was clicked.
+        /// <see cref="PD_RESULT_CANCEL"/>:
+        /// The user clicked the Cancel button. The information in the <see cref="PRINTDLGEX"/> structure is unchanged.
+        /// <see cref="PD_RESULT_PRINT"/>:
+        /// The user clicked the Print button. The <see cref="PRINTDLGEX"/> structure contains the information specified by the user.
+        /// If the function fails, the return value may be one of the following COM error codes.
+        /// For more information, see Error Handling.
+        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory.
+        /// <see cref="E_INVALIDARG"/>:  One or more arguments are invalid.
+        /// <see cref="E_POINTER"/>: Invalid pointer.
+        /// <see cref="E_HANDLE"/>: Invalid handle.
+        /// <see cref="E_FAIL"/>: Unspecified error.
+        /// </returns>
+        /// <remarks>
+        /// The values of <see cref="PRINTDLGEX.hDevMode"/> and <see cref="PRINTDLGEX.hDevNames"/> in <see cref="PRINTDLGEX"/> may change
+        /// when they are passed into <see cref="PrintDlgEx"/>.
+        /// This is because these members are filled on both input and output.
+        /// Be sure to free the memory allocated for these members
+        /// If <see cref="PD_RETURNDC"/> is set but <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> flag is not set,
+        /// the <see cref="PrintDlg"/> and <see cref="PrintDlgEx"/> functions return incorrect number of copies.
+        /// To get the correct number of copies, ensure that the calling application
+        /// always uses <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> with <see cref="PD_RETURNDC"/>.
+        /// For more information, see Print Property Sheet.
+        /// </remarks>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgExW", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT PrintDlgEx([In][Out]ref PRINTDLGEX lppd);
 
         /// <summary>
         /// <para>
