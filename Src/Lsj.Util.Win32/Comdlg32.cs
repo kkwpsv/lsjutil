@@ -228,6 +228,109 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Receives messages that allow you to customize drawing of the sample page in the Page Setup dialog box.
+        /// The PagePaintHook hook procedure is an application-defined or library-defined callback function
+        /// used with the <see cref="PageSetupDlg"/> function.
+        /// The <see cref="LPPAGEPAINTHOOK"/> type defines a pointer to this callback function.
+        /// PagePaintHook is a placeholder for the application-defined or library-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagepainthook
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <param name="Arg4"></param>
+        /// <returns>
+        /// If the hook procedure returns <see cref="TRUE"/> for any of the first three messages of a drawing sequence
+        /// (<see cref="WM_PSD_PAGESETUPDLG"/>, <see cref="WM_PSD_FULLPAGERECT"/>, or <see cref="WM_PSD_MINMARGINRECT"/>),
+        /// the dialog box sends no more messages and does not draw in the sample page until the next time the system needs to redraw the sample page.
+        /// If the hook procedure returns <see cref="FALSE"/> for all three messages, the dialog box sends the remaining messages of the drawing sequence.
+        /// If the hook procedure returns <see cref="TRUE"/> for any of the remaining messages in a drawing sequence,
+        /// the dialog box does not draw the corresponding portion of the sample page.
+        /// If the hook procedure returns <see cref="FALSE"/> for any of these messages, the dialog box draws that portion of the sample page.
+        /// </returns>
+        /// <remarks>
+        /// The Page Setup dialog box includes an image of a sample page that shows how the user's selections affect the appearance of the printed output.
+        /// The image consists of a rectangle that represents the selected paper or envelope type,
+        /// with a dotted-line rectangle representing the current margins, and partial (Greek text) characters to show how text looks on the printed page.
+        /// When you use the <see cref="PageSetupDlg"/> function to create a Page Setup dialog box,
+        /// you can provide a PagePaintHook hook procedure to customize the appearance of the sample page.
+        /// To enable the hook procedure, use the <see cref="PAGESETUPDLG"/> structure that you passed to the creation function.
+        /// Specify the pointer to the hook procedure in the <see cref="PAGESETUPDLG.lpfnPagePaintHook"/> member
+        /// and specify the <see cref="PSD_ENABLEPAGEPAINTHOOK"/> flag in the <see cref="PAGESETUPDLG.Flags"/> member.
+        /// Whenever the dialog box is about to draw the contents of the sample page,
+        /// the hook procedure receives the following messages in the order in which they are listed.
+        /// <see cref="WM_PSD_PAGESETUPDLG"/>:
+        /// The dialog box is about to draw the sample page.
+        /// The hook procedure can use this message to prepare to draw the contents of the sample page.
+        /// <see cref="WM_PSD_FULLPAGERECT"/>:
+        /// The dialog box is about to draw the sample page.
+        /// This message specifies the bounding rectangle of the sample page.
+        /// <see cref="WM_PSD_MINMARGINRECT"/>:
+        /// The dialog box is about to draw the sample page.
+        /// This message specifies the margin rectangle.
+        /// <see cref="WM_PSD_MARGINRECT"/>:
+        /// The dialog box is about to draw the margin rectangle.
+        /// <see cref="WM_PSD_GREEKTEXTRECT"/>:
+        /// The dialog box is about to draw the Greek text inside the margin rectangle.
+        /// <see cref="WM_PSD_ENVSTAMPRECT"/>:
+        /// The dialog box is about to draw in the envelope-stamp rectangle of an envelope sample page.
+        /// This message is sent for envelopes only.
+        /// <see cref="WM_PSD_YAFULLPAGERECT"/>:
+        /// The dialog box is about to draw the return address portion of an envelope sample page.
+        /// This message is sent for envelopes and other paper sizes.
+        /// </remarks>
+        public delegate UINT_PTR LPPAGEPAINTHOOK([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+
+        /// <summary>
+        /// <para>
+        /// Receives messages or notifications intended for the default dialog box procedure of the Page Setup dialog box.
+        /// The PageSetupHook hook procedure is an application-defined or library-defined callback function used with the <see cref="PageSetupDlg"/> function.
+        /// The <see cref="LPPAGESETUPHOOK"/> type defines a pointer to this callback function.
+        /// PageSetupHook is a placeholder for the application-defined or library-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagesetuphook
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1"></param>
+        /// <param name="Arg2"></param>
+        /// <param name="Arg3"></param>
+        /// <param name="Arg4"></param>
+        /// <returns>
+        /// If the hook procedure returns zero, the default dialog box procedure processes the message.
+        /// If the hook procedure returns a nonzero value, the default dialog box procedure ignores the message.
+        /// </returns>
+        /// <remarks>
+        /// When you use the <see cref="PageSetupDlg"/> function to create a Page Setup dialog box, you can provide a PageSetupHook hook procedure
+        /// to process messages or notifications intended for the dialog box procedure.
+        /// To enable the hook procedure, use the <see cref="PAGESETUPDLG"/> structure that you passed to the dialog creation function.
+        /// Specify the pointer to the hook procedure in the <see cref="PAGESETUPDLG.lpfnPageSetupHook"/> member
+        /// and specify the <see cref="PSD_ENABLEPAGESETUPHOOK"/> flag in the <see cref="PAGESETUPDLG.Flags"/> member.
+        /// The default dialog box procedure processes the <see cref="WM_INITDIALOG"/> message before passing it to the hook procedure.
+        /// For all other messages, the hook procedure receives the message first.
+        /// Then, the return value of the hook procedure determines whether the default dialog procedure processes the message or ignores it.
+        /// If the hook procedure processes the <see cref="WM_CTLCOLORDLG"/> message,
+        /// it must return a valid brush handle to painting the background of the dialog box.
+        /// In general, if the hook procedure processes any WM_CTLCOLOR* message,
+        /// it must return a valid brush handle to painting the background of the specified control.
+        /// Do not call the <see cref="EndDialog"/> function from the hook procedure.
+        /// Instead, the hook procedure can call the <see cref="PostMessage"/> function to post a <see cref="WM_COMMAND"/> message
+        /// with the <see cref="IDABORT"/> value to the dialog box procedure.
+        /// Posting <see cref="IDABORT"/> closes the dialog box and causes the dialog box function to return <see cref="FALSE"/>.
+        /// If you need to know why the hook procedure closed the dialog box, you must provide your own communication mechanism
+        /// between the hook procedure and your application.
+        /// You can subclass the standard controls of a common dialog box.
+        /// However, the dialog box procedure may also subclass the controls.
+        /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
+        /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
+        /// </remarks>
+        public delegate UINT_PTR LPPAGESETUPHOOK([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        
+        /// <summary>
+        /// <para>
         /// Receives messages or notifications intended for the default dialog box procedure of the Print dialog box.
         /// This is an application-defined or library-defined callback function that is used with the <see cref="PrintDlg"/> function.
         /// The <see cref="LPPRINTHOOKPROC"/> type defines a pointer to this callback function.
@@ -539,6 +642,35 @@ namespace Lsj.Util.Win32
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSaveFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetSaveFileName([In][Out]ref OPENFILENAME Arg1);
+
+        /// <summary>
+        /// <para>
+        /// Creates a Page Setup dialog box that enables the user to specify the attributes of a printed page.
+        /// These attributes include the paper size and source, the page orientation (portrait or landscape), and the width of the page margins.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646937(v=vs.85)?redirectedfrom=MSDN
+        /// </para>
+        /// </summary>
+        /// <param name="lppsd">
+        /// A pointer to a PAGESETUPDLG structure that contains information used to initialize the dialog box.
+        /// The structure receives information about the user's selections when the function returns.
+        /// </param>
+        /// <returns>
+        /// If the user clicks the OK button, the return value is <see cref="TRUE"/>.
+        /// The members of the <see cref="PAGESETUPDLG"/> structure pointed to by the lppsd parameter indicate the user's selections.
+        /// If the user cancels or closes the Page Setup dialog box or an error occurs, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, use the <see cref="CommDlgExtendedError"/> function.
+        /// Note that the values of <see cref="PAGESETUPDLG.hDevMode"/> and <see cref="PAGESETUPDLG.hDevNames"/> in <see cref="PAGESETUPDLG"/>
+        /// may change when they are passed into <see cref="PageSetupDlg"/>.
+        /// This is because these members are filled on both input and output.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows Vista, the <see cref="PageSetupDlg"/> does not contain the Printer button.
+        /// To switch printer selection, use <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/>.
+        /// </remarks>
+        [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PageSetupDlgW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PageSetupDlg([In][Out]ref PAGESETUPDLG lppsd);
 
         /// <summary>
         /// <para>
