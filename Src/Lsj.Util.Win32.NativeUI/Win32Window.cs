@@ -7,12 +7,12 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
 
 namespace Lsj.Util.Win32.NativeUI
 {
