@@ -17,10 +17,10 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// Headers
         /// </summary>
-        public HttpHeaders Headers
+        public HttpHeaderDictionary Headers
         {
             get;
-        } = new HttpHeaders();
+        } = new HttpHeaderDictionary();
 
         /// <summary>
         /// ErrorCode

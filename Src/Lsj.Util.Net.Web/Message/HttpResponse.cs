@@ -198,7 +198,6 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         public override string GetHttpHeader()
         {
-            this.Headers[Protocol.HttpHeaders.ContentLength] = this.ContentLength.ToString();
             var sb = new StringBuilder();
             sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {StatusCodesHelper.GetStringByCode(ErrorCode)}\r\n");
             foreach (var header in Headers)
