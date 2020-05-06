@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -795,7 +796,7 @@ namespace Lsj.Util.Win32
         /// however, calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadImageW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE LoadImage([In]HINSTANCE hInst, [MarshalAs(UnmanagedType.LPWStr)][In]string name, [In]ImageTypes type,
+        public static extern HANDLE LoadImage([In]HINSTANCE hInst, [In]StringHandle name, [In]ImageTypes type,
             [In]int cx, [In]int cy, [In]LoadImageFlags fuLoad);
 
         /// <summary>

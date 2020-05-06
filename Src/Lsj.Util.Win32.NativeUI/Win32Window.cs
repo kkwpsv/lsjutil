@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.LoadImageFlags;
 
 namespace Lsj.Util.Win32.NativeUI
 {
@@ -67,8 +68,8 @@ namespace Lsj.Util.Win32.NativeUI
                 cbClsExtra = 0,
                 cbWndExtra = 0,
                 hInstance = hInstance,
-                hIcon = LoadIcon(IntPtr.Zero, SystemIcons.IDI_APPLICATION),
-                hCursor = LoadCursor(IntPtr.Zero, SystemCursors.IDC_ARROW),
+                hIcon = LoadImage(NULL, (IntPtr)SystemIcons.IDI_APPLICATION, ImageTypes.IMAGE_ICON, 0, 0, LR_SHARED),
+                hCursor = LoadImage(NULL, (IntPtr)SystemCursors.IDC_ARROW, ImageTypes.IMAGE_CURSOR, 0, 0, LR_SHARED),
                 hbrBackground = COLOR_WINDOW,
                 lpszMenuName = IntPtr.Zero,
                 lpszClassName = marshal.GetPtr(),
