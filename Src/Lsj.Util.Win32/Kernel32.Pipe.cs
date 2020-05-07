@@ -38,6 +38,16 @@ namespace Lsj.Util.Win32
         public const uint NMPWAIT_WAIT_FOREVER = 0xffffffff;
 
         /// <summary>
+        /// PIPE_CLIENT_END
+        /// </summary>
+        public const uint PIPE_CLIENT_END = 0x00000000;
+
+        /// <summary>
+        /// PIPE_SERVER_END
+        /// </summary>
+        public const uint PIPE_SERVER_END = 0x00000001;
+
+        /// <summary>
         /// PIPE_UNLIMITED_INSTANCES
         /// </summary>
         public const uint PIPE_UNLIMITED_INSTANCES = 255;

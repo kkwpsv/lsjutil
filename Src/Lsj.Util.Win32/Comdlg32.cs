@@ -13,6 +13,8 @@ using static Lsj.Util.Win32.Enums.CommonDialogBoxNotifications;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
 using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
+using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
+using static Lsj.Util.Win32.Enums.PrintDlgExResults;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
@@ -24,6 +26,12 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Comdlg32
     {
+
+        /// <summary>
+        /// FILEOKSTRING
+        /// </summary>
+        public const string FILEOKSTRING = "commdlg_FileNameOK";
+
         /// <summary>
         /// FINDMSGSTRING
         /// </summary>
@@ -33,6 +41,11 @@ namespace Lsj.Util.Win32
         /// HELPMSGSTRING
         /// </summary>
         public const string HELPMSGSTRING = "commdlg_help";
+
+        /// <summary>
+        /// SHAREVISTRING
+        /// </summary>
+        public const string SHAREVISTRING = "commdlg_ShareViolation";
 
         /// <summary>
         /// <para>
@@ -562,7 +575,7 @@ namespace Lsj.Util.Win32
         /// If you create a Find dialog box, you must also use the <see cref="IsDialogMessage"/> function
         /// in the main message loop of your application to ensure that the dialog box correctly processes keyboard input, such as the TAB and ESC keys.
         /// <see cref="IsDialogMessage"/> returns a value that indicates whether the Find dialog box processed the message.
-        /// You can provide an <see cref="FRHookProc"/> hook procedure for a Find dialog box.
+        /// You can provide an FRHookProc hook procedure for a Find dialog box.
         /// The hook procedure can process messages sent to the dialog box.
         /// To enable a hook procedure, set the <see cref="FR_ENABLEHOOK"/> flag in the <see cref="FINDREPLACE.Flags"/> member
         /// of the <see cref="FINDREPLACE"/> structure and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
@@ -591,7 +604,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// The Explorer-style Open dialog box provides user-interface features that are similar to the Windows Explorer.
-        /// You can provide an <see cref="OFNHookProc"/> hook procedure for an Explorer-style Open dialog box.
+        /// You can provide an OFNHookProc hook procedure for an Explorer-style Open dialog box.
         /// To enable the hook procedure, set the <see cref="OFN_EXPLORER"/> and <see cref="OFN_ENABLEHOOK"/> flags
         /// in the <see cref="OPENFILENAME.Flags"/> member of the <see cref="OPENFILENAME"/> structure
         /// and specify the address of the hook procedure in the <see cref="OPENFILENAME.lpfnHook"/> member.
@@ -633,11 +646,11 @@ namespace Lsj.Util.Win32
         /// The Explorer-style Save dialog box that provides user-interface features that are similar to the Windows Explorer.
         /// You can provide an OFNHookProc hook procedure for an Explorer-style Save dialog box.
         /// To enable the hook procedure, set the <see cref="OFN_EXPLORER"/> and <see cref="OFN_ENABLEHOOK"/> flags
-        /// in the <see cref="Flags"/> member of the <see cref="OPENFILENAME"/> structure
+        /// in the <see cref="OPENFILENAME.Flags"/> member of the <see cref="OPENFILENAME"/> structure
         /// and specify the address of the hook procedure in the <see cref="OPENFILENAME.lpfnHook"/> member.
         /// Windows continues to support old-style Save dialog boxes for applications
         /// that want to maintain a user-interface consistent with the old-style user-interface.
-        /// To display the old-style Save dialog box, enable an <see cref="OFNHookProcOldStyle"/> hook procedure
+        /// To display the old-style Save dialog box, enable an OFNHookProcOldStyle hook procedure
         /// and ensure that the <see cref="OFN_EXPLORER"/> flag is not set.
         /// </remarks>
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +

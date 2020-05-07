@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// <see cref="SHSetTemporaryPropertyForItem"/> can be used to set a temporary <see cref="PKEY_ItemNameDisplay"/> property
+        /// <see cref="SHSetTemporaryPropertyForItem"/> can be used to set a temporary PKEY_ItemNameDisplay property
         /// on the item represented by the <paramref name="psi"/> parameter.
         /// The value for this property will be used in place of the item's UI name.
         /// </remarks>

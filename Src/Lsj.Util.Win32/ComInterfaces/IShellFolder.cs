@@ -6,8 +6,10 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Enums.SHCIDS;
 using static Lsj.Util.Win32.Enums.SHGDNF;
 using static Lsj.Util.Win32.Ole32;
+using BIND_OPTS = Lsj.Util.Win32.Structs.BIND_OPTS;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -168,7 +170,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the method returns <see cref="S_FALSE"/>, then the folder contains no suitable subobjects and the pointer
         /// specified in <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
         /// If the method fails, an error value is returned and the pointer specified in <paramref name="ppenumIDList"/> is set to <see langword="null"/>.
-        /// If the folder contains no suitable subobjects, then the <see cref="IShellFolder.EnumObjects"/> method is permitted
+        /// If the folder contains no suitable subobjects, then the <see cref="EnumObjects"/> method is permitted
         /// either to set <paramref name="ppenumIDList"/> to <see langword="null"/> and return <see cref="S_FALSE"/>,
         /// or to set <paramref name="ppenumIDList"/> to an enumerator that produces no objects and return <see cref="S_OK"/>.
         /// Calling applications must be prepared for both success cases.

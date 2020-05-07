@@ -14,10 +14,7 @@ namespace Lsj.Util.Win32.Enums
     /// <remarks>
     /// Different forms of an item's name can be retrieved through the item's properties, including those listed here.
     /// Note that not all properties are present on all items, so only those appropriate to the item will appear.
-    /// <see cref="PKEY_FileName"/>
-    /// <see cref="PKEY_ItemFolderNameDisplay"/>
-    /// <see cref="PKEY_ItemFolderPathDisplay"/>
-    /// <see cref="PKEY_ItemFolderPathDisplayNarrow"/>
+    /// PKEY_FileName, PKEY_ItemFolderNameDisplay, PKEY_ItemFolderPathDisplay, PKEY_ItemFolderPathDisplayNarrow
     /// </remarks>
     public enum SIGDN
     {

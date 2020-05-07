@@ -8,6 +8,10 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
+using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -231,7 +235,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If <see cref="CoInitializeSecurity"/> is not called, it defaults to <see cref="RPC_C_IMP_LEVEL_IDENTIFY"/>.
         /// The initial value for <paramref name="dwAuthnLevel"/> on a proxy will be the higher of the value set
         /// on the client's call to <see cref="CoInitializeSecurity"/> and the server's call to <see cref="CoInitializeSecurity"/>.
-        /// For any process that did not call <see cref="CoInitializeSecurity"/>, the default authentication level is <see cref="RPC_C_AUTHN_CONNECT"/>.
+        /// For any process that did not call <see cref="CoInitializeSecurity"/>, the default authentication level is <see cref="RPC_C_AUTHN_LEVEL_CONNECT"/>.
         /// The default authentication and impersonation level for processes that do not call <see cref="CoInitializeSecurity"/> can be set with DCOMCNFG.
         /// If <see cref="EOAC_DEFAULT"/> is specified for <paramref name="dwCapabilities"/>,
         /// the valid capabilities from <see cref="CoInitializeSecurity"/> will be used.

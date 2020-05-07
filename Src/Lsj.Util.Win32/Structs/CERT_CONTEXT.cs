@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.CertEncodingTypes;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -27,7 +29,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="X509_ASN_ENCODING"/>
         /// <see cref="PKCS_7_ASN_ENCODING"/>
         /// </summary>
-        public DWORD dwCertEncodingType;
+        public CertEncodingTypes dwCertEncodingType;
 
         /// <summary>
         /// A pointer to a buffer that contains the encoded certificate.

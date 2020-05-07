@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
@@ -30,6 +31,11 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct OPENFILENAME
     {
+        /// <summary>
+        /// OFN_EX_NOPLACESBAR
+        /// </summary>
+        public static readonly DWORD OFN_EX_NOPLACESBAR = 1;
+
         /// <summary>
         /// The length, in bytes, of the structure.
         /// Use <code>sizeof(OPENFILENAME)</code> for this parameter.

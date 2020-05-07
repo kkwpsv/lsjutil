@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32

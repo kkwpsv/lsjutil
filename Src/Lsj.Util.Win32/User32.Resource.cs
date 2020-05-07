@@ -708,7 +708,7 @@ namespace Lsj.Util.Win32
         /// OIC_: OEM icons
         /// OCR: OEM cursors
         /// To pass these constants to the <see cref="LoadImage"/> function, use the <see cref="MAKEINTRESOURCE"/> macro.
-        /// For example, to load the <see cref="OCR_NORMAL"/> cursor, pass <code>MAKEINTRESOURCE(OCR_NORMAL)</code>
+        /// For example, to load the OCR_NORMAL cursor, pass <code>MAKEINTRESOURCE(OCR_NORMAL)</code>
         /// as the <paramref name="name"/> parameter, <see cref="NULL"/> as the <paramref name="hInst"/> parameter,
         /// and <see cref="LR_SHARED"/> as one of the flags to the <paramref name="fuLoad"/> parameter.
         /// If the <paramref name="fuLoad"/> parameter includes the <see cref="LR_LOADFROMFILE"/> value,

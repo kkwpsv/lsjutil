@@ -1959,7 +1959,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
         /// To determine whether a drive is a USB-type drive,
-        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the <see cref="SPDRP_REMOVAL_POLICY"/> property.
+        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the SPDRP_REMOVAL_POLICY property.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdrivetypew

@@ -66,6 +66,11 @@
         public const string IID_IMoniker = "0000000f-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IObjectWithSite
+        /// </summary>
+        public const string IID_IObjectWithSite = "FC4801A3-2BA9-11CF-A229-00AA003D7352";
+
+        /// <summary>
         /// IID_IOleLink
         /// </summary>
         public const string IID_IOleLink = "0000011d-0000-0000-C000-000000000046";
@@ -94,6 +99,11 @@
         /// IID_IPersistStream
         /// </summary>
         public const string IID_IPersistStream = "00000109-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IPrintDialogCallback
+        /// </summary>
+        public const string IID_IPrintDialogCallback = " 5852a2c3-6530-11d1-b6a3-0000f8757bf9";
 
         /// <summary>
         /// IID_IPropertySetStorage

@@ -1,11 +1,15 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Comdlg32;
+using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DEVMODEFields;
+using static Lsj.Util.Win32.Enums.PrintDlgExResults;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 
 namespace Lsj.Util.Win32.Structs
@@ -39,6 +43,16 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct PRINTDLGEX
     {
+        /// <summary>
+        /// PD_EXCL_COPIESANDCOLLATE
+        /// </summary>
+        public static readonly DWORD PD_EXCL_COPIESANDCOLLATE = (uint)(DM_COPIES | DM_COLLATE);
+
+        /// <summary>
+        /// START_PAGE_GENERAL
+        /// </summary>
+        public static readonly DWORD START_PAGE_GENERAL = 0xffffffff;
+
         /// <summary>
         /// The structure size, in bytes.
         /// </summary>
@@ -95,7 +109,7 @@ namespace Lsj.Util.Win32.Structs
         /// To ensure that <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/> returns
         /// the correct values in <see cref="nCopies"/> and <see cref="PD_COLLATE"/>,
         /// set <see cref="PD_RETURNDC"/> = <see cref="TRUE"/> and <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> = <see cref="FALSE"/>.
-        /// In so doing, <see cref="dmCopies"/> is always 1 and <see cref="dmCollate"/> is always <see cref="FALSE"/>.
+        /// In so doing, <see cref="DEVMODE.dmCopies"/> is always 1 and <see cref="DEVMODE.dmCollate"/> is always <see cref="FALSE"/>.
         /// Starting with Windows Vista, when you call <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/>
         /// with <see cref="PD_RETURNDC"/> set to <see cref="TRUE"/> and <see cref="PD_USEDEVMODECOPIESANDCOLLATE"/> set to <see cref="FALSE"/>,
         /// the <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/> function sets the number of copies

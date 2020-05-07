@@ -121,6 +121,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT E_FAIL = new HRESULT { _value = unchecked((int)0x80004005) };
 
         /// <summary>
+        /// E_HANDLE
+        /// </summary>
+        public static readonly HRESULT E_HANDLE = new HRESULT { _value = unchecked((int)0x80070006) };
+
+        /// <summary>
         /// Invalid parameter value.
         /// </summary>
         public static readonly HRESULT E_INVALIDARG = new HRESULT { _value = unchecked((int)0x80070057) };
@@ -181,9 +186,19 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT MK_E_NEEDGENERIC = new HRESULT { _value = unchecked((int)0x800401E2) };
 
         /// <summary>
+        /// MK_E_NOTBINDABLE
+        /// </summary>
+        public static readonly HRESULT MK_E_NOTBINDABLE = new HRESULT { _value = unchecked((int)0x800401E8) };
+
+        /// <summary>
         /// MK_E_NOINVERSE
         /// </summary>
         public static readonly HRESULT MK_E_NOINVERSE = new HRESULT { _value = unchecked((int)0x800401EC) };
+
+        /// <summary>
+        /// MK_E_NOPREFIX
+        /// </summary>
+        public static readonly HRESULT MK_E_NOPREFIX = new HRESULT { _value = unchecked((int)0x800401EE) };
 
         /// <summary>
         /// MK_E_MUSTBOTHERUSER
@@ -194,11 +209,6 @@ namespace Lsj.Util.Win32.BaseTypes
         /// MK_E_NOSTORAGE
         /// </summary>
         public static readonly HRESULT MK_E_NOSTORAGE = new HRESULT { _value = unchecked((int)0x800401ED) };
-
-        /// <summary>
-        /// MK_E_NOTBINDABLE
-        /// </summary>
-        public static readonly HRESULT MK_E_NOTBINDABLE = new HRESULT { _value = unchecked((int)0x800401E8) };
 
         /// <summary>
         /// MK_E_SYNTAX
@@ -329,6 +339,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// STG_E_ACCESSDENIED
         /// </summary>
         public static readonly HRESULT STG_E_ACCESSDENIED = new HRESULT { _value = unchecked((int)0x80030005) };
+
+        /// <summary>
+        /// STG_E_CANTSAVE
+        /// </summary>
+        public static readonly HRESULT STG_E_CANTSAVE = new HRESULT { _value = unchecked((int)0x80030103) };
 
         /// <summary>
         /// STG_E_FILEALREADYEXISTS

@@ -29,7 +29,7 @@ namespace Lsj.Util.Win32
         /// The application-defined data.
         /// </param>
         /// <param name="Timer">
-        /// A <see cref="TP_TIMER"/> structure that defines the timer object that generated the callback.
+        /// A TP_TIMER structure that defines the timer object that generated the callback.
         /// </param>
         public delegate void PTP_TIMER_CALLBACK([In]PTP_CALLBACK_INSTANCE Instance, [In]PVOID Context, [In]PTP_TIMER Timer);
 
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, it returns a <see cref="TP_TIMER"/> structure that defines the timer object.
+        /// If the function succeeds, it returns a TP_TIMER structure that defines the timer object.
         /// Applications do not modify the members of this structure.
         /// If the function fails, it returns <see cref="IntPtr.Zero"/>.
         /// To retrieve extended error information, call <see cref="GetLastError"/>.

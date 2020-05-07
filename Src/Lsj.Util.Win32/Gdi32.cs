@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,13 +10,14 @@ using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GDIEscapes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.ICMModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.ObjTypes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.ICMModes;
 
 namespace Lsj.Util.Win32
 {
@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32
         /// If the objects cannot be enumerated (for example, there are too many objects), the function returns zero without calling the callback function.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumObjects([In]HDC hdc, [In]int nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
+        public static extern int EnumObjects([In]HDC hdc, [In]ObjTypes nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -987,8 +987,10 @@ namespace Lsj.Util.Win32
         /// If all three intensities are 255, the result is white.
         /// To extract the individual values for the red, green, and blue components of a <see cref="COLORREF"/> color value,
         /// use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros, respectively.
-        /// When creating or examining a logical palette, use the <see cref="RGBQUAD"/> structure to define color values and examine individual component values.
-        /// For more information about using color values in a color palette, see the descriptions of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
+        /// When creating or examining a logical palette, use the <see cref="RGBQUAD"/> structure to define color values
+        /// and examine individual component values.
+        /// For more information about using color values in a color palette, see the descriptions
+        /// of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
         /// </remarks>
         public static COLORREF RGB([In]byte r, [In]byte g, [In]byte b) => (COLORREF)(r | g << 8 | b << 16);
 
