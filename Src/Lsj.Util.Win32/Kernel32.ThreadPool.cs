@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Instance">
-        /// A <see cref="TP_CALLBACK_INSTANCE"/> structure that defines the callback instance.
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
         /// Applications do not modify the members of this structure.
         /// This structure can be passed to one of the following functions:
         /// <see cref="CallbackMayRunLong"/>, <see cref="DisassociateCurrentThreadFromCallback"/>, <see cref="FreeLibraryWhenCallbackReturns"/>,
@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32
         /// Optional application-defined data to pass to the callback function.
         /// </param>
         /// <param name="pcbe">
-        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the environment in which to execute the callback.
+        /// A TP_CALLBACK_ENVIRON structure that defines the environment in which to execute the callback.
         /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
         /// If this parameter is <see cref="IntPtr.Zero"/>, the callback executes in the default callback environment.
         /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
