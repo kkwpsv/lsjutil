@@ -1904,6 +1904,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Unlocks a specified range of pages in the virtual address space of a process,
+        /// enabling the system to swap the pages out to the paging file if necessary.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualunlock
+        /// </para>
+        /// </summary>
+        /// <param name="lpAddress">
+        /// A pointer to the base address of the region of pages to be unlocked.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region being unlocked, in bytes.
+        /// The region of affected pages includes all pages containing one or more bytes in the range
+        /// from the <paramref name="lpAddress"/> parameter to (<paramref name="lpAddress"/>+<paramref name="dwSize"/>).
+        /// This means that a 2-byte range straddling a page boundary causes both pages to be unlocked.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// For the function to succeed, the range specified need not match a range passed to a previous call to the <see cref="VirtualLock"/> function,
+        /// but all pages in the range must be locked.
+        /// If any of the pages in the specified range are not locked, <see cref="VirtualUnlock"/> removes such pages from the working set,
+        /// sets last error to <see cref="ERROR_NOT_LOCKED"/>, and returns <see cref="FALSE"/>.
+        /// Calling <see cref="VirtualUnlock"/> on a range of memory that is not locked releases the pages from the process's working set.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualUnlock", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL VirtualUnlock([In]LPVOID lpAddress, [In]SIZE_T dwSize);
+
+        /// <summary>
+        /// <para>
         /// Writes data to an area of memory in a specified process. The entire area to be written to must be accessible or the operation fails.
         /// </para>
         /// <para>
