@@ -1141,57 +1141,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves the value of one of the system-wide parameters, taking into account the provided DPI value.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfofordpi
-        /// </para>
-        /// </summary>
-        /// <param name="uiAction">
-        /// The system-wide parameter to be retrieved.
-        /// This function is only intended for use with <see cref="SPI_GETICONTITLELOGFONT"/>,
-        /// <see cref="SPI_GETICONMETRICS"/>, or <see cref="SPI_GETNONCLIENTMETRICS"/>.
-        /// See <see cref="SystemParametersInfo"/> for more information on these values.
-        /// </param>
-        /// <param name="uiParam">
-        /// A parameter whose usage and format depends on the system parameter being queried.
-        /// For more information about system-wide parameters, see the <paramref name="uiAction"/> parameter.
-        /// If not otherwise indicated, you must specify zero for this parameter.
-        /// </param>
-        /// <param name="pvParam">
-        /// A parameter whose usage and format depends on the system parameter being queried.
-        /// For more information about system-wide parameters, see the <paramref name="uiAction"/> parameter.
-        /// If not otherwise indicated, you must specify <see cref="NULL"/> for this parameter.
-        /// For information on the <see cref="PVOID"/> datatype, see Windows Data Types.
-        /// </param>
-        /// <param name="fWinIni">
-        /// Has no effect for with this API.
-        /// This parameter only has an effect if you're setting parameter.
-        /// </param>
-        /// <param name="dpi">
-        /// The DPI to use for scaling the metric.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function returns a similar result as <see cref="SystemParametersInfo"/>,
-        /// but scales it according to an arbitrary DPI you provide (if appropriate).
-        /// It only scales with the following possible values for <paramref name="uiAction"/>:
-        /// <see cref="SPI_GETICONTITLELOGFONT"/>, <see cref="SPI_GETICONMETRICS"/>, <see cref="SPI_GETNONCLIENTMETRICS"/>.
-        /// Other possible <paramref name="uiAction"/> values do not provide ForDPI behavior,
-        /// and therefore this function returns 0 if called with them.
-        /// For <paramref name="uiAction"/> values that contain strings within their associated structures,
-        /// only Unicode (LOGFONTW) strings are supported in this function.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoForDpi", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SystemParametersInfoForDpi([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam,
-            [In]PVOID pvParam, [In]SystemParametersInfoFlags fWinIni, [In]UINT dpi);
-
-        /// <summary>
-        /// <para>
         /// Launches Windows Help (Winhelp.exe) and passes additional data that indicates the nature of the help requested by the application.
         /// </para>
         /// <para>
