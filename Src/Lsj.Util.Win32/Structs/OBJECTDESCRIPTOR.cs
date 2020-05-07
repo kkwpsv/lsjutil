@@ -10,9 +10,12 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// Represents the data structure used for the <see cref="CF_OBJECTDESRIPTOR"/> and <see cref="CF_LINKSRCDESCRIPTOR"/> file formats.
+    /// Represents the data structure used for the CF_OBJECTDESRIPTOR and CF_LINKSRCDESCRIPTOR file formats.
     /// These formats provide user interface information during data transfer operations, for example,
     /// the Paste Special dialog box or target feedback information during drag-and-drop operations.
+    /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ns-oleidl-objectdescriptor
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
