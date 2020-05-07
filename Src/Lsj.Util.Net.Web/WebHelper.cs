@@ -23,7 +23,7 @@ namespace Lsj.Util
         {
             get
             {
-                return AppConfig.AppSettings;
+                return System.Configuration.ConfigurationManager.AppSettings;
             }
         }
         /// <summary>
