@@ -1964,6 +1964,69 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about a range of pages within the virtual address space of a specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualqueryex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process whose memory information is queried.
+        /// The handle must have been opened with the <see cref="PROCESS_QUERY_INFORMATION"/> access right,
+        /// which enables using the handle to read information from the process object.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpAddress">
+        /// A pointer to the base address of the region of pages to be queried.
+        /// This value is rounded down to the next page boundary.
+        /// To determine the size of a page on the host computer, use the <see cref="GetSystemInfo"/> function.
+        /// If <paramref name="lpAddress"/> specifies an address above the highest memory address accessible to the process,
+        /// the function fails with <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a <see cref="MEMORY_BASIC_INFORMATION"/> structure in which information about the specified page range is returned.
+        /// </param>
+        /// <param name="dwLength">
+        /// The size of the buffer pointed to by the <paramref name="lpBuffer"/> parameter, in bytes.
+        /// </param>
+        /// <returns>
+        /// The return value is the actual number of bytes returned in the information buffer.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible error values include <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="VirtualQueryEx"/> provides information about a region of consecutive pages beginning
+        /// at a specified address that share the following attributes:
+        /// The state of all pages is the same (<see cref="MEM_COMMIT"/>, <see cref="MEM_RESERVE"/>, <see cref="MEM_FREE"/>,
+        /// <see cref="MEM_PRIVATE"/>, <see cref="MEM_MAPPED"/>, or <see cref="MEM_IMAGE"/>).
+        /// If the initial page is not free, all pages in the region are part of the same initial allocation of pages
+        /// created by a single call to <see cref="VirtualAlloc"/>, <see cref="MapViewOfFile"/>,
+        /// or one of the following extended versions of these functions: <see cref="VirtualAllocEx"/>, <see cref="VirtualAllocExNuma"/>,
+        /// <see cref="MapViewOfFileEx"/>, <see cref="MapViewOfFileExNuma"/>.
+        /// The access granted to all pages is the same (<see cref="PAGE_READONLY"/>, <see cref="PAGE_READWRITE"/>, <see cref="PAGE_NOACCESS"/>,
+        /// <see cref="PAGE_WRITECOPY"/>, <see cref="PAGE_EXECUTE"/>, <see cref="PAGE_EXECUTE_READ"/>, <see cref="PAGE_EXECUTE_READWRITE"/>,
+        /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, <see cref="PAGE_GUARD"/>, or <see cref="PAGE_NOCACHE"/>).
+        /// The <see cref="VirtualQueryEx"/> function determines the attributes of the first page in the region and then scans subsequent pages
+        /// until it scans the entire range of pages, or until it encounters a page with a nonmatching set of attributes.
+        /// The function returns the attributes and the size of the region of pages with matching attributes, in bytes.
+        /// For example, if there is a 40 megabyte (MB) region of free memory,
+        /// and <see cref="VirtualQueryEx"/> is called on a page that is 10 MB into the region,
+        /// the function will obtain a state of <see cref="MEM_FREE"/> and a size of 30 MB.
+        /// If a shared copy-on-write page is modified, it becomes private to the process that modified the page.
+        /// However, the <see cref="VirtualQueryEx"/> function will continue to report such pages as <see cref="MEM_MAPPED"/> (for data views)
+        /// or <see cref="MEM_IMAGE"/> (for executable image views) rather than <see cref="MEM_PRIVATE"/>.
+        /// To detect whether copy-on-write has occurred for a specific page, either access the page or lock it using the <see cref="VirtualLock"/> function
+        /// to make sure the page is resident in memory, then use the <see cref="QueryWorkingSet"/> or <see cref="QueryWorkingSetEx"/> function
+        /// to check the Shared bit in the extended working set information for the page.
+        /// If the Shared bit is clear, the page is private.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualQueryEx", ExactSpelling = true, SetLastError = true)]
+        public static extern SIZE_T VirtualQueryEx([In]HANDLE hProcess, [In]LPCVOID lpAddress, [Out]out MEMORY_BASIC_INFORMATION lpBuffer,
+            [In]SIZE_T dwLength);
+
+        /// <summary>
+        /// <para>
         /// Unlocks a specified range of pages in the virtual address space of a process,
         /// enabling the system to swap the pages out to the paging file if necessary.
         /// </para>
