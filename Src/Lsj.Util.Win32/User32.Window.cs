@@ -3205,6 +3205,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Updates the position, size, shape, content, and translucency of a layered window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633557(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to a layered window.
+        /// A layered window is created by specifying <see cref="WS_EX_LAYERED"/> when creating the window with the <see cref="CreateWindowEx"/> function.
+        /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
+        /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
+        /// </param>
+        /// <param name="pULWInfo">
+        /// A pointer to a structure that contains the information for the window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="UpdateLayeredWindowIndirect"/> is similar to <see cref="UpdateLayeredWindow"/>
+        /// but uses an <see cref="UPDATELAYEREDWINDOWINFO"/> structure to contain much of the information
+        /// that is provided to <see cref="UpdateLayeredWindow"/> through its parameters.
+        /// The <see cref="UpdateLayeredWindowIndirect"/> function maintains the window's appearance on the screen.
+        /// The windows underneath a layered window do not need to be repainted
+        /// when they are uncovered due to a call to <see cref="UpdateLayeredWindowIndirect"/>, because the system will automatically repaint them.
+        /// This permits seamless animation of the layered window.
+        /// <see cref="UpdateLayeredWindowIndirect"/> always updates the entire window.
+        /// To update part of a window, use the traditional <see cref="WM_PAINT"/> and set the blend value using <see cref="SetLayeredWindowAttributes"/>.
+        /// For best drawing performance by the layered window and any underlying windows, the layered window should be as small as possible.
+        /// An application should also process the message and re-create its layered windows when the display's color depth changes.
+        /// For more information, see Layered Windows.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindowIndirect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UpdateLayeredWindowIndirect([In]HWND hwnd,[In]in UPDATELAYEREDWINDOWINFO pULWInfo);
+
+        /// <summary>
+        /// <para>
         /// Waits until the specified process has finished processing its initial input and is waiting for user input with no input pending,
         /// or until the time-out interval has elapsed.
         /// </para>
