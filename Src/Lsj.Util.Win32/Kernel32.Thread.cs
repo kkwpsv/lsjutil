@@ -1442,6 +1442,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases a thread local storage (TLS) index, making it available for reuse.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsfree
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsFree"/>.
+        /// Refer to <see cref="FlsFree"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsFree"/>.
+        /// Refer to <see cref="FlsFree"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsFree"/>.
+        /// If the threads of the process have allocated memory and stored a pointer to the memory in a TLS slot,
+        /// they should free the memory before calling <see cref="TlsFree"/>.
+        /// The <see cref="TlsFree"/> function does not free memory blocks whose addresses have been stored in the TLS slots associated with the TLS index.
+        /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
+        /// For more information, see Thread Local Storage.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsFree", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TlsFree([In]DWORD dwTlsIndex);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value in the calling thread's thread local storage (TLS) slot for the specified TLS index.
         /// Each thread of a process has its own slot for each TLS index.
         /// </para>
