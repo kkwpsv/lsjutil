@@ -626,5 +626,118 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsole([In]HANDLE hConsoleOutput, [In]IntPtr lpBuffer, [In]DWORD nNumberOfCharsToWrite,
             [Out]out DWORD lpNumberOfCharsWritten, [In]LPVOID lpReserved);
+
+        /// <summary>
+        /// <para>
+        /// Writes character and color attribute data to a specified rectangular block of character cells in a console screen buffer.
+        /// The data to be written is taken from a correspondingly sized rectangular block at a specified location in the source buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The data to be written to the console screen buffer.
+        /// This pointer is treated as the origin of a two-dimensional array of <see cref="CHAR_INFO"/> structures
+        /// whose size is specified by the dwBufferSize parameter.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of the buffer pointed to by the lpBuffer parameter, in character cells.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the number of columns;
+        /// the <see cref="COORD.Y"/> member is the number of rows.
+        /// </param>
+        /// <param name="dwBufferCoord">
+        /// The coordinates of the upper-left cell in the buffer pointed to by the <paramref name="lpBuffer"/> parameter.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the column, and the <see cref="COORD.Y"/> member is the row.
+        /// </param>
+        /// <param name="lpWriteRegion">
+        /// A pointer to a <see cref="SMALL_RECT"/> structure.
+        /// On input, the structure members specify the upper-left and lower-right coordinates of the console screen buffer rectangle to write to.
+        /// On output, the structure members specify the actual rectangle that was used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="WriteConsoleOutput"/> treats the source buffer and the destination screen buffer
+        /// as two-dimensional arrays (columns and rows of character cells).
+        /// The rectangle pointed to by the <paramref name="lpWriteRegion"/> parameter specifies the size and location of the block
+        /// to be written to in the console screen buffer.
+        /// A rectangle of the same size is located with its upper-left cell
+        /// at the coordinates of the <paramref name="dwBufferCoord"/> parameter in the <paramref name="lpBuffer"/> array.
+        /// Data from the cells that are in the intersection of this rectangle and the source buffer rectangle
+        /// (whose dimensions are specified by the <paramref name="dwBufferSize"/> parameter) is written to the destination rectangle.
+        /// Cells in the destination rectangle whose corresponding source location are outside
+        /// the boundaries of the source buffer rectangle are left unaffected by the write operation.
+        /// In other words, these are the cells for which no data is available to be written.
+        /// Before <see cref="WriteConsoleOutput"/> returns, it sets the members of <paramref name="lpWriteRegion"/>
+        /// to the actual screen buffer rectangle affected by the write operation.
+        /// This rectangle reflects the cells in the destination rectangle for which there existed a corresponding cell in the source buffer,
+        /// because <see cref="WriteConsoleOutput"/> clips the dimensions of the destination rectangle to the boundaries of the console screen buffer.
+        /// If the rectangle specified by <paramref name="lpWriteRegion"/> lies completely outside the boundaries of the console screen buffer,
+        /// or if the corresponding rectangle is positioned completely outside the boundaries of the source buffer, no data is written.
+        /// In this case, the function returns with the members of the structure pointed to by the <paramref name="lpWriteRegion"/> parameter
+        /// set such that the <see cref="SMALL_RECT.Right"/> member is less than the <see cref="SMALL_RECT.Left"/>,
+        /// or the <see cref="SMALL_RECT.Bottom"/> member is less than the <see cref="SMALL_RECT.Top"/>.
+        /// To determine the size of the console screen buffer, use the <see cref="GetConsoleScreenBufferInfo"/> function.
+        /// <see cref="WriteConsoleOutput"/> has no effect on the cursor position.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutput", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleOutput([In]HANDLE hConsoleOutput, [In]CHAR_INFO[] lpBuffer, [In]COORD dwBufferSize,
+            [In]COORD dwBufferCoord, [In]SMALL_RECT lpWriteRegion);
+
+        /// <summary>
+        /// <para>
+        /// Copies a number of character attributes to consecutive cells of a console screen buffer, beginning at a specified location.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutputattribute
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpAttribute">
+        /// The attributes to be used when writing to the console screen buffer.
+        /// For more information, see Character Attributes.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of screen buffer character cells to which the attributes will be copied.
+        /// </param>
+        /// <param name="dwWriteCoord">
+        /// A <see cref="COORD"/> structure that specifies the character coordinates of the first cell in the console screen buffer
+        /// to which the attributes will be written.
+        /// </param>
+        /// <param name="lpNumberOfAttrsWritten">
+        /// A pointer to a variable that receives the number of attributes actually written to the console screen buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of attributes to be written to extends beyond the end of the specified row in the console screen buffer,
+        /// attributes are written to the next row.
+        /// If the number of attributes to be written to extends beyond the end of the console screen buffer,
+        /// the attributes are written up to the end of the console screen buffer.
+        /// The character values at the positions written to are not changed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleOutputAttribute([In]HANDLE hConsoleOutput, [In]ConsoleCharacterAttributes[] lpAttribute,
+            [In]COORD nLength, [In]COORD dwWriteCoord, [Out]out DWORD lpNumberOfAttrsWritten);
     }
 }
