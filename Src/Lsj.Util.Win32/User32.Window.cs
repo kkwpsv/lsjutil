@@ -1807,10 +1807,10 @@ namespace Lsj.Util.Win32
         /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle contains the caret plus information on text direction and padding.
         /// Thus, it may not give the correct position of the cursor.
         /// The Sans Serif font uses four characters for the cursor:
-        /// <see cref="CURSOR_LTR"/>: 0xf00c
-        /// <see cref="CURSOR_RTL"/>: 0xf00d
-        /// <see cref="CURSOR_THAI"/>: 0xf00e
-        /// <see cref="CURSOR_USA"/>: 0xfff (this is a marker value with no associated glyph)
+        /// CURSOR_LTR: 0xf00c
+        /// CURSOR_RTL: 0xf00d
+        /// CURSOR_THAI: 0xf00e
+        /// CURSOR_USA: 0xfff (this is a marker value with no associated glyph)
         /// To get the actual insertion point in the rcCaret rectangle, perform the following steps.
         /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
         /// Determine the character used for the cursor, based on the current input language.
