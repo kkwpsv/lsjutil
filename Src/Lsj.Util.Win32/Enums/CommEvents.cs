@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.CommErrors;
 
 namespace Lsj.Util.Win32.Enums
 {
