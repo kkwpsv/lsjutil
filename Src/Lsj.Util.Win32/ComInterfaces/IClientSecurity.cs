@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -257,7 +258,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you might get a security setting that will not work.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetBlanket([In]IUnknown pProxy, [In]DWORD pAuthnSvc, [In]DWORD pAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In]string pServerPrincName,
+        HRESULT SetBlanket([In]IUnknown pProxy, [In]DWORD pAuthnSvc, [In]DWORD pAuthzSvc, [In]StringHandle pServerPrincName,
             [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthInfo, [In]EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -19,6 +20,16 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Ole32
     {
+        /// <summary>
+        /// COLE_DEFAULT_AUTHINFO
+        /// </summary>
+        public static readonly IntPtr COLE_DEFAULT_AUTHINFO = (IntPtr)(-1);
+
+        /// <summary>
+        /// COLE_DEFAULT_PRINCIPAL
+        /// </summary>
+        public static readonly StringHandle COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
+
         /// <summary>
         /// Locates an object by means of its moniker, activates the object if it is inactive,
         /// and retrieves a pointer to the specified interface on that object.
