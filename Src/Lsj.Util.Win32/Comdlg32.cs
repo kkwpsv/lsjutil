@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CHOOSECOLORFlags;
 using static Lsj.Util.Win32.Enums.CHOOSEFONTFlags;
 using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
+using static Lsj.Util.Win32.Enums.CommonDialogBoxNotifications;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
 using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
