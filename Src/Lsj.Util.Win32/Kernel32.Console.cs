@@ -629,6 +629,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Writes data directly to the console input buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleinput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to an array of <see cref="INPUT_RECORD"/> structures that contain data to be written to the input buffer.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of input records to be written.
+        /// </param>
+        /// <param name="lpNumberOfEventsWritten">
+        /// A pointer to a variable that receives the number of input records actually written.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="WriteConsoleInput"/> places input records into the input buffer behind any pending events in the buffer.
+        /// The input buffer grows dynamically, if necessary, to hold as many events as are written.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleInputW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleInput([In]HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In]INPUT_RECORD[] lpBuffer,
+            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsWritten);
+
+        /// <summary>
+        /// <para>
         /// Writes character and color attribute data to a specified rectangular block of character cells in a console screen buffer.
         /// The data to be written is taken from a correspondingly sized rectangular block at a specified location in the source buffer.
         /// </para>
@@ -693,7 +732,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutput", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutput([In]HANDLE hConsoleOutput, [In]CHAR_INFO[] lpBuffer, [In]COORD dwBufferSize,
             [In]COORD dwBufferCoord, [In]SMALL_RECT lpWriteRegion);
 
@@ -736,7 +775,7 @@ namespace Lsj.Util.Win32
         /// the attributes are written up to the end of the console screen buffer.
         /// The character values at the positions written to are not changed.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttribute", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsoleOutputAttribute([In]HANDLE hConsoleOutput, [In]ConsoleCharacterAttributes[] lpAttribute,
             [In]COORD nLength, [In]COORD dwWriteCoord, [Out]out DWORD lpNumberOfAttrsWritten);
     }
