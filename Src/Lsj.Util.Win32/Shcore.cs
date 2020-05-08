@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DEVICE_SCALE_FACTOR;
 using static Lsj.Util.Win32.Enums.MONITOR_DPI_TYPE;
 using static Lsj.Util.Win32.Enums.PROCESS_DPI_AWARENESS;
@@ -63,6 +64,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the dots per inch (dpi) awareness of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getprocessdpiawareness
+        /// </para>
+        /// </summary>
+        /// <param name="hprocess">
+        /// Handle of the process that is being queried.
+        /// If this parameter is <see cref="NULL"/>, the current process is queried.
+        /// </param>
+        /// <param name="value">
+        /// The DPI awareness of the specified process.
+        /// Possible values are from the <see cref="PROCESS_DPI_AWARENESS"/> enumeration.
+        /// </param>
+        /// <returns>
+        /// This function returns one of the following values.
+        /// <see cref="S_OK"/>: The function successfully retrieved the DPI awareness of the specified process. 
+        /// <see cref="E_INVALIDARG"/>: The handle or pointer passed in is not valid. 
+        /// <see cref="E_ACCESSDENIED"/>: The application does not have sufficient privileges. 
+        /// </returns>
+        /// <remarks>
+        /// This function is identical to the following code:
+        /// <code>GetAwarenessFromDpiAwarenessContext(GetThreadDpiAwarenessContext());</code>
+        /// </remarks>
+        [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessDpiAwareness", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT GetProcessDpiAwareness([In]HANDLE hprocess, [Out]out PROCESS_DPI_AWARENESS value);
+
+        /// <summary>
+        /// <para>
         /// Gets the preferred scale factor for a display device.
         /// </para>
         /// <para>
@@ -81,5 +111,50 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScaleFactorForDevice", ExactSpelling = true, SetLastError = true)]
         public static extern DEVICE_SCALE_FACTOR GetScaleFactorForDevice([In]DISPLAY_DEVICE_TYPE deviceType);
+
+        /// <summary>
+        /// <para>
+        /// It is recommended that you set the process-default DPI awareness via application manifest.
+        /// See Setting the default DPI awareness for a process for more information.
+        /// Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
+        /// Sets the process-default DPI awareness level.
+        /// This is equivalent to calling <see cref="SetProcessDpiAwarenessContext"/> with the corresponding <see cref="DPI_AWARENESS_CONTEXT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-setprocessdpiawareness
+        /// </para>
+        /// </summary>
+        /// <param name="value">
+        /// The DPI awareness value to set.
+        /// Possible values are from the <see cref="PROCESS_DPI_AWARENESS"/> enumeration.
+        /// </param>
+        /// <returns>
+        /// This function returns one of the following values.
+        /// <see cref="S_OK"/>: The DPI awareness for the app was set successfully.
+        /// <see cref="E_INVALIDARG"/>: The value passed in is not valid.
+        /// <see cref="E_ACCESSDENIED"/>: The DPI awareness is already set, either by calling this API previously or through the application(.exe) manifest.
+        /// </returns>
+        /// <remarks>
+        /// It is recommended that you set the process-default DPI awareness via application manifest.
+        /// See Setting the default DPI awareness for a process for more information.
+        /// Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
+        /// Previous versions of Windows only had one DPI awareness value for the entire application.
+        /// For those applications, the recommendation was to set the DPI awareness value in the manifest as described in <see cref="PROCESS_DPI_AWARENESS"/>.
+        /// Under that recommendation, you were not supposed to use <see cref="SetProcessDpiAwareness"/> to update the DPI awareness.
+        /// In fact, future calls to this API would fail after the DPI awareness was set once.
+        /// Now that DPI awareness is tied to a thread rather than an application, you can use this method to update the DPI awareness.
+        /// However, consider using <see cref="SetThreadDpiAwarenessContext"/> instead.
+        /// Important
+        /// For older applications, it is strongly recommended to not use <see cref="SetProcessDpiAwareness"/> to set the DPI awareness for your application.
+        /// Instead, you should declare the DPI awareness for your application in the application manifest.
+        /// See <see cref="PROCESS_DPI_AWARENESS"/> for more information about the DPI awareness values and how to set them in the manifest.
+        /// You must call this API before you call any APIs that depend on the dpi awareness.
+        /// This is part of the reason why it is recommended to use the application manifest rather than the <see cref="SetProcessDpiAwareness"/> API.
+        /// Once API awareness is set for an app, any future calls to this API will fail.
+        /// This is true regardless of whether you set the DPI awareness in the manifest or by using this API.
+        /// If the DPI awareness level is not set, the default value is <see cref="PROCESS_DPI_UNAWARE"/>.
+        /// </remarks>
+        [DllImport("Shcore.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwareness", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SetProcessDpiAwareness([In]PROCESS_DPI_AWARENESS value);
     }
 }
