@@ -243,6 +243,56 @@ namespace Lsj.Util.Win32.Enums
         VK_HELP = 0x2F,
 
         /// <summary>
+        /// 0
+        /// </summary>
+        VK_0 = 0x30,
+
+        /// <summary>
+        /// 1
+        /// </summary>
+        VK_1 = 0x31,
+
+        /// <summary>
+        /// 2
+        /// </summary>
+        VK_2 = 0x32,
+
+        /// <summary>
+        /// 3
+        /// </summary>
+        VK_3 = 0x33,
+
+        /// <summary>
+        /// 4
+        /// </summary>
+        VK_4 = 0x34,
+
+        /// <summary>
+        /// 5
+        /// </summary>
+        VK_5 = 0x35,
+
+        /// <summary>
+        /// 6
+        /// </summary>
+        VK_6 = 0x36,
+
+        /// <summary>
+        /// 7
+        /// </summary>
+        VK_7 = 0x37,
+
+        /// <summary>
+        /// 8
+        /// </summary>
+        VK_8 = 0x38,
+
+        /// <summary>
+        /// 9
+        /// </summary>
+        VK_9 = 0x39,
+
+        /// <summary>
         /// Left Windows key (Natural keyboard)
         /// </summary>
         VK_LWIN = 0x5B,

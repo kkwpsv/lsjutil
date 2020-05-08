@@ -16,7 +16,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <summary>
         /// Headers
         /// </summary>
-        HttpHeaders Headers
+        HttpHeaderDictionary Headers
         {
             get;
         }

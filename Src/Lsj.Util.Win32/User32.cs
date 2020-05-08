@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The GetMonitorInfo function retrieves information about a display monitor.
+        /// The <see cref="GetMonitorInfo"/> function retrieves information about a display monitor.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmonitorinfow
@@ -347,7 +347,7 @@ namespace Lsj.Util.Win32
         /// A handle to the display monitor of interest.
         /// </param>
         /// <param name="lpmi">
-        /// A pointer to a <see cref="MONITORINFOEX"/> structure that receives information about
+        /// A pointer to a <see cref="MONITORINFO"/> or <see cref="MONITORINFOEX"/> structure that receives information about
         /// the specified display monitor.
         /// You must set <see cref="MONITORINFOEX.cbSize"/> member of the structure to <code>sizeof(MONITORINFOEX)</code>
         /// before calling the <see cref="GetMonitorInfo"/> function. Doing so lets the function determine the type of structure you are passing to it.
@@ -356,12 +356,11 @@ namespace Lsj.Util.Win32
         /// Most applications have no use for a display monitor name, and so can save some bytes by using a <see cref="MONITORINFO"/> structure.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMonitorInfoW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorInfo([In]IntPtr hMonitor, [In][Out]ref MONITORINFOEX lpmi);
+        public static extern BOOL GetMonitorInfo([In]HMONITOR hMonitor, [In][Out]ref MONITORINFOEX lpmi);
 
         /// <summary>
         /// <para>
@@ -1133,7 +1132,7 @@ namespace Lsj.Util.Win32
         /// Any subsequent button message releases the primary button, sending a <see cref="WM_LBUTTONUP"/> message to the application,
         /// thus the button can be unlocked programmatically or through the user clicking any button.
         /// This API is not DPI aware, and should not be used if the calling thread is per-monitor DPI aware.
-        /// For the DPI-aware version of this API, see <see cref="SystemParametersInfoForDPI"/>.
+        /// For the DPI-aware version of this API, see <see cref="SystemParametersInfoForDpi"/>.
         /// For more information on DPI awareness, see the Windows High DPI documentation.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoW", ExactSpelling = true, SetLastError = true)]

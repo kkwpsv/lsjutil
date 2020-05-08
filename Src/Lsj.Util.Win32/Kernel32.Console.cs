@@ -414,6 +414,129 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the input code page used by the console associated with the calling process.
+        /// A console uses its input code page to translate keyboard input into the corresponding character value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsolecp
+        /// </para>
+        /// </summary>
+        /// <param name="wCodePageID">
+        /// The identifier of the code page to be set. For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A code page maps 256 character codes to individual characters.
+        /// Different code pages include different special characters, typically customized for a language or a group of languages.
+        /// To find the code pages that are installed or supported by the operating system, use the <see cref="EnumSystemCodePages"/> function.
+        /// The identifiers of the code pages available on the local computer are also stored in the registry under the following key:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage
+        /// However, it is better to use <see cref="EnumSystemCodePages"/> to enumerate code pages
+        /// because the registry can differ in different versions of Windows.
+        /// To determine whether a particular code page is valid, use the <see cref="IsValidCodePage"/> function.
+        /// To retrieve more information about a code page, including its name, use the <see cref="GetCPInfoEx"/> function.
+        /// For a list of available code page identifiers, see Code Page Identifiers.
+        /// To determine a console's current input code page, use the <see cref="GetConsoleCP"/> function.
+        /// To set and retrieve a console's output code page, use the <see cref="SetConsoleOutputCP"/> and <see cref="GetConsoleOutputCP"/> functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleCP([In]UINT wCodePageID);
+
+        /// <summary>
+        /// <para>
+        /// Sets the input mode of a console's input buffer or the output mode of a console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsolemode
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleHandle">
+        /// A handle to the console input buffer or a console screen buffer.
+        /// The handle must have the <see cref="GENERIC_READ"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="dwMode">
+        /// The input or output mode to be set.
+        /// If the <paramref name="hConsoleHandle"/> parameter is an input handle, the mode can be one or more of the following values.
+        /// When a console is created, all input modes except <see cref="ENABLE_WINDOW_INPUT"/> are enabled by default.
+        /// <see cref="ENABLE_ECHO_INPUT"/>, <see cref="ENABLE_EXTENDED_FLAGS"/>, <see cref="ENABLE_INSERT_MODE"/>,
+        /// <see cref="ENABLE_LINE_INPUT"/>, <see cref="ENABLE_MOUSE_INPUT"/>, <see cref="ENABLE_PROCESSED_INPUT"/>,
+        /// <see cref="ENABLE_QUICK_EDIT_MODE"/>, <see cref="ENABLE_WINDOW_INPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_INPUT"/>
+        /// If the <paramref name="hConsoleHandle"/> parameter is a screen buffer handle, the mode can be one or more of the following values.
+        /// When a screen buffer is created, both output modes are enabled by default.
+        /// <see cref="ENABLE_PROCESSED_OUTPUT"/>, <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/>, <see cref="ENABLE_VIRTUAL_TERMINAL_PROCESSING"/>,
+        /// <see cref="DISABLE_NEWLINE_AUTO_RETURN"/>, <see cref="ENABLE_LVB_GRID_WORLDWIDE"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A console consists of an input buffer and one or more screen buffers.
+        /// The mode of a console buffer determines how the console behaves during input and output (I/O) operations.
+        /// One set of flag constants is used with input handles, and another set is used with screen buffer (output) handles.
+        /// Setting the output modes of one screen buffer does not affect the output modes of other screen buffers.
+        /// The <see cref="ENABLE_LINE_INPUT"/> and <see cref="ENABLE_ECHO_INPUT"/> modes only affect processes
+        /// that use <see cref="ReadFile"/> or <see cref="ReadConsole"/> to read from the console's input buffer.
+        /// Similarly, the <see cref="ENABLE_PROCESSED_INPUT"/> mode primarily affects <see cref="ReadFile"/> and <see cref="ReadConsole"/> users,
+        /// except that it also determines whether Ctrl+C input is reported in the input buffer (to be read by the <see cref="ReadConsoleInput"/> function)
+        /// or is passed to a <see cref="HandlerRoutine"/> function defined by the application.
+        /// The <see cref="ENABLE_WINDOW_INPUT"/> and <see cref="ENABLE_MOUSE_INPUT"/> modes determine whether user interactions
+        /// involving window resizing and mouse actions are reported in the input buffer or discarded.
+        /// These events can be read by <see cref="ReadConsoleInput"/>, but they are always filtered by <see cref="ReadFile"/> and <see cref="ReadConsole"/>.
+        /// The <see cref="ENABLE_PROCESSED_OUTPUT"/> and <see cref="ENABLE_WRAP_AT_EOL_OUTPUT"/> modes only affect processes
+        /// using <see cref="ReadFile"/> or <see cref="ReadConsole"/> and <see cref="WriteFile"/> or <see cref="WriteConsole"/>.
+        /// To determine the current mode of a console input buffer or a screen buffer, use the <see cref="GetConsoleMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleMode([In]HANDLE hConsoleHandle, [In]ConsoleModes dwMode);
+
+        /// <summary>
+        /// <para>
+        /// Sets the output code page used by the console associated with the calling process.
+        /// A console uses its output code page to translate the character values written 
+        /// by the various output functions into the images displayed in the console window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/setconsoleoutputcp
+        /// </para>
+        /// </summary>
+        /// <param name="wCodePageID">
+        /// The identifier of the code page to set. For more information, see Remarks.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A code page maps 256 character codes to individual characters.
+        /// Different code pages include different special characters, typically customized for a language or a group of languages.
+        /// If the current font is a fixed-pitch Unicode font, <see cref="SetConsoleOutputCP"/> changes the mapping of the character values
+        /// into the glyph set of the font, rather than loading a separate font each time it is called.
+        /// This affects how extended characters (ASCII value greater than 127) are displayed in a console window.
+        /// However, if the current font is a raster font, <see cref="SetConsoleOutputCP"/> does not affect how extended characters are displayed.
+        /// To find the code pages that are installed or supported by the operating system, use the <see cref="EnumSystemCodePages"/> function.
+        /// The identifiers of the code pages available on the local computer are also stored in the registry under the following key:
+        /// HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage
+        /// However, it is better to use <see cref="EnumSystemCodePages"/> to enumerate code pages
+        /// because the registry can differ in different versions of Window.
+        /// To determine whether a particular code page is valid, use the <see cref="IsValidCodePage"/> function.
+        /// To retrieve more information about a code page, including its name, use the <see cref="GetCPInfoEx"/> function.
+        /// For a list of available code page identifiers, see Code Page Identifiers.
+        /// To determine a console's current output code page, use the <see cref="GetConsoleOutputCP"/> function.
+        /// To set and retrieve a console's input code page, use the <see cref="SetConsoleCP"/> and <see cref="GetConsoleCP"/> functions.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetConsoleOutputCP([In]UINT wCodePageID);
+
+        /// <summary>
+        /// <para>
         /// Sets the handle for the specified standard device (standard input, standard output, or standard error).
         /// </para>
         /// <para>
@@ -503,5 +626,157 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL WriteConsole([In]HANDLE hConsoleOutput, [In]IntPtr lpBuffer, [In]DWORD nNumberOfCharsToWrite,
             [Out]out DWORD lpNumberOfCharsWritten, [In]LPVOID lpReserved);
+
+        /// <summary>
+        /// <para>
+        /// Writes data directly to the console input buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleinput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleInput">
+        /// A handle to the console input buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to an array of <see cref="INPUT_RECORD"/> structures that contain data to be written to the input buffer.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of input records to be written.
+        /// </param>
+        /// <param name="lpNumberOfEventsWritten">
+        /// A pointer to a variable that receives the number of input records actually written.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="WriteConsoleInput"/> places input records into the input buffer behind any pending events in the buffer.
+        /// The input buffer grows dynamically, if necessary, to hold as many events as are written.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleInputW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleInput([In]HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In]INPUT_RECORD[] lpBuffer,
+            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsWritten);
+
+        /// <summary>
+        /// <para>
+        /// Writes character and color attribute data to a specified rectangular block of character cells in a console screen buffer.
+        /// The data to be written is taken from a correspondingly sized rectangular block at a specified location in the source buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutput
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// The data to be written to the console screen buffer.
+        /// This pointer is treated as the origin of a two-dimensional array of <see cref="CHAR_INFO"/> structures
+        /// whose size is specified by the dwBufferSize parameter.
+        /// </param>
+        /// <param name="dwBufferSize">
+        /// The size of the buffer pointed to by the lpBuffer parameter, in character cells.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the number of columns;
+        /// the <see cref="COORD.Y"/> member is the number of rows.
+        /// </param>
+        /// <param name="dwBufferCoord">
+        /// The coordinates of the upper-left cell in the buffer pointed to by the <paramref name="lpBuffer"/> parameter.
+        /// The <see cref="COORD.X"/> member of the <see cref="COORD"/> structure is the column, and the <see cref="COORD.Y"/> member is the row.
+        /// </param>
+        /// <param name="lpWriteRegion">
+        /// A pointer to a <see cref="SMALL_RECT"/> structure.
+        /// On input, the structure members specify the upper-left and lower-right coordinates of the console screen buffer rectangle to write to.
+        /// On output, the structure members specify the actual rectangle that was used.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="WriteConsoleOutput"/> treats the source buffer and the destination screen buffer
+        /// as two-dimensional arrays (columns and rows of character cells).
+        /// The rectangle pointed to by the <paramref name="lpWriteRegion"/> parameter specifies the size and location of the block
+        /// to be written to in the console screen buffer.
+        /// A rectangle of the same size is located with its upper-left cell
+        /// at the coordinates of the <paramref name="dwBufferCoord"/> parameter in the <paramref name="lpBuffer"/> array.
+        /// Data from the cells that are in the intersection of this rectangle and the source buffer rectangle
+        /// (whose dimensions are specified by the <paramref name="dwBufferSize"/> parameter) is written to the destination rectangle.
+        /// Cells in the destination rectangle whose corresponding source location are outside
+        /// the boundaries of the source buffer rectangle are left unaffected by the write operation.
+        /// In other words, these are the cells for which no data is available to be written.
+        /// Before <see cref="WriteConsoleOutput"/> returns, it sets the members of <paramref name="lpWriteRegion"/>
+        /// to the actual screen buffer rectangle affected by the write operation.
+        /// This rectangle reflects the cells in the destination rectangle for which there existed a corresponding cell in the source buffer,
+        /// because <see cref="WriteConsoleOutput"/> clips the dimensions of the destination rectangle to the boundaries of the console screen buffer.
+        /// If the rectangle specified by <paramref name="lpWriteRegion"/> lies completely outside the boundaries of the console screen buffer,
+        /// or if the corresponding rectangle is positioned completely outside the boundaries of the source buffer, no data is written.
+        /// In this case, the function returns with the members of the structure pointed to by the <paramref name="lpWriteRegion"/> parameter
+        /// set such that the <see cref="SMALL_RECT.Right"/> member is less than the <see cref="SMALL_RECT.Left"/>,
+        /// or the <see cref="SMALL_RECT.Bottom"/> member is less than the <see cref="SMALL_RECT.Top"/>.
+        /// To determine the size of the console screen buffer, use the <see cref="GetConsoleScreenBufferInfo"/> function.
+        /// <see cref="WriteConsoleOutput"/> has no effect on the cursor position.
+        /// This function uses either Unicode characters or 8-bit characters from the console's current code page.
+        /// The console's code page defaults initially to the system's OEM code page.
+        /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
+        /// or use the chcp or mode con cp select= commands.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleOutput([In]HANDLE hConsoleOutput, [In]CHAR_INFO[] lpBuffer, [In]COORD dwBufferSize,
+            [In]COORD dwBufferCoord, [In]SMALL_RECT lpWriteRegion);
+
+        /// <summary>
+        /// <para>
+        /// Copies a number of character attributes to consecutive cells of a console screen buffer, beginning at a specified location.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/writeconsoleoutputattribute
+        /// </para>
+        /// </summary>
+        /// <param name="hConsoleOutput">
+        /// A handle to the console screen buffer.
+        /// The handle must have the <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="lpAttribute">
+        /// The attributes to be used when writing to the console screen buffer.
+        /// For more information, see Character Attributes.
+        /// </param>
+        /// <param name="nLength">
+        /// The number of screen buffer character cells to which the attributes will be copied.
+        /// </param>
+        /// <param name="dwWriteCoord">
+        /// A <see cref="COORD"/> structure that specifies the character coordinates of the first cell in the console screen buffer
+        /// to which the attributes will be written.
+        /// </param>
+        /// <param name="lpNumberOfAttrsWritten">
+        /// A pointer to a variable that receives the number of attributes actually written to the console screen buffer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the number of attributes to be written to extends beyond the end of the specified row in the console screen buffer,
+        /// attributes are written to the next row.
+        /// If the number of attributes to be written to extends beyond the end of the console screen buffer,
+        /// the attributes are written up to the end of the console screen buffer.
+        /// The character values at the positions written to are not changed.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL WriteConsoleOutputAttribute([In]HANDLE hConsoleOutput, [In]ConsoleCharacterAttributes[] lpAttribute,
+            [In]COORD nLength, [In]COORD dwWriteCoord, [Out]out DWORD lpNumberOfAttrsWritten);
     }
 }

@@ -256,23 +256,24 @@ namespace Lsj.Util.Net.Web
                 if (_socket.Connected)
                 {
                     Status = ContextStatus.Sending;
-                    Response.Headers.Add(Protocol.HttpHeaders.Server, _server.Name);
+                    Response.Headers.Add(HttpHeaders.Server, _server.Name);
 
                     await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
 
                     var length = Response.ContentLength;
+                    var content = Response.Content;
                     if (length != 0)
                     {
-                        await Response.Content.CopyToAsyncWithCount(Stream, length);
+                        await content.CopyToAsyncWithCount(Stream, length);
                     }
                     else
                     {
-                        await Response.Content.CopyToAsync(Stream);
+                        await content.CopyToAsync(Stream);
                     }
 
                     await Stream.WriteAsync(new byte[] { ASCIIChar.CR, ASCIIChar.LF });
 
-                    if (Response.Headers[Protocol.HttpHeaders.Connection].ToLower() == "keep-alive")
+                    if (Response.Headers[HttpHeaders.Connection].ToLower() == "keep-alive")
                     {
                         ProcessNextRequest(120 * 1000);
                     }

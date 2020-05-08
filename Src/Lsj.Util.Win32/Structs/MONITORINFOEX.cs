@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
@@ -10,8 +11,6 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo
-    /// </para>
-    /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfoexw
     /// </para>
     /// </summary>
@@ -27,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
         /// Doing so lets the function determine the type of structure you are passing to it.
         /// </para>
         /// </summary>
-        public uint cbSize;
+        public DWORD cbSize;
 
         /// <summary>
         /// A <see cref="RECT"/> structure that specifies the display monitor rectangle, expressed in virtual-screen coordinates.

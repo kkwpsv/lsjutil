@@ -16,17 +16,6 @@ namespace Lsj.Util
     public static class WebHelper
     {
         /// <summary>
-        /// AppSetting
-        /// </summary>
-        /// <value>The app settings.</value>
-        public static NameValueCollection AppSettings
-        {
-            get
-            {
-                return AppConfig.AppSettings;
-            }
-        }
-        /// <summary>
         /// If contain the cookie with specified name
         /// </summary>
         /// <returns></returns>

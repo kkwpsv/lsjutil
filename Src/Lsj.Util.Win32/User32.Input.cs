@@ -17,6 +17,16 @@ namespace Lsj.Util.Win32
     public static partial class User32
     {
         /// <summary>
+        /// XBUTTON1
+        /// </summary>
+        public const ushort XBUTTON1 = 0x0001;
+
+        /// <summary>
+        /// XBUTTON2
+        /// </summary>
+        public const ushort XBUTTON2 = 0x0002;
+
+        /// <summary>
         /// <para>
         /// Attaches or detaches the input processing mechanism of one thread to that of another thread.
         /// </para>

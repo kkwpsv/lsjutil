@@ -1,4 +1,5 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
@@ -44,7 +45,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Clips child windows relative to each other;
-        /// that is, when a particular child window receives a <see cref="WindowsMessages.UpdateLayeredWindowIndirect"/> message,
+        /// that is, when a particular child window receives a <see cref="WM_PAINT"/> message,
         /// the <see cref="WS_CLIPSIBLINGS"/> style clips all other overlapping child windows out of the region of the child window to be updated.
         /// If <see cref="WS_CLIPSIBLINGS"/> is not specified and child windows overlap,
         /// it is possible, when drawing within the client area of a child window, to draw within the client area of a neighboring child window.

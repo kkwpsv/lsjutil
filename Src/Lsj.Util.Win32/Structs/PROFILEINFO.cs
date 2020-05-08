@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
+using static Lsj.Util.Win32.Enums.PROFILEINFOFlags;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Userenv;
 
@@ -36,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="PI_NOUI"/>: Prevents the display of profile error messages.
         /// <see cref="PI_APPLYPOLICY"/>: Not supported.
         /// </summary>
-        public DWORD dwFlags;
+        public PROFILEINFOFlags dwFlags;
 
         /// <summary>
         /// A pointer to the name of the user.

@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code, including the following:
         /// <see cref="E_UNEXPECTED"/>: <see cref="SetFileTypes"/> has already been called.
         /// <see cref="E_UNEXPECTED"/>: The <see cref="FOS_PICKFOLDERS"/> flag was set in the <see cref="SetOptions"/> method.
-        /// <see cref="E_INVALIDARG"/>: The <paramref name="rgFilterSpec"/> parameter is NULL.
+        /// <see cref="E_INVALIDARG"/>: The <paramref name="rgFilterSpec"/> parameter is <see langword="null"/>.
         /// </returns>
         /// <remarks>
         /// When using the Open dialog, the file types declared there are used to filter the view.
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         /// <remarks>
-        /// <see cref="SHSetTemporaryPropertyForItem"/> can be used to set a temporary <see cref="PKEY_ItemNameDisplay"/> property
+        /// <see cref="SHSetTemporaryPropertyForItem"/> can be used to set a temporary PKEY_ItemNameDisplay property
         /// on the item represented by the <paramref name="psi"/> parameter.
         /// The value for this property will be used in place of the item's UI name.
         /// </remarks>

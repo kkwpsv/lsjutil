@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using Lsj.Util.Win32.Structs;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>

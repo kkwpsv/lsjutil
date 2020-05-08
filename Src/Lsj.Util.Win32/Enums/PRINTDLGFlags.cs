@@ -12,6 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// </para>
     /// <para>
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgw
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgexw
     /// </para>
     /// </summary>
     [Flags]
@@ -30,6 +31,13 @@ namespace Lsj.Util.Win32.Enums
         /// See <see cref="PD_NOPAGENUMS"/>.
         /// </summary>
         PD_COLLATE = 0x00000010,
+
+        /// <summary>
+        /// If this flag is set, the Current Page radio button is selected.
+        /// If none of the <see cref="PD_PAGENUMS"/>, <see cref="PD_SELECTION"/>, or <see cref="PD_CURRENTPAGE"/> flags is set,
+        /// the All radio button is selected.
+        /// </summary>
+        PD_CURRENTPAGE = 0x00400000,
 
         /// <summary>
         /// Disables the Print to File check box.
@@ -75,9 +83,21 @@ namespace Lsj.Util.Win32.Enums
         PD_ENABLESETUPTEMPLATEHANDLE = 0x00020000,
 
         /// <summary>
+        /// Indicates that the <see cref="PRINTDLGEX.ExclusionFlags"/> member identifies items to be excluded from the printer driver property pages.
+        /// If this flag is not set, items will be excluded by default from the printer driver property pages.
+        /// The exclusions prevent the duplication of items among the General page, any application-specified pages, and the printer driver pages.
+        /// </summary>
+        PD_EXCLUSIONFLAGS = 0x01000000,
+
+        /// <summary>
         /// Hides the Print to File check box.
         /// </summary>
         PD_HIDEPRINTTOFILE = 0x00100000,
+
+        /// <summary>
+        /// Disables the Current Page radio button.
+        /// </summary>
+        PD_NOCURRENTPAGE = 0x00800000,
 
         /// <summary>
         /// Hides and disables the Network button.
@@ -188,5 +208,11 @@ namespace Lsj.Util.Win32.Enums
         /// use <see cref="PRINTDLG.nCopies"/>, for you to to get the actual number of copies to be printed when <see cref="PrintDlg"/> returns.
         /// </summary>
         PD_USEDEVMODECOPIESANDCOLLATE = 0x00040000,
+
+        /// <summary>
+        /// Forces the property sheet to use a large template for the General page.
+        /// The larger template provides more space for applications that specify a custom template for the lower portion of the General page.
+        /// </summary>
+        PD_USELARGETEMPLATE = 0x10000000,
     }
 }

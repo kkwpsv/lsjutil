@@ -24,5 +24,14 @@ namespace Lsj.Util.Win32
         /// <param name="o"></param>
         /// <returns></returns>
         public static IntPtr AsPointer<T>(ref T o) => (IntPtr)Unsafe.AsPointer(ref o);
+
+        /// <summary>
+        /// As
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="o"></param>
+        /// <returns></returns>
+        public static ref TResult As<T, TResult>(ref T o) => ref Unsafe.DirectAs<T, TResult>(ref o);
     }
 }

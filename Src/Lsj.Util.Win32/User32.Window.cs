@@ -273,45 +273,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Calculates the required size of the window rectangle, based on the desired size of the client rectangle and the provided DPI.
-        /// This window rectangle can then be passed to the <see cref="CreateWindowEx"/> function to create a window with a client area of the desired size.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectexfordpi
-        /// </para>
-        /// </summary>
-        /// <param name="lpRect">
-        /// A pointer to a <see cref="RECT"/> structure that contains the coordinates of the top-left and bottom-right corners of the desired client area.
-        /// When the function returns, the structure contains the coordinates of the top-left and bottom-right corners of the window
-        /// to accommodate the desired client area.
-        /// </param>
-        /// <param name="dwStyle">
-        /// The Window Style of the window whose required size is to be calculated.
-        /// Note that you cannot specify the <see cref="WS_OVERLAPPED"/> style.
-        /// </param>
-        /// <param name="bMenu">
-        /// Indicates whether the window has a menu.
-        /// </param>
-        /// <param name="dwExStyle">
-        /// The Extended Window Style of the window whose required size is to be calculated.
-        /// </param>
-        /// <param name="dpi">
-        /// The DPI to use for scaling.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AdjustWindowRectExForDpi([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu,
-            [In]WindowStylesEx dwExStyle, [In]UINT dpi);
-
-        /// <summary>
-        /// <para>
         /// Enables the specified process to set the foreground window using the <see cref="SetForegroundWindow"/> function.
         /// The calling process must already be able to set the foreground window.
         /// For more information, see Remarks later in this topic.
@@ -1807,10 +1768,10 @@ namespace Lsj.Util.Win32
         /// For an edit control, the returned <see cref="GUITHREADINFO.rcCaret"/> rectangle contains the caret plus information on text direction and padding.
         /// Thus, it may not give the correct position of the cursor.
         /// The Sans Serif font uses four characters for the cursor:
-        /// <see cref="CURSOR_LTR"/>: 0xf00c
-        /// <see cref="CURSOR_RTL"/>: 0xf00d
-        /// <see cref="CURSOR_THAI"/>: 0xf00e
-        /// <see cref="CURSOR_USA"/>: 0xfff (this is a marker value with no associated glyph)
+        /// CURSOR_LTR: 0xf00c
+        /// CURSOR_RTL: 0xf00d
+        /// CURSOR_THAI: 0xf00e
+        /// CURSOR_USA: 0xfff (this is a marker value with no associated glyph)
         /// To get the actual insertion point in the rcCaret rectangle, perform the following steps.
         /// Call <see cref="GetKeyboardLayout"/> to retrieve the current input language.
         /// Determine the character used for the cursor, based on the current input language.
@@ -3202,6 +3163,45 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UpdateLayeredWindow([In]IntPtr hwnd, [In]IntPtr hdcDst, [In]ref POINT pptDst, [In]ref SIZE psize,
             [In]IntPtr hdcSrc, [In]ref POINT pptSrc, [In]uint crKey, [In] ref BLENDFUNCTION pblend, [In]UpdateLayeredWindowFlags dwFlags);
+
+        /// <summary>
+        /// <para>
+        /// Updates the position, size, shape, content, and translucency of a layered window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633557(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to a layered window.
+        /// A layered window is created by specifying <see cref="WS_EX_LAYERED"/> when creating the window with the <see cref="CreateWindowEx"/> function.
+        /// Windows 8: The <see cref="WS_EX_LAYERED"/> style is supported for top-level windows and child windows.
+        /// Previous Windows versions support <see cref="WS_EX_LAYERED"/> only for top-level windows.
+        /// </param>
+        /// <param name="pULWInfo">
+        /// A pointer to a structure that contains the information for the window.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="UpdateLayeredWindowIndirect"/> is similar to <see cref="UpdateLayeredWindow"/>
+        /// but uses an <see cref="UPDATELAYEREDWINDOWINFO"/> structure to contain much of the information
+        /// that is provided to <see cref="UpdateLayeredWindow"/> through its parameters.
+        /// The <see cref="UpdateLayeredWindowIndirect"/> function maintains the window's appearance on the screen.
+        /// The windows underneath a layered window do not need to be repainted
+        /// when they are uncovered due to a call to <see cref="UpdateLayeredWindowIndirect"/>, because the system will automatically repaint them.
+        /// This permits seamless animation of the layered window.
+        /// <see cref="UpdateLayeredWindowIndirect"/> always updates the entire window.
+        /// To update part of a window, use the traditional <see cref="WM_PAINT"/> and set the blend value using <see cref="SetLayeredWindowAttributes"/>.
+        /// For best drawing performance by the layered window and any underlying windows, the layered window should be as small as possible.
+        /// An application should also process the message and re-create its layered windows when the display's color depth changes.
+        /// For more information, see Layered Windows.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindowIndirect", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UpdateLayeredWindowIndirect([In]HWND hwnd,[In]in UPDATELAYEREDWINDOWINFO pULWInfo);
 
         /// <summary>
         /// <para>

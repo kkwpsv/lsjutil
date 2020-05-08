@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.BIND_FLAGS;
+using static Lsj.Util.Win32.Enums.MKSYS;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -622,11 +623,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// This method can return the standard return values <see cref="E_OUTOFMEMORY"/>, as well as the following values.
         /// <see cref="S_OK"/>: A common prefix exists that is neither this moniker nor <paramref name="pmkOther"/>.
-        /// <see cref="MK_S_NOPREFIX"/>: No common prefix exists.
+        /// <see cref="MK_E_NOPREFIX"/>: No common prefix exists.
         /// <see cref="MK_S_HIM"/>: The entire <paramref name="pmkOther"/> is a prefix of this moniker.
         /// <see cref="MK_S_US"/>: The two monikers are identical.
         /// <see cref="MK_S_ME"/>: This moniker is a prefix of the <paramref name="pmkOther"/> moniker.
-        /// <see cref="MK_S_NOTBINDABLE"/>:
+        /// <see cref="MK_E_NOTBINDABLE"/>:
         /// This method was called on a relative moniker. It is not meaningful to take the common prefix on a relative moniker.
         /// </returns>
         /// <remarks>

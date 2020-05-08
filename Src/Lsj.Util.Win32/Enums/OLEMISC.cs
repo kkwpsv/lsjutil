@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Structs;
 using System;
 
 namespace Lsj.Util.Win32.Enums

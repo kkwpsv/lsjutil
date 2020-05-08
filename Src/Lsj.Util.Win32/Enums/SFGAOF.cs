@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Enums
         /// for example in the case of slow network connections or offline (<see cref="FILE_ATTRIBUTE_OFFLINE"/>) files.
         /// However, querying <see cref="SFGAO_ISSLOW"/> is itself a slow operation.
         /// Applications should query <see cref="SFGAO_ISSLOW"/> only on a background thread.
-        /// An alternate method, such as retrieving the <see cref="PKEY_FileAttributes"/> property and testing for <see cref="FILE_ATTRIBUTE_OFFLINE"/>,
+        /// An alternate method, such as retrieving the PKEY_FileAttributes property and testing for <see cref="FILE_ATTRIBUTE_OFFLINE"/>,
         /// could be used in place of a method call that involves <see cref="SFGAO_ISSLOW"/>.
         /// </summary>
         SFGAO_ISSLOW = 0x00004000,
@@ -241,7 +241,7 @@ namespace Lsj.Util.Win32.Enums
         SFGAO_CONTENTSMASK = 0x80000000,
 
         /// <summary>
-        /// Mask used by the <see cref="PKEY_SFGAOFlags"/> property to determine attributes that are considered to cause slow calculations or lack context:
+        /// Mask used by the PKEY_SFGAOFlags property to determine attributes that are considered to cause slow calculations or lack context:
         /// <see cref="SFGAO_ISSLOW"/>, <see cref="SFGAO_READONLY"/>, <see cref="SFGAO_HASSUBFOLDER"/>, and <see cref="SFGAO_VALIDATE"/>.
         /// Callers normally do not use this value.
         /// </summary>

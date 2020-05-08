@@ -61,19 +61,19 @@ namespace Lsj.Util.Win32.Enums
         CDERR_MEMLOCKFAILURE = 0x000A,
 
         /// <summary>
-        /// The <see cref="ENABLETEMPLATE"/> flag was set in the Flags member of the initialization structure
+        /// The ENABLETEMPLATE flag was set in the Flags member of the initialization structure
         /// for the corresponding common dialog box, but you failed to provide a corresponding instance handle.
         /// </summary>
         CDERR_NOHINSTANCE = 0x0004,
 
         /// <summary>
-        /// The <see cref="ENABLEHOOK"/> flag was set in the Flags member of the initialization structure for the corresponding common dialog box,
+        /// The ENABLEHOOK flag was set in the Flags member of the initialization structure for the corresponding common dialog box,
         /// but you failed to provide a pointer to a corresponding hook procedure.
         /// </summary>
         CDERR_NOHOOK = 0x000B,
 
         /// <summary>
-        /// The <see cref="ENABLETEMPLATE"/> flag was set in the Flags member of the initialization structure for the corresponding common dialog box,
+        /// The ENABLETEMPLATE flag was set in the Flags member of the initialization structure for the corresponding common dialog box,
         /// but you failed to provide a corresponding template.
         /// </summary>
         CDERR_NOTEMPLATE = 0x0003,

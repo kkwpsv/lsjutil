@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -11,13 +10,14 @@ using static Lsj.Util.Win32.Enums.BoundsAccumulationFlags;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.GDIEscapes;
 using static Lsj.Util.Win32.Enums.GraphicsModes;
+using static Lsj.Util.Win32.Enums.ICMModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.ObjTypes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.ICMModes;
 
 namespace Lsj.Util.Win32
 {
@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32
         /// If the objects cannot be enumerated (for example, there are too many objects), the function returns zero without calling the callback function.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumObjects([In]HDC hdc, [In]int nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
+        public static extern int EnumObjects([In]HDC hdc, [In]ObjTypes nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -987,8 +987,10 @@ namespace Lsj.Util.Win32
         /// If all three intensities are 255, the result is white.
         /// To extract the individual values for the red, green, and blue components of a <see cref="COLORREF"/> color value,
         /// use the <see cref="GetRValue"/>, <see cref="GetGValue"/>, and <see cref="GetBValue"/> macros, respectively.
-        /// When creating or examining a logical palette, use the <see cref="RGBQUAD"/> structure to define color values and examine individual component values.
-        /// For more information about using color values in a color palette, see the descriptions of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
+        /// When creating or examining a logical palette, use the <see cref="RGBQUAD"/> structure to define color values
+        /// and examine individual component values.
+        /// For more information about using color values in a color palette, see the descriptions
+        /// of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
         /// </remarks>
         public static COLORREF RGB([In]byte r, [In]byte g, [In]byte b) => (COLORREF)(r | g << 8 | b << 16);
 
@@ -1191,6 +1193,51 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
         public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc, [In]in RECT lprect, [In]BoundsAccumulationFlags flags);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetGraphicsMode"/> function sets the graphics mode for the specified device context.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setgraphicsmode
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iMode">
+        /// The graphics mode. This parameter can be one of the following values.
+        /// <see cref="GM_COMPATIBLE"/>, <see cref="GM_ADVANCED"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the old graphics mode.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// There are three areas in which graphics output differs according to the graphics mode:
+        /// Text Output:
+        /// In the <see cref="GM_COMPATIBLE"/> mode, TrueType (or vector font) text output behaves much the same way as
+        /// raster font text output with respect to the world-to-device transformations in the DC.
+        /// The TrueType text is always written from left to right and right side up, even if the rest of the graphics will be flipped on the x or y axis.
+        /// Only the height of the TrueType (or vector font) text is scaled.
+        /// The only way to write text that is not horizontal in the <see cref="GM_COMPATIBLE"/> mode is to specify nonzero escapement
+        /// and orientation for the logical font selected in this device context.
+        /// In the <see cref="GM_ADVANCED"/> mode, TrueType (or vector font) text output fully conforms to
+        /// the world-to-device transformation in the device context.
+        /// The raster fonts only have very limited transformation capabilities (stretching by some integer factors).
+        /// Graphics device interface (GDI) tries to produce the best output it can with raster fonts for nontrivial transformations.
+        /// Rectangle Exclusion:
+        /// If the default <see cref="GM_COMPATIBLE"/> graphics mode is set, the system excludes bottom and rightmost edges when it draws rectangles.
+        /// The <see cref="GM_ADVANCED"/> graphics mode is required if applications want to draw rectangles that are lower-right inclusive.
+        /// Arc Drawing:
+        /// If the default <see cref="GM_COMPATIBLE"/> graphics mode is set, GDI draws arcs using the current arc direction in the device space.
+        /// With this convention, arcs do not respect page-to-device transforms that require a flip along the x or y axis.
+        /// If the <see cref="GM_ADVANCED"/> graphics mode is set, GDI always draws arcs in the counterclockwise direction in logical space.
+        /// This is equivalent to the statement that, in the <see cref="GM_ADVANCED"/> graphics mode,
+        /// both arc control points and arcs themselves fully respect the device context's world-to-device transformation.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetGraphicsMode", ExactSpelling = true, SetLastError = true)]
+        public static extern GraphicsModes SetGraphicsMode([In]HDC hdc, [In]GraphicsModes iMode);
 
         /// <summary>
         /// <para>

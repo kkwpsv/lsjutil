@@ -1,8 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ExceptionFlags;
@@ -372,5 +374,38 @@ namespace Lsj.Util.Win32
         /// <param name="dwErrCode">The last-error code for the thread.</param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
         public static extern void SetLastError([In]uint dwErrCode);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined function that passes unhandled exceptions to the debugger, if the process is being debugged.
+        /// Otherwise, it optionally displays an Application Error message box and causes the exception handler to be executed.
+        /// This function can be called only from within the filter expression of an exception handler.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-unhandledexceptionfilter
+        /// </para>
+        /// </summary>
+        /// <param name="ExceptionInfo">
+        /// A pointer to an <see cref="EXCEPTION_POINTERS"/> structure that specifies a description of the exception
+        /// and the processor context at the time of the exception.
+        /// This pointer is the return value of a call to the <see cref="GetExceptionInformation"/> function.
+        /// </param>
+        /// <returns>
+        /// The function returns one of the following values.
+        /// <see cref="EXCEPTION_CONTINUE_SEARCH"/>:
+        /// The process is being debugged, so the exception should be passed (as second chance) to the application's debugger. 
+        /// <see cref="EXCEPTION_EXECUTE_HANDLER"/>:
+        /// If the <see cref="SEM_NOGPFAULTERRORBOX"/> flag was specified in a previous call to <see cref="SetErrorMode"/>,
+        /// no Application Error message box is displayed.
+        /// The function returns control to the exception handler, which is free to take any appropriate action. 
+        /// </returns>
+        /// <remarks>
+        /// If the process is not being debugged, the function displays an Application Error message box, depending on the current error mode.
+        /// The default behavior is to display the dialog box, but this can be disabled by specifying <see cref="SEM_NOGPFAULTERRORBOX"/>
+        /// in a call to the <see cref="SetErrorMode"/> function.
+        /// The system uses <see cref="UnhandledExceptionFilter"/> internally to handle exceptions that occur during process and thread creation.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhandledExceptionFilter", ExactSpelling = true, SetLastError = true)]
+        public static extern LONG UnhandledExceptionFilter([Out]out EXCEPTION_POINTERS ExceptionInfo);
     }
 }

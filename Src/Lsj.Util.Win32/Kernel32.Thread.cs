@@ -1,9 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
@@ -14,13 +14,20 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Enums.ThreadCreationFlags;
 using static Lsj.Util.Win32.Enums.ThreadPriorityFlags;
+using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.Winmm;
 
 namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// FLS_OUT_OF_INDEXES
+        /// </summary>
+        public static readonly DWORD FLS_OUT_OF_INDEXES = 0xFFFFFFFF;
+
         /// <summary>
         /// TLS_MINIMUM_AVAILABLE
         /// </summary>
@@ -528,7 +535,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// The following errors can be returned.
         /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.
-        /// <see cref="ERROR_NO_MEMORY"/>: The FLS array has not been allocated.
+        /// ERROR_NO_MEMORY: The FLS array has not been allocated.
         /// </returns>
         /// <remarks>
         /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
@@ -1159,6 +1166,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetThreadToken"/> function assigns an impersonation token to a thread.
+        /// The function can also cause a thread to stop using an impersonation token.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadtoken
+        /// </para>
+        /// </summary>
+        /// <param name="Thread">
+        /// A pointer to a handle to the thread to which the function assigns the impersonation token.
+        /// If Thread is <see cref="NullRef{HANDLE}"/>, the function assigns the impersonation token to the calling thread.
+        /// </param>
+        /// <param name="Token">
+        /// A handle to the impersonation token to assign to the thread
+        /// . This handle must have been opened with <see cref="TOKEN_IMPERSONATE"/> access rights.
+        /// For more information, see Access Rights for Access-Token Objects.
+        /// If <paramref name="Token"/> is <see cref="NULL"/>, the function causes the thread to stop using an impersonation token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// When using the <see cref="SetThreadToken"/> function to impersonate, you must have the impersonate privileges
+        /// and make sure that the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadToken([In]in HANDLE Thread, [In]HANDLE Token);
+
+        /// <summary>
+        /// <para>
         /// Suspends the execution of the current thread until the time-out interval elapses.
         /// To enter an alertable wait state, use the <see cref="SleepEx"/> function.
         /// </para>
@@ -1401,6 +1439,43 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD TlsAlloc();
+
+        /// <summary>
+        /// <para>
+        /// Releases a thread local storage (TLS) index, making it available for reuse.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/windows/win32/api/processthreadsapi/nf-processthreadsapi-tlsfree
+        /// </para>
+        /// </summary>
+        /// <param name="dwTlsIndex">
+        /// The TLS index that was allocated by the <see cref="TlsAlloc"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Windows Phone 8.1:
+        /// This function is supported for Windows Phone Store apps on Windows Phone 8.1 and later.
+        /// When a Windows Phone Store app calls this function, it is replaced with an inline call to <see cref="FlsFree"/>.
+        /// Refer to <see cref="FlsFree"/> for function documentation.
+        /// Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507:
+        /// This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and Windows 10, version 1507.
+        /// When a Windows Store app calls this function, it is replaced with an inline call to <see cref="FlsFree"/>.
+        /// Refer to <see cref="FlsFree"/> for function documentation.
+        /// Windows 10, version 1511 and Windows 10, version 1607:
+        /// This function is fully supported for Universal Windows Platform (UWP) apps,
+        /// and is no longer replaced with an inline call to <see cref="FlsFree"/>.
+        /// If the threads of the process have allocated memory and stored a pointer to the memory in a TLS slot,
+        /// they should free the memory before calling <see cref="TlsFree"/>.
+        /// The <see cref="TlsFree"/> function does not free memory blocks whose addresses have been stored in the TLS slots associated with the TLS index.
+        /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
+        /// For more information, see Thread Local Storage.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsFree", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL TlsFree([In]DWORD dwTlsIndex);
 
         /// <summary>
         /// <para>

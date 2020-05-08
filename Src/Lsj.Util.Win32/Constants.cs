@@ -29,6 +29,16 @@ namespace Lsj.Util.Win32
         public const int MAX_PATH = 260;
 
         /// <summary>
+        /// MAXIMUM_PROCESSORS
+        /// </summary>
+        public const int MAXIMUM_PROCESSORS = 64;
+
+        /// <summary>
+        /// MAXIMUM_SUSPEND_COUNT
+        /// </summary>
+        public const int MAXIMUM_SUSPEND_COUNT = 0x7F;
+
+        /// <summary>
         /// INFINITE
         /// </summary>
         public const uint INFINITE = 0xFFFFFFFF;

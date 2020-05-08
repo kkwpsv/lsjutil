@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.HtmlBuilder;
+﻿using Lsj.Util.HtmlBuilder;
 using Lsj.Util.HtmlBuilder.Body;
 using Lsj.Util.HtmlBuilder.Header;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Message;
 using Lsj.Util.Net.Web.Protocol;
 using Lsj.Util.Net.Web.Static;
-
-
-
-
+using System.Collections.Generic;
 
 namespace Lsj.Util.Net.Web.Error
 {
@@ -35,8 +28,9 @@ namespace Lsj.Util.Net.Web.Error
                 ErrorCode = code
             };
             response.Write(BuildPage(code, extraCode, server));
-            response.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf8";
-            response.Headers[Protocol.HttpHeaders.Connection] = "close";
+            response.Headers[HttpHeaders.ContentType] = "text/html;charset=utf8";
+            response.Headers[HttpHeaders.Connection] = "close";
+            response.Headers[HttpHeaders.ContentLength] = response.Content.Length.ToString();
             return response;
         }
         /// <summary>
@@ -54,8 +48,9 @@ namespace Lsj.Util.Net.Web.Error
                 ErrorCode = code
             };
             response.Write(BuildPage(code, extraCode, server, errorString));
-            response.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf8";
-            response.Headers[Protocol.HttpHeaders.Connection] = "close";
+            response.Headers[HttpHeaders.ContentType] = "text/html;charset=utf8";
+            response.Headers[HttpHeaders.Connection] = "close";
+            response.Headers[HttpHeaders.ContentLength] = response.Content.Length.ToString();
             return response;
         }
 

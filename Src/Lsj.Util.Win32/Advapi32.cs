@@ -1087,6 +1087,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ImpersonateNamedPipeClient"/> function impersonates a named-pipe client application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to a named pipe.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ImpersonateNamedPipeClient"/> function allows the server end of a named pipe to impersonate the client end.
+        /// When this function is called, the named-pipe file system changes the thread of the calling process
+        /// to start impersonating the security context of the last message read from the pipe.
+        /// Only the server end of the pipe can call this function.
+        /// The server can call the <see cref="RevertToSelf"/> function when the impersonation is complete.
+        /// Important If the <see cref="ImpersonateNamedPipeClient"/> function fails, the client is not impersonated,
+        /// and all subsequent client requests are made in the security context of the process that called the function.
+        /// If the calling process is running as a privileged account, it can perform actions that the client would not be allowed to perform.
+        /// To avoid security risks, the calling process should always check the return value.
+        /// If the return value indicates that the function call failed, no client requests should be executed.
+        /// ll impersonate functions, including <see cref="ImpersonateNamedPipeClient"/> allow the requested impersonation if one of the following is true:
+        /// The requested impersonation level of the token is less than <see cref="SecurityImpersonation"/>,
+        /// such as <see cref="SecurityIdentification"/> or <see cref="SecurityAnonymous"/>.
+        /// The caller has the SeImpersonatePrivilege privilege.
+        /// A process (or another process in the caller's logon session) created the token using explicit credentials
+        /// through <see cref="LogonUser"/> or <see cref="LsaLogonUser"/> function.
+        /// The authenticated identity is same as the caller.
+        /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateNamedPipeClient([In]HANDLE hNamedPipe);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LogonUser"/> function attempts to log a user on to the local computer.
         /// The local computer is the computer from which LogonUser was called.
         /// You cannot use <see cref="LogonUser"/> to log on to a remote computer.
@@ -1268,6 +1307,32 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL OpenThreadToken([In]HANDLE ThreadHandle, [In]ACCESS_MASK DesiredAccess, [In]BOOL OpenAsSelf, [Out]out HANDLE TokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="RevertToSelf"/> function terminates the impersonation of a client application.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A process should call the <see cref="RevertToSelf"/> function after finishing any impersonation begun
+        /// by using the <see cref="DdeImpersonateClient"/>, <see cref="ImpersonateDdeClientWindow"/>, <see cref="ImpersonateLoggedOnUser"/>,
+        /// <see cref="ImpersonateNamedPipeClient"/>, <see cref="ImpersonateSelf"/>, <see cref="ImpersonateAnonymousToken"/>
+        /// or <see cref="SetThreadToken"/> function.
+        /// An RPC server that used the <see cref="RpcImpersonateClient"/> function to impersonate a client must call
+        /// the <see cref="RpcRevertToSelf"/> or <see cref="RpcRevertToSelfEx"/> to end the impersonation.
+        /// If <see cref="RevertToSelf"/> fails, your application continues to run in the context of the client, which is not appropriate.
+        /// You should shut down the process if <see cref="RevertToSelf"/> fails.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RevertToSelf", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RevertToSelf();
 
         /// <summary>
         /// The SetTokenInformation function sets various types of information for a specified access token. 

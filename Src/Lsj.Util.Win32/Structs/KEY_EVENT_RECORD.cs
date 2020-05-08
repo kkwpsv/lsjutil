@@ -81,12 +81,21 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public ControlKeyStates dwControlKeyState;
 
+        /// <summary>
+        /// 
+        /// </summary>
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         public struct UnionStruct
         {
+            /// <summary>
+            /// 
+            /// </summary>
             [FieldOffset(0)]
             public WCHAR UnicodeChar;
 
+            /// <summary>
+            /// 
+            /// </summary>
             [FieldOffset(0)]
             public CHAR AsciiChar;
         }
