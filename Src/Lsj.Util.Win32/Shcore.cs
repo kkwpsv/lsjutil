@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DEVICE_SCALE_FACTOR;
 using static Lsj.Util.Win32.Enums.MONITOR_DPI_TYPE;
 using static Lsj.Util.Win32.Enums.PROCESS_DPI_AWARENESS;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {

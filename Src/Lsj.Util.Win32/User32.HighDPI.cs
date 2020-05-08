@@ -4,13 +4,41 @@ using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
+using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
     public partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// Determines whether two <see cref="DPI_AWARENESS_CONTEXT"/> values are identical.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-aredpiawarenesscontextsequal
+        /// </para>
+        /// </summary>
+        /// <param name="dpiContextA">
+        /// The first value to compare.
+        /// </param>
+        /// <param name="dpiContextB">
+        /// The second value to compare.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the values are equal, otherwise <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// A <see cref="DPI_AWARENESS_CONTEXT"/> contains multiple pieces of information.
+        /// For example, it includes both the current and the inherited <see cref="DPI_AWARENESS"/> values.
+        /// <see cref="AreDpiAwarenessContextsEqual"/> ignores informational flags and determines if the values are equal.
+        /// You can't use a direct bitwise comparison because of these informational flags.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreDpiAwarenessContextsEqual", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AreDpiAwarenessContextsEqual([In]DPI_AWARENESS_CONTEXT dpiContextA, [In]DPI_AWARENESS_CONTEXT dpiContextB);
+
         /// <summary>
         /// <para>
         /// Calculates the required size of the window rectangle, based on the desired size of the client rectangle and the provided DPI.
@@ -49,6 +77,31 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectExForDpi([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu,
             [In]WindowStylesEx dwExStyle, [In]UINT dpi);
+
+        /// <summary>
+        /// <para>
+        /// Returns the dots per inch (dpi) value for the associated window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window you want to get information about.
+        /// </param>
+        /// <returns>
+        /// The DPI for the window which depends on the <see cref="DPI_AWARENESS"/> of the window.
+        /// See the Remarks for more information.
+        /// An invalid hwnd value will result in a return value of 0.
+        /// </returns>
+        /// <remarks>
+        /// The following table indicates the return value of <see cref="GetDpiForWindow"/> based on the <see cref="DPI_AWARENESS"/> of the provided hwnd.
+        /// <see cref="DPI_AWARENESS_UNAWARE"/>: 96
+        /// <see cref="DPI_AWARENESS_SYSTEM_AWARE"/>: The system DPI.
+        /// <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/>: The DPI of the monitor where the window is located.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetDpiForWindow([In]HWND hwnd);
 
         /// <summary>
         /// <para>
