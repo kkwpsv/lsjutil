@@ -46,7 +46,7 @@ namespace Lsj.Util.Logs
         /// <param name="str">content</param>
         /// <param name="e">exception</param>
         /// <param name="type">type</param>
-        public void Add(string str, Exception e, LogType type) => Add(str + "\n" + e.ToString(), type);
+        public void Add(string str, Exception e, LogType type) => Add(str + Environment.NewLine + e.ToString(), type);
 
         /// <summary>
         /// Debug
