@@ -899,8 +899,8 @@ namespace Lsj.Util.Win32
         /// causes all inheritable handles to be inherited by the new process.
         /// This can be problematic for applications which create processes from multiple threads simultaneously
         /// yet desire each process to inherit different handles.
-        /// Applications can use the <see cref="UpdateProcThreadAttributeList"/> function
-        /// with the PROC_THREAD_ATTRIBUTE_HANDLE_LIST parameter to provide a list of handles to be inherited by a particular process.
+        /// Applications can use the <see cref="UpdateProcThreadAttribute"/> function
+        /// with the <see cref="PROC_THREAD_ATTRIBUTE_HANDLE_LIST"/> parameter to provide a list of handles to be inherited by a particular process.
         /// 
         /// Security Remarks
         /// The first parameter, <paramref name="lpApplicationName"/>, can be <see langword="null"/>,
