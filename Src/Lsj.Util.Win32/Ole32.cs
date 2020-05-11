@@ -1298,6 +1298,36 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Performs a generic composition of two monikers and supplies a pointer to the resulting composite moniker.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-creategenericcomposite
+        /// </para>
+        /// </summary>
+        /// <param name="pmkFirst">
+        /// A pointer to the moniker to be composed to the left of the moniker that pmkRest points to.
+        /// Can point to any kind of moniker, including a generic composite.
+        /// </param>
+        /// <param name="pmkRest">
+        /// A pointer to the moniker to be composed to the right of the moniker to which pmkFirst points.
+        /// Can point to any kind of moniker compatible with the type of the <paramref name="pmkRest"/> moniker, including a generic composite.
+        /// </param>
+        /// <param name="ppmkComposite">
+        /// The address of an <see cref="IMoniker"/> pointer variable that receives the interface pointer to the composite moniker object
+        /// that is the result of composing <paramref name="pmkFirst"/> and <paramref name="pmkRest"/>.
+        /// This object supports the OLE composite moniker implementation of <see cref="IMoniker"/>.
+        /// When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release.
+        /// If either <paramref name="pmkFirst"/> or <paramref name="pmkRest"/> are <see langword="null"/>,
+        /// the supplied pointer is the one that is non-NULL.
+        /// If both <paramref name="pmkFirst"/> and <paramref name="pmkRest"/> are <see langword="null"/>,
+        /// or if an error occurs, the returned pointer is <see langword="null"/>.
+        /// </param>
+        /// <returns></returns>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateGenericComposite([In]IMoniker pmkFirst, [In]IMoniker pmkRest, [Out]out IMoniker ppmkComposite);
+
+        /// <summary>
+        /// <para>
         /// Creates an advise holder object for managing compound document notifications.
         /// It returns a pointer to the object's OLE implementation of the <see cref="IOleAdviseHolder"/> interface.
         /// </para>
