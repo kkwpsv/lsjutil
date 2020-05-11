@@ -11,9 +11,10 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.REGCLS;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
-using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -770,6 +771,126 @@ namespace Lsj.Util.Win32
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoInitializeSecurity([In]in SECURITY_DESCRIPTOR pSecDesc, [In]LONG cAuthSvc, [In]SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
             [In]IntPtr pReserved1, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthList, [In]DWORD dwCapabilities, [In]IntPtr pReserved3);
+
+        /// <summary>
+        /// <para>
+        /// Registers an EXE class object with OLE so other applications can connect to it.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coregisterclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The CLSID to be registered.
+        /// </param>
+        /// <param name="pUnk">
+        /// A pointer to the <see cref="IUnknown"/> interface on the class object whose availability is being published.
+        /// </param>
+        /// <param name="dwClsContext">
+        /// The context in which the executable code is to be run.
+        /// For information on these context values, see the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="flags">
+        /// Indicates how connections are made to the class object. For information on these flags, see the <see cref="REGCLS"/> enumeration.
+        /// </param>
+        /// <param name="lpdwRegister">
+        /// A pointer to a value that identifies the class object registered;
+        /// later used by the <see cref="CoRevokeClassObject"/> function to revoke the registration.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The class object was registered successfully. 
+        /// </returns>
+        /// <remarks>
+        /// EXE object applications should call <see cref="CoRegisterClassObject"/> on startup.
+        /// It can also be used to register internal objects for use by the same EXE or other code (such as DLLs) that the EXE uses.
+        /// Only EXE object applications call <see cref="CoRegisterClassObject"/>.
+        /// Object handlers or DLL object applications do not call this function — instead,
+        /// they must implement and export the <see cref="DllGetClassObject"/> function.
+        /// At startup, a multiple-use EXE object application must create a class object (with the <see cref="IClassFactory"/> interface on it),
+        /// and call <see cref="CoRegisterClassObject"/> to register the class object.
+        /// Object applications that support several different classes (such as multiple types of embeddable objects)
+        /// must allocate and register a different class object for each.
+        /// Multiple registrations of the same class object are independent and do not produce an error.
+        /// Each subsequent registration yields a unique key in <paramref name="lpdwRegister"/>.
+        /// Multiple document interface (MDI) applications must register their class objects.
+        /// Single document interface (SDI) applications must register their class objects only if they can be started by means of the /Embedding switch.
+        /// The server for a class object should call <see cref="CoRevokeClassObject"/> to revoke the class object
+        /// (remove its registration) when all of the following are true:
+        /// There are no existing instances of the object definition.
+        /// There are no locks on the class object.
+        /// The application providing services to the class object is not under user control (not visible to the user on the display).
+        /// After the class object is revoked, when its reference count reaches zero, the class object can be released, allowing the application to exit.
+        /// Note that <see cref="CoRegisterClassObject"/> calls IUnknown::AddRef and <see cref="CoRevokeClassObject"/> calls IUnknown::Release,
+        /// so the two functions form an AddRef/Release pair.
+        /// As of Windows Server 2003, if a COM object application is registered as a service, COM verifies the registration.
+        /// COM makes sure the process ID of the service, in the service control manager (SCM), matches the process ID of the registering process.
+        /// If not, COM fails the registration.
+        /// If the COM object application runs in the system account with no registry key, COM treats the objects application identity as Launching User.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoRegisterClassObject([In]in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In]object pUnk,
+            [In]DWORD dwClsContext, [In]REGCLS flags, [Out]out DWORD lpdwRegister);
+
+        /// <summary>
+        /// <para>
+        /// Called by a server that can register multiple class objects to inform the SCM about all registered classes,
+        /// and permits activation requests for those class objects.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coresumeclassobjects
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> to indicate that the CLSID was retrieved successfully.
+        /// </returns>
+        /// <remarks>
+        /// Servers that can register multiple class objects call <see cref="CoResumeClassObjects"/> once,
+        /// after having first called <see cref="CoRegisterClassObject"/>,
+        /// specifying <code>REGCLS_LOCAL_SERVER | REGCLS_SUSPENDED</code> for each CLSID the server supports.
+        /// This function causes OLE to inform the SCM about all the registered classes, and begins letting activation requests into the server process.
+        /// This reduces the overall registration time, and thus the server application startup time,
+        /// by making a single call to the SCM, no matter how many CLSIDs are registered for the server.
+        /// Another advantage is that if the server has multiple apartments with different CLSIDs registered in different apartments,
+        /// or is a free-threaded server, no activation requests will come in until the server calls <see cref="CoResumeClassObjects"/>.
+        /// This gives the server a chance to register all of its CLSIDs and get properly set up
+        /// before having to deal with activation requests, and possibly shutdown requests.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoResumeClassObjects", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoResumeClassObjects();
+
+        /// <summary>
+        /// <para>
+        /// Informs OLE that a class object, previously registered with the <see cref="CoRegisterClassObject"/> function, is no longer available for use.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-corevokeclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="dwRegister">
+        /// A token previously returned from the <see cref="CoRegisterClassObject"/> function.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The class object was revoked successfully. 
+        /// </returns>
+        /// <remarks>
+        /// A successful call to <see cref="CoRevokeClassObject"/> means that the class object has been removed
+        /// from the global class object table (although it does not release the class object).
+        /// If other clients still have pointers to the class object and have caused the reference count to be incremented
+        /// by calls to IUnknown::AddRef, the reference count will not be zero.
+        /// When this occurs, applications may benefit if subsequent calls (with the obvious exceptions of AddRef and IUnknown::Release) to the class object fail.
+        /// Note that <see cref="CoRegisterClassObject"/> calls AddRef and <see cref="CoRevokeClassObject"/> calls Release,
+        /// so the two functions form an AddRef/Release pair.
+        /// An object application must call <see cref="CoRevokeClassObject"/> to revoke registered class objects before exiting the program.
+        /// Class object implementers should call <see cref="CoRevokeClassObject"/> as part of the release sequence.
+        /// You must specifically revoke the class object even when you have specified the flags value <see cref="REGCLS_SINGLEUSE"/>
+        /// in a call to <see cref="CoRegisterClassObject"/>, indicating that only one application can connect to the class object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRevokeClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoRevokeClassObject([In]DWORD dwRegister);
 
         /// <summary>
         /// <para>
