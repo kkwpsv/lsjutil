@@ -3,6 +3,7 @@ root = true
 
 # c# 文件
 [*.cs]
+guidelines = 150
 
 #### Core EditorConfig 选项 ####
 
