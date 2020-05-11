@@ -63,7 +63,33 @@ namespace Lsj.Util.Win32.BaseTypes
         private HANDLE _value;
 
         /// <inheritdoc/>
-        public override string ToString() => _value.ToString();
+        public override string ToString()
+        {
+            if (_value == DPI_AWARENESS_CONTEXT_UNAWARE._value)
+            {
+                return nameof(DPI_AWARENESS_CONTEXT_UNAWARE);
+            }
+            else if (_value == DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)
+            {
+                return nameof(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
+            }
+            else if (_value == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)
+            {
+                return nameof(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
+            }
+            else if (_value == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
+            {
+                return nameof(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+            }
+            else if (_value == DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)
+            {
+                return nameof(DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED);
+            }
+            else
+            {
+                return _value.ToString();
+            }
+        }
 
         /// <summary>
         /// 
