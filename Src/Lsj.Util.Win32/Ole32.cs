@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -220,6 +221,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Disconnects all remote process connections being maintained on behalf of all the interface pointers that point to a specified object.
+        /// Only the process that actually manages the object should call <see cref="CoDisconnectObject"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-codisconnectobject
+        /// </para>
+        /// </summary>
+        /// <param name="pUnk">
+        /// A pointer to any interface derived from <see cref="IUnknown"/> on the object to be disconnected.
+        /// </param>
+        /// <param name="dwReserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> to indicate that all connections to remote processes were successfully deleted.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoDisconnectObject"/> function enables a server to correctly disconnect
+        /// all external clients to the object specified by <paramref name="pUnk"/>.
+        /// It performs the following tasks:
+        /// Checks to see whether the object to be disconnected implements the <see cref="IMarshal"/> interface.
+        /// If so, it gets the pointer to that interface;
+        /// if not, it gets a pointer to the standard marshaler's (i.e., COM's) <see cref="IMarshal"/> implementation.
+        /// Using whichever <see cref="IMarshal"/> interface pointer it has acquired, the function
+        /// then calls <see cref="IMarshal.DisconnectObject"/> to disconnect all out-of-process clients.
+        /// An object's client does not call <see cref="CoDisconnectObject"/> to disconnect itself from the server
+        /// (clients should use IUnknown::Release for this purpose).
+        /// Rather, an OLE server calls <see cref="CoDisconnectObject"/> to forcibly disconnect an object's clients,
+        /// usually in response to a user closing the server application.
+        /// Similarly, an OLE container that supports external links to its embedded objects
+        /// can call <see cref="CoDisconnectObject"/> to destroy those links.
+        /// Again, this call is normally made in response to a user closing the application.
+        /// The container should first call <see cref="IOleObject.Close"/> for all its OLE objects,
+        /// each of which should send <see cref="IAdviseSink.OnClose"/> notifications to their various clients.
+        /// Then the container can call <see cref="CoDisconnectObject"/> to close any existing connections.
+        /// <see cref="CoDisconnectObject"/> does not necessarily disconnect out-of-process clients immediately.
+        /// If any marshaled calls are pending on the server object, <see cref="CoDisconnectObject"/> disconnects the object
+        /// only when those calls have returned.
+        /// In the meantime, <see cref="CoDisconnectObject"/> sets a flag
+        /// that causes any new marshaled calls to return <see cref="CO_E_OBJNOTCONNECTED"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoDisconnectObject([MarshalAs(UnmanagedType.IUnknown)][In]object pUnk, [In]DWORD dwReserved);
+
+        /// <summary>
+        /// <para>
         /// Provides a pointer to an interface on a class object associated with a specified CLSID.
         /// <see cref="CoGetClassObject"/> locates, and if necessary, dynamically loads the executable code required to do this.
         /// Call <see cref="CoGetClassObject"/> directly to create multiple objects through a class object
@@ -323,6 +370,151 @@ namespace Lsj.Util.Win32
         public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
             [In]CLSCTX dwClsContext, [In]LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
             [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new object and initializes it from a file using <see cref="IPersistFile.Load"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-cogetinstancefromfile
+        /// </para>
+        /// </summary>
+        /// <param name="pServerInfo">
+        /// A pointer to a <see cref="COSERVERINFO"/> structure that specifies the computer
+        /// on which to instantiate the object and the authentication setting to be used.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the current computer,
+        /// at the computer specified under the RemoteServerName registry value for the class,
+        /// or at the computer where the <paramref name="pwszName"/> file resides
+        /// if the ActivateAtStorage value is specified for the class or there is no local registry information.
+        /// </param>
+        /// <param name="pClsid">
+        /// A pointer to the class identifier of the object to be created.
+        /// This parameter can be <see cref="NULL"/>, in which case there is a call to <see cref="GetClassFile"/>,
+        /// using <paramref name="pwszName"/> as its parameter to get the class of the object to be instantiated.
+        /// </param>
+        /// <param name="punkOuter">
+        /// When non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the pointer to the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/>
+        /// will be returned if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// Values from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="grfMode">
+        /// Specifies how the file is to be opened.
+        /// See <see cref="STGM"/> Constants.
+        /// </param>
+        /// <param name="pwszName">
+        /// The file used to initialize the object with <see cref="IPersistFile.Load"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>.
+        /// This parameter must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (<see cref="MULTI_QI.pIID"/>),
+        /// the location to return the interface pointer (<see cref="MULTI_QI.pItf"/>)
+        /// and the return value of the call to QueryInterface (<see cref="MULTI_QI.hr"/>).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The function retrieved all of the interfaces successfully.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures indicates
+        /// with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned. 
+        /// <see cref="E_NOINTERFACE"/>:
+        /// None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved. 
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoGetInstanceFromFile"/> creates a new object and initializes it from a file using <see cref="IPersistFile.Load"/>.
+        /// The result of this function is similar to creating an instance with a call to <see cref="CoCreateInstanceEx"/>,
+        /// followed by an initializing call to <see cref="IPersistFile.Load"/>, with the following important distinctions:
+        /// Fewer network round trips are required by this function when instantiating an object on a remote computer.
+        /// In the case where <paramref name="dwClsCtx"/> is set to <see cref="CLSCTX_REMOTE_SERVER"/>
+        /// and <paramref name="pServerInfo"/> is <see cref="NULL"/>,
+        /// if the class is registered with the ActivateAtStorage sub-key or has no associated registry information,
+        /// this function will instantiate an object on the computer where <paramref name="pwszName"/> resides,
+        /// providing the least possible network traffic.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetInstanceFromFile([In]in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In]Guid pClsid,
+            [MarshalAs(UnmanagedType.IUnknown)][In]object punkOuter, [In]CLSCTX dwClsCtx, [In]STGM grfMode,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string pwszName, [In]DWORD dwCount, [Out]MULTI_QI[] pResults);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new object and initializes it from a storage object through an internal call to <see cref="IPersistFile.Load"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-cogetinstancefromistorage
+        /// </para>
+        /// </summary>
+        /// <param name="pServerInfo">
+        /// A pointer to a <see cref="COSERVERINFO"/> structure that specifies the computer on which to instantiate the object
+        /// and the authentication setting to be used.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the current computer,
+        /// at the computer specified under the RemoteServerName registry value for the class,
+        /// or at the computer where the pstg storage object resides if the ActivateAtStorage value is specified for the class
+        /// or there is no local registry information.
+        /// </param>
+        /// <param name="pClsid">
+        /// A pointer to the class identifier of the object to be created.
+        /// This parameter can be <see cref="NULL"/>, in which case there is a call to <see cref="IStorage.Stat"/> to find the class of the object.
+        /// </param>
+        /// <param name="punkOuter">
+        /// When non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the pointer to the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/> will be returned
+        /// if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// Values from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pstg">
+        /// A pointer to the storage object used to initialize the object with <see cref="IPersistFile.Load"/>.
+        /// This parameter cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>.
+        /// This parameter must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (<see cref="MULTI_QI.pIID"/>),
+        /// the location to return the interface pointer (<see cref="MULTI_QI.pItf"/>)
+        /// and the return value of the call to QueryInterface (<see cref="MULTI_QI.hr"/>).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The function retrieved all of the interfaces successfully.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures indicates
+        /// with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned. 
+        /// <see cref="E_NOINTERFACE"/>:
+        /// None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved. 
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoGetInstanceFromIStorage"/> creates a new object and initializes it
+        /// from a storage object using <see cref="IPersistFile.Load"/>.
+        /// The result of this function is similar to creating an instance with a call to <see cref="CoCreateInstanceEx"/>,
+        /// followed by an initializing call to <see cref="IPersistFile.Load"/>, with the following important distinctions:
+        /// Fewer network round trips are required by this function when instantiating an object on a remote computer.
+        /// In the case where <paramref name="dwClsCtx"/> is set to <see cref="CLSCTX_REMOTE_SERVER"/>
+        /// and <paramref name="pServerInfo"/> is <see cref="NullRef{COSERVERINFO}"/>, 
+        /// if the class is registered with the ActivateAtStorage value or has no associated registry information,
+        /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetInstanceFromIStorage([In]in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In]Guid pClsid,
+              [MarshalAs(UnmanagedType.IUnknown)][In]object punkOuter, [In]CLSCTX dwClsCtx, [In]IStorage pstg, [In]DWORD dwCount,
+              [Out]MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
