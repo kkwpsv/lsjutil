@@ -76,6 +76,11 @@
         public const string IID_IOleLink = "0000011d-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IOleLink
+        /// </summary>
+        public const string IID_IOleUILinkContainer = "000004FF-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IOleAdviseHolder
         /// </summary>
         public const string IID_IOleAdviseHolder = "00000111-0000-0000-C000-000000000046";
