@@ -774,6 +774,89 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the authentication information the client uses to make calls on the specified proxy.
+        /// This is a helper function for <see cref="IClientSecurity.QueryBlanket"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coqueryproxyblanket
+        /// </para>
+        /// </summary>
+        /// <param name="pProxy">
+        /// A pointer indicating the proxy to query.
+        /// This parameter cannot be <see langword="null"/>.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="pwAuthnSvc">
+        /// A pointer to a variable that receives the current authentication service.
+        /// This will be a single value taken from the authentication service constants.
+        /// This parameter cannot be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="pAuthzSvc">
+        /// A pointer to a variable that receives the current authorization service.
+        /// This will be a single value taken from the authorization constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current authorization service is not retrieved.
+        /// </param>
+        /// <param name="pServerPrincName">
+        /// The current principal name.
+        /// The string will be allocated by the callee using <see cref="CoTaskMemAlloc"/>, and must be freed by the caller using <see cref="CoTaskMemFree"/>.
+        /// The <see cref="EOAC_MAKE_FULLSIC"/> flag is not accepted in the <paramref name="pCapabilites"/> parameter.
+        /// For more information about the msstd and fullsic forms, see Principal Names.
+        /// If the caller specifies <see cref="NullRef{String}"/>, the current principal name is not retrieved.
+        /// </param>
+        /// <param name="pAuthnLevel">
+        /// A pointer to a variable that receives the current authentication level.
+        /// This will be a single value taken from the authentication level constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current authentication level is not retrieved.
+        /// </param>
+        /// <param name="pImpLevel">
+        /// A pointer to a variable that receives the current impersonation level.
+        /// This will be a single value taken from the impersonation level constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current impersonation level is not retrieved.
+        /// </param>
+        /// <param name="pAuthInfo">
+        /// A pointer to a handle that receives the identity of the client that was passed
+        /// to the last <see cref="IClientSecurity.SetBlanket"/> call (or the default value).
+        /// Default values are only valid until the proxy is released.
+        /// If the caller specifies <see cref="NullRef{RPC_AUTH_IDENTITY_HANDLE}"/>, the client identity is not retrieved.
+        /// The format of the structure that the handle refers to depends on the authentication service.
+        /// The application should not write or free the memory.
+        /// For NTLMSSP and Kerberos, if the client specified a structure in the <paramref name="pAuthInfo"/> parameter
+        /// to <see cref="CoInitializeSecurity"/>, that value is returned.
+        /// For Schannel, if a certificate for the client could be retrieved from the certificate manager, that value is returned here.
+        /// Otherwise, <see cref="NULL"/> is returned. See <see cref="RPC_AUTH_IDENTITY_HANDLE"/>.
+        /// </param>
+        /// <param name="pCapabilites">
+        /// A pointer to a variable that receives the capabilities of the proxy.
+        /// If the caller specifies <see cref="NULL"/>, the current capability flags are not retrieved.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>, and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoQueryProxyBlanket"/> is called by the client to retrieve the authentication information
+        /// COM will use on calls made from the specified proxy.
+        /// This function encapsulates the following sequence of common calls (error handling excluded):
+        /// <code>
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&amp;pcs);
+        /// pcs->QueryBlanket(pProxy, pAuthnSvc, pAuthzSvc, pServerPrincName, pAuthnLevel, pImpLevel, ppAuthInfo, pCapabilities);
+        /// pcs->Release();
+        /// </code>
+        /// This sequence calls QueryInterface on the proxy to get a pointer to <see cref="IClientSecurity"/>, and with the resulting pointer,
+        /// calls <see cref="IClientSecurity.QueryBlanket"/> and then releases the pointer.
+        /// In <paramref name="pProxy"/>, you can pass any proxy, such as a proxy you get through a call to <see cref="CoCreateInstance"/>
+        /// or <see cref="CoUnmarshalInterface"/>, or you can pass an interface pointer.
+        /// It can be any interface.
+        /// You cannot pass a pointer to something that is not a proxy.
+        /// Therefore, you can't pass a pointer to an interface that has the local keyword in its interface definition because no proxy is created for such an interface.
+        /// <see cref="IUnknown"/> is the exception to this rule.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoQueryProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In]object pProxy, [Out]out DWORD pwAuthnSvc,
+            [Out]out DWORD pAuthzSvc, [Out]out string pServerPrincName, [Out]out DWORD pAuthnLevel, [Out]out DWORD pImpLevel,
+            [Out]out RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [Out]out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
+
+        /// <summary>
+        /// <para>
         /// Registers an EXE class object with OLE so other applications can connect to it.
         /// </para>
         /// <para>
@@ -891,6 +974,119 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRevokeClassObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoRevokeClassObject([In]DWORD dwRegister);
+
+        /// <summary>
+        /// <para>
+        /// Sets the authentication information that will be used to make calls on the specified proxy.
+        /// This is a helper function for <see cref="IClientSecurity.SetBlanket"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cosetproxyblanket
+        /// </para>
+        /// </summary>
+        /// <param name="pProxy">
+        /// The proxy to be set.
+        /// </param>
+        /// <param name="dwAuthnSvc">
+        /// The authentication service to be used.
+        /// For a list of possible values, see Authentication Service Constants.
+        /// Use <see cref="RPC_C_AUTHN_NONE"/> if no authentication is required.
+        /// If <see cref="RPC_C_AUTHN_DEFAULT"/> is specified, DCOM will pick an authentication service
+        /// following its normal security blanket negotiation algorithm.
+        /// </param>
+        /// <param name="dwAuthzSvc">
+        /// The authorization service to be used. For a list of possible values, see Authorization Constants.
+        /// If <see cref="RPC_C_AUTHZ_DEFAULT"/> is specified, DCOM will pick an authorization service
+        /// following its normal security blanket negotiation algorithm.
+        /// <see cref="RPC_C_AUTHZ_NONE"/> should be used as the authorization service if NTLMSSP,
+        /// Kerberos, or Schannel is used as the authentication service.
+        /// </param>
+        /// <param name="pServerPrincName">
+        /// The server principal name to be used with the authentication service.
+        /// If <see cref="COLE_DEFAULT_PRINCIPAL"/> is specified, DCOM will pick a principal name using its security blanket negotiation algorithm.
+        /// If Kerberos is used as the authentication service, this value must not be <see langword="null"/>.
+        /// It must be the correct principal name of the server or the call will fail.
+        /// If Schannel is used as the authentication service, this value must be one of the msstd or fullsic forms described in Principal Names,
+        /// or <see langword="null"/> if you do not want mutual authentication.
+        /// Generally, specifying <see langword="null"/> will not reset the server principal name on the proxy;
+        /// rather, the previous setting will be retained.
+        /// You must be careful when using <see langword="null"/> as <paramref name="pServerPrincName"/>
+        /// when selecting a different authentication service for the proxy,
+        /// because there is no guarantee that the previously set principal name would be valid for the newly selected authentication service.
+        /// </param>
+        /// <param name="dwAuthnLevel">
+        /// The authentication level to be used.
+        /// For a list of possible values, see Authentication Level Constants.
+        /// If <see cref="RPC_C_AUTHN_LEVEL_DEFAULT"/> is specified, DCOM will pick an authentication level
+        /// following its normal security blanket negotiation algorithm.
+        /// If this value is none, the authentication service must also be none.
+        /// </param>
+        /// <param name="dwImpLevel">
+        /// The impersonation level to be used.
+        /// For a list of possible values, see Impersonation Level Constants.
+        /// If <see cref="RPC_C_IMP_LEVEL_DEFAULT"/> is specified, DCOM will pick an impersonation level
+        /// following its normal security blanket negotiation algorithm.
+        /// If NTLMSSP is the authentication service, this value must be <see cref="RPC_C_IMP_LEVEL_IMPERSONATE"/>
+        /// or <see cref="RPC_C_IMP_LEVEL_IDENTIFY"/>.
+        /// NTLMSSP also supports delegate-level impersonation (<see cref="RPC_C_IMP_LEVEL_DELEGATE"/>) on the same computer.
+        /// If Schannel is the authentication service, this parameter must be <see cref="RPC_C_IMP_LEVEL_IMPERSONATE"/>.
+        /// </param>
+        /// <param name="pAuthInfo">
+        /// A pointer to an <see cref="RPC_AUTH_IDENTITY_HANDLE"/> value that establishes the identity of the client.
+        /// The format of the structure referred to by the handle depends on the provider of the authentication service.
+        /// For calls on the same computer, RPC logs on the user with the supplied credentials and uses the resulting token for the method call.
+        /// For NTLMSSP or Kerberos, the structure is a <see cref="SEC_WINNT_AUTH_IDENTITY"/> or <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure.
+        /// The client can discard pAuthInfo after calling the API.
+        /// RPC does not keep a copy of the <paramref name="pAuthInfo"/> pointer,
+        /// and the client cannot retrieve it later in the <see cref="CoQueryProxyBlanket"/> method.
+        /// If this parameter is <see cref="NULL"/>, DCOM uses the current proxy identity (which is either the process token or the impersonation token).
+        /// If the handle refers to a structure, that identity is used.
+        /// For Schannel, this parameter must be either a pointer to a <see cref="CERT_CONTEXT"/> structure
+        /// that contains the client's X.509 certificate or is <see cref="NULL"/> if the client wishes to make an anonymous connection to the server.
+        /// If a certificate is specified, the caller must not free it as long as any proxy to the object exists in the current apartment.
+        /// For Snego, this member is either <see cref="NULL"/>, points to a <see cref="SEC_WINNT_AUTH_IDENTITY"/> structure,
+        /// or points to a <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure.
+        /// If it is <see cref="NULL"/>, Snego will pick a list of authentication services based on those available on the client computer.
+        /// If it points to a <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure,
+        /// the structure's <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> member must point to a string
+        /// containing a comma-separated list of authentication service names and the <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageListLength"/> member
+        /// must give the number of bytes in the <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> string.
+        /// If <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> is <see cref="NULL"/>, all calls using Snego will fail.
+        /// If <see cref="COLE_DEFAULT_AUTHINFO"/> is specified for this parameter,
+        /// DCOM will pick the authentication information following its normal security blanket negotiation algorithm.
+        /// <see cref="CoSetProxyBlanket"/> will fail if <paramref name="pAuthInfo"/> is set and one of the cloaking flags
+        /// is set in the <paramref name="dwCapabilities"/> parameter.
+        /// </param>
+        /// <param name="dwCapabilities">
+        /// The capabilities of this proxy.
+        /// For a list of possible values, see the <see cref="EOLE_AUTHENTICATION_CAPABILITIES"/> enumeration.
+        /// The only flags that can be set through this function are <see cref="EOAC_MUTUAL_AUTH"/>, <see cref="EOAC_STATIC_CLOAKING"/>,
+        /// <see cref="EOAC_DYNAMIC_CLOAKING"/>, <see cref="EOAC_ANY_AUTHORITY"/> (this flag is deprecated),
+        /// <see cref="EOAC_MAKE_FULLSIC"/>, and <see cref="EOAC_DEFAULT"/>.
+        /// Either <see cref="EOAC_STATIC_CLOAKING"/> or <see cref="EOAC_DYNAMIC_CLOAKING"/> can be set
+        /// if <paramref name="pAuthInfo"/> is not set and Schannel is not the authentication service. (See Cloaking for more information.)
+        /// If any capability flags other than those mentioned here are set, <see cref="CoSetProxyBlanket"/> will fail.
+        /// </param>
+        /// <returns>
+        /// This function can return the following values.
+        /// <see cref="S_OK"/>: The function was successful.
+        /// <see cref="E_INVALIDARG"/>: One or more arguments is invalid.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoSetProxyBlanket"/> sets the authentication information that will be used to make calls on the specified proxy.
+        /// This function encapsulates the following sequence of common calls (error handling excluded).
+        /// <code>
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&pcs);
+        /// pcs->SetBlanket(pProxy, dwAuthnSvc, dwAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
+        /// pcs->Release();
+        /// </code>
+        /// This sequence calls QueryInterface on the proxy to get a pointer to <see cref="IClientSecurity"/>, and with the resulting pointer,
+        /// calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In]object pProxy, [In]DWORD dwAuthnSvc,
+            [In]DWORD dwAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In]string pServerPrincName, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel,
+            [In]RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In]EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>
         /// <para>
