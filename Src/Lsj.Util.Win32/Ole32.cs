@@ -847,7 +847,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="CoUnmarshalInterface"/>, or you can pass an interface pointer.
         /// It can be any interface.
         /// You cannot pass a pointer to something that is not a proxy.
-        /// Therefore, you can't pass a pointer to an interface that has the local keyword in its interface definition because no proxy is created for such an interface.
+        /// Therefore, you can't pass a pointer to an interface that has the local keyword in its interface definition
+        /// because no proxy is created for such an interface.
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
