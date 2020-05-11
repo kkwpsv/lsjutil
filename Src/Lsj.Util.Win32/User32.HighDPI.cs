@@ -105,6 +105,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns the <see cref="DPI_AWARENESS_CONTEXT"/> associated with a window.
+        /// </para>
+        /// <para>
+        /// From:https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to query.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DPI_AWARENESS_CONTEXT"/> for the provided window.
+        /// If the window is not valid, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Important  
+        /// The return value of <see cref="GetWindowDpiAwarenessContext"/> is not affected by the <see cref="DPI_AWARENESS"/> of the current thread.
+        /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In]HWND hwnd);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the value of one of the system-wide parameters, taking into account the provided DPI value.
         /// </para>
         /// <para>
