@@ -1078,7 +1078,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CoSetProxyBlanket"/> sets the authentication information that will be used to make calls on the specified proxy.
         /// This function encapsulates the following sequence of common calls (error handling excluded).
         /// <code>
-        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&pcs);
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&amp;pcs);
         /// pcs->SetBlanket(pProxy, dwAuthnSvc, dwAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
         /// pcs->Release();
         /// </code>
