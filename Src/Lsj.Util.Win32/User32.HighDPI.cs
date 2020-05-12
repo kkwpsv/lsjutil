@@ -105,6 +105,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the specified system metric or system configuration setting taking into account a provided DPI.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetricsfordpi
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// The system metric or configuration setting to be retrieved.
+        /// See <see cref="GetSystemMetrics"/> for the possible values.
+        /// </param>
+        /// <param name="dpi">
+        /// The DPI to use for scaling the metric.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetricsForDpi", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetSystemMetricsForDpi([In]SystemMetric nIndex, [In]UINT dpi);
+
+        /// <summary>
+        /// <para>
         /// Returns the <see cref="DPI_AWARENESS_CONTEXT"/> associated with a window.
         /// </para>
         /// <para>
