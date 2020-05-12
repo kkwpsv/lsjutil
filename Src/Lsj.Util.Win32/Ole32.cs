@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
@@ -1210,6 +1211,46 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void CoUninitialize();
+
+        /// <summary>
+        /// <para>
+        /// Creates and returns a new anti-moniker.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createantimoniker
+        /// </para>
+        /// </summary>
+        /// <param name="ppmk">
+        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the new anti-moniker.
+        /// When successful, the function has called AddRef on the anti-moniker and the caller is responsible for calling Release.
+        /// When an error occurs, the anti-moniker pointer is <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// You would call this function only if you are writing your own moniker class (implementing the <see cref="IMoniker"/> interface).
+        /// If you are writing a new moniker class that has no internal structure,
+        /// you can use <see cref="CreateAntiMoniker"/> in your implementation of the <see cref="IMoniker.Inverse"/> method,
+        /// and then check for an anti-moniker in your implementation of <see cref="IMoniker.ComposeWith"/>.
+        /// Like the ".." directory, which acts as the inverse to any directory name just preceding it in a path,
+        /// an anti-moniker acts as the inverse of a simple moniker that precedes it in a composite moniker.
+        /// An anti-moniker is used as the inverse of simple monikers with no internal structure.
+        /// For example, the system-provided implementations of file monikers, item monikers,
+        /// and pointer monikers all use anti-monikers as their inverse;
+        /// consequently, an anti-moniker composed to the right of one of these monikers composes to nothing.
+        /// A moniker client (an object that is using a moniker to bind to another object) typically does not know the class of a given moniker,
+        /// so the client cannot be sure that an anti-moniker is the inverse.
+        /// Therefore, to get the inverse of a moniker, you would call <see cref="IMoniker.Inverse"/> rather than <see cref="CreateAntiMoniker"/>.
+        /// To remove the last piece of a composite moniker, you would do the following:
+        /// Call <see cref="IMoniker.Enum"/> on the composite, specifying <see cref="FALSE"/> as the first parameter.
+        /// This creates an enumerator that returns the component monikers in reverse order.
+        /// Use the enumerator to retrieve the last piece of the composite.
+        /// Call <see cref="IMoniker.Inverse"/> on that moniker.
+        /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateAntiMoniker([Out]out IMoniker ppmk);
 
         /// <summary>
         /// <para>
