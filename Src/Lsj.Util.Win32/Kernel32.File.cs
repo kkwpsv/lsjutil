@@ -978,6 +978,39 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Encrypts a file or directory. All data streams in a file are encrypted. All new files created in an encrypted directory are encrypted.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-encryptfilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory to be encrypted.
+        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
+        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EncryptFile"/> function requires exclusive access to the file being encrypted,
+        /// and will fail if another process is using the file.
+        /// If the file is already encrypted, <see cref="EncryptFile"/> simply returns a nonzero value, which indicates success.
+        /// If the file is compressed, <see cref="EncryptFile"/> will decompress the file before encrypting it.
+        /// If <paramref name="lpFileName"/> specifies a read-only file,
+        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
+        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
+        /// the functions succeeds but the directory is not encrypted.
+        /// To decrypt an encrypted file, use the <see cref="DecryptFile"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EncryptFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EncryptFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+
+        /// <summary>
+        /// <para>
         /// Converts a file time to system time format. System time is based on Coordinated Universal Time (UTC).
         /// </para>
         /// <para>
