@@ -696,6 +696,95 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="MaskBlt"/> function combines the color data for the source and destination bitmaps
+        /// using the specified mask and raster operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-maskblt
+        /// </para>
+        /// </summary>
+        /// <param name="hdcDest">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="xDest">
+        /// The x-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="yDest">
+        /// The y-coordinate, in logical units, of the upper-left corner of the destination rectangle.
+        /// </param>
+        /// <param name="width">
+        /// The width, in logical units, of the destination rectangle and source bitmap.
+        /// </param>
+        /// <param name="height">
+        /// The height, in logical units, of the destination rectangle and source bitmap.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the device context from which the bitmap is to be copied.
+        /// It must be zero if the dwRop parameter specifies a raster operation that does not include a source.
+        /// </param>
+        /// <param name="xSrc">
+        /// The x-coordinate, in logical units, of the upper-left corner of the source bitmap.
+        /// </param>
+        /// <param name="ySrc">
+        /// The y-coordinate, in logical units, of the upper-left corner of the source bitmap.
+        /// </param>
+        /// <param name="hbmMask">
+        /// A handle to the monochrome mask bitmap combined with the color bitmap in the source device context.
+        /// </param>
+        /// <param name="xMask">
+        /// The horizontal pixel offset for the mask bitmap specified by the hbmMask parameter.
+        /// </param>
+        /// <param name="yMask">
+        /// The vertical pixel offset for the mask bitmap specified by the hbmMask parameter.
+        /// </param>
+        /// <param name="rop">
+        /// The foreground and background ternary raster operation codes (ROPs) that
+        /// the function uses to control the combination of source and destination data.
+        /// The background raster operation code is stored in the high-order byte of the high-order word of this value;
+        /// the foreground raster operation code is stored in the low-order byte of the high-order word of this value;
+        /// the low-order word of this value is ignored, and should be zero.
+        /// The macro <see cref="MAKEROP4"/> creates such combinations of foreground and background raster operation codes.
+        /// For a discussion of foreground and background in the context of this function, see the following Remarks section.
+        /// For a list of common raster operation codes (ROPs), see the <see cref="BitBlt"/> function.
+        /// Note that the CAPTUREBLT ROP generally cannot be used for printing device contexts.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="MaskBlt"/> function uses device-dependent bitmaps.
+        /// A value of 1 in the mask specified by <paramref name="hbmMask"/> indicates that the foreground raster operation code
+        /// specified by <paramref name="rop"/> should be applied at that location.
+        /// A value of 0 in the mask indicates that the background raster operation code
+        /// specified by <paramref name="rop"/> should be applied at that location.
+        /// If the raster operations require a source, the mask rectangle must cover the source rectangle.
+        /// If it does not, the function will fail.
+        /// If the raster operations do not require a source, the mask rectangle must cover the destination rectangle.
+        /// If it does not, the function will fail.
+        /// If a rotation or shear transformation is in effect for the source device context when this function is called, an error occurs.
+        /// However, other types of transformation are allowed.
+        /// If the color formats of the source, pattern, and destination bitmaps differ,
+        /// this function converts the pattern or source format, or both, to match the destination format.
+        /// If the mask bitmap is not a monochrome bitmap, an error occurs.
+        /// When an enhanced metafile is being recorded, an error occurs (and the function returns <see cref="FALSE"/>)
+        /// if the source device context identifies an enhanced-metafile device context.
+        /// Not all devices support the <see cref="MaskBlt"/> function.
+        /// An application should call the <see cref="GetDeviceCaps"/> function with the nIndex parameter as <see cref="RC_BITBLT"/>
+        /// to determine whether a device supports this function.
+        /// If no mask bitmap is supplied, this function behaves exactly like BitBlt, using the foreground raster operation code.
+        /// ICM: No color management is performed when blits occur.
+        /// When used in a multiple monitor system, both <paramref name="hdcSrc"/> and <paramref name="hdcDest"/> must
+        /// refer to the same device or the function will fail.
+        /// To transfer data between DCs for different devices, convert the memory bitmap (compatible bitmap, or DDB) to a DIB by calling <see cref="GetDIBits"/>.
+        /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MaskBlt", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MaskBlt([In]HDC hdcDest, [In]int xDest, [In]int yDest, [In]int width, [In]int height, [In]HDC hdcSrc,
+            [In]int xSrc, [In]int ySrc, [In]HBITMAP hbmMask, [In]int xMask, [In]int yMask, [In]RasterCodes rop);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="PatBlt"/> function paints the specified rectangle using the brush that is currently selected into the specified device context.
         /// The brush color and the surface color or colors are combined by using the specified raster operation.
         /// </para>
@@ -745,6 +834,82 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PatBlt", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PatBlt([In]HDC hdc, [In]int x, [In]int y, [In]int w, [In]int h, [In]RasterCodes rop);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PlgBlt"/> function performs a bit-block transfer of the bits of color data from the specified rectangle
+        /// in the source device context to the specified parallelogram in the destination device context.
+        /// If the given bitmask handle identifies a valid monochrome bitmap,
+        /// the function uses this bitmap to mask the bits of color data from the source rectangle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-plgblt
+        /// </para>
+        /// </summary>
+        /// <param name="hdcDest">
+        /// A handle to the destination device context.
+        /// </param>
+        /// <param name="lpPoint">
+        /// A pointer to an array of three points in logical space that identify three corners of the destination parallelogram.
+        /// The upper-left corner of the source rectangle is mapped to the first point in this array,
+        /// the upper-right corner to the second point in this array, and the lower-left corner to the third point.
+        /// The lower-right corner of the source rectangle is mapped to the implicit fourth point in the parallelogram.
+        /// </param>
+        /// <param name="hdcSrc">
+        /// A handle to the source device context.
+        /// </param>
+        /// <param name="xSrc">
+        /// The x-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="ySrc">
+        /// The y-coordinate, in logical units, of the upper-left corner of the source rectangle.
+        /// </param>
+        /// <param name="width">
+        /// The width, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="height">
+        /// The height, in logical units, of the source rectangle.
+        /// </param>
+        /// <param name="hbmMask">
+        /// A handle to an optional monochrome bitmap that is used to mask the colors of the source rectangle.
+        /// </param>
+        /// <param name="xMask">
+        /// The x-coordinate, in logical units, of the upper-left corner of the monochrome bitmap.
+        /// </param>
+        /// <param name="yMask">
+        /// The y-coordinate, in logical units, of the upper-left corner of the monochrome bitmap.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="PlgBlt"/> function works with device-dependent bitmaps.
+        /// The fourth vertex of the parallelogram (D) is defined by treating the first three points (A, B, and C ) as vectors and computing D = B +CA.
+        /// If the bitmask exists, a value of one in the mask indicates that the source pixel color should be copied to the destination.
+        /// A value of zero in the mask indicates that the destination pixel color is not to be changed.
+        /// If the mask rectangle is smaller than the source and destination rectangles, the function replicates the mask pattern.
+        /// Scaling, translation, and reflection transformations are allowed in the source device context;
+        /// however, rotation and shear transformations are not.
+        /// If the mask bitmap is not a monochrome bitmap, an error occurs.
+        /// The stretching mode for the destination device context is used to determine how to stretch or compress the pixels, if that is necessary.
+        /// When an enhanced metafile is being recorded, an error occurs if the source device context identifies an enhanced-metafile device context.
+        /// The destination coordinates are transformed according to the destination device context;
+        /// the source coordinates are transformed according to the source device context.
+        /// If the source transformation has a rotation or shear, an error is returned.
+        /// If the destination and source rectangles do not have the same color format,
+        /// <see cref="PlgBlt"/> converts the source rectangle to match the destination rectangle.
+        /// Not all devices support the <see cref="PlgBlt"/> function.
+        /// For more information, see the description of the <see cref="RC_BITBLT"/> raster capability in the <see cref="GetDeviceCaps"/> function.
+        /// If the source and destination device contexts represent incompatible devices, <see cref="PlgBlt"/> returns an error.
+        /// When used in a multiple monitor system, both <paramref name="height"/> and <paramref name="hdcDest"/>
+        /// must refer to the same device or the function will fail.
+        /// To transfer data between DCs for different devices, convert the memory bitmap to a DIB by calling <see cref="GetDIBits"/>.
+        /// To display the DIB to the second device, call <see cref="SetDIBits"/> or <see cref="StretchDIBits"/>.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlgBlt", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PlgBlt([In]HDC hdcDest, [MarshalAs(UnmanagedType.LPArray)][In]POINT[] lpPoint, [In]HDC hdcSrc,
+            [In]int xSrc, [In]int ySrc, [In]int width, [In]int height, [In]HBITMAP hbmMask, [In]int xMask, [In]int yMask);
 
         /// <summary>
         /// <para>
