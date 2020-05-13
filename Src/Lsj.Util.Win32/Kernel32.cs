@@ -24,6 +24,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// An application-defined callback function that processes enumerated code page information
+        /// provided by the <see cref="EnumSystemCodePages"/> function.
+        /// The <see cref="CODEPAGE_ENUMPROC"/> type defines a pointer to this callback function.
+        /// EnumCodePagesProc is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="lpCodePageString">
+        /// Pointer to a buffer containing a null-terminated code page identifier string.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> to continue enumeration or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// An EnumCodePagesProc function can carry out any desired task.
+        /// The application registers this function by passing its address to the <see cref="EnumSystemCodePages"/> function.
+        /// When an application is using this function to determine an appropriate code page for saving data, it should use Unicode when possible.
+        /// Other code pages are not as portable as Unicode between vendors or operating systems,
+        /// due to different implementations of the associated standards.
+        /// </remarks>
+        public delegate BOOL CODEPAGE_ENUMPROC([MarshalAs(UnmanagedType.LPWStr)][In]string lpCodePageString);
+
+        /// <summary>
+        /// <para>
         /// Generates simple tones on the speaker.
         /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
         /// </para>
@@ -90,6 +116,49 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CharPrev([In]IntPtr lpszStart, [In]IntPtr lpszCurrent);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the code pages that are either installed on or supported by an operating system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw
+        /// </para>
+        /// </summary>
+        /// <param name="lpCodePageEnumProc">
+        /// Pointer to an application-defined callback function.
+        /// The <see cref="EnumSystemCodePages"/> function enumerates code pages by making repeated calls to this callback function.
+        /// For more information, see <see cref="CODEPAGE_ENUMPROC"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flag specifying the code pages to enumerate.
+        /// This parameter can have one of the following values, which are mutually exclusive.
+        /// <see cref="CP_INSTALLED"/>: Enumerate only installed code pages.
+        /// <see cref="CP_SUPPORTED"/>: Enumerate all supported code pages.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_BADDB"/>:
+        /// The function could not access the data.
+        /// This situation should not normally occur, and typically indicates a bad installation, a disk problem, or the like.
+        /// <see cref="ERROR_INVALID_FLAGS"/>:
+        /// The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>:
+        /// Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// This function enumerates the code pages by passing code page identifiers, one at a time,
+        /// to the specified application-defined callback function.
+        /// This process continues until all installed or supported code page identifiers have been passed to the callback function,
+        /// or the callback function returns <see cref="FALSE"/>.
+        /// When an application is using this function to determine an appropriate code page for saving data, it should use Unicode when possible.
+        /// Other code pages are not as portable as Unicode between vendors or operating systems,
+        /// due to different implementations of the associated standards.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemCodePagesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumSystemCodePages([In]CODEPAGE_ENUMPROC lpCodePageEnumProc, [In]DWORD dwFlags);
 
         /// <summary>
         /// 
