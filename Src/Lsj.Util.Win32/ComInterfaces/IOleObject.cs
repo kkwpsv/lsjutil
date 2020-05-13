@@ -7,6 +7,8 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
+using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
+using static Lsj.Util.Win32.Enums.OLEMISC;
 using static Lsj.Util.Win32.Enums.OLEVERB;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Ole32;

@@ -81,6 +81,11 @@
         public const string IID_IObjectWithSite = "FC4801A3-2BA9-11CF-A229-00AA003D7352";
 
         /// <summary>
+        /// IID_IOleClientSite
+        /// </summary>
+        public const string IID_IOleClientSite = "00000118-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IOleLink
         /// </summary>
         public const string IID_IOleLink = "0000011d-0000-0000-C000-000000000046";
