@@ -37,6 +37,47 @@ namespace Lsj.Util.Win32
     public static class Advapi32
     {
         /// <summary>
+        /// MAX_SHUTDOWN_TIMEOUT
+        /// </summary>
+        public const int MAX_SHUTDOWN_TIMEOUT = 10 * 365 * 24 * 60 * 60;
+
+        /// <summary>
+        /// <para>
+        /// Stops a system shutdown that has been initiated.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-abortsystemshutdownw
+        /// </para>
+        /// </summary>
+        /// <param name="lpMachineName">
+        /// The network name of the computer where the shutdown is to be stopped.
+        /// If <paramref name="lpMachineName"/> is <see langword="null"/> or an empty string, the function stops the shutdown on the local computer.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="InitiateSystemShutdown"/> and <see cref="InitiateSystemShutdownEx"/> functions display a dialog box
+        /// that notifies the user that the system is shutting down.
+        /// During the shutdown time-out period, the <see cref="AbortSystemShutdown"/> function can prevent the system from shutting down.
+        /// Windows Server 2003 and Windows XP with SP1:
+        /// If the computer to be shut down is a Terminal Services server, the system displays a dialog box
+        /// to all local and remote users warning them that shutdown has been initiated.
+        /// If shutdown is prevented by <see cref="AbortSystemShutdown"/>,
+        /// the system displays dialog box to the users informing them that the server is no longer shutting down.
+        /// To stop the local computer from shutting down, the calling process must have the SE_SHUTDOWN_NAME privilege.
+        /// To stop a remote computer from shutting down, the calling process must have the SE_REMOTE_SHUTDOWN_NAME privilege on the remote computer.
+        /// By default, users can enable the SE_SHUTDOWN_NAME privilege on the computer they are logged onto,
+        /// and administrators can enable the SE_REMOTE_SHUTDOWN_NAME privilege on remote computers.
+        /// For more information, see Running with Special Privileges.
+        /// Common reasons for failure include an invalid computer name, an inaccessible computer, or insufficient privilege.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortSystemShutdownW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AbortSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName);
+
+        /// <summary>
         /// <para>
         /// The <see cref="AdjustTokenPrivileges"/> function enables or disables privileges in the specified access token.
         /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
@@ -1123,6 +1164,185 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateNamedPipeClient([In]HANDLE hNamedPipe);
+
+        /// <summary>
+        /// <para>
+        /// Initiates a shutdown and optional restart of the specified computer.
+        /// To record a reason for the shutdown in the event log, call the <see cref="InitiateSystemShutdownEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownw
+        /// </para>
+        /// </summary>
+        /// <param name="lpMachineName">
+        /// The network name of the computer to be shut down.
+        /// If <paramref name="lpMachineName"/> is <see langword="null"/>or an empty string, the function shuts down the local computer.
+        /// </param>
+        /// <param name="lpMessage">
+        /// The message to be displayed in the shutdown dialog box.
+        /// This parameter can be <see langword="null"/> if no message is required.
+        /// Windows Server 2003 and Windows XP: This string is also stored as a comment in the event log entry.
+        /// Windows Server 2003 and Windows XP with SP1: The string is limited to 3072 TCHARs.
+        /// </param>
+        /// <param name="dwTimeout">
+        /// The length of time that the shutdown dialog box should be displayed, in seconds.
+        /// While this dialog box is displayed, the shutdown can be stopped by the <see cref="AbortSystemShutdown"/> function.
+        /// If dwTimeout is not zero, <see cref="InitiateSystemShutdown"/> displays a dialog box on the specified computer.
+        /// The dialog box displays the name of the user who called the function,
+        /// displays the message specified by the <paramref name="lpMessage"/> parameter, and prompts the user to log off.
+        /// The dialog box beeps when it is created and remains on top of other windows in the system.
+        /// The dialog box can be moved but not closed.
+        /// A timer counts down the remaining time before a forced shutdown.
+        /// If <paramref name="dwTimeout"/> is zero, the computer shuts down without displaying the dialog box,
+        /// and the shutdown cannot be stopped by <see cref="AbortSystemShutdown"/>.
+        /// Windows Server 2003 and Windows XP with SP1:
+        /// The time-out value is limited to <see cref="MAX_SHUTDOWN_TIMEOUT"/> seconds.
+        /// Windows Server 2003 and Windows XP with SP1:
+        /// If the computer to be shut down is a Terminal Services server, the system displays a dialog box to all local
+        /// and remote users warning them that shutdown has been initiated.
+        /// The dialog box includes who requested the shutdown, the display message (see <paramref name="lpMessage"/>),
+        /// and how much time there is until the server is shut down.
+        /// </param>
+        /// <param name="bForceAppsClosed">
+        /// If this parameter is <see cref="TRUE"/>, applications with unsaved changes are to be forcibly closed.
+        /// Note that this can result in data loss.
+        /// If this parameter is <see cref="FALSE"/>, the system displays a dialog box instructing the user to close the applications.
+        /// </param>
+        /// <param name="bRebootAfterShutdown">
+        /// If this parameter is <see cref="TRUE"/>, the computer is to restart immediately after shutting down.
+        /// If this parameter is <see cref="FALSE"/>, the system flushes all caches to disk and safely powers down the system.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To shut down the local computer, the calling thread must have the SE_SHUTDOWN_NAME privilege.
+        /// To shut down a remote computer, the calling thread must have the SE_REMOTE_SHUTDOWN_NAME privilege on the remote computer.
+        /// By default, users can enable the SE_SHUTDOWN_NAME privilege on the computer they are logged onto,
+        /// and administrators can enable the SE_REMOTE_SHUTDOWN_NAME privilege on remote computers.
+        /// For more information, see Running with Special Privileges.
+        /// Common reasons for failure include an invalid or inaccessible computer name or insufficient privilege.
+        /// The error <see cref="ERROR_SHUTDOWN_IN_PROGRESS"/> is returned if a shutdown is already in progress on the specified computer.
+        /// The error <see cref="ERROR_NOT_READY"/> can be returned if fast-user switching is enabled but no user is logged on.
+        /// A non-zero return value does not mean the logoff was or will be successful.
+        /// The shutdown is an asynchronous process, and it can occur long after the API call has returned, or not at all.
+        /// Even if the timeout value is zero, the shutdown can still be aborted by applications, services or even the system.
+        /// The non-zero return value indicates that the validation of the rights
+        /// and parameters was successful and that the system accepted the shutdown request.
+        /// When this function is called, the caller must specify whether or not applications with unsaved changes should be forcibly closed.
+        /// If the caller chooses not to force these applications closed, and an application with unsaved changes is running on the console session,
+        /// the shutdown will remain in progress until the user logged into the console session aborts the shutdown, saves changes,
+        /// closes the application, or forces the application to close.
+        /// During this period, the shutdown may not be aborted except by the console user, and another shutdown may not be initiated.
+        /// Note that calling this function with the value of the <paramref name="bForceAppsClosed"/> parameter
+        /// set to <see cref="TRUE"/> avoids this situation.
+        /// Remember that doing this may result in loss of data.
+        /// Windows Server 2003 and Windows XP: 
+        /// If the computer is locked and the <paramref name="bForceAppsClosed"/> parameter is <see cref="FALSE"/>,
+        /// the last error code is <see cref="ERROR_MACHINE_LOCKED"/>.
+        /// If the system is not ready to handle the request, the last error code is <see cref="ERROR_NOT_READY"/>.
+        /// The application should wait a short while and retry the call.
+        /// For example, the system can be unready to initiate a shutdown, and return <see cref="ERROR_NOT_READY"/>,
+        /// if the shutdown request comes at the same time a user tries to log onto the system.
+        /// In this case, the application should wait a short while and retry the call.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitiateSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed, [In]BOOL bRebootAfterShutdown);
+
+        /// <summary>
+        /// <para>
+        /// Initiates a shutdown and optional restart of the specified computer, and optionally records the reason for the shutdown.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpMachineName">
+        /// The network name of the computer to be shut down.
+        /// If <paramref name="lpMachineName"/> is <see langword="null"/> or an empty string, the function shuts down the local computer.
+        /// </param>
+        /// <param name="lpMessage">
+        /// The message to be displayed in the shutdown dialog box.
+        /// This parameter can be <see langword="null"/> if no message is required.
+        /// Windows Server 2003 and Windows XP: This string is also stored as a comment in the event log entry.
+        /// Windows Server 2003 and Windows XP with SP1: The string is limited to 3072 TCHARs.
+        /// </param>
+        /// <param name="dwTimeout">
+        /// The length of time that the shutdown dialog box should be displayed, in seconds.
+        /// While this dialog box is displayed, shutdown can be stopped by the <see cref="AbortSystemShutdown"/> function.
+        /// If <paramref name="dwTimeout"/> is not zero, <see cref="InitiateSystemShutdownEx"/> displays a dialog box on the specified computer.
+        /// The dialog box displays the name of the user who called the function,
+        /// displays the message specified by the <paramref name="lpMessage"/> parameter, and prompts the user to log off.
+        /// The dialog box beeps when it is created and remains on top of other windows in the system.
+        /// The dialog box can be moved but not closed. A timer counts down the remaining time before shutdown.
+        /// If <paramref name="dwTimeout"/> is zero, the computer shuts down without displaying the dialog box,
+        /// and the shutdown cannot be stopped by <see cref="AbortSystemShutdown"/>.
+        /// Windows Server 2003 and Windows XP with SP1: The time-out value is limited to <see cref="MAX_SHUTDOWN_TIMEOUT"/> seconds.
+        /// Windows Server 2003 and Windows XP with SP1: If the computer to be shut down is a Terminal Services server,
+        /// the system displays a dialog box to all local and remote users warning them that shutdown has been initiated.
+        /// The dialog box includes who requested the shutdown, the display message (see <paramref name="lpMessage"/>),
+        /// and how much time there is until the server is shut down.
+        /// </param>
+        /// <param name="bForceAppsClosed">
+        /// If this parameter is <see cref="TRUE"/>, applications with unsaved changes are to be forcibly closed.
+        /// If this parameter is <see cref="FALSE"/>, the system displays a dialog box instructing the user to close the applications.
+        /// </param>
+        /// <param name="bRebootAfterShutdown">
+        /// If this parameter is <see cref="TRUE"/>, the computer is to restart immediately after shutting down.
+        /// If this parameter is <see cref="FALSE"/>, the system flushes all caches to disk and safely powers down the system.
+        /// </param>
+        /// <param name="dwReason">
+        /// The reason for initiating the shutdown. This parameter must be one of the system shutdown reason codes.
+        /// If this parameter is zero, the default is an undefined shutdown that is logged as "No title for this reason could be found".
+        /// By default, it is also an unplanned shutdown.
+        /// Depending on how the system is configured, an unplanned shutdown triggers the creation of a file
+        /// that contains the system state information, which can delay shutdown.
+        /// Therefore, do not use zero for this parameter.
+        /// Windows XP: System state information is not saved during an unplanned system shutdown. The preceding text does not apply.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="FALSE"/>.
+        /// If the function fails, the return value is <see cref="TRUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To shut down the local computer, the calling thread must have the SE_SHUTDOWN_NAME privilege.
+        /// To shut down a remote computer, the calling thread must have the SE_REMOTE_SHUTDOWN_NAME privilege on the remote computer.
+        /// By default, users can enable the SE_SHUTDOWN_NAME privilege on the computer they are logged onto,
+        /// and administrators can enable the SE_REMOTE_SHUTDOWN_NAME privilege on remote computers.
+        /// For more information, see Running with Special Privileges.
+        /// Common reasons for failure include an invalid or inaccessible computer name or insufficient privilege.
+        /// The error <see cref="ERROR_SHUTDOWN_IN_PROGRESS"/> is returned if a shutdown is already in progress on the specified computer.
+        /// The error <see cref="ERROR_NOT_READY"/> can be returned if fast-user switching is enabled but no user is logged on.
+        /// A <see cref="TRUE"/> return value does not mean the logoff was or will be successful.
+        /// The shutdown is an asynchronous process, and it can occur long after the API call has returned, or not at all.
+        /// Even if the timeout value is zero, the shutdown can still be aborted by applications, services, or even the system.
+        /// The non-zero return value indicates that the validation of the rights and parameters was successful
+        /// and that the system accepted the shutdown request.
+        /// When this function is called, the caller must specify whether or not applications with unsaved changes should be forcibly closed.
+        /// If the caller chooses not to force these applications to close and an application with unsaved changes is running on the console session,
+        /// the shutdown will remain in progress until the user logged into the console session aborts the shutdown,
+        /// saves changes, closes the application, or forces the application to close.
+        /// During this period the shutdown may not be aborted except by the console user, and another shutdown may not be initiated.
+        /// Note that calling this function with the value of the <paramref name="bForceAppsClosed"/> parameter
+        /// set to <see cref="TRUE"/> avoids this situation.
+        /// Remember that doing this may result in loss of data.
+        /// Windows Server 2003 and Windows XP:
+        /// If the computer is locked and the <paramref name="bForceAppsClosed"/> parameter is <see cref="FALSE"/>,
+        /// the last error code is <see cref="ERROR_MACHINE_LOCKED"/>.
+        /// If the system is not ready to handle the request, the last error code is <see cref="ERROR_NOT_READY"/>.
+        /// The application should wait a short while and retry the call.
+        /// For example, the system can be unready to initiate a shutdown, and return <see cref="ERROR_NOT_READY"/>,
+        /// if the shutdown request comes at the same time a user tries to log onto the system.
+        /// In this case, the application should wait a short while and retry the call.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed,
+            [In]BOOL bRebootAfterShutdown, [In]SystemShutdownReasonCodes dwReason);
 
         /// <summary>
         /// <para>
