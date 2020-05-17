@@ -612,7 +612,7 @@ namespace Lsj.Util.Win32
         /// but it is possible that one or more I/O operations failed.
         /// Note that it is up to the user of this function to check the list of returned entries in the <paramref name="lpCompletionPortEntries"/>
         /// parameter to determine which of them correspond to any possible failed I/O operations by looking at the status
-        /// contained in the <see cref="lpOverlapped"/> member in each <see cref="OVERLAPPED_ENTRY"/>.
+        /// contained in the <see cref="OVERLAPPED_ENTRY.lpOverlapped"/> member in each <see cref="OVERLAPPED_ENTRY"/>.
         /// This function returns <see langword="false"/> when no I/O operation was dequeued.
         /// This typically means that an error occurred while processing the parameters to this call,
         /// or that the <paramref name="CompletionPort"/> handle was closed or is otherwise invalid.
