@@ -741,6 +741,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the extra message information for the current thread.
+        /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
+        /// An application can use the <see cref="GetMessageExtraInfo"/> function to retrieve a thread's extra message information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmessageextrainfo
+        /// </para>
+        /// </summary>
+        /// <param name="lParam">
+        /// The value to be associated with the current thread.
+        /// </param>
+        /// <returns>
+        /// The return value is the previous value associated with the current thread.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern LPARAM SetMessageExtraInfo([In]LPARAM lParam);
+
+        /// <summary>
+        /// <para>
         /// Sends the specified message to one or more windows.
         /// </para>
         /// <para>
