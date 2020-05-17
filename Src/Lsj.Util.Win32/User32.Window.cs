@@ -2211,6 +2211,34 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the specified window is a native Unicode window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowunicode
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window to be tested.
+        /// </param>
+        /// <returns>
+        /// If the window is a native Unicode window, the return value is <see cref="TRUE"/>.
+        /// If the window is not a native Unicode window, the return value is <see cref="FALSE"/>.
+        /// The window is a native ANSI window.
+        /// </returns>
+        /// <remarks>
+        /// The character set of a window is determined by the use of the <see cref="RegisterClass"/> function.
+        /// If the window class was registered with the ANSI version of <see cref="RegisterClass"/>, the character set of the window is ANSI.
+        /// If the window class was registered with the Unicode version of <see cref="RegisterClass"/>, the character set of the window is Unicode.
+        /// The system does automatic two-way translation (Unicode to ANSI) for window messages.
+        /// For example, if an ANSI window message is sent to a window that uses the Unicode character set,
+        /// the system translates that message into a Unicode message before calling the window procedure.
+        /// The system calls <see cref="IsWindowUnicode"/> to determine whether to translate the message.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWindowUnicode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsWindowUnicode([In]HWND hWnd);
+
+        /// <summary>
+        /// <para>
         /// Determines the visibility state of the specified window.
         /// </para>
         /// <para>
@@ -3201,7 +3229,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Layered Windows.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindowIndirect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UpdateLayeredWindowIndirect([In]HWND hwnd,[In]in UPDATELAYEREDWINDOWINFO pULWInfo);
+        public static extern BOOL UpdateLayeredWindowIndirect([In]HWND hwnd, [In]in UPDATELAYEREDWINDOWINFO pULWInfo);
 
         /// <summary>
         /// <para>
