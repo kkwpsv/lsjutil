@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MsgWaitForMultipleObjectsExFlags;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.QueueStatus;
+using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SynchronizationObjectAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -43,6 +44,31 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="Parameter"></param>
         public delegate void PAPCFUNC(ULONG_PTR Parameter);
+
+        /// <summary>
+        /// <para>
+        /// An application-defined function that serves as the starting address for a timer callback or a registered wait callback.
+        /// Specify this address when calling the <see cref="CreateTimerQueueTimer"/>, <see cref="RegisterWaitForSingleObject"/> function.
+        /// The <see cref="WAITORTIMERCALLBACK"/> type defines a pointer to this callback function.
+        /// WaitOrTimerCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687066(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="lpParameter">
+        /// The thread data passed to the function using a parameter of the <see cref="CreateTimerQueueTimer"/>
+        /// or <see cref="RegisterWaitForSingleObject"/> function.
+        /// </param>
+        /// <param name="TimerOrWaitFired">
+        /// If this parameter is <see cref="BOOLEAN.TRUE"/>, the wait timed out.
+        /// If this parameter is <see cref="BOOLEAN.FALSE"/>, the wait event has been signaled.
+        /// (This parameter is always <see cref="BOOLEAN.TRUE"/> for timer callbacks.)
+        /// </param>
+        /// <remarks>
+        /// This callback function must not call the <see cref="TerminateThread"/> function.
+        /// </remarks>
+        public delegate void WAITORTIMERCALLBACK([In]PVOID lpParameter, [In]BOOLEAN TimerOrWaitFired);
 
         /// <summary>
         /// <para>
@@ -448,6 +474,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Decrements (decreases by one) the value of the specified 64-bit variable as an atomic operation.
+        /// To operate on 32-bit values, use the <see cref="InterlockedDecrement"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement64
+        /// </para>
+        /// </summary>
+        /// <param name="Addend">
+        /// A pointer to the variable to be decremented.
+        /// </param>
+        /// <returns>
+        /// The function returns the resulting decremented value.
+        /// </returns>
+        /// <remarks>
+        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
+        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
+        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        /// This function is atomic with respect to calls to other interlocked functions.
+        /// This function is implemented using a compiler intrinsic where possible.
+        /// For more information, see the WinBase.h header file and _InterlockedDecrement64.
+        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        /// Itanium-based systems:  For performance-critical applications, use InterlockedDecrementAcquire64 or InterlockedDecrementRelease64 instead.
+        /// Note  This function is supported on Windows RT-based systems.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedDecrement64", ExactSpelling = true, SetLastError = true)]
+        public static extern long InterlockedDecrement64([In][Out]ref long Addend);
+
+        /// <summary>
+        /// <para>
         /// Performs an atomic addition of two 32-bit values.
         /// To operate on 64-bit values, use the <see cref="InterlockedExchangeAdd64"/> function.
         /// </para>
@@ -577,7 +632,36 @@ namespace Lsj.Util.Win32
         /// This function is supported on Windows RT-based systems.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement", ExactSpelling = true, SetLastError = true)]
-        public static extern int InterlockedIncrement([In][Out]int Addend);
+        public static extern int InterlockedIncrement([In][Out]ref int Addend);
+
+        /// <summary>
+        /// <para>
+        /// Increments (increases by one) the value of the specified 64-bit variable as an atomic operation.
+        /// To operate on 32-bit values, use the <see cref="InterlockedIncrement"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement64
+        /// </para>
+        /// </summary>
+        /// <param name="Addend">
+        /// A pointer to the variable to be incremented.
+        /// </param>
+        /// <returns>
+        /// The function returns the resulting incremented value.
+        /// </returns>
+        /// <remarks>
+        /// The variable pointed to by the <paramref name="Addend"/> parameter must be aligned on a 64-bit boundary;
+        /// otherwise, this function will behave unpredictably on multiprocessor x86 systems and any non-x86 systems. See _aligned_malloc.
+        /// The interlocked functions provide a simple mechanism for synchronizing access to a variable that is shared by multiple threads.
+        /// This function is atomic with respect to calls to other interlocked functions.
+        /// This function is implemented using a compiler intrinsic where possible.
+        /// For more information, see the WinBase.h header file and _InterlockedIncrement64.
+        /// This function generates a full memory barrier (or fence) to ensure that memory operations are completed in order.
+        /// Itanium-based systems:  For performance-critical applications, use InterlockedIncrementAcquire64 or InterlockedIncrementRelease64 instead.
+        /// Note  This function is supported on Windows RT-based systems.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement64", ExactSpelling = true, SetLastError = true)]
+        public static extern long InterlockedIncrement64([In][Out]ref long Addend);
 
         /// <summary>
         /// <para>
@@ -900,6 +984,95 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Directs a wait thread in the thread pool to wait on the object.
+        /// The wait thread queues the specified callback function to the thread pool when one of the following occurs:
+        /// The specified object is in the signaled state.
+        /// The time-out interval elapses.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-registerwaitforsingleobject
+        /// </para>
+        /// </summary>
+        /// <param name="phNewWaitObject">
+        /// A pointer to a variable that receives a wait handle on return.
+        /// Note that a wait handle cannot be used in functions that require an object handle, such as <see cref="CloseHandle"/>.
+        /// </param>
+        /// <param name="hObject">
+        /// A handle to the object. For a list of the object types whose handles can be specified, see the following Remarks section.
+        /// If this handle is closed while the wait is still pending, the function's behavior is undefined.
+        /// The handles must have the <see cref="SYNCHRONIZE"/> access right. For more information, see Standard Access Rights.
+        /// </param>
+        /// <param name="Callback">
+        /// A pointer to the application-defined function of type <see cref="WAITORTIMERCALLBACK"/> to be executed
+        /// when <paramref name="hObject"/> is in the signaled state, or <paramref name="dwMilliseconds"/> elapses.
+        /// For more information, see <see cref="WAITORTIMERCALLBACK"/>.
+        /// </param>
+        /// <param name="Context">
+        /// A single value that is passed to the callback function.
+        /// </param>
+        /// <param name="dwMilliseconds">
+        /// The time-out interval, in milliseconds.
+        /// The function returns if the interval elapses, even if the object's state is nonsignaled.
+        /// If <paramref name="dwMilliseconds"/> is zero, the function tests the object's state and returns immediately.
+        /// If <paramref name="dwMilliseconds"/> is <see cref="INFINITE"/>, the function's time-out interval never elapses.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter can be one or more of the following values.
+        /// For information about using these values with objects that remain signaled, see the Remarks section.
+        /// <see cref="WT_EXECUTEDEFAULT"/>, <see cref="WT_EXECUTEINIOTHREAD"/>, <see cref="WT_EXECUTEINPERSISTENTTHREAD"/>,
+        /// <see cref="WT_EXECUTEINWAITTHREAD"/>, <see cref="WT_EXECUTELONGFUNCTION"/>, <see cref="WT_EXECUTEONLYONCE"/>,
+        /// <see cref="WT_TRANSFER_IMPERSONATION"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// New wait threads are created automatically when required.
+        /// The wait operation is performed by a wait thread from the thread pool.
+        /// The callback routine is executed by a worker thread when the object's state becomes signaled or the time-out interval elapses.
+        /// If <paramref name="dwFlags"/> is not <see cref="WT_EXECUTEONLYONCE"/>, the timer is reset every time the event is signaled or the time-out interval elapses.
+        /// When the wait is completed, you must call the <see cref="UnregisterWait"/>
+        /// or <see cref="UnregisterWaitEx"/> function to cancel the wait operation.
+        /// (Even wait operations that use <see cref="WT_EXECUTEONLYONCE"/> must be canceled.)
+        /// Do not make a blocking call to either of these functions from within the callback function.
+        /// Note that you should not pulse an event object passed to <see cref="RegisterWaitForSingleObject"/>,
+        /// because the wait thread might not detect that the event is signaled before it is reset.
+        /// You should not register an object that remains signaled (such as a manual reset event or terminated process)
+        /// unless you set the <see cref="WT_EXECUTEONLYONCE"/> or <see cref="WT_EXECUTEINWAITTHREAD"/> flag.
+        /// For other flags, the callback function might be called too many times before the event is reset.
+        /// The function modifies the state of some types of synchronization objects.
+        /// Modification occurs only for the object whose signaled state caused the wait condition to be satisfied.
+        /// For example, the count of a semaphore object is decreased by one.
+        /// The <see cref="RegisterWaitForSingleObject"/> function can wait for the following objects:
+        /// Change notification, Console input, Event, Memory resource notification, Mutex, Process, Semaphore, Thread, Waitable timer
+        /// For more information, see Synchronization Objects.
+        /// By default, the thread pool has a maximum of 500 threads.
+        /// To raise this limit, use the <see cref="WT_SET_MAX_THREADPOOL_THREADS"/> macro defined in WinNT.h.
+        /// <code>
+        /// #define WT_SET_MAX_THREADPOOL_THREADS(Flags,Limit) \
+        /// ((Flags)|=(Limit)&lt;&lt;16)
+        /// </code>
+        /// Use this macro when specifying the dwFlags parameter. 
+        /// The macro parameters are the desired flags and the new limit(up to (2&lt;&lt;16)-1 threads).
+        /// However, note that your application can improve its performance by keeping the number of worker threads low.
+        /// The work item and all functions it calls must be thread-pool safe.
+        /// Therefore, you cannot call an asynchronous call that requires a persistent thread,
+        /// such as the <see cref="RegNotifyChangeKeyValue"/> function, from the default callback environment.
+        /// Instead, set the thread pool maximum equal to the thread pool minimum
+        /// using the <see cref="SetThreadpoolThreadMaximum"/> and <see cref="SetThreadpoolThreadMinimum"/> functions,
+        /// or create your own thread using the <see cref="CreateThread"/> function.
+        /// (For the original thread pool API, specify <see cref="WT_EXECUTEINPERSISTENTTHREAD"/> using the <see cref="QueueUserWorkItem"/> function.)
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueueUserAPC", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RegisterWaitForSingleObject([Out]out HANDLE phNewWaitObject, [In]HANDLE hObject, [In]WAITORTIMERCALLBACK Callback,
+            [In]PVOID Context, [In]ULONG dwMilliseconds, [In]ThreadPoolFlags dwFlags);
+
+        /// <summary>
+        /// <para>
         /// Releases a slim reader/writer (SRW) lock that was acquired in exclusive mode.
         /// </para>
         /// <para>
@@ -925,6 +1098,55 @@ namespace Lsj.Util.Win32
         /// </param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSRWLockShared", ExactSpelling = true, SetLastError = true)]
         public static extern void ReleaseSRWLockShared([In][Out]ref SRWLOCK SRWLock);
+
+        /// <summary>
+        /// <para>
+        /// Sets the spin count for the specified critical section.
+        /// Spinning means that when a thread tries to acquire a critical section that is locked, the thread enters a loop,
+        /// checks to see if the lock is released, and if the lock is not released, the thread goes to sleep.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setcriticalsectionspincount
+        /// </para>
+        /// </summary>
+        /// <param name="lpCriticalSection">
+        /// A pointer to the critical section object.
+        /// </param>
+        /// <param name="dwSpinCount">
+        /// The spin count for the critical section object.
+        /// On single-processor systems, the spin count is ignored and the critical section spin count is set to zero (0).
+        /// On multiprocessor systems, if the critical section is unavailable,
+        /// the calling thread spins <paramref name="dwSpinCount"/> times before performing a wait operation
+        /// on a semaphore associated with the critical section.
+        /// If the critical section becomes free during the spin operation, the calling thread avoids the wait operation.
+        /// </param>
+        /// <returns>
+        /// The function returns the previous spin count for the critical section.
+        /// </returns>
+        /// <remarks>
+        /// The threads of a single process can use a critical section object for mutual-exclusion synchronization.
+        /// The process is responsible for allocating the memory used by a critical section object,
+        /// which it can do by declaring a variable of type <see cref="CRITICAL_SECTION"/>.
+        /// Before using a critical section, some thread of the process must call the <see cref="InitializeCriticalSection"/>
+        /// or <see cref="InitializeCriticalSectionAndSpinCount"/> function to initialize the object.
+        /// You can subsequently modify the spin count by calling the <see cref="SetCriticalSectionSpinCount"/> function.
+        /// The spin count is useful for critical sections of short duration that can experience high levels of contention.
+        /// Consider a worst-case scenario, in which an application on an SMP system has two or three threads constantly
+        /// allocating and releasing memory from the heap.
+        /// The application serializes the heap with a critical section.
+        /// In the worst-case scenario, contention for the critical section is constant,
+        /// and each thread makes an processing-intensive call to the <see cref="WaitForSingleObject"/> function.
+        /// However, if the spin count is set properly, the calling thread does not immediately
+        /// call <see cref="WaitForSingleObject"/> when contention occurs.
+        /// Instead, the calling thread can acquire ownership of the critical section if it is released during the spin operation.
+        /// You can improve performance significantly by choosing a small spin count for a critical section of short duration.
+        /// The heap manager uses a spin count of roughly 4000 for its per-heap critical sections.
+        /// This gives great performance and scalability in almost all worst-case scenarios.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0403 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCriticalSectionSpinCount", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD SetCriticalSectionSpinCount([In]in CRITICAL_SECTION lpCriticalSection, [In]DWORD dwSpinCount);
 
         /// <summary>
         /// <para>
@@ -1151,6 +1373,35 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InterlockedIncrement", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool TryEnterCriticalSection([In][Out]ref CRITICAL_SECTION lpCriticalSection);
+
+        /// <summary>
+        /// <para>
+        /// Cancels a registered wait operation issued by the <see cref="RegisterWaitForSingleObject"/> function.
+        /// To use a completion event, call the <see cref="UnregisterWaitEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-unregisterwait
+        /// </para>
+        /// </summary>
+        /// <param name="WaitHandle">
+        /// The wait handle.
+        /// This handle is returned by the <see cref="RegisterWaitForSingleObject"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If any callback functions associated with the timer have not completed when <see cref="UnregisterWait"/> is called,
+        /// <see cref="UnregisterWait"/> unregisters the wait on the callback functions and fails with the <see cref="ERROR_IO_PENDING"/> error code.
+        /// The error code does not indicate that the function has failed, and the function does not need to be called again.
+        /// If your code requires an error code to set only when the unregister operation has failed, call <see cref="UnregisterWaitEx"/> instead.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWait", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnregisterWait([In]HANDLE WaitHandle);
 
         /// <summary>
         /// <para>
