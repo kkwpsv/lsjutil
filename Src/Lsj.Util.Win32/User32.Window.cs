@@ -2960,6 +2960,47 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="SetWindowRgn"/> function sets the window region of a window.
+        /// The window region determines the area within the window where the system permits drawing.
+        /// The system does not display any portion of a window that lies outside of the window region.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowrgn
+        /// </para>
+        /// </summary>
+        /// <param name="hWnd">
+        /// A handle to the window whose window region is to be set.
+        /// </param>
+        /// <param name="hRgn">
+        /// A handle to a region.
+        /// The function sets the window region of the window to this region.
+        /// If <paramref name="hRgn"/> is <see cref="NULL"/>, the function sets the window region to <see cref="NULL"/>.
+        /// </param>
+        /// <param name="bRedraw">
+        /// Specifies whether the system redraws the window after setting the window region.
+        /// If <paramref name="bRedraw"/> is <see cref="TRUE"/>, the system does so; otherwise, it does not.
+        /// Typically, you set <paramref name="bRedraw"/> to <see cref="TRUE"/> if the window is visible.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// When this function is called, the system sends the <see cref="WM_WINDOWPOSCHANGING"/>
+        /// and <see cref="WM_WINDOWPOSCHANGING"/> messages to the window.
+        /// The coordinates of a window's window region are relative to the upper-left corner of the window, not the client area of the window.
+        /// Note If the window layout is right-to-left (RTL), the coordinates are relative to the upper-right corner of the window. 
+        /// See Window Layout and Mirroring.
+        /// After a successful call to <see cref="SetWindowRgn"/>, the system owns the region specified by the region handle <paramref name="hRgn"/>.
+        /// The system does not make a copy of the region. Thus, you should not make any further function calls with this region handle.
+        /// In particular, do not delete this region handle. The system deletes the region handle when it no longer needed.
+        /// To obtain the window region of a window, call the <see cref="GetWindowRgn"/> function.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowRgn", ExactSpelling = true, SetLastError = true)]
+        public static extern int SetWindowRgn([In]HWND hWnd, [In]HRGN hRgn, [In]BOOL bRedraw);
+
+        /// <summary>
+        /// <para>
         /// Changes the text of the specified window's title bar (if it has one). 
         /// If the specified window is a control, the text of the control is changed. 
         /// However, <see cref="SetWindowText"/> cannot change the text of a control in another application.
