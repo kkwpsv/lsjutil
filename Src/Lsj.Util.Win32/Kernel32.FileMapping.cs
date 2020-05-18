@@ -467,6 +467,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Writes to the disk a byte range within a mapped view of a file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-flushviewoffile
+        /// </para>
+        /// </summary>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address of the byte range to be flushed to the disk representation of the mapped file.
+        /// </param>
+        /// <param name="dwNumberOfBytesToFlush">
+        /// The number of bytes to be flushed.
+        /// If <paramref name="dwNumberOfBytesToFlush"/> is zero, the file is flushed from the base address to the end of the mapping.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Flushing a range of a mapped view initiates writing of dirty pages within that range to the disk.
+        /// Dirty pages are those whose contents have changed since the file view was mapped.
+        /// The <see cref="FlushViewOfFile"/> function does not flush the file metadata,
+        /// and it does not wait to return until the changes are flushed from the underlying hardware disk cache and physically written to disk.
+        /// To flush all the dirty pages plus the metadata for the file and ensure that they are physically written to disk,
+        /// call <see cref="FlushViewOfFile"/> and then call the <see cref="FlushFileBuffers"/> function.
+        /// When flushing a memory-mapped file over a network, <see cref="FlushViewOfFile"/> guarantees that the data has been written
+        /// from the local computer, but not that the data resides on the remote computer.
+        /// The server can cache the data on the remote side.
+        /// Therefore, <see cref="FlushViewOfFile"/> can return before the data has been physically written to disk.
+        /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
+        /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushViewOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FlushViewOfFile([In]LPCVOID lpBaseAddress, [In]SIZE_T dwNumberOfBytesToFlush);
+
+        /// <summary>
+        /// <para>
         /// Maps a view of a file mapping into the address space of a calling process.
         /// To specify a suggested base address for the view, use the <see cref="MapViewOfFileEx"/> function.
         /// However, this practice is not recommended.
