@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -18,6 +17,7 @@ using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.FileNotifyFilters;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.FileSystemFlags;
 using static Lsj.Util.Win32.Enums.FileTypes;
@@ -862,6 +862,40 @@ namespace Lsj.Util.Win32
         public static extern IntPtr CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]FileAccessRights dwDesiredAccess,
             [In]FileShareModes dwShareMode, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes, [In]FileCreationDispositions dwCreationDisposition,
             [In]uint dwFlagsAndAttributes, [In]IntPtr hTemplateFile, [In]IntPtr hTransaction, [In]IntPtr pusMiniVersion, [In]IntPtr lpExtendedParameter);
+
+        /// <summary>
+        /// <para>
+        /// Decrypts an encrypted file or directory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-decryptfilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file or directory to be decrypted.
+        /// The caller must have the <see cref="FILE_READ_DATA"/>, <see cref="FILE_WRITE_DATA"/>, <see cref="FILE_READ_ATTRIBUTES"/>,
+        /// <see cref="FILE_WRITE_ATTRIBUTES"/>, and <see cref="SYNCHRONIZE"/> access rights.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="dwReserved">
+        /// Reserved; must be zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DecryptFile"/> function requires exclusive access to the file being decrypted,
+        /// and will fail if another process is using the file.
+        /// If the file is not encrypted, <see cref="DecryptFile"/> simply returns a <see cref=TRUE"/> value, which indicates success.
+        /// If <paramref name="lpFileName"/> specifies a read-only file,
+        /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
+        /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,
+        /// the functions succeeds but the directory is not decrypted.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DecryptFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DecryptFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName, [In]DWORD dwReserved);
 
         /// <summary>
         /// <para>
@@ -2884,6 +2918,108 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PostQueuedCompletionStatus([In]HANDLE CompletionPort, [In]DWORD dwNumberOfBytesTransferred,
             [In]ULONG_PTR dwCompletionKey, [In][Out]ref OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information that describes the changes within the specified directory.
+        /// The function does not report changes to the specified directory itself.
+        /// To track changes on a volume, see change journals.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-readdirectorychangesw
+        /// </para>
+        /// </summary>
+        /// <param name="hDirectory">
+        /// A handle to the directory to be monitored.
+        /// This directory must be opened with the <see cref="FILE_LIST_DIRECTORY"/> access right,
+        /// or an access right such as <see cref="GENERIC_READ"/> that includes the <see cref="FILE_LIST_DIRECTORY"/> access right.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to the DWORD-aligned formatted buffer in which the read results are to be returned.
+        /// The structure of this buffer is defined by the <see cref="FILE_NOTIFY_INFORMATION"/> structure.
+        /// This buffer is filled either synchronously or asynchronously, depending on how the directory is opened
+        /// and what value is given to the <paramref name="lpOverlapped"/> parameter.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer that is pointed to by the <paramref name="lpBuffer"/> parameter, in bytes.
+        /// </param>
+        /// <param name="bWatchSubtree">
+        /// If this parameter is <see cref="TRUE"/>, the function monitors the directory tree rooted at the specified directory.
+        /// If this parameter is <see cref="FALSE"/>, the function monitors only the directory specified by the <paramref name="hDirectory"/> parameter.
+        /// </param>
+        /// <param name="dwNotifyFilter">
+        /// The filter criteria that the function checks to determine if the wait operation has completed.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="FILE_NOTIFY_CHANGE_FILE_NAME"/>, <see cref="FILE_NOTIFY_CHANGE_DIR_NAME"/>, <see cref="FILE_NOTIFY_CHANGE_ATTRIBUTES"/>,
+        /// <see cref="FILE_NOTIFY_CHANGE_SIZE"/>, <see cref="FILE_NOTIFY_CHANGE_LAST_WRITE"/>, <see cref="FILE_NOTIFY_CHANGE_LAST_ACCESS"/>,
+        /// <see cref="FILE_NOTIFY_CHANGE_CREATION"/>, <see cref="FILE_NOTIFY_CHANGE_SECURITY"/>
+        /// </param>
+        /// <param name="lpBytesReturned">
+        /// For synchronous calls, this parameter receives the number of bytes transferred into the <paramref name="lpBuffer"/> parameter.
+        /// For asynchronous calls, this parameter is undefined.
+        /// You must use an asynchronous notification technique to retrieve the number of bytes transferred.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that supplies data to be used during asynchronous operation.
+        /// Otherwise, this value is <see cref="NullRef{OVERLAPPED}"/>.
+        /// The <see cref="OVERLAPPED.Offset"/> and <see cref="OVERLAPPED.OffsetHigh"/> members of this structure are not used.
+        /// </param>
+        /// <param name="lpCompletionRoutine">
+        /// A pointer to a completion routine to be called when the operation has been completed or canceled
+        /// and the calling thread is in an alertable wait state.
+        /// For more information about this completion routine, see <see cref="LPOVERLAPPED_COMPLETION_ROUTINE"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// For synchronous calls, this means that the operation succeeded.
+        /// For asynchronous calls, this indicates that the operation was successfully queued.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the network redirector or the target file system does not support this operation,
+        /// the function fails with <see cref="ERROR_INVALID_FUNCTION"/>.
+        /// </returns>
+        /// <remarks>
+        /// To obtain a handle to a directory, use the <see cref="CreateFile"/> function with the <see cref="FILE_FLAG_BACKUP_SEMANTICS"/> flag.
+        /// A call to <see cref="ReadDirectoryChangesW"/> can be completed synchronously or asynchronously.
+        /// To specify asynchronous completion, open the directory with <see cref="CreateFile"/> as shown above,
+        /// but additionally specify the <see cref="FILE_FLAG_OVERLAPPED"/> attribute in the dwFlagsAndAttributes parameter.
+        /// Then specify an <see cref="OVERLAPPED"/> structure when you call <see cref="ReadDirectoryChangesW"/>.
+        /// When you first call <see cref="ReadDirectoryChangesW"/>, the system allocates a buffer to store change information.
+        /// This buffer is associated with the directory handle until it is closed and its size does not change during its lifetime.
+        /// Directory changes that occur between calls to this function are added to the buffer and then returned with the next call.
+        /// If the buffer overflows, <see cref="ReadDirectoryChangesW"/> will still return <see cref="TRUE"/>,
+        /// but the entire contents of the buffer are discarded and the <paramref name="lpBytesReturned"/> parameter will be zero,
+        /// which indicates that your buffer was too small to hold all of the changes that occurred.
+        /// Upon successful synchronous completion, the <paramref name="lpBuffer"/> parameter is a formatted buffer
+        /// and the number of bytes written to the buffer is available in <paramref name="lpBytesReturned"/>.
+        /// If the number of bytes transferred is zero, the buffer was either too large for the system
+        /// to allocate or too small to provide detailed information on all the changes that occurred in the directory or subtree.
+        /// In this case, you should compute the changes by enumerating the directory or subtree.
+        /// For asynchronous completion, you can receive notification in one of three ways:
+        /// Using the <see cref="GetOverlappedResult"/> function. To receive notification through <see cref="GetOverlappedResult"/>,
+        /// do not specify a completion routine in the <paramref name="lpCompletionRoutine"/> parameter.
+        /// Be sure to set the <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure to a unique event.
+        /// Using the <see cref="GetQueuedCompletionStatus"/> function.
+        /// To receive notification through <see cref="GetQueuedCompletionStatus"/>,
+        /// do not specify a completion routine in <paramref name="lpCompletionRoutine"/>.
+        /// Associate the directory handle hDirectory with a completion port by calling the <see cref="CreateIoCompletionPort"/> function.
+        /// Using a completion routine.
+        /// To receive notification through a completion routine, do not associate the directory with a completion port.
+        /// Specify a completion routine in <paramref name="lpCompletionRoutine"/>.
+        /// This routine is called whenever the operation has been completed or canceled while the thread is in an alertable wait state. 
+        /// The <see cref="OVERLAPPED.hEvent"/> member of the <see cref="OVERLAPPED"/> structure is not used by the system, so you can use it yourself.
+        /// For more information, see Synchronous and Asynchronous I/O.
+        /// <see cref="ReadDirectoryChangesW"/> fails with <see cref="ERROR_INVALID_PARAMETER"/> when the buffer length is greater than 64 KB
+        /// and the application is monitoring a directory over the network.
+        /// This is due to a packet size limitation with the underlying file sharing protocols.
+        /// <see cref="ReadDirectoryChangesW"/> fails with <see cref="ERROR_NOACCESS"/> when the buffer is not aligned on a <see cref="DWORD"/> boundary.
+        /// If you opened the file using the short name, you can receive change notifications for the short name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadDirectoryChangesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReadDirectoryChangesW([In]HANDLE hDirectory, [In]LPVOID lpBuffer, [In]DWORD nBufferLength, [In]BOOL bWatchSubtree,
+            [In]FileNotifyFilters dwNotifyFilter, [Out]out DWORD lpBytesReturned, [In][Out]ref OVERLAPPED lpOverlapped,
+            [In]LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
         /// <summary>
         /// <para>
