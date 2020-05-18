@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="EWX_FORCEIFHUNG"/> value is specified, the system forces hung applications to close and does not display the dialog box.
         /// Console processes receive a separate notification message, <see cref="CTRL_SHUTDOWN_EVENT"/>
         /// or <see cref="CTRL_LOGOFF_EVENT"/>, as the situation warrants.
-        /// A console process routes these messages to its <see cref="HandlerRoutine"/> function.
+        /// A console process routes these messages to its HandlerRoutine function.
         /// <see cref="ExitWindowsEx"/> sends these notification messages asynchronously; thus, an application cannot assume
         /// that the console notification messages have been handled when a call to <see cref="ExitWindowsEx"/> returns.
         /// To shut down or restart the system, the calling process must use the <see cref="AdjustTokenPrivileges"/> function

@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// If the <see cref="PSD_INHUNDREDTHSOFMILLIMETERS"/> and ,se  PSD_INTHOUSANDTHSOFINCHES flags are not specified,
+    /// If the <see cref="PSD_INHUNDREDTHSOFMILLIMETERS"/> and <see cref="PSD_INTHOUSANDTHSOFINCHES"/> flags are not specified,
     /// the system queries the <see cref="LOCALE_IMEASURE"/> value of the default user locale to determine the unit of measure
     /// (either hundredths of millimeters or thousandths of inches) for the margin widths and paper size.
     /// If both <see cref="hDevNames"/> and <see cref="hDevMode"/> have valid handles

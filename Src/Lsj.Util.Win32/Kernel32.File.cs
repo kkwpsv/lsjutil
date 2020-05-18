@@ -888,7 +888,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The <see cref="DecryptFile"/> function requires exclusive access to the file being decrypted,
         /// and will fail if another process is using the file.
-        /// If the file is not encrypted, <see cref="DecryptFile"/> simply returns a <see cref=TRUE"/> value, which indicates success.
+        /// If the file is not encrypted, <see cref="DecryptFile"/> simply returns a <see cref="TRUE"/> value, which indicates success.
         /// If <paramref name="lpFileName"/> specifies a read-only file,
         /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_FILE_READ_ONLY"/>.
         /// If <paramref name="lpFileName"/> specifies a directory that contains a read-only file,

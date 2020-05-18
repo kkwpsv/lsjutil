@@ -71,6 +71,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CO_E_NOTINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F0) };
 
         /// <summary>
+        /// CO_E_OBJNOTCONNECTED
+        /// </summary>
+        public static readonly HRESULT CO_E_OBJNOTCONNECTED = new HRESULT { _value = unchecked((int)0x800401FD) };
+
+        /// <summary>
         /// CO_S_NOTALLINTERFACES
         /// </summary>
         public static readonly HRESULT CO_S_NOTALLINTERFACES = new HRESULT { _value = 0x00080012 };
@@ -189,6 +194,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// MK_E_NOTBINDABLE
         /// </summary>
         public static readonly HRESULT MK_E_NOTBINDABLE = new HRESULT { _value = unchecked((int)0x800401E8) };
+
+        /// <summary>
+        /// MK_E_NOTBOUND
+        /// </summary>
+        public static readonly HRESULT MK_E_NOTBOUND = new HRESULT { _value = unchecked((int)0x800401E9) };
 
         /// <summary>
         /// MK_E_NOINVERSE
@@ -351,9 +361,29 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT STG_E_FILEALREADYEXISTS = new HRESULT { _value = unchecked((int)0x80030050) };
 
         /// <summary>
+        /// STG_E_INVALIDFLAG
+        /// </summary>
+        public static readonly HRESULT STG_E_INVALIDFLAG = new HRESULT { _value = unchecked((int)0x800300FF) };
+
+        /// <summary>
+        /// STG_E_INVALIDPARAMETER
+        /// </summary>
+        public static readonly HRESULT STG_E_INVALIDPARAMETER = new HRESULT { _value = unchecked((int)0x80030057) };
+
+        /// <summary>
         /// STG_E_MEDIUMFULL
         /// </summary>
         public static readonly HRESULT STG_E_MEDIUMFULL = new HRESULT { _value = unchecked((int)0x80030070) };
+
+        /// <summary>
+        /// STG_E_NOTCURRENT
+        /// </summary>
+        public static readonly HRESULT STG_E_NOTCURRENT = new HRESULT { _value = unchecked((int)0x80030101) };
+
+        /// <summary>
+        /// STG_E_REVERTED
+        /// </summary>
+        public static readonly HRESULT STG_E_REVERTED = new HRESULT { _value = unchecked((int)0x80030102) };
 
         /// <summary>
         /// Success.
