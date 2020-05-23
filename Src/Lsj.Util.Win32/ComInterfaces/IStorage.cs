@@ -43,7 +43,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// </para>
     /// </summary>
     [ComImport]
-    [Guid(IID_IPersist)]
+    [Guid(IID_IStorage)]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IStorage
     {
