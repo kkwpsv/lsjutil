@@ -116,6 +116,11 @@
         public const string IID_IPersist = "0000010c-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPersistFile
+        /// </summary>
+        public const string IID_IPersistFile = "0000010b-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IPersistStream
         /// </summary>
         public const string IID_IPersistStream = "00000109-0000-0000-C000-000000000046";
