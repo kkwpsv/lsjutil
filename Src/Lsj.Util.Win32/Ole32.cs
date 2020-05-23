@@ -81,8 +81,8 @@ namespace Lsj.Util.Win32
         /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT BindMoniker([In]IMoniker pmk, [In]uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In]Guid iidResult,
-            [MarshalAs(UnmanagedType.IUnknown)][Out]object ppvResult);
+        public static extern HRESULT BindMoniker([In] IMoniker pmk, [In] uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In] Guid iidResult,
+            [MarshalAs(UnmanagedType.IUnknown)][Out] object ppvResult);
 
         /// <summary>
         /// <para>
@@ -147,9 +147,9 @@ namespace Lsj.Util.Win32
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)]object pUnkOuter, [In]CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+        public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object pUnkOuter, [In] CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         /// <summary>
         /// <para>
@@ -220,9 +220,9 @@ namespace Lsj.Util.Win32
         /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In]Guid Clsid,
-            [MarshalAs(UnmanagedType.IUnknown)]object punkOuter, [In]CLSCTX dwClsCtx, [In]in COSERVERINFO pServerInfo,
-            [In]DWORD dwCount, [In][Out]MULTI_QI[] pResults);
+        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In] Guid Clsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
+            [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -268,7 +268,7 @@ namespace Lsj.Util.Win32
         /// that causes any new marshaled calls to return <see cref="CO_E_OBJNOTCONNECTED"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoDisconnectObject([MarshalAs(UnmanagedType.IUnknown)][In]object pUnk, [In]DWORD dwReserved);
+        public static extern HRESULT CoDisconnectObject([MarshalAs(UnmanagedType.IUnknown)][In] object pUnk, [In] DWORD dwReserved);
 
         /// <summary>
         /// <para>
@@ -372,9 +372,9 @@ namespace Lsj.Util.Win32
         /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
-            [In]CLSCTX dwClsContext, [In]LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
+            [In] CLSCTX dwClsContext, [In] LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         /// <summary>
         /// <para>
@@ -447,9 +447,9 @@ namespace Lsj.Util.Win32
         /// providing the least possible network traffic.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetInstanceFromFile([In]in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In]Guid pClsid,
-            [MarshalAs(UnmanagedType.IUnknown)][In]object punkOuter, [In]CLSCTX dwClsCtx, [In]STGM grfMode,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pwszName, [In]DWORD dwCount, [Out]MULTI_QI[] pResults);
+        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
+            [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] STGM grfMode,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -517,9 +517,9 @@ namespace Lsj.Util.Win32
         /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetInstanceFromIStorage([In]in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In]Guid pClsid,
-              [MarshalAs(UnmanagedType.IUnknown)][In]object punkOuter, [In]CLSCTX dwClsCtx, [In]IStorage pstg, [In]DWORD dwCount,
-              [Out]MULTI_QI[] pResults);
+        public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
+              [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount,
+              [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -544,7 +544,7 @@ namespace Lsj.Util.Win32
         /// each process must have its own allocator.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetMalloc([In]uint dwMemContext, [Out]out IntPtr ppMalloc);
+        public static extern HRESULT CoGetMalloc([In] uint dwMemContext, [Out] out IntPtr ppMalloc);
 
         /// <summary>
         /// <para>
@@ -590,7 +590,7 @@ namespace Lsj.Util.Win32
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+        public static extern HRESULT CoInitialize([In] LPVOID pvReserved);
 
         /// <summary>
         /// <para>
@@ -651,7 +651,7 @@ namespace Lsj.Util.Win32
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitializeEx([In]LPVOID pvReserved, [In]COINIT dwCoInit);
+        public static extern HRESULT CoInitializeEx([In] LPVOID pvReserved, [In] COINIT dwCoInit);
 
         /// <summary>
         /// <para>
@@ -773,8 +773,8 @@ namespace Lsj.Util.Win32
         /// if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set in <paramref name="dwCapabilities"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitializeSecurity([In]in SECURITY_DESCRIPTOR pSecDesc, [In]LONG cAuthSvc, [In]SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
-            [In]IntPtr pReserved1, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthList, [In]DWORD dwCapabilities, [In]IntPtr pReserved3);
+        public static extern HRESULT CoInitializeSecurity([In] in SECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
+            [In] IntPtr pReserved1, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthList, [In] DWORD dwCapabilities, [In] IntPtr pReserved3);
 
         /// <summary>
         /// <para>
@@ -856,9 +856,9 @@ namespace Lsj.Util.Win32
         /// <see cref="IUnknown"/> is the exception to this rule.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoQueryProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In]object pProxy, [Out]out DWORD pwAuthnSvc,
-            [Out]out DWORD pAuthzSvc, [Out]out string pServerPrincName, [Out]out DWORD pAuthnLevel, [Out]out DWORD pImpLevel,
-            [Out]out RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [Out]out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
+        public static extern HRESULT CoQueryProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [Out] out DWORD pwAuthnSvc,
+            [Out] out DWORD pAuthzSvc, [Out] out string pServerPrincName, [Out] out DWORD pAuthnLevel, [Out] out DWORD pImpLevel,
+            [Out] out RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [Out] out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
 
         /// <summary>
         /// <para>
@@ -918,8 +918,8 @@ namespace Lsj.Util.Win32
         /// If the COM object application runs in the system account with no registry key, COM treats the objects application identity as Launching User.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoRegisterClassObject([In]in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In]object pUnk,
-            [In]DWORD dwClsContext, [In]REGCLS flags, [Out]out DWORD lpdwRegister);
+        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In] object pUnk,
+            [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
 
         /// <summary>
         /// <para>
@@ -978,7 +978,7 @@ namespace Lsj.Util.Win32
         /// in a call to <see cref="CoRegisterClassObject"/>, indicating that only one application can connect to the class object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRevokeClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoRevokeClassObject([In]DWORD dwRegister);
+        public static extern HRESULT CoRevokeClassObject([In] DWORD dwRegister);
 
         /// <summary>
         /// <para>
@@ -1089,9 +1089,9 @@ namespace Lsj.Util.Win32
         /// calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In]object pProxy, [In]DWORD dwAuthnSvc,
-            [In]DWORD dwAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In]string pServerPrincName, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel,
-            [In]RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In]EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
+        public static extern HRESULT CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [In] DWORD dwAuthnSvc,
+            [In] DWORD dwAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In] string pServerPrincName, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel,
+            [In] RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>
         /// <para>
@@ -1119,7 +1119,7 @@ namespace Lsj.Util.Win32
         /// because there is no guarantee that the memory will be allocated.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemAlloc([In]IntPtr cb);
+        public static extern IntPtr CoTaskMemAlloc([In] IntPtr cb);
 
         /// <summary>
         /// <para>
@@ -1139,7 +1139,7 @@ namespace Lsj.Util.Win32
         /// After the call, the memory block pointed to by pv is invalid and can no longer be used.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", ExactSpelling = true, SetLastError = true)]
-        public static extern void CoTaskMemFree([In]IntPtr pv);
+        public static extern void CoTaskMemFree([In] IntPtr pv);
 
         /// <summary>
         /// <para>
@@ -1184,7 +1184,7 @@ namespace Lsj.Util.Win32
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemRealloc([In]IntPtr pv, [In]IntPtr cb);
+        public static extern IntPtr CoTaskMemRealloc([In] IntPtr pv, [In] IntPtr cb);
 
         /// <summary>
         /// <para>
@@ -1253,7 +1253,7 @@ namespace Lsj.Util.Win32
         /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateAntiMoniker([Out]out IMoniker ppmk);
+        public static extern HRESULT CreateAntiMoniker([Out] out IMoniker ppmk);
 
         /// <summary>
         /// <para>
@@ -1313,7 +1313,7 @@ namespace Lsj.Util.Win32
         /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
+        public static extern HRESULT CreateBindCtx([In] DWORD reserved, [Out] out IBindCtx ppbc);
 
         /// <summary>
         /// <para>
@@ -1338,7 +1338,7 @@ namespace Lsj.Util.Win32
         /// between the calling object and the data object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateDataAdviseHolder([Out]out IDataAdviseHolder ppDAHolder);
+        public static extern HRESULT CreateDataAdviseHolder([Out] out IDataAdviseHolder ppDAHolder);
 
         /// <summary>
         /// <para>
@@ -1368,7 +1368,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateGenericComposite([In]IMoniker pmkFirst, [In]IMoniker pmkRest, [Out]out IMoniker ppmkComposite);
+        public static extern HRESULT CreateGenericComposite([In] IMoniker pmkFirst, [In] IMoniker pmkRest, [Out] out IMoniker ppmkComposite);
 
         /// <summary>
         /// <para>
@@ -1396,6 +1396,45 @@ namespace Lsj.Util.Win32
         /// so if you need to use this method, you will need to implement your own advise holder.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateOleAdviseHolder([Out]out IOleAdviseHolder ppOAHolder);
+        public static extern HRESULT CreateOleAdviseHolder([Out] out IOleAdviseHolder ppOAHolder);
+
+        /// <summary>
+        /// <para>
+        /// Returns a pointer to the <see cref="IRunningObjectTable"/> interface on the local running object table (ROT).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-getrunningobjecttable
+        /// </para>
+        /// </summary>
+        /// <param name="reserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <param name="pprot">
+        /// The address of an <see cref="IRunningObjectTable"/>* pointer variable that receives the interface pointer to the local ROT.
+        /// When the function is successful, the caller is responsible for calling Release on the interface pointer.
+        /// If an error occurs, *pprot is undefined.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_UNEXPECTED"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each workstation has a local ROT that maintains a table of the objects that have been registered as running on that computer.
+        /// This function returns an <see cref="IRunningObjectTable"/> interface pointer, which provides access to that table.
+        /// Moniker providers, which hand out monikers that identify objects so they are accessible to others,
+        /// should call <see cref="GetRunningObjectTable"/>.
+        /// Use the interface pointer returned by this function to register your objects when they begin running,
+        /// to record the times that those objects are modified, and to revoke their registrations when they stop running.
+        /// See the <see cref="IRunningObjectTable"/> interface for more information.
+        /// Compound-document link sources are the most common example of moniker providers.
+        /// These include server applications that support linking to their documents (or portions of a document)
+        /// and container applications that support linking to embeddings within their documents.
+        /// Server applications that do not support linking can also use the ROT
+        /// to cooperate with container applications that support linking to embeddings.
+        /// If you are implementing the <see cref="IMoniker"/> interface to write a new moniker class, and you need an interface pointer to the ROT,
+        /// call <see cref="IBindCtx.GetRunningObjectTable"/> rather than the <see cref="GetRunningObjectTable"/> function.
+        /// This allows future implementations of the <see cref="IBindCtx"/> interface to modify binding behavior.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRunningObjectTable", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT GetRunningObjectTable([In] DWORD reserved, [Out] out IRunningObjectTable pprot);
     }
 }
