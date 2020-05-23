@@ -291,6 +291,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT OLE_E_CLASSDIFF = new HRESULT { _value = unchecked((int)0x80040008) };
 
         /// <summary>
+        /// OLE_E_INVALIDRECT
+        /// </summary>
+        public static readonly HRESULT OLE_E_INVALIDRECT = new HRESULT { _value = unchecked((int)0x8004000D) };
+
+        /// <summary>
         /// OLE_E_NOCONNECTION
         /// </summary>
         public static readonly HRESULT OLE_E_NOCONNECTION = new HRESULT { _value = unchecked((int)0x80040004) };
@@ -394,6 +399,16 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Success.
         /// </summary>
         public static readonly HRESULT S_FALSE = new HRESULT { _value = 0x1 };
+
+        /// <summary>
+        /// VIEW_E_DRAW
+        /// </summary>
+        public static readonly HRESULT VIEW_E_DRAW = new HRESULT { _value = unchecked((int)0x80040140) };
+
+        /// <summary>
+        /// VIEW_S_ALREADY_FROZEN
+        /// </summary>
+        public static readonly HRESULT VIEW_S_ALREADY_FROZEN = new HRESULT { _value = 0x00040140 };
 
         [FieldOffset(0)]
         private int _value;

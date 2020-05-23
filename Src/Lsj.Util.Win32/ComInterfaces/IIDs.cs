@@ -159,5 +159,10 @@
         /// IID_IStream
         /// </summary>
         public const string IID_IStream = "0000000c-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IViewObject
+        /// </summary>
+        public const string IID_IViewObject = "0000010d-0000-0000-C000-000000000046";
     }
 }
