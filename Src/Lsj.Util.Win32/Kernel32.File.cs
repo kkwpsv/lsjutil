@@ -31,6 +31,7 @@ using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
@@ -3405,6 +3406,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAttributes dwFileAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Sets the notification modes for a file handle, allowing you to specify how completion notifications work for the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setfilecompletionnotificationmodes
+        /// </para>
+        /// </summary>
+        /// <param name="FileHandle">
+        /// A handle to the file.
+        /// </param>
+        /// <param name="Flags">
+        /// The modes to be set.
+        /// One or more modes can be set at the same time; however, after a mode has been set for a file handle, it cannot be removed.
+        /// <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>, <see cref="FILE_SKIP_SET_EVENT_ON_HANDLE"/>
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful or <see cref="FALSE"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileCompletionNotificationModes", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileCompletionNotificationModes([In] HANDLE FileHandle, [In] FileCompletionNotificationModes Flags);
 
         /// <summary>
         /// <para>
