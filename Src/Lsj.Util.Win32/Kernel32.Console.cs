@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
@@ -109,7 +110,7 @@ namespace Lsj.Util.Win32
         /// Note that a third-party library or DLL can install a console control handler for your application.
         /// If it does, this handler overrides the default handler, and can cause the application to exit when the user logs off.
         /// </remarks>
-        public delegate BOOL PHANDLER_ROUTINE([In]CtrlEvents dwCtrlType);
+        public delegate BOOL PHANDLER_ROUTINE([In] CtrlEvents dwCtrlType);
 
 
         /// <summary>
@@ -177,7 +178,68 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachConsole", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AttachConsole([In]uint dwProcessId);
+        public static extern bool AttachConsole([In] uint dwProcessId);
+
+        /// <summary>
+        /// <para>
+        /// Creates a console screen buffer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/console/createconsolescreenbuffer
+        /// </para>
+        /// </summary>
+        /// <param name="dwDesiredAccess">
+        /// The access to the console screen buffer.
+        /// For a list of access rights, see Console Buffer Security and Access Rights.
+        /// </param>
+        /// <param name="dwShareMode">
+        /// This parameter can be zero, indicating that the buffer cannot be shared, or it can be one or more of the following values.
+        /// <see cref="FILE_SHARE_READ"/>: Other open operations can be performed on the console screen buffer for read access.
+        /// <see cref="FILE_SHARE_READ"/>: Other open operations can be performed on the console screen buffer for write access.
+        /// </param>
+        /// <param name="lpSecurityAttributes">
+        /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure that determines whether the returned handle can be inherited by child processes.
+        /// If <paramref name="lpSecurityAttributes"/> is <see cref="NullRef{SECURITY_ATTRIBUTES}"/>, the handle cannot be inherited.
+        /// The <see cref="SECURITY_ATTRIBUTES.lpSecurityDescriptor"/> member of the structure
+        /// specifies a security descriptor for the new console screen buffer.
+        /// If <paramref name="lpSecurityAttributes"/> is <see cref="NullRef{SECURITY_ATTRIBUTES}"/>,
+        /// the console screen buffer gets a default security descriptor.
+        /// The ACLs in the default security descriptor for a console screen buffer come from the primary or impersonation token of the creator.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The type of console screen buffer to create.
+        /// The only supported screen buffer type is <see cref="CONSOLE_TEXTMODE_BUFFER"/>.
+        /// </param>
+        /// <param name="lpScreenBufferData">
+        /// Reserved; should be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the new console screen buffer.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A console can have multiple screen buffers but only one active screen buffer.
+        /// Inactive screen buffers can be accessed for reading and writing, but only the active screen buffer is displayed.
+        /// To make the new screen buffer the active screen buffer, use the <see cref="SetConsoleActiveScreenBuffer"/> function.
+        /// The newly created screen buffer will copy some properties from the active screen buffer at the time that this function is called.
+        /// The behavior is as follows:
+        /// Font - copied from active screen buffer
+        /// Display Window Size - copied from active screen buffer
+        /// Buffer Size - matched to Display Window Size (NOT copied)
+        /// Default Attributes (colors) - copied from active screen buffer
+        /// Default Popup Attributes (colors) - copied from active screen buffer
+        /// The calling process can use the returned handle in any function that requires a handle to a console screen buffer,
+        /// subject to the limitations of access specified by the <paramref name="dwDesiredAccess"/> parameter.
+        /// The calling process can use the <see cref="DuplicateHandle"/> function to create a duplicate screen buffer handle
+        /// that has different access or inheritability from the original handle.
+        /// However, <see cref="DuplicateHandle"/> cannot be used to create a duplicate
+        /// that is valid for a different process (except through inheritance).
+        /// To close the console screen buffer handle, use the <see cref="CloseHandle"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateConsoleScreenBuffer", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE CreateConsoleScreenBuffer([In] ACCESS_MASK dwDesiredAccess, [In] FileShareModes dwShareMode,
+            [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] DWORD dwFlags, [In] LPVOID lpScreenBufferData);
 
         /// <summary>
         /// <para>
@@ -198,7 +260,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushConsoleInputBuffer", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FlushConsoleInputBuffer([In]HANDLE hConsoleInput);
+        public static extern BOOL FlushConsoleInputBuffer([In] HANDLE hConsoleInput);
 
         /// <summary>
         /// <para>
@@ -271,7 +333,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GenerateConsoleCtrlEvent([In]CtrlEventFlags dwCtrlEvent, [In]uint dwProcessGroupId);
+        public static extern bool GenerateConsoleCtrlEvent([In] CtrlEventFlags dwCtrlEvent, [In] uint dwProcessGroupId);
 
         /// <summary>
         /// <para>
@@ -319,7 +381,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleCursorInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetConsoleCursorInfo([In]HANDLE hConsoleOutput, [Out]out CONSOLE_CURSOR_INFO lpConsoleCursorInfo);
+        public static extern BOOL GetConsoleCursorInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_CURSOR_INFO lpConsoleCursorInfo);
 
         /// <summary>
         /// <para>
@@ -369,7 +431,7 @@ namespace Lsj.Util.Win32
         /// To change a console's I/O modes, call <see cref="SetConsoleMode"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetConsoleMode", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetConsoleMode([In]HANDLE hConsoleHandle, [Out]out ConsoleModes lpMode);
+        public static extern BOOL GetConsoleMode([In] HANDLE hConsoleHandle, [Out] out ConsoleModes lpMode);
 
         /// <summary>
         /// <para>
@@ -427,7 +489,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetConsoleScreenBufferInfo([In]IntPtr hConsoleOutput, [Out]out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
+        public static extern bool GetConsoleScreenBufferInfo([In] IntPtr hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
 
         /// <summary>
         /// <para>
@@ -453,7 +515,7 @@ namespace Lsj.Util.Win32
         /// given the current screen buffer size, the current font, and the display size.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargestConsoleWindowSize", ExactSpelling = true, SetLastError = true)]
-        public static extern COORD GetLargestConsoleWindowSize([In]HANDLE hConsoleOutput);
+        public static extern COORD GetLargestConsoleWindowSize([In] HANDLE hConsoleOutput);
 
         /// <summary>
         /// <para>
@@ -488,7 +550,7 @@ namespace Lsj.Util.Win32
         /// To discard all unread records in a console's input buffer, use the <see cref="FlushConsoleInputBuffer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumberOfConsoleInputEvents", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetNumberOfConsoleInputEvents([In]HANDLE hConsoleInput, [Out]out DWORD lpcNumberOfEvents);
+        public static extern BOOL GetNumberOfConsoleInputEvents([In] HANDLE hConsoleInput, [Out] out DWORD lpcNumberOfEvents);
 
         /// <summary>
         /// <para>
@@ -535,7 +597,7 @@ namespace Lsj.Util.Win32
         /// standard handles will not be replaced unless the existing value of the standard handle is <see cref="IntPtr.Zero"/> or a console pseudohandle.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetStdHandle([In]uint nStdHandle);
+        public static extern IntPtr GetStdHandle([In] uint nStdHandle);
 
         /// <summary>
         /// <para>
@@ -573,8 +635,8 @@ namespace Lsj.Util.Win32
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekConsoleInput", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PeekConsoleInput([In]HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In][Out]INPUT_RECORD[] lpBuffer,
-            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsRead);
+        public static extern BOOL PeekConsoleInput([In] HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In][Out] INPUT_RECORD[] lpBuffer,
+            [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
 
         /// <summary>
         /// <para>
@@ -633,8 +695,8 @@ namespace Lsj.Util.Win32
         /// Windows Server 2003 and Windows XP/2000: The intermediate read feature is not supported.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsole", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReadConsole([In]HANDLE hConsoleInput, [Out]LPVOID lpBuffer, [In]DWORD nNumberOfCharsToRead,
-            [Out]out DWORD lpNumberOfCharsRead, [In]in CONSOLE_READCONSOLE_CONTROL pInputControl);
+        public static extern BOOL ReadConsole([In] HANDLE hConsoleInput, [Out] LPVOID lpBuffer, [In] DWORD nNumberOfCharsToRead,
+            [Out] out DWORD lpNumberOfCharsRead, [In] in CONSOLE_READCONSOLE_CONTROL pInputControl);
 
         /// <summary>
         /// <para>
@@ -679,8 +741,8 @@ namespace Lsj.Util.Win32
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInput", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReadConsoleInput([In]HANDLE hConsoleInput, [Out]out INPUT_RECORD[] lpBuffer,
-            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsRead);
+        public static extern BOOL ReadConsoleInput([In] HANDLE hConsoleInput, [Out] out INPUT_RECORD[] lpBuffer,
+            [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
 
         /// <summary>
         /// <para>
@@ -714,7 +776,7 @@ namespace Lsj.Util.Win32
         /// To set and retrieve a console's output code page, use the <see cref="SetConsoleOutputCP"/> and <see cref="GetConsoleOutputCP"/> functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleCP([In]UINT wCodePageID);
+        public static extern BOOL SetConsoleCP([In] UINT wCodePageID);
 
         /// <summary>
         /// <para>
@@ -789,7 +851,7 @@ namespace Lsj.Util.Win32
         /// You can create a hidden window by calling the <see cref="CreateWindowEx"/> method with the dwExStyle parameter set to 0.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleCtrlHandler([In]PHANDLER_ROUTINE HandlerRoutine, [In]BOOL Add);
+        public static extern BOOL SetConsoleCtrlHandler([In] PHANDLER_ROUTINE HandlerRoutine, [In] BOOL Add);
 
         /// <summary>
         /// <para>
@@ -822,7 +884,7 @@ namespace Lsj.Util.Win32
         /// the window origin changes to make the cursor visible.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCursorPosition", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleCursorPosition([In]HANDLE hConsoleOutput, [In]COORD dwCursorPosition);
+        public static extern BOOL SetConsoleCursorPosition([In] HANDLE hConsoleOutput, [In] COORD dwCursorPosition);
 
         /// <summary>
         /// <para>
@@ -872,7 +934,7 @@ namespace Lsj.Util.Win32
         /// To determine the current mode of a console input buffer or a screen buffer, use the <see cref="GetConsoleMode"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleMode", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleMode([In]HANDLE hConsoleHandle, [In]ConsoleModes dwMode);
+        public static extern BOOL SetConsoleMode([In] HANDLE hConsoleHandle, [In] ConsoleModes dwMode);
 
         /// <summary>
         /// <para>
@@ -911,7 +973,7 @@ namespace Lsj.Util.Win32
         /// To set and retrieve a console's input code page, use the <see cref="SetConsoleCP"/> and <see cref="GetConsoleCP"/> functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleOutputCP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleOutputCP([In]UINT wCodePageID);
+        public static extern BOOL SetConsoleOutputCP([In] UINT wCodePageID);
 
         /// <summary>
         /// <para>
@@ -940,7 +1002,7 @@ namespace Lsj.Util.Win32
         /// To determine the current color attributes of a screen buffer, call the <see cref="GetConsoleScreenBufferInfo"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleTextAttribute", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleTextAttribute([In]HANDLE hConsoleOutput, [In]ConsoleCharacterAttributes wAttributes);
+        public static extern BOOL SetConsoleTextAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes wAttributes);
 
         /// <summary>
         /// <para>
@@ -988,7 +1050,7 @@ namespace Lsj.Util.Win32
         /// by shifting the position of the window rectangle without changing its size.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleWindowInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetConsoleWindowInfo([In]HANDLE hConsoleOutput, [In]BOOL bAbsolute, [In]in SMALL_RECT lpConsoleWindow);
+        public static extern BOOL SetConsoleWindowInfo([In] HANDLE hConsoleOutput, [In] BOOL bAbsolute, [In] in SMALL_RECT lpConsoleWindow);
 
         /// <summary>
         /// <para>
@@ -1020,7 +1082,7 @@ namespace Lsj.Util.Win32
         /// Similarly, you can specify the CONOUT$ value to get a handle to the console's active screen buffer.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetStdHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetStdHandle([In]DWORD nStdHandle, [In]HANDLE hHandle);
+        public static extern BOOL SetStdHandle([In] DWORD nStdHandle, [In] HANDLE hHandle);
 
         /// <summary>
         /// <para>
@@ -1079,8 +1141,8 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="SetCursorPos"/>, <see cref="SetConsoleTextAttribute"/>, and <see cref="GetConsoleCursorInfo"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteConsole([In]HANDLE hConsoleOutput, [In]IntPtr lpBuffer, [In]DWORD nNumberOfCharsToWrite,
-            [Out]out DWORD lpNumberOfCharsWritten, [In]LPVOID lpReserved);
+        public static extern BOOL WriteConsole([In] HANDLE hConsoleOutput, [In] IntPtr lpBuffer, [In] DWORD nNumberOfCharsToWrite,
+            [Out] out DWORD lpNumberOfCharsWritten, [In] LPVOID lpReserved);
 
         /// <summary>
         /// <para>
@@ -1118,8 +1180,8 @@ namespace Lsj.Util.Win32
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleInputW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteConsoleInput([In]HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In]INPUT_RECORD[] lpBuffer,
-            [In]DWORD nLength, [Out]out DWORD lpNumberOfEventsWritten);
+        public static extern BOOL WriteConsoleInput([In] HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In] INPUT_RECORD[] lpBuffer,
+            [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsWritten);
 
         /// <summary>
         /// <para>
@@ -1188,8 +1250,8 @@ namespace Lsj.Util.Win32
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteConsoleOutput([In]HANDLE hConsoleOutput, [In]CHAR_INFO[] lpBuffer, [In]COORD dwBufferSize,
-            [In]COORD dwBufferCoord, [In]SMALL_RECT lpWriteRegion);
+        public static extern BOOL WriteConsoleOutput([In] HANDLE hConsoleOutput, [In] CHAR_INFO[] lpBuffer, [In] COORD dwBufferSize,
+            [In] COORD dwBufferCoord, [In] SMALL_RECT lpWriteRegion);
 
         /// <summary>
         /// <para>
@@ -1231,7 +1293,7 @@ namespace Lsj.Util.Win32
         /// The character values at the positions written to are not changed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteConsoleOutputAttributeW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteConsoleOutputAttribute([In]HANDLE hConsoleOutput, [In]ConsoleCharacterAttributes[] lpAttribute,
-            [In]COORD nLength, [In]COORD dwWriteCoord, [Out]out DWORD lpNumberOfAttrsWritten);
+        public static extern BOOL WriteConsoleOutputAttribute([In] HANDLE hConsoleOutput, [In] ConsoleCharacterAttributes[] lpAttribute,
+            [In] COORD nLength, [In] COORD dwWriteCoord, [Out] out DWORD lpNumberOfAttrsWritten);
     }
 }
