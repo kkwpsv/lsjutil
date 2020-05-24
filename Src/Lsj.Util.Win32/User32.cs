@@ -322,21 +322,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Returns the dots per inch (dpi) value for the associated window.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow 
-        /// </para>
-        /// </summary>
-        /// <param name="hwnd">The window you want to get information about.</param>
-        /// <returns>
-        /// The DPI for the window which depends on the DPI_AWARENESS of the window. An invalid hwnd value will result in a return value of 0.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetDpiForWindow([In]IntPtr hwnd);
-
-        /// <summary>
-        /// <para>
         /// The <see cref="GetMonitorInfo"/> function retrieves information about a display monitor.
         /// </para>
         /// <para>
