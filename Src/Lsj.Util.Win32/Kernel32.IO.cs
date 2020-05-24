@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CancelIo([In]IntPtr hFile);
+        public static extern bool CancelIo([In] IntPtr hFile);
 
         /// <summary>
         /// <para>
@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CancelIoEx([In]IntPtr hFile, [In][Out]ref OVERLAPPED lpOverlapped);
+        public static extern bool CancelIoEx([In] IntPtr hFile, [In][Out] ref OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelSynchronousIo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CancelSynchronousIo([In]HANDLE hThread);
+        public static extern BOOL CancelSynchronousIo([In] HANDLE hThread);
 
         /// <summary>
         /// <para>
@@ -241,8 +241,8 @@ namespace Lsj.Util.Win32
         /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateIoCompletionPort([In]IntPtr FileHandle, [In]IntPtr ExistingCompletionPort, [In]UIntPtr CompletionKey,
-            [In]uint NumberOfConcurrentThreads);
+        public static extern IntPtr CreateIoCompletionPort([In] IntPtr FileHandle, [In] IntPtr ExistingCompletionPort, [In] UIntPtr CompletionKey,
+            [In] uint NumberOfConcurrentThreads);
 
         /// <summary>
         /// <para>
@@ -341,8 +341,8 @@ namespace Lsj.Util.Win32
         /// Volume Management Control Codes
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeviceIoControl", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeviceIoControl([In]HANDLE hDevice, [In]IoControlCodes dwIoControlCode, [In]LPVOID lpInBuffer, [In]DWORD nInBufferSize,
-            [In]LPVOID lpOutBuffer, [In]DWORD nOutBufferSize, [Out]out DWORD lpBytesReturned, [In]in OVERLAPPED lpOverlapped);
+        public static extern BOOL DeviceIoControl([In] HANDLE hDevice, [In] IoControlCodes dwIoControlCode, [In] LPVOID lpInBuffer, [In] DWORD nInBufferSize,
+            [In] LPVOID lpOutBuffer, [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesReturned, [In] in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -398,7 +398,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetOverlappedResult([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred, [In]bool bWait);
+        public static extern bool GetOverlappedResult([In] IntPtr hFile, [In] IntPtr lpOverlapped, [Out] out uint lpNumberOfBytesTransferred, [In] bool bWait);
 
         /// <summary>
         /// <para>
@@ -486,8 +486,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetOverlappedResultEx([In]IntPtr hFile, [In]IntPtr lpOverlapped, [Out]out uint lpNumberOfBytesTransferred,
-            [In]uint dwMilliseconds, [In]bool bAlertable);
+        public static extern bool GetOverlappedResultEx([In] IntPtr hFile, [In] IntPtr lpOverlapped, [Out] out uint lpNumberOfBytesTransferred,
+            [In] uint dwMilliseconds, [In] bool bAlertable);
 
         /// <summary>
         /// <para>
@@ -557,8 +557,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetQueuedCompletionStatus([In]IntPtr CompletionPort, [Out]out int lpNumberOfBytesTransferred,
-            [Out]out UIntPtr lpCompletionKey, [Out]out IntPtr lpOverlapped, [In]uint dwMilliseconds);
+        public static extern bool GetQueuedCompletionStatus([In] IntPtr CompletionPort, [Out] out int lpNumberOfBytesTransferred,
+            [Out] out UIntPtr lpCompletionKey, [Out] out IntPtr lpOverlapped, [In] uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -626,8 +626,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetQueuedCompletionStatusEx([In]IntPtr CompletionPort, [In]IntPtr lpCompletionPortEntries, [In]uint ulCount,
-            [Out]out uint ulNumEntriesRemoved, [In]uint dwMilliseconds, [In]bool fAlertable);
+        public static extern bool GetQueuedCompletionStatusEx([In] IntPtr CompletionPort, [In] IntPtr lpCompletionPortEntries, [In] uint ulCount,
+            [Out] out uint ulNumEntriesRemoved, [In] uint dwMilliseconds, [In] bool fAlertable);
 
         /// <summary>
         /// <para>
@@ -651,6 +651,32 @@ namespace Lsj.Util.Win32
         /// call the <see cref="GetOverlappedResult"/> or <see cref="GetQueuedCompletionStatus"/> function.
         /// </remarks>
         public static bool HasOverlappedIoCompleted(OVERLAPPED lpOverlapped) => ((UIntPtr)lpOverlapped.Internal).SafeToUInt32() != (uint)STATUS_PENDING;
+
+        /// <summary>
+        /// <para>
+        /// Sets the current configuration of a communications device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcommconfig
+        /// </para>
+        /// </summary>
+        /// <param name="hCommDev">
+        /// A handle to the open communications device.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="lpCC">
+        /// A pointer to a <see cref="COMMCONFIG"/> structure.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the structure pointed to by <paramref name="lpCC"/>, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommConfig", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetCommConfig([In] HANDLE hCommDev, [In] IntPtr lpCC, [In] DWORD dwSize);
 
         /// <summary>
         /// <para>
@@ -708,6 +734,6 @@ namespace Lsj.Util.Win32
         /// The variable pointed to by the <paramref name="lpEvtMask"/> parameter is set to zero.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitCommEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WaitCommEvent([In]HANDLE hFile, [Out]out CommEvents lpEvtMask, [In]in OVERLAPPED lpOverlapped);
+        public static extern BOOL WaitCommEvent([In] HANDLE hFile, [Out] out CommEvents lpEvtMask, [In] in OVERLAPPED lpOverlapped);
     }
 }
