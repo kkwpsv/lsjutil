@@ -323,6 +323,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Allocates a new pool of threads to execute callbacks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpool
+        /// </para>
+        /// </summary>
+        /// <param name="reserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a TP_POOL structure representing the newly allocated thread pool.
+        /// Applications do not modify the members of this structure.
+        /// If function fails, it returns <see cref="NULL"/>.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// After creating the new thread pool, you should call <see cref="SetThreadpoolThreadMaximum"/> to specify the maximum number of threads
+        /// that the pool can allocate and <see cref="SetThreadpoolThreadMinimum"/> to specify the minimum number of threads available in the pool.
+        /// To use the pool, you must associate the pool with a callback environment.
+        /// To create the callback environment, call <see cref="InitializeThreadpoolEnvironment"/>.
+        /// Then, call <see cref="SetThreadpoolCallbackPool"/> to associate the pool with the callback environment.
+        /// To release the thread pool, call <see cref="CloseThreadpool"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpool", ExactSpelling = true, SetLastError = true)]
+        public static extern PTP_POOL CreateThreadpool([In] PVOID reserved);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified work object.
         /// </para>
         /// <para>
