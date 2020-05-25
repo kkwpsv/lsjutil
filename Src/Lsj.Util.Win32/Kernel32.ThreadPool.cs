@@ -684,6 +684,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Removes the association between the currently executing callback function and the object that initiated the callback.
+        /// The current thread will no longer count as executing a callback on behalf of the object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-disassociatecurrentthreadfromcallback
+        /// </para>
+        /// </summary>
+        /// <param name="pci">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
+        /// The structure is passed to the callback function.
+        /// </param>
+        /// <remarks>
+        /// If this is the last thread executing a callback on behalf of the object,
+        /// any threads waiting for the object's callbacks to complete will be released.
+        /// The thread remains associated with the object's cleanup group until the thread returns to the thread pool.
+        /// This lets DLL shutdown routines safely synchronize with outstanding callbacks
+        /// and proceed with unloading the DLL's code when all callbacks have completed.
+        /// The callback-generating object remains valid for the duration of the callback.
+        /// The callback object may be reused or released (although synchronization with cleanup group release is still required).
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisassociateCurrentThreadFromCallback", ExactSpelling = true, SetLastError = true)]
+        public static extern void DisassociateCurrentThreadFromCallback([In] PTP_CALLBACK_INSTANCE pci);
+
+        /// <summary>
+        /// <para>
         /// Specifies the DLL that the thread pool will unload when the current callback completes.
         /// </para>
         /// <para>
