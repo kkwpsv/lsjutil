@@ -1,11 +1,13 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32
 {
-    public partial class Kernel32
+	public partial class Kernel32
 	{
 		/// <summary>
 		/// <para>
@@ -27,6 +29,36 @@ namespace Lsj.Util.Win32
 		/// The callback function can be used for any purpose, but it is intended to be used primarily to free memory.
 		/// </remarks>
 		public delegate void PFLS_CALLBACK_FUNCTION([In] PVOID lpFlsData);
+
+		/// <summary>
+		/// <para>
+		/// Converts the current thread into a fiber.
+		/// You must convert a thread into a fiber before you can schedule other fibers.
+		/// </para>
+		/// <para>
+		/// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiber
+		/// </para>
+		/// </summary>
+		/// <param name="lpParameter">
+		/// A pointer to a variable that is passed to the fiber.
+		/// The fiber can retrieve this data by using the <see cref="GetFiberData"/> macro.
+		/// </param>
+		/// <returns>
+		/// If the function succeeds, the return value is the address of the fiber.
+		/// If the function fails, the return value is <see cref="NULL"/>.
+		/// To get extended error information, call <see cref="GetLastError"/>.
+		/// </returns>
+		/// <remarks>
+		/// Only fibers can execute other fibers.
+		/// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
+        /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
+        /// The thread is now the current fiber.
+        /// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
+		/// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+		/// </remarks>
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiber", ExactSpelling = true, SetLastError = true)]
+		public static extern LPVOID ConvertThreadToFiber([In] LPVOID lpParameter);
 
 		/// <summary>
 		/// <para>
