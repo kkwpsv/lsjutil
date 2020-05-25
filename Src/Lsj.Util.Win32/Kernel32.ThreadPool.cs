@@ -629,6 +629,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the wait object—replacing the previous wait object, if any.
+        /// A worker thread calls the wait object's callback function after the handle becomes signaled or after the specified timeout expires.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolwait
+        /// </para>
+        /// </summary>
+        /// <param name="pwa">
+        /// A pointer to a TP_WAIT structure that defines the wait object.
+        /// The <see cref="CreateThreadpoolWait"/> function returns this structure.
+        /// </param>
+        /// <param name="h">
+        /// If this parameter is <see cref="NULL"/>, the wait object will cease to queue new callbacks
+        /// (but callbacks already queued will still occur).
+        /// If this parameter is not <see cref="NULL"/>, it must refer to a valid waitable object.
+        /// If this handle is closed while the wait is still pending, the function's behavior is undefined.
+        /// If the wait is still pending and the handle must be closed,
+        /// use <see cref="CloseThreadpoolWait"/> to cancel the wait and then close the handle.
+        /// </param>
+        /// <param name="pftTimeout">
+        /// A pointer to a <see cref="FILETIME"/> structure that specifies the absolute or relative time at which the wait operation should time out.
+        /// If this parameter points to a positive value, it indicates the absolute time since January 1, 1601 (UTC), in 100-nanosecond intervals.
+        /// If this parameter points to a negative value, it indicates the amount of time to wait relative to the current time.
+        /// For more information about time values, see File Times.
+        /// If this parameter points to 0, the wait times out immediately.
+        /// If this parameter is <see cref="NullRef{FILETIME}"/>, the wait will not time out.
+        /// </param>
+        /// <remarks>
+        /// A wait object can wait for only one handle.
+        /// Setting the handle for a wait object replaces the previous handle, if any.
+        /// You must re-register the event with the wait object before signaling it each time to trigger the wait callback.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolWait", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolWait([In] PTP_WAIT pwa, [In] HANDLE h, [In] in FILETIME pftTimeout);
+
+        /// <summary>
+        /// <para>
         /// Posts a work object to the thread pool.
         /// A worker thread calls the work object's callback function.
         /// </para>
