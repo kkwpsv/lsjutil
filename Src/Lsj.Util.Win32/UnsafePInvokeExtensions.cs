@@ -26,6 +26,14 @@ namespace Lsj.Util.Win32
         public static IntPtr AsPointer<T>(ref T o) => (IntPtr)Unsafe.AsPointer(ref o);
 
         /// <summary>
+        /// As Struct Ref
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static ref T AsStructRef<T>(IntPtr p) => ref Unsafe.AsRef<T>(p.ToPointer());
+
+        /// <summary>
         /// As
         /// </summary>
         /// <typeparam name="T"></typeparam>

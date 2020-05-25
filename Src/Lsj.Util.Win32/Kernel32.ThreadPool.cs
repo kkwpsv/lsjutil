@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -11,6 +12,39 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// PTP_CLEANUP_GROUP_CANCEL_CALLBACK
+        /// </summary>
+        /// <param name="ObjectContext"></param>
+        /// <param name="CleanupContext"></param>
+        public delegate void PTP_CLEANUP_GROUP_CANCEL_CALLBACK([In] PVOID ObjectContext, [In] PVOID CleanupContext);
+
+        /// <summary>
+        /// <para>
+        /// Applications implement this callback if they call the <see cref="TrySubmitThreadpoolCallback"/> function to start a worker thread.
+        /// The <see cref="PTP_SIMPLE_CALLBACK"/> type defines a pointer to this callback function.
+        /// SimpleCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686295(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="Instance">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance. Applications do not modify the members of this structure.
+        /// This structure can be passed to one of the following functions:
+        /// <see cref="CallbackMayRunLong"/>
+        /// <see cref="DisassociateCurrentThreadFromCallback"/>
+        /// <see cref="FreeLibraryWhenCallbackReturns"/>
+        /// <see cref="LeaveCriticalSectionWhenCallbackReturns"/>
+        /// <see cref="ReleaseMutexWhenCallbackReturns"/>
+        /// <see cref="ReleaseSemaphoreWhenCallbackReturns"/>
+        /// <see cref="SetEventWhenCallbackReturns"/>
+        /// </param>
+        /// <param name="Context">
+        /// The application-defined data.
+        /// </param>
+        public delegate void PTP_SIMPLE_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context);
+
         /// <summary>
         /// <para>
         /// Applications implement this callback if they call the <see cref="SetThreadpoolTimer"/> function to start a worker thread for the timer object.
@@ -35,7 +69,7 @@ namespace Lsj.Util.Win32
         /// <param name="Timer">
         /// A TP_TIMER structure that defines the timer object that generated the callback.
         /// </param>
-        public delegate void PTP_TIMER_CALLBACK([In]PTP_CALLBACK_INSTANCE Instance, [In]PVOID Context, [In]PTP_TIMER Timer);
+        public delegate void PTP_TIMER_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_TIMER Timer);
 
         /// <summary>
         /// <para>
@@ -66,7 +100,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallbackMayRunLong", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CallbackMayRunLong([In]PTP_CALLBACK_INSTANCE pci);
+        public static extern BOOL CallbackMayRunLong([In] PTP_CALLBACK_INSTANCE pci);
 
         /// <summary>
         /// <para>
@@ -100,8 +134,8 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
-        public static extern PTP_TIMER CreateThreadpoolTimer([MarshalAs(UnmanagedType.FunctionPtr)][In]PTP_TIMER_CALLBACK pfnti,
-          [In]PVOID pv, [In]PTP_CALLBACK_ENVIRON pcbe);
+        public static extern PTP_TIMER CreateThreadpoolTimer([MarshalAs(UnmanagedType.FunctionPtr)][In] PTP_TIMER_CALLBACK pfnti,
+          [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>
@@ -199,8 +233,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateTimerQueueTimer([Out]out HANDLE phNewTimer, [In]HANDLE TimerQueue, [In]WAITORTIMERCALLBACK Callback,
-            [In]PVOID DueTime, [In]DWORD Period, [In]ThreadPoolFlags Flags, [In]ULONG Parameter);
+        public static extern BOOL CreateTimerQueueTimer([Out] out HANDLE phNewTimer, [In] HANDLE TimerQueue, [In] WAITORTIMERCALLBACK Callback,
+            [In] PVOID DueTime, [In] DWORD Period, [In] ThreadPoolFlags Flags, [In] ULONG Parameter);
 
         /// <summary>
         /// <para>
@@ -231,7 +265,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueueEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteTimerQueueEx([In]HANDLE TimerQueue, [In]HANDLE CompletionEvent);
+        public static extern BOOL DeleteTimerQueueEx([In] HANDLE TimerQueue, [In] HANDLE CompletionEvent);
 
         /// <summary>
         /// <para>
@@ -287,7 +321,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteTimerQueueTimer", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteTimerQueueTimer([In]HANDLE TimerQueue, [In]HANDLE Timer, [In]HANDLE CompletionEvent);
+        public static extern BOOL DeleteTimerQueueTimer([In] HANDLE TimerQueue, [In] HANDLE Timer, [In] HANDLE CompletionEvent);
 
         /// <summary>
         /// <para>
@@ -322,7 +356,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
-        public static extern void InitializeThreadpoolEnvironment([In]PTP_CALLBACK_ENVIRON pcbe);
+        public static extern void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>
@@ -375,6 +409,6 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWaitEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnregisterWaitEx([In]HANDLE WaitHandle, [In]HANDLE CompletionEvent);
+        public static extern BOOL UnregisterWaitEx([In] HANDLE WaitHandle, [In] HANDLE CompletionEvent);
     }
 }

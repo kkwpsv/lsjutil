@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
-    /// PTP_TIMER
+    /// PTP_POOL
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct PTP_CALLBACK_ENVIRON
+    public struct PTP_POOL
     {
         private IntPtr _value;
 
@@ -18,12 +18,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator IntPtr(PTP_CALLBACK_ENVIRON val) => val._value;
+        public static implicit operator IntPtr(PTP_POOL val) => val._value;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="val"></param>
-        public static implicit operator PTP_CALLBACK_ENVIRON(IntPtr val) => new PTP_CALLBACK_ENVIRON { _value = val };
+        public static implicit operator PTP_POOL(IntPtr val) => new PTP_POOL { _value = val };
     }
 }
