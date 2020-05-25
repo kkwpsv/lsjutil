@@ -794,6 +794,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Waits for outstanding wait callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolwaitcallbacks
+        /// </para>
+        /// </summary>
+        /// <param name="pwa">
+        /// A TP_WAIT structure that defines the wait object.
+        /// The <see cref="CreateThreadpoolWait"/> function returns the TP_WAIT structure.
+        /// </param>
+        /// <param name="fCancelPendingCallbacks">
+        /// Indicates whether to cancel queued callbacks that have not yet started to execute.
+        /// </param>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolWaitCallbacks", ExactSpelling = true, SetLastError = true)]
+        public static extern void WaitForThreadpoolWaitCallbacks([In] PTP_WAIT pwa, [In] BOOL fCancelPendingCallbacks);
+
+        /// <summary>
+        /// <para>
         /// Waits for outstanding work callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
