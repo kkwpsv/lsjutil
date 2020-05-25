@@ -203,6 +203,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases the specified wait object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwait
+        /// </para>
+        /// </summary>
+        /// <param name="pwa">
+        /// A TP_WAIT structure that defines the wait object.
+        /// The <see cref="CreateThreadpoolWait"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The wait object is freed immediately if there are no outstanding callbacks;
+        /// otherwise, the timer object is freed asynchronously after the outstanding callbacks complete.
+        /// If there is a cleanup group associated with the wait object, it is not necessary to call this function;
+        /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
+        /// wait, and timer objects associated with the cleanup group.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWait", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolWait([In] PTP_WAIT pwa);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified work object.
         /// </para>
         /// <para>
