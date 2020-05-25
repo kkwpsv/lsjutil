@@ -961,6 +961,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Waits for outstanding I/O completion callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooliocallbacks
+        /// </para>
+        /// </summary>
+        /// <param name="pio">
+        /// A TP_IO structure that defines the I/O completion object.
+        /// The <see cref="CreateThreadpoolIo"/> function returns this structure.
+        /// </param>
+        /// <param name="fCancelPendingCallbacks">
+        /// Indicates whether to cancel queued callbacks that have not yet started to execute.
+        /// </param>
+        /// <remarks>
+        /// When <paramref name="fCancelPendingCallbacks"/> is set to <see cref="TRUE"/>, only queued callbacks are canceled.
+        /// Pending I/O requests are not canceled.
+        /// Therefore, the caller should call <see cref="GetOverlappedResult"/> for the <see cref="OVERLAPPED"/> structure
+        /// to check whether the I/O operation has completed before freeing the structure.
+        /// As an alternative, set <paramref name="fCancelPendingCallbacks"/> to <see cref="FALSE"/>
+        /// and have the associated I/O completion callback free the <see cref="OVERLAPPED"/> structure.
+        /// Be careful not to free the <see cref="OVERLAPPED"/> structure while I/O requests are still pending;
+        /// use <see cref="GetOverlappedResult"/> to determine the status of the I/O operation and wait for the operation to complete.
+        /// The <see cref="CancelIoEx"/> function can optionally be used first to cancel outstanding I/O requests, potentially shortening the wait.
+        /// For more information, see Canceling Pending I/O Operations.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolIoCallbacks", ExactSpelling = true, SetLastError = true)]
+        public static extern void WaitForThreadpoolIoCallbacks([In] PTP_IO pio, [In] BOOL fCancelPendingCallbacks);
+
+        /// <summary>
+        /// <para>
         /// Waits for outstanding timer callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
