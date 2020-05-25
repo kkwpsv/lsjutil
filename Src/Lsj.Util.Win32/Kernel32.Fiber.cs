@@ -375,6 +375,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the fiber data associated with the current fiber.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getfiberdata
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The macro returns the fiber data for the currently running fiber.
+        /// </returns>
+        /// <remarks>
+        /// The fiber data is the value passed to the <see cref="CreateFiber"/>
+        /// or <see cref="ConvertThreadToFiber"/> function in the lpParameter parameter.
+        /// This value is also received as the parameter to the fiber function.
+        /// It is stored as part of the fiber state information.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFiberData", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID GetFiberData();
+
+        /// <summary>
+        /// <para>
         /// Schedules a fiber. The function must be called on a fiber.
         /// </para>
         /// <para>
