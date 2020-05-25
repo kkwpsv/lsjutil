@@ -902,6 +902,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// ets the maximum number of threads that the specified thread pool can allocate to process callbacks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadmaximum
+        /// </para>
+        /// </summary>
+        /// <param name="ptpp">
+        /// A TP_POOL structure that defines the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this structure.
+        /// </param>
+        /// <param name="cthrdMost">
+        /// The maximum number of threads.
+        /// </param>
+        /// <remarks>
+        /// To specify the minimum number of threads available in the pool, call <see cref="SetThreadpoolThreadMinimum"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMaximum", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolThreadMaximum([In] PTP_POOL ptpp, [In] DWORD cthrdMost);
+
+        /// <summary>
+        /// <para>
+        /// Sets the minimum number of threads that the specified thread pool must make available to process callbacks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadminimum
+        /// </para>
+        /// </summary>
+        /// <param name="ptpp">
+        /// A TP_POOL structure that defines the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this structure.
+        /// </param>
+        /// <param name="cthrdMic">
+        /// The minimum number of threads.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To specify the maximum number of threads that the pool may allocate, call <see cref="SetThreadpoolThreadMaximum"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolThreadMaximum", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadpoolThreadMinimum([In] PTP_POOL ptpp, [In] DWORD cthrdMic);
+
+        /// <summary>
+        /// <para>
         /// Sets the timer object—, replacing the previous timer, if any.
         /// A worker thread calls the timer object's callback after the specified timeout expires.
         /// </para>
