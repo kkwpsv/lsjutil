@@ -973,6 +973,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Associates the specified cleanup group with the specified callback environment.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackcleanupgroup
+        /// </para>
+        /// </summary>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// </param>
+        /// <param name="ptpcg">
+        /// A TP_CLEANUP_GROUP structure that defines the cleanup group.
+        /// The <see cref="CreateThreadpoolCleanupGroup"/> function returns this structure.
+        /// </param>
+        /// <param name="pfng">
+        /// The cleanup callback to be called if the cleanup group is canceled before the associated object is released.
+        /// The function is called when you call <see cref="CloseThreadpoolCleanupGroupMembers"/>.
+        /// </param>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackCleanupGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolCallbackCleanupGroup([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_CLEANUP_GROUP ptpcg,
+            [In] PTP_CLEANUP_GROUP_CANCEL_CALLBACK pfng);
+
+        /// <summary>
+        /// <para>
         /// Sets the thread pool to be used when generating callbacks.
         /// </para>
         /// <para>
