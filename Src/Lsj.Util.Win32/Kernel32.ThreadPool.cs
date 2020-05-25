@@ -628,6 +628,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Waits for outstanding timer callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooltimercallbacks
+        /// </para>
+        /// </summary>
+        /// <param name="pti">
+        /// A TP_TIMER structure that defines the timer object.
+        /// The <see cref="CreateThreadpoolTimer"/> function returns the TP_TIMER structure.
+        /// </param>
+        /// <param name="fCancelPendingCallbacks">
+        /// Indicates whether to cancel queued callbacks that have not yet started to execute.
+        /// </param>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolTimerCallbacks", ExactSpelling = true, SetLastError = true)]
+        public static extern void WaitForThreadpoolTimerCallbacks([In] PTP_TIMER pti, [In] BOOL fCancelPendingCallbacks);
+
+        /// <summary>
+        /// <para>
         /// Waits for outstanding work callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
