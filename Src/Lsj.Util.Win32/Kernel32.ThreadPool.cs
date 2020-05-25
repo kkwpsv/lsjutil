@@ -450,6 +450,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines whether the specified timer object is currently set.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-isthreadpooltimerset
+        /// </para>
+        /// </summary>
+        /// <param name="pti">
+        /// A TP_TIMER structure that defines the timer object.
+        /// The <see cref="CreateThreadpoolTimer"/> function returns this structure.
+        /// </param>
+        /// <returns>
+        /// The return value is <see cref="TRUE"/> if the timer is set; otherwise, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadpoolTimerSet", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsThreadpoolTimerSet([In] PTP_TIMER pti);
+
+        /// <summary>
+        /// <para>
         /// Sets the timer object—, replacing the previous timer, if any.
         /// A worker thread calls the timer object's callback after the specified timeout expires.
         /// </para>
