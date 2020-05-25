@@ -216,6 +216,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes an existing fiber.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiber
+        /// </para>
+        /// </summary>
+        /// <param name="lpFiber">
+        /// The address of the fiber to be deleted.
+        /// </param>
+        /// <remarks>
+        /// The DeleteFiber function deletes all data associated with the fiber.
+        /// This data includes the stack, a subset of the registers, and the fiber data.
+        /// If the currently running fiber calls <see cref="DeleteFiber"/>, its thread calls <see cref="ExitThread"/> and terminates.
+        /// However, if a currently running fiber is deleted by another fiber,
+        /// the thread running the deleted fiber is likely to terminate abnormally because the fiber stack has been freed.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFiber", ExactSpelling = true, SetLastError = true)]
+        public static extern void DeleteFiber([In] LPVOID lpFiber);
+
+        /// <summary>
+        /// <para>
         /// Allocates a fiber local storage (FLS) index.
         /// Any fiber in the process can subsequently use this index to store and retrieve values that are local to the fiber.
         /// </para>
