@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
@@ -49,6 +50,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Applications implement this callback if they call the <see cref="SetThreadpoolWait"/> function to start a worker thread for the wait object.
+        /// The <see cref="PTP_WAIT_CALLBACK"/> type defines a pointer to this callback function.
+        /// WaitCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687017(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="Instance">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
+        /// Applications do not modify the members of this structure.
+        /// This structure can be passed to one of the following functions:
+        /// <see cref="CallbackMayRunLong"/>
+        /// <see cref="DisassociateCurrentThreadFromCallback"/>
+        /// <see cref="FreeLibraryWhenCallbackReturns"/>
+        /// <see cref="LeaveCriticalSectionWhenCallbackReturns"/>
+        /// <see cref="ReleaseMutexWhenCallbackReturns"/>
+        /// <see cref="ReleaseSemaphoreWhenCallbackReturns"/>
+        /// <see cref="SetEventWhenCallbackReturns"/>
+        /// </param>
+        /// <param name="Context">
+        /// The application-defined data.
+        /// </param>
+        /// <param name="Wait">
+        /// A TP_WAIT structure that defines the wait object that generated the callback.
+        /// </param>
+        /// <param name="WaitResult">
+        /// The result of the wait operation.
+        /// This parameter can be one of the following values from <see cref="WaitForMultipleObjects"/>:
+        /// <see cref="WAIT_OBJECT_0"/>
+        /// <see cref="WAIT_TIMEOUT"/>
+        /// </param>
+        public delegate void PTP_WAIT_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WAIT Wait, [In] WaitResult WaitResult);
+
+        /// <summary>
+        /// <para>
         /// Applications implement this callback if they call the <see cref="SubmitThreadpoolWork"/> function
         /// to start a worker thread for the work object.
         /// The <see cref="PTP_WORK_CALLBACK"/> type defines a pointer to this callback function.
@@ -59,7 +96,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Instance">
-        /// A <see cref="TP_CALLBACK_INSTANCE"/> structure that defines the callback instance.
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
         /// Applications do not modify the members of this structure.
         /// This structure can be passed to one of the following functions:
         /// <see cref="SetEventWhenCallbackReturns"/>
@@ -203,7 +240,7 @@ namespace Lsj.Util.Win32
         /// Optional application-defined data to pass to the callback function.
         /// </param>
         /// <param name="pcbe">
-        /// A TP_CALLBACK_ENVIRON structure that defines the environment in which to execute the callback.
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the environment in which to execute the callback.
         /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
         /// If this parameter is <see cref="IntPtr.Zero"/>, the callback executes in the default callback environment.
         /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
@@ -221,6 +258,47 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
         public static extern PTP_TIMER CreateThreadpoolTimer([MarshalAs(UnmanagedType.FunctionPtr)][In] PTP_TIMER_CALLBACK pfnti,
           [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new wait object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwait
+        /// </para>
+        /// </summary>
+        /// <param name="pfnwa">
+        /// The callback function to call when the wait completes or times out.
+        /// For details, see WaitCallback.
+        /// </param>
+        /// <param name="pv">
+        /// Optional application-defined data to pass to the callback function.
+        /// </param>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the environment in which to execute the callback.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// If this parameter is <see cref="IntPtr.Zero"/>, the callback executes in the default callback environment.
+        /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a TP_WAIT structure that defines the wait object.
+        /// Applications do not modify the members of this structure.
+        /// If the function fails, it returns <see cref="NULL"/>.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To set the wait object, call the <see cref="SetThreadpoolWait"/> function.
+        /// The work item and all functions it calls must be thread-pool safe.
+        /// Therefore, you cannot call an asynchronous call that requires a persistent thread,
+        /// such as the <see cref="RegNotifyChangeKeyValue"/> function, from the default callback environment.
+        /// Instead, set the thread pool maximum equal to the thread pool minimum
+        /// using the <see cref="SetThreadpoolThreadMaximum"/> and <see cref="SetThreadpoolThreadMinimum"/> functions,
+        /// or create your own thread using the <see cref="CreateThread"/> function.
+        /// Windows 8:  <see cref="RegNotifyChangeKeyValue"/> can be called from a work item
+        /// by setting the <see cref="REG_NOTIFY_THREAD_AGNOSTIC"/> flag.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolWait", ExactSpelling = true, SetLastError = true)]
+        public static extern PTP_WAIT CreateThreadpoolWait([In] PTP_WAIT_CALLBACK pfnwa, [In] PVOID pv, [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
         /// <summary>
         /// <para>
