@@ -247,6 +247,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes the specified thread pool.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpool
+        /// </para>
+        /// </summary>
+        /// <param name="ptpp">
+        /// A TP_POOL structure that defines the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The thread pool is closed immediately if there are no outstanding work, I/O, timer, or wait objects that are bound to the pool;
+        /// otherwise, the thread pool is released asynchronously after the outstanding objects are freed.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpool", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpool([In] PTP_POOL ptpp);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified I/O completion object.
         /// </para>
         /// <para>
