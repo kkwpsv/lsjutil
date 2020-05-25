@@ -782,6 +782,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Specifies the semaphore that the thread pool will release when the current callback completes.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-releasesemaphorewhencallbackreturns
+        /// </para>
+        /// </summary>
+        /// <param name="pci">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
+        /// The structure is passed to the callback function.
+        /// </param>
+        /// <param name="sem">
+        /// A handle to the semaphore.
+        /// </param>
+        /// <param name="crel">
+        /// The amount by which to increment the semaphore object's count.
+        /// </param>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutexWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
+        public static extern void ReleaseSemaphoreWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE sem, [In] DWORD crel);
+
+        /// <summary>
+        /// <para>
         /// Sets the timer object—, replacing the previous timer, if any.
         /// A worker thread calls the timer object's callback after the specified timeout expires.
         /// </para>
