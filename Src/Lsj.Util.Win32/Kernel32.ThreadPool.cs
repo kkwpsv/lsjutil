@@ -267,6 +267,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Closes the specified cleanup group.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolcleanupgroup
+        /// </para>
+        /// </summary>
+        /// <param name="ptpcg">
+        /// A TP_CLEANUP_GROUP structure that defines the cleanup group.
+        /// The <see cref="CreateThreadpoolCleanupGroup"/> returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The cleanup group must have no members when you call this function.
+        /// For information on removing members of the group, see <see cref="CloseThreadpoolCleanupGroupMembers"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolCleanupGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolCleanupGroup([In] PTP_CLEANUP_GROUP ptpcg);
+
+        /// <summary>
+        /// <para>
         /// Releases the members of the specified cleanup group, waits for all callback functions to complete,
         /// and optionally cancels any outstanding callback functions.
         /// </para>
@@ -316,7 +336,8 @@ namespace Lsj.Util.Win32
         /// Work1 and Work2 are added to the cleanup group before its existing members are released, causing both Work1 and Work2 to be released.
         /// Code that submits Work1 or Work2 will generate an exception.
         /// To simply wait for or cancel pending work items without releasing them, use one of the threadpool callback functions:
-        /// <see cref="WaitForThreadpoolIoCallbacks"/>, <see cref="WaitForThreadpoolTimerCallbacks"/>, <see cref="WaitForThreadpoolWaitCallbacks"/>, or <see cref="WaitForThreadpoolWorkCallbacks"/>.
+        /// <see cref="WaitForThreadpoolIoCallbacks"/>, <see cref="WaitForThreadpoolTimerCallbacks"/>,
+        /// <see cref="WaitForThreadpoolWaitCallbacks"/>, or <see cref="WaitForThreadpoolWorkCallbacks"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpool", ExactSpelling = true, SetLastError = true)]
