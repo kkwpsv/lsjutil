@@ -137,6 +137,35 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases the specified timer object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpooltimer
+        /// </para>
+        /// </summary>
+        /// <param name="pti">
+        /// A TP_TIMER structure that defines the timer object.
+        /// The <see cref="CreateThreadpoolTimer"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The timer object is freed immediately if there are no outstanding callbacks;
+        /// otherwise, the timer object is freed asynchronously after the outstanding callback functions complete.
+        /// In some cases, callback functions might run after <see cref="CloseThreadpoolTimer"/> has been called.
+        /// To prevent this behavior:
+        /// Call the <see cref="SetThreadpoolTimer"/> function with the pftDueTime parameter set to <see cref="NullRef{FILETIME}"/>
+        /// and the msPeriod and msWindowLength parameters set to 0.
+        /// Call the <see cref="WaitForThreadpoolTimerCallbacks"/> function.
+        /// Call <see cref="CloseThreadpoolTimer"/>.
+        /// If there is a cleanup group associated with the timer object, it is not necessary to call this function;
+        /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
+        /// wait, and timer objects associated with the cleanup group.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolTimer([In] PTP_TIMER pti);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified work object.
         /// </para>
         /// <para>
