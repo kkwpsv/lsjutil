@@ -965,6 +965,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Indicates that callbacks associated with this callback environment may not return quickly.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackrunslong
+        /// </para>
+        /// </summary>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// </param>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackRunsLong", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
         /// ets the maximum number of threads that the specified thread pool can allocate to process callbacks.
         /// </para>
         /// <para>
