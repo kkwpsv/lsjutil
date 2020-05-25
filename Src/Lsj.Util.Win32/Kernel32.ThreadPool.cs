@@ -247,6 +247,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases the specified I/O completion object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+        /// </para>
+        /// </summary>
+        /// <param name="pio">
+        /// A TP_IO structure that defines the I/O completion object.
+        /// The <see cref="CreateThreadpoolIo"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The I/O completion object is freed immediately if there are no outstanding callbacks;
+        /// otherwise, the I/O completion object is freed asynchronously after the outstanding callbacks complete.
+        /// You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete
+        /// before calling this function—you must not cause any more overlapped I/O operations to occur after calling this function.
+        /// It may be necessary to cancel threadpool I/O notifications to prevent memory leaks.
+        /// For more information, see <see cref="CancelThreadpoolIo"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolIo", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolIo([In] PTP_IO pio);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified timer object.
         /// </para>
         /// <para>
