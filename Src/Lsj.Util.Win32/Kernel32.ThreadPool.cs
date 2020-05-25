@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -83,6 +84,54 @@ namespace Lsj.Util.Win32
         /// <see cref="WAIT_TIMEOUT"/>
         /// </param>
         public delegate void PTP_WAIT_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WAIT Wait, [In] WaitResult WaitResult);
+
+        /// <summary>
+        /// <para>
+        /// Applications implement this callback if they call the <see cref="StartThreadpoolIo"/> function
+        /// to start a worker thread for the I/O completion object.
+        /// The <see cref="PTP_WIN32_IO_CALLBACK"/> type defines a pointer to this callback function.
+        /// IoCompletionCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// </summary>
+        /// <param name="Instance">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
+        /// Applications do not modify the members of this structure.
+        /// This structure can be passed to one of the following functions:
+        /// <see cref="CallbackMayRunLong"/>
+        /// <see cref="DisassociateCurrentThreadFromCallback"/>
+        /// <see cref="FreeLibraryWhenCallbackReturns"/>
+        /// <see cref="LeaveCriticalSectionWhenCallbackReturns"/>
+        /// <see cref="ReleaseMutexWhenCallbackReturns"/>
+        /// <see cref="ReleaseSemaphoreWhenCallbackReturns"/>
+        /// <see cref="SetEventWhenCallbackReturns"/>
+        /// </param>
+        /// <param name="Context">
+        /// The application-defined data.
+        /// </param>
+        /// <param name="Overlapped">
+        /// A pointer to a variable that receives the address of the <see cref="OVERLAPPED"/> structure
+        /// that was specified when the completed I/O operation was started.
+        /// </param>
+        /// <param name="IoResult">
+        /// The result of the I/O operation.
+        /// If the I/O is successful, this parameter is <see cref="NO_ERROR"/>.
+        /// Otherwise, this parameter is one of the system error codes.
+        /// </param>
+        /// <param name="NumberOfBytesTransferred">
+        /// The number of bytes transferred during the I/O operation that has completed.
+        /// </param>
+        /// <param name="Io">
+        /// A TP_IO structure that defines the I/O completion object that generated the callback.
+        /// </param>
+        /// <remarks>
+        /// If the file handle bound to the I/O completion object has the notification mode <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>
+        /// and an asynchronous I/O operation returns immediately with success,
+        /// the I/O completion callback function is not called and threadpool I/O notifications must be canceled.
+        /// For more information, see <see cref="CancelThreadpoolIo"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        public delegate void PTP_WIN32_IO_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PVOID Overlapped,
+            [In] SystemErrorCodes IoResult, [In] ULONG_PTR NumberOfBytesTransferred, [In] PTP_IO Io);
 
         /// <summary>
         /// <para>
@@ -249,6 +298,48 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new I/O completion object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolio
+        /// </para>
+        /// </summary>
+        /// <param name="fl">
+        /// The file handle to bind to this I/O completion object.
+        /// </param>
+        /// <param name="pfnio">
+        /// The callback function to be called each time an overlapped I/O operation completes on the file.
+        /// For details, see IoCompletionCallback.
+        /// </param>
+        /// <param name="pv">
+        /// Optional application-defined data to pass to the callback function.
+        /// </param>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the environment in which to execute the callback.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// If this parameter is <see cref="NullRef{TP_CALLBACK_ENVIRON}"/>, the callback executes in the default callback environment.
+        /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a TP_IO structure that defines the I/O object.
+        /// Applications do not modify the members of this structure.
+        /// If the function fails, it returns <see cref="NULL"/>.
+        /// To retrieve extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To begin receiving overlapped I/O completion callbacks, call the <see cref="StartThreadpoolIo"/> function.
+        /// If the file handle bound to the I/O completion object has the notification mode <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>
+        /// and an asychronous I/O operation returns immediately with success,
+        /// the I/O completion callback function is not called and threadpool I/O notifications must be canceled.
+        /// For more information, see <see cref="CancelThreadpoolIo"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThreadpoolIo", ExactSpelling = true, SetLastError = true)]
+        public static extern PTP_IO CreateThreadpoolIo([In] HANDLE fl, [In] PTP_WIN32_IO_CALLBACK pfnio, [In] PVOID pv,
+            [In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
         /// Creates a new timer object.
         /// </para>
         /// <para>
@@ -265,7 +356,7 @@ namespace Lsj.Util.Win32
         /// <param name="pcbe">
         /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the environment in which to execute the callback.
         /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
-        /// If this parameter is <see cref="IntPtr.Zero"/>, the callback executes in the default callback environment.
+        /// If this parameter is <see cref="NullRef{TP_CALLBACK_ENVIRON}"/>, the callback executes in the default callback environment.
         /// For more information, see <see cref="InitializeThreadpoolEnvironment"/>.
         /// </param>
         /// <returns>
