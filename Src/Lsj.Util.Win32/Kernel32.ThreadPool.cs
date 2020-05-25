@@ -136,6 +136,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Releases the specified work object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwork
+        /// </para>
+        /// </summary>
+        /// <param name="pwk">
+        /// A TP_WORK structure that defines the work object.
+        /// The <see cref="CreateThreadpoolWork"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// The work object is freed immediately if there are no outstanding callbacks;
+        /// otherwise, the work object is freed asynchronously after the outstanding callbacks complete.
+        /// If there is a cleanup group associated with the work object, it is not necessary to call this function;
+        /// calling the <see cref="CloseThreadpoolCleanupGroupMembers"/> function releases the work,
+        /// wait, and timer objects associated with the cleanup group.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseThreadpoolWork", ExactSpelling = true, SetLastError = true)]
+        public static extern void CloseThreadpoolWork([In] PTP_WORK pwk);
+
+        /// <summary>
+        /// <para>
         /// Creates a new timer object.
         /// </para>
         /// <para>
