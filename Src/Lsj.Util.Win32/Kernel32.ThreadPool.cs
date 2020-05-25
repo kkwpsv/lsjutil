@@ -781,6 +781,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Notifies the thread pool that I/O operations may possibly begin for the specified I/O completion object.
+        /// A worker thread calls the I/O completion object's callback function after the operation completes on the file handle bound to this object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-startthreadpoolio
+        /// </para>
+        /// </summary>
+        /// <param name="pio">
+        /// A TP_IO structure that defines the I/O completion object.
+        /// The <see cref="CreateThreadpoolIo"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// You must call this function before initiating each asynchronous I/O operation on the file handle bound to the I/O completion object.
+        /// Failure to do so will cause the thread pool to ignore an I/O operation when it completes and will cause memory corruption.
+        /// If the I/O operation fails, call the <see cref="CancelThreadpoolIo"/> function to cancel this notification.
+        /// If the file handle bound to the I/O completion object has the notification mode <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>
+        /// and an asynchronous I/O operation returns immediately with success,
+        /// the object's I/O completion callback function is not called and threadpool I/O notifications must be canceled.
+        /// For more information, see <see cref="CancelThreadpoolIo"/>.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "StartThreadpoolIo", ExactSpelling = true, SetLastError = true)]
+        public static extern void StartThreadpoolIo([In] PTP_IO pio);
+
+        /// <summary>
+        /// <para>
         /// Posts a work object to the thread pool.
         /// A worker thread calls the work object's callback function.
         /// </para>
