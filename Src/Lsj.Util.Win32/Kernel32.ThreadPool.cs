@@ -965,6 +965,37 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Ensures that the specified DLL remains loaded as long as there are outstanding callbacks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbacklibrary
+        /// </para>
+        /// </summary>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// </param>
+        /// <param name="mod">
+        /// A handle to the DLL.
+        /// </param>
+        /// <remarks>
+        /// You should call this function if a callback might acquire the loader lock.
+        /// This prevents a deadlock from occurring when one thread in DllMain is waiting for the callback to end,
+        /// and another thread that is executing the callback attempts to acquire the loader lock.
+        /// If the DLL containing the callback might be unloaded, the cleanup code in DllMain must cancel outstanding callbacks before releasing the object.
+        /// Managing callbacks created with a <see cref="TP_CALLBACK_ENVIRON"/> that specifies a callback library is somewhat processing-intensive.
+        /// You should consider other options for ensuring that the library is not unloaded while callbacks are executing,
+        /// or to guarantee that callbacks which may be executing do not acquire the loader lock.
+        /// The thread pool assumes ownership of the library reference supplied to this function.
+        /// The caller should not call <see cref="FreeLibrary"/> on a module handle after passing it to this function.
+        /// This function is implemented as an inline function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackLibrary", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolCallbackLibrary([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PVOID mod);
+
+        /// <summary>
+        /// <para>
         /// Indicates that callbacks associated with this callback environment may not return quickly.
         /// </para>
         /// <para>
@@ -975,6 +1006,11 @@ namespace Lsj.Util.Win32
         /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
         /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
         /// </param>
+        /// <remarks>
+        /// The thread pool may use this information to better determine when a new thread should be created.
+        /// This function is implemented as an inline function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackRunsLong", ExactSpelling = true, SetLastError = true)]
         public static extern void SetThreadpoolCallbackRunsLong([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
 
