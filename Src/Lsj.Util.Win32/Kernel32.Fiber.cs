@@ -331,5 +331,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsSetValue", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FlsSetValue([In] DWORD dwFlsIndex, [In] PVOID lpFlsData);
+
+        /// <summary>
+        /// <para>
+        /// Schedules a fiber. The function must be called on a fiber.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-switchtofiber
+        /// </para>
+        /// </summary>
+        /// <param name="lpFiber">
+        /// The address of the fiber to be scheduled.
+        /// </param>
+        /// <remarks>
+        /// You create fibers with the <see cref="CreateFiber"/> function.
+        /// Before you can schedule fibers associated with a thread,
+        /// you must call <see cref="ConvertThreadToFiber"/> to set up an area in which to save the fiber state information.
+        /// The thread is now the currently executing fiber.
+        /// The <see cref="SwitchToFiber"/> function saves the state information of the current fiber and restores the state of the specified fiber.
+        /// You can call <see cref="SwitchToFiber"/> with the address of a fiber created by a different thread.
+        /// To do this, you must have the address returned to the other thread
+        /// when it called <see cref="CreateFiber"/> and you must use proper synchronization.
+        /// Avoid making the following call:
+        /// <code>SwitchToFiber( GetCurrentFiber() );</code>
+        /// This call can cause unpredictable problems.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchToFiber", ExactSpelling = true, SetLastError = true)]
+        public static extern void SwitchToFiber([In] LPVOID lpFiber);
     }
 }
