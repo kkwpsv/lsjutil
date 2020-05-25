@@ -10,6 +10,11 @@ namespace Lsj.Util.Win32
 	public partial class Kernel32
 	{
 		/// <summary>
+		/// FIBER_FLAG_FLOAT_SWITCH
+		/// </summary>
+		public const uint FIBER_FLAG_FLOAT_SWITCH = 0x1;
+
+		/// <summary>
 		/// <para>
 		/// An application-defined function.
 		/// If the FLS slot is in use, FlsCallback is called on fiber deletion, thread exit, and when an FLS index is freed.
@@ -51,14 +56,49 @@ namespace Lsj.Util.Win32
 		/// <remarks>
 		/// Only fibers can execute other fibers.
 		/// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/>
-        /// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
-        /// The thread is now the current fiber.
-        /// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
+		/// or <see cref="ConvertThreadToFiberEx"/> to create an area in which to save fiber state information.
+		/// The thread is now the current fiber.
+		/// The state information for this fiber includes the fiber data specified by <paramref name="lpParameter"/>.
 		/// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
-        /// For more information, see Using the Windows Headers.
+		/// For more information, see Using the Windows Headers.
 		/// </remarks>
 		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiber", ExactSpelling = true, SetLastError = true)]
 		public static extern LPVOID ConvertThreadToFiber([In] LPVOID lpParameter);
+
+		/// <summary>
+		/// <para>
+		/// Converts the current thread into a fiber.
+		/// You must convert a thread into a fiber before you can schedule other fibers.
+		/// </para>
+		/// <para>
+		/// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiberex
+		/// </para>
+		/// </summary>
+		/// <param name="lpParameter">
+		/// A pointer to a variable that is passed to the fiber.
+		/// The fiber can retrieve this data by using the <see cref="GetFiberData"/> macro.
+		/// </param>
+		/// <param name="dwFlags">
+		/// If this parameter is zero, the floating-point state on x86 systems is not switched
+		/// and data can be corrupted if a fiber uses floating-point arithmetic.
+		/// If this parameter is <see cref="FIBER_FLAG_FLOAT_SWITCH"/>, the floating-point state is switched for the fiber.
+		/// </param>
+		/// <returns>
+		/// If the function succeeds, the return value is the address of the fiber.
+		/// If the function fails, the return value is NULL.
+		/// To get extended error information, call GetLastError.
+		/// </returns>
+		/// <remarks>
+		/// Only fibers can execute other fibers.
+		/// If a thread needs to execute a fiber, it must call <see cref="ConvertThreadToFiber"/> or <see cref="ConvertThreadToFiberEx"/>
+        /// to create an area in which to save fiber state information.
+        /// The thread is now the current fiber. The state information for this fiber
+        /// includes the fiber data specified by <paramref name="lpParameter"/>.
+		/// To compile an application that uses this function, define _WIN32_WINNT as 0x0400 or later.
+        /// For more information, see Using the Windows Headers.
+		/// </remarks>
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertThreadToFiberEx", ExactSpelling = true, SetLastError = true)]
+		public static extern LPVOID ConvertThreadToFiberEx([In] LPVOID lpParameter, [In] DWORD dwFlags);
 
 		/// <summary>
 		/// <para>
