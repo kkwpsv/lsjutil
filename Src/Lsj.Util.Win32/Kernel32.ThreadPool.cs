@@ -529,5 +529,26 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnregisterWaitEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL UnregisterWaitEx([In] HANDLE WaitHandle, [In] HANDLE CompletionEvent);
+
+        /// <summary>
+        /// <para>
+        /// Waits for outstanding work callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolworkcallbacks
+        /// </para>
+        /// </summary>
+        /// <param name="pwk">
+        /// A TP_WORK structure that defines the work object.
+        /// The <see cref="CreateThreadpoolWork"/> function returns this structure.
+        /// </param>
+        /// <param name="fCancelPendingCallbacks">
+        /// Indicates whether to cancel queued callbacks that have not yet started to execute.
+        /// </param>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForThreadpoolWorkCallbacks", ExactSpelling = true, SetLastError = true)]
+        public static extern void WaitForThreadpoolWorkCallbacks([In] PTP_WORK pwk, [In] BOOL fCancelPendingCallbacks);
     }
 }
