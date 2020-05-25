@@ -733,6 +733,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes the specified callback environment.
+        /// Call this function when the callback environment is no longer needed for creating new thread pool objects.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-destroythreadpoolenvironment
+        /// </para>
+        /// </summary>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// This function is implemented as an inline function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
+        public static extern void DestroyThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
         /// Removes the association between the currently executing callback function and the object that initiated the callback.
         /// The current thread will no longer count as executing a callback on behalf of the object.
         /// </para>
@@ -919,6 +938,30 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEventWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
         public static extern void SetEventWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HANDLE evt);
+
+        /// <summary>
+        /// <para>
+        /// Sets the thread pool to be used when generating callbacks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackpool
+        /// </para>
+        /// </summary>
+        /// <param name="pcbe">
+        /// A <see cref="TP_CALLBACK_ENVIRON"/> structure that defines the callback environment.
+        /// The <see cref="InitializeThreadpoolEnvironment"/> function returns this structure.
+        /// </param>
+        /// <param name="ptpp">
+        /// A TP_POOL structure that defines the thread pool.
+        /// The <see cref="CreateThreadpool"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// If you do not specify a thread pool, the global thread pool is used.
+        /// This function is implemented as an inline function.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolCallbackPool", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolCallbackPool([In][Out] ref TP_CALLBACK_ENVIRON pcbe, [In] PTP_POOL ptpp);
 
         /// <summary>
         /// <para>
