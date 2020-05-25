@@ -223,6 +223,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Cancels the notification from the <see cref="StartThreadpoolIo"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+        /// </para>
+        /// </summary>
+        /// <param name="pio">
+        /// A TP_IO structure that defines the I/O completion object.
+        /// The <see cref="CreateThreadpoolIo"/> function returns this structure.
+        /// </param>
+        /// <remarks>
+        /// To prevent memory leaks, you must call the <see cref="CancelThreadpoolIo"/> function for either of the following scenarios:
+        /// An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure
+        /// with an error code other than <see cref="ERROR_IO_PENDING"/>).
+        /// An asynchronous I/O operation returns immediately with success and the file handle associated with the I/O completion object
+        /// has the notification mode <see cref="FILE_SKIP_COMPLETION_PORT_ON_SUCCESS"/>.
+        /// The file handle will not notify the I/O completion port and the associated I/O callback function will not be called.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher. 
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelThreadpoolIo", ExactSpelling = true, SetLastError = true)]
+        public static extern void CancelThreadpoolIo([In] PTP_IO pio);
+
+        /// <summary>
+        /// <para>
         /// Releases the specified timer object.
         /// </para>
         /// <para>
