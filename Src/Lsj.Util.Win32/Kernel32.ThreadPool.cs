@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadPoolFlags;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
@@ -446,6 +447,57 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitializeThreadpoolEnvironment", ExactSpelling = true, SetLastError = true)]
         public static extern void InitializeThreadpoolEnvironment([In][Out] ref TP_CALLBACK_ENVIRON pcbe);
+
+        /// <summary>
+        /// <para>
+        /// Sets the timer object—, replacing the previous timer, if any.
+        /// A worker thread calls the timer object's callback after the specified timeout expires.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpooltimer
+        /// </para>
+        /// </summary>
+        /// <param name="pti">
+        /// A pointer to a TP_TIMER structure that defines the timer object to set.
+        /// The <see cref="CreateThreadpoolTimer"/> function returns this structure.
+        /// </param>
+        /// <param name="pftDueTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that specifies the absolute or relative time at which the timer should expire.
+        /// If positive or zero, it indicates the absolute time since January 1, 1601 (UTC), measured in 100 nanosecond units.
+        /// If negative, it indicates the amount of time to wait relative to the current time.
+        /// For more information about time values, see File Times.
+        /// If this parameter is <see cref="NullRef{FILETIME}"/>, the timer object will cease to queue new callbacks
+        /// (but callbacks already queued will still occur).
+        /// Note that if this parameter is zero, the timer will expire immediately.
+        /// </param>
+        /// <param name="msPeriod">
+        /// The timer period, in milliseconds.
+        /// If this parameter is zero, the timer is signaled once.
+        /// If this parameter is greater than zero, the timer is periodic.
+        /// A periodic timer automatically reactivates each time the period elapses, until the timer is canceled.
+        /// </param>
+        /// <param name="msWindowLength">
+        /// The maximum amount of time the system can delay before calling the timer callback.
+        /// If this parameter is set, the system can batch calls to conserve power.
+        /// </param>
+        /// <remarks>
+        /// Setting the timer cancels the previous timer, if any.
+        /// In some cases, callback functions might run after an application closes the threadpool timer.
+        /// To prevent this behavior, an application should call <see cref="SetThreadpoolTimer"/>
+        /// with the <paramref name="pftDueTime"/> parameter set to <see cref="NullRef{FILETIME}"/>
+        /// and the <paramref name="msPeriod"/> and <paramref name="msWindowLength"/> parameters set to 0.
+        /// For more information, see <see cref="CloseThreadpoolTimer"/>.
+        /// If the due time specified by <paramref name="pftDueTime"/> is relative, the time that the system spends in sleep
+        /// or hibernation does not count toward the expiration of the timer.
+        /// The timer is signaled when the cumulative amount of elapsed time the system spends in the waking state
+        /// equals the timer's relative due time or period.
+        /// If the due time specified by <paramref name="pftDueTime"/> is absolute, the time that the system spends in sleep
+        /// or hibernation does count toward the expiration of the timer.
+        /// If the timer expires while the system is sleeping, the timer is signaled immediately when the system wakes.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadpoolTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern void SetThreadpoolTimer([In] PTP_TIMER pti, [In] in FILETIME pftDueTime, [In] DWORD msPeriod, [In] DWORD msWindowLength);
 
         /// <summary>
         /// <para>
