@@ -684,6 +684,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Specifies the DLL that the thread pool will unload when the current callback completes.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-freelibrarywhencallbackreturns
+        /// </para>
+        /// </summary>
+        /// <param name="pci">
+        /// A TP_CALLBACK_INSTANCE structure that defines the callback instance.
+        /// The structure is passed to the callback function.
+        /// </param>
+        /// <param name="mod">
+        /// A handle to the DLL.
+        /// </param>
+        /// <remarks>
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryWhenCallbackReturns", ExactSpelling = true, SetLastError = true)]
+        public static extern void FreeLibraryWhenCallbackReturns([In] PTP_CALLBACK_INSTANCE pci, [In] HMODULE mod);
+
+        /// <summary>
+        /// <para>
         /// Initializes a callback environment.
         /// </para>
         /// <para>
