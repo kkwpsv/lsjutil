@@ -357,6 +357,24 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the address of the current fiber.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getcurrentfiber
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The macro returns the address of the currently running fiber.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateFiber"/> and <see cref="ConvertThreadToFiber"/> functions return the fiber address when the fiber is created.
+        /// The <see cref="GetCurrentFiber"/> macro allows you to retrieve the address at any other time.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentFiber", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID GetCurrentFiber();
+
+        /// <summary>
+        /// <para>
         /// Schedules a fiber. The function must be called on a fiber.
         /// </para>
         /// <para>
