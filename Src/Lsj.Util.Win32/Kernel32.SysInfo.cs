@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
+using static Lsj.Util.Win32.Enums.ProcessFeatures;
 
 namespace Lsj.Util.Win32
 {
@@ -72,7 +73,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetLogicalProcessorInformation([In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
+        public static extern bool GetLogicalProcessorInformation([In] IntPtr Buffer, [In][Out] ref uint ReturnedLength);
 
         /// <summary>
         /// <para>
@@ -134,8 +135,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetLogicalProcessorInformationEx([In]LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
-            [In]IntPtr Buffer, [In][Out]ref uint ReturnedLength);
+        public static extern bool GetLogicalProcessorInformationEx([In] LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
+            [In] IntPtr Buffer, [In][Out] ref uint ReturnedLength);
 
         /// <summary>
         /// <para>
@@ -152,7 +153,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0501 or later.For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern void GetNativeSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
+        public static extern void GetNativeSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
 
         /// <summary>
         /// <para>
@@ -214,8 +215,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetProductInfo([In]uint dwOSMajorVersion, [In]uint dwOSMinorVersion, [In]uint dwSpMajorVersion,
-            [In]uint dwSpMinorVersion, [In][Out]ref ProductTypes pdwReturnedProductType);
+        public static extern bool GetProductInfo([In] uint dwOSMajorVersion, [In] uint dwOSMinorVersion, [In] uint dwSpMajorVersion,
+            [In] uint dwSpMinorVersion, [In][Out] ref ProductTypes pdwReturnedProductType);
 
         /// <summary>
         /// <para>
@@ -251,7 +252,7 @@ namespace Lsj.Util.Win32
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetSystemDirectory([Out]StringBuilder lpBuffer, [In]UINT uSize);
+        public static extern UINT GetSystemDirectory([Out] StringBuilder lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>
@@ -266,7 +267,7 @@ namespace Lsj.Util.Win32
         /// A pointer to a <see cref="SYSTEM_INFO"/> structure that receives the information.
         /// </param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern void GetSystemInfo([Out]out SYSTEM_INFO lpSystemInfo);
+        public static extern void GetSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
 
         /// <summary>
         /// <para>
@@ -321,7 +322,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetSystemTimeAdjustment([Out]out uint lpTimeAdjustment, [Out]out uint lpTimeIncrement, [Out]out bool lpTimeAdjustmentDisabled);
+        public static extern bool GetSystemTimeAdjustment([Out] out uint lpTimeAdjustment, [Out] out uint lpTimeIncrement, [Out] out bool lpTimeAdjustmentDisabled);
 
         /// <summary>
         /// <para>
@@ -359,7 +360,7 @@ namespace Lsj.Util.Win32
         /// On a single-user system, <see cref="GetSystemWindowsDirectory"/> is the same as <see cref="GetWindowsDirectory"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]uint uSize);
+        public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] uint uSize);
 
         /// <summary>
         /// <para>
@@ -554,7 +555,39 @@ namespace Lsj.Util.Win32
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpBuffer, [In]UINT uSize);
+        public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] UINT uSize);
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the specified processor feature is supported by the current computer.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-isprocessorfeaturepresent
+        /// </para>
+        /// </summary>
+        /// <param name="ProcessorFeature">
+        /// The processor feature to be tested.
+        /// This parameter can be one of the following values.
+        /// <see cref="PF_ARM_64BIT_LOADSTORE_ATOMIC"/>, <see cref="PF_ARM_DIVIDE_INSTRUCTION_AVAILABLE"/>,
+        /// <see cref="PF_ARM_EXTERNAL_CACHE_AVAILABLE"/>, <see cref="PF_ARM_FMAC_INSTRUCTIONS_AVAILABLE"/>,
+        /// <see cref="PF_ARM_VFP_32_REGISTERS_AVAILABLE"/>, <see cref="PF_3DNOW_INSTRUCTIONS_AVAILABLE"/>,
+        /// <see cref="PF_CHANNELS_ENABLED"/>, <see cref="PF_COMPARE_EXCHANGE_DOUBLE"/>, <see cref="PF_COMPARE_EXCHANGE128"/>,
+        /// <see cref="PF_COMPARE64_EXCHANGE128"/>, <see cref="PF_FASTFAIL_AVAILABLE"/>, <see cref="PF_FLOATING_POINT_EMULATED"/>,
+        /// <see cref="PF_FLOATING_POINT_PRECISION_ERRATA"/>, <see cref="PF_MMX_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_NX_ENABLED"/>,
+        /// <see cref="PF_PAE_ENABLED"/>, <see cref="PF_RDTSC_INSTRUCTION_AVAILABLE"/>, <see cref="PF_RDWRFSGSBASE_AVAILABLE"/>,
+        /// <see cref="PF_SECOND_LEVEL_ADDRESS_TRANSLATION"/>, <see cref="PF_SSE3_INSTRUCTIONS_AVAILABLE"/>,
+        /// <see cref="PF_VIRT_FIRMWARE_ENABLED"/>, <see cref="PF_XMMI_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_XMMI64_INSTRUCTIONS_AVAILABLE"/>,
+        /// <see cref="PF_XSAVE_ENABLED"/>, <see cref="PF_ARM_V8_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_ARM_V8_CRYPTO_INSTRUCTIONS_AVAILABLE"/>,
+        /// <see cref="PF_ARM_V8_CRC32_INSTRUCTIONS_AVAILABLE"/>, <see cref="PF_ARM_V81_ATOMIC_INSTRUCTIONS_AVAILABLE"/>
+        /// </param>
+        /// <returns>
+        /// If the feature is supported, the return value is a <see cref="TRUE"/> value.
+        /// If the feature is not supported, the return value is <see cref="FALSE"/>.
+        /// If the HAL does not support detection of the feature,
+        /// whether or not the hardware supports the feature, the return value is also <see cref="FALSE"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessorFeaturePresent", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsProcessorFeaturePresent(ProcessFeatures ProcessorFeature);
 
         /// <summary>
         /// <para>
@@ -596,7 +629,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL QueryUnbiasedInterruptTime([Out]out ULONGLONG UnbiasedTime);
+        public static extern BOOL QueryUnbiasedInterruptTime([Out] out ULONGLONG UnbiasedTime);
 
         /// <summary>
         /// <para>
@@ -635,7 +668,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool VerifyVersionInfo([In]in OSVERSIONINFOEX lpVersionInformation,
-            [In]VerifyVersionInfoTypeMasks dwTypeMask, [In]ulong dwlConditionMask);
+        public static extern bool VerifyVersionInfo([In] in OSVERSIONINFOEX lpVersionInformation,
+            [In] VerifyVersionInfoTypeMasks dwTypeMask, [In] ulong dwlConditionMask);
     }
 }
