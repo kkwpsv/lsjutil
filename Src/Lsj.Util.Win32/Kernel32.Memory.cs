@@ -1043,6 +1043,59 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the size of a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsize
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap in which the memory block resides.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap size options.
+        /// Specifying the following value overrides the corresponding value specified in the flOptions parameter
+        /// when the heap was created by using the <see cref="HeapCreate"/> function.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used.
+        /// For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function,
+        /// specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// This value should not be specified when accessing the process heap.
+        /// The system may create additional threads within the application's process, such as a CTRL+C handler,
+        /// that simultaneously access the process heap.
+        /// </param>
+        /// <param name="lpMem">
+        /// A pointer to the memory block whose size the function will obtain.
+        /// This is a pointer returned by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// The memory block must be from the heap specified by the hHeap parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested size of the allocated memory block, in bytes.
+        /// If the function fails, the return value is <code>(SIZE_T)-1</code>.
+        /// The function does not call <see cref="SetLastError"/>.
+        /// An application cannot call <see cref="GetLastError"/> for extended error information.
+        /// If the <paramref name="lpMem"/> parameter refers to a heap allocation that is not in the heap specified by the hHeap parameter,
+        /// the behavior of the <see cref="HeapSize"/> function is undefined.
+        /// </returns>
+        /// <remarks>
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization, but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSize", ExactSpelling = true, SetLastError = true)]
+        public static extern SIZE_T HeapSize([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
+
+        /// <summary>
+        /// <para>
         /// Releases ownership of the critical section object, or lock, that is associated with a specified heap.
         /// It reverses the action of the <see cref="HeapLock"/> function.
         /// </para>
