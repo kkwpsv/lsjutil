@@ -24,6 +24,59 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, AllocateUserPhysicalPages is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpages
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process.
+        /// The function allocates memory that can later be mapped within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory to allocate, in pages.
+        /// To determine the page size of the computer, use the <see cref="GetSystemInfo"/> function.
+        /// On output, this parameter receives the number of pages that are actually allocated, which might be less than the number requested.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array to store the page frame numbers of the allocated memory.
+        /// The size of the array that is allocated should be at least the <paramref name="NumberOfPages"/> times
+        /// the size of the <see cref="ULONG_PTR"/> data type.
+        /// Do not attempt to modify this buffer.
+        /// It contains operating system data, and corruption could be catastrophic.
+        /// The information in the buffer is not useful to an application.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// Fewer pages than requested can be allocated.
+        /// The caller must check the value of the <paramref name="NumberOfPages"/> parameter on return to see how many pages are allocated.
+        /// All allocated page frame numbers are sequentially placed in the memory pointed to by the <paramref name="PageArray"/> parameter.
+        /// If the function fails, the return value is <see cref="FALSE"/>,
+        /// and no frames are allocated. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AllocateUserPhysicalPages"/> function is used to allocate physical memory
+        /// that can later be mapped within the virtual address space of the process.
+        /// The SeLockMemoryPrivilege privilege must be enabled in the caller's token
+        /// or the function will fail with <see cref="ERROR_PRIVILEGE_NOT_HELD"/>.
+        /// For more information, see Privilege Constants.
+        /// Memory allocated by this function must be physically present in the system. After the memory is allocated,
+        /// it is locked down and unavailable to the rest of the virtual memory management system.
+        /// Physical pages cannot be simultaneously mapped at more than one virtual address.
+        /// Physical pages can reside at any physical address. You should make no assumptions about the contiguity of the physical pages.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AllocateUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
+
+        /// <summary>
+        /// <para>
         /// Frees physical memory pages that are allocated previously
         /// by using <see cref="AllocateUserPhysicalPages"/> or <see cref="AllocateUserPhysicalPagesNuma"/>.
         /// If any of these pages are currently mapped in the Address Windowing Extensions (AWE) region, they are automatically unmapped by this call.
