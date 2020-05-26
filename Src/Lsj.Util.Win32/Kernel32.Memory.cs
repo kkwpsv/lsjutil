@@ -352,6 +352,36 @@ namespace Lsj.Util.Win32
         public static HANDLE GlobalLRUOldest(HGLOBAL hMem) => hMem;
 
         /// <summary>
+        /// <para>
+        /// Retrieves information about the system's current usage of both physical and virtual memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalmemorystatus
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a <see cref="MEMORYSTATUS"/> structure.
+        /// The <see cref="GlobalMemoryStatus"/> function stores information about current memory availability into this structure.
+        /// </param>
+        /// <remarks>
+        /// On computers with more than 4 GB of memory, the <see cref="GlobalMemoryStatus"/> function can return incorrect information,
+        /// reporting a value of –1 to indicate an overflow.
+        /// For this reason, applications should use the <see cref="GlobalMemoryStatusEx"/> function instead.
+        /// On Intel x86 computers with more than 2 GB and less than 4 GB of memory,
+        /// the <see cref="GlobalMemoryStatus"/> function will always return 2 GB
+        /// in the <see cref="MEMORYSTATUS.dwTotalPhys"/> member of the <see cref="MEMORYSTATUS"/> structure.
+        /// Similarly, if the total available memory is between 2 and 4 GB,
+        /// the <see cref="MEMORYSTATUS.dwAvailPhys"/> member of the <see cref="MEMORYSTATUS"/> structure will be rounded down to 2 GB.
+        /// If the executable is linked using the /LARGEADDRESSAWARE linker option,
+        /// then the <see cref="GlobalMemoryStatus"/> function will return the correct amount of physical memory in both members.
+        /// The information returned by the <see cref="GlobalMemoryStatus"/> function is volatile.
+        /// There is no guarantee that two sequential calls to this function will return the same information.
+        /// </remarks>
+        [Obsolete("GlobalMemoryStatus can return incorrect information. Use the GlobalMemoryStatusEx function instead.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern void GlobalMemoryStatus([Out] out MEMORYSTATUS lpBuffer);
+
+        /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
         /// </summary>
         /// <param name="hMem">
