@@ -405,7 +405,8 @@ namespace Lsj.Util.Win32
         /// The function returns <see cref="TRUE"/> if the thread is a fiber and <see cref="FALSE"/> otherwise.
         /// </returns>
         /// <remarks>
-        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later. For more information, see Using the Windows Headers.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsThreadAFiber", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsThreadAFiber();
