@@ -755,6 +755,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Destroys the specified heap object.
+        /// It decommits and releases all the pages of a private heap object, and it invalidates the handle to the heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapdestroy
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be destroyed.
+        /// This handle is returned by the <see cref="HeapCreate"/> function.
+        /// Do not use the handle to the process heap returned by the <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Processes can call <see cref="HeapDestroy"/> without first calling the <see cref="HeapFree"/> function
+        /// to free memory allocated from the heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapDestroy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HeapDestroy([In] HANDLE hHeap);
+
+        /// <summary>
+        /// <para>
         /// Frees a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
         /// </para>
         /// <para>
