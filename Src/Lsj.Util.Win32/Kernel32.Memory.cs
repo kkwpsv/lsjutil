@@ -1407,6 +1407,65 @@ namespace Lsj.Util.Win32
         public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
 
         /// <summary>
+        /// <para>
+        /// Maps previously allocated physical memory pages at a specified address in an Address Windowing Extensions (AWE) region.
+        /// To perform batch mapping and unmapping of multiple regions, use the <see cref="MapUserPhysicalPagesScatter"/> function.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="MapUserPhysicalPages"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapuserphysicalpages
+        /// </para>
+        /// </summary>
+        /// <param name="VirtualAddress">
+        /// A pointer to the starting address of the region of memory to remap.
+        /// The value of <paramref name="VirtualAddress"/> must be within the address range that the <see cref="VirtualAlloc"/> function returns
+        /// when the Address Windowing Extensions (AWE) region is allocated.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory and virtual address space for which to establish translations, in pages.
+        /// The virtual address range is contiguous starting at lpAddress.
+        /// The physical frames are specified by the UserPfnArray.
+        /// The total number of pages cannot extend from the starting address
+        /// beyond the end of the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array of physical page frame numbers.
+        /// These frames are mapped by the argument lpAddress on return from this function.
+        /// The size of the memory that is allocated should be at least the <paramref name="NumberOfPages"/> times
+        /// the size of the data type <see cref="ULONG_PTR"/>.
+        /// Do not attempt to modify this buffer.
+        /// It contains operating system data, and corruption could be catastrophic.
+        /// The information in the buffer is not useful to an application.
+        /// If this parameter is <see langword="null"/>, the specified address range is unmapped.
+        /// Also, the specified physical pages are not freed, and you must call <see cref="FreeUserPhysicalPages"/> to free them.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/> and no mapping is done—partial or otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The physical pages are unmapped but they are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// Any number of physical memory pages can be specified, but the memory must not extend
+        /// outside the virtual address space that <see cref="VirtualAlloc"/> allocates.
+        /// Any existing address maps are automatically overwritten with the new translations, and the old translations are unmapped.
+        /// You cannot map physical memory pages outside the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// You can map multiple regions simultaneously, but they cannot overlap.
+        /// Physical pages can be located at any physical address, but do not make assumptions about the contiguity of the physical pages.
+        /// To unmap the current address range, specify <see langword="null"/> as the physical memory page array parameter.
+        /// Any currently mapped pages are unmapped, but are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
+        /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MapUserPhysicalPages([In] PVOID VirtualAddress, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
+
+        /// <summary>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
         /// </summary>
         /// <param name="hProcess">
