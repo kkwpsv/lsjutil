@@ -1153,6 +1153,81 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Validates the specified heap.
+        /// The function scans all the memory blocks in the heap and verifies that the heap control structures
+        /// maintained by the heap manager are in a consistent state.
+        /// You can also use the <see cref="HeapValidate"/> function to validate a single memory block
+        /// within a specified heap without checking the validity of the entire heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapvalidate
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be validated.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap access options. This parameter can be the following value.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used.
+        /// For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function,
+        /// specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// This value should not be specified when accessing the process default heap.
+        /// The system may create additional threads within the application's process, such as a CTRL+C handler,
+        /// that simultaneously access the process default heap.
+        /// </param>
+        /// <param name="lpMem">
+        /// A pointer to a memory block within the specified heap.
+        /// This parameter may be <see cref="NULL"/>.
+        /// If this parameter is <see cref="NULL"/>, the function attempts to validate the entire heap specified by <paramref name="hHeap"/>.
+        /// If this parameter is not <see cref="NULL"/>, the function attempts to validate the memory block pointed to by <paramref name="lpMem"/>.
+        /// It does not attempt to validate the rest of the heap.
+        /// </param>
+        /// <returns>
+        /// If the specified heap or memory block is valid, the return value is <see cref="TRUE"/>.
+        /// If the specified heap or memory block is invalid, the return value is <see cref="FALSE"/>.
+        /// On a system set up for debugging, the <see cref="HeapValidate"/> function then displays debugging messages 
+        /// that describe the part of the heap or memory block that is invalid,
+        /// and stops at a hard-coded breakpoint so that you can examine the system to determine the source of the invalidity.
+        /// The <see cref="HeapValidate"/> function does not set the thread's last error value.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapValidate"/> function is primarily useful for debugging because validation is potentially time-consuming.
+        /// Validating a heap can block other threads from accessing the heap and can degrade performance,
+        /// especially on symmetric multiprocessing (SMP) computers.
+        /// These side effects can last until <see cref="HeapValidate"/> returns.
+        /// There are heap control structures for each memory block in a heap, and for the heap as a whole.
+        /// When you use the <see cref="HeapValidate"/> function to validate a complete heap,
+        /// it checks all of these control structures for consistency.
+        /// When you use <see cref="HeapValidate"/> to validate a single memory block within a heap,
+        /// it checks only the control structures pertaining to that element.
+        /// <see cref="HeapValidate"/> can only validate allocated memory blocks.
+        /// Calling <see cref="HeapValidate"/> on a freed memory block will return <see cref="FALSE"/>
+        /// because there are no control structures to validate.
+        /// If you want to validate the heap elements enumerated by the <see cref="HeapWalk"/> function,
+        /// you should only call <see cref="HeapValidate"/> on the elements that have <see cref="PROCESS_HEAP_ENTRY_BUSY"/>
+        /// in the <see cref="PROCESS_HEAP_ENTRY.wFlags"/> member of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
+        /// <see cref="HeapValidate"/> returns <see cref="FALSE"/> for all heap elements that do not have this bit set.
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization,
+        /// but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapValidate", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HeapValidate([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
+
+        /// <summary>
+        /// <para>
         /// Enumerates the memory blocks in the specified heap.
         /// </para>
         /// <para>
