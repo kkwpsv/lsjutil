@@ -382,6 +382,33 @@ namespace Lsj.Util.Win32
         public static extern void GlobalMemoryStatus([Out] out MEMORYSTATUS lpBuffer);
 
         /// <summary>
+        /// <para>
+        /// Retrieves information about the system's current usage of both physical and virtual memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a MEMORYSTATUSEX structure that receives information about current memory availability.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can use the <see cref="GlobalMemoryStatusEx"/> function to determine
+        /// how much memory your application can allocate without severely impacting other applications.
+        /// The information returned by the <see cref="GlobalMemoryStatusEx"/> function is volatile.
+        /// There is no guarantee that two sequential calls to this function will return the same information.
+        /// The <see cref="MEMORYSTATUSEX.ullAvailPhys"/> member of the <see cref="MEMORYSTATUSEX"/> structure
+        /// at <paramref name="lpBuffer"/> includes memory for all NUMA nodes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatusEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GlobalMemoryStatusEx([In][Out] ref MEMORYSTATUSEX lpBuffer);
+
+        /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
         /// </summary>
         /// <param name="hMem">
