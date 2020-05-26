@@ -8,13 +8,13 @@ using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
+using static Lsj.Util.Win32.Enums.ProcessFeatures;
 using static Lsj.Util.Win32.Enums.ProductTypes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
-using static Lsj.Util.Win32.Enums.ProcessFeatures;
 
 namespace Lsj.Util.Win32
 {
@@ -154,6 +154,99 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNativeSystemInfo", ExactSpelling = true, SetLastError = true)]
         public static extern void GetNativeSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the amount of memory available in the specified node.
+        /// Use the <see cref="GetNumaAvailableMemoryNodeEx"/> function to specify the node as a <see cref="USHORT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynode
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The number of the node.
+        /// </param>
+        /// <param name="AvailableBytes">
+        /// The amount of available memory for the node, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNumaAvailableMemoryNode"/> function returns the amount of memory
+        /// consumed by free and zeroed pages on the specified node.
+        /// On systems with more than one node, this memory does not include standby pages.
+        /// Therefore, the sum of the available memory values for all nodes in the system is equal
+        /// to the value of the Free &amp; Zero Page List Bytes memory performance counter.
+        /// On systems with only one node, the value returned by <see cref="GetNumaAvailableMemoryNode"/> includes standby pages and is equal
+        /// to the value of the Available Bytes memory performance counter.
+        /// For more information about performance counters, see Memory Performance Information.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaAvailableMemoryNode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaAvailableMemoryNode([In] UCHAR Node, [Out] out ULONGLONG AvailableBytes);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the processor mask for the specified node.
+        /// Use the <see cref="GetNumaNodeProcessorMaskEx"/> function to retrieve the processor mask for a node in any processor group.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumanodeprocessormask
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The number of the node.
+        /// </param>
+        /// <param name="ProcessorMask">
+        /// The processor mask for the node.
+        /// A processor mask is a bit vector in which each bit represents a processor and whether it is in the node.
+        /// If the node has no processors configured, the processor mask is zero.
+        /// On systems with more than 64 processors, this parameter is set to the processor mask for the node
+        /// only if the node is in the same processor group as the calling thread.
+        /// Otherwise, the parameter is set to zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve the highest numbered node in the system, use the <see cref="GetNumaHighestNodeNumber"/> function.
+        /// Note that this number is not guaranteed to equal the total number of nodes in the system.
+        /// To ensure that all threads for your process run on the same node, use the <see cref="SetProcessAffinityMask"/> function
+        /// with a process affinity mask that specifies processors in the same node.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaNodeProcessorMask", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaNodeProcessorMask([In] UCHAR Node, [Out] out ULONGLONG ProcessorMask);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the node number for the specified processor.
+        /// Use the <see cref="GetNumaProcessorNodeEx"/> function to specify a processor group
+        /// and retrieve the node number as a <see cref="USHORT"/> value.
+        /// </para>
+        /// </summary>
+        /// <param name="Processor">
+        /// The processor number.
+        /// On a system with more than 64 logical processors, the processor number is relative to the processor group
+        /// that contains the processor on which the calling thread is running.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// The node number. If the processor does not exist, this parameter is 0xFF.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve the list of processors on the system, use the <see cref="GetProcessAffinityMask"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaProcessorNode([In] UCHAR Processor, [Out] out UCHAR NodeNumber);
 
         /// <summary>
         /// <para>
