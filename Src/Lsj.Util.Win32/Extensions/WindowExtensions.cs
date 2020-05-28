@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.Extensions
 {
@@ -13,7 +14,7 @@ namespace Lsj.Util.Win32.Extensions
     public static class WindowExtensions
     {
         /// <summary>
-        /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>
+        /// Get All Top-Level Window Handle (Use <see cref="EnumWindows"/>)
         /// </summary>
         /// <returns></returns>
         public static HWND[] GetAllTopLevelWindowHandle()
@@ -22,6 +23,26 @@ namespace Lsj.Util.Win32.Extensions
             EnumWindows((handle, _) =>
             {
                 result.Add(handle);
+                return true;
+            }, IntPtr.Zero);
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Get All Window Handle (Use <see cref="EnumWindows"/> with <see cref="EnumChildWindows(HWND, WNDENUMPROC, LPARAM)"/>)
+        /// </summary>
+        /// <returns></returns>
+        public static HWND[] GetAllWindowHandle()
+        {
+            var result = new List<HWND>();
+            EnumWindows((handle, _) =>
+            {
+                result.Add(handle);
+                EnumChildWindows(handle, (childHandle, _) =>
+                {
+                    result.Add(childHandle);
+                    return true;
+                }, NULL);
                 return true;
             }, IntPtr.Zero);
             return result.ToArray();
