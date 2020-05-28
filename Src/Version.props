@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LsjUtilVersionPrefix>4.0.7</LsjUtilVersionPrefix>
+    <LsjUtilVersionPrefix>4.0.8</LsjUtilVersionPrefix>
     <LsjUtilAPIsAlipayVersionPrefix>4.0.0</LsjUtilAPIsAlipayVersionPrefix>
     <LsjUtilAPIsUmeTripVersionPrefix>4.0.0</LsjUtilAPIsUmeTripVersionPrefix>
     <LsjUtilAPIsWeChatVersionPrefix>4.0.0</LsjUtilAPIsWeChatVersionPrefix>
