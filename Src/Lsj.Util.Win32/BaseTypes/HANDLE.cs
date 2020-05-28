@@ -44,6 +44,22 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(HANDLE a, IntPtr b) => a._value == b;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(HANDLE a, IntPtr b) => a._value != b;
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="val"></param>
         public static implicit operator IntPtr(HANDLE val) => val._value;
 
