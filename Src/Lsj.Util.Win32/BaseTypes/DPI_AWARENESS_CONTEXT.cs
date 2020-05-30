@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct DPI_AWARENESS_CONTEXT
+    public struct DPI_AWARENESS_CONTEXT : IPointer
     {
         /// <summary>
         /// DPI unaware. This window does not scale for DPI changes and is always assumed to have a scale factor of 100% (96 DPI).
@@ -66,24 +66,25 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <inheritdoc/>
         public override string ToString()
         {
-            if (_value == DPI_AWARENESS_CONTEXT_UNAWARE._value)
+            if (this == DPI_AWARENESS_CONTEXT_UNAWARE)
             {
                 return nameof(DPI_AWARENESS_CONTEXT_UNAWARE);
             }
-            else if (_value == DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)
+            else if (this == DPI_AWARENESS_CONTEXT_SYSTEM_AWARE)
             {
                 return nameof(DPI_AWARENESS_CONTEXT_SYSTEM_AWARE);
             }
-            else if (_value == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)
+            else if (this == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE)
             {
                 return nameof(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
             }
-            else if (_value == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
+            else if (this == DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)
             {
                 return nameof(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
             }
-            else if (_value == DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)
+            else if (this == DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)
             {
+                var x = (HANDLE)0 == this;
                 return nameof(DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED);
             }
             else
@@ -91,6 +92,31 @@ namespace Lsj.Util.Win32.BaseTypes
                 return _value.ToString();
             }
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => obj is DPI_AWARENESS_CONTEXT x && this == x;
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => _value.GetHashCode();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(DPI_AWARENESS_CONTEXT a, DPI_AWARENESS_CONTEXT b) => a._value == b._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(DPI_AWARENESS_CONTEXT a, DPI_AWARENESS_CONTEXT b) => a._value != b._value;
 
         /// <summary>
         /// 
@@ -103,17 +129,5 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator DPI_AWARENESS_CONTEXT(HANDLE val) => new DPI_AWARENESS_CONTEXT { _value = val };
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator IntPtr(DPI_AWARENESS_CONTEXT val) => val._value;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="val"></param>
-        public static implicit operator DPI_AWARENESS_CONTEXT(IntPtr val) => new DPI_AWARENESS_CONTEXT { _value = val };
     }
 }

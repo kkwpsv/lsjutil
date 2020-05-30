@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HKEY
+    public struct HKEY : IPointer
     {
         /// <summary>
         /// HKEY_CLASSES_ROOT
@@ -68,6 +68,9 @@ namespace Lsj.Util.Win32.BaseTypes
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 

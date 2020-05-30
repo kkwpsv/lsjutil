@@ -12,12 +12,15 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HFONT
+    public struct HFONT : IPointer
     {
         private HANDLE _value;
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 

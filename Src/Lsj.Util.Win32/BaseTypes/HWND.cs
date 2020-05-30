@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HWND
+    public struct HWND : IPointer
     {
         /// <summary>
         /// HWND_DESKTOP
@@ -23,6 +23,9 @@ namespace Lsj.Util.Win32.BaseTypes
 
         /// <inheritdoc/>
         public override string ToString() => _value.ToString();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 

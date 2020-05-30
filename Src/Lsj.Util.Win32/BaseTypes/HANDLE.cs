@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HANDLE
+    public struct HANDLE : IPointer
     {
         private IntPtr _value;
 
@@ -20,26 +20,13 @@ namespace Lsj.Util.Win32.BaseTypes
         public override string ToString() => _value.ToString("X");
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is HANDLE handle && handle == this;
+        public override bool Equals(object obj) => obj is IPointer p && p.ToIntPtr() == _value || obj is IntPtr ptr && ptr == _value;
 
         /// <inheritdoc/>
         public override int GetHashCode() => _value.GetHashCode();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator ==(HANDLE a, HANDLE b) => a._value == b._value;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        public static bool operator !=(HANDLE a, HANDLE b) => a._value != b._value;
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 
