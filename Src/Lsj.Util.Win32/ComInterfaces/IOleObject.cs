@@ -7,6 +7,8 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
+using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
+using static Lsj.Util.Win32.Enums.OLEMISC;
 using static Lsj.Util.Win32.Enums.OLEVERB;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Ole32;
@@ -481,7 +483,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For more information see <see cref="SetForegroundWindow"/> and <see cref="SetActiveWindow"/>.
         /// </remarks>
         [PreserveSig]
-        HRESULT DoVerb([In]int iVerb, [In]IntPtr lpmsg, [In]IOleClientSite pActiveSite, [In]int lindex, [In]IntPtr hwndParent, [In]IntPtr lprcPosRect);
+        HRESULT DoVerb([In]OLEVERB iVerb, [In]IntPtr lpmsg, [In]IOleClientSite pActiveSite, [In]int lindex, [In]IntPtr hwndParent, [In]IntPtr lprcPosRect);
 
         /// <summary>
         /// Exposes a pull-down menu listing the verbs available for an object in ascending order by verb number.

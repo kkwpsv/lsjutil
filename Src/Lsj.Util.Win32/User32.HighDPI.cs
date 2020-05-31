@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.DPI_AWARENESS_CONTEXT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -74,9 +75,57 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectEx", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectExForDpi", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AdjustWindowRectExForDpi([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu,
             [In]WindowStylesEx dwExStyle, [In]UINT dpi);
+
+        /// <summary>
+        /// <para>
+        /// In high-DPI displays, enables automatic display scaling of the non-client area portions of the specified top-level window.
+        /// Must be called during the initialization of that window.
+        /// Note
+        /// Applications running at a <see cref="DPI_AWARENESS_CONTEXT"/> of <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2"/>
+        /// automatically scale their non-client areas by default.
+        /// They do not need to call this function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enablenonclientdpiscaling
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window that should have automatic scaling enabled.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Calling this function will enable non-client scaling for an individual top-level window
+        /// with <see cref="DPI_AWARENESS_CONTEXT"/> of <see cref="DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE"/>.
+        /// If instead you are not using per-window awareness, and your entire process is running in <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/> mode,
+        /// calling this function will enable non-client scaling in top-level windows in your process.
+        /// If neither of those are true, or if you call this method from any other window, then it will fail and return a value of zero.
+        /// Non-client scaling for top-level windows is not enabled by default.
+        /// You must call this API to enable it for each individual top-level window for which you wish to have the non-client area scale automatically.
+        /// Once you do, there is no way to disable it.
+        /// Enabling non-client scaling means that all the areas drawn by the system
+        /// for the window will automatically scale in response to DPI changes on the window.
+        /// That includes areas like the caption bar, the scrollbars, and the menu bar.
+        /// You want to call <see cref="EnableNonClientDpiScaling"/> when you want the operating system
+        /// to be responsible for rendering these areas automatically at the correct size based on the API of the monitor.
+        /// Calling this function enables non-client scaling for top-level windows only. Child windows are unaffected.
+        /// This function must be called from WM_NCCREATE during the initialization of a new window. An example call might look like this:
+        /// <code>
+        /// case WM_NCCREATE:
+        /// {
+        ///     EnableNonClientDpiScaling(hwnd);
+        ///     return (DefWindowProc(hwnd, message, wParam, lParam));
+        /// }
+        /// </code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableNonClientDpiScaling", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnableNonClientDpiScaling([In]HWND hwnd);
 
         /// <summary>
         /// <para>
@@ -102,6 +151,55 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetDpiForWindow([In]HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the specified system metric or system configuration setting taking into account a provided DPI.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetricsfordpi
+        /// </para>
+        /// </summary>
+        /// <param name="nIndex">
+        /// The system metric or configuration setting to be retrieved.
+        /// See <see cref="GetSystemMetrics"/> for the possible values.
+        /// </param>
+        /// <param name="dpi">
+        /// The DPI to use for scaling the metric.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetricsForDpi", ExactSpelling = true, SetLastError = true)]
+        public static extern int GetSystemMetricsForDpi([In]SystemMetric nIndex, [In]UINT dpi);
+
+        /// <summary>
+        /// <para>
+        /// Returns the <see cref="DPI_AWARENESS_CONTEXT"/> associated with a window.
+        /// </para>
+        /// <para>
+        /// From:https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to query.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DPI_AWARENESS_CONTEXT"/> for the provided window.
+        /// If the window is not valid, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// Important  
+        /// The return value of <see cref="GetWindowDpiAwarenessContext"/> is not affected by the <see cref="DPI_AWARENESS"/> of the current thread.
+        /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In]HWND hwnd);
 
         /// <summary>
         /// <para>

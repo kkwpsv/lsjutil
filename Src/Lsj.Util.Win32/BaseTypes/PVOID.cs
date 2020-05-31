@@ -30,5 +30,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator PVOID(IntPtr val) => new PVOID { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static unsafe implicit operator void*(PVOID val) => val._value.ToPointer();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static unsafe implicit operator PVOID(void* val) => new PVOID { _value = (IntPtr)val };
     }
 }

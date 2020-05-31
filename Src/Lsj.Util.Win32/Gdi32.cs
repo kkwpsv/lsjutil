@@ -387,7 +387,179 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
-        public static extern int Escape([In]HDC hdc, [In]int iEscape, [In]int cjIn, [In]IntPtr pvIn, [In]LPVOID pvOut);
+        public static extern int Escape([In]HDC hdc, [In]GDIEscapes iEscape, [In]int cjIn, [In]IntPtr pvIn, [In]LPVOID pvOut);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ExtEscape"/> function enables an application to access device capabilities that are not available through GDI.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extescape
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="iEscape">
+        /// The escape function to be performed.
+        /// It can be one of the following or it can be an application-defined escape function.
+        /// <see cref="CHECKJPEGFORMAT"/>: Checks whether the printer supports a JPEG image. 
+        /// <see cref="CHECKPNGFORMAT"/>: Checks whether the printer supports a PNG image. 
+        /// <see cref="DRAWPATTERNRECT"/>: Draws a white, gray-scale, or black rectangle. 
+        /// <see cref="GET_PS_FEATURESETTING"/>: Gets information on a specified feature setting for a PostScript driver. 
+        /// <see cref="GETTECHNOLOGY"/>: Reports on whether or not the driver is a Postscript driver.
+        /// <see cref="PASSTHROUGH"/>: Allows the application to send data directly to a printer. Supported in compatibility mode and GDI-centric mode.
+        /// <see cref="POSTSCRIPT_DATA"/>: Allows the application to send data directly to a printer. Supported only in compatibility mode.
+        /// <see cref="POSTSCRIPT_IDENTIFY"/>: Sets a PostScript driver to GDI-centric or PostScript-centric mode. 
+        /// <see cref="POSTSCRIPT_INJECTION"/>: Inserts a block of raw data in a PostScript job stream.
+        /// <see cref="POSTSCRIPT_PASSTHROUGH"/>: Sends data directly to a PostScript printer driver. Supported in compatibility mode and PostScript-centric mode.
+        /// <see cref="QUERYESCSUPPORT"/>: Determines whether a particular escape is implemented by the device driver.
+        /// <see cref="SPCLPASSTHROUGH2"/>: Enables applications to include private procedures and other resources at the document level-save context.
+        /// </param>
+        /// <param name="cjInput">
+        /// The number of bytes of data pointed to by the <paramref name="lpInData"/> parameter.
+        /// </param>
+        /// <param name="lpInData">
+        /// A pointer to the input structure required for the specified escape. See also Remarks.
+        /// </param>
+        /// <param name="cjOutput">
+        /// The number of bytes of data pointed to by the <paramref name="lpOutData"/> parameter.
+        /// </param>
+        /// <param name="lpOutData">
+        /// A pointer to the structure that receives output from this escape.
+        /// This parameter must not be <see cref="NULL"/> if <see cref="ExtEscape"/> is called as a query function.
+        /// If no data is to be returned in this structure, set <paramref name="cjOutput"/> to 0. See also Remarks.
+        /// </param>
+        /// <returns>
+        /// The return value specifies the outcome of the function.
+        /// It is greater than zero if the function is successful, except for the <see cref="QUERYESCSUPPORT"/> printer escape,
+        /// which checks for implementation only.
+        /// The return value is zero if the escape is not implemented.
+        /// A return value less than zero indicates an error.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// Use this function to pass a driver-defined escape value to a device.
+        /// Use the <see cref="Escape"/> function to pass one of the system-defined escape values to a device,
+        /// unless the escape is one of the defined escapes in <paramref name="iEscape"/>.
+        /// <see cref="ExtEscape"/> might not work properly with the system-defined escapes.
+        /// In particular, escapes in which lpszInData is a pointer to a structure that contains a member that is a pointer will fail.
+        /// Note, that the behavior described in this article is the expected behavior, but it is up to the driver to comply with this model.
+        /// The variables referenced by <paramref name="lpInData"/> and <paramref name="lpOutData"/> should not be the same or overlap.
+        /// If the input and the output buffer size variables overlap, they may not contain the correct values after the call returns.
+        /// For the best results, <paramref name="lpInData"/> and <paramref name="lpOutData"/> should refer to different variables.
+        /// The <see cref="CHECKJPEGFORMAT"/> printer escape function determines whether a printer supports printing a JPEG image.
+        /// Before using the <see cref="CHECKJPEGFORMAT"/> printer escape function,
+        /// call the <see cref="QUERYESCSUPPORT"/> printer escape function to determine whether the driver supports <see cref="CHECKJPEGFORMAT"/>.
+        /// For sample code that demonstrates the use of <see cref="CHECKJPEGFORMAT"/>, see Testing a Printer for JPEG or PNG Support.
+        /// The <see cref="CHECKPNGFORMAT"/> printer escape function determines whether a printer supports printing a PNG image.
+        /// Before using the <see cref="CHECKJPEGFORMAT"/> printer escape function,
+        /// call the <see cref="QUERYESCSUPPORT"/> printer escape function to determine whether the driver supports <see cref="CHECKJPEGFORMAT"/>.
+        /// For sample code, see Testing a Printer for JPEG or PNG Support.
+        /// The <see cref="DRAWPATTERNRECT"/> printer escape creates a white, gray scale, or solid black rectangle
+        /// by using the pattern and rule capabilities of Page Control Language (PCL) on Hewlett-Packard LaserJet or LaserJet-compatible printers.
+        /// A gray scale is a gray pattern that contains a specific mixture of black and white pixels.
+        /// An application should use the <see cref="QUERYESCSUPPORT"/> escape to determine
+        /// whether the printer is capable of drawing patterns and rules before using the <see cref="DRAWPATTERNRECT"/> escape.
+        /// Rules drawn with <see cref="DRAWPATTERNRECT"/> are not subject to clipping regions in the device context.
+        /// Applications should not try to erase patterns and rules created with <see cref="DRAWPATTERNRECT"/> by placing opaque objects over them.
+        /// If the printer supports white rules, these can be used to erase patterns created by <see cref="DRAWPATTERNRECT"/>.
+        /// If the printer does not support white rules, there is no method for erasing these patterns.
+        /// If an application cannot use the <see cref="DRAWPATTERNRECT"/> escape and the device is a printer,
+        /// it should generally use the <see cref="PatBlt"/> function instead.
+        /// Note that if <see cref="PatBlt"/> is used to print a black rectangle, the application should use the <see cref="BLACKNESS"/> raster operator.
+        /// If the device is a plotter, however, the application should use the Rectangle function.
+        /// The <see cref="GET_PS_FEATURESETTING"/> printer escape function retrieves information about a specified feature setting for a PostScript driver.
+        /// This escape function is supported only if the PostScript driver is in PostScript-centric mode or in GDI-centric mode.
+        /// To set the PostScript driver mode, call the <see cref="POSTSCRIPT_IDENTIFY"/> escape function.
+        /// To perform this operation, call the <see cref="ExtEscape"/> function with the following parameters.
+        /// The <see cref="GET_PS_FEATURESETTING"/> printer escape function is valid if called any time
+        /// after calling the <see cref="CreateDC"/> function and before calling the <see cref="DeleteDC"/> function.
+        /// The <see cref="GETTECHNOLOGY"/> printer escape function identifies the type of printer driver.
+        /// For non-XPSDrv printers, this escape reports whether the driver is a Postscript driver.
+        /// For XPSDrv printers, this escape reports whether the driver is the Microsoft XPS Document Converter (MXDC).
+        /// If it is, the escape returns the zero-terminated string "http://schemas.microsoft.com/xps/2005/06"
+        /// The <see cref="PASSTHROUGH"/> printer escape function sends data directly to a printer driver.
+        /// To perform this operation, call the <see cref="ExtEscape"/> function with the following parameters.
+        /// The <see cref="PASSTHROUGH"/> printer escape function is supported by PostScript drivers in GDI-centric mode or compatibility mode,
+        /// but not in PostScript-centric mode.
+        /// Drivers in PostScript-centric mode can use the <see cref="POSTSCRIPT_PASSTHROUGH"/> escape function.
+        /// To set a PostScript driver mode, call the <see cref="POSTSCRIPT_IDENTIFY"/> escape function.
+        /// For <see cref="PASSTHROUGH"/> data sent by EPSPRINTING or PostScript-centric applications,
+        /// the PostScript driver will not make any modifications.
+        /// For <see cref="PASSTHROUGH"/> data sent by other applications, if the PostScript driver is using BCP (Binary Communication Protocol)
+        /// or TBCP (Tagged Binary Communication Protocol) output protocol, the driver does the appropriate BCP or TBCP quoting on special characters,
+        /// as described in "Adobe Serial and Parallel Communications Protocols Specification."
+        /// This means that the application should send either ASCII or pure binary PASSTHROUGH data.
+        /// The <see cref="POSTSCRIPT_DATA"/> printer escape function sends data directly to a printer driver.
+        /// To perform this operation, call the <see cref="ExtEscape"/> function with the following parameters.
+        /// The <see cref="POSTSCRIPT_DATA"/> function is identical to the <see cref="PASSTHROUGH"/> escape function
+        /// except that it is supported by PostScript drivers in compatibility mode only.
+        /// It is not supported by PostScript drivers in PostScript-centric mode or in GDI-centric mode.
+        /// Drivers in PostScript-centric mode can use the <see cref="POSTSCRIPT_PASSTHROUGH"/> escape function,
+        /// and drivers in GDI-centric mode can use the <see cref="PASSTHROUGH"/> escape function.
+        /// To set a PostScript driver's mode, call the <see cref="POSTSCRIPT_IDENTIFY"/> escape function.
+        /// The <see cref="POSTSCRIPT_IDENTIFY"/> printer escape function sets a PostScript driver to GDI-centric mode or PostScript-centric mode.
+        /// To put the driver in GDI-centric or PostScript-centric modes, first call the <see cref="QUERYESCSUPPORT"/> printer escape function
+        /// to determine whether the driver supports the <see cref="POSTSCRIPT_IDENTIFY"/> printer escape function.
+        /// If so, you can assume the driver is PSCRIPT 5.0.
+        /// Then, before you call any other printer escape function, you must call <see cref="POSTSCRIPT_IDENTIFY"/>
+        /// and specify either <see cref="PSIDENT_GDICENTRIC"/> or <see cref="PSIDENT_PSCENTRIC"/>.
+        /// You must call the <see cref="QUERYESCSUPPORT"/> and <see cref="POSTSCRIPT_IDENTIFY"/> printer escape functions
+        /// before calling any other printer escape function.
+        /// Note
+        /// After the PostScript driver is set to GDI-centric mode or PostScript-centric mode,
+        /// you will not be allowed to call the <see cref="POSTSCRIPT_IDENTIFY"/> printer escape function anymore.
+        /// If you do not use the <see cref="POSTSCRIPT_IDENTIFY"/> printer escape function,
+        /// the PostScript driver is in compatibility mode and provides identical support
+        /// for the <see cref="PASSTHROUGH"/>, <see cref="POSTSCRIPT_PASSTHROUGH"/>, and <see cref="POSTSCRIPT_DATA"/> printer escape functions.
+        /// For PostScript drivers that support the <see cref="POSTSCRIPT_PASSTHROUGH"/>,
+        /// <see cref="PASSTHROUGH"/>, and <see cref="POSTSCRIPT_PASSTHROUGH"/> printer escape functions are identical.
+        /// In PostScript-centric mode, the application is responsible for all PostScript output that marks the paper
+        /// using the <see cref="POSTSCRIPT_PASSTHROUGH"/> escape function.
+        /// GDI functions are not allowed. The driver is responsible for the overall document structure and printer control settings.
+        /// The application can use the <see cref="POSTSCRIPT_INJECTION"/> printer escape function
+        /// to inject a block of raw data (including DSC comments) into the job stream at specific places.
+        /// The <see cref="POSTSCRIPT_INJECTION"/> printer escape function inserts a block of raw data at a specified point in a PostScript job stream.
+        /// A PostScript driver supports this escape function in GDI-centric mode or PostScript-centric mode support, but not in compatibility mode.
+        /// To set the PostScript driver's mode, call the <see cref="POSTSCRIPT_IDENTIFY"/> escape function.
+        /// To perform this operation, call the <see cref="ExtEscape"/> function with the following parameters.
+        /// The driver internally caches the injection data and emits it at appropriate points in the output.
+        /// The cached information is flushed when it is no longer needed. At the latest, it is flushed after the <see cref="EndDoc"/> call.
+        /// In GDI-centric mode, the application can only inject valid DSC block data
+        /// by using the <see cref="POSTSCRIPT_INJECTION"/> printer escape function.
+        /// A valid DSC block must satisfy all of the following conditions:
+        /// It consists of an integral sequence of "lines."
+        /// Each "line" must begin with "%%".
+        /// Each "line" except the last line must end with &lt;CR&gt;, &lt;LF&gt;, or &lt;CR&gt;&lt;LF&gt; except for the last line.
+        /// If the last line does not end with &lt;CR&gt;, &lt;LF&gt;, or &lt;CR&gt;&lt;LF&gt;,
+        /// the driver appends &lt;CR&gt;&lt;LF&gt; after the last byte of the injection data.
+        /// Each "line" must be 255 bytes or less including the "%%" but not counting the &lt;CR&gt;/&lt;LF&gt; line termination.
+        /// The <see cref="POSTSCRIPT_PASSTHROUGH"/> printer escape function sends data directly to a PostScript printer driver.
+        /// A PostScript driver supports this escape function when in PostScript-centric mode or in compatibility mode, but not in GDI-centric mode.
+        /// To set the PostScript driver's mode, call the <see cref="POSTSCRIPT_IDENTIFY"/> escape function.
+        /// The <see cref="QUERYESCSUPPORT"/> printer escape function checks the implementation of a printer escape function.
+        /// The <see cref="SPCLPASSTHROUGH2"/> printer escape function allows applications that print to PostScript devices
+        /// using <see cref="EPSPRINTING"/> to include private PostScript procedures and other resources at the document-level save context.
+        /// This escape is supported only for backward compatibility with Adobe Acrobat. Other applications should not use this obsolete escape.
+        /// The application must call this escape before calling <see cref="StartDoc"/>
+        /// so that the driver will cache the data for insertion at the correct point in the PostScript stream.
+        /// If this escape is supported, the driver will also allow escape <see cref="DOWNLOADFACE"/> calls prior to <see cref="StartDoc"/>.
+        /// The driver internally caches the data to be inserted and the data required
+        /// by any escape <see cref="DOWNLOADFACE"/> calls prior to <see cref="StartDoc"/> and emits them all immediately before %%EndProlog.
+        /// The sequence of <see cref="SPCLPASSTHROUGH2"/> and <see cref="DOWNLOADFACE"/> calls will be preserved in the order their data is passed in,
+        /// that is, a later call results in data output after an earlier call's data.
+        /// The driver will consider fonts downloaded by pre-StartDoc escape <see cref="DOWNLOADFACE"/> calls
+        /// as unavailable for removal during the scope of the job.
+        /// This escape is not recorded in EMF files by the operating system,
+        /// therefore applications must ensure that EMF recording is turned off for those jobs using the escape.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtEscape", ExactSpelling = true, SetLastError = true)]
+        public static extern int ExtEscape([In]HDC hdc, [In]GDIEscapes iEscape, [In]int cjInput, [In]IntPtr lpInData, [In]int cjOutput, [In]IntPtr lpOutData);
 
         /// <summary>
         /// <para>

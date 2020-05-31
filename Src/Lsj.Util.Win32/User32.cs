@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// If the <see cref="EWX_FORCEIFHUNG"/> value is specified, the system forces hung applications to close and does not display the dialog box.
         /// Console processes receive a separate notification message, <see cref="CTRL_SHUTDOWN_EVENT"/>
         /// or <see cref="CTRL_LOGOFF_EVENT"/>, as the situation warrants.
-        /// A console process routes these messages to its <see cref="HandlerRoutine"/> function.
+        /// A console process routes these messages to its HandlerRoutine function.
         /// <see cref="ExitWindowsEx"/> sends these notification messages asynchronously; thus, an application cannot assume
         /// that the console notification messages have been handled when a call to <see cref="ExitWindowsEx"/> returns.
         /// To shut down or restart the system, the calling process must use the <see cref="AdjustTokenPrivileges"/> function
@@ -319,21 +319,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCaretPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCaretPos([Out]out POINT lpPoint);
-
-        /// <summary>
-        /// <para>
-        /// Returns the dots per inch (dpi) value for the associated window.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow 
-        /// </para>
-        /// </summary>
-        /// <param name="hwnd">The window you want to get information about.</param>
-        /// <returns>
-        /// The DPI for the window which depends on the DPI_AWARENESS of the window. An invalid hwnd value will result in a return value of 0.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetDpiForWindow([In]IntPtr hwnd);
 
         /// <summary>
         /// <para>

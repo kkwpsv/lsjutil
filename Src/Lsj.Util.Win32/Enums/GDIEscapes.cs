@@ -424,5 +424,10 @@
         /// GDIPLUS_TS_RECORD
         /// </summary>
         GDIPLUS_TS_RECORD = 4123,
+
+        /// <summary>
+        /// SPCLPASSTHROUGH2
+        /// </summary>
+        SPCLPASSTHROUGH2 = 4568,
     }
 }

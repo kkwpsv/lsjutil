@@ -5,13 +5,19 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.REGCLS;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -75,8 +81,8 @@ namespace Lsj.Util.Win32
         /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT BindMoniker([In]IMoniker pmk, [In]uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In]Guid iidResult,
-            [MarshalAs(UnmanagedType.IUnknown)][Out]object ppvResult);
+        public static extern HRESULT BindMoniker([In] IMoniker pmk, [In] uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In] Guid iidResult,
+            [MarshalAs(UnmanagedType.IUnknown)][Out] object ppvResult);
 
         /// <summary>
         /// <para>
@@ -141,9 +147,9 @@ namespace Lsj.Util.Win32
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)]object pUnkOuter, [In]CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+        public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object pUnkOuter, [In] CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
 
         /// <summary>
         /// <para>
@@ -214,9 +220,55 @@ namespace Lsj.Util.Win32
         /// Also see, <see cref="IClientSecurity.SetBlanket"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstanceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In]Guid Clsid,
-            [MarshalAs(UnmanagedType.IUnknown)]object punkOuter, [In]CLSCTX dwClsCtx, [In]in COSERVERINFO pServerInfo,
-            [In]DWORD dwCount, [In][Out]MULTI_QI[] pResults);
+        public static extern HRESULT CoCreateInstanceEx([MarshalAs(UnmanagedType.LPStruct)][In] Guid Clsid,
+            [MarshalAs(UnmanagedType.IUnknown)] object punkOuter, [In] CLSCTX dwClsCtx, [In] in COSERVERINFO pServerInfo,
+            [In] DWORD dwCount, [In][Out] MULTI_QI[] pResults);
+
+        /// <summary>
+        /// <para>
+        /// Disconnects all remote process connections being maintained on behalf of all the interface pointers that point to a specified object.
+        /// Only the process that actually manages the object should call <see cref="CoDisconnectObject"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-codisconnectobject
+        /// </para>
+        /// </summary>
+        /// <param name="pUnk">
+        /// A pointer to any interface derived from <see cref="IUnknown"/> on the object to be disconnected.
+        /// </param>
+        /// <param name="dwReserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> to indicate that all connections to remote processes were successfully deleted.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoDisconnectObject"/> function enables a server to correctly disconnect
+        /// all external clients to the object specified by <paramref name="pUnk"/>.
+        /// It performs the following tasks:
+        /// Checks to see whether the object to be disconnected implements the <see cref="IMarshal"/> interface.
+        /// If so, it gets the pointer to that interface;
+        /// if not, it gets a pointer to the standard marshaler's (i.e., COM's) <see cref="IMarshal"/> implementation.
+        /// Using whichever <see cref="IMarshal"/> interface pointer it has acquired, the function
+        /// then calls <see cref="IMarshal.DisconnectObject"/> to disconnect all out-of-process clients.
+        /// An object's client does not call <see cref="CoDisconnectObject"/> to disconnect itself from the server
+        /// (clients should use IUnknown::Release for this purpose).
+        /// Rather, an OLE server calls <see cref="CoDisconnectObject"/> to forcibly disconnect an object's clients,
+        /// usually in response to a user closing the server application.
+        /// Similarly, an OLE container that supports external links to its embedded objects
+        /// can call <see cref="CoDisconnectObject"/> to destroy those links.
+        /// Again, this call is normally made in response to a user closing the application.
+        /// The container should first call <see cref="IOleObject.Close"/> for all its OLE objects,
+        /// each of which should send <see cref="IAdviseSink.OnClose"/> notifications to their various clients.
+        /// Then the container can call <see cref="CoDisconnectObject"/> to close any existing connections.
+        /// <see cref="CoDisconnectObject"/> does not necessarily disconnect out-of-process clients immediately.
+        /// If any marshaled calls are pending on the server object, <see cref="CoDisconnectObject"/> disconnects the object
+        /// only when those calls have returned.
+        /// In the meantime, <see cref="CoDisconnectObject"/> sets a flag
+        /// that causes any new marshaled calls to return <see cref="CO_E_OBJNOTCONNECTED"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoDisconnectObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoDisconnectObject([MarshalAs(UnmanagedType.IUnknown)][In] object pUnk, [In] DWORD dwReserved);
 
         /// <summary>
         /// <para>
@@ -320,9 +372,154 @@ namespace Lsj.Util.Win32
         /// The function <see cref="CoRevokeClassObject"/> is to be used only to remove a class object's CLSID from the system registry.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetClassObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In]Guid rclsid,
-            [In]CLSCTX dwClsContext, [In]LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)]out object ppv);
+        public static extern HRESULT CoGetClassObject([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
+            [In] CLSCTX dwClsContext, [In] LPVOID pvReserved, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new object and initializes it from a file using <see cref="IPersistFile.Load"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-cogetinstancefromfile
+        /// </para>
+        /// </summary>
+        /// <param name="pServerInfo">
+        /// A pointer to a <see cref="COSERVERINFO"/> structure that specifies the computer
+        /// on which to instantiate the object and the authentication setting to be used.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the current computer,
+        /// at the computer specified under the RemoteServerName registry value for the class,
+        /// or at the computer where the <paramref name="pwszName"/> file resides
+        /// if the ActivateAtStorage value is specified for the class or there is no local registry information.
+        /// </param>
+        /// <param name="pClsid">
+        /// A pointer to the class identifier of the object to be created.
+        /// This parameter can be <see cref="NULL"/>, in which case there is a call to <see cref="GetClassFile"/>,
+        /// using <paramref name="pwszName"/> as its parameter to get the class of the object to be instantiated.
+        /// </param>
+        /// <param name="punkOuter">
+        /// When non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the pointer to the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/>
+        /// will be returned if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// Values from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="grfMode">
+        /// Specifies how the file is to be opened.
+        /// See <see cref="STGM"/> Constants.
+        /// </param>
+        /// <param name="pwszName">
+        /// The file used to initialize the object with <see cref="IPersistFile.Load"/>.
+        /// This parameter cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>.
+        /// This parameter must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (<see cref="MULTI_QI.pIID"/>),
+        /// the location to return the interface pointer (<see cref="MULTI_QI.pItf"/>)
+        /// and the return value of the call to QueryInterface (<see cref="MULTI_QI.hr"/>).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The function retrieved all of the interfaces successfully.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures indicates
+        /// with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned. 
+        /// <see cref="E_NOINTERFACE"/>:
+        /// None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved. 
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoGetInstanceFromFile"/> creates a new object and initializes it from a file using <see cref="IPersistFile.Load"/>.
+        /// The result of this function is similar to creating an instance with a call to <see cref="CoCreateInstanceEx"/>,
+        /// followed by an initializing call to <see cref="IPersistFile.Load"/>, with the following important distinctions:
+        /// Fewer network round trips are required by this function when instantiating an object on a remote computer.
+        /// In the case where <paramref name="dwClsCtx"/> is set to <see cref="CLSCTX_REMOTE_SERVER"/>
+        /// and <paramref name="pServerInfo"/> is <see cref="NULL"/>,
+        /// if the class is registered with the ActivateAtStorage sub-key or has no associated registry information,
+        /// this function will instantiate an object on the computer where <paramref name="pwszName"/> resides,
+        /// providing the least possible network traffic.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetInstanceFromFile([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
+            [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] STGM grfMode,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string pwszName, [In] DWORD dwCount, [Out] MULTI_QI[] pResults);
+
+        /// <summary>
+        /// <para>
+        /// Creates a new object and initializes it from a storage object through an internal call to <see cref="IPersistFile.Load"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-cogetinstancefromistorage
+        /// </para>
+        /// </summary>
+        /// <param name="pServerInfo">
+        /// A pointer to a <see cref="COSERVERINFO"/> structure that specifies the computer on which to instantiate the object
+        /// and the authentication setting to be used.
+        /// This parameter can be <see cref="NULL"/>, in which case the object is instantiated on the current computer,
+        /// at the computer specified under the RemoteServerName registry value for the class,
+        /// or at the computer where the pstg storage object resides if the ActivateAtStorage value is specified for the class
+        /// or there is no local registry information.
+        /// </param>
+        /// <param name="pClsid">
+        /// A pointer to the class identifier of the object to be created.
+        /// This parameter can be <see cref="NULL"/>, in which case there is a call to <see cref="IStorage.Stat"/> to find the class of the object.
+        /// </param>
+        /// <param name="punkOuter">
+        /// When non-NULL, indicates the instance is being created as part of an aggregate,
+        /// and <paramref name="punkOuter"/> is to be used as the pointer to the new instance's controlling <see cref="IUnknown"/>.
+        /// Aggregation is not supported cross-process or cross-computer.
+        /// When instantiating an object out of process, <see cref="CLASS_E_NOAGGREGATION"/> will be returned
+        /// if <paramref name="punkOuter"/> is non-NULL.
+        /// </param>
+        /// <param name="dwClsCtx">
+        /// Values from the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="pstg">
+        /// A pointer to the storage object used to initialize the object with <see cref="IPersistFile.Load"/>.
+        /// This parameter cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="dwCount">
+        /// The number of structures in <paramref name="pResults"/>.
+        /// This parameter must be greater than 0.
+        /// </param>
+        /// <param name="pResults">
+        /// An array of <see cref="MULTI_QI"/> structures.
+        /// Each structure has three members: the identifier for a requested interface (<see cref="MULTI_QI.pIID"/>),
+        /// the location to return the interface pointer (<see cref="MULTI_QI.pItf"/>)
+        /// and the return value of the call to QueryInterface (<see cref="MULTI_QI.hr"/>).
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The function retrieved all of the interfaces successfully.
+        /// <see cref="CO_S_NOTALLINTERFACES"/>:
+        /// At least one, but not all of the interfaces requested in the pResults array were successfully retrieved.
+        /// The <see cref="MULTI_QI.hr"/> member of each of the <see cref="MULTI_QI"/> structures indicates
+        /// with <see cref="S_OK"/> or <see cref="E_NOINTERFACE"/> whether the specific interface was returned. 
+        /// <see cref="E_NOINTERFACE"/>:
+        /// None of the interfaces requested in the <paramref name="pResults"/> array were successfully retrieved. 
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoGetInstanceFromIStorage"/> creates a new object and initializes it
+        /// from a storage object using <see cref="IPersistFile.Load"/>.
+        /// The result of this function is similar to creating an instance with a call to <see cref="CoCreateInstanceEx"/>,
+        /// followed by an initializing call to <see cref="IPersistFile.Load"/>, with the following important distinctions:
+        /// Fewer network round trips are required by this function when instantiating an object on a remote computer.
+        /// In the case where <paramref name="dwClsCtx"/> is set to <see cref="CLSCTX_REMOTE_SERVER"/>
+        /// and <paramref name="pServerInfo"/> is <see cref="NullRef{COSERVERINFO}"/>, 
+        /// if the class is registered with the ActivateAtStorage value or has no associated registry information,
+        /// this function will instantiate an object on the computer where pstg resides, providing the least possible network traffic.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetInstanceFromFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetInstanceFromIStorage([In] in COSERVERINFO pServerInfo, [MarshalAs(UnmanagedType.LPStruct)][In] Guid pClsid,
+              [MarshalAs(UnmanagedType.IUnknown)][In] object punkOuter, [In] CLSCTX dwClsCtx, [In] IStorage pstg, [In] DWORD dwCount,
+              [Out] MULTI_QI[] pResults);
 
         /// <summary>
         /// <para>
@@ -347,7 +544,7 @@ namespace Lsj.Util.Win32
         /// each process must have its own allocator.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetMalloc([In]uint dwMemContext, [Out]out IntPtr ppMalloc);
+        public static extern HRESULT CoGetMalloc([In] uint dwMemContext, [Out] out IntPtr ppMalloc);
 
         /// <summary>
         /// <para>
@@ -393,7 +590,7 @@ namespace Lsj.Util.Win32
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitialize", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitialize([In]LPVOID pvReserved);
+        public static extern HRESULT CoInitialize([In] LPVOID pvReserved);
 
         /// <summary>
         /// <para>
@@ -454,7 +651,7 @@ namespace Lsj.Util.Win32
         /// do not call <see cref="CoInitialize"/>, <see cref="CoInitializeEx"/>, or <see cref="CoUninitialize"/> from the DllMain function.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitializeEx([In]LPVOID pvReserved, [In]COINIT dwCoInit);
+        public static extern HRESULT CoInitializeEx([In] LPVOID pvReserved, [In] COINIT dwCoInit);
 
         /// <summary>
         /// <para>
@@ -576,8 +773,325 @@ namespace Lsj.Util.Win32
         /// if both the <see cref="EOAC_APPID"/> and <see cref="EOAC_ACCESS_CONTROL"/> flags are set in <paramref name="dwCapabilities"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoInitializeSecurity", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoInitializeSecurity([In]in SECURITY_DESCRIPTOR pSecDesc, [In]LONG cAuthSvc, [In]SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
-            [In]IntPtr pReserved1, [In]DWORD dwAuthnLevel, [In]DWORD dwImpLevel, [In]IntPtr pAuthList, [In]DWORD dwCapabilities, [In]IntPtr pReserved3);
+        public static extern HRESULT CoInitializeSecurity([In] in SECURITY_DESCRIPTOR pSecDesc, [In] LONG cAuthSvc, [In] SOLE_AUTHENTICATION_SERVICE[] asAuthSvc,
+            [In] IntPtr pReserved1, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel, [In] IntPtr pAuthList, [In] DWORD dwCapabilities, [In] IntPtr pReserved3);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the authentication information the client uses to make calls on the specified proxy.
+        /// This is a helper function for <see cref="IClientSecurity.QueryBlanket"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coqueryproxyblanket
+        /// </para>
+        /// </summary>
+        /// <param name="pProxy">
+        /// A pointer indicating the proxy to query.
+        /// This parameter cannot be <see langword="null"/>.
+        /// For more information, see the Remarks section.
+        /// </param>
+        /// <param name="pwAuthnSvc">
+        /// A pointer to a variable that receives the current authentication service.
+        /// This will be a single value taken from the authentication service constants.
+        /// This parameter cannot be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="pAuthzSvc">
+        /// A pointer to a variable that receives the current authorization service.
+        /// This will be a single value taken from the authorization constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current authorization service is not retrieved.
+        /// </param>
+        /// <param name="pServerPrincName">
+        /// The current principal name.
+        /// The string will be allocated by the callee using <see cref="CoTaskMemAlloc"/>, and must be freed by the caller using <see cref="CoTaskMemFree"/>.
+        /// The <see cref="EOAC_MAKE_FULLSIC"/> flag is not accepted in the <paramref name="pCapabilites"/> parameter.
+        /// For more information about the msstd and fullsic forms, see Principal Names.
+        /// If the caller specifies <see cref="NullRef{String}"/>, the current principal name is not retrieved.
+        /// </param>
+        /// <param name="pAuthnLevel">
+        /// A pointer to a variable that receives the current authentication level.
+        /// This will be a single value taken from the authentication level constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current authentication level is not retrieved.
+        /// </param>
+        /// <param name="pImpLevel">
+        /// A pointer to a variable that receives the current impersonation level.
+        /// This will be a single value taken from the impersonation level constants.
+        /// If the caller specifies <see cref="NullRef{DWORD}"/>, the current impersonation level is not retrieved.
+        /// </param>
+        /// <param name="pAuthInfo">
+        /// A pointer to a handle that receives the identity of the client that was passed
+        /// to the last <see cref="IClientSecurity.SetBlanket"/> call (or the default value).
+        /// Default values are only valid until the proxy is released.
+        /// If the caller specifies <see cref="NullRef{RPC_AUTH_IDENTITY_HANDLE}"/>, the client identity is not retrieved.
+        /// The format of the structure that the handle refers to depends on the authentication service.
+        /// The application should not write or free the memory.
+        /// For NTLMSSP and Kerberos, if the client specified a structure in the <paramref name="pAuthInfo"/> parameter
+        /// to <see cref="CoInitializeSecurity"/>, that value is returned.
+        /// For Schannel, if a certificate for the client could be retrieved from the certificate manager, that value is returned here.
+        /// Otherwise, <see cref="NULL"/> is returned. See <see cref="RPC_AUTH_IDENTITY_HANDLE"/>.
+        /// </param>
+        /// <param name="pCapabilites">
+        /// A pointer to a variable that receives the capabilities of the proxy.
+        /// If the caller specifies <see cref="NULL"/>, the current capability flags are not retrieved.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>, and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoQueryProxyBlanket"/> is called by the client to retrieve the authentication information
+        /// COM will use on calls made from the specified proxy.
+        /// This function encapsulates the following sequence of common calls (error handling excluded):
+        /// <code>
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&amp;pcs);
+        /// pcs->QueryBlanket(pProxy, pAuthnSvc, pAuthzSvc, pServerPrincName, pAuthnLevel, pImpLevel, ppAuthInfo, pCapabilities);
+        /// pcs->Release();
+        /// </code>
+        /// This sequence calls QueryInterface on the proxy to get a pointer to <see cref="IClientSecurity"/>, and with the resulting pointer,
+        /// calls <see cref="IClientSecurity.QueryBlanket"/> and then releases the pointer.
+        /// In <paramref name="pProxy"/>, you can pass any proxy, such as a proxy you get through a call to <see cref="CoCreateInstance"/>
+        /// or <see cref="CoUnmarshalInterface"/>, or you can pass an interface pointer.
+        /// It can be any interface.
+        /// You cannot pass a pointer to something that is not a proxy.
+        /// Therefore, you can't pass a pointer to an interface that has the local keyword in its interface definition
+        /// because no proxy is created for such an interface.
+        /// <see cref="IUnknown"/> is the exception to this rule.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoQueryProxyBlanket", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoQueryProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [Out] out DWORD pwAuthnSvc,
+            [Out] out DWORD pAuthzSvc, [Out] out string pServerPrincName, [Out] out DWORD pAuthnLevel, [Out] out DWORD pImpLevel,
+            [Out] out RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [Out] out EOLE_AUTHENTICATION_CAPABILITIES pCapabilites);
+
+        /// <summary>
+        /// <para>
+        /// Registers an EXE class object with OLE so other applications can connect to it.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coregisterclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The CLSID to be registered.
+        /// </param>
+        /// <param name="pUnk">
+        /// A pointer to the <see cref="IUnknown"/> interface on the class object whose availability is being published.
+        /// </param>
+        /// <param name="dwClsContext">
+        /// The context in which the executable code is to be run.
+        /// For information on these context values, see the <see cref="CLSCTX"/> enumeration.
+        /// </param>
+        /// <param name="flags">
+        /// Indicates how connections are made to the class object. For information on these flags, see the <see cref="REGCLS"/> enumeration.
+        /// </param>
+        /// <param name="lpdwRegister">
+        /// A pointer to a value that identifies the class object registered;
+        /// later used by the <see cref="CoRevokeClassObject"/> function to revoke the registration.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The class object was registered successfully. 
+        /// </returns>
+        /// <remarks>
+        /// EXE object applications should call <see cref="CoRegisterClassObject"/> on startup.
+        /// It can also be used to register internal objects for use by the same EXE or other code (such as DLLs) that the EXE uses.
+        /// Only EXE object applications call <see cref="CoRegisterClassObject"/>.
+        /// Object handlers or DLL object applications do not call this function — instead,
+        /// they must implement and export the <see cref="DllGetClassObject"/> function.
+        /// At startup, a multiple-use EXE object application must create a class object (with the <see cref="IClassFactory"/> interface on it),
+        /// and call <see cref="CoRegisterClassObject"/> to register the class object.
+        /// Object applications that support several different classes (such as multiple types of embeddable objects)
+        /// must allocate and register a different class object for each.
+        /// Multiple registrations of the same class object are independent and do not produce an error.
+        /// Each subsequent registration yields a unique key in <paramref name="lpdwRegister"/>.
+        /// Multiple document interface (MDI) applications must register their class objects.
+        /// Single document interface (SDI) applications must register their class objects only if they can be started by means of the /Embedding switch.
+        /// The server for a class object should call <see cref="CoRevokeClassObject"/> to revoke the class object
+        /// (remove its registration) when all of the following are true:
+        /// There are no existing instances of the object definition.
+        /// There are no locks on the class object.
+        /// The application providing services to the class object is not under user control (not visible to the user on the display).
+        /// After the class object is revoked, when its reference count reaches zero, the class object can be released, allowing the application to exit.
+        /// Note that <see cref="CoRegisterClassObject"/> calls IUnknown::AddRef and <see cref="CoRevokeClassObject"/> calls IUnknown::Release,
+        /// so the two functions form an AddRef/Release pair.
+        /// As of Windows Server 2003, if a COM object application is registered as a service, COM verifies the registration.
+        /// COM makes sure the process ID of the service, in the service control manager (SCM), matches the process ID of the registering process.
+        /// If not, COM fails the registration.
+        /// If the COM object application runs in the system account with no registry key, COM treats the objects application identity as Launching User.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In] object pUnk,
+            [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
+
+        /// <summary>
+        /// <para>
+        /// Called by a server that can register multiple class objects to inform the SCM about all registered classes,
+        /// and permits activation requests for those class objects.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coresumeclassobjects
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> to indicate that the CLSID was retrieved successfully.
+        /// </returns>
+        /// <remarks>
+        /// Servers that can register multiple class objects call <see cref="CoResumeClassObjects"/> once,
+        /// after having first called <see cref="CoRegisterClassObject"/>,
+        /// specifying <code>REGCLS_LOCAL_SERVER | REGCLS_SUSPENDED</code> for each CLSID the server supports.
+        /// This function causes OLE to inform the SCM about all the registered classes, and begins letting activation requests into the server process.
+        /// This reduces the overall registration time, and thus the server application startup time,
+        /// by making a single call to the SCM, no matter how many CLSIDs are registered for the server.
+        /// Another advantage is that if the server has multiple apartments with different CLSIDs registered in different apartments,
+        /// or is a free-threaded server, no activation requests will come in until the server calls <see cref="CoResumeClassObjects"/>.
+        /// This gives the server a chance to register all of its CLSIDs and get properly set up
+        /// before having to deal with activation requests, and possibly shutdown requests.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoResumeClassObjects", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoResumeClassObjects();
+
+        /// <summary>
+        /// <para>
+        /// Informs OLE that a class object, previously registered with the <see cref="CoRegisterClassObject"/> function, is no longer available for use.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-corevokeclassobject
+        /// </para>
+        /// </summary>
+        /// <param name="dwRegister">
+        /// A token previously returned from the <see cref="CoRegisterClassObject"/> function.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The class object was revoked successfully. 
+        /// </returns>
+        /// <remarks>
+        /// A successful call to <see cref="CoRevokeClassObject"/> means that the class object has been removed
+        /// from the global class object table (although it does not release the class object).
+        /// If other clients still have pointers to the class object and have caused the reference count to be incremented
+        /// by calls to IUnknown::AddRef, the reference count will not be zero.
+        /// When this occurs, applications may benefit if subsequent calls (with the obvious exceptions of AddRef and IUnknown::Release) to the class object fail.
+        /// Note that <see cref="CoRegisterClassObject"/> calls AddRef and <see cref="CoRevokeClassObject"/> calls Release,
+        /// so the two functions form an AddRef/Release pair.
+        /// An object application must call <see cref="CoRevokeClassObject"/> to revoke registered class objects before exiting the program.
+        /// Class object implementers should call <see cref="CoRevokeClassObject"/> as part of the release sequence.
+        /// You must specifically revoke the class object even when you have specified the flags value <see cref="REGCLS_SINGLEUSE"/>
+        /// in a call to <see cref="CoRegisterClassObject"/>, indicating that only one application can connect to the class object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRevokeClassObject", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoRevokeClassObject([In] DWORD dwRegister);
+
+        /// <summary>
+        /// <para>
+        /// Sets the authentication information that will be used to make calls on the specified proxy.
+        /// This is a helper function for <see cref="IClientSecurity.SetBlanket"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cosetproxyblanket
+        /// </para>
+        /// </summary>
+        /// <param name="pProxy">
+        /// The proxy to be set.
+        /// </param>
+        /// <param name="dwAuthnSvc">
+        /// The authentication service to be used.
+        /// For a list of possible values, see Authentication Service Constants.
+        /// Use <see cref="RPC_C_AUTHN_NONE"/> if no authentication is required.
+        /// If <see cref="RPC_C_AUTHN_DEFAULT"/> is specified, DCOM will pick an authentication service
+        /// following its normal security blanket negotiation algorithm.
+        /// </param>
+        /// <param name="dwAuthzSvc">
+        /// The authorization service to be used. For a list of possible values, see Authorization Constants.
+        /// If <see cref="RPC_C_AUTHZ_DEFAULT"/> is specified, DCOM will pick an authorization service
+        /// following its normal security blanket negotiation algorithm.
+        /// <see cref="RPC_C_AUTHZ_NONE"/> should be used as the authorization service if NTLMSSP,
+        /// Kerberos, or Schannel is used as the authentication service.
+        /// </param>
+        /// <param name="pServerPrincName">
+        /// The server principal name to be used with the authentication service.
+        /// If <see cref="COLE_DEFAULT_PRINCIPAL"/> is specified, DCOM will pick a principal name using its security blanket negotiation algorithm.
+        /// If Kerberos is used as the authentication service, this value must not be <see langword="null"/>.
+        /// It must be the correct principal name of the server or the call will fail.
+        /// If Schannel is used as the authentication service, this value must be one of the msstd or fullsic forms described in Principal Names,
+        /// or <see langword="null"/> if you do not want mutual authentication.
+        /// Generally, specifying <see langword="null"/> will not reset the server principal name on the proxy;
+        /// rather, the previous setting will be retained.
+        /// You must be careful when using <see langword="null"/> as <paramref name="pServerPrincName"/>
+        /// when selecting a different authentication service for the proxy,
+        /// because there is no guarantee that the previously set principal name would be valid for the newly selected authentication service.
+        /// </param>
+        /// <param name="dwAuthnLevel">
+        /// The authentication level to be used.
+        /// For a list of possible values, see Authentication Level Constants.
+        /// If <see cref="RPC_C_AUTHN_LEVEL_DEFAULT"/> is specified, DCOM will pick an authentication level
+        /// following its normal security blanket negotiation algorithm.
+        /// If this value is none, the authentication service must also be none.
+        /// </param>
+        /// <param name="dwImpLevel">
+        /// The impersonation level to be used.
+        /// For a list of possible values, see Impersonation Level Constants.
+        /// If <see cref="RPC_C_IMP_LEVEL_DEFAULT"/> is specified, DCOM will pick an impersonation level
+        /// following its normal security blanket negotiation algorithm.
+        /// If NTLMSSP is the authentication service, this value must be <see cref="RPC_C_IMP_LEVEL_IMPERSONATE"/>
+        /// or <see cref="RPC_C_IMP_LEVEL_IDENTIFY"/>.
+        /// NTLMSSP also supports delegate-level impersonation (<see cref="RPC_C_IMP_LEVEL_DELEGATE"/>) on the same computer.
+        /// If Schannel is the authentication service, this parameter must be <see cref="RPC_C_IMP_LEVEL_IMPERSONATE"/>.
+        /// </param>
+        /// <param name="pAuthInfo">
+        /// A pointer to an <see cref="RPC_AUTH_IDENTITY_HANDLE"/> value that establishes the identity of the client.
+        /// The format of the structure referred to by the handle depends on the provider of the authentication service.
+        /// For calls on the same computer, RPC logs on the user with the supplied credentials and uses the resulting token for the method call.
+        /// For NTLMSSP or Kerberos, the structure is a <see cref="SEC_WINNT_AUTH_IDENTITY"/> or <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure.
+        /// The client can discard pAuthInfo after calling the API.
+        /// RPC does not keep a copy of the <paramref name="pAuthInfo"/> pointer,
+        /// and the client cannot retrieve it later in the <see cref="CoQueryProxyBlanket"/> method.
+        /// If this parameter is <see cref="NULL"/>, DCOM uses the current proxy identity (which is either the process token or the impersonation token).
+        /// If the handle refers to a structure, that identity is used.
+        /// For Schannel, this parameter must be either a pointer to a <see cref="CERT_CONTEXT"/> structure
+        /// that contains the client's X.509 certificate or is <see cref="NULL"/> if the client wishes to make an anonymous connection to the server.
+        /// If a certificate is specified, the caller must not free it as long as any proxy to the object exists in the current apartment.
+        /// For Snego, this member is either <see cref="NULL"/>, points to a <see cref="SEC_WINNT_AUTH_IDENTITY"/> structure,
+        /// or points to a <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure.
+        /// If it is <see cref="NULL"/>, Snego will pick a list of authentication services based on those available on the client computer.
+        /// If it points to a <see cref="SEC_WINNT_AUTH_IDENTITY_EX"/> structure,
+        /// the structure's <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> member must point to a string
+        /// containing a comma-separated list of authentication service names and the <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageListLength"/> member
+        /// must give the number of bytes in the <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> string.
+        /// If <see cref="SEC_WINNT_AUTH_IDENTITY_EX.PackageList"/> is <see cref="NULL"/>, all calls using Snego will fail.
+        /// If <see cref="COLE_DEFAULT_AUTHINFO"/> is specified for this parameter,
+        /// DCOM will pick the authentication information following its normal security blanket negotiation algorithm.
+        /// <see cref="CoSetProxyBlanket"/> will fail if <paramref name="pAuthInfo"/> is set and one of the cloaking flags
+        /// is set in the <paramref name="dwCapabilities"/> parameter.
+        /// </param>
+        /// <param name="dwCapabilities">
+        /// The capabilities of this proxy.
+        /// For a list of possible values, see the <see cref="EOLE_AUTHENTICATION_CAPABILITIES"/> enumeration.
+        /// The only flags that can be set through this function are <see cref="EOAC_MUTUAL_AUTH"/>, <see cref="EOAC_STATIC_CLOAKING"/>,
+        /// <see cref="EOAC_DYNAMIC_CLOAKING"/>, <see cref="EOAC_ANY_AUTHORITY"/> (this flag is deprecated),
+        /// <see cref="EOAC_MAKE_FULLSIC"/>, and <see cref="EOAC_DEFAULT"/>.
+        /// Either <see cref="EOAC_STATIC_CLOAKING"/> or <see cref="EOAC_DYNAMIC_CLOAKING"/> can be set
+        /// if <paramref name="pAuthInfo"/> is not set and Schannel is not the authentication service. (See Cloaking for more information.)
+        /// If any capability flags other than those mentioned here are set, <see cref="CoSetProxyBlanket"/> will fail.
+        /// </param>
+        /// <returns>
+        /// This function can return the following values.
+        /// <see cref="S_OK"/>: The function was successful.
+        /// <see cref="E_INVALIDARG"/>: One or more arguments is invalid.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoSetProxyBlanket"/> sets the authentication information that will be used to make calls on the specified proxy.
+        /// This function encapsulates the following sequence of common calls (error handling excluded).
+        /// <code>
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&amp;pcs);
+        /// pcs->SetBlanket(pProxy, dwAuthnSvc, dwAuthzSvc, pServerPrincName, dwAuthnLevel, dwImpLevel, pAuthInfo, dwCapabilities);
+        /// pcs->Release();
+        /// </code>
+        /// This sequence calls QueryInterface on the proxy to get a pointer to <see cref="IClientSecurity"/>, and with the resulting pointer,
+        /// calls <see cref="IClientSecurity.SetBlanket"/> and then releases the pointer.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoSetProxyBlanket", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoSetProxyBlanket([MarshalAs(UnmanagedType.IUnknown)][In] object pProxy, [In] DWORD dwAuthnSvc,
+            [In] DWORD dwAuthzSvc, [MarshalAs(UnmanagedType.LPWStr)][In] string pServerPrincName, [In] DWORD dwAuthnLevel, [In] DWORD dwImpLevel,
+            [In] RPC_AUTH_IDENTITY_HANDLE pAuthInfo, [In] EOLE_AUTHENTICATION_CAPABILITIES dwCapabilities);
 
         /// <summary>
         /// <para>
@@ -605,7 +1119,7 @@ namespace Lsj.Util.Win32
         /// because there is no guarantee that the memory will be allocated.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemAlloc([In]IntPtr cb);
+        public static extern IntPtr CoTaskMemAlloc([In] IntPtr cb);
 
         /// <summary>
         /// <para>
@@ -625,7 +1139,7 @@ namespace Lsj.Util.Win32
         /// After the call, the memory block pointed to by pv is invalid and can no longer be used.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", ExactSpelling = true, SetLastError = true)]
-        public static extern void CoTaskMemFree([In]IntPtr pv);
+        public static extern void CoTaskMemFree([In] IntPtr pv);
 
         /// <summary>
         /// <para>
@@ -670,7 +1184,7 @@ namespace Lsj.Util.Win32
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemRealloc([In]IntPtr pv, [In]IntPtr cb);
+        public static extern IntPtr CoTaskMemRealloc([In] IntPtr pv, [In] IntPtr cb);
 
         /// <summary>
         /// <para>
@@ -700,6 +1214,46 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void CoUninitialize();
+
+        /// <summary>
+        /// <para>
+        /// Creates and returns a new anti-moniker.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createantimoniker
+        /// </para>
+        /// </summary>
+        /// <param name="ppmk">
+        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the new anti-moniker.
+        /// When successful, the function has called AddRef on the anti-moniker and the caller is responsible for calling Release.
+        /// When an error occurs, the anti-moniker pointer is <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// You would call this function only if you are writing your own moniker class (implementing the <see cref="IMoniker"/> interface).
+        /// If you are writing a new moniker class that has no internal structure,
+        /// you can use <see cref="CreateAntiMoniker"/> in your implementation of the <see cref="IMoniker.Inverse"/> method,
+        /// and then check for an anti-moniker in your implementation of <see cref="IMoniker.ComposeWith"/>.
+        /// Like the ".." directory, which acts as the inverse to any directory name just preceding it in a path,
+        /// an anti-moniker acts as the inverse of a simple moniker that precedes it in a composite moniker.
+        /// An anti-moniker is used as the inverse of simple monikers with no internal structure.
+        /// For example, the system-provided implementations of file monikers, item monikers,
+        /// and pointer monikers all use anti-monikers as their inverse;
+        /// consequently, an anti-moniker composed to the right of one of these monikers composes to nothing.
+        /// A moniker client (an object that is using a moniker to bind to another object) typically does not know the class of a given moniker,
+        /// so the client cannot be sure that an anti-moniker is the inverse.
+        /// Therefore, to get the inverse of a moniker, you would call <see cref="IMoniker.Inverse"/> rather than <see cref="CreateAntiMoniker"/>.
+        /// To remove the last piece of a composite moniker, you would do the following:
+        /// Call <see cref="IMoniker.Enum"/> on the composite, specifying <see cref="FALSE"/> as the first parameter.
+        /// This creates an enumerator that returns the component monikers in reverse order.
+        /// Use the enumerator to retrieve the last piece of the composite.
+        /// Call <see cref="IMoniker.Inverse"/> on that moniker.
+        /// The moniker returned by <see cref="IMoniker.Inverse"/> will remove the last piece of the composite.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateAntiMoniker([Out] out IMoniker ppmk);
 
         /// <summary>
         /// <para>
@@ -759,7 +1313,7 @@ namespace Lsj.Util.Win32
         /// You can call the <see cref="IBindCtx.SetBindOptions"/> method to modify these default values.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateBindCtx", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateBindCtx([In]DWORD reserved, [Out]out IBindCtx ppbc);
+        public static extern HRESULT CreateBindCtx([In] DWORD reserved, [Out] out IBindCtx ppbc);
 
         /// <summary>
         /// <para>
@@ -784,7 +1338,37 @@ namespace Lsj.Util.Win32
         /// between the calling object and the data object.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDataAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateDataAdviseHolder([Out]out IDataAdviseHolder ppDAHolder);
+        public static extern HRESULT CreateDataAdviseHolder([Out] out IDataAdviseHolder ppDAHolder);
+
+        /// <summary>
+        /// <para>
+        /// Performs a generic composition of two monikers and supplies a pointer to the resulting composite moniker.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-creategenericcomposite
+        /// </para>
+        /// </summary>
+        /// <param name="pmkFirst">
+        /// A pointer to the moniker to be composed to the left of the moniker that pmkRest points to.
+        /// Can point to any kind of moniker, including a generic composite.
+        /// </param>
+        /// <param name="pmkRest">
+        /// A pointer to the moniker to be composed to the right of the moniker to which pmkFirst points.
+        /// Can point to any kind of moniker compatible with the type of the <paramref name="pmkRest"/> moniker, including a generic composite.
+        /// </param>
+        /// <param name="ppmkComposite">
+        /// The address of an <see cref="IMoniker"/> pointer variable that receives the interface pointer to the composite moniker object
+        /// that is the result of composing <paramref name="pmkFirst"/> and <paramref name="pmkRest"/>.
+        /// This object supports the OLE composite moniker implementation of <see cref="IMoniker"/>.
+        /// When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release.
+        /// If either <paramref name="pmkFirst"/> or <paramref name="pmkRest"/> are <see langword="null"/>,
+        /// the supplied pointer is the one that is non-NULL.
+        /// If both <paramref name="pmkFirst"/> and <paramref name="pmkRest"/> are <see langword="null"/>,
+        /// or if an error occurs, the returned pointer is <see langword="null"/>.
+        /// </param>
+        /// <returns></returns>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateGenericComposite", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateGenericComposite([In] IMoniker pmkFirst, [In] IMoniker pmkRest, [Out] out IMoniker ppmkComposite);
 
         /// <summary>
         /// <para>
@@ -812,6 +1396,45 @@ namespace Lsj.Util.Win32
         /// so if you need to use this method, you will need to implement your own advise holder.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateOleAdviseHolder", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CreateOleAdviseHolder([Out]out IOleAdviseHolder ppOAHolder);
+        public static extern HRESULT CreateOleAdviseHolder([Out] out IOleAdviseHolder ppOAHolder);
+
+        /// <summary>
+        /// <para>
+        /// Returns a pointer to the <see cref="IRunningObjectTable"/> interface on the local running object table (ROT).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-getrunningobjecttable
+        /// </para>
+        /// </summary>
+        /// <param name="reserved">
+        /// This parameter is reserved and must be 0.
+        /// </param>
+        /// <param name="pprot">
+        /// The address of an <see cref="IRunningObjectTable"/>* pointer variable that receives the interface pointer to the local ROT.
+        /// When the function is successful, the caller is responsible for calling Release on the interface pointer.
+        /// If an error occurs, *pprot is undefined.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_UNEXPECTED"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each workstation has a local ROT that maintains a table of the objects that have been registered as running on that computer.
+        /// This function returns an <see cref="IRunningObjectTable"/> interface pointer, which provides access to that table.
+        /// Moniker providers, which hand out monikers that identify objects so they are accessible to others,
+        /// should call <see cref="GetRunningObjectTable"/>.
+        /// Use the interface pointer returned by this function to register your objects when they begin running,
+        /// to record the times that those objects are modified, and to revoke their registrations when they stop running.
+        /// See the <see cref="IRunningObjectTable"/> interface for more information.
+        /// Compound-document link sources are the most common example of moniker providers.
+        /// These include server applications that support linking to their documents (or portions of a document)
+        /// and container applications that support linking to embeddings within their documents.
+        /// Server applications that do not support linking can also use the ROT
+        /// to cooperate with container applications that support linking to embeddings.
+        /// If you are implementing the <see cref="IMoniker"/> interface to write a new moniker class, and you need an interface pointer to the ROT,
+        /// call <see cref="IBindCtx.GetRunningObjectTable"/> rather than the <see cref="GetRunningObjectTable"/> function.
+        /// This allows future implementations of the <see cref="IBindCtx"/> interface to modify binding behavior.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRunningObjectTable", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT GetRunningObjectTable([In] DWORD reserved, [Out] out IRunningObjectTable pprot);
     }
 }

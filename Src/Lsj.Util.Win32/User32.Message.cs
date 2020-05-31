@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.InSendMessageExResults;
 using static Lsj.Util.Win32.Enums.PeekMessageFlags;
 using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
@@ -140,6 +141,30 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessage", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL InSendMessage();
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the current window procedure is processing a message
+        /// that was sent from another thread (in the same process or a different process).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessageex
+        /// </para>
+        /// </summary>
+        /// <param name="lpReserved">
+        /// Reserved; must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the message was not sent, the return value is <see cref="ISMEX_NOSEND"/> (0x00000000).
+        /// Otherwise, the return value is one or more of the following values.
+        /// <see cref="ISMEX_CALLBACK"/>, <see cref="ISMEX_NOTIFY"/>, <see cref="ISMEX_REPLIED"/>, <see cref="ISMEX_SEND"/>
+        /// </returns>
+        /// <remarks>
+        /// To determine if the sender is blocked, use the following test:
+        /// <code>fBlocked = ( InSendMessageEx(NULL) &amp; (ISMEX_REPLIED|ISMEX_SEND) ) == ISMEX_SEND;</code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessageEx", ExactSpelling = true, SetLastError = true)]
+        public static extern InSendMessageExResults InSendMessageEx([In]LPVOID lpReserved);
 
         /// <summary>
         /// <para>
@@ -713,6 +738,25 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageCallbackW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SendMessageCallback([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam,
             [In]SENDASYNCPROC lpResultCallBack, [In]ULONG_PTR dwData);
+
+        /// <summary>
+        /// <para>
+        /// Sets the extra message information for the current thread.
+        /// Extra message information is an application- or driver-defined value associated with the current thread's message queue.
+        /// An application can use the <see cref="GetMessageExtraInfo"/> function to retrieve a thread's extra message information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmessageextrainfo
+        /// </para>
+        /// </summary>
+        /// <param name="lParam">
+        /// The value to be associated with the current thread.
+        /// </param>
+        /// <returns>
+        /// The return value is the previous value associated with the current thread.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern LPARAM SetMessageExtraInfo([In]LPARAM lParam);
 
         /// <summary>
         /// <para>

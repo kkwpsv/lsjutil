@@ -7,12 +7,15 @@ namespace Lsj.Util.Win32.BaseTypes
     /// HCERTSTORE
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HCERTSTORE
+    public struct HCERTSTORE : IPointer
     {
-        private IntPtr _value;
+        private HANDLE _value;
 
         /// <inheritdoc/>
-        public override string ToString() => _value.ToString("X");
+        public override string ToString() => _value.ToString();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 

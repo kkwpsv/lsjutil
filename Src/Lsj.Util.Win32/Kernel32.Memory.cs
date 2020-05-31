@@ -24,6 +24,99 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, AllocateUserPhysicalPages is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpages
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process.
+        /// The function allocates memory that can later be mapped within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory to allocate, in pages.
+        /// To determine the page size of the computer, use the <see cref="GetSystemInfo"/> function.
+        /// On output, this parameter receives the number of pages that are actually allocated, which might be less than the number requested.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array to store the page frame numbers of the allocated memory.
+        /// The size of the array that is allocated should be at least the <paramref name="NumberOfPages"/> times
+        /// the size of the <see cref="ULONG_PTR"/> data type.
+        /// Do not attempt to modify this buffer.
+        /// It contains operating system data, and corruption could be catastrophic.
+        /// The information in the buffer is not useful to an application.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// Fewer pages than requested can be allocated.
+        /// The caller must check the value of the <paramref name="NumberOfPages"/> parameter on return to see how many pages are allocated.
+        /// All allocated page frame numbers are sequentially placed in the memory pointed to by the <paramref name="PageArray"/> parameter.
+        /// If the function fails, the return value is <see cref="FALSE"/>,
+        /// and no frames are allocated. To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AllocateUserPhysicalPages"/> function is used to allocate physical memory
+        /// that can later be mapped within the virtual address space of the process.
+        /// The SeLockMemoryPrivilege privilege must be enabled in the caller's token
+        /// or the function will fail with <see cref="ERROR_PRIVILEGE_NOT_HELD"/>.
+        /// For more information, see Privilege Constants.
+        /// Memory allocated by this function must be physically present in the system. After the memory is allocated,
+        /// it is locked down and unavailable to the rest of the virtual memory management system.
+        /// Physical pages cannot be simultaneously mapped at more than one virtual address.
+        /// Physical pages can reside at any physical address. You should make no assumptions about the contiguity of the physical pages.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AllocateUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
+
+        /// <summary>
+        /// <para>
+        /// Frees physical memory pages that are allocated previously
+        /// by using <see cref="AllocateUserPhysicalPages"/> or <see cref="AllocateUserPhysicalPagesNuma"/>.
+        /// If any of these pages are currently mapped in the Address Windowing Extensions (AWE) region, they are automatically unmapped by this call.
+        /// This does not affect the virtual address space that is occupied by a specified Address Windowing Extensions (AWE) region.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="FreeUserPhysicalPages"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-freeuserphysicalpages
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// The handle to a process.
+        /// The function frees memory within the virtual address space of this process.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory to free, in pages.
+        /// On return, if the function fails, this parameter indicates the number of pages that are freed.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array of page frame numbers of the allocated memory to be freed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// In this case, the <paramref name="NumberOfPages"/> parameter reflect how many pages have actually been released.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// In a multiprocessor environment, this function maintains coherence of the hardware translation buffer.
+        /// When this function returns, all threads on all processors are guaranteed to see the correct mapping.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FreeUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages,
+            [MarshalAs(UnmanagedType.LPArray)][In][Out] ULONG_PTR[] PageArray);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the minimum size of a large page.
         /// </para>
         /// <para>
@@ -101,7 +194,7 @@ namespace Lsj.Util.Win32
         /// To obtain a handle to the process heap of the calling process, use the <see cref="GetProcessHeap"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetProcessHeaps([In]uint NumberOfHeaps, [In]IntPtr ProcessHeaps);
+        public static extern uint GetProcessHeaps([In] uint NumberOfHeaps, [In] IntPtr ProcessHeaps);
 
         /// <summary>
         /// <para>
@@ -147,7 +240,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalCompact", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T GlobalCompact([In]DWORD dwMinFree);
+        public static extern SIZE_T GlobalCompact([In] DWORD dwMinFree);
 
         /// <summary>
         /// <para>
@@ -179,7 +272,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFix", ExactSpelling = true, SetLastError = true)]
-        public static extern void GlobalFix([In]HGLOBAL hMem);
+        public static extern void GlobalFix([In] HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -213,7 +306,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalFlags", ExactSpelling = true, SetLastError = true)]
-        public static extern GlobalMemoryFlags GlobalFlags([In]HGLOBAL hMem);
+        public static extern GlobalMemoryFlags GlobalFlags([In] HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -278,7 +371,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="GlobalHandle"/> converts the pointer back into a handle.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern HGLOBAL GlobalHandle([In]LPCVOID pMem);
+        public static extern HGLOBAL GlobalHandle([In] LPCVOID pMem);
 
         /// <summary>
         /// Locks a global memory object and returns a pointer to the first byte of the object's memory block.
@@ -310,6 +403,63 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         public static HANDLE GlobalLRUOldest(HGLOBAL hMem) => hMem;
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the system's current usage of both physical and virtual memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalmemorystatus
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a <see cref="MEMORYSTATUS"/> structure.
+        /// The <see cref="GlobalMemoryStatus"/> function stores information about current memory availability into this structure.
+        /// </param>
+        /// <remarks>
+        /// On computers with more than 4 GB of memory, the <see cref="GlobalMemoryStatus"/> function can return incorrect information,
+        /// reporting a value of –1 to indicate an overflow.
+        /// For this reason, applications should use the <see cref="GlobalMemoryStatusEx"/> function instead.
+        /// On Intel x86 computers with more than 2 GB and less than 4 GB of memory,
+        /// the <see cref="GlobalMemoryStatus"/> function will always return 2 GB
+        /// in the <see cref="MEMORYSTATUS.dwTotalPhys"/> member of the <see cref="MEMORYSTATUS"/> structure.
+        /// Similarly, if the total available memory is between 2 and 4 GB,
+        /// the <see cref="MEMORYSTATUS.dwAvailPhys"/> member of the <see cref="MEMORYSTATUS"/> structure will be rounded down to 2 GB.
+        /// If the executable is linked using the /LARGEADDRESSAWARE linker option,
+        /// then the <see cref="GlobalMemoryStatus"/> function will return the correct amount of physical memory in both members.
+        /// The information returned by the <see cref="GlobalMemoryStatus"/> function is volatile.
+        /// There is no guarantee that two sequential calls to this function will return the same information.
+        /// </remarks>
+        [Obsolete("GlobalMemoryStatus can return incorrect information. Use the GlobalMemoryStatusEx function instead.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatus", ExactSpelling = true, SetLastError = true)]
+        public static extern void GlobalMemoryStatus([Out] out MEMORYSTATUS lpBuffer);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the system's current usage of both physical and virtual memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex
+        /// </para>
+        /// </summary>
+        /// <param name="lpBuffer">
+        /// A pointer to a MEMORYSTATUSEX structure that receives information about current memory availability.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can use the <see cref="GlobalMemoryStatusEx"/> function to determine
+        /// how much memory your application can allocate without severely impacting other applications.
+        /// The information returned by the <see cref="GlobalMemoryStatusEx"/> function is volatile.
+        /// There is no guarantee that two sequential calls to this function will return the same information.
+        /// The <see cref="MEMORYSTATUSEX.ullAvailPhys"/> member of the <see cref="MEMORYSTATUSEX"/> structure
+        /// at <paramref name="lpBuffer"/> includes memory for all NUMA nodes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalMemoryStatusEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GlobalMemoryStatusEx([In][Out] ref MEMORYSTATUSEX lpBuffer);
 
         /// <summary>
         /// Changes the size or attributes of a specified global memory object. The size can increase or decrease.
@@ -367,7 +517,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GlobalFlags"/> function before calling <see cref="GlobalSize"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalSize", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T GlobalSize([In]HGLOBAL hMem);
+        public static extern SIZE_T GlobalSize([In] HGLOBAL hMem);
 
         /// <summary>
         /// 
@@ -375,7 +525,7 @@ namespace Lsj.Util.Win32
         /// <param name="hMem"></param>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnfix", ExactSpelling = true, SetLastError = true)]
-        public static extern void GlobalUnfix([In]HGLOBAL hMem);
+        public static extern void GlobalUnfix([In] HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -415,7 +565,7 @@ namespace Lsj.Util.Win32
         /// it must subsequently call <see cref="GlobalUnlock"/> for a memory object.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnlock", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GlobalUnlock([In]HGLOBAL hMem);
+        public static extern BOOL GlobalUnlock([In] HGLOBAL hMem);
 
         /// <summary>
         /// 
@@ -424,7 +574,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalUnWire", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GlobalUnWire([In]HGLOBAL hMem);
+        public static extern BOOL GlobalUnWire([In] HGLOBAL hMem);
 
         /// <summary>
         /// 
@@ -433,7 +583,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GlobalWire", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID GlobalWire([In]HGLOBAL hMem);
+        public static extern LPVOID GlobalWire([In] HGLOBAL hMem);
 
         /// <summary>
         /// <para>
@@ -505,7 +655,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapAlloc([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr dwBytes);
+        public static extern IntPtr HeapAlloc([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr dwBytes);
 
         /// <summary>
         /// <para>
@@ -601,7 +751,33 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GetProcessHeaps"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapCreate([In]HeapFlags flOptions, [In]IntPtr dwInitialSize, [In]IntPtr dwMaximumSize);
+        public static extern IntPtr HeapCreate([In] HeapFlags flOptions, [In] IntPtr dwInitialSize, [In] IntPtr dwMaximumSize);
+
+        /// <summary>
+        /// <para>
+        /// Destroys the specified heap object.
+        /// It decommits and releases all the pages of a private heap object, and it invalidates the handle to the heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapdestroy
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be destroyed.
+        /// This handle is returned by the <see cref="HeapCreate"/> function.
+        /// Do not use the handle to the process heap returned by the <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Processes can call <see cref="HeapDestroy"/> without first calling the <see cref="HeapFree"/> function
+        /// to free memory allocated from the heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapDestroy", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HeapDestroy([In] HANDLE hHeap);
 
         /// <summary>
         /// <para>
@@ -657,7 +833,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapFree([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem);
+        public static extern bool HeapFree([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr lpMem);
 
         /// <summary>
         /// <para>
@@ -686,7 +862,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapLock([In]IntPtr hHeap);
+        public static extern bool HeapLock([In] IntPtr hHeap);
 
         /// <summary>
         /// <para>
@@ -741,8 +917,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapQueryInformation", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapQueryInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
-            [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength, [Out]out IntPtr ReturnLength);
+        public static extern bool HeapQueryInformation([In] IntPtr HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In] IntPtr HeapInformation, [In] IntPtr HeapInformationLength, [Out] out IntPtr ReturnLength);
 
         /// <summary>
         /// <para>
@@ -823,7 +999,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapReAlloc([In]IntPtr hHeap, [In]HeapFlags dwFlags, [In]IntPtr lpMem, [In]IntPtr dwBytes);
+        public static extern IntPtr HeapReAlloc([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr lpMem, [In] IntPtr dwBytes);
 
         /// <summary>
         /// <para>
@@ -888,8 +1064,61 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSetInformation", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapSetInformation([In]IntPtr HeapHandle, [In]HEAP_INFORMATION_CLASS HeapInformationClass,
-            [In]IntPtr HeapInformation, [In]IntPtr HeapInformationLength);
+        public static extern bool HeapSetInformation([In] IntPtr HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In] IntPtr HeapInformation, [In] IntPtr HeapInformationLength);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the size of a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsize
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap in which the memory block resides.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap size options.
+        /// Specifying the following value overrides the corresponding value specified in the flOptions parameter
+        /// when the heap was created by using the <see cref="HeapCreate"/> function.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used.
+        /// For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function,
+        /// specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// This value should not be specified when accessing the process heap.
+        /// The system may create additional threads within the application's process, such as a CTRL+C handler,
+        /// that simultaneously access the process heap.
+        /// </param>
+        /// <param name="lpMem">
+        /// A pointer to the memory block whose size the function will obtain.
+        /// This is a pointer returned by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
+        /// The memory block must be from the heap specified by the hHeap parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the requested size of the allocated memory block, in bytes.
+        /// If the function fails, the return value is <code>(SIZE_T)-1</code>.
+        /// The function does not call <see cref="SetLastError"/>.
+        /// An application cannot call <see cref="GetLastError"/> for extended error information.
+        /// If the <paramref name="lpMem"/> parameter refers to a heap allocation that is not in the heap specified by the hHeap parameter,
+        /// the behavior of the <see cref="HeapSize"/> function is undefined.
+        /// </returns>
+        /// <remarks>
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization, but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSize", ExactSpelling = true, SetLastError = true)]
+        public static extern SIZE_T HeapSize([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
 
         /// <summary>
         /// <para>
@@ -920,7 +1149,82 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapUnlock([In]IntPtr hHeap);
+        public static extern bool HeapUnlock([In] IntPtr hHeap);
+
+        /// <summary>
+        /// <para>
+        /// Validates the specified heap.
+        /// The function scans all the memory blocks in the heap and verifies that the heap control structures
+        /// maintained by the heap manager are in a consistent state.
+        /// You can also use the <see cref="HeapValidate"/> function to validate a single memory block
+        /// within a specified heap without checking the validity of the entire heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapvalidate
+        /// </para>
+        /// </summary>
+        /// <param name="hHeap">
+        /// A handle to the heap to be validated.
+        /// This handle is returned by either the <see cref="HeapCreate"/> or <see cref="GetProcessHeap"/> function.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The heap access options. This parameter can be the following value.
+        /// <see cref="HEAP_NO_SERIALIZE"/>:
+        /// Serialized access will not be used.
+        /// For more information, see Remarks.
+        /// To ensure that serialized access is disabled for all calls to this function,
+        /// specify <see cref="HEAP_NO_SERIALIZE"/> in the call to <see cref="HeapCreate"/>.
+        /// In this case, it is not necessary to additionally specify <see cref="HEAP_NO_SERIALIZE"/> in this function call.
+        /// This value should not be specified when accessing the process default heap.
+        /// The system may create additional threads within the application's process, such as a CTRL+C handler,
+        /// that simultaneously access the process default heap.
+        /// </param>
+        /// <param name="lpMem">
+        /// A pointer to a memory block within the specified heap.
+        /// This parameter may be <see cref="NULL"/>.
+        /// If this parameter is <see cref="NULL"/>, the function attempts to validate the entire heap specified by <paramref name="hHeap"/>.
+        /// If this parameter is not <see cref="NULL"/>, the function attempts to validate the memory block pointed to by <paramref name="lpMem"/>.
+        /// It does not attempt to validate the rest of the heap.
+        /// </param>
+        /// <returns>
+        /// If the specified heap or memory block is valid, the return value is <see cref="TRUE"/>.
+        /// If the specified heap or memory block is invalid, the return value is <see cref="FALSE"/>.
+        /// On a system set up for debugging, the <see cref="HeapValidate"/> function then displays debugging messages 
+        /// that describe the part of the heap or memory block that is invalid,
+        /// and stops at a hard-coded breakpoint so that you can examine the system to determine the source of the invalidity.
+        /// The <see cref="HeapValidate"/> function does not set the thread's last error value.
+        /// There is no extended error information for this function; do not call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="HeapValidate"/> function is primarily useful for debugging because validation is potentially time-consuming.
+        /// Validating a heap can block other threads from accessing the heap and can degrade performance,
+        /// especially on symmetric multiprocessing (SMP) computers.
+        /// These side effects can last until <see cref="HeapValidate"/> returns.
+        /// There are heap control structures for each memory block in a heap, and for the heap as a whole.
+        /// When you use the <see cref="HeapValidate"/> function to validate a complete heap,
+        /// it checks all of these control structures for consistency.
+        /// When you use <see cref="HeapValidate"/> to validate a single memory block within a heap,
+        /// it checks only the control structures pertaining to that element.
+        /// <see cref="HeapValidate"/> can only validate allocated memory blocks.
+        /// Calling <see cref="HeapValidate"/> on a freed memory block will return <see cref="FALSE"/>
+        /// because there are no control structures to validate.
+        /// If you want to validate the heap elements enumerated by the <see cref="HeapWalk"/> function,
+        /// you should only call <see cref="HeapValidate"/> on the elements that have <see cref="PROCESS_HEAP_ENTRY_BUSY"/>
+        /// in the <see cref="PROCESS_HEAP_ENTRY.wFlags"/> member of the <see cref="PROCESS_HEAP_ENTRY"/> structure.
+        /// <see cref="HeapValidate"/> returns <see cref="FALSE"/> for all heap elements that do not have this bit set.
+        /// Serialization ensures mutual exclusion when two or more threads attempt to simultaneously allocate or free blocks from the same heap.
+        /// There is a small performance cost to serialization,
+        /// but it must be used whenever multiple threads allocate and free memory from the same heap.
+        /// Setting the <see cref="HEAP_NO_SERIALIZE"/> value eliminates mutual exclusion on the heap.
+        /// Without serialization, two or more threads that use the same heap handle might attempt to allocate or free memory simultaneously,
+        /// likely causing corruption in the heap.
+        /// The <see cref="HEAP_NO_SERIALIZE"/> value can, therefore, be safely used only in the following situations:
+        /// The process has only one thread.
+        /// The process has multiple threads, but only one thread calls the heap functions for a specific heap.
+        /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapValidate", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL HeapValidate([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPCVOID lpMem);
 
         /// <summary>
         /// <para>
@@ -968,7 +1272,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapWalk([In]IntPtr hHeap, [In][Out]ref PROCESS_HEAP_ENTRY lpEntry);
+        public static extern bool HeapWalk([In] IntPtr hHeap, [In][Out] ref PROCESS_HEAP_ENTRY lpEntry);
 
         /// <summary>
         /// <para>
@@ -1013,7 +1317,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalCompact", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T LocalCompact([In]UINT uMinFree);
+        public static extern SIZE_T LocalCompact([In] UINT uMinFree);
 
         /// <summary>
         /// <para>
@@ -1069,7 +1373,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
-        public static extern LocalMemoryFlags LocalFlags([In]HLOCAL hMem);
+        public static extern LocalMemoryFlags LocalFlags([In] HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -1090,7 +1394,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFree", ExactSpelling = true, SetLastError = true)]
-        public static extern HLOCAL LocalFree([In]HLOCAL hMem);
+        public static extern HLOCAL LocalFree([In] HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -1118,7 +1422,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="LocalHandle"/> converts the pointer back into a handle.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern HLOCAL LocalHandle([In]LPCVOID pMem);
+        public static extern HLOCAL LocalHandle([In] LPCVOID pMem);
 
         /// <summary>
         /// <para>
@@ -1182,7 +1486,7 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalShrink", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T LocalShrink([In]HLOCAL hMem, [In]UINT cbNewSize);
+        public static extern SIZE_T LocalShrink([In] HLOCAL hMem, [In] UINT cbNewSize);
 
         /// <summary>
         /// <para>
@@ -1210,7 +1514,7 @@ namespace Lsj.Util.Win32
         /// call the <see cref="LocalFlags"/> function before calling <see cref="LocalSize"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalSize", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T LocalSize([In]HLOCAL hMem);
+        public static extern SIZE_T LocalSize([In] HLOCAL hMem);
 
         /// <summary>
         /// <para>
@@ -1248,13 +1552,72 @@ namespace Lsj.Util.Win32
         /// it must subsequently call <see cref="LocalUnlock"/> for the memory block.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalUnlock", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LocalUnlock([In]HLOCAL hMem);
+        public static extern BOOL LocalUnlock([In] HLOCAL hMem);
 
         /// <summary>
         /// 
         /// </summary>
         [Obsolete]
         public static void LockSegment(UINT w) => GlobalFix((HANDLE)(IntPtr)(int)w);
+
+        /// <summary>
+        /// <para>
+        /// Maps previously allocated physical memory pages at a specified address in an Address Windowing Extensions (AWE) region.
+        /// To perform batch mapping and unmapping of multiple regions, use the <see cref="MapUserPhysicalPagesScatter"/> function.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="MapUserPhysicalPages"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapuserphysicalpages
+        /// </para>
+        /// </summary>
+        /// <param name="VirtualAddress">
+        /// A pointer to the starting address of the region of memory to remap.
+        /// The value of <paramref name="VirtualAddress"/> must be within the address range that the <see cref="VirtualAlloc"/> function returns
+        /// when the Address Windowing Extensions (AWE) region is allocated.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory and virtual address space for which to establish translations, in pages.
+        /// The virtual address range is contiguous starting at lpAddress.
+        /// The physical frames are specified by the UserPfnArray.
+        /// The total number of pages cannot extend from the starting address
+        /// beyond the end of the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array of physical page frame numbers.
+        /// These frames are mapped by the argument lpAddress on return from this function.
+        /// The size of the memory that is allocated should be at least the <paramref name="NumberOfPages"/> times
+        /// the size of the data type <see cref="ULONG_PTR"/>.
+        /// Do not attempt to modify this buffer.
+        /// It contains operating system data, and corruption could be catastrophic.
+        /// The information in the buffer is not useful to an application.
+        /// If this parameter is <see langword="null"/>, the specified address range is unmapped.
+        /// Also, the specified physical pages are not freed, and you must call <see cref="FreeUserPhysicalPages"/> to free them.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/> and no mapping is done—partial or otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The physical pages are unmapped but they are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// Any number of physical memory pages can be specified, but the memory must not extend
+        /// outside the virtual address space that <see cref="VirtualAlloc"/> allocates.
+        /// Any existing address maps are automatically overwritten with the new translations, and the old translations are unmapped.
+        /// You cannot map physical memory pages outside the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// You can map multiple regions simultaneously, but they cannot overlap.
+        /// Physical pages can be located at any physical address, but do not make assumptions about the contiguity of the physical pages.
+        /// To unmap the current address range, specify <see langword="null"/> as the physical memory page array parameter.
+        /// Any currently mapped pages are unmapped, but are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
+        /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MapUserPhysicalPages([In] PVOID VirtualAddress, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
         /// <summary>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
@@ -1291,8 +1654,8 @@ namespace Lsj.Util.Win32
         /// The entire area to be read must be accessible, and if it is not accessible, the function fails.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadProcessMemory", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReadProcessMemory([In]HANDLE hProcess, [In]LPCVOID lpBaseAddress, [In]LPVOID lpBuffer,
-            [In]SIZE_T nSize, [Out]out SIZE_T lpNumberOfBytesRead);
+        public static extern BOOL ReadProcessMemory([In] HANDLE hProcess, [In] LPCVOID lpBaseAddress, [In] LPVOID lpBuffer,
+            [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesRead);
 
         /// <summary>
         /// 
@@ -1434,7 +1797,8 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID VirtualAlloc([In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]MemoryAllocationTypes flAllocationType, [In]DWORD flProtect);
+        public static extern LPVOID VirtualAlloc([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] MemoryAllocationTypes flAllocationType,
+            [In] MemoryProtectionConstants flProtect);
 
         /// <summary>
         /// <para>
@@ -1569,8 +1933,143 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAllocEx", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID VirtualAllocEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize,
-            [In]MemoryAllocationTypes flAllocationType, [In]DWORD flProtect);
+        public static extern LPVOID VirtualAllocEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
+            [In] MemoryAllocationTypes flAllocationType, [In] MemoryProtectionConstants flProtect);
+
+        /// <summary>
+        /// <para>
+        /// Reserves, commits, or changes the state of a region of memory within the virtual address space of the specified process,
+        /// and specifies the NUMA node for the physical memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualallocexnuma
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// The handle to a process. The function allocates memory within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="lpAddress">
+        /// The pointer that specifies a desired starting address for the region of pages that you want to allocate.
+        /// If you are reserving memory, the function rounds this address down to the nearest multiple of the allocation granularity.
+        /// If you are committing memory that is already reserved, the function rounds this address down to the nearest page boundary.
+        /// To determine the size of a page and the allocation granularity on the host computer, use the <see cref="GetSystemInfo"/> function.
+        /// If <paramref name="lpAddress"/> is <see cref="NULL"/>, the function determines where to allocate the region.
+        /// </param>
+        /// <param name="dwSize">
+        /// The size of the region of memory to allocate, in bytes.
+        /// If <paramref name="lpAddress"/> is <see cref="NULL"/>, the function rounds <paramref name="dwSize"/> up to the next page boundary.
+        /// If <paramref name="lpAddress"/> is not <see cref="NULL"/>, the function allocates all pages
+        /// that contain one or more bytes in the range from <paramref name="lpAddress"/> to <paramref name="lpAddress"/>+<paramref name="dwSize"/>.
+        /// This means, for example, that a 2-byte range that straddles a page boundary causes the function to allocate both pages.
+        /// </param>
+        /// <param name="flAllocationType">
+        /// The type of memory allocation. This parameter must contain one of the following values.
+        /// <see cref="MEM_COMMIT"/>:
+        /// Allocates memory charges (from the overall size of memory and the paging files on disk) for the specified reserved memory pages.
+        /// The function also guarantees that when the caller later initially accesses the memory,
+        /// the contents will be zero. Actual physical pages are not allocated unless/until the virtual addresses are actually accessed.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAllocEx"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Attempting to commit a specific address range by specifying <see cref="MEM_COMMIT"/>
+        /// without <see cref="MEM_RESERVE"/> and a non-NULL lpAddress fails unless the entire range has already been reserved.
+        /// The resulting error code is <see cref="ERROR_INVALID_ADDRESS"/>.
+        /// An attempt to commit a page that is already committed does not cause the function to fail.
+        /// This means that you can commit pages without first determining the current commitment state of each page.
+        /// If <paramref name="lpAddress"/> specifies an address within an enclave, <paramref name="flAllocationType"/> must be <see cref="MEM_COMMIT"/>.
+        /// <see cref="MEM_RESERVE"/>:
+        /// Reserves a range of the process's virtual address space without allocating any actual physical storage in memory or in the paging file on disk.
+        /// You commit reserved pages by calling <see cref="VirtualAllocEx"/> again with <see cref="MEM_COMMIT"/>.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAllocEx"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Other memory allocation functions, such as malloc and <see cref="LocalAlloc"/>, cannot use reserved memory until it has been released.
+        /// <see cref="MEM_RESET"/>:
+        /// Indicates that data in the memory range specified by lpAddress and <paramref name="dwSize"/> is no longer of interest.
+        /// The pages should not be read from or written to the paging file.
+        /// However, the memory block will be used again later, so it should not be decommitted.
+        /// This value cannot be used with any other value.
+        /// Using this value does not guarantee that the range operated on with <see cref="MEM_RESET"/> will contain zeros.
+        /// If you want the range to contain zeros, decommit the memory and then recommit it.
+        /// When you use <see cref="MEM_RESET"/>, the <see cref="VirtualAllocEx"/> function ignores the value of <paramref name="flProtect"/>.
+        /// However, you must still set <paramref name="flProtect"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// VirtualAllocEx returns an error if you use <see cref="MEM_RESET"/> and the range of memory is mapped to a file.
+        /// A shared view is only acceptable if it is mapped to a paging file.
+        /// <see cref="MEM_RESET_UNDO"/>:
+        /// <see cref="MEM_RESET_UNDO"/> should only be called on an address range to which <see cref="MEM_RESET"/> was successfully applied earlier.
+        /// It indicates that the data in the specified memory range specified by <paramref name="lpAddress"/> and <paramref name="dwSize"/> is
+        /// of interest to the caller and attempts to reverse the effects of <see cref="MEM_RESET"/>.
+        /// If the function succeeds, that means all data in the specified address range is intact.
+        /// If the function fails, at least some of the data in the address range has been replaced with zeroes.
+        /// This value cannot be used with any other value.
+        /// If <see cref="MEM_RESET_UNDO"/> is called on an address range which was not <see cref="MEM_RESET"/> earlier, the behavior is undefined.
+        /// When you specify <see cref="MEM_RESET"/>, the <see cref="VirtualAllocEx"/> function ignores the value of <paramref name="flProtect"/>.
+        /// However, you must still set <paramref name="flProtect"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// The <see cref="MEM_RESET_UNDO"/> flag is not supported until Windows 8 and Windows Server 2012.
+        /// This parameter can also specify the following values as indicated.
+        /// <see cref="MEM_LARGE_PAGES"/>:
+        /// Allocates memory using large page support.
+        /// The size and alignment must be a multiple of the large-page minimum.
+        /// To obtain this value, use the <see cref="GetLargePageMinimum"/> function.
+        /// If you specify this value, you must also specify <see cref="MEM_RESERVE"/> and <see cref="MEM_COMMIT"/>.
+        /// <see cref="MEM_PHYSICAL"/>:
+        /// Reserves an address range that can be used to map Address Windowing Extensions (AWE) pages.
+        /// This value must be used with <see cref="MEM_RESERVE"/> and no other values.
+        /// <see cref="MEM_TOP_DOWN"/>:
+        /// Allocates memory at the highest possible address.
+        /// This can be slower than regular allocations, especially when there are many allocations.
+        /// </param>
+        /// <param name="flProtect">
+        /// The memory protection for the region of pages to be allocated.
+        /// If the pages are being committed, you can specify any one of the memory protection constants.
+        /// Protection attributes specified when protecting a page cannot conflict with those specified when allocating a page.
+        /// </param>
+        /// <param name="nndPreferred">
+        /// The NUMA node where the physical memory should reside.
+        /// Used only when allocating a new VA region (either committed or reserved).
+        /// Otherwise this parameter is ignored when the API is used to commit pages in a region that already exists.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the base address of the allocated region of pages.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each page has an associated page state.
+        /// The <see cref="VirtualAllocExNuma"/> function can perform the following operations:
+        /// Commit a region of reserved pages
+        /// Reserve a region of free pages
+        /// Simultaneously reserve and commit a region of free pages
+        /// <see cref="VirtualAllocExNuma"/> cannot reserve a reserved page. It can commit a page that is already committed.
+        /// This means you can commit a range of pages, regardless of whether they have already been committed, and the function will not fail.
+        /// You can use <see cref="VirtualAllocExNuma"/> to reserve a block of pages and
+        /// then make additional calls to <see cref="VirtualAllocExNuma"/> to commit individual pages from the reserved block.
+        /// This enables a process to reserve a range of its virtual address space without consuming physical storage until it is needed.
+        /// If the <paramref name="lpAddress"/> parameter is not <see cref="NULL"/>, the function uses
+        /// the <paramref name="lpAddress"/> and <paramref name="dwSize"/> parameters to compute the region of pages to be allocated.
+        /// The current state of the entire range of pages must be compatible with the type of allocation
+        /// specified by the <paramref name="flAllocationType"/> parameter.
+        /// Otherwise, the function fails and none of the pages is allocated.
+        /// This compatibility requirement does not preclude committing an already committed page; see the preceding list.
+        /// Because <see cref="VirtualAllocExNuma"/> does not allocate any physical pages,
+        /// it will succeed whether or not the pages are available on that node or elsewhere in the system.
+        /// The physical pages are allocated on demand.
+        /// If the preferred node runs out of pages, the memory manager will use pages from other nodes.
+        /// If the memory is paged out, the same process is used when it is brought back in.
+        /// To execute dynamically generated code, use <see cref="VirtualAllocExNuma"/> to allocate memory
+        /// and the <see cref="VirtualProtectEx"/> function to grant <see cref="PAGE_EXECUTE"/> access.
+        /// The <see cref="VirtualAllocExNuma"/> function can be used to reserve an Address Windowing Extensions (AWE) region of memory
+        /// within the virtual address space of a specified process.
+        /// This region of memory can then be used to map physical pages into and out of virtual memory as required by the application.
+        /// The <see cref="MEM_PHYSICAL"/> and <see cref="MEM_RESERVE"/> values must be set in the <paramref name="flAllocationType"/> parameter.
+        /// The <see cref="MEM_COMMIT"/> value must not be set. The page protection must be set to <see cref="PAGE_READWRITE"/>.
+        /// The <see cref="VirtualFreeEx"/> function can decommit a committed page, releasing the page's storage,
+        /// or it can simultaneously decommit and release a committed page.
+        /// It can also release a reserved page, making it a free page.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAllocExNuma", ExactSpelling = true, SetLastError = true)]
+        public static extern LPVOID VirtualAllocExNuma([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
+            [In] MemoryAllocationTypes flAllocationType, [In] MemoryProtectionConstants flProtect, [In] DWORD nndPreferred);
 
         /// <summary>
         /// <para>
@@ -1656,7 +2155,7 @@ namespace Lsj.Util.Win32
         /// <see cref="MEM_RELEASE"/> for the <paramref name="dwFreeType"/> parameter. The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFree", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualFree([In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]VirtualFreeTypes dwFreeType);
+        public static extern BOOL VirtualFree([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] VirtualFreeTypes dwFreeType);
 
         /// <summary>
         /// <para>
@@ -1746,7 +2245,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MEM_DECOMMIT"/> value is not supported for enclaves.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualFreeEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualFreeEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]VirtualFreeTypes dwFreeType);
+        public static extern BOOL VirtualFreeEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] VirtualFreeTypes dwFreeType);
 
         /// <summary>
         /// <para>
@@ -1790,7 +2289,7 @@ namespace Lsj.Util.Win32
         /// are never required to unlock a region of pages.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualLock", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualLock([In]LPVOID lpAddress, [In]SIZE_T dwSize);
+        public static extern BOOL VirtualLock([In] LPVOID lpAddress, [In] SIZE_T dwSize);
 
         /// <summary>
         /// <para>
@@ -1842,8 +2341,8 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualProtect([In]LPVOID lpAddress, [In]SIZE_T dwSize, [In]MemoryProtectionConstants flNewProtect,
-            [Out]out MemoryProtectionConstants lpflOldProtect);
+        public static extern BOOL VirtualProtect([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] MemoryProtectionConstants flNewProtect,
+            [Out] out MemoryProtectionConstants lpflOldProtect);
 
         /// <summary>
         /// <para>
@@ -1900,8 +2399,8 @@ namespace Lsj.Util.Win32
         /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualProtectEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualProtectEx([In]HANDLE hProcess, [In]LPVOID lpAddress, [In]SIZE_T dwSize,
-            [In]MemoryProtectionConstants flNewProtect, [Out]out MemoryProtectionConstants lpflOldProtect);
+        public static extern BOOL VirtualProtectEx([In] HANDLE hProcess, [In] LPVOID lpAddress, [In] SIZE_T dwSize,
+            [In] MemoryProtectionConstants flNewProtect, [Out] out MemoryProtectionConstants lpflOldProtect);
 
         /// <summary>
         /// <para>
@@ -1960,7 +2459,7 @@ namespace Lsj.Util.Win32
         /// and the <see cref="VirtualQueryEx"/> function reports on a region of pages in the memory of a specified process.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualQuery", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T VirtualQuery([In]LPCVOID lpAddress, [Out]out MEMORY_BASIC_INFORMATION lpBuffer, [In]SIZE_T dwLength);
+        public static extern SIZE_T VirtualQuery([In] LPCVOID lpAddress, [Out] out MEMORY_BASIC_INFORMATION lpBuffer, [In] SIZE_T dwLength);
 
         /// <summary>
         /// <para>
@@ -2022,8 +2521,8 @@ namespace Lsj.Util.Win32
         /// If the Shared bit is clear, the page is private.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualQueryEx", ExactSpelling = true, SetLastError = true)]
-        public static extern SIZE_T VirtualQueryEx([In]HANDLE hProcess, [In]LPCVOID lpAddress, [Out]out MEMORY_BASIC_INFORMATION lpBuffer,
-            [In]SIZE_T dwLength);
+        public static extern SIZE_T VirtualQueryEx([In] HANDLE hProcess, [In] LPCVOID lpAddress, [Out] out MEMORY_BASIC_INFORMATION lpBuffer,
+            [In] SIZE_T dwLength);
 
         /// <summary>
         /// <para>
@@ -2056,7 +2555,7 @@ namespace Lsj.Util.Win32
         /// Calling <see cref="VirtualUnlock"/> on a range of memory that is not locked releases the pages from the process's working set.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualUnlock", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL VirtualUnlock([In]LPVOID lpAddress, [In]SIZE_T dwSize);
+        public static extern BOOL VirtualUnlock([In] LPVOID lpAddress, [In] SIZE_T dwSize);
 
         /// <summary>
         /// <para>
@@ -2099,7 +2598,7 @@ namespace Lsj.Util.Win32
         /// The entire area to be written to must be accessible, and if it is not accessible, the function fails.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteProcessMemory", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WriteProcessMemory([In]HANDLE hProcess, [In]LPVOID lpBaseAddress, [In]LPCVOID lpBuffer,
-            [In]SIZE_T nSize, [Out]out SIZE_T lpNumberOfBytesWritten);
+        public static extern BOOL WriteProcessMemory([In] HANDLE hProcess, [In] LPVOID lpBaseAddress, [In] LPCVOID lpBuffer,
+            [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesWritten);
     }
 }

@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
@@ -67,29 +68,7 @@ namespace Lsj.Util.Win32
         /// Any static or global variables are shared by all threads in the process.
         /// To provide unique data to each thread using a global index, use thread local storage.
         /// </remarks>
-        public delegate uint LPTHREAD_START_ROUTINE([In]IntPtr lpParameter);
-
-        /// <summary>
-        /// <para>
-        /// An application-defined function.
-        /// If the FLS slot is in use, FlsCallback is called on fiber deletion, thread exit, and when an FLS index is freed.
-        /// Specify this function when calling the <see cref="FlsAlloc"/> function.
-        /// The <see cref="PFLS_CALLBACK_FUNCTION"/> type defines a pointer to this callback function.
-        /// FlsCallback is a placeholder for the application-defined function name.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-pfls_callback_function
-        /// </para>
-        /// </summary>
-        /// <param name="lpFlsData">
-        /// The value stored in the FLS slot for the calling fiber.
-        /// </param>
-        /// <remarks>
-        /// Each FLS index has an associated FlsCallback function.
-        /// The callback function can be used for any purpose, but it is intended to be used primarily to free memory.
-        /// </remarks>
-        public delegate void PFLS_CALLBACK_FUNCTION([In]PVOID lpFlsData);
-
+        public delegate uint LPTHREAD_START_ROUTINE([In] IntPtr lpParameter);
 
         /// <summary>
         /// <para>
@@ -185,9 +164,9 @@ namespace Lsj.Util.Win32
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThread", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateRemoteThread([In]IntPtr hProcess, [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
-            [Out]out uint lpThreadId);
+        public static extern IntPtr CreateRemoteThread([In] IntPtr hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] UIntPtr dwStackSize,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] IntPtr lpParameter, [In] ThreadCreationFlags dwCreationFlags,
+            [Out] out uint lpThreadId);
 
         /// <summary>
         /// <para>
@@ -283,9 +262,9 @@ namespace Lsj.Util.Win32
         /// Also, the application can deadlock if the thread attempts to obtain ownership of locks that another thread is using.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRemoteThreadEx", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateRemoteThreadEx([In]IntPtr hProcess, [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
-            [In]IntPtr lpAttributeList, [Out]out uint lpThreadId);
+        public static extern IntPtr CreateRemoteThreadEx([In] IntPtr hProcess, [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] UIntPtr dwStackSize,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] IntPtr lpParameter, [In] ThreadCreationFlags dwCreationFlags,
+            [In] IntPtr lpAttributeList, [Out] out uint lpThreadId);
 
         /// <summary>
         /// <para>
@@ -381,9 +360,9 @@ namespace Lsj.Util.Win32
         /// If a thread created using <see cref="CreateThread"/> calls the CRT, the CRT may terminate the process in low - memory conditions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateThread", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateThread([In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]UIntPtr dwStackSize,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In]IntPtr lpParameter, [In]ThreadCreationFlags dwCreationFlags,
-            [Out]out uint lpThreadId);
+        public static extern IntPtr CreateThread([In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] UIntPtr dwStackSize,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] LPTHREAD_START_ROUTINE lpStartAddress, [In] IntPtr lpParameter, [In] ThreadCreationFlags dwCreationFlags,
+            [Out] out uint lpThreadId);
 
         /// <summary>
         /// <para>
@@ -426,125 +405,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetExitCodeThread"/> function to retrieve a thread's exit code.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExitThread", ExactSpelling = true, SetLastError = true)]
-        public static extern void ExitThread([In]uint dwExitCode);
-
-        /// <summary>
-        /// <para>
-        /// Allocates a fiber local storage (FLS) index.
-        /// Any fiber in the process can subsequently use this index to store and retrieve values that are local to the fiber.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsalloc
-        /// </para>
-        /// </summary>
-        /// <param name="lpCallback">
-        /// A pointer to the application-defined callback function of type <see cref="PFLS_CALLBACK_FUNCTION"/>.
-        /// This parameter is optional.
-        /// For more information, see <see cref="PFLS_CALLBACK_FUNCTION"/>.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is an FLS index initialized to zero.
-        /// If the function fails, the return value is <see cref="FLS_OUT_OF_INDEXES"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// The fibers of the process can use the FLS index in subsequent calls to the <see cref="FlsFree"/>,
-        /// <see cref="FlsSetValue"/>, or <see cref="FlsGetValue"/> functions.
-        /// FLS indexes are typically allocated during process or dynamic-link library (DLL) initialization.
-        /// After an FLS index has been allocated, each fiber of the process can use it to access its own FLS storage slot.
-        /// To store a value in its FLS slot, a fiber specifies the index in a call to <see cref="FlsSetValue"/>.
-        /// The fiber specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
-        /// FLS indexes are not valid across process boundaries.
-        /// A DLL cannot assume that an index assigned in one process is valid in another process.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD FlsAlloc([In]PFLS_CALLBACK_FUNCTION lpCallback);
-
-        /// <summary>
-        /// <para>
-        /// Releases a fiber local storage (FLS) index, making it available for reuse.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsfree
-        /// </para>
-        /// </summary>
-        /// <param name="dwFlsIndex">
-        /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// Freeing an FLS index frees the index for all instances of FLS in the current process.
-        /// Freeing an FLS index also causes the associated callback routine to be called for each fiber,
-        /// if the corresponding FLS slot contains a non-NULL value.
-        /// If the fibers of the process have allocated memory and stored a pointer to the memory in an FLS slot,
-        /// they should free the memory before calling <see cref="FlsFree"/>.
-        /// The <see cref="FlsFree"/> function does not free memory blocks whose addresses have been stored in the FLS slots associated with the FLS index.
-        /// It is expected that DLLs call this function (if at all) only during <see cref="DLL_PROCESS_DETACH"/>.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsFree", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FlsFree([In]DWORD dwFlsIndex);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
-        /// Each fiber has its own slot for each FLS index.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsgetvalue
-        /// </para>
-        /// </summary>
-        /// <param name="dwFlsIndex">
-        /// The FLS index that was allocated by the <see cref="FlsAlloc"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is the value stored in the calling fiber's FLS slot associated with the specified index.
-        /// If the function fails, the return value is <see cref="NULL"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
-        /// After an FLS index is allocated, each fiber of the process can use it to access its own FLS slot for that index.
-        /// A fiber specifies an FLS index in a call to FlsSetValue to store a value in its slot.
-        /// The thread specifies the same index in a subsequent call to <see cref="FlsSetValue"/> to retrieve the stored value.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsGetValue", ExactSpelling = true, SetLastError = true)]
-        public static extern PVOID FlsGetValue([In]DWORD dwFlsIndex);
-
-        /// <summary>
-        /// <para>
-        /// Stores a value in the calling fiber's fiber local storage (FLS) slot for the specified FLS index.
-        /// Each fiber has its own slot for each FLS index.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flssetvalue
-        /// </para>
-        /// </summary>
-        /// <param name="dwFlsIndex">
-        /// The FLS index that was allocated by the FlsAlloc function.
-        /// </param>
-        /// <param name="lpFlsData">
-        /// The value to be stored in the FLS slot for the calling fiber.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// The following errors can be returned.
-        /// <see cref="ERROR_INVALID_PARAMETER"/>: The index is not in range.
-        /// ERROR_NO_MEMORY: The FLS array has not been allocated.
-        /// </returns>
-        /// <remarks>
-        /// FLS indexes are typically allocated by the <see cref="FlsAlloc"/> function during process or DLL initialization.
-        /// After an FLS index is allocated, each fiber of the process can use it to access its own FLS slot for that index.
-        /// A thread specifies an FLS index in a call to <see cref="FlsSetValue"/> to store a value in its slot.
-        /// The thread specifies the same index in a subsequent call to <see cref="FlsGetValue"/> to retrieve the stored value.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlsSetValue", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FlsSetValue([In]DWORD dwFlsIndex, [In]PVOID lpFlsData);
+        public static extern void ExitThread([In] uint dwExitCode);
 
         /// <summary>
         /// <para>
@@ -639,7 +500,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetExitCodeThread", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetExitCodeThread([In]IntPtr hThread, [Out]out uint lpExitCode);
+        public static extern bool GetExitCodeThread([In] IntPtr hThread, [Out] out uint lpExitCode);
 
         /// <summary>
         /// <para>
@@ -665,7 +526,7 @@ namespace Lsj.Util.Win32
         /// For more information about access rights, see Thread Security and Access Rights.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessIdOfThread", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetProcessIdOfThread([In]IntPtr Thread);
+        public static extern uint GetProcessIdOfThread([In] IntPtr Thread);
 
         /// <summary>
         /// <para>
@@ -701,7 +562,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadContext", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+        public static extern bool GetThreadContext([In] IntPtr hThread, [In] IntPtr lpContext);
 
         /// <summary>
         /// <para>
@@ -727,7 +588,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadId", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetThreadId([In]IntPtr Thread);
+        public static extern uint GetThreadId([In] IntPtr Thread);
 
         /// <summary>
         /// <para>
@@ -758,7 +619,7 @@ namespace Lsj.Util.Win32
         /// refer to the <see cref="SetPriorityClass"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetThreadPriority([In]IntPtr hThread);
+        public static extern int GetThreadPriority([In] IntPtr hThread);
 
         /// <summary>
         /// <para>
@@ -787,7 +648,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetThreadPriorityBoost([In]IntPtr hThread, [Out]out bool pDisablePriorityBoost);
+        public static extern bool GetThreadPriorityBoost([In] IntPtr hThread, [Out] out bool pDisablePriorityBoost);
 
         /// <summary>
         /// <para>
@@ -835,8 +696,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadTimes", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetThreadTimes([In]IntPtr hThread, [Out]out Structs.FILETIME lpCreationTime, [Out]out Structs.FILETIME lpExitTime,
-            [Out]out Structs.FILETIME lpKernelTime, [Out]out Structs.FILETIME lpUserTime);
+        public static extern bool GetThreadTimes([In] IntPtr hThread, [Out] out Structs.FILETIME lpCreationTime, [Out] out Structs.FILETIME lpExitTime,
+            [Out] out Structs.FILETIME lpKernelTime, [Out] out Structs.FILETIME lpUserTime);
 
         /// <summary>
         /// <para>
@@ -872,7 +733,7 @@ namespace Lsj.Util.Win32
         /// When you are finished with the handle, be sure to close it by using the <see cref="CloseHandle"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThread", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr OpenThread([In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]uint dwThreadId);
+        public static extern IntPtr OpenThread([In] uint dwDesiredAccess, [In] bool bInheritHandle, [In] uint dwThreadId);
 
         /// <summary>
         /// <para>
@@ -907,7 +768,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryThreadCycleTime", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryThreadCycleTime([In]IntPtr ThreadHandle, [Out]out ulong CycleTime);
+        public static extern bool QueryThreadCycleTime([In] IntPtr ThreadHandle, [Out] out ulong CycleTime);
 
         /// <summary>
         /// <para>
@@ -944,7 +805,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadPriority", ExactSpelling = true, SetLastError = true)]
-        public static extern uint ResumeThread([In]IntPtr hThread);
+        public static extern uint ResumeThread([In] IntPtr hThread);
 
         /// <summary>
         /// <para>
@@ -985,7 +846,7 @@ namespace Lsj.Util.Win32
         /// the thread is rescheduled on one of the allowable processors.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", ExactSpelling = true, SetLastError = true)]
-        public static extern UIntPtr SetThreadAffinityMask([In]IntPtr hThread, [In]UIntPtr dwThreadAffinityMask);
+        public static extern UIntPtr SetThreadAffinityMask([In] IntPtr hThread, [In] UIntPtr dwThreadAffinityMask);
 
         /// <summary>
         /// <para>
@@ -1019,7 +880,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadContext", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetThreadContext([In]IntPtr hThread, [In]IntPtr lpContext);
+        public static extern bool SetThreadContext([In] IntPtr hThread, [In] IntPtr lpContext);
 
         /// <summary>
         /// <para>
@@ -1056,7 +917,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadAffinityMask", ExactSpelling = true, SetLastError = true)]
-        public static extern uint SetThreadIdealProcessor([In]IntPtr hThread, [In]uint dwIdealProcessor);
+        public static extern uint SetThreadIdealProcessor([In] IntPtr hThread, [In] uint dwIdealProcessor);
 
         /// <summary>
         /// <para>
@@ -1128,7 +989,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriority", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetThreadPriority([In]IntPtr hThread, ThreadPriorityFlags nPriority);
+        public static extern bool SetThreadPriority([In] IntPtr hThread, ThreadPriorityFlags nPriority);
 
         /// <summary>
         /// <para>
@@ -1162,7 +1023,43 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadPriorityBoost", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetThreadPriorityBoost([In]IntPtr hThread, [In]bool bDisablePriorityBoost);
+        public static extern bool SetThreadPriorityBoost([In] IntPtr hThread, [In] bool bDisablePriorityBoost);
+
+        /// <summary>
+        /// <para>
+        /// Sets the minimum size of the stack associated with the calling thread or fiber
+        /// that will be available during any stack overflow exceptions.
+        /// This is useful for handling stack overflow exceptions;
+        /// the application can safely use the specified number of bytes during exception handling.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadstackguarantee
+        /// </para>
+        /// </summary>
+        /// <param name="StackSizeInBytes">
+        /// The size of the stack, in bytes.
+        /// On return, this value is set to the size of the previous stack, in bytes.
+        /// If this parameter is 0 (zero), the function succeeds and the parameter contains the size of the current stack.
+        /// If the specified size is less than the current size, the function succeeds but ignores this request.
+        /// Therefore, you cannot use this function to reduce the size of the stack.
+        /// This value cannot be larger than the reserved stack size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the function is successful, the application can handle possible <see cref="EXCEPTION_STACK_OVERFLOW"/> exceptions
+        /// using structured exception handling.
+        /// To resume execution after handling a stack overflow, you must perform certain recovery steps.
+        /// If you are using the Microsoft C/C++ compiler, call the _resetstkoflw function.
+        /// If you are using another compiler, see the documentation for the compiler for information on recovering from stack overflows.
+        /// To set the stack guarantee for a fiber, you must first call the <see cref="SwitchToFiber"/> function to execute the fiber.
+        /// After you set the guarantee for this fiber, it is used by the fiber no matter which thread executes the fiber.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadStackGuarantee", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadStackGuarantee([In][Out] ref ULONG StackSizeInBytes);
 
         /// <summary>
         /// <para>
@@ -1193,7 +1090,7 @@ namespace Lsj.Util.Win32
         /// and make sure that the <see cref="SetThreadToken"/> function succeeds before calling the <see cref="RevertToSelf"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadToken", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetThreadToken([In]in HANDLE Thread, [In]HANDLE Token);
+        public static extern BOOL SetThreadToken([In] in HANDLE Thread, [In] HANDLE Token);
 
         /// <summary>
         /// <para>
@@ -1247,7 +1144,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Sleep", ExactSpelling = true, SetLastError = true)]
-        public static extern void Sleep([In]uint dwMilliseconds);
+        public static extern void Sleep([In] uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -1329,7 +1226,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SleepEx", ExactSpelling = true, SetLastError = true)]
-        public static extern uint SleepEx([In]uint dwMilliseconds, [In]bool bAlertable);
+        public static extern uint SleepEx([In] uint dwMilliseconds, [In] bool bAlertable);
 
         /// <summary>
         /// <para>
@@ -1366,7 +1263,7 @@ namespace Lsj.Util.Win32
         /// Windows 8.1 and Windows Server 2012 R2: This function is supported for Windows Store apps on Windows 8.1, Windows Server 2012 R2, and later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SuspendThread", ExactSpelling = true, SetLastError = true)]
-        public static extern uint SuspendThread([In]IntPtr hThread);
+        public static extern uint SuspendThread([In] IntPtr hThread);
 
         /// <summary>
         /// <para>
@@ -1475,7 +1372,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Thread Local Storage.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsFree", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TlsFree([In]DWORD dwTlsIndex);
+        public static extern BOOL TlsFree([In] DWORD dwTlsIndex);
 
         /// <summary>
         /// <para>
@@ -1525,7 +1422,7 @@ namespace Lsj.Util.Win32
         /// that the thread calls <see cref="TlsSetValue"/> before calling <see cref="TlsGetValue"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsGetValue", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr TlsGetValue([In]uint dwTlsIndex);
+        public static extern IntPtr TlsGetValue([In] uint dwTlsIndex);
 
         /// <summary>
         /// <para>
@@ -1570,7 +1467,7 @@ namespace Lsj.Util.Win32
         /// It is up to the programmer to ensure that the index is valid before calling <see cref="TlsGetValue"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TlsSetValue", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TlsSetValue([In]DWORD dwTlsIndex, [In]LPVOID lpTlsValue);
+        public static extern BOOL TlsSetValue([In] DWORD dwTlsIndex, [In] LPVOID lpTlsValue);
 
         /// <summary>
         /// <para>
@@ -1619,6 +1516,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateThread", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool TerminateThread([In]IntPtr hThread, [In]uint dwExitCode);
+        public static extern bool TerminateThread([In] IntPtr hThread, [In] uint dwExitCode);
     }
 }

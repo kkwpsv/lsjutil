@@ -236,8 +236,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMapping([In]IntPtr hFile, [In]in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In]uint flProtect,
-            [In]uint dwMaximumSizeHigh, [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern IntPtr CreateFileMapping([In] IntPtr hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] uint flProtect,
+            [In] uint dwMaximumSizeHigh, [In] uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -462,8 +462,45 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingNumaW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMappingNuma([In]IntPtr hFile, [In]in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In]uint flProtect,
-            [In]uint dwMaximumSizeHigh, [In]uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nndPreferred);
+        public static extern IntPtr CreateFileMappingNuma([In] IntPtr hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] uint flProtect,
+            [In] uint dwMaximumSizeHigh, [In] uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] uint nndPreferred);
+
+        /// <summary>
+        /// <para>
+        /// Writes to the disk a byte range within a mapped view of a file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-flushviewoffile
+        /// </para>
+        /// </summary>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address of the byte range to be flushed to the disk representation of the mapped file.
+        /// </param>
+        /// <param name="dwNumberOfBytesToFlush">
+        /// The number of bytes to be flushed.
+        /// If <paramref name="dwNumberOfBytesToFlush"/> is zero, the file is flushed from the base address to the end of the mapping.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Flushing a range of a mapped view initiates writing of dirty pages within that range to the disk.
+        /// Dirty pages are those whose contents have changed since the file view was mapped.
+        /// The <see cref="FlushViewOfFile"/> function does not flush the file metadata,
+        /// and it does not wait to return until the changes are flushed from the underlying hardware disk cache and physically written to disk.
+        /// To flush all the dirty pages plus the metadata for the file and ensure that they are physically written to disk,
+        /// call <see cref="FlushViewOfFile"/> and then call the <see cref="FlushFileBuffers"/> function.
+        /// When flushing a memory-mapped file over a network, <see cref="FlushViewOfFile"/> guarantees that the data has been written
+        /// from the local computer, but not that the data resides on the remote computer.
+        /// The server can cache the data on the remote side.
+        /// Therefore, <see cref="FlushViewOfFile"/> can return before the data has been physically written to disk.
+        /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
+        /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushViewOfFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL FlushViewOfFile([In] LPCVOID lpBaseAddress, [In] SIZE_T dwNumberOfBytesToFlush);
 
         /// <summary>
         /// <para>
@@ -587,8 +624,8 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFile"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFile", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID MapViewOfFile([In]HANDLE hFileMappingObject, [In]DWORD dwDesiredAccess, [In]DWORD dwFileOffsetHigh,
-            [In]DWORD dwFileOffsetLow, [In]SIZE_T dwNumberOfBytesToMap);
+        public static extern LPVOID MapViewOfFile([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
+            [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap);
 
         /// <summary>
         /// <para>
@@ -719,8 +756,146 @@ namespace Lsj.Util.Win32
         /// and then call <see cref="MapViewOfFileEx"/> with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileEx", ExactSpelling = true, SetLastError = true)]
-        public static extern LPVOID MapViewOfFileEx([In]HANDLE hFileMappingObject, [In]DWORD dwDesiredAccess, [In]DWORD dwFileOffsetHigh,
-            [In]DWORD dwFileOffsetLow, [In]SIZE_T dwNumberOfBytesToMap, [In]LPVOID lpBaseAddress);
+        public static extern LPVOID MapViewOfFileEx([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
+            [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap, [In] LPVOID lpBaseAddress);
+
+        /// <summary>
+        /// <para>
+        /// Maps a view of a file mapping into the address space of a calling process and specifies the NUMA node for the physical memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapviewoffileexnuma
+        /// </para>
+        /// </summary>
+        /// <param name="hFileMappingObject">
+        /// A handle to a file mapping object.
+        /// The <see cref="CreateFileMappingNuma"/> and <see cref="OpenFileMapping"/> functions return this handle.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The type of access to a file mapping object, which determines the page protection of the pages.
+        /// This parameter can be one of the following values, or a bitwise OR combination of multiple values where appropriate.
+        /// <see cref="FILE_MAP_ALL_ACCESS"/>:
+        /// A read/write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READWRITE"/> or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When used with the <see cref="MapViewOfFileExNuma"/> function, <see cref="FILE_MAP_ALL_ACCESS"/> is equivalent to <see cref="FILE_MAP_WRITE"/>.
+        /// <see cref="FILE_MAP_READ"/>:
+        /// A read-only view of the file is mapped. An attempt to write to the file view results in an access violation.
+        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_READWRITE"/>,
+        /// <see cref="PAGE_EXECUTE_READ"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// <see cref="FILE_MAP_WRITE"/>:
+        /// A read/write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READWRITE"/> or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When used with <see cref="MapViewOfFileExNuma"/>, <code>(FILE_MAP_WRITE | FILE_MAP_READ)</code> and <see cref="FILE_MAP_ALL_ACCESS"/>
+        /// are equivalent to <see cref="FILE_MAP_WRITE"/>.
+        /// Using bitwise OR, you can combine the values above with these values.
+        /// <see cref="FILE_MAP_COPY"/>:
+        /// A copy-on-write view of the file is mapped.
+        /// The file mapping object must have been created with <see cref="PAGE_READONLY"/>, <see cref="PAGE_EXECUTE_READ"/>, <see cref="PAGE_WRITECOPY"/>,
+        /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, <see cref="PAGE_READWRITE"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// When a process writes to a copy-on-write page, the system copies the original page to a new page that is private to the process.
+        /// The new page is backed by the paging file. The protection of the new page changes from copy-on-write to read/write.
+        /// When copy-on-write access is specified, the system and process commit charge taken is for the entire view
+        /// because the calling process can potentially write to every page in the view, making all pages private.
+        /// The contents of the new page are never written back to the original file and are lost when the view is unmapped.
+        /// <see cref="FILE_MAP_EXECUTE"/>:
+        /// An executable view of the file is mapped (mapped memory can be run as code).
+        /// The file mapping object must have been created with <see cref="PAGE_EXECUTE_READ"/>,
+        /// <see cref="PAGE_EXECUTE_WRITECOPY"/>, or <see cref="PAGE_EXECUTE_READWRITE"/> protection.
+        /// <see cref="FILE_MAP_LARGE_PAGES"/>:
+        /// Starting with Windows 10, version 1703, this flag specifies that the view should be mapped using large page support.
+        /// The size of the view must be a multiple of the size of a large page reported by the <see cref="GetLargePageMinimum"/> function,
+        /// and the file-mapping object must have been created using the <see cref="SEC_LARGE_PAGES"/> option.
+        /// If you provide a non-null value for <paramref name="lpBaseAddress"/>, then the value must be a multiple of <see cref="GetLargePageMinimum"/>.
+        /// <see cref="FILE_MAP_TARGETS_INVALID"/>:
+        /// Sets all the locations in the mapped file as invalid targets for Control Flow Guard (CFG).
+        /// This flag is similar to <see cref="PAGE_TARGETS_INVALID"/>.
+        /// Use this flag in combination with the execute access right <see cref="FILE_MAP_EXECUTE"/>.
+        /// Any indirect call to locations in those pages will fail CFG checks, and the process will be terminated.
+        /// The default behavior for executable pages allocated is to be marked valid call targets for CFG. 
+        /// For file mapping objects created with the <see cref="SEC_IMAGE"/> attribute, the <paramref name="dwDesiredAccess"/> parameter has no effect,
+        /// and should be set to any valid value such as <see cref="FILE_MAP_READ"/>.
+        /// For more information about access to file mapping objects, see File Mapping Security and Access Rights.
+        /// </param>
+        /// <param name="dwFileOffsetHigh">
+        /// A high-order <see cref="DWORD"/> of the file offset where the view begins.
+        /// </param>
+        /// <param name="dwFileOffsetLow">
+        /// A low-order <see cref="DWORD"/> of the file offset where the view is to begin.
+        /// The combination of the high and low offsets must specify an offset within the file mapping.
+        /// They must also match the memory allocation granularity of the system.
+        /// That is, the offset must be a multiple of the allocation granularity.
+        /// To obtain the memory allocation granularity of the system, use the <see cref="GetSystemInfo"/> function,
+        /// which fills in the members of a <see cref="SYSTEM_INFO"/> structure.
+        /// </param>
+        /// <param name="dwNumberOfBytesToMap">
+        /// The number of bytes of a file mapping to map to the view.
+        /// All bytes must be within the maximum size specified by <see cref="CreateFileMapping"/>.
+        /// If this parameter is 0 (zero), the mapping extends from the specified offset to the end of the file mapping.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the memory address in the calling process address space where mapping begins.
+        /// This must be a multiple of the system's memory allocation granularity, or the function fails.
+        /// To determine the memory allocation granularity of the system, use the <see cref="GetSystemInfo"/> function.
+        /// If there is not enough address space at the specified address, the function fails.
+        /// If <paramref name="lpBaseAddress"/> is <see cref="NULL"/>, the operating system chooses the mapping address.
+        /// In this scenario, the function is equivalent to the <see cref="MapViewOfFile"/> function.
+        /// While it is possible to specify an address that is safe now (not used by the operating system),
+        /// there is no guarantee that the address will remain safe over time.
+        /// Therefore, it is better to let the operating system choose the address.
+        /// In this case, you would not store pointers in the memory mapped file,
+        /// you would store offsets from the base of the file mapping so that the mapping can be used at any address.
+        /// </param>
+        /// <param name="nndPreferred">
+        /// The NUMA node where the physical memory should reside.
+        /// <see cref="NUMA_NO_PREFERRED_NODE"/>: No NUMA node is preferred. This is the same as calling the <see cref="MapViewOfFileEx"/> function. 
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the starting address of the mapped view.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// Mapping a file makes the specified portion of the file visible in the address space of the calling process.
+        /// For files that are larger than the address space, you can map only a small portion of the file data at one time.
+        /// When the first view is complete, then you unmap it and map a new view.
+        /// To obtain the size of a view, use the <see cref="VirtualQueryEx"/> function.
+        /// The initial contents of the pages in a file mapping object backed by the page file are 0 (zero).
+        /// If a suggested mapping address is supplied, the file is mapped at the specified address (rounded down to the nearest 64-KB boundary)
+        /// if there is enough address space at the specified address.
+        /// If there is not enough address space, the function fails.
+        /// Typically, the suggested address is used to specify that a file should be mapped at the same address in multiple processes.
+        /// This requires the region of address space to be available in all involved processes.
+        /// No other memory allocation can take place in the region that is used for mapping,
+        /// including the use of the <see cref="VirtualAllocExNuma"/> function to reserve memory.
+        /// If the <paramref name="lpBaseAddress"/> parameter specifies a base offset, the function succeeds
+        /// if the specified memory region is not already in use by the calling process.
+        /// The system does not ensure that the same memory region is available for the memory mapped file in other 32-bit processes.
+        /// Multiple views of a file (or a file mapping object and its mapped file) are coherent if they contain identical data at a specified time.
+        /// This occurs if the file views are derived from the same file mapping object.
+        /// A process can duplicate a file mapping object handle into another process by using the <see cref="DuplicateHandle"/> function,
+        /// or another process can open a file mapping object by name by using the <see cref="OpenFileMapping"/> function.
+        /// With one important exception, file views derived from any file mapping object that is backed
+        /// by the same file are coherent or identical at a specific time.
+        /// Coherency is guaranteed for views within a process and for views that are mapped by different processes.
+        /// The exception is related to remote files.
+        /// Although <see cref="MapViewOfFileExNuma"/> works with remote files, it does not keep them coherent.
+        /// For example, if two computers both map a file as writable, and both change the same page,
+        /// each computer only sees its own writes to the page.
+        /// When the data gets updated on the disk, it is not merged.
+        /// A mapped view of a file is not guaranteed to be coherent with a file
+        /// being accessed by the <see cref="ReadFile"/> or <see cref="WriteFile"/> function.
+        /// To guard against <see cref="EXCEPTION_IN_PAGE_ERROR"/> exceptions, use structured exception handling
+        /// to protect any code that writes to or reads from a memory mapped view of a file other than the page file.
+        /// For more information, see Reading and Writing From a File View.
+        /// When modifying a file through a mapped view, the last modification timestamp may not be updated automatically.
+        /// If required, the caller should use <see cref="SetFileTime"/> to set the timestamp.
+        /// To have a file with executable permissions, an application must call the <see cref="CreateFileMappingNuma"/> function
+        /// with either <see cref="PAGE_EXECUTE_READWRITE"/> or <see cref="PAGE_EXECUTE_READ"/> and then call the <see cref="MapViewOfFileExNuma"/>
+        /// function with <code>FILE_MAP_EXECUTE | FILE_MAP_WRITE or FILE_MAP_EXECUTE | FILE_MAP_READ</code>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapViewOfFileExNuma", ExactSpelling = true, SetLastError = true)]
+        public static extern LPVOID MapViewOfFileExNuma([In] HANDLE hFileMappingObject, [In] DWORD dwDesiredAccess, [In] DWORD dwFileOffsetHigh,
+            [In] DWORD dwFileOffsetLow, [In] SIZE_T dwNumberOfBytesToMap, [In] LPVOID lpBaseAddress, [In] DWORD nndPreferred);
 
         /// <summary>
         /// <para>
@@ -762,8 +937,8 @@ namespace Lsj.Util.Win32
         /// the handle returned by <see cref="OpenFileMapping"/> with a call to <see cref="CloseHandle"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenFileMappingW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenFileMapping([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE OpenFileMapping([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -799,6 +974,6 @@ namespace Lsj.Util.Win32
         /// Files for which the last view has not yet been unmapped are held open with no sharing restrictions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnmapViewOfFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnmapViewOfFile([In]LPCVOID lpBaseAddress);
+        public static extern BOOL UnmapViewOfFile([In] LPCVOID lpBaseAddress);
     }
 }

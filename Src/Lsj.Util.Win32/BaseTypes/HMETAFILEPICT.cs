@@ -7,12 +7,15 @@ namespace Lsj.Util.Win32.BaseTypes
     /// HMETAFILEPICT
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct HMETAFILEPICT
+    public struct HMETAFILEPICT : IPointer
     {
-        private IntPtr _value;
+        private HANDLE _value;
 
         /// <inheritdoc/>
-        public override string ToString() => _value.ToString("X");
+        public override string ToString() => _value.ToString();
+
+        /// <inheritdoc/>
+        public IntPtr ToIntPtr() => _value;
 
         /// <summary>
         /// 

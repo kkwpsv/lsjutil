@@ -1,10 +1,11 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -73,7 +74,38 @@ namespace Lsj.Util.Win32
         /// the <see cref="ERROR_FILE_NOT_FOUND"/> error code will be set.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMailslotW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateMailslot([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint nMaxMessageSize, [In]uint lReadTimeout,
-            [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern IntPtr CreateMailslot([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] uint nMaxMessageSize, [In] uint lReadTimeout,
+            [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Sets the time-out value used by the specified mailslot for a read operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setmailslotinfo
+        /// </para>
+        /// </summary>
+        /// <param name="hMailslot">
+        /// A handle to a mailslot.
+        /// The <see cref="CreateMailslot"/> function must create this handle.
+        /// </param>
+        /// <param name="lReadTimeout">
+        /// The time a read operation can wait for a message to be written to the mailslot before a time-out occurs, in milliseconds.
+        /// The following values have special meanings.
+        /// 0: Returns immediately if no message is present. (The system does not treat an immediate return as an error.)
+        /// <see cref="MAILSLOT_WAIT_FOREVER"/>: Waits forever for a message.
+        /// This time-out value applies to all subsequent read operations and to all inherited mailslot handles.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The initial time-out value used by a mailslot for a read operation is typically set
+        /// by <see cref="CreateMailslot"/> when the mailslot is created.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMailslotInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetMailslotInfo([In] HANDLE hMailslot, [In] DWORD lReadTimeout);
     }
 }

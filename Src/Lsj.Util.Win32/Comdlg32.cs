@@ -17,6 +17,7 @@ using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
 using static Lsj.Util.Win32.Enums.PrintDlgExResults;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32

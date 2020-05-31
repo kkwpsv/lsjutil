@@ -211,6 +211,66 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="EnumDisplayDevices"/> function lets you obtain information about the display devices in the current session.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw
+        /// </para>
+        /// </summary>
+        /// <param name="lpDevice">
+        /// A pointer to the device name.
+        /// If <see langword="null"/>, function returns information for the display adapter(s) on the machine, based on <paramref name="iDevNum"/>.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="iDevNum">
+        /// An index value that specifies the display device of interest.
+        /// The operating system identifies each display device in the current session with an index value.
+        /// The index values are consecutive integers, starting at 0. If the current session has three display devices,
+        /// for example, they are specified by the index values 0, 1, and 2.
+        /// </param>
+        /// <param name="lpDisplayDevice">
+        /// A pointer to a <see cref="DISPLAY_DEVICE"/> structure that receives information about the display device specified by <paramref name="iDevNum"/>.
+        /// Before calling <see cref="EnumDisplayDevices"/>, you must initialize the <see cref="DISPLAY_DEVICE.cb"/> member
+        /// of <see cref="DISPLAY_DEVICE"/> to the size, in bytes, of <see cref="DISPLAY_DEVICE"/>.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Set this flag to <see cref="EDD_GET_DEVICE_INTERFACE_NAME"/> (0x00000001) to retrieve the device interface name
+        /// for <see cref="GUID_DEVINTERFACE_MONITOR"/>, which is registered by the operating system on a per monitor basis.
+        /// The value is placed in the <see cref="DISPLAY_DEVICE.DeviceID"/> member of the <see cref="DISPLAY_DEVICE"/> structure
+        /// returned in <paramref name="lpDisplayDevice"/>.
+        /// The resulting device interface name can be used with SetupAPI functions and serves as a link
+        /// between GDI monitor devices and SetupAPI monitor devices.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// The function fails if <paramref name="iDevNum"/> is greater than the largest device index.
+        /// </returns>
+        /// <remarks>
+        /// To query all display devices in the current session, call this function in a loop, starting with iDevNum set to 0,
+        /// and incrementing <paramref name="iDevNum"/> until the function fails.
+        /// To select all display devices in the desktop, use only the display devices
+        /// that have the <see cref="DISPLAY_DEVICE_ATTACHED_TO_DESKTOP"/> flag in the <see cref="DISPLAY_DEVICE"/> structure.
+        /// To get information on the display adapter, call <see cref="EnumDisplayDevices"/>
+        /// with <paramref name="lpDevice"/> set to <see langword="null"/>.
+        /// For example, <see cref="DISPLAY_DEVICE.DeviceString"/> contains the adapter name.
+        /// To obtain information on a display monitor, first call <see cref="EnumDisplayDevices"/>
+        /// with <paramref name="lpDevice"/> set to <see langword="null"/>.
+        /// Then call <see cref="EnumDisplayDevices"/> with <paramref name="lpDevice"/> set to <see cref="DISPLAY_DEVICE.DeviceName"/>
+        /// from the first call to <see cref="EnumDisplayDevices"/> and with <paramref name="iDevNum"/> set to zero.
+        /// Then <see cref="DISPLAY_DEVICE.DeviceString"/> is the monitor name.
+        /// To query all monitor devices associated with an adapter, call <see cref="EnumDisplayDevices"/> in a loop
+        /// with <paramref name="lpDevice"/> set to the adapter name, <paramref name="iDevNum"/> set to start at 0,
+        /// and <paramref name="iDevNum"/> set to increment until the function fails.
+        /// Note that <see cref="DISPLAY_DEVICE.DeviceName"/> changes with each call for monitor information, so you must save the adapter name.
+        /// The function fails when there are no more monitors for the adapter.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)][In]string lpDevice, [In]DWORD iDevNum,
+            [In]ref DISPLAY_DEVICE lpDisplayDevice, [In]DWORD dwFlags);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ExcludeUpdateRgn"/> function prevents drawing within invalid areas of a window
         /// by excluding an updated region in the window from a clipping region.
         /// </para>

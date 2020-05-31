@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.Urlmon;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {

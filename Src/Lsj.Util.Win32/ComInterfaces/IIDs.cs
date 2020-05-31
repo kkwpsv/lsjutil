@@ -16,6 +16,16 @@
         public const string IID_IAdviseSink = "0000010f-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IBindCtx
+        /// </summary>
+        public const string IID_IBindCtx = "0000000e-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IClassActivator
+        /// </summary>
+        public const string IID_IClassActivator = "00000140-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IClassFactory
         /// </summary>
         public const string IID_IClassFactory = "00000001-0000-0000-C000-000000000046";
@@ -71,9 +81,19 @@
         public const string IID_IObjectWithSite = "FC4801A3-2BA9-11CF-A229-00AA003D7352";
 
         /// <summary>
+        /// IID_IOleClientSite
+        /// </summary>
+        public const string IID_IOleClientSite = "00000118-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IOleLink
         /// </summary>
         public const string IID_IOleLink = "0000011d-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IOleLink
+        /// </summary>
+        public const string IID_IOleUILinkContainer = "000004FF-0000-0000-C000-000000000046";
 
         /// <summary>
         /// IID_IOleAdviseHolder
@@ -94,6 +114,11 @@
         /// IID_IPersist
         /// </summary>
         public const string IID_IPersist = "0000010c-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IPersistFile
+        /// </summary>
+        public const string IID_IPersistFile = "0000010b-0000-0000-C000-000000000046";
 
         /// <summary>
         /// IID_IPersistStream
@@ -139,5 +164,10 @@
         /// IID_IStream
         /// </summary>
         public const string IID_IStream = "0000000c-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IViewObject
+        /// </summary>
+        public const string IID_IViewObject = "0000010d-0000-0000-C000-000000000046";
     }
 }

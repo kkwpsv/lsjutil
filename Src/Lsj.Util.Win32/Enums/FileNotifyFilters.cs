@@ -8,6 +8,9 @@ namespace Lsj.Util.Win32.Enums
     /// <para>
     /// File Notify Filters
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-readdirectorychangesw
+    /// </para>
     /// </summary>
     [Flags]
     public enum FileNotifyFilters : uint
@@ -42,6 +45,16 @@ namespace Lsj.Util.Win32.Enums
         /// For operating systems that use extensive caching, detection occurs only when the cache is sufficiently flushed.
         /// </summary>
         FILE_NOTIFY_CHANGE_LAST_WRITE = 0x00000010,
+
+        /// <summary>
+        /// Any change to the last access time of files in the watched directory or subtree causes a change notification wait operation to return. 
+        /// </summary>
+        FILE_NOTIFY_CHANGE_LAST_ACCESS = 0x00000020,
+
+        /// <summary>
+        /// Any change to the creation time of files in the watched directory or subtree causes a change notification wait operation to return. 
+        /// </summary>
+        FILE_NOTIFY_CHANGE_CREATION = 0x00000040,
 
         /// <summary>
         /// Any security-descriptor change in the watched directory or subtree causes a change notification wait operation to return.
