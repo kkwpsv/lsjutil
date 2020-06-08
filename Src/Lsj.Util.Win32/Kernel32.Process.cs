@@ -716,6 +716,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the performance values contained in the <see cref="PERFORMANCE_INFORMATION"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getperformanceinfo
+        /// </para>
+        /// </summary>
+        /// <param name="pPerformanceInformation">
+        /// A pointer to a <see cref="PERFORMANCE_INFORMATION"/> structure that receives the performance information.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <see cref="PERFORMANCE_INFORMATION"/> structure, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32GetPerformanceInfo in Psapi.h
+        /// and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="GetPerformanceInfo"/> in Psapi.h
+        /// and exported in Psapi.lib and Psapi.dll as a wrapper that calls K32GetPerformanceInfo.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7
+        /// and later versions should always call this function as <see cref="GetPerformanceInfo"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPerformanceInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPerformanceInfo([In][Out] ref PERFORMANCE_INFORMATION pPerformanceInformation, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority class for the specified process.
         /// This value, together with the priority value of each thread of the process, determines each thread's base priority level.
         /// </para>
