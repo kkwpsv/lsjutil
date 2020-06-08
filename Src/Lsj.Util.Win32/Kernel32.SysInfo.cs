@@ -382,6 +382,26 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the current system date and time. The system time is expressed in Coordinated Universal Time (UTC).
+        /// To retrieve the current system date and time in local time, use the <see cref="GetLocalTime"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtime
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the current system date and time. 
+        /// The <paramref name="lpSystemTime"/> parameter must not be <see cref="NULL"/>.
+        /// Using <see cref="NULL"/> will result in an access violation.
+        /// </param>
+        /// <remarks>
+        /// To set the current system date and time, use the <see cref="SetSystemTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTime", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetSystemTime([Out] out SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
         /// Determines whether the system is applying periodic time adjustments to its time-of-day clock,
         /// and obtains the value and period of any such adjustments.
         /// </para>
