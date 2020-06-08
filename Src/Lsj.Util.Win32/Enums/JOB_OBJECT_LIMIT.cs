@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.ErrorModes;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Kernel32;

@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Kernel32;
@@ -230,7 +231,7 @@ namespace Lsj.Util.Win32.Structs
         public JOBOBJECT_RATE_CONTROL_TOLERANCE NetRateControlTolerance;
 
         /// <summary>
-        /// If the <see cref="LimitFlags"/> parameter specifies <see cref="JOB_OBJECT_LIMIT_NETWORK_RATE_CONTROL"/>,
+        /// If the <see cref="LimitFlags"/> parameter specifies <see cref="JOB_OBJECT_LIMIT_NET_RATE_CONTROL"/>,
         /// this member contains the network rate control notification limits specified for the job.
         /// <see cref="ToleranceLow"/>: The job exceeded its CPU rate control limits for 20% of the tolerance interval.
         /// <see cref="ToleranceMedium"/>: The job exceeded its CPU rate control limits for 40% of the tolerance interval.

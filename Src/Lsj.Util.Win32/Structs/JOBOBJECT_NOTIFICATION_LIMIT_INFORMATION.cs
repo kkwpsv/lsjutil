@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.JOB_OBJECT_LIMIT;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE;
 using static Lsj.Util.Win32.Enums.JOBOBJECT_RATE_CONTROL_TOLERANCE_INTERVAL;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
@@ -22,7 +23,7 @@ namespace Lsj.Util.Win32.Structs
     /// Processes in the job continue to run and can continue to allocate memory or transmit read or write bytes beyond the specified limits.
     /// When the application monitoring the I/O completion port receives a <see cref="JOB_OBJECT_MSG_NOTIFICATION_LIMIT"/> message,
     /// it must call <see cref="QueryInformationJobObject"/> with the <see cref="JobObjectLimitViolationInformation"/> information class.
-    /// Limit violation information is received in a <see cref="JOBOBJECT_LIMIT_VIOLATION_STRUCTURE"/> that contains information
+    /// Limit violation information is received in a <see cref="JOBOBJECT_LIMIT_VIOLATION_INFORMATION"/> that contains information
     /// about all notification limits that were exceeded at the time of the query.
     /// The system will not send another <see cref="JOB_OBJECT_MSG_NOTIFICATION_LIMIT"/> message
     /// until after <see cref="QueryInformationJobObject"/> is called.
@@ -113,6 +114,6 @@ namespace Lsj.Util.Win32.Structs
         /// CPU rate control limits are established by calling <see cref="SetInformationJobObject"/>
         /// with the <see cref="JobObjectCpuRateControlInformation"/> information class.
         /// </summary>
-        public DWORD LimitFlags;
+        public JOB_OBJECT_LIMIT LimitFlags;
     }
 }
