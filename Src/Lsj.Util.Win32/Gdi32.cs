@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.ICMModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.ObjTypes;
+using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -91,7 +92,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application must register this function by passing its address to the <see cref="EnumObjects"/> function.
         /// </remarks>
-        public delegate int GOBJENUMPROC([In]LPVOID lpLogObject, [In]LPARAM lpData);
+        public delegate int GOBJENUMPROC([In] LPVOID lpLogObject, [In] LPARAM lpData);
 
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace Lsj.Util.Win32
         /// The results are also undefined if no drawing operation was in progress when the function was called.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelDC", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CancelDC([In]HDC hdc);
+        public static extern BOOL CancelDC([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -134,7 +135,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="NULL"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCompatibleDC", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateCompatibleDC([In]HDC hdc);
+        public static extern HDC CreateCompatibleDC([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -197,8 +198,8 @@ namespace Lsj.Util.Win32
         /// (pointed to by the <paramref name="pdm"/> parameter) to the appropriate value.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDCW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In]string pwszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pwszDevice,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
+        public static extern HDC CreateDC([MarshalAs(UnmanagedType.LPWStr)][In] string pwszDriver, [MarshalAs(UnmanagedType.LPWStr)][In] string pwszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string pszPort, [In] in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -237,8 +238,8 @@ namespace Lsj.Util.Win32
         /// When you no longer need the information DC, call the <see cref="DeleteDC"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateICW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In]string pszDriver, [MarshalAs(UnmanagedType.LPWStr)][In]string pszDevice,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pszPort, [In]in DEVMODE pdm);
+        public static extern HDC CreateIC([MarshalAs(UnmanagedType.LPWStr)][In] string pszDriver, [MarshalAs(UnmanagedType.LPWStr)][In] string pszDevice,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string pszPort, [In] in DEVMODE pdm);
 
         /// <summary>
         /// <para>
@@ -254,7 +255,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteDC", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteDC([In]HDC hdc);
+        public static extern BOOL DeleteDC([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -272,7 +273,7 @@ namespace Lsj.Util.Win32
         /// If the specified handle is not valid or is currently selected into a DC, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteObject", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteObject([In]HGDIOBJ hObject);
+        public static extern BOOL DeleteObject([In] HGDIOBJ hObject);
 
         /// <summary>
         /// <para>
@@ -303,7 +304,7 @@ namespace Lsj.Util.Win32
         /// In the case of such an overflow, the results for all the points are undefined.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DPtoLP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DPtoLP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
+        public static extern BOOL DPtoLP([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lppt, [In] int c);
 
         /// <summary>
         /// <para>
@@ -337,7 +338,7 @@ namespace Lsj.Util.Win32
         /// If the objects cannot be enumerated (for example, there are too many objects), the function returns zero without calling the callback function.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumObjects", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumObjects([In]HDC hdc, [In]ObjTypes nType, [In]GOBJENUMPROC lpFunc, [In]LPARAM lParam);
+        public static extern int EnumObjects([In] HDC hdc, [In] ObjTypes nType, [In] GOBJENUMPROC lpFunc, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -387,7 +388,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="StartPage"/> function to prepare the printer driver to receive data.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "Escape", ExactSpelling = true, SetLastError = true)]
-        public static extern int Escape([In]HDC hdc, [In]GDIEscapes iEscape, [In]int cjIn, [In]IntPtr pvIn, [In]LPVOID pvOut);
+        public static extern int Escape([In] HDC hdc, [In] GDIEscapes iEscape, [In] int cjIn, [In] IntPtr pvIn, [In] LPVOID pvOut);
 
         /// <summary>
         /// <para>
@@ -559,7 +560,7 @@ namespace Lsj.Util.Win32
         /// therefore applications must ensure that EMF recording is turned off for those jobs using the escape.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtEscape", ExactSpelling = true, SetLastError = true)]
-        public static extern int ExtEscape([In]HDC hdc, [In]GDIEscapes iEscape, [In]int cjInput, [In]IntPtr lpInData, [In]int cjOutput, [In]IntPtr lpOutData);
+        public static extern int ExtEscape([In] HDC hdc, [In] GDIEscapes iEscape, [In] int cjInput, [In] IntPtr lpInData, [In] int cjOutput, [In] IntPtr lpOutData);
 
         /// <summary>
         /// <para>
@@ -597,7 +598,7 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetBoundsRect([In]HDC hdc, [Out]out RECT lprect, [In]BoundsAccumulationFlags flags);
+        public static extern UINT GetBoundsRect([In] HDC hdc, [Out] out RECT lprect, [In] BoundsAccumulationFlags flags);
 
         /// <summary>
         /// <para>
@@ -634,7 +635,7 @@ namespace Lsj.Util.Win32
         /// Positive x is to the right; positive y is up.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMapMode", ExactSpelling = true, SetLastError = true)]
-        public static extern MappingModes GetMapMode([In]HDC hdc);
+        public static extern MappingModes GetMapMode([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -655,7 +656,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetWindowExtEx([In]HDC hdc, [Out]out SIZE lpsize);
+        public static extern BOOL GetWindowExtEx([In] HDC hdc, [Out] out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -689,7 +690,7 @@ namespace Lsj.Util.Win32
         /// When <paramref name="nIndex"/> is <see cref="DeviceCapIndexes.BITSPIXEL"/> and the device has 15bpp or 16bpp, the return value is 16.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDeviceCaps", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetDeviceCaps([In]IntPtr hdc, [In]DeviceCapIndexes nIndex);
+        public static extern int GetDeviceCaps([In] IntPtr hdc, [In] DeviceCapIndexes nIndex);
 
         /// <summary>
         /// <para>
@@ -786,7 +787,7 @@ namespace Lsj.Util.Win32
         /// the <see cref="LOGFONT"/> indicates the font is vertical, but Windows will paint it horizontally.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetObjectW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetObject([In]HANDLE h, [In]int c, [In]LPVOID pv);
+        public static extern int GetObject([In] HANDLE h, [In] int c, [In] LPVOID pv);
 
         /// <summary>
         /// <para>
@@ -809,7 +810,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNearestColor", ExactSpelling = true, SetLastError = true)]
-        public static extern COLORREF GetNearestColor([In]HDC hdc, [In]COLORREF color);
+        public static extern COLORREF GetNearestColor([In] HDC hdc, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -849,7 +850,7 @@ namespace Lsj.Util.Win32
         /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStockObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HGDIOBJ GetStockObject([In]StockObjectIndexes i);
+        public static extern HGDIOBJ GetStockObject([In] StockObjectIndexes i);
 
         /// <summary>
         /// <para>
@@ -907,8 +908,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentPoint32W", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTextExtentPoint32([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString,
-            [In] int c, [Out]out SIZE psizl);
+        public static extern bool GetTextExtentPoint32([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString,
+            [In] int c, [Out] out SIZE psizl);
 
         /// <summary>
         /// <para>
@@ -929,7 +930,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetWindowOrgEx([In]HDC hdc, [Out]out POINT lppoint);
+        public static extern BOOL GetWindowOrgEx([In] HDC hdc, [Out] out POINT lppoint);
 
         /// <summary>
         /// <para>
@@ -950,7 +951,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetViewportExtEx([In]HDC hdc, [Out]out SIZE lpsize);
+        public static extern BOOL GetViewportExtEx([In] HDC hdc, [Out] out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -971,7 +972,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetViewportOrgEx([In]HDC hdc, [Out]out POINT lppoint);
+        public static extern BOOL GetViewportOrgEx([In] HDC hdc, [Out] out POINT lppoint);
 
         /// <summary>
         /// <para>
@@ -1007,7 +1008,7 @@ namespace Lsj.Util.Win32
         /// from multiple calls to <see cref="LPtoDP"/> even if the parameters that are passed to each call are identical.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LPtoDP", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LPtoDP([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lppt, [In]int c);
+        public static extern BOOL LPtoDP([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lppt, [In] int c);
 
         /// <summary>
         /// <para>
@@ -1036,7 +1037,47 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="BOOL.FALSE"/>.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OffsetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
+        public static extern BOOL OffsetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PALETTEINDEX"/> macro accepts an index to a logical-color palette entry and returns a palette-entry specifier
+        /// consisting of a <see cref="COLORREF"/> value that specifies the color associated with the given index.
+        /// An application using a logical palette can pass this specifier, instead of an explicit red, green, blue (RGB) value,
+        /// to GDI functions that expect a color.
+        /// This allows the function to use the color in the specified palette entry.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paletteindex
+        /// </para>
+        /// </summary>
+        /// <param name="i">
+        /// An index to the palette entry containing the color to be used for a graphics operation.
+        /// </param>
+        /// <returns></returns>
+        public static COLORREF PALETTEINDEX(WORD i) => 0x01000000 | i;
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PALETTERGB"/> macro accepts three values that represent the relative intensities of red, green, and blueand returns
+        /// a palette-relative red, green, blue (RGB) specifier consisting of 2 in the high-order byte and an RGB value in the three low-order bytes.
+        /// An application using a color palette can pass this specifier, instead of an explicit RGB value, to functions that expect a color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-palettergb
+        /// </para>
+        /// </summary>
+        /// <param name="r">
+        /// The intensity of the red color field.
+        /// </param>
+        /// <param name="g">
+        /// The intensity of the green color field.
+        /// </param>
+        /// <param name="b">
+        /// The intensity of the blue color field.
+        /// </param>
+        /// <returns></returns>
+        public static COLORREF PALETTERGB(byte r, byte g, byte b) => 0x02000000 | RGB(r, g, b);
 
         /// <summary>
         /// <para>
@@ -1068,7 +1109,7 @@ namespace Lsj.Util.Win32
         /// The new origin is the sum of the current origin and the horizontal and vertical offsets.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OffsetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OffsetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
+        public static extern BOOL OffsetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1100,7 +1141,7 @@ namespace Lsj.Util.Win32
         /// based on the information contained in the lpInitData member of the <see cref="DEVMODE"/> structure.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetDCW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC ResetDC([In]HDC hdc, [In]in DEVMODE lpdm);
+        public static extern HDC ResetDC([In] HDC hdc, [In] in DEVMODE lpdm);
 
         /// <summary>
         /// <para>
@@ -1133,7 +1174,7 @@ namespace Lsj.Util.Win32
         /// In other words, the <see cref="RestoreDC"/> function pops the restored state (and any subsequent states) from the state information stack.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RestoreDC", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RestoreDC([In]HDC hdc, [In]int nSavedDC);
+        public static extern BOOL RestoreDC([In] HDC hdc, [In] int nSavedDC);
 
         /// <summary>
         /// <para>
@@ -1164,7 +1205,7 @@ namespace Lsj.Util.Win32
         /// For more information about using color values in a color palette, see the descriptions
         /// of the <see cref="PALETTEINDEX"/> and <see cref="PALETTERGB"/> macros.
         /// </remarks>
-        public static COLORREF RGB([In]byte r, [In]byte g, [In]byte b) => (COLORREF)(r | g << 8 | b << 16);
+        public static COLORREF RGB([In] byte r, [In] byte g, [In] byte b) => (COLORREF)(r | g << 8 | b << 16);
 
         /// <summary>
         /// <para>
@@ -1187,7 +1228,7 @@ namespace Lsj.Util.Win32
         /// A saved state can be restored by using the <see cref="RestoreDC"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SaveDC", ExactSpelling = true, SetLastError = true)]
-        public static extern int SaveDC([In]HDC hdc);
+        public static extern int SaveDC([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -1229,7 +1270,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleWindowExtEx([In]HDC hdc, [In]int xn, [In]int xd, [In]int yn, [In]int yd, [In]in SIZE lpsz);
+        public static extern BOOL ScaleWindowExtEx([In] HDC hdc, [In] int xn, [In] int xd, [In] int yn, [In] int yd, [In] in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1269,7 +1310,7 @@ namespace Lsj.Util.Win32
         ///  yNewVE = (yOldVE* Ynum) / Ydenom
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScaleViewportExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScaleViewportExtEx([In]HDC hdc, [In]int xn, [In]int dx, [In]int yn, [In]int yd, [In]in SIZE lpsz);
+        public static extern BOOL ScaleViewportExtEx([In] HDC hdc, [In] int xn, [In] int dx, [In] int yn, [In] int yd, [In] in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1316,7 +1357,7 @@ namespace Lsj.Util.Win32
         /// ICM: If the object being selected is a brush or a pen, color management is performed.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SelectObject", ExactSpelling = true, SetLastError = true)]
-        public static extern HGDIOBJ SelectObject([In]HDC hdc, [In]HGDIOBJ hgdiobj);
+        public static extern HGDIOBJ SelectObject([In] HDC hdc, [In] HGDIOBJ hgdiobj);
 
         /// <summary>
         /// <para>
@@ -1364,7 +1405,7 @@ namespace Lsj.Util.Win32
         /// The bounding rectangle is empty only if the <see cref="DCB_RESET"/> bit is 1 and the <see cref="DCB_ACCUMULATE"/> bit is 0.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBoundsRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BoundsAccumulationFlags SetBoundsRect([In]HDC hdc, [In]in RECT lprect, [In]BoundsAccumulationFlags flags);
+        public static extern BoundsAccumulationFlags SetBoundsRect([In] HDC hdc, [In] in RECT lprect, [In] BoundsAccumulationFlags flags);
 
         /// <summary>
         /// <para>
@@ -1409,7 +1450,7 @@ namespace Lsj.Util.Win32
         /// both arc control points and arcs themselves fully respect the device context's world-to-device transformation.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetGraphicsMode", ExactSpelling = true, SetLastError = true)]
-        public static extern GraphicsModes SetGraphicsMode([In]HDC hdc, [In]GraphicsModes iMode);
+        public static extern GraphicsModes SetGraphicsMode([In] HDC hdc, [In] GraphicsModes iMode);
 
         /// <summary>
         /// <para>
@@ -1468,7 +1509,7 @@ namespace Lsj.Util.Win32
         /// which result in WCS being turned off for the printer's DC.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetICMMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetICMMode([In]HDC hdc, [In]ICMModes mode);
+        public static extern int SetICMMode([In] HDC hdc, [In] ICMModes mode);
 
         /// <summary>
         /// <para>
@@ -1518,7 +1559,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MM_ANISOTROPIC"/> mode allows the x-coordinates and y-coordinates to be adjusted independently.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapMode", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetMapMode([In]HDC hdc, [In]MappingModes iMode);
+        public static extern int SetMapMode([In] HDC hdc, [In] MappingModes iMode);
 
         /// <summary>
         /// <para>
@@ -1561,7 +1602,7 @@ namespace Lsj.Util.Win32
         /// for display because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowExtEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
+        public static extern BOOL SetWindowExtEx([In] HDC hdc, [In] int x, [In] int y, [In] in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1602,7 +1643,7 @@ namespace Lsj.Util.Win32
         /// the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetWindowOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
+        public static extern BOOL SetWindowOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1646,7 +1687,7 @@ namespace Lsj.Util.Win32
         /// because the logical units on both axes represent equal physical distances.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportExtEx([In]HDC hdc, [In]int x, [In]int y, [In]in SIZE lpsz);
+        public static extern BOOL SetViewportExtEx([In] HDC hdc, [In] int x, [In] int y, [In] in SIZE lpsz);
 
         /// <summary>
         /// <para>
@@ -1687,7 +1728,7 @@ namespace Lsj.Util.Win32
         /// Regardless of your use of <see cref="SetWindowOrgEx"/> and <see cref="SetViewportOrgEx"/>, the device point (0,0) is always the upper-left corner.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetViewportOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetViewportOrgEx([In]HDC hdc, [In]int x, [In]int y, [In]in POINT lppt);
+        public static extern BOOL SetViewportOrgEx([In] HDC hdc, [In] int x, [In] int y, [In] in POINT lppt);
 
         /// <summary>
         /// <para>
@@ -1718,6 +1759,6 @@ namespace Lsj.Util.Win32
         /// Use <see cref="SetBrushOrgEx"/> to set the origin of a brush.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnrealizeObject", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnrealizeObject([In]HGDIOBJ h);
+        public static extern BOOL UnrealizeObject([In] HGDIOBJ h);
     }
 }
