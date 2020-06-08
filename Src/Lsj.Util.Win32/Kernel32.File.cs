@@ -2614,6 +2614,46 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the path of the directory designated for temporary files.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettemppathw
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The size of the string buffer identified by <paramref name="lpBuffer"/>, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a string buffer that receives the null-terminated string specifying the temporary file path.
+        /// The returned string ends with a backslash, for example, "C:\TEMP\".
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs, of the string copied to lpBuffer,
+        /// not including the terminating null character.
+        /// If the return value is greater than nBufferLength, the return value is the length, in TCHARs, of the buffer required to hold the path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The maximum possible return value is <see cref="MAX_PATH"/>+1 (261).
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTempPath"/> function checks for the existence of environment variables in the following order
+        /// and uses the first path found:
+        /// The path specified by the TMP environment variable.
+        /// The path specified by the TEMP environment variable.
+        /// The path specified by the USERPROFILE environment variable.
+        /// The Windows directory.
+        /// Note that the function does not verify that the path exists, nor does it test to see
+        /// if the current process has any kind of access rights to the path.
+        /// The GetTempPath function returns the properly formatted string that specifies the fully qualified path
+        /// based on the environment variable search order as previously specified.
+        /// The application should verify the existence of the path and adequate access rights to the path prior to any use for file I/O operations.
+        /// Symbolic link behavior—If the path points to a symbolic link, the temp path name maintains any symbolic links.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempPathW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetTempPath([In] DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about the file system and volume associated with the specified root directory.
         /// To specify a handle when retrieving this information, use the <see cref="GetVolumeInformationByHandleW"/> function.
         /// To retrieve the current compression state of a file or directory, use <see cref="FSCTL_GET_COMPRESSION"/>.
