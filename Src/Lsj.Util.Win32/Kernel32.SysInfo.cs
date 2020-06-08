@@ -22,6 +22,24 @@ namespace Lsj.Util.Win32
     {
         /// <summary>
         /// <para>
+        /// Retrieves the current local date and time.
+        /// To retrieve the current date and time in Coordinated Universal Time (UTC) format, use the <see cref="GetSystemTime"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlocaltime
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the current local date and time.
+        /// </param>
+        /// <remarks>
+        /// To set the current local date and time, use the <see cref="SetLocalTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocalTime", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetLocalTime([Out] out SYSTEMTIME lpSystemTime);
+
+        /// <summary>
+        /// <para>
         /// Retrieves information about logical processors and related hardware.
         /// To retrieve information about logical processors and related hardware, including processor groups,
         /// use the <see cref="GetLogicalProcessorInformationEx"/> function.
