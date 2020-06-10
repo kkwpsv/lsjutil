@@ -1436,5 +1436,84 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRunningObjectTable", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT GetRunningObjectTable([In] DWORD reserved, [Out] out IRunningObjectTable pprot);
+
+        /// <summary>
+        /// <para>
+        /// Converts a string into a moniker that identifies the object named by the string.
+        /// This function is the inverse of the <see cref="IMoniker.GetDisplayName"/> operation,
+        /// which retrieves the display name associated with a moniker.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-mkparsedisplayname
+        /// </para>
+        /// </summary>
+        /// <param name="pbc">
+        /// A pointer to the <see cref="IBindCtx"/> interface on the bind context object to be used in this binding operation.
+        /// </param>
+        /// <param name="szUserName">
+        /// A pointer to the display name to be parsed.
+        /// </param>
+        /// <param name="pchEaten">
+        /// A pointer to the number of characters of <paramref name="szUserName"/> that were consumed.
+        /// If the function is successful, *<paramref name="pchEaten"/> is the length of <paramref name="szUserName"/>;
+        /// otherwise, it is the number of characters successfully parsed.
+        /// </param>
+        /// <param name="ppmk">
+        /// The address of the <see cref="IMoniker"/>* pointer variable that receives the interface pointer
+        /// to the moniker that was built from <paramref name="szUserName"/>.
+        /// When successful, the function has called AddRef on the moniker and the caller is responsible for calling Release.
+        /// If an error occurs, the specified interface pointer will contain as much of the moniker
+        /// that the method was able to create before the error occurred.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_OUTOFMEMORY"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The parse operation was successful and the moniker was created.
+        /// <see cref="MK_E_SYNTAX"/>: Error in the syntax of a file name or an error in the syntax of the resulting composite moniker.
+        /// This function can also return any of the error values returned by <see cref="IMoniker.BindToObject"/>,
+        /// <see cref="IOleItemContainer.GetObject"/>, or <see cref="IParseDisplayName.ParseDisplayName"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="MkParseDisplayName"/> function parses a human-readable name into a moniker that can be used to identify a link source.
+        /// The resulting moniker can be a simple moniker (such as a file moniker),
+        /// or it can be a generic composite made up of the component moniker pieces.
+        /// For example, the display name "c:\mydir\somefile!item 1" could be parsed into the following generic composite moniker:
+        /// FileMoniker based on "c:\mydir\somefile") + (ItemMoniker based on "item 1").
+        /// The most common use of <see cref="MkParseDisplayName"/> is in the implementation of the standard Links dialog box,
+        /// which allows an end user to specify the source of a linked object by typing in a string.
+        /// You may also need to call <see cref="MkParseDisplayName"/> if your application supports a macro language
+        /// that permits remote references (reference to elements outside of the document).
+        /// Parsing a display name often requires activating the same objects that would be activated during a binding operation,
+        /// so it can be just as expensive (in terms of performance) as binding.
+        /// Objects that are bound during the parsing operation are cached in the bind context passed to the function.
+        /// If you plan to bind the moniker returned by <see cref="MkParseDisplayName"/>, it is best to do so immediately after the function returns,
+        /// using the same bind context, which removes the need to activate objects a second time.
+        /// <see cref="MkParseDisplayName"/> parses as much of the display name as it understands into a moniker.
+        /// The function then calls <see cref="IMoniker.ParseDisplayName"/> on the newly created moniker, passing the remainder of the display name.
+        /// The moniker returned by <see cref="IMoniker.ParseDisplayName"/> is composed onto the end of the existing moniker and,
+        /// if any of the display name remains unparsed, <see cref="IMoniker.ParseDisplayName"/> is called on the result of the composition.
+        /// This process is repeated until the entire display name has been parsed.
+        /// <see cref="MkParseDisplayName"/> attempts the following strategies to parse the beginning of the display name,
+        /// using the first one that succeeds:
+        /// The function looks in the Running Object Table for file monikers corresponding to all prefixes of the display name
+        /// that consist solely of valid file name characters. This strategy can identify documents that are as yet unsaved.
+        /// The function checks the maximal prefix of the display name, which consists solely of valid file name characters,
+        /// to see if an OLE 1 document is registered by that name.
+        /// In this case, the returned moniker is an internal moniker provided by the OLE 1 compatibility layer of OLE 2.
+        /// The function consults the file system to check whether a prefix of the display name matches an existing file.
+        /// The file name can be drive-absolute, drive-relative, working-directory relative, or begin with an explicit network share name.
+        /// This is the common case.
+        /// If the initial character of the display name is '@', the function finds the longest string immediately following it
+        /// that conforms to the legal ProgID syntax.
+        /// The function converts this string to a <see cref="CLSID"/> using the <see cref="CLSIDFromProgID"/> function.
+        /// If the CLSID represents an OLE 2 class, the function loads the corresponding class object
+        /// and asks for an <see cref="IParseDisplayName"/> interface pointer.
+        /// The resulting <see cref="IParseDisplayName"/> interface is then given the whole string to parse, starting with the '@'.
+        /// If the CLSID represents an OLE 1 class, then the function treats the string following the ProgID
+        /// as an OLE1/DDE link designator having filename|item syntax.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "MkParseDisplayName", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT MkParseDisplayName([MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string szUserName, [Out] out ULONG pchEaten,
+            [MarshalAs(UnmanagedType.Interface)][Out] out IMoniker ppmk);
     }
 }
