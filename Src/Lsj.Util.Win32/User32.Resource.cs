@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32
         /// The calling process must have <see cref="WINSTA_WRITEATTRIBUTES"/> access to the window station.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClipCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ClipCursor([In]in RECT lpRect);
+        public static extern BOOL ClipCursor([In] in RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32
         /// Before closing, an application must call the <see cref="DestroyIcon"/> function to free any system resources associated with the icon.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CopyIcon([In]HICON hIcon);
+        public static extern HICON CopyIcon([In] HICON hIcon);
 
         /// <summary>
         /// <para>
@@ -161,7 +161,7 @@ namespace Lsj.Util.Win32
         /// calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CopyImage([In]HANDLE h, [In]ImageTypes type, [In]int cx, [In]int cy, [In]LoadImageFlags flags);
+        public static extern HANDLE CopyImage([In] HANDLE h, [In] ImageTypes type, [In] int cx, [In] int cy, [In] LoadImageFlags flags);
 
         /// <summary>
         /// <para>
@@ -209,8 +209,8 @@ namespace Lsj.Util.Win32
         /// Note that the cursor created may still be scaled to match the DPI of any given window it is drawn into.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR CreateCursor([In]HINSTANCE hInst, [In]int xHotSpot, [In]int yHotSpot, [In]int nWidth, [In]int nHeight,
-            [In]IntPtr pvANDPlane, [In]IntPtr pvXORPlane);
+        public static extern HCURSOR CreateCursor([In] HINSTANCE hInst, [In] int xHotSpot, [In] int yHotSpot, [In] int nWidth, [In] int nHeight,
+            [In] IntPtr pvANDPlane, [In] IntPtr pvXORPlane);
 
         /// <summary>
         /// <para>
@@ -262,8 +262,8 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIcon([In]HINSTANCE hInstance, [In]int nWidth, [In]int nHeight, [In]BYTE cPlanes, [In]BYTE cBitsPixel,
-            [In]IntPtr lpbANDbits, [In]IntPtr lpbXORbits);
+        public static extern HICON CreateIcon([In] HINSTANCE hInstance, [In] int nWidth, [In] int nHeight, [In] BYTE cPlanes, [In] BYTE cBitsPixel,
+            [In] IntPtr lpbANDbits, [In] IntPtr lpbXORbits);
 
         /// <summary>
         /// <para>
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResource([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer);
+        public static extern HICON CreateIconFromResource([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer);
 
         /// <summary>
         /// <para>
@@ -372,8 +372,8 @@ namespace Lsj.Util.Win32
         /// You should call DestroyIcon for icons created with <see cref="CreateIconFromResourceEx"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResourceEx([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer,
-            [In]int cxDesired, [In]int cyDesired, [In]LoadImageFlags Flags);
+        public static extern HICON CreateIconFromResourceEx([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
+            [In] int cxDesired, [In] int cyDesired, [In] LoadImageFlags Flags);
 
         /// <summary>
         /// <para>
@@ -400,7 +400,7 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconIndirect", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconIndirect([In]in ICONINFO piconinfo);
+        public static extern HICON CreateIconIndirect([In] in ICONINFO piconinfo);
 
         /// <summary>
         /// <para>
@@ -431,7 +431,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CopyImage"/> (if you use the <see cref="LR_COPYRETURNORG"/> flag and the hImage parameter is a shared cursor)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyCursor([In]HCURSOR hCursor);
+        public static extern BOOL DestroyCursor([In] HCURSOR hCursor);
 
         /// <summary>
         /// <para>
@@ -463,7 +463,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateIconFromResourceEx"/> (if you use the <see cref="LR_SHARED"/> flag)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyIcon([In]HICON hIcon);
+        public static extern BOOL DestroyIcon([In] HICON hIcon);
 
         /// <summary>
         /// <para>
@@ -499,7 +499,7 @@ namespace Lsj.Util.Win32
         /// for more information, see <see cref="GetSystemMetrics"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawIcon([In]HDC hDC, [In]int X, [In]int Y, [In]HICON hIcon);
+        public static extern BOOL DrawIcon([In] HDC hDC, [In] int X, [In] int Y, [In] HICON hIcon);
 
         /// <summary>
         /// <para>
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// The calling process must have <see cref="WINSTA_READATTRIBUTES"/> access to the window station.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetClipCursor([Out]out RECT lpRect);
+        public static extern BOOL GetClipCursor([Out] out RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -561,7 +561,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCursorInfo([In][Out]ref CURSORINFO pci);
+        public static extern BOOL GetCursorInfo([In][Out] ref CURSORINFO pci);
 
         /// <summary>
         /// <para>
@@ -587,7 +587,7 @@ namespace Lsj.Util.Win32
         /// returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorPos", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCursorPos([Out]out POINT lpPoint);
+        public static extern BOOL GetCursorPos([Out] out POINT lpPoint);
 
         /// <summary>
         /// <para>
@@ -606,7 +606,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCursorName);
+        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCursorName);
 
         /// <summary>
         /// <para>
@@ -625,7 +625,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In]IntPtr hInstance, [In]SystemCursors lpCursorName);
+        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [In] SystemCursors lpCursorName);
 
         /// <summary>
         /// <para>
@@ -649,7 +649,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpIconName);
+        public static extern HICON LoadIcon([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpIconName);
 
         /// <summary>
         /// <para>
@@ -672,7 +672,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
+        public static extern HICON LoadIcon([In] IntPtr hInstance, [In] SystemIcons lpIconName);
 
         /// <summary>
         /// <para>
@@ -796,8 +796,63 @@ namespace Lsj.Util.Win32
         /// however, calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadImageW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE LoadImage([In]HINSTANCE hInst, [In]StringHandle name, [In]ImageTypes type,
-            [In]int cx, [In]int cy, [In]LoadImageFlags fuLoad);
+        public static extern HANDLE LoadImage([In] HINSTANCE hInst, [In] StringHandle name, [In] ImageTypes type,
+            [In] int cx, [In] int cy, [In] LoadImageFlags fuLoad);
+
+        /// <summary>
+        /// <para>
+        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The icon or cursor directory data.
+        /// Because this function does not validate the resource data, it causes a general protection (GP) fault
+        /// or returns an undefined value if presbits is not pointing to valid resource data.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is sought.
+        /// If this parameter is <see cref="TRUE"/>, the function is searching for an icon;
+        /// if the parameter is <see cref="FALSE"/>, the function is searching for a cursor.
+        /// </param>
+        /// <param name="cxDesired">
+        /// The desired width, in pixels, of the icon
+        /// If this parameter is zero, the function uses the <see cref="SM_CXICON"/> or <see cref="SM_CXCURSOR"/> system metric value.
+        /// </param>
+        /// <param name="cyDesired">
+        /// The desired height, in pixels, of the icon.
+        /// If this parameter is zero, the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value.
+        /// </param>
+        /// <param name="Flags">
+        /// A combination of the following values.
+        /// <see cref="LR_DEFAULTCOLOR"/>: Uses the default color format.
+        /// <see cref="LR_MONOCHROME"/>: Creates a monochrome icon or cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an integer resource identifier for the icon
+        /// or cursor that best fits the current display device.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// contains icon (or cursor) data in several device-dependent and device-independent formats.
+        /// <see cref="LookupIconIdFromDirectoryEx"/> searches the resource file for the icon (or cursor) that best fits
+        /// the current display device and returns its integer identifier.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions use the <see cref="MAKEINTRESOURCE"/> macro
+        /// with this identifier to locate the resource in the module.
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
+        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
+        /// <see cref="LookupIconIdFromDirectoryEx"/> returns an integer identifier that is the resource name
+        /// of the icon that best fits the current display device.
+        /// The <see cref="LoadIcon"/>, <see cref="LoadImage"/>, and <see cref="LoadCursor"/> functions use this function
+        /// to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int LookupIconIdFromDirectoryEx([In] IntPtr presbits, [In] BOOL fIcon, [In] int cxDesired,
+            [In] int cyDesired, [In] LoadImageFlags Flags);
 
         /// <summary>
         /// <para>
@@ -830,7 +885,7 @@ namespace Lsj.Util.Win32
         /// This occurs if the application uses the <see cref="ShowCursor"/> function to hide the cursor more times than to show the cursor.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR SetCursor([In]HCURSOR hCursor);
+        public static extern HCURSOR SetCursor([In] HCURSOR hCursor);
 
         /// <summary>
         /// <para>
@@ -861,7 +916,7 @@ namespace Lsj.Util.Win32
         /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/> returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursorPos", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetCursorPos([In]int X, [In]int Y);
+        public static extern BOOL SetCursorPos([In] int X, [In] int Y);
 
         /// <summary>
         /// <para>
@@ -886,6 +941,6 @@ namespace Lsj.Util.Win32
         /// If no mouse is installed, the display count is –1.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern int ShowCursor([In]BOOL bShow);
+        public static extern int ShowCursor([In] BOOL bShow);
     }
 }
