@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
@@ -17,6 +18,7 @@ using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SECURITY_DESCRIPTOR_CONTROL;
 using static Lsj.Util.Win32.Enums.SECURITY_IMPERSONATION_LEVEL;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
@@ -75,7 +77,7 @@ namespace Lsj.Util.Win32
         /// Common reasons for failure include an invalid computer name, an inaccessible computer, or insufficient privilege.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortSystemShutdownW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AbortSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName);
+        public static extern BOOL AbortSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName);
 
         /// <summary>
         /// <para>
@@ -165,8 +167,8 @@ namespace Lsj.Util.Win32
         /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AdjustTokenPrivileges([In]HANDLE TokenHandle, [In]BOOL DisableAllPrivileges, [In]in TOKEN_PRIVILEGES NewState,
-            [In]DWORD BufferLength, [Out]out TOKEN_PRIVILEGES PreviousState, [Out]out DWORD ReturnLength);
+        public static extern BOOL AdjustTokenPrivileges([In] HANDLE TokenHandle, [In] BOOL DisableAllPrivileges, [In] in TOKEN_PRIVILEGES NewState,
+            [In] DWORD BufferLength, [Out] out TOKEN_PRIVILEGES PreviousState, [Out] out DWORD ReturnLength);
 
         /// <summary>
         /// <para>
@@ -210,7 +212,80 @@ namespace Lsj.Util.Win32
         /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckTokenMembership([In]HANDLE TokenHandle, [In]PSID SidToCheck, [Out]out BOOL IsMember);
+        public static extern BOOL CheckTokenMembership([In] HANDLE TokenHandle, [In] PSID SidToCheck, [Out] out BOOL IsMember);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ConvertToAutoInheritPrivateObjectSecurity"/> function converts a security descriptor
+        /// and its access control lists (ACLs) to a format that supports automatic propagation of inheritable access control entries (ACEs).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="ParentDescriptor">
+        /// A pointer to the security descriptor for the parent container of the object.
+        /// If there is no parent container, this parameter is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="CurrentSecurityDescriptor">
+        /// A pointer to the current security descriptor of the object.
+        /// </param>
+        /// <param name="NewSecurityDescriptor">
+        /// A pointer to a variable that receives a pointer to the newly allocated self-relative security descriptor.
+        /// It is the caller's responsibility to call the <see cref="DestroyPrivateObjectSecurity"/> function to free this security descriptor.
+        /// </param>
+        /// <param name="ObjectType">
+        /// A pointer to a <see cref="GUID"/> structure that identifies the type of object
+        /// associated with the <paramref name="CurrentSecurityDescriptor"/> parameter.
+        /// If the object does not have a GUID, this parameter must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="IsDirectoryObject">
+        /// If <see cref="BOOLEAN.TRUE"/>, the new object is a container and can contain other objects.
+        /// If <see cref="BOOLEAN.FALSE"/>, the new object is not a container.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to a <see cref="GENERIC_MAPPING"/> structure that specifies the mapping from each generic right to specific rights for the object.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ConvertToAutoInheritPrivateObjectSecurity"/> function attempts to determine
+        /// whether the ACEs in the discretionary access control list (DACL) and system access control list (SACL) of the current security descriptor
+        /// were inherited from the parent security descriptor.
+        /// The function passes the <paramref name="ParentDescriptor"/> parameter to the <see cref="CreatePrivateObjectSecurityEx"/> function
+        /// to get ACLs that contain only inherited ACEs.
+        /// Then it compares these ACEs to the ACEs in the original security descriptor to determine which of the original ACEs were inherited.
+        /// The ACEs do not need to match one-to-one.
+        /// For instance, an ACE that allows read and write access to a trustee can be equivalent to two ACEs:
+        /// an ACE that allows read access and an ACE that allows write access.
+        /// Any ACEs in the original security descriptor that are equivalent to the ACEs inherited from the parent security descriptor
+        /// are marked with the <see cref="INHERITED_ACE"/> flag and added to the new security descriptor.
+        /// All other ACEs in the original security descriptor are added to the new security descriptor as noninherited ACEs.
+        /// If the original DACL does not have any inherited ACEs, the function sets the <see cref="SE_DACL_PROTECTED"/> flag
+        /// in the control bits of the new security descriptor.
+        /// Similarly, the <see cref="SE_SACL_PROTECTED"/> flag is set if none of the ACEs in the SACL is inherited.
+        /// For DACLs that have inherited ACEs, the function reorders the ACEs into two groups.
+        /// The first group has ACEs that were directly applied to the object.
+        /// The second group has inherited ACEs. This ordering ensures that noninherited ACEs have precedence over inherited ACEs.
+        /// For more information, see Order of ACEs in a DACL.
+        /// The function sets the <see cref="SE_DACL_AUTO_INHERITED"/> and <see cref="SE_SACL_AUTO_INHERITED"/> flags
+        /// in the control bits of the new security descriptor.
+        /// The function does not change the ordering of access-allowed ACEs in relation to access-denied ACEs in the DACL
+        /// because to do so would change the semantics of the resulting security descriptor.
+        /// If the function cannot convert the DACL without changing the semantics,
+        /// it leaves the DACL unchanged and sets the <see cref="SE_DACL_PROTECTED"/> flag.
+        /// The new security descriptor has the same owner and primary group as the original security descriptor.
+        /// The new security descriptor is equivalent to the original security descriptor,
+        /// so the caller needs no access rights or privileges to update the security descriptor to the new format.
+        /// This function works with <see cref="ACL_REVISION"/> and <see cref="ACL_REVISION_DS"/> ACLs.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertToAutoInheritPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ConvertToAutoInheritPrivateObjectSecurity([In] PSECURITY_DESCRIPTOR ParentDescriptor,
+            [In] PSECURITY_DESCRIPTOR CurrentSecurityDescriptor, [Out] out PSECURITY_DESCRIPTOR NewSecurityDescriptor, [In] in GUID ObjectType,
+            [In] BOOLEAN IsDirectoryObject, [In] in GENERIC_MAPPING GenericMapping);
 
         /// <summary>
         /// <para>
@@ -431,13 +506,13 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithLogonW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateProcessWithLogonW([MarshalAs(UnmanagedType.LPWStr)][In]string lpUsername,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpDomain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPassword,
-            [In]LogonFlags dwLogonFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]ProcessCreationFlags dwCreationFlags,
-            [In]IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern BOOL CreateProcessWithLogonW([MarshalAs(UnmanagedType.LPWStr)][In] string lpUsername,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpDomain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPassword,
+            [In] LogonFlags dwLogonFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] ProcessCreationFlags dwCreationFlags,
+            [In] IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
 
         /// <summary>
@@ -649,11 +724,11 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithTokenW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateProcessWithTokenW([In]HANDLE hToken, [In]LogonFlags dwLogonFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-            [In]ProcessCreationFlags dwCreationFlags, [In]IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern BOOL CreateProcessWithTokenW([In] HANDLE hToken, [In] LogonFlags dwLogonFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine,
+            [In] ProcessCreationFlags dwCreationFlags, [In] IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>
@@ -697,8 +772,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTokenInformation([In]IntPtr TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In]IntPtr TokenInformation, [In]uint TokenInformationLength, [Out]out uint ReturnLength);
+        public static extern bool GetTokenInformation([In] IntPtr TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] IntPtr TokenInformation, [In] uint TokenInformationLength, [Out] out uint ReturnLength);
 
 
         /// <summary>
@@ -972,12 +1047,12 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateProcessAsUser([In]IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]in SECURITY_ATTRIBUTES lpProcessAttributes,
-          [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern bool CreateProcessAsUser([In] IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
+          [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
+          [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] bool bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
+          [MarshalAs(UnmanagedType.LPWStr)][In] string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>
@@ -1012,8 +1087,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out]out IntPtr DuplicateTokenHandle);
+        public static extern bool DuplicateToken([In] IntPtr ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out] out IntPtr DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -1078,8 +1153,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpTokenAttributes,
-            [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+        public static extern bool DuplicateTokenEx([In] IntPtr ExistingTokenHandle, [In] uint dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
+            [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out IntPtr DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -1124,7 +1199,7 @@ namespace Lsj.Util.Win32
         /// For more information about impersonation, see Client Impersonation.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateLoggedOnUser", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateLoggedOnUser([In]HANDLE hToken);
+        public static extern BOOL ImpersonateLoggedOnUser([In] HANDLE hToken);
 
         /// <summary>
         /// <para>
@@ -1163,7 +1238,7 @@ namespace Lsj.Util.Win32
         /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateNamedPipeClient([In]HANDLE hNamedPipe);
+        public static extern BOOL ImpersonateNamedPipeClient([In] HANDLE hNamedPipe);
 
         /// <summary>
         /// <para>
@@ -1249,8 +1324,8 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitiateSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed, [In]BOOL bRebootAfterShutdown);
+        public static extern BOOL InitiateSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessage, [In] DWORD dwTimeout, [In] BOOL bForceAppsClosed, [In] BOOL bRebootAfterShutdown);
 
         /// <summary>
         /// <para>
@@ -1340,9 +1415,9 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed,
-            [In]BOOL bRebootAfterShutdown, [In]SystemShutdownReasonCodes dwReason);
+        public static extern BOOL InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessage, [In] DWORD dwTimeout, [In] BOOL bForceAppsClosed,
+            [In] BOOL bRebootAfterShutdown, [In] SystemShutdownReasonCodes dwReason);
 
         /// <summary>
         /// <para>
@@ -1449,8 +1524,8 @@ namespace Lsj.Util.Win32
         /// by calling the provider's NPLogonNotify entry-point function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In]string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszDomain,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPassword, [In]LogonTypes dwLogonType, [In]LoginProviders dwLogonProvider, [Out]out HANDLE phToken);
+        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In] string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDomain,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPassword, [In] LogonTypes dwLogonType, [In] LoginProviders dwLogonProvider, [Out] out HANDLE phToken);
 
         /// <summary>
         /// <para>
@@ -1483,7 +1558,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
+        public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, [In] uint DesiredAccess, [Out] out IntPtr TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1526,7 +1601,7 @@ namespace Lsj.Util.Win32
         /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OpenThreadToken([In]HANDLE ThreadHandle, [In]ACCESS_MASK DesiredAccess, [In]BOOL OpenAsSelf, [Out]out HANDLE TokenHandle);
+        public static extern BOOL OpenThreadToken([In] HANDLE ThreadHandle, [In] ACCESS_MASK DesiredAccess, [In] BOOL OpenAsSelf, [Out] out HANDLE TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1585,7 +1660,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
 
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In]LPVOID TokenInformation, [In]DWORD TokenInformationLength);
+        public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
     }
 }
