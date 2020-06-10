@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.WindowStyles;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
