@@ -12,10 +12,11 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.OLERENDER;
 using static Lsj.Util.Win32.Enums.REGCLS;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
-using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
+using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -1515,6 +1516,57 @@ namespace Lsj.Util.Win32
         public static extern HRESULT MkParseDisplayName([MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
             [MarshalAs(UnmanagedType.LPWStr)][In] string szUserName, [Out] out ULONG pchEaten,
             [MarshalAs(UnmanagedType.Interface)][Out] out IMoniker ppmk);
+
+        /// <summary>
+        /// <para>
+        /// Creates an embedded object identified by a <see cref="CLSID"/>.
+        /// You use it typically to implement the menu item that allows the end user to insert a new object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-olecreate
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid"></param>
+        /// <param name="riid"></param>
+        /// <param name="renderopt"></param>
+        /// <param name="pFormatEtc"></param>
+        /// <param name="pClientSite"></param>
+        /// <param name="pStg"></param>
+        /// <param name="ppvObj"></param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
+        /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory for the operation.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OleCreate"/> function creates a new embedded object, and is typically called to implement the menu item Insert New Object.
+        /// When <see cref="OleCreate"/> returns, the object it has created is blank (contains no data),
+        /// unless <paramref name="renderopt"/> is <see cref="OLERENDER_DRAW"/> or <see cref="OLERENDER_FORMAT"/>, and is loaded.
+        /// Containers typically then call the <see cref="OleRun"/> function or <see cref="IOleObject.DoVerb"/> to show the object for initial editing.
+        /// The <paramref name="rclsid"/> parameter specifies the CLSID of the requested object.
+        /// CLSIDs of registered objects are stored in the system registry.
+        /// When an application user selects Insert Object, a selection box allows the user to select the type of object desired from those in the registry.
+        /// When <see cref="OleCreate"/> is used to implement the Insert Object menu item,
+        /// the CLSID associated with the selected item is assigned to the rclsid parameter of <see cref="OleCreate"/>.
+        /// The <paramref name="riid"/> parameter specifies the interface the client will use to communicate with the new object.
+        /// Upon successful return, the <paramref name="ppvObj"/> parameter holds a pointer to the requested interface.
+        /// The created object's cache contains information that allows a presentation of a contained object when the container is opened.
+        /// Information about what should be cached is passed in the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> values.
+        /// When <see cref="OleCreate"/> returns, the created object's cache is not necessarily filled.
+        /// Instead, the cache is filled the first time the object enters the running state.
+        /// The caller can add additional cache control with a call to <see cref="IOleCache.Cache"/>
+        /// after the return of <see cref="OleCreate"/> and before the object is run.
+        /// If renderopt is <see cref="OLERENDER_DRAW"/> or <see cref="OLERENDER_FORMAT"/>,
+        /// <see cref="OleCreate"/> requires that the object support the <see cref="IOleCache"/> interface.
+        /// There is no such requirement for any other value of <paramref name="renderopt"/>.
+        /// If <paramref name="pClientSite"/> is non-NULL, <see cref="OleCreate"/>
+        /// calls <see cref="IOleObject.SetClientSite"/> through the <paramref name="pClientSite"/> pointer.
+        /// <see cref="IOleClientSite"/> is the primary interface by which an object requests services from its container.
+        /// If <paramref name="pClientSite"/> is <see cref="NULL"/>,
+        /// you must make a specific call to <see cref="IOleObject.SetClientSite"/> before attempting any operations.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreate", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleCreate([In] in CLSID rclsid, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC pFormatEtc,
+            [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
