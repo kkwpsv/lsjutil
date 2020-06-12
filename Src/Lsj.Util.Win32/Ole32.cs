@@ -1515,5 +1515,74 @@ namespace Lsj.Util.Win32
         public static extern HRESULT MkParseDisplayName([MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
             [MarshalAs(UnmanagedType.LPWStr)][In] string szUserName, [Out] out ULONG pchEaten,
             [MarshalAs(UnmanagedType.Interface)][Out] out IMoniker ppmk);
+
+        /// <summary>
+        /// <para>
+        /// Initializes the COM library on the current apartment, identifies the concurrency model as single-thread apartment (STA),
+        /// and enables additional functionality described in the Remarks section below.
+        /// Applications must initialize the COM library before they can call COM library functions
+        /// other than <see cref="CoGetMalloc"/> and memory allocation functions.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-oleinitialize
+        /// </para>
+        /// </summary>
+        /// <param name="pvReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="S_FALSE"/>: The COM library is already initialized on this apartment.
+        /// <see cref="OLE_E_WRONGCOMPOBJ"/>: The versions of COMPOBJ.DLL and OLE2.DLL on your machine are incompatible with each other.
+        /// <see cref="RPC_E_CHANGED_MODE"/>:
+        /// A previous call to <see cref="CoInitializeEx"/> specified the concurrency model for this apartment as multithread apartment (MTA).
+        /// This could also mean that a change from neutral threaded apartment to single threaded apartment occurred. 
+        /// </returns>
+        /// <remarks>
+        /// Applications that use the following functionality must call <see cref="OleInitialize"/> before calling any other function in the COM library:
+        /// Clipboard, Drag and Drop, Object linking and embedding (OLE), In-place activation
+        /// <see cref="OleInitialize"/> calls <see cref="CoInitializeEx"/> internally to initialize the COM library on the current apartment.
+        /// Because OLE operations are not thread-safe, <see cref="OleInitialize"/> specifies the concurrency model as single-thread apartment.
+        /// Once the concurrency model for an apartment is set, it cannot be changed.
+        /// A call to <see cref="OleInitialize"/> on an apartment that was previously initialized
+        /// as multithreaded will fail and return <see cref="RPC_E_CHANGED_MODE"/>.
+        /// You need to initialize the COM library on an apartment before you call any of the library functions except <see cref="CoGetMalloc"/>,
+        /// to get a pointer to the standard allocator, and the memory allocation functions.
+        /// Typically, the COM library is initialized on an apartment only once.
+        /// Subsequent calls will succeed, as long as they do not attempt to change the concurrency model of the apartment,
+        /// but will return <see cref="S_FALSE"/>.
+        /// To close the COM library gracefully, each successful call to <see cref="OleInitialize"/>,
+        /// including those that return <see cref="S_FALSE"/>, must be balanced by a corresponding call to <see cref="OleUninitialize"/>.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleInitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleInitialize([In] LPVOID pvReserved);
+
+        /// <summary>
+        /// <para>
+        /// Closes the COM library on the apartment, releases any class factories, other COM objects,
+        /// or servers held by the apartment, disables RPC on the apartment, and frees any resources the apartment maintains.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-oleuninitialize
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// Call <see cref="OleUninitialize"/> on application shutdown, as the last COM library call,
+        /// if the apartment was initialized with a call to <see cref="OleInitialize"/>.
+        /// <see cref="OleUninitialize"/> calls the <see cref="CoUninitialize"/> function internally to shut down the OLE Component Object(COM) Library.
+        /// If the COM library was initialized on the apartment with a call to <see cref="CoInitialize"/> or <see cref="CoInitializeEx"/>,
+        /// it must be closed with a call to <see cref="CoUninitialize"/>.
+        /// The <see cref="OleInitialize"/> and <see cref="OleUninitialize"/> calls must be balanced
+        /// if there are multiple calls to the <see cref="OleInitialize"/> function,
+        /// there must be the same number of calls to <see cref="OleUninitialize"/>;
+        /// only the <see cref="OleUninitialize"/> call corresponding to the <see cref="OleInitialize"/> call
+        /// that actually initialized the library can close it.
+        /// Because there is no way to control the order in which in-process servers are loaded or unloaded,
+        /// do not call <see cref="OleInitialize"/> or <see cref="OleUninitialize"/> from the DllMain function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUninitialize", ExactSpelling = true, SetLastError = true)]
+        public static extern void OleUninitialize();
     }
 }
