@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DVASPECT;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -1570,6 +1570,104 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates an embedded object from a data transfer object retrieved either from the clipboard or as part of an OLE drag-and-drop operation.
+        /// It is intended to be used to implement a paste from an OLE drag-and-drop operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-olecreatefromdata
+        /// </para>
+        /// </summary>
+        /// <param name="pSrcDataObj">
+        /// Pointer to the <see cref="IDataObject"/> interface on the data transfer object that holds the data from which the object is created.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface the caller later uses to communicate with the new object (usually <see cref="IID_IOleObject"/>,
+        /// defined in the OLE headers as the interface identifier for <see cref="IOleObject"/>).
+        /// </param>
+        /// <param name="renderopt">
+        /// Value from the enumeration <see cref="OLERENDER"/> that indicates
+        /// the locally cached drawing or data-retrieval capabilities the newly created object is to have.
+        /// Additional considerations are described in the following Remarks section.
+        /// </param>
+        /// <param name="pFormatEtc">
+        /// Pointer to a value from the enumeration <see cref="OLERENDER"/> that indicates
+        /// the locally cached drawing or data-retrieval capabilities the newly created object is to have.
+        /// The <see cref="OLERENDER"/> value chosen affects the possible values for the <paramref name="pFormatEtc"/> parameter.
+        /// </param>
+        /// <param name="pClientSite">
+        /// Pointer to an instance of <see cref="IOleClientSite"/>,
+        /// the primary interface through which the object will request services from its container.
+        /// This parameter can be <see langword="null"/>.
+        /// </param>
+        /// <param name="pStg">
+        /// Pointer to the <see cref="IStorage"/> interface on the storage object.
+        /// This parameter may not be <see langword="null"/>.
+        /// </param>
+        /// <param name="ppvObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer on the newly created object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="OLE_E_STATIC"/>: Indicates OLE can create only a static object.
+        /// <see cref="DV_E_FORMATETC"/>: No acceptable formats are available for object creation.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OleCreateFromData"/> function creates an embedded object
+        /// from a data transfer object supporting the <see cref="IDataObject"/> interface.
+        /// The data object in this case is either the type retrieved from the clipboard
+        /// with a call to the <see cref="OleGetClipboard"/> function or is part of an OLE drag-and-drop operation
+        /// (the data object is passed to a call to <see cref="IDropTarget.Drop"/>).
+        /// If either the FileName or FileNameW clipboard format(<see cref="CF_FILENAME"/>) is present in the data transfer object,
+        /// and <see cref="CF_EMBEDDEDOBJECT"/> or <see cref="CF_EMBEDSOURCE"/> do not exist,
+        /// <see cref="OleCreateFromData"/> first attempts to create a package containing the indicated file.
+        /// Generally, it takes the first available format.
+        /// If <see cref="OleCreateFromData"/> cannot create a package, it tries to create an object using the <see cref="CF_EMBEDDEDOBJECT"/> format.
+        /// If that format is not available, <see cref="OleCreateFromData"/> tries to create it with the <see cref="CF_EMBEDSOURCE"/> format.
+        /// If neither of these formats is available and the data transfer object supports the <see cref="IPersistStorage"/> interface,
+        /// <see cref="OleCreateFromData"/> calls the object's <see cref="IPersistStorage.Save"/> to have the object save itself.
+        /// If an existing linked object is selected, then copied, it appears on the clipboard as just another embeddable object.
+        /// Consequently, a paste operation that invokes <see cref="OleCreateFromData"/> may create a linked object. After the paste operation,
+        /// the container should call the QueryInterface function, requesting <see cref="IID_IOleLink"/>
+        /// (defined in the OLE headers as the interface identifier for <see cref="IOleLink"/>), to determine if a linked object was created.
+        /// Use the <paramref name="renderopt"/> and <paramref name="pFormatEtc"/> parameters
+        /// to control the caching capability of the newly created object.
+        /// For general information about using the interaction of these parameters to determine what is to be cached,
+        /// refer to the <see cref="OLERENDER"/> enumeration.
+        /// There are, however, some additional specific effects of these parameters on the way <see cref="OleCreateFromData"/> initializes the cache.
+        /// When <see cref="OleCreateFromData"/> uses either the <see cref="CF_EMBEDDEDOBJECT"/>
+        /// or the <see cref="CF_EMBEDSOURCE"/> clipboard format to create the embedded object,
+        /// the main difference between the two is where the cache-initialization data is stored:
+        /// <see cref="CF_EMBEDDEDOBJECT"/> indicates that the source is an existing embedded object.
+        /// It already has in its cache the appropriate data, and OLE uses this data to initialize the cache of the new object.
+        /// <see cref="CF_EMBEDSOURCE"/> indicates that the source data object
+        /// contains the cache-initialization information in formats other than <see cref="CF_EMBEDSOURCE"/>.
+        /// <see cref="OleCreateFromData"/> uses these to initialize the cache of the newly embedded object.
+        /// The renderopt values affect cache initialization as follows.
+        /// <see cref="OLERENDER_DRAW"/> &amp; <see cref="OLERENDER_FORMAT"/>:
+        /// If the presentation information to be cached is currently present in the appropriate cache-initialization pool, it is used.
+        /// (Appropriate locations are in the source data object cache for <see cref="CF_EMBEDDEDOBJECT"/>,
+        /// and in the other formats in the source data object for <see cref="CF_EMBEDSOURCE"/>.)
+        /// If the information is not present, the cache is initially empty, but will be filled the first time the object is run.
+        /// No other formats are cached in the newly created object.
+        /// <see cref="OLERENDER_NONE"/>:
+        /// Nothing is to be cached in the newly created object.
+        /// If the source has the <see cref="CF_EMBEDDEDOBJECT"/> format, any existing cached data that has been copied is removed.
+        /// <see cref="OLERENDER_ASIS"/>:
+        /// If the source has the <see cref="CF_EMBEDDEDOBJECT"/> format,
+        /// the cache of the new object is to contain the same cache data as the source object.
+        /// For <see cref="CF_EMBEDSOURCE"/>, nothing is to be cached in the newly created object.
+        /// This option should be used by more sophisticated containers.
+        /// After this call, such containers would call <see cref="IOleCache.Cache"/>
+        /// and <see cref="IOleCache.Uncache"/> to set up exactly what is to be cached.
+        /// For <see cref="CF_EMBEDSOURCE"/>, they would then also call <see cref="IOleCache.InitCache"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateFromData", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleCreateFromData([In] IDataObject pSrcDataObj, [In] in IID riid, [In] OLERENDER renderopt,
+            [In] in FORMATETC pFormatEtc, [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+
+        /// <summary>
+        /// <para>
         /// Initializes the COM library on the current apartment, identifies the concurrency model as single-thread apartment (STA),
         /// and enables additional functionality described in the Remarks section below.
         /// Applications must initialize the COM library before they can call COM library functions
