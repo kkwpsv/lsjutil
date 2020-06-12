@@ -29,6 +29,21 @@ namespace Lsj.Util.Win32
     public static class Ole32
     {
         /// <summary>
+        /// CF_EMBEDSOURCE
+        /// </summary>
+        public const string CF_EMBEDSOURCE = "Embed Source";
+
+        /// <summary>
+        /// CF_EMBEDDEDOBJECT
+        /// </summary>
+        public const string CF_EMBEDDEDOBJECT = "Embedded Object";
+
+        /// <summary>
+        /// CF_FILENAME
+        /// </summary>
+        public const string CF_FILENAME = "FileName";
+
+        /// <summary>
         /// COLE_DEFAULT_AUTHINFO
         /// </summary>
         public static readonly IntPtr COLE_DEFAULT_AUTHINFO = (IntPtr)(-1);
