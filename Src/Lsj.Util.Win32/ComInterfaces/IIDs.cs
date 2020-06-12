@@ -51,6 +51,11 @@
         public const string IID_IDataObject = "0000010e-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IEnumIDList
+        /// </summary>
+        public const string IID_IEnumIDList = "000214F2-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IFileDialog
         /// </summary>
         public const string IID_IFileDialog = "42f85136-db7e-439c-85f1-e4075d135fc8";
