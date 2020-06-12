@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.MemoryTypes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.ProcessHeapFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;

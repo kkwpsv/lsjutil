@@ -37,10 +37,7 @@ namespace Lsj.Util.Win32.Enums
         FLASHW_TIMERNOFG = 0x0000000C,
 
         /// <summary>
-        /// 
-0x00000002
-
-	Flash the taskbar button. 
+        /// Flash the taskbar button. 
         /// </summary>
         FLASHW_TRAY = 0x00000002,
     }
