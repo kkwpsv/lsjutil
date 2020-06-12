@@ -724,5 +724,65 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
         public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpMultiByteStr,
             [In] int cbMultiByte, [Out] StringBuilder lpWideCharStr, [In] int cchWideChar);
+
+        /// <summary>
+        /// <para>
+        /// Normalizes characters of a text string according to Unicode 4.0 TR#15.
+        /// For more information, see Using Unicode Normalization to Represent Strings.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-normalizestring
+        /// </para>
+        /// </summary>
+        /// <param name="NormForm">
+        /// Normalization form to use.
+        /// <see cref="NORM_FORM"/> specifies the standard Unicode normalization forms.
+        /// </param>
+        /// <param name="lpSrcString">
+        /// Pointer to the non-normalized source string.
+        /// </param>
+        /// <param name="cwSrcLength">
+        /// Length, in characters, of the buffer containing the source string.
+        /// The application can set this parameter to -1 if the function should assume the string
+        /// to be null-terminated and calculate the length automatically.
+        /// </param>
+        /// <param name="lpDstString">
+        /// Pointer to a buffer in which the function retrieves the destination string.
+        /// Alternatively, this parameter contains <see cref="NULL"/> if <paramref name="cwDstLength"/> is set to 0.
+        /// Note
+        /// The function does not null-terminate the string if the input string length is explicitly specified without a terminating null character.
+        /// To null-terminate the output string, the application should specify -1
+        /// or explicitly count the terminating null character for the input string.
+        /// </param>
+        /// <param name="cwDstLength">
+        /// Length, in characters, of the buffer containing the destination string.
+        /// Alternatively, the application can set this parameter to 0 to request the function to return the required size for the destination buffer.
+        /// </param>
+        /// <returns>
+        /// Returns the length of the normalized string in the destination buffer.
+        /// If <paramref name="cwDstLength"/> is set to 0, the function returns the estimated buffer length required to do the actual conversion.
+        /// If the string in the input buffer is null-terminated or if <paramref name="cwSrcLength"/> is -1,
+        /// the string written to the destination buffer is null-terminated and the returned string length includes the terminating null character.
+        /// The function returns a value that is less than or equal to 0 if it does not succeed.
+        /// To get extended error information, the application can call GetLastError, which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>. Invalid Unicode was found in a string.
+        /// The return value is the negative of the index of the location of the error in the input string.
+        /// <see cref="ERROR_SUCCESS"/>. The action completed successfully but yielded no results.
+        /// </returns>
+        /// <remarks>
+        /// Some Unicode characters have multiple equivalent binary representations consisting of sets of combining and/or composite Unicode characters.
+        /// The Unicode standard defines a process called normalization that returns one binary representation
+        /// when given any of the equivalent binary representations of a character.
+        /// Normalization can be performed with several algorithms, called normalization forms, that obey different rules,
+        /// as described in Using Unicode Normalization to Represent Strings.
+        /// The Win32 and the .NET Framework currently support normalization forms C, D, KC, and KD,
+        /// as defined in Unicode Standard Annex #15: Unicode Normalization Forms.
+        /// Normalized strings are typically evaluated with an ordinal comparison.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "NormalizeString", ExactSpelling = true, SetLastError = true)]
+        public static extern int NormalizeString([In] NORM_FORM NormForm, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSrcString,
+            [In] int cwSrcLength, [Out] StringBuilder lpDstString, [In] int cwDstLength);
     }
 }
