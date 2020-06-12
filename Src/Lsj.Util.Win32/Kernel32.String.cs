@@ -723,6 +723,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
         public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpMultiByteStr,
-            [In] int cbMultiByte, [Out] out StringBuilder lpWideCharStr, [In] int cchWideChar);
+            [In] int cbMultiByte, [Out] StringBuilder lpWideCharStr, [In] int cchWideChar);
     }
 }
