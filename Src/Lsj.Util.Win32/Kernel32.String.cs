@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.CompareStringResults;
 using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
+using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.StringFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
