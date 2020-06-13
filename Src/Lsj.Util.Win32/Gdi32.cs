@@ -564,6 +564,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GdiFlush"/> function flushes the calling thread's current batch.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdiflush
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If all functions in the current batch succeed, the return value is <see cref="TRUE"/>.
+        /// If not all functions in the current batch succeed, the return value is <see cref="FALSE"/>,
+        /// indicating that at least one function returned an error.
+        /// </returns>
+        /// <remarks>
+        /// Batching enhances drawing performance by minimizing the amount of time needed to call GDI drawing functions that return Boolean values.
+        /// The system accumulates the parameters for calls to these functions in the current batch
+        /// and then calls the functions when the batch is flushed by any of the following means:
+        /// Calling the <see cref="GdiFlush"/> function.
+        /// Reaching or exceeding the batch limit set by the <see cref="GdiSetBatchLimit"/> function.
+        /// Filling the batching buffers.
+        /// Calling any GDI function that does not return a Boolean value.
+        /// The return value for GdiFlush applies only to the functions in the batch at the time <see cref="GdiFlush"/> is called.
+        /// Errors that occur when the batch is flushed by any other means are never reported.
+        /// The <see cref="GdiGetBatchLimit"/> function returns the batch limit.
+        /// Note
+        /// The batch limit is maintained for each thread separately.
+        /// In order to completely disable batching, call <code>GdiSetBatchLimit(1)</code> during the initialization of each thread.
+        /// An application should call <see cref="GdiFlush"/> before a thread goes away
+        /// if there is a possibility that there are pending function calls in the graphics batch queue.
+        /// The system does not execute such batched functions when a thread goes away.
+        /// A multithreaded application that serializes access to GDI objects with a mutex must
+        /// ensure flushing the GDI batch queue by calling <see cref="GdiFlush"/> as each thread releases ownership of the GDI object.
+        /// This prevents collisions of the GDI objects (device contexts, metafiles, and so on).
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiFlush", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GdiFlush();
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBoundsRect"/> function obtains the current accumulated bounding rectangle for a specified device context.
         /// The system maintains an accumulated bounding rectangle for each application. An application can retrieve and set this rectangle.
         /// </para>
