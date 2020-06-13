@@ -732,6 +732,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DestroyPrivateObjectSecurity"/> function deletes a private object's security descriptor.
+        /// For background information, see the Security Descriptors for Private Objects topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="ObjectDescriptor">
+        /// A pointer to a pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to be deleted.
+        /// This security descriptor must have been created by a call to the <see cref="CreatePrivateObjectSecurity"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyPrivateObjectSecurity([In] in PSECURITY_DESCRIPTOR ObjectDescriptor);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
         /// The calling process must have appropriate access rights to obtain the information.
         /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
