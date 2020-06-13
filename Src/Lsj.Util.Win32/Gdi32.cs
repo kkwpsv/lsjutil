@@ -601,6 +601,69 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GdiGetBatchLimit"/> function returns the maximum number of function
+        /// calls that can be accumulated in the calling thread's current batch.
+        /// The system flushes the current batch whenever this limit is exceeded.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdigetbatchlimit
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// If the function succeeds, the return value is the batch limit.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// The batch limit is set by using the <see cref="GdiSetBatchLimit"/> function.
+        /// Setting the limit to 1 effectively disables batching.
+        /// Only GDI drawing functions that return Boolean values can be batched;
+        /// calls to any other GDI functions immediately flush the current batch.
+        /// Exceeding the batch limit or calling the <see cref="GdiFlush"/> function also flushes the current batch.
+        /// When the system batches a function call, the function returns <see cref="TRUE"/>.
+        /// The actual return value for the function is reported only if <see cref="GdiFlush"/> is used to flush the batch.
+        /// Note
+        /// The batch limit is maintained for each thread separately.
+        /// In order to completely disable batching, call <code>GdiSetBatchLimit(1)</code> during the initialization of each thread.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiGetBatchLimit", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GdiGetBatchLimit();
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GdiSetBatchLimit"/> function sets the maximum number of function calls
+        /// that can be accumulated in the calling thread's current batch.
+        /// The system flushes the current batch whenever this limit is exceeded.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdisetbatchlimit
+        /// </para>
+        /// </summary>
+        /// <param name="dw">
+        /// Specifies the batch limit to be set.
+        /// A value of 0 sets the default limit.
+        /// A value of 1 disables batching.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the previous batch limit.
+        /// If the function fails, the return value is zero.
+        /// </returns>
+        /// <remarks>
+        /// Only GDI drawing functions that return Boolean values can be accumulated in the current batch;
+        /// calls to any other GDI functions immediately flush the current batch.
+        /// Exceeding the batch limit or calling the GdiFlush function also flushes the current batch.
+        /// When the system accumulates a function call, the function returns <see cref="TRUE"/> to indicate it is in the batch.
+        /// When the system flushes the current batch and executes the function for the second time,
+        /// the return value is either <see cref="TRUE"/> or <see cref="FALSE"/>, depending on whether the function succeeds.
+        /// This second return value is reported only if <see cref="GdiFlush"/> is used to flush the batch
+        /// Note
+        /// The batch limit is maintained for each thread separately.
+        /// In order to completely disable batching, call <code>GdiSetBatchLimit(1)</code> during the initialization of each thread.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiSetBatchLimit", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GdiSetBatchLimit([In] DWORD dw);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="GetBoundsRect"/> function obtains the current accumulated bounding rectangle for a specified device context.
         /// The system maintains an accumulated bounding rectangle for each application. An application can retrieve and set this rectangle.
         /// </para>
