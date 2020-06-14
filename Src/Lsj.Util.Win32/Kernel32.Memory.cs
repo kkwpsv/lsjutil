@@ -1677,6 +1677,56 @@ namespace Lsj.Util.Win32
         public static extern BOOL MapUserPhysicalPages([In] PVOID VirtualAddress, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
         /// <summary>
+        /// <para>
+        /// Maps previously allocated physical memory pages at a specified address in an Address Windowing Extensions (AWE) region.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="MapUserPhysicalPagesScatter"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapuserphysicalpagesscatter
+        /// </para>
+        /// </summary>
+        /// <param name="VirtualAddresses">
+        /// A pointer to an array of starting addresses of the regions of memory to remap.
+        /// Each entry in <paramref name="VirtualAddresses"/> must be within the address range that the <see cref="VirtualAlloc"/> function returns
+        /// when the Address Windowing Extensions (AWE) region is allocated.
+        /// The value in <paramref name="NumberOfPages"/> indicates the size of the array.
+        /// Entries can be from multiple Address Windowing Extensions (AWE) regions.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory and virtual address space for which to establish translations, in pages.
+        /// The array at <paramref name="VirtualAddresses"/> specifies the virtual address range.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array of values that indicates how each corresponding page in <paramref name="VirtualAddresses"/> should be treated.
+        /// A 0 (zero) indicates that the corresponding entry in VirtualAddresses should be unmapped, and any nonzero value that it has should be mapped.
+        /// If this parameter is <see langword="null"/>, then every address in the <paramref name="VirtualAddresses"/> array is unmapped.
+        /// The value in <paramref name="NumberOfPages"/> indicates the size of the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>, and the function does not map or unmap—partial or otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The physical pages may be unmapped, but they are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// You can specify any number of physical memory pages,
+        /// but the memory cannot extend outside the virtual address space that is allocated by <see cref="VirtualAlloc"/>.
+        /// Any existing address maps are automatically overwritten with the new translations, and the old translations are unmapped.
+        /// You cannot map physical memory pages outside the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// You can map multiple regions simultaneously, but they cannot overlap.
+        /// Physical pages can be located at any physical address, but do not make assumptions about the contiguity of the physical pages.
+        /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
+        /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPagesScatter", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MapUserPhysicalPagesScatter([MarshalAs(UnmanagedType.LPArray)][In] PVOID[] VirtualAddresses,
+            [In] ULONG_PTR NumberOfPages, [MarshalAs(UnmanagedType.LPArray)][In] ULONG_PTR[] PageArray);
+
+        /// <summary>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
         /// </summary>
         /// <param name="hProcess">
