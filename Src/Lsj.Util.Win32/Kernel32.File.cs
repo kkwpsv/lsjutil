@@ -35,6 +35,7 @@ using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
+using static Lsj.Util.Win32.Enums.MoveMethods;
 
 namespace Lsj.Util.Win32
 {
@@ -3601,7 +3602,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFilePointerEx([In] HANDLE hFile, [In] LARGE_INTEGER liDistanceToMove, [Out] out LARGE_INTEGER lpNewFilePointer,
-            [In] DWORD dwMoveMethod);
+            [In] MoveMethods dwMoveMethod);
 
         /// <summary>
         /// <para>

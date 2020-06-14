@@ -1416,6 +1416,22 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Provides a generic test for failure on any status value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-failed
+        /// </para>
+        /// </summary>
+        /// <param name="hr">
+        /// The status code.
+        /// This value can be an <see cref="HRESULT"/> or an SCODE.
+        /// A negative number indicates failure.
+        /// </param>
+        /// <returns></returns>
+        public static bool FAILED(HRESULT hr) => hr;
+
+        /// <summary>
+        /// <para>
         /// Returns a pointer to the <see cref="IRunningObjectTable"/> interface on the local running object table (ROT).
         /// </para>
         /// <para>

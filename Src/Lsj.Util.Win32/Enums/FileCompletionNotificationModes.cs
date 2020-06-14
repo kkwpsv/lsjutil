@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -31,7 +29,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The I/O Manager does not set the event for the file object if a request returns with a success code,
-        /// or the error returned is <see cref="ERROR_PENDING"/> and the function that is called is not a synchronous function.
+        /// or the error returned is <see cref="ERROR_IO_PENDING"/> and the function that is called is not a synchronous function.
         /// If an explicit event is provided for the request, it is still signaled.
         /// </summary>
         FILE_SKIP_SET_EVENT_ON_HANDLE = 2,
