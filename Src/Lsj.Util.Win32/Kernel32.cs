@@ -4,6 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CodePages;
+using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
@@ -44,7 +45,7 @@ namespace Lsj.Util.Win32
         /// Other code pages are not as portable as Unicode between vendors or operating systems,
         /// due to different implementations of the associated standards.
         /// </remarks>
-        public delegate BOOL CODEPAGE_ENUMPROC([MarshalAs(UnmanagedType.LPWStr)][In]string lpCodePageString);
+        public delegate BOOL CODEPAGE_ENUMPROC([MarshalAs(UnmanagedType.LPWStr)][In] string lpCodePageString);
 
         /// <summary>
         /// <para>
@@ -85,7 +86,7 @@ namespace Lsj.Util.Win32
         /// This is normally the sound card, except when run under Terminal Services, in which case the beep is rendered on the client.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Beep", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Beep([In]DWORD dwFreq, [In]DWORD dwDuration);
+        public static extern BOOL Beep([In] DWORD dwFreq, [In] DWORD dwDuration);
 
         /// <summary>
         /// <para>
@@ -113,7 +114,7 @@ namespace Lsj.Util.Win32
         /// A string that contains U+0061 U+0301 U+0302 U+0303 U+0304 — which looks like "a´^~¯", will advance five code points, not one, and so on.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CharPrevW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CharPrev([In]IntPtr lpszStart, [In]IntPtr lpszCurrent);
+        public static extern IntPtr CharPrev([In] IntPtr lpszStart, [In] IntPtr lpszCurrent);
 
         /// <summary>
         /// <para>
@@ -156,7 +157,7 @@ namespace Lsj.Util.Win32
         /// due to different implementations of the associated standards.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumSystemCodePagesW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumSystemCodePages([In]CODEPAGE_ENUMPROC lpCodePageEnumProc, [In]DWORD dwFlags);
+        public static extern BOOL EnumSystemCodePages([In] CODEPAGE_ENUMPROC lpCodePageEnumProc, [In] EnumSystemCodePagesFlags dwFlags);
 
         /// <summary>
         /// 
@@ -228,7 +229,7 @@ namespace Lsj.Util.Win32
         /// For the complete example that contains this code fragment, see Getting the System Version.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi, EntryPoint = "GetProcAddress", ExactSpelling = true, SetLastError = true, ThrowOnUnmappableChar = true)]
-        public static extern FARPROC GetProcAddress([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In]string lpProcName);
+        public static extern FARPROC GetProcAddress([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPStr)][In] string lpProcName);
 
         /// <summary>
         /// <para>
@@ -262,7 +263,7 @@ namespace Lsj.Util.Win32
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadCodePtr", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadCodePtr([In]FARPROC lpfn);
+        public static extern BOOL IsBadCodePtr([In] FARPROC lpfn);
 
         /// <summary>
         /// <para>
@@ -308,7 +309,7 @@ namespace Lsj.Util.Win32
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadReadPtr([In]IntPtr lp, [In]UINT_PTR ucb);
+        public static extern BOOL IsBadReadPtr([In] IntPtr lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// <para>
@@ -358,7 +359,7 @@ namespace Lsj.Util.Win32
         /// giving the process an opportunity to handle the exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadStringPtrW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadStringPtr([In]IntPtr lpsz, UINT_PTR ucchMax);
+        public static extern BOOL IsBadStringPtr([In] IntPtr lpsz, UINT_PTR ucchMax);
 
         /// <summary>
         /// <para>
@@ -406,7 +407,7 @@ namespace Lsj.Util.Win32
         /// Use operating system–level objects such as critical sections or mutexes or the interlocked functions to create the critical region of code.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsBadReadPtr", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsBadWritePtr([In]LPVOID lp, [In]UINT_PTR ucb);
+        public static extern BOOL IsBadWritePtr([In] LPVOID lp, [In] UINT_PTR ucb);
 
         /// <summary>
         /// <para>
@@ -441,7 +442,7 @@ namespace Lsj.Util.Win32
         /// If the application must back up, it should use <see cref="CharPrev"/> instead of attempting to develop its own algorithm.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByte", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsDBCSLeadByte([In]BYTE TestChar);
+        public static extern BOOL IsDBCSLeadByte([In] BYTE TestChar);
 
         /// <summary>
         /// MakeProcInstance
@@ -476,7 +477,7 @@ namespace Lsj.Util.Win32
         /// If either an overflow occurred or nDenominator was 0, the return value is -1.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MulDiv", ExactSpelling = true, SetLastError = true)]
-        public static extern int MulDiv([In]int nNumber, [In]int nNumerator, [In]int nDenominator);
+        public static extern int MulDiv([In] int nNumber, [In] int nNumerator, [In] int nDenominator);
 
         /// <summary>
         /// <para>
@@ -501,7 +502,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryPerformanceCounter([Out]out LARGE_INTEGER lpPerformanceCount);
+        public static extern bool QueryPerformanceCounter([Out] out LARGE_INTEGER lpPerformanceCount);
 
         /// <summary>
         /// <para>
@@ -529,7 +530,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryPerformanceFrequency([Out]out LARGE_INTEGER lpFrequency);
+        public static extern bool QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
 
         /// <summary>
         /// <para>
@@ -553,7 +554,7 @@ namespace Lsj.Util.Win32
         /// For more information, see WinBase.h and WinNT.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RtlSecureZeroMemory", ExactSpelling = true, SetLastError = true)]
-        public static extern void SecureZeroMemory([In]PVOID dest, [In]SIZE_T size);
+        public static extern void SecureZeroMemory([In] PVOID dest, [In] SIZE_T size);
 
         /// <summary>
         /// <para>
@@ -609,6 +610,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In]string lpCmdLine, [In]ShowWindowCommands uCmdShow);
+        public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In] string lpCmdLine, [In] ShowWindowCommands uCmdShow);
     }
 }
