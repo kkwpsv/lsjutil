@@ -1,4 +1,6 @@
-﻿namespace Lsj.Util.Win32.Enums
+﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
+
+namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
@@ -76,7 +78,7 @@
         /// <summary>
         /// An alert that is associated with a window or an application.
         /// System provided message boxes are the only UI elements that send events with this object identifier.
-        /// Server applications cannot use the <see cref="AccessibleObjectFromX"/> functions with this object identifier.
+        /// Server applications cannot use the AccessibleObjectFromX functions with this object identifier.
         /// This is a known issue with Microsoft Active Accessibility.
         /// </summary>
         OBJID_ALERT = unchecked((int)0xFFFFFFF6),
