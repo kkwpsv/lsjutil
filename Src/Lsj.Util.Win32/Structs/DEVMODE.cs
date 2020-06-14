@@ -264,7 +264,7 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// For displays, specifies the number of logical pixels per inch of a display device and should be equal to
-        /// the <see cref="GDIINFO.ulLogPixels"/> member of the <see cref="GDIINFO"/> structure.
+        /// the <see cref="GDIINFO.ulLogPixelsX"/> and <see cref="GDIINFO.ulLogPixelsY"/> member of the <see cref="GDIINFO"/> structure.
         /// This member is not used for printers.
         /// </summary>
         [FieldOffset(166)]
