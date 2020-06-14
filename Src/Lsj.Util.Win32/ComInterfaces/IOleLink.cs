@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// The default update option is <see cref="OLEUPDATE_ALWAYS"/>.
         /// The linked object's implementation of <see cref="IPersistStorage.Save"/> saves the current update option.
-        /// If <see cref="OLEUDPATE_ALWAYS"/> is specified as the update option, the linked object updates the link's caches in the following situations:
+        /// If <see cref="OLEUPDATE_ALWAYS"/> is specified as the update option, the linked object updates the link's caches in the following situations:
         /// When the update option is changed from manual to automatic, if the link source is running.
         /// Whenever the linked object binds to the link source.
         /// Whenever the link source is running and the linked object's <see cref="IOleObject.Close"/>, <see cref="IPersistStorage.Save"/>,
@@ -60,7 +60,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// calls <see cref="IOleObject.Update"/> or <see cref="Update"/>.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetUpdateOptions([In]OLEUPDATE dwUpdateOpt);
+        HRESULT SetUpdateOptions([In] OLEUPDATE dwUpdateOpt);
 
         /// <summary>
         /// Retrieves a value indicating how often the linked object updates its cached data.
@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method returns <see cref="S_OK"/> on success.
         /// </returns>
         [PreserveSig]
-        HRESULT GetUpdateOptions([Out]out OLEUPDATE pdwUpdateOpt);
+        HRESULT GetUpdateOptions([Out] out OLEUPDATE pdwUpdateOpt);
 
         /// <summary>
         /// Sets the moniker for the link source.
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The linked object's implementation of <see cref="IPersistStorage.Save"/> saves both the relative and the absolute moniker.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetSourceMoniker([In]IMoniker pmk, [In][Out]ref Guid rclsid);
+        HRESULT SetSourceMoniker([In] IMoniker pmk, [In][Out] ref Guid rclsid);
 
         /// <summary>
         /// Retrieves the moniker identifying the link source of a linked object.
@@ -157,7 +157,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// or when it is bound to the link source and it receives a rename notification through the <see cref="IAdviseSink.OnRename"/> method.
         /// </returns>
         [PreserveSig]
-        HRESULT GetSourceMoniker([Out]out IMoniker ppmk);
+        HRESULT GetSourceMoniker([Out] out IMoniker ppmk);
 
         /// <summary>
         /// Sets the display name for the link source.
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For more information on how the linked object stores and uses the moniker to the link source, see <see cref="SetSourceMoniker"/>.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][In]string pszStatusText);
+        HRESULT SetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][In] string pszStatusText);
 
         /// <summary>
         /// Retrieves the display name of the link source of the linked object.
@@ -231,7 +231,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// and update it whenever the link source is bound.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][Out]out string ppszDisplayName);
+        HRESULT GetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][Out] out string ppszDisplayName);
 
         /// <summary>
         /// Activates the connection to the link source by binding the moniker stored within the linked object.
@@ -292,7 +292,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="UnbindSource"/> implementation unlocks the container and deletes the advisory connections.
         /// </remarks>
         [PreserveSig]
-        HRESULT BindToSource([In]OLELINKBIND bindflags, [In]IBindCtx pbc);
+        HRESULT BindToSource([In] OLELINKBIND bindflags, [In] IBindCtx pbc);
 
         /// <summary>
         /// Activates the connection between the linked object and the link source if the link source is already running.
@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You typically do not need to call <see cref="GetBoundSource"/>.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetBoundSource([Out]out object ppunk);
+        HRESULT GetBoundSource([Out] out object ppunk);
 
         /// <summary>
         /// Breaks the connection between a linked object and its link source.
@@ -393,6 +393,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The current caches are left intact if the link source cannot be bound.
         /// </remarks>
         [PreserveSig]
-        HRESULT Update([In]IBindCtx pbc);
+        HRESULT Update([In] IBindCtx pbc);
     }
 }

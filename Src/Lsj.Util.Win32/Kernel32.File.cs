@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
+using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileNotifyFilters;
@@ -26,16 +27,15 @@ using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
+using static Lsj.Util.Win32.Enums.MoveMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
-using static Lsj.Util.Win32.Enums.MoveMethods;
 
 namespace Lsj.Util.Win32
 {

@@ -732,8 +732,8 @@ namespace Lsj.Util.Win32
         /// The directories that are listed in the PATH environment variable.
         /// </param>
         /// <param name="lpParameterBlock">
-        /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
-        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="LOADPARMS32.lpCmdLine"/>,
+        /// A pointer to an application-defined LOADPARMS32 structure that defines the new application's parameter block.
+        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for LOADPARMS32.lpCmdLine,
         /// which must point to a null-terminated string if it is not used.
         /// For more information, see Remarks.
         /// </param>
