@@ -1676,7 +1676,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// <remarks>
         /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
-        /// To set a token's groups, an application can call the AdjustTokenGroups function.
+        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
         /// Token-type information can be set only when an access token is created.
         /// </remarks>
 
