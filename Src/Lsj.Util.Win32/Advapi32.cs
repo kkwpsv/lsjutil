@@ -1651,8 +1651,100 @@ namespace Lsj.Util.Win32
         public static extern BOOL RevertToSelf();
 
         /// <summary>
-        /// The SetTokenInformation function sets various types of information for a specified access token. 
-        /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorControl"/> function sets the control bits of a security descriptor.
+        /// The function can set only the control bits that relate to automatic inheritance of ACEs.
+        /// To set the other control bits of a security descriptor, use the functions,
+        /// such as <see cref="SetSecurityDescriptorDacl"/>, for modifying the components of a security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure whose control and revision information are set.
+        /// </param>
+        /// <param name="ControlBitsOfInterest">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the control bits to set.
+        /// </param>
+        /// <param name="ControlBitsToSet">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the new values
+        /// for the control bits specified by the <paramref name="ControlBitsToSet"/> mask.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetSecurityDescriptorControl"/> function specifies the control bit or bits to modify, and whether the bits are on or off.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsOfInterest, [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsToSet);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorDacl"/> function sets information in a discretionary access control list (DACL).
+        /// If a DACL is already present in the security descriptor, the DACL is replaced.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the DACL.
+        /// This security descriptor must be in absolute format,
+        /// meaning that its members must be pointers to other structures, rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bDaclPresent">
+        /// A flag that indicates the presence of a DACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_DACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> parameters.
+        /// If this parameter is <see cref="FALSE"/>, the function clears the <see cref="SE_DACL_PRESENT"/> flag,
+        /// and <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pDacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the DACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL DACL is assigned to the security descriptor, which allows all access to the object.
+        /// The DACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bDaclDefaulted">
+        /// A flag that indicates the source of the DACL.
+        /// If this flag is <see cref="TRUE"/>, the DACL has been retrieved by some default mechanism.
+        /// If <see cref="FALSE"/>, the DACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_DACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_DACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// There is an important difference between an empty and a nonexistent DACL.
+        /// When a DACL is empty, it contains no access control entries (ACEs); therefore, no access rights are explicitly granted.
+        /// As a result, access to the object is implicitly denied.
+        /// When an object has no DACL (when the <paramref name="pDacl"/> parameter is <see cref="NullRef{ACL}"/>),
+        /// no protection is assigned to the object, and all access requests are granted.
+        /// To help maintain security, restrict access by using a DACL.
+        /// There are three possible outcomes in different configurations
+        /// of the <paramref name="bDaclPresent"/> flag and the <paramref name="pDacl"/> parameter:
+        /// When the <paramref name="pDacl"/> parameter points to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
+        /// a DACL is specified and it must contain access-allowed ACEs to allow access to the object.
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
+        /// a NULL DACL is specified. All access is allowed. You should not use a NULL DACL with an object because any user can change the DACL and owner of the security descriptor. This will interfere with use of the object.
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="FALSE"/>, a DACL can be provided for the object through an inheritance or default mechanism.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorDacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorDacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] BOOL bDaclPresent,
+            [In] in ACL pDacl, [In] BOOL bDaclDefaulted);
+
+        /// <summary>
+        /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
+        /// The information that this function sets replaces existing information.
+        /// The calling process must have appropriate access rights to set the information.
         /// <para>
         /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
         /// </para>
@@ -1661,18 +1753,20 @@ namespace Lsj.Util.Win32
         /// A handle to the access token for which information is to be set.
         /// </param>
         /// <param name="TokenInformationClass">
-        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/>  enumerated type that identifies the type of information the function sets. 
-        /// The valid values from TOKEN_INFORMATION_CLASS are described in the TokenInformation parameter.
+        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/> enumerated type that identifies the type of information the function sets. 
+        /// The valid values from <see cref="TOKEN_INFORMATION_CLASS"/> are described in the <paramref name="TokenInformation"/> parameter.
         /// </param>
         /// <param name="TokenInformation">
-        /// A pointer to a buffer that contains the information set in the access token. The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
+        /// A pointer to a buffer that contains the information set in the access token.
+        /// The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
         /// </param>
         /// <param name="TokenInformationLength">
-        /// Specifies the length, in bytes, of the buffer pointed to by TokenInformation.
+        /// Specifies the length, in bytes, of the buffer pointed to by <paramref name="TokenInformation"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the function returns nonzero.
-        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/>.
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call<see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
