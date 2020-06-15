@@ -2026,6 +2026,57 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified disk, including the amount of free space on the disk.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespacew
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// The root directory of the disk for which information is to be returned.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current disk.
+        /// If this parameter is a UNC name, it must include a trailing backslash (for example, "\\MyServer\MyShare\").
+        /// Furthermore, a drive specification must have a trailing backslash (for example, "C:\").
+        /// The calling application must have <see cref="FILE_LIST_DIRECTORY"/> access rights for this directory.
+        /// </param>
+        /// <param name="lpSectorsPerCluster">
+        /// A pointer to a variable that receives the number of sectors per cluster.
+        /// </param>
+        /// <param name="lpBytesPerSector">
+        /// A pointer to a variable that receives the number of bytes per sector.
+        /// </param>
+        /// <param name="lpNumberOfFreeClusters">
+        /// A pointer to a variable that receives the total number of free clusters
+        /// on the disk that are available to the user who is associated with the calling thread.
+        /// If per-user disk quotas are in use, this value may be less than the total number of free clusters on the disk.
+        /// </param>
+        /// <param name="lpTotalNumberOfClusters">
+        /// A pointer to a variable that receives the total number of clusters on the disk
+        /// that are available to the user who is associated with the calling thread.
+        /// If per-user disk quotas are in use, this value may be less than the total number of clusters on the disk.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetDiskFreeSpaceEx"/> function lets you avoid some of the arithmetic
+        /// that is required by the <see cref="GetDiskFreeSpace"/> function.
+        /// Symbolic link behavior—If the path points to a symbolic link, the operation is performed on the target.
+        /// Note
+        /// The fileapi.h header defines <see cref="GetDiskFreeSpace"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDiskFreeSpace([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName, [Out] out DWORD lpSectorsPerCluster,
+            [Out] out DWORD lpBytesPerSector, [Out] out DWORD lpNumberOfFreeClusters, [Out] out DWORD lpTotalNumberOfClusters);
+
+        /// <summary>
+        /// <para>
         /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
         /// To determine whether a drive is a USB-type drive,
         /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the SPDRP_REMOVAL_POLICY property.
