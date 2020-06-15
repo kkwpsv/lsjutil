@@ -1734,12 +1734,48 @@ namespace Lsj.Util.Win32
         /// When the <paramref name="pDacl"/> parameter points to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
         /// a DACL is specified and it must contain access-allowed ACEs to allow access to the object.
         /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
-        /// a NULL DACL is specified. All access is allowed. You should not use a NULL DACL with an object because any user can change the DACL and owner of the security descriptor. This will interfere with use of the object.
-        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="FALSE"/>, a DACL can be provided for the object through an inheritance or default mechanism.
+        /// a NULL DACL is specified. All access is allowed.
+        /// You should not use a NULL DACL with an object because any user can change the DACL and owner of the security descriptor.
+        /// This will interfere with use of the object.
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="FALSE"/>,
+        /// a DACL can be provided for the object through an inheritance or default mechanism.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorDacl", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetSecurityDescriptorDacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] BOOL bDaclPresent,
             [In] in ACL pDacl, [In] BOOL bDaclDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorGroup"/> function sets the primary group information of an absolute-format security descriptor,
+        /// replacing any primary group information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose primary group is set by this function.
+        /// The function replaces any existing primary group with the new primary group.
+        /// </param>
+        /// <param name="pGroup">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary group.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's primary group information.
+        /// This marks the security descriptor as having no primary group.
+        /// </param>
+        /// <param name="bGroupDefaulted">
+        /// Indicates whether the primary group information was derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information, and the function stores
+        /// this value as the <see cref="SE_GROUP_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_GROUP_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorGroup([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pGroup, [In] BOOL bGroupDefaulted);
 
         /// <summary>
         /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
