@@ -35,5 +35,17 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         [FieldOffset(0)]
         public LONGLONG QuadPart;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator long(LARGE_INTEGER val) => val.QuadPart;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator LARGE_INTEGER(long val) => new LARGE_INTEGER { QuadPart = val };
     }
 }

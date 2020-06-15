@@ -76,6 +76,18 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <para>
+        /// Fills a specified range of a file with zeros (0).
+        /// If the file is sparse or compressed, the NTFS file system may deallocate disk space in the file.
+        /// This sets the range of bytes to zeros (0) without extending the file size.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data?redirectedfrom=MSDN
+        /// </para>
+        /// </summary>
+        FSCTL_SET_ZERO_DATA = 0x980c8,
+
+        /// <summary>
+        /// <para>
         /// Creates a new miniversion for the specified file. Miniversions allow you to refer to a snapshot of the file during a transaction.
         /// Miniversions are discarded when a transaction is committed or rolled back.
         /// </para>

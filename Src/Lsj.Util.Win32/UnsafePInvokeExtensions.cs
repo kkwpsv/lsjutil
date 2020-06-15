@@ -41,5 +41,12 @@ namespace Lsj.Util.Win32
         /// <param name="o"></param>
         /// <returns></returns>
         public static ref TResult As<T, TResult>(ref T o) => ref Unsafe.DirectAs<T, TResult>(ref o);
+
+        /// <summary>
+        /// SizeOf
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static int SizeOf<T>() where T : struct => Unsafe.SizeOf<T>();
     }
 }

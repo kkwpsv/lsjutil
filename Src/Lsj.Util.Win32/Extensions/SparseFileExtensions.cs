@@ -46,23 +46,38 @@ namespace Lsj.Util.Win32.Extensions
         /// <param name="isSparseFile"></param>
         /// <returns>
         /// Is succeeds.
-        /// To get extended error information, call<see cref="GetLastError"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         public static bool SetAsSparseFile(FileStream file, bool isSparseFile)
         {
-#if NET40 || NET45
-            var size = Marshal.SizeOf(typeof(FILE_SET_SPARSE_BUFFER));
-
-#else
-            var size = Marshal.SizeOf<FILE_SET_SPARSE_BUFFER>();
-#endif
             var FILE_SET_SPARSE_BUFFER = new FILE_SET_SPARSE_BUFFER
             {
                 SetSparse = isSparseFile
             };
 
             var result = DeviceIoControl(file.SafeFileHandle.DangerousGetHandle(), FSCTL_SET_SPARSE, AsPointer(ref FILE_SET_SPARSE_BUFFER),
-                size, NULL, 0, out _, NullRef<OVERLAPPED>());
+                SizeOf<FILE_SET_SPARSE_BUFFER>(), NULL, 0, out _, NullRef<OVERLAPPED>());
+
+            return result;
+        }
+
+        /// <summary>
+        /// Set File Zero Range.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static bool SetFileZeroRange(FileStream file, long start, long length)
+        {
+            var FILE_ZERO_DATA_INFORMATION = new FILE_ZERO_DATA_INFORMATION
+            {
+                FileOffset = start,
+                BeyondFinalZero = start + length,
+            };
+
+            var result = DeviceIoControl(file.SafeFileHandle.DangerousGetHandle(), FSCTL_SET_ZERO_DATA, AsPointer(ref FILE_ZERO_DATA_INFORMATION),
+                SizeOf<FILE_ZERO_DATA_INFORMATION>(), NULL, 0, out _, NullRef<OVERLAPPED>());
 
             return result;
         }
