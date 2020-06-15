@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct DWORD
     {
+        /// <summary>
+        /// MAXDWORD
+        /// </summary>
+        public static DWORD MAXDWORD = 0xffffffff;
+
         [FieldOffset(0)]
         private uint _value;
 
