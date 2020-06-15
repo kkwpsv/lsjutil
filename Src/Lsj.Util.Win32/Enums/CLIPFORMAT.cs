@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Enums
