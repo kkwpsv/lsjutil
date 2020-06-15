@@ -10,11 +10,12 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
-using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SearchPathModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
@@ -1527,6 +1528,54 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWorkingSetSize([In] HANDLE hProcess, [In] SIZE_T dwMinimumWorkingSetSize, [In] SIZE_T dwMaximumWorkingSetSize);
+
+        /// <summary>
+        /// <para>
+        /// Sets the per-process mode that the <see cref="SearchPath"/> function uses when locating files.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setsearchpathmode
+        /// </para>
+        /// </summary>
+        /// <param name="Flags">
+        /// The search mode to use.
+        /// <see cref="BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE"/>: Enable safe process search mode for the process. 
+        /// <see cref="BASE_SEARCH_PATH_DISABLE_SAFE_SEARCHMODE"/>: Disable safe process search mode for the process.
+        /// <see cref="BASE_SEARCH_PATH_PERMANENT"/>:
+        /// Optional flag to use in combination with <see cref="BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE"/>
+        /// to make this mode permanent for this process.
+        /// This is done by bitwise OR operation: <code>(BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT)</code>
+        /// This flag cannot be combined with the <see cref="BASE_SEARCH_PATH_DISABLE_SAFE_SEARCHMODE"/> flag.
+        /// </param>
+        /// <returns>
+        /// If the operation completes successfully, the <see cref="SetSearchPathMode"/> function returns a nonzero value.
+        /// If the operation fails, the <see cref="SetSearchPathMode"/> function returns zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If the <see cref="SetSearchPathMode"/> function fails because a parameter value is not valid,
+        /// the value returned by the <see cref="GetLastError"/> function will be <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// If the <see cref="SetSearchPathMode"/> function fails because the combination of current state and parameter value is not valid,
+        /// the value returned by the <see cref="GetLastError"/> function will be <see cref="ERROR_ACCESS_DENIED"/>.
+        /// For more information, see the Remarks section.
+        /// </returns>
+        /// <remarks>
+        /// If the <see cref="SetSearchPathMode"/> function has not been successfully called for the current process,
+        /// the search mode used by the <see cref="SearchPath"/> function is obtained from the system registry.
+        /// For more information, see <see cref="SearchPath"/>.
+        /// After the <see cref="SetSearchPathMode"/> function has been successfully called for the current process,
+        /// the setting in the system registry is ignored in favor of the mode most recently set successfully.
+        /// If the <see cref="SetSearchPathMode"/> function has been successfully called for the current process
+        /// with <paramref name="Flags"/> set to <code>(BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT)</code>,
+        /// safe mode is set permanently for the calling process.
+        /// Any subsequent calls to the <see cref="SetSearchPathMode"/> function from within that process that attempt
+        /// to change the search mode will fail with <see cref="ERROR_ACCESS_DENIED"/> from the <see cref="GetLastError"/> function.
+        /// Note Because setting safe search mode permanently cannot be disabled for the life of the process for which is was set,
+        /// it should be used with careful consideration.
+        /// This is particularly true for DLL development, where the user of the DLL will be affected by this process-wide setting.
+        /// It is not possible to permanently disable safe search mode.
+        /// This function does not modify the system registry.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSearchPathMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSearchPathMode([In] SearchPathModes Flags);
 
         /// <summary>
         /// <para>
