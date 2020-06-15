@@ -81,6 +81,74 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="AdjustTokenGroups"/> function enables or disables groups already present in the specified access token.
+        /// Access to <see cref="TOKEN_ADJUST_GROUPS"/> is required to enable or disable groups in an access token.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token that contains the groups to be enabled or disabled.
+        /// The handle must have <see cref="TOKEN_ADJUST_GROUPS"/> access to the token.
+        /// If the <paramref name="PreviousState"/> parameter is not <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// the handle must also have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="ResetToDefault">
+        /// Boolean value that indicates whether the groups are to be set to their default enabled and disabled states.
+        /// If this value is <see cref="TRUE"/>, the groups are set to their default states and the <paramref name="NewState"/> parameter is ignored.
+        /// If this value is <see cref="FALSE"/>, the groups are set according to the information pointed to by the <paramref name="NewState"/> parameter.
+        /// </param>
+        /// <param name="NewState">
+        /// A pointer to a <see cref="TOKEN_GROUPS"/> structure that contains the groups to be enabled or disabled.
+        /// If the <paramref name="ResetToDefault"/> parameter is <see cref="FALSE"/>,
+        /// the function sets each of the groups to the value of that group's <see cref="SE_GROUP_ENABLED"/> attribute
+        /// in the <see cref="TOKEN_GROUPS"/> structure.
+        /// If <paramref name="ResetToDefault"/> is <see cref="TRUE"/>, this parameter is ignored.
+        /// </param>
+        /// <param name="BufferLength">
+        /// The size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// </param>
+        /// <param name="PreviousState">
+        /// A pointer to a buffer that receives a <see cref="TOKEN_GROUPS"/> structure containing the previous state of any groups the function modifies.
+        /// That is, if a group has been modified by this function, the group and its previous state are contained
+        /// in the <see cref="TOKEN_GROUPS"/> structure referenced by <paramref name="PreviousState"/>.
+        /// If the <see cref="TOKEN_GROUPS.GroupCount"/> member of <see cref="TOKEN_GROUPS"/> is zero,
+        /// then no groups have been changed by this function.
+        /// This parameter can be <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// If a buffer is specified but it does not contain enough space to receive the complete list of modified groups,
+        /// no group states are changed and the function fails.
+        /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
+        /// to the number of bytes required to hold the complete list of modified groups.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the actual number of bytes needed
+        /// for the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> and is ignored if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_GROUPS}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The information retrieved in the <paramref name="PreviousState"/> parameter is formatted as a <see cref="TOKEN_GROUPS"/> structure.
+        /// This means a pointer to the buffer can be passed as the <paramref name="NewState"/> parameter in a subsequent call
+        /// to the <see cref="AdjustTokenGroups"/> function, restoring the original state of the groups.
+        /// The <paramref name="NewState"/> parameter can list groups to be changed that are not present in the access token.
+        /// This does not affect the successful modification of the groups in the token.
+        /// The <see cref="AdjustTokenGroups"/> function cannot disable groups
+        /// with the <see cref="SE_GROUP_MANDATORY"/> attribute in the <see cref="TOKEN_GROUPS"/> structure.
+        /// Use <see cref="CreateRestrictedToken"/> instead.
+        /// You cannot enable a group that has the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenGroups", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustTokenGroups([In] HANDLE TokenHandle, [In] BOOL ResetToDefault, [In] in TOKEN_GROUPS NewState,
+            [In] DWORD BufferLength, [Out] out TOKEN_GROUPS PreviousState, [Out] out DWORD ReturnLength);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="AdjustTokenPrivileges"/> function enables or disables privileges in the specified access token.
         /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
         /// </para>

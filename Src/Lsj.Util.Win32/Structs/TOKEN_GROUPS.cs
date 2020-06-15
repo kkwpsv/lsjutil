@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Kernel32;
