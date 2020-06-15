@@ -1778,6 +1778,39 @@ namespace Lsj.Util.Win32
         public static extern BOOL SetSecurityDescriptorGroup([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pGroup, [In] BOOL bGroupDefaulted);
 
         /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorOwner"/> function sets the owner information of an absolute-format security descriptor.
+        /// It replaces any owner information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose owner is set by this function.
+        /// The function replaces any existing owner with the new owner.
+        /// </param>
+        /// <param name="pOwner">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary owner.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's owner information.
+        /// This marks the security descriptor as having no owner.
+        /// </param>
+        /// <param name="bOwnerDefaulted">
+        /// Indicates whether the owner information is derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information.
+        /// The function stores this value as the <see cref="SE_OWNER_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_OWNER_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorOwner", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorOwner([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pOwner, [In] BOOL bOwnerDefaulted);
+
+        /// <summary>
         /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
         /// The information that this function sets replaces existing information.
         /// The calling process must have appropriate access rights to set the information.
