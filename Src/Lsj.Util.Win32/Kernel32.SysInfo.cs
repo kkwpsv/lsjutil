@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
@@ -762,6 +763,76 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryUnbiasedInterruptTime([Out] out ULONGLONG UnbiasedTime);
+
+        /// <summary>
+        /// <para>
+        /// Enables or disables periodic time adjustments to the system's time-of-day clock.
+        /// When enabled, such time adjustments can be used to synchronize the time of day with some other source of time information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-setsystemtimeadjustment
+        /// </para>
+        /// </summary>
+        /// <param name="dwTimeAdjustment">
+        /// This value represents the number of 100-nanosecond units added to the system time-of-day
+        /// for each lpTimeIncrement period of time that actually passes.
+        /// Call <see cref="GetSystemTimeAdjustment"/> to obtain the lpTimeIncrement value.
+        /// See remarks.
+        /// Note  
+        /// Currently, Windows Vista and Windows 7 machines will lose any time adjustments set less than 16. 
+        /// </param>
+        /// <param name="bTimeAdjustmentDisabled">
+        /// The time adjustment mode that the system is to use.
+        /// Periodic system time adjustments can be disabled or enabled.
+        /// A value of <see cref="TRUE"/> specifies that periodic time adjustment is to be disabled.
+        /// When disabled, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation, 
+        /// which can include noticeable jumps in time as deemed necessary by the system.
+        /// A value of <see cref="FALSE"/> specifies that periodic time adjustment is to be enabled, and will be used to adjust the time-of-day clock.
+        /// The system will not interfere with the time adjustment scheme, and will not attempt to synchronize time of day on its own.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// One way the function can fail is if the caller does not possess the SE_SYSTEMTIME_NAME privilege.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetSystemTimeAdjustment"/> and <see cref="SetSystemTimeAdjustment"/> functions
+        /// support algorithms that synchronize the time-of-day clock, reported via <see cref="GetSystemTime"/> and <see cref="GetLocalTime"/>,
+        /// with another time source using a periodic time adjustment.
+        /// The <see cref="SetSystemTimeAdjustment"/> function supports two modes of time synchronization:
+        /// Time-Adjustment Disabled:
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="TRUE"/>.
+        /// In this mode, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation,
+        /// which can include noticeable jumps in time as deemed necessary by the system.
+        /// Time-Adjustment Enabled:
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="FALSE"/>.
+        /// For each lpTimeIncrement period of time that actually passes,
+        /// <paramref name="dwTimeAdjustment"/> will be added to the time of day.
+        /// The period of time represented by lpTimeIncrement can be determined by calling <see cref="GetSystemTimeAdjustment"/>.
+        /// The lpTimeIncrement value is fixed by the system upon start and does not change
+        /// during system operation and is completely independent of the system’s internal clock interrupt resolution at any given time.
+        /// Given this, the lpTimeIncrement value simply expresses a period of time
+        /// for which <paramref name="dwTimeAdjustment"/> will be applied to the system’s time-of-day clock.
+        /// If the <paramref name="dwTimeAdjustment"/> value is smaller than lpTimeIncrement,
+        /// the time-of-day clock will advance at a rate slower than normal.
+        /// If the <paramref name="dwTimeAdjustment"/> value is larger than lpTimeIncrement,
+        /// the time-of-day clock will advance at a rate faster than normal.
+        /// The degree to which the time-of-day-clock will run faster or slower depends on
+        /// how far the <paramref name="dwTimeAdjustment"/> value is above or below the lpTimeIncrement value.
+        /// If <paramref name="dwTimeAdjustment"/> equals lpTimeIncrement, the time-of-day clock will advance at normal speed.
+        /// An application must have system-time privilege (the SE_SYSTEMTIME_NAME privilege) for this function to succeed.
+        /// The SE_SYSTEMTIME_NAME privilege is disabled by default.
+        /// Use the <see cref="AdjustTokenPrivileges"/> function to enable the privilege before calling <see cref="SetSystemTimeAdjustment"/>,
+        /// and then to disable the privilege after the <see cref="SetSystemTimeAdjustment"/> call.
+        /// For more information, see Running with Special Privileges.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSystemTimeAdjustment([In] DWORD dwTimeAdjustment, [In] BOOL bTimeAdjustmentDisabled);
 
         /// <summary>
         /// <para>
