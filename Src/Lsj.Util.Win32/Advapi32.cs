@@ -1811,6 +1811,49 @@ namespace Lsj.Util.Win32
         public static extern BOOL SetSecurityDescriptorOwner([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pOwner, [In] BOOL bOwnerDefaulted);
 
         /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorSacl"/> function sets information in a system access control list (SACL).
+        /// If there is already a SACL present in the security descriptor, it is replaced.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the SACL.
+        /// This security descriptor must be in absolute format, meaning that its members must be pointers to other structures,
+        /// rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bSaclPresent">
+        /// Indicates the presence of a SACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_SACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> parameters.
+        /// If it is <see cref="FALSE"/>, the function does not set the <see cref="SE_SACL_PRESENT"/> flag,
+        /// and <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pSacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the SACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL SACL is assigned to the security descriptor.
+        /// The SACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bSaclDefaulted">
+        /// Indicates the source of the SACL.
+        /// If this flag is <see cref="TRUE"/>, the SACL has been retrieved by some default mechanism.
+        /// If it is <see cref="FALSE"/>, the SACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_SACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_SACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorSacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorSacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] BOOL bSaclPresent, [In] in ACL pSacl, [In] BOOL bSaclDefaulted);
+
+        /// <summary>
         /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
         /// The information that this function sets replaces existing information.
         /// The calling process must have appropriate access rights to set the information.
