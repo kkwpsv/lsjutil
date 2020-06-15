@@ -38,7 +38,7 @@ namespace Lsj.Util.Win32
         /// You can't use a direct bitwise comparison because of these informational flags.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AreDpiAwarenessContextsEqual", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AreDpiAwarenessContextsEqual([In]DPI_AWARENESS_CONTEXT dpiContextA, [In]DPI_AWARENESS_CONTEXT dpiContextB);
+        public static extern BOOL AreDpiAwarenessContextsEqual([In] DPI_AWARENESS_CONTEXT dpiContextA, [In] DPI_AWARENESS_CONTEXT dpiContextB);
 
         /// <summary>
         /// <para>
@@ -76,8 +76,8 @@ namespace Lsj.Util.Win32
         /// This function returns the same result as <see cref="AdjustWindowRectEx"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustWindowRectExForDpi", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AdjustWindowRectExForDpi([In][Out]ref RECT lpRect, [In]WindowStyles dwStyle, [In]BOOL bMenu,
-            [In]WindowStylesEx dwExStyle, [In]UINT dpi);
+        public static extern BOOL AdjustWindowRectExForDpi([In][Out] ref RECT lpRect, [In] WindowStyles dwStyle, [In] BOOL bMenu,
+            [In] WindowStylesEx dwExStyle, [In] UINT dpi);
 
         /// <summary>
         /// <para>
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableNonClientDpiScaling", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnableNonClientDpiScaling([In]HWND hwnd);
+        public static extern BOOL EnableNonClientDpiScaling([In] HWND hwnd);
 
         /// <summary>
         /// <para>
@@ -150,7 +150,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DPI_AWARENESS_PER_MONITOR_AWARE"/>: The DPI of the monitor where the window is located.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDpiForWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetDpiForWindow([In]HWND hwnd);
+        public static extern UINT GetDpiForWindow([In] HWND hwnd);
 
         /// <summary>
         /// <para>
@@ -176,7 +176,7 @@ namespace Lsj.Util.Win32
         /// This function returns the same result as <see cref="GetSystemMetrics"/> but scales it according to an arbitrary DPI you provide if appropriate.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMetricsForDpi", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetSystemMetricsForDpi([In]SystemMetric nIndex, [In]UINT dpi);
+        public static extern int GetSystemMetricsForDpi([In] SystemMetric nIndex, [In] UINT dpi);
 
         /// <summary>
         /// <para>
@@ -199,7 +199,30 @@ namespace Lsj.Util.Win32
         /// It only indicates the context of the window specified by the <paramref name="hwnd"/> input parameter. 
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
-        public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In]HWND hwnd);
+        public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// Set the DPI awareness for the current thread to the provided value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="dpiContext">
+        /// The new <see cref="DPI_AWARENESS_CONTEXT"/> for the current thread.
+        /// This context includes the <see cref="DPI_AWARENESS"/> value.
+        /// </param>
+        /// <returns>
+        /// The old <see cref="DPI_AWARENESS_CONTEXT"/> for the thread.
+        /// If the <paramref name="dpiContext"/> is invalid, the thread will not be updated and the return value will be <see cref="NULL"/>.
+        /// You can use this value to restore the old <see cref="DPI_AWARENESS_CONTEXT"/> after overriding it with a predefined value.
+        /// </returns>
+        /// <remarks>
+        /// Use this API to change the <see cref="DPI_AWARENESS_CONTEXT"/> for the thread from the default value for the app.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern DPI_AWARENESS_CONTEXT SetThreadDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT dpiContext);
 
         /// <summary>
         /// <para>
@@ -249,7 +272,7 @@ namespace Lsj.Util.Win32
         /// only Unicode (LOGFONTW) strings are supported in this function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SystemParametersInfoForDpi", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SystemParametersInfoForDpi([In]SystemParametersInfoParameters uiAction, [In]UINT uiParam,
-            [In]PVOID pvParam, [In]SystemParametersInfoFlags fWinIni, [In]UINT dpi);
+        public static extern BOOL SystemParametersInfoForDpi([In] SystemParametersInfoParameters uiAction, [In] UINT uiParam,
+            [In] PVOID pvParam, [In] SystemParametersInfoFlags fWinIni, [In] UINT dpi);
     }
 }
