@@ -12,13 +12,16 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
+using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.OLERENDER;
 using static Lsj.Util.Win32.Enums.REGCLS;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
+using static Lsj.Util.Win32.Enums.STGFMT;
 using static Lsj.Util.Win32.Enums.STGM;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
@@ -1769,6 +1772,137 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object using a provided implementation
+        /// for the <see cref="IStorage"/> or <see cref="IPropertySetStorage"/> interfaces.
+        /// To open an existing file, use the <see cref="StgOpenStorageEx"/> function instead.
+        /// Applications written for Windows 2000, Windows Server 2003 and Windows XP must use <see cref="StgCreateStorageEx"/>
+        /// rather than <see cref="StgCreateDocfile"/> to take advantage of the enhanced Windows 2000 and Windows XP Structured Storage features.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/coml2api/nf-coml2api-stgcreatestorageex
+        /// </para>
+        /// </summary>
+        /// <param name="pwcsName">
+        /// A pointer to the path of the file to create. It is passed uninterpreted to the file system.
+        /// This can be a relative name or <see langword="null"/>.
+        /// If <see langword="null"/>, a temporary file is allocated with a unique name.
+        /// If non-NULL, the string size must not exceed <see cref="MAX_PATH"/> characters.
+        /// Windows 2000: Unlike the <see cref="CreateFile"/> function, you cannot exceed the <see cref="MAX_PATH"/> limit by using the "\?" prefix.
+        /// </param>
+        /// <param name="grfMode">
+        /// A value that specifies the access mode to use when opening the new storage object.
+        /// For more information, see <see cref="STGM"/> Constants.
+        /// If the caller specifies transacted mode together with <see cref="STGM_CREATE"/> or <see cref="STGM_CONVERT"/>,
+        /// the overwrite or conversion takes place when the commit operation is called for the root storage.
+        /// If <see cref="IStorage.Commit"/> is not called for the root storage object, previous contents of the file will be restored.
+        /// <see cref="STGM_CREATE"/> and <see cref="STGM_CONVERT"/> cannot be combined with the <see cref="STGM_NOSNAPSHOT"/> flag,
+        /// because a snapshot copy is required when a file is overwritten or converted in the transacted mode.
+        /// </param>
+        /// <param name="stgfmt">
+        /// A value that specifies the storage file format.
+        /// For more information, see the <see cref="STGFMT"/> enumeration.
+        /// </param>
+        /// <param name="grfAttrs">
+        /// A value that depends on the value of the <paramref name="stgfmt"/> parameter.
+        /// <see cref="STGFMT_DOCFILE"/>:
+        /// 0, or <see cref="FILE_FLAG_NO_BUFFERING"/>.
+        /// For more information, see <see cref="CreateFile"/>.
+        /// If the sector size of the file, specified in <paramref name="pStgOptions"/>,
+        /// is not an integer multiple of the underlying disk's physical sector size, this operation will fail.
+        /// All other values of <paramref name="stgfmt"/>:
+        /// Must be 0. 
+        /// </param>
+        /// <param name="pStgOptions">
+        /// The <paramref name="pStgOptions"/> parameter is valid only if the stgfmt parameter is set to <see cref="STGFMT_DOCFILE"/>.
+        /// If the stgfmt parameter is set to <see cref="STGFMT_DOCFILE"/>, <paramref name="pStgOptions"/> points
+        /// to the <see cref="STGOPTIONS"/> structure, which specifies features of the storage object, such as the sector size.
+        /// This parameter may be <see cref="NullRef{STGOPTIONS}"/>, which creates a storage object with a default sector size of 512 bytes.
+        /// If non-NULL, the ulSectorSize member must be set to either 512 or 4096.
+        /// If set to 4096, <see cref="STGM_SIMPLE"/> may not be specified in the <paramref name="grfMode"/> parameter.
+        /// The usVersion member must be set before calling <see cref="StgCreateStorageEx"/>.
+        /// For more information, see <see cref="STGOPTIONS"/>.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// Enables the ACLs to be set when the file is created.
+        /// If not <see cref="NULL"/>, needs to be a pointer to the <see cref="SECURITY_ATTRIBUTES"/> structure.
+        /// See <see cref="CreateFile"/> for information on how to set ACLs on files.
+        /// Windows Server 2003, Windows 2000 Server, Windows XP and Windows 2000 Professional: Value must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="riid">
+        /// A value that specifies the interface identifier (IID) of the interface pointer to return.
+        /// This IID may be for the <see cref="IStorage"/> interface or the <see cref="IPropertySetStorage"/> interface.
+        /// </param>
+        /// <param name="ppObjectOpen">
+        /// A pointer to an interface pointer variable that receives a pointer for an interface on the new storage object;
+        /// contains <see cref="NULL"/> if operation failed.
+        /// </param>
+        /// <returns>
+        /// This function can also return any file system errors or system errors wrapped in an <see cref="HRESULT"/>.
+        /// For more information, see Error Handling Strategies and Handling Unknown Errors.
+        /// </returns>
+        /// <remarks>
+        /// When an application modifies its file, it usually creates a copy of the original.
+        /// The <see cref="StgCreateStorageEx"/> function is one way for creating a copy.
+        /// This function works indirectly with the Encrypting File System (EFS) duplication API.
+        /// When you use this function, you will need to set the options for the file storage in the <see cref="STGOPTIONS"/> structure.
+        /// <see cref="StgCreateStorageEx"/> is a superset of the <see cref="StgCreateDocfile"/> function, and should be used by new code.
+        /// Future enhancements to Structured Storage will be exposed through the <see cref="StgCreateStorageEx"/> function.
+        /// See the following Requirements section for information on supported platforms.
+        /// The <see cref="StgCreateStorageEx"/> function creates a new storage object
+        /// using one of the system-provided, structured-storage implementations.
+        /// This function can be used to obtain an <see cref="IStorage"/> compound file implementation,
+        /// an <see cref="IPropertySetStorage"/> compound file implementation, or to obtain an <see cref="IPropertySetStorage"/> NTFS implementation.
+        /// When a new file is created, the storage implementation used depends on the flag
+        /// that you specify and on the type of drive on which the file is stored.
+        /// For more information, see the <see cref="STGFMT"/> enumeration.
+        /// <see cref="StgCreateStorageEx"/> creates the file if it does not exist.
+        /// If it does exist, the use of the <see cref="STGM_CREATE"/>, <see cref="STGM_CONVERT"/>,
+        /// and <see cref="STGM_FAILIFTHERE"/> flags in the grfMode parameter indicate how to proceed.
+        /// For more information on these values, see <see cref="STGM"/> Constants.
+        /// It is not valid, in direct mode, to specify the <see cref="STGM_READ"/> mode in the <paramref name="grfMode"/> parameter
+        /// (direct mode is indicated by not specifying the <see cref="STGM_TRANSACTED"/> flag).
+        /// This function cannot be used to open an existing file; use the <see cref="StgOpenStorageEx"/> function instead.
+        /// You can use the <see cref="StgCreateStorageEx"/> function to get access to the root storage of a structured-storage document
+        /// or the property set storage of any file that supports property sets.
+        /// See the <see cref="STGFMT"/> documentation for information about which IIDs are supported for different <see cref="STGFMT"/> values.
+        /// When a file is created with this function to access the NTFS property set implementation, special sharing rules apply.
+        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// If a compound file is created in transacted mode (by specifying <see cref="STGM_TRANSACTED"/>)
+        /// and read-only mode (by specifying <see cref="STGM_READ"/>), it is possible to make changes to the returned storage object.
+        /// For example, it is possible to call <see cref="IStorage.CreateStream"/>.
+        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
+        /// Therefore, such changes will be lost.
+        /// Specifying <see cref="STGM_SIMPLE"/> provides a much faster implementation of a compound file object in a limited,
+        /// but frequently used case involving applications that require a compound file implementation with multiple streams and no storages.
+        /// For more information, see <see cref="STGM"/> Constants.
+        /// It is not valid to specify that <see cref="STGM_TRANSACTED"/> if <see cref="STGM_SIMPLE"/> is specified.
+        /// The simple mode does not support all the methods on <see cref="IStorage"/>.
+        /// Specifically, in simple mode, supported <see cref="IStorage"/> methods are <see cref="IStorage.CreateStream"/>,
+        /// <see cref="IStorage.Commit"/>, and <see cref="IStorage.SetClass"/> as well as
+        /// the COM <see cref="IUnknown"/> methods of QueryInterface, AddRef and Release.
+        /// In addition, <see cref="SetElementTimes"/> is supported with a NULL name, allowing applications to set times on a root storage.
+        /// All the other methods of <see cref="IStorage"/> return <see cref="STG_E_INVALIDFUNCTION"/>.
+        /// If the <paramref name="grfMode"/> parameter specifies <see cref="STGM_TRANSACTED"/>
+        /// and no file yet exists with the name specified by the <paramref name="pwcsName"/> parameter, the file is created immediately.
+        /// In an access-controlled file system, the caller must have write permissions
+        /// for the file system directory in which the compound file is created.
+        /// If <see cref="STGM_TRANSACTED"/> is not specified, and <see cref="STGM_CREATE"/> is specified,
+        /// an existing file with the same name is destroyed before creating the new file.
+        /// You can also use <see cref="StgCreateStorageEx"/> to create a temporary compound file
+        /// by passing a <see langword="null"/> value for the <paramref name="pwcsName"/> parameter.
+        /// However, these files are temporary only in the sense that
+        /// they have a unique system-provided name – one that is probably meaningless to the user.
+        /// The caller is responsible for deleting the temporary file when finished with it,
+        /// unless <see cref="STGM_DELETEONRELEASE"/> was specified for the <paramref name="grfMode"/> parameter.
+        /// For more information on these flags, see <see cref="STGM"/> Constants.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgCreateStorageEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT StgCreateStorageEx([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
+            [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs, [In] in STGOPTIONS pStgOptions,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="StgOpenStorage"/> function opens an existing root storage object in the file system.
         /// Use this function to open compound files. Do not use it to open directories, files, or summary catalogs.
         /// Nested storage objects can only be opened using their parent <see cref="IStorage.OpenStorage"/> method.
@@ -1877,8 +2011,126 @@ namespace Lsj.Util.Win32
                 "This function, StgOpenStorage, still exists for compatibility with applications running on Windows 2000.")]
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT StgOpenStorage([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
-                [MarshalAs(UnmanagedType.Interface)][In] IStorage pstgPriority, [In] STGM grfMode,
-                [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)][In] string[] snbExclude,
-                [In] DWORD reserved, [MarshalAs(UnmanagedType.Interface)][Out] out IStorage ppstgOpen);
+            [MarshalAs(UnmanagedType.Interface)][In] IStorage pstgPriority, [In] STGM grfMode,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)][In] string[] snbExclude,
+            [In] DWORD reserved, [MarshalAs(UnmanagedType.Interface)][Out] out IStorage ppstgOpen);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StgOpenStorageEx"/> function opens an existing root storage object in the file system.
+        /// Use this function to open Compound Files and regular files.
+        /// To create a new file, use the <see cref="StgCreateStorageEx"/> function.
+        /// Note
+        /// To use enhancements, all Windows 2000, Windows XP, and Windows Server 2003 applications
+        /// should call <see cref="StgOpenStorageEx"/>, instead of <see cref="StgOpenStorage"/>.
+        /// The <see cref="StgOpenStorage"/> function is used for compatibility with Windows 2000 and earlier applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/coml2api/nf-coml2api-stgopenstorageex
+        /// </para>
+        /// </summary>
+        /// <param name="pwcsName">
+        /// A pointer to the path of the null-terminated Unicode string file that contains the storage object.
+        /// This string size cannot exceed <see cref="MAX_PATH"/> characters.
+        /// Windows Server 2003 and Windows XP/2000:
+        /// Unlike the <see cref="CreateFile"/> function, the <see cref="MAX_PATH"/> limit cannot be exceeded by using the "\?" prefix.
+        /// </param>
+        /// <param name="grfMode">
+        /// A value that specifies the access mode to open the new storage object.
+        /// For more information, see <see cref="STGM"/> Constants.
+        /// If the caller specifies transacted mode together with <see cref="STGM_CREATE"/> or <see cref="STGM_CONVERT"/>,
+        /// the overwrite or conversion occurs when the commit operation is called for the root storage.
+        /// If <see cref="IStorage.Commit"/> is not called for the root storage object, previous contents of the file will be restored.
+        /// <see cref="STGM_CREATE"/> and <see cref="STGM_CONVERT"/> cannot be combined with the <see cref="STGM_NOSNAPSHOT"/> flag,
+        /// because a snapshot copy is required when a file is overwritten or converted in transacted mode.
+        /// If the storage object is opened in direct mode (<see cref="STGM_DIRECT"/>) with access
+        /// to either <see cref="STGM_WRITE"/> or <see cref="STGM_READWRITE"/>,
+        /// the sharing mode must be <see cref="STGM_SHARE_EXCLUSIVE"/> unless the <see cref="STGM_DIRECT_SWMR"/> mode is specified.
+        /// For more information, see the Remarks section.
+        /// If the storage object is opened in direct mode with access to <see cref="STGM_READ"/>,
+        /// the sharing mode must be either <see cref="STGM_SHARE_EXCLUSIVE"/> or <see cref="STGM_SHARE_DENY_WRITE"/>,
+        /// unless <see cref="STGM_PRIORITY"/> or <see cref="STGM_DIRECT_SWMR"/> is specified.
+        /// For more information, see the Remarks section.
+        /// The mode in which a file is opened can affect implementation performance.
+        /// For more information, see Compound File Implementation Limits.
+        /// </param>
+        /// <param name="stgfmt">
+        /// A value that specifies the storage file format.
+        /// For more information, see the <see cref="STGFMT"/> enumeration.
+        /// </param>
+        /// <param name="grfAttrs">
+        /// A value that depends upon the value of the <paramref name="stgfmt"/> parameter.
+        /// <see cref="STGFMT_DOCFILE"/> must be zero(0) or <see cref="FILE_FLAG_NO_BUFFERING"/>.
+        /// For more information about this value, see <see cref="CreateFile"/>.
+        /// If the sector size of the file, specified in <paramref name="pStgOptions"/>, is not an integer multiple of the physical sector size
+        /// of the underlying disk, then this operation will fail.
+        /// All other values of <paramref name="stgfmt"/> must be zero.
+        /// </param>
+        /// <param name="pStgOptions">
+        /// A pointer to an <see cref="STGOPTIONS"/> structure that contains data about the storage object opened.
+        /// The <paramref name="pStgOptions"/> parameter is valid only if the <paramref name="stgfmt"/> parameter is set to <see cref="STGFMT_DOCFILE"/>.
+        /// The <see cref="STGOPTIONS.usVersion"/> member must be set before calling <see cref="StgOpenStorageEx"/>.
+        /// For more information, see the <see cref="STGOPTIONS"/> structure.
+        /// </param>
+        /// <param name="pSecurityDescriptor">
+        /// Reserved; must be zero.
+        /// </param>
+        /// <param name="riid">
+        /// A value that specifies the GUID of the interface pointer to return.
+        /// Can also be the header-specified value for <see cref="IID_IStorage"/> to obtain the <see cref="IStorage"/> interface
+        /// or for <see cref="IID_IPropertySetStorage"/> to obtain the <see cref="IPropertySetStorage"/> interface.
+        /// </param>
+        /// <param name="ppObjectOpen">
+        /// The address of an interface pointer variable that receives a pointer for an interface on the storage object opened;
+        /// contains <see cref="NULL"/> if operation failed.
+        /// </param>
+        /// <returns>
+        /// This function can also return any file system errors or system errors wrapped in an <see cref="HRESULT"/>.
+        /// For more information, see Error Handling Strategies and Handling Unknown Errors.
+        /// </returns>
+        /// <remarks>
+        /// StgOpenStorageEx is a superset of the <see cref="StgOpenStorage"/> function, and should be used by new code.
+        /// Future enhancements to structured storage will be exposed through this function.
+        /// For more information about supported platforms, see the Requirements section.
+        /// The <see cref="StgOpenStorageEx"/> function opens the specified root storage object according to
+        /// the access mode in the <paramref name="grfMode"/> parameter, and, if successful,
+        /// supplies an interface pointer for the opened storage object in the <paramref name="ppObjectOpen"/> parameter.
+        /// This function can be used to obtain an <see cref="IStorage"/> compound file implementation,
+        /// an <see cref="IPropertySetStorage"/> compound file implementation, or an NTFS file system implementation of <see cref="IPropertySetStorage"/>.
+        /// When you open a file, the system selects a structured storage implementation depending on which <see cref="STGFMT"/> flag
+        /// you specify on the file type and on the type of drive where the file is stored.
+        /// Use the <see cref="StgOpenStorageEx"/> function to access the root storage of a structured storage document
+        /// or the property set storage of any file that supports property sets.
+        /// For more information about which interface identifiers (IIDs) are supported
+        /// for the different <see cref="STGFMT"/> values, see <see cref="STGFMT"/>.
+        /// When a file is opened with this function to access the NTFS property set implementation, special sharing rules apply.
+        /// For more information, see IPropertySetStorage-NTFS Implementation.
+        /// If a compound file is opened in transacted mode, by specifying <see cref="STGM_TRANSACTED"/>,
+        /// and read-only mode, by specifying <see cref="STGM_READ"/>, it is possible to change the returned storage object.
+        /// For example, it is possible to call <see cref="IStorage.CreateStorage"/>.
+        /// However, it is not possible to commit those changes by calling <see cref="IStorage.Commit"/>.
+        /// Therefore, such changes will be lost.
+        /// It is not valid to use the <see cref="STGM_CREATE"/>, <see cref="STGM_DELETEONRELEASE"/>,
+        /// or <see cref="STGM_CONVERT"/> flags in the <paramref name="grfMode"/> parameter for this function.
+        /// To support the simple mode for saving a storage object with no substorages,
+        /// the <see cref="StgOpenStorageEx"/> function accepts one of the following two flag
+        /// combinations as valid modes in the <paramref name="grfMode"/> parameter:
+        /// <code>STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
+        /// <code>STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
+        /// To support the single-writer, multireader, direct mode, the first flag combination
+        /// is the valid <paramref name="grfMode"/> parameter for the writer.
+        /// The second flag combination is valid for readers.
+        /// <code>STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE</code>
+        /// <code>STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE</code>
+        /// For more information about simple mode and single-writer/multiple-reader modes, see <see cref="STGM"/> Constants.
+        /// Note
+        /// Opening a transacted mode storage object in read and/or write mode without denying write permissions to others
+        /// (for example, the <paramref name="grfMode"/> parameter specifies <see cref="STGM_SHARE_DENY_WRITE"/>) can be time-consuming
+        /// because the <see cref="StgOpenStorageEx"/> call must create a snapshot copy of the entire storage object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorageEx", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT StgOpenStorageEx([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
+            [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs, [In] in STGOPTIONS pStgOptions,
+            [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
     }
 }
