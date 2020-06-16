@@ -121,6 +121,11 @@
         public const string IID_IPersist = "0000010c-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPersistStorage
+        /// </summary>
+        public const string IID_IPersistStorage = "0000010a-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IPersistFile
         /// </summary>
         public const string IID_IPersistFile = "0000010b-0000-0000-C000-000000000046";
