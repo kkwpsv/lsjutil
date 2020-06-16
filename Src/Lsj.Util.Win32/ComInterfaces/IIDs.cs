@@ -66,6 +66,11 @@
         public const string IID_IFileOpenDialog = "d57c7288-d4ad-4768-be02-9d969532d960";
 
         /// <summary>
+        /// IID_ILockBytes
+        /// </summary>
+        public const string IID_ILockBytes = "0000000a-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IMalloc
         /// </summary>
         public const string IID_IMalloc = "00000002-0000-0000-C000-000000000046";

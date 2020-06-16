@@ -371,6 +371,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT STG_E_INVALIDFLAG = new HRESULT { _value = unchecked((int)0x800300FF) };
 
         /// <summary>
+        /// STG_E_INVALIDFUNCTION
+        /// </summary>
+        public static readonly HRESULT STG_E_INVALIDFUNCTION = new HRESULT { _value = unchecked((int)0x80030001) };
+
+        /// <summary>
         /// STG_E_INVALIDPARAMETER
         /// </summary>
         public static readonly HRESULT STG_E_INVALIDPARAMETER = new HRESULT { _value = unchecked((int)0x80030057) };
