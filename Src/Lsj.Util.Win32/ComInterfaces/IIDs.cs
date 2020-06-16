@@ -141,6 +141,11 @@
         public const string IID_IPropertySetStorage = "0000013A-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_ISequentialStream
+        /// </summary>
+        public const string IID_ISequentialStream = "0c733a30-2a1c-11ce-ade5-00aa0044773d";
+
+        /// <summary>
         /// IID_IShellFolder
         /// </summary>
         public const string IID_IShellFolder = "000214E6-0000-0000-C000-000000000046";

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
-namespace Lsj.Util.Win32.Structs
+namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// <para>
@@ -14,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// </para>
     /// </summary>
     /// <remarks>
-    /// The <see cref="ULARGE_INTEGER "/> structure is actually a union.
+    /// The <see cref="ULARGE_INTEGER"/> structure is actually a union.
     /// If your compiler has built-in support for 64-bit integers, use the <see cref="QuadPart"/> member to store the 64-bit integer.
     /// Otherwise, use the <see cref="LowPart"/> and <see cref="HighPart"/> members to store the 64-bit integer.
     /// </remarks>
@@ -25,18 +22,30 @@ namespace Lsj.Util.Win32.Structs
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public uint LowPart;
+        public DWORD LowPart;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(4)]
-        public uint HighPart;
+        public DWORD HighPart;
 
         /// <summary>
         /// 
         /// </summary>
         [FieldOffset(0)]
-        public ulong QuadPart;
+        public ULONGLONG QuadPart;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator ulong(ULARGE_INTEGER val) => val.QuadPart;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator ULARGE_INTEGER(ulong val) => new ULARGE_INTEGER { QuadPart = val };
     }
 }

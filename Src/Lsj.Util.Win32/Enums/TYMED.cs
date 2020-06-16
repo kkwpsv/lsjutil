@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
@@ -29,7 +30,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The storage medium is a global memory handle (HGLOBAL).
         /// Allocate the global handle with the <see cref="GMEM_MOVEABLE"/> flag.
-        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member of <see cref="STGMEDIUM"/> is NULL,
+        /// If the <see cref="STGMEDIUM.pUnkForRelease"/> member of <see cref="STGMEDIUM"/> is <see cref="NULL"/>,
         /// the destination process should use <see cref="GlobalFree"/> to release the memory.
         /// </summary>
         TYMED_HGLOBAL = 1,
