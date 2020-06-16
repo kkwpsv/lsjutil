@@ -5,6 +5,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums
 {

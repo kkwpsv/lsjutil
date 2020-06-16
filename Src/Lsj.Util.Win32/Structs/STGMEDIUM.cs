@@ -1,11 +1,11 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.TYMED;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -21,6 +21,7 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct STGMEDIUM
     {
+#pragma warning disable IDE1006
         /// <summary>
         /// The type of storage medium.
         /// The marshaling and unmarshaling routines use this value to determine which union member was used.
@@ -46,6 +47,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Metafile handle. The tymed member is <see cref="TYMED_MFPICT"/>.
         /// </summary>
+
         public HMETAFILEPICT hMetaFilePict
         {
             get => DUMMYUNIONNAME.Struct2;
@@ -104,6 +106,7 @@ namespace Lsj.Util.Win32.Structs
         /// otherwise, <see cref="ReleaseStgMedium"/> uses the specified <see cref="IUnknown"/> interface.
         /// </summary>
         public IntPtr pUnkForRelease;
+#pragma warning restore IDE1006
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         private struct UnionStruct
