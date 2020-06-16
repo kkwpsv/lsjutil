@@ -18,6 +18,7 @@ using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN_LEVEL;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHZ;
 using static Lsj.Util.Win32.Enums.RPC_C_IMP_LEVEL;
+using static Lsj.Util.Win32.Enums.STGM;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
 
@@ -1765,5 +1766,119 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void OleUninitialize();
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="StgOpenStorage"/> function opens an existing root storage object in the file system.
+        /// Use this function to open compound files. Do not use it to open directories, files, or summary catalogs.
+        /// Nested storage objects can only be opened using their parent <see cref="IStorage.OpenStorage"/> method.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/coml2api/nf-coml2api-stgopenstorage
+        /// </para>
+        /// </summary>
+        /// <param name="pwcsName">
+        /// A pointer to the path of the null-terminated Unicode string file that contains the storage object to open.
+        /// This parameter is ignored if the <paramref name="pstgPriority"/> parameter is not <see langword="null"/>.
+        /// </param>
+        /// <param name="pstgPriority">
+        /// A pointer to the <see cref="IStorage"/> interface that should be <see langword="null"/>.
+        /// If not NULL, this parameter is used as described below in the Remarks section.
+        /// After <see cref="StgOpenStorage"/> returns, the storage object
+        /// specified in <paramref name="pstgPriority"/> may have been released and should no longer be used.
+        /// </param>
+        /// <param name="grfMode">
+        /// Specifies the access mode to use to open the storage object.
+        /// </param>
+        /// <param name="snbExclude">
+        /// If not <see langword="null"/>, pointer to a block of elements in the storage to be excluded as the storage object is opened.
+        /// The exclusion occurs regardless of whether a snapshot copy happens on the open.
+        /// Can be <see langword="null"/>.
+        /// </param>
+        /// <param name="reserved">
+        /// Indicates reserved for future use; must be zero.
+        /// </param>
+        /// <param name="ppstgOpen">
+        /// A pointer to a <see cref="IStorage"/> pointer variable that receives the interface pointer to the opened storage.
+        /// </param>
+        /// <returns>
+        /// The <see cref="StgOpenStorage"/> function can also return any file system errors or system errors wrapped in an <see cref="HRESULT"/>.
+        /// For more information, see Error Handling Strategies and Handling Unknown Errors.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="StgOpenStorage"/> function opens the specified root storage object according to the access mode
+        /// in the <paramref name="grfMode"/> parameter, and, if successful, supplies an <see cref="IStorage"/> pointer
+        /// to the opened storage object in the <paramref name="ppstgOpen"/> parameter.
+        /// To support the simple mode for saving a storage object with no substorages,
+        /// the <see cref="StgOpenStorage"/> function accepts one of the following two flag combinations
+        /// as valid modes in the <paramref name="grfMode"/> parameter.
+        /// <code>STGM_SIMPLE | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
+        /// <code>STGM_SIMPLE | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
+        /// To support the single-writer, multireader, direct mode,
+        /// the first flag combination is the valid <paramref name="grfMode"/> parameter for the writer.
+        /// The second flag combination is valid for readers.
+        /// <code>STGM_DIRECT_SWMR | STGM_READWRITE | STGM_SHARE_DENY_WRITE</code>
+        /// <code>STGM_DIRECT_SWMR | STGM_READ | STGM_SHARE_DENY_NONE</code>
+        /// In direct mode, one of the following three combinations are valid.
+        /// <code>STGM_DIRECT | STGM_READWRITE | STGM_SHARE_EXCLUSIVE</code>
+        /// <code>STGM_DIRECT | STGM_READ | STGM_SHARE_DENY_WRITE</code>
+        /// <code>STGM_DIRECT | STGM_READ | STGM_SHARE_EXCLUSIVE</code>
+        /// Note  Opening a storage object in read/write mode without denying write permission to others
+        /// (the <paramref name="grfMode"/> parameter specifies <see cref="STGM_SHARE_DENY_WRITE"/>) can be a time-consuming operation
+        /// because the <see cref="StgOpenStorage"/> call must make a snapshot of the entire storage object.
+        /// Applications often try to open storage objects with the following access permissions.
+        /// If the application succeeds, it never needs to make a snapshot copy. 
+        /// <code>STGM_READWRITE | STGM_SHARE_DENY_WRITE // transacted versus direct mode omitted for exposition </code>
+        /// The application can revert to using the permissions and make a snapshot copy, if the previous access permissions fail.
+        /// The application should prompt the user before making a time-consuming copy.
+        /// <code>STGM_READWRITE // transacted versus direct mode omitted for exposition </code>
+        /// If the document-sharing semantics implied by the access modes are appropriate, the application could try to open the storage as follows.
+        /// In this case, if the application succeeds, a snapshot copy will not have been made
+        /// (because <see cref="STGM_SHARE_DENY_WRITE"/> was specified, denying others write access).
+        /// <code>STGM_READ | STGM_SHARE_DENY_WRITE// transacted versus direct mode omitted for exposition </code>
+        /// Note
+        /// To reduce the expense of making a snapshot copy, applications can open storage objects in priority mode
+        /// (<paramref name="grfMode"/> specifies <see cref="STGM_PRIORITY"/>).
+        /// The <paramref name="snbExclude"/> parameter specifies a set of element names in this storage object
+        /// that are to be emptied as the storage object is opened:
+        /// streams are set to a length of zero; storage objects have all their elements removed.
+        /// By excluding certain streams, the expense of making a snapshot copy can be significantly reduced.
+        /// Almost always, this approach is used after first opening the storage object in priority mode,
+        /// then completely reading the now-excluded elements into memory.
+        /// This earlier priority-mode opening of the storage object should be passed
+        /// through the <paramref name="pstgPriority"/> parameter to remove the exclusion implied by priority mode.
+        /// The calling application is responsible for rewriting the contents of excluded items before committing.
+        /// Thus, this technique is most likely useful only to applications
+        /// whose documents do not require constant access to their storage objects while they are active.
+        /// The <paramref name="pstgPriority"/> parameter is intended as a convenience for callers replacing an existing storage object,
+        /// often one opened in priority mode, with a new storage object opened on the same file but in a different mode.
+        /// When <paramref name="pstgPriority"/> is not <see langword="null"/>, it is used to specify the file name
+        /// instead of <paramref name="pwcsName"/>, which is ignored.
+        /// However, it is recommended that applications always pass <see langword="null"/> for <paramref name="pstgPriority"/>
+        /// because <see cref="StgOpenStorage"/> releases the object under some circumstances, and does not release it under other circumstances.
+        /// In particular, if the function returns a failure result, it is not possible for the caller to determine whether or not the storage object was released.
+        /// The functionality of the <paramref name="pstgPriority"/> parameter can be duplicated by the caller in a safer manner
+        /// as shown in the following example:
+        /// <code>
+        /// // Replacement for:
+        /// HRESULT hr = StgOpenStorage(NULL, pstgPriority, grfMode, NULL, 0, &amp;pstgNew);
+        /// STATSTG statstg;
+        /// HRESULT hr = pstgPriority->Stat(&amp;statstg, 0);
+        /// pStgPriority->Release();
+        /// pStgPriority = NULL;
+        /// if (SUCCEEDED(hr))
+        /// {
+        ///     hr = StgOpenStorage(statstg.pwcsName, NULL, grfMode, NULL, 0, &amp;pstgNew);
+        /// }
+        /// </code>
+        /// </remarks>
+        [Obsolete("Applications should use the new function, StgOpenStorageEx, instead of StgOpenStorage," +
+                "to take advantage of the enhanced and Windows Structured Storage features." +
+                "This function, StgOpenStorage, still exists for compatibility with applications running on Windows 2000.")]
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StgOpenStorage", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT StgOpenStorage([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
+                [MarshalAs(UnmanagedType.Interface)][In] IStorage pstgPriority, [In] STGM grfMode,
+                [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr)][In] string[] snbExclude,
+                [In] DWORD reserved, [MarshalAs(UnmanagedType.Interface)][Out] out IStorage ppstgOpen);
     }
 }
