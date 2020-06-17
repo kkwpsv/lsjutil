@@ -25,6 +25,11 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
+        /// WRITE_WATCH_FLAG_RESET
+        /// </summary>
+        public const uint WRITE_WATCH_FLAG_RESET = 0x01;
+
+        /// <summary>
         /// <para>
         /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.
         /// 64-bit Windows on Itanium-based systems:
@@ -252,6 +257,60 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessHeaps([In] uint NumberOfHeaps, [In] IntPtr ProcessHeaps);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the addresses of the pages that are written to in a region of virtual memory.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="GetWriteWatch"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getwritewatch
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// Indicates whether the function resets the write-tracking state.
+        /// To reset the write-tracking state, set this parameter to <see cref="WRITE_WATCH_FLAG_RESET"/>.
+        /// If this parameter is 0 (zero), <see cref="GetWriteWatch"/> does not reset the write-tracking state.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// The base address of the memory region for which to retrieve write-tracking information.
+        /// This address must be in a memory region that is allocated by the <see cref="VirtualAlloc"/> function using <see cref="MEM_WRITE_WATCH"/>.
+        /// </param>
+        /// <param name="dwRegionSize">
+        /// The size of the memory region for which to retrieve write-tracking information, in bytes.
+        /// </param>
+        /// <param name="lpAddresses">
+        /// A pointer to a buffer that receives an array of page addresses in the memory region.
+        /// The addresses indicate the pages that have been written to since the region has been allocated or the write-tracking state has been reset.
+        /// </param>
+        /// <param name="lpdwCount">
+        /// On input, this variable indicates the size of the <paramref name="lpAddresses"/> array, in array elements.
+        /// On output, the variable receives the number of page addresses that are returned in the array.
+        /// </param>
+        /// <param name="lpdwGranularity">
+        /// A pointer to a variable that receives the page size, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is 0 (zero).
+        /// If the function fails, the return value is a nonzero value.
+        /// </returns>
+        /// <remarks>
+        /// When you call the <see cref="VirtualAlloc"/> function to reserve or commit memory, you can specify <see cref="MEM_WRITE_WATCH"/>.
+        /// This value causes the system to keep track of the pages that are written to in the committed memory region.
+        /// You can call the <see cref="GetWriteWatch"/> function to retrieve the addresses of the pages
+        /// that have been written to since the region has been allocated or the write-tracking state has been reset.
+        /// To reset the write-tracking state, set the <see cref="WRITE_WATCH_FLAG_RESET"/> value in the <paramref name="dwFlags"/> parameter.
+        /// Alternatively, you can call the <see cref="ResetWriteWatch"/> function to reset the write-tracking state.
+        /// However, if you use <see cref="ResetWriteWatch"/>, you must ensure that no threads write to the region during the interval
+        /// between the <see cref="GetWriteWatch"/> and <see cref="ResetWriteWatch"/> calls.
+        /// Otherwise, there may be written pages that you do not detect.
+        /// The <see cref="GetWriteWatch"/> function can be useful to profilers, debugging tools, or garbage collectors.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWriteWatch", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetWriteWatch([In] DWORD dwFlags, [In] PVOID lpBaseAddress, [In] SIZE_T dwRegionSize, [In] PVOID[] lpAddresses,
+            [In][Out] ULONG_PTR[] lpdwCount, [Out] out DWORD lpdwGranularity);
 
         /// <summary>
         /// <para>
