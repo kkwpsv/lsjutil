@@ -1838,6 +1838,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Saves an object opened in transacted mode into the specified storage object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-olesave
+        /// </para>
+        /// </summary>
+        /// <param name="pPS">
+        /// Pointer to the <see cref="IPersistStorage"/> interface on the object to be saved.
+        /// </param>
+        /// <param name="pStg">
+        /// Pointer to the <see cref="IStorage"/> interface on the destination storage object
+        /// to which the object indicated in <paramref name="pPS"/> is to be saved.
+        /// </param>
+        /// <param name="fSameAsLoad">
+        /// <see cref="TRUE"/> indicates that pStg is the same storage object from which the object was loaded or created;
+        /// <see cref="FALSE"/> indicates that pStg was loaded or created from a different storage object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="STGMEDIUM_E_FULL"/>:
+        /// The object could not be saved due to lack of disk space.
+        /// This function can also return any of the error values returned by the <see cref="IPersistStorage.Save"/> method.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="OleSave"/> helper function handles the common situation in which an object is open in transacted mode
+        /// and is then to be saved into the specified storage object which uses the OLE-provided compound file implementation.
+        /// Transacted mode means that changes to the object are buffered
+        /// until either of the <see cref="IStorage.Commit"/> or <see cref="IStorage.Revert"/> is called.
+        /// Callers can handle other situations by calling the <see cref="IPersistStorage"/> and <see cref="IStorage"/> interfaces directly.
+        /// <see cref="OleSave"/> does the following:
+        /// Calls the <see cref="IPersist.GetClassID"/> method to get the CLSID of the object.
+        /// Writes the CLSID to the storage object using the <see cref="WriteClassStg"/> function.
+        /// Calls the <see cref="IPersistStorage.Save"/> method to save the object.
+        /// If there were no errors on the save; calls the <see cref="IStorage.Commit"/>::Commit method to commit the changes.
+        /// Note
+        /// Static objects are saved into a stream called CONTENTS.
+        /// Static metafile objects get saved in "placeable metafile format" and static DIB data gets saved in "DIB file format."
+        /// These formats are defined to be the OLE standards for metafile and DIB.All data transferred using an <see cref="IStream"/> interface
+        /// or a file (that is, via <see cref="IDataObject.GetDataHere"/>) must be in these formats.
+        /// Also, all objects whose default file format is a metafile or DIB must write their data into a CONTENTS stream using these standard formats.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleSave", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleSave([In] IPersistStorage pPS, [In] IStorage pStg, [In] BOOL fSameAsLoad);
+
+        /// <summary>
+        /// <para>
         /// Closes the COM library on the apartment, releases any class factories, other COM objects,
         /// or servers held by the apartment, disables RPC on the apartment, and frees any resources the apartment maintains.
         /// </para>
