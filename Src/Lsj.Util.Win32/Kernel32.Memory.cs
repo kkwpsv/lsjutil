@@ -1824,6 +1824,42 @@ namespace Lsj.Util.Win32
             [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesRead);
 
         /// <summary>
+        /// <para>
+        /// Resets the write-tracking state for a region of virtual memory.
+        /// Subsequent calls to the <see cref="GetWriteWatch"/> function only report pages that are written to since the reset operation.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="ResetWriteWatch"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-resetwritewatch
+        /// </para>
+        /// </summary>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address of the memory region for which to reset the write-tracking state.
+        /// This address must be in a memory region that is allocated by the <see cref="VirtualAlloc"/> function with <see cref="MEM_WRITE_WATCH"/>.
+        /// </param>
+        /// <param name="dwRegionSize">
+        /// The size of the memory region for which to reset the write-tracking information, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is 0 (zero).
+        /// If the function fails, the return value is a nonzero value.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ResetWriteWatch"/> function can be useful to an application such as a garbage collector.
+        /// The application calls the <see cref="GetWriteWatch"/> function to retrieve the list of written pages,
+        /// and then writes to those pages as part of its cleanup operation.
+        /// Then the garbage collector calls <see cref="ResetWriteWatch"/> to remove the write-tracking records caused by the cleanup.
+        /// You can also reset the write-tracking state of a memory region
+        /// by specifying <see cref="WRITE_WATCH_FLAG_RESET"/> when you call <see cref="GetWriteWatch"/>.
+        /// If you use <see cref="ResetWriteWatch"/>, you must ensure that no threads write to the region
+        /// during the interval between the <see cref="GetWriteWatch"/> and <see cref="ResetWriteWatch"/> calls.
+        /// Otherwise, there may be written pages that you not detect.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetWriteWatch", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT ResetWriteWatch([In] LPVOID lpBaseAddress, [In] SIZE_T dwRegionSize);
+
+        /// <summary>
         /// 
         /// </summary>
         [Obsolete]
