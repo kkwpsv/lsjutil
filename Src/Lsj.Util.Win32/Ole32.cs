@@ -1789,6 +1789,55 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Loads into memory an object nested within a specified storage object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-oleload
+        /// </para>
+        /// </summary>
+        /// <param name="pStg">
+        /// Pointer to the <see cref="IStorage"/> interface on the storage object from which to load the specified object.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface that the caller wants to use to communicate with the object after it is loaded.
+        /// </param>
+        /// <param name="pClientSite">
+        /// Pointer to the <see cref="IOleClientSite"/> interface on the client site object being loaded.
+        /// </param>
+        /// <param name="ppvObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, *<paramref name="ppvObj"/> contains the requested interface pointer on the newly loaded object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="E_NOINTERFACE"/>: The object does not support the specified interface.
+        /// Additionally, this function can return any of the error values returned by the <see cref="IPersistStorage.Load"/> method.
+        /// </returns>
+        /// <remarks>
+        /// OLE containers load objects into memory by calling this function.
+        /// When calling the OleLoad function, the container application passes
+        /// in a pointer to the open storage object in which the nested object is stored.
+        /// Typically, the nested object to be loaded is a child storage object to the container's root storage object.
+        /// Using the OLE information stored with the object, the object handler (usually, the default handler) attempts to load the object.
+        /// On completion of the OleLoad function, the object is said to be in the loaded state with its object application not running.
+        /// Some applications load all of the object's native data. Containers often defer loading the contained objects until required to do so.
+        /// For example, until an object is scrolled into view and needs to be drawn, it does not need to be loaded.
+        /// The <see cref="OleLoad"/> function performs the following steps:
+        /// If necessary, performs an automatic conversion of the object (see the <see cref="OleDoAutoConvert"/> function).
+        /// Gets the <see cref="CLSID"/> from the open storage object by calling the <see cref="IStorage.Stat"/> method.
+        /// Calls the <see cref="CoCreateInstance"/> function to create an instance of the handler.
+        /// If the handler code is not available, the default handler is used (see the <see cref="OleCreateDefaultHandler"/> function).
+        /// Calls the <see cref="IOleObject.SetClientSite"/> method with the <paramref name="pClientSite"/> parameter
+        /// to inform the object of its client site.
+        /// Calls the QueryInterface method for the <see cref="IPersistStorage"/> interface.
+        /// If successful, the <see cref="IPersistStorage.Load"/> method is invoked for the object.
+        /// Queries and returns the interface identified by the <paramref name="riid"/> parameter.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleLoad", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleLoad([In] IStorage pStg, [In] in IID riid, [In] IOleClientSite pClientSite, [Out] out LPVOID ppvObj);
+
+        /// <summary>
+        /// <para>
         /// Closes the COM library on the apartment, releases any class factories, other COM objects,
         /// or servers held by the apartment, disables RPC on the apartment, and frees any resources the apartment maintains.
         /// </para>
