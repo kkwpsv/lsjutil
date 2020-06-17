@@ -1193,6 +1193,96 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the pages currently added to the working set of the specified process.
+        /// To retrieve working set information for a subset of virtual addresses,
+        /// or to retrieve information about pages that are not part of the working set (such as AWE or large pages),
+        /// use the <see cref="QueryWorkingSetEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingset
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> and <see cref="PROCESS_VM_READ"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="pv">
+        /// A pointer to the buffer that receives the information.
+        /// For more information, see <see cref="PSAPI_WORKING_SET_INFORMATION"/>.
+        /// If the buffer pointed to by the <paramref name="pv"/> parameter is not large enough
+        /// to contain all working set entries for the target process, the function fails with <see cref="ERROR_BAD_LENGTH"/>.
+        /// In this case, the <see cref="PSAPI_WORKING_SET_INFORMATION.NumberOfEntries"/> member
+        /// of the <see cref="PSAPI_WORKING_SET_INFORMATION"/> structure is set to the required number of entries,
+        /// but the function does not return information about the working set entries.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="pv"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32QueryWorkingSet in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="QueryWorkingSet"/> in Psapi.h and exported in Psapi.lib
+        /// and Psapi.dll as a wrapper that calls K32QueryWorkingSet.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="QueryWorkingSet"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSet", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryWorkingSet([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended information about the pages at specific virtual addresses in the address space of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingsetex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="pv">
+        /// A pointer to an array of <see cref="PSAPI_WORKING_SET_EX_INFORMATION"/> structures.
+        /// On input, each item in the array specifies a virtual address of interest.
+        /// On output, each item in the array receives information about the corresponding virtual page.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="pv"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unlike the <see cref="QueryWorkingSet"/> function, which is limited to the working set of the target process,
+        /// the <see cref="QueryWorkingSetEx"/> function can be used to query addresses that are not in the process working set
+        /// but are still part of the process, such as AWE and large pages.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32QueryWorkingSetEx in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as QueryWorkingSetEx in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32QueryWorkingSetEx.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="QueryWorkingSetEx"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with "–DPSAPI_VERSION=1".
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSetEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryWorkingSetEx([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
         /// Searches for a specified file in a specified path.
         /// </para>
         /// <para>
