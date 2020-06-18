@@ -256,6 +256,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetDCBrushColor"/> function retrieves the current brush color for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcbrushcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose brush color is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the <see cref="COLORREF"/> value for the current DC brush color.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// For information on setting the brush color, see <see cref="SetDCBrushColor"/>.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCBrushColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetDCBrushColor([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="SetBrushOrgEx"/> function sets the brush origin that GDI assigns to the next brush
         /// an application selects into the specified device context.
         /// </para>
