@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DrawingFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
@@ -500,6 +501,80 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIcon", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL DrawIcon([In] HDC hDC, [In] int X, [In] int Y, [In] HICON hIcon);
+
+        /// <summary>
+        /// <para>
+        /// Draws an icon or cursor into the specified device context, performing the specified raster operations,
+        /// and stretching or compressing the icon or cursor as specified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawiconex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context into which the icon or cursor will be drawn.
+        /// </param>
+        /// <param name="xLeft">
+        /// The logical x-coordinate of the upper-left corner of the icon or cursor.
+        /// </param>
+        /// <param name="yTop">
+        /// The logical y-coordinate of the upper-left corner of the icon or cursor.
+        /// </param>
+        /// <param name="hIcon">
+        /// A handle to the icon or cursor to be drawn. This parameter can identify an animated cursor.
+        /// </param>
+        /// <param name="cxWidth">
+        /// The logical width of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="diFlags"/> parameter is <see cref="DI_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CXICON"/> system metric value to set the width.
+        /// If this parameter is zero and <see cref="DI_DEFAULTSIZE"/> is not used, the function uses the actual resource width.
+        /// </param>
+        /// <param name="cyWidth">
+        /// The logical height of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="diFlags"/> parameter is <see cref="DI_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CYICON"/> system metric value to set the width.
+        /// If this parameter is zero and <see cref="DI_DEFAULTSIZE"/> is not used, the function uses the actual resource height.
+        /// </param>
+        /// <param name="istepIfAniCur">
+        /// The index of the frame to draw, if hIcon identifies an animated cursor.
+        /// This parameter is ignored if hIcon does not identify an animated cursor.
+        /// </param>
+        /// <param name="hbrFlickerFreeDraw">
+        /// A handle to a brush that the system uses for flicker-free drawing.
+        /// If <paramref name="hbrFlickerFreeDraw"/> is a valid brush handle,
+        /// the system creates an offscreen bitmap using the specified brush for the background color,
+        /// draws the icon or cursor into the bitmap, and then copies the bitmap into the device context identified by <paramref name="hdc"/>.
+        /// If <paramref name="hbrFlickerFreeDraw"/> is <see cref="NULL"/>, the system draws the icon or cursor directly into the device context.
+        /// </param>
+        /// <param name="diFlags">
+        /// The drawing flags.
+        /// This parameter can be one of the following values.
+        /// <see cref="DI_COMPAT"/>: This flag is ignored.
+        /// <see cref="DI_DEFAULTSIZE"/>:
+        /// Draws the icon or cursor using the width and height specified by the system metric values for icons,
+        /// if the <paramref name="cxWidth"/> and <paramref name="cyWidth"/> parameters are set to zero.
+        /// If this flag is not specified and <paramref name="cxWidth"/> and <paramref name="cyWidth"/> are set to zero,
+        /// the function uses the actual resource size.
+        /// <see cref="DI_IMAGE"/>: Draws the icon or cursor using the image.
+        /// <see cref="DI_MASK"/>: Draws the icon or cursor using the mask.
+        /// <see cref="DI_NOMIRROR"/>: Draws the icon as an unmirrored icon. By default, the icon is drawn as a mirrored icon if hdc is mirrored.
+        /// <see cref="DI_NORMAL"/>: Combination of <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/>. 
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DrawIconEx"/> function places the icon's upper-left corner
+        /// at the location specified by the <paramref name="xLeft"/> and <paramref name="yTop"/> parameters.
+        /// The location is subject to the current mapping mode of the device context.
+        /// To duplicate <code>DrawIcon (hDC, X, Y, hIcon)</code>, call <see cref="DrawIconEx"/> as follows:
+        /// <code>DrawIconEx (hDC, X, Y, hIcon, 0, 0, 0, NULL, DI_NORMAL | DI_COMPAT | DI_DEFAULTSIZE); </code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIconEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DrawIconEx([In] HDC hdc, [In] int xLeft, [In] int yTop, [In] HICON hIcon, [In] int cxWidth, [In] int cyWidth,
+            [In] UINT istepIfAniCur, [In] HBRUSH hbrFlickerFreeDraw, [In] DrawingFlags diFlags);
 
         /// <summary>
         /// <para>
