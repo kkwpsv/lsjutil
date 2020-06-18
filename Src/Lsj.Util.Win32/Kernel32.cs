@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -168,6 +169,52 @@ namespace Lsj.Util.Win32
         {
 
         }
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about any valid installed or available code page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfoexw
+        /// </para>
+        /// </summary>
+        /// <param name="CodePage">
+        /// Identifier for the code page for which to retrieve information.
+        /// The application can specify the code page identifier for any installed or available code page, or one of the following predefined values.
+        /// See Code Page Identifiers for a list of identifiers for ANSI and other code pages.
+        /// <see cref="CP_ACP"/>: Use the system default Windows ANSI code page.
+        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
+        /// <see cref="CP_OEMCP"/>: Use the system default OEM code page.
+        /// <see cref="CP_THREAD_ACP"/>: Use the current thread's ANSI code page.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Reserved; must be 0.
+        /// </param>
+        /// <param name="lpCPInfoEx">
+        /// Pointer to a <see cref="CPINFOEX"/> structure that receives information about the code page.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if successful, or 0 otherwise.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>,
+        /// which can return one of the following error codes:
+        /// <see cref="ERROR_INVALID_PARAMETER"/>: Any of the parameter values was invalid.
+        /// </returns>
+        /// <remarks>
+        /// The information retrieved in the <see cref="CPINFOEX"/> structure is not always useful for all code pages.
+        /// To determine buffer sizes, for example, the application should call <see cref="MultiByteToWideChar"/>
+        /// or <see cref="WideCharToMultiByte"/> to request an accurate buffer size.
+        /// If <see cref="CPINFOEX"/> settings indicate that a lead byte exists,
+        /// the conversion function does not necessarily handle lead bytes differently,
+        /// for example, in the case of a missing or illegal trail byte.
+        /// Note
+        /// The winnls.h header defines <see cref="GetCPInfoEx"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCPInfoExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCPInfoEx([In] CodePages CodePage, [In] DWORD dwFlags, [Out] out CPINFOEX lpCPInfoEx);
 
         /// <summary>
         /// <para>
