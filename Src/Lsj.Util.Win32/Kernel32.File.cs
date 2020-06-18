@@ -2077,6 +2077,63 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the amount of space that is available on a disk volume,
+        /// which is the total amount of space, the total amount of free space,
+        /// and the total amount of free space available to the user that is associated with the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpDirectoryName">
+        /// A directory on the disk.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current disk.
+        /// If this parameter is a UNC name, it must include a trailing backslash, for example, "\\MyServer\MyShare\".
+        /// This parameter does not have to specify the root directory on a disk. The function accepts any directory on a disk.
+        /// The calling application must have <see cref="FILE_LIST_DIRECTORY"/> access rights for this directory.
+        /// </param>
+        /// <param name="lpFreeBytesAvailableToCaller">
+        /// A pointer to a variable that receives the total number of free bytes on a disk
+        /// that are available to the user who is associated with the calling thread.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// If per-user quotas are being used, this value may be less than the total number of free bytes on a disk.
+        /// </param>
+        /// <param name="lpTotalNumberOfBytes">
+        /// A pointer to a variable that receives the total number of bytes on a disk
+        /// that are available to the user who is associated with the calling thread.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// If per-user quotas are being used, this value may be less than the total number of bytes on a disk.
+        /// To determine the total number of bytes on a disk or volume, use <see cref="IOCTL_DISK_GET_LENGTH_INFO"/>.
+        /// </param>
+        /// <param name="lpTotalNumberOfFreeBytes">
+        /// A pointer to a variable that receives the total number of free bytes on a disk.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The values obtained by this function are of the type <see cref="ULARGE_INTEGER"/>.
+        /// Do not truncate these values to 32 bits.
+        /// The <see cref="GetDiskFreeSpaceEx"/> function returns <see cref="FALSE"/> for <paramref name="lpTotalNumberOfFreeBytes"/>
+        /// and <paramref name="lpFreeBytesAvailableToCaller"/> for all CD requests unless the disk is an unwritten CD in a CD-RW drive.
+        /// Symbolic link behavior—If the path points to a symbolic link, the operation is performed on the target.
+        /// Note
+        /// The fileapi.h header defines <see cref="GetDiskFreeSpaceEx"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDiskFreeSpaceEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpDirectoryName,
+            [Out] out ULARGE_INTEGER lpFreeBytesAvailableToCaller, [Out] out ULARGE_INTEGER lpTotalNumberOfBytes,
+            [Out] out ULARGE_INTEGER lpTotalNumberOfFreeBytes);
+
+        /// <summary>
+        /// <para>
         /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
         /// To determine whether a drive is a USB-type drive,
         /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the SPDRP_REMOVAL_POLICY property.
