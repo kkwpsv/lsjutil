@@ -163,6 +163,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="GetDCPenColor"/> function retrieves the current pen color for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcpencolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose brush color is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="COLORREF"/> value for the current DC pen color.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// For information on setting the pen color, see <see cref="SetDCPenColor"/>.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCPenColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetDCPenColor([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
         /// <see cref="SetDCPenColor"/> function sets the current device context (DC) pen color to the specified color value.
         /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
         /// </para>
