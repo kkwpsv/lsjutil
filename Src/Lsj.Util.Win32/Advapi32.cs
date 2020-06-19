@@ -1629,6 +1629,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="IsTokenRestricted"/> function indicates whether a token contains a list of restricted security identifiers (SIDs).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token to test.
+        /// </param>
+        /// <returns>
+        /// If the token contains a list of restricting SIDs, the return value is <see cref="TRUE"/>.
+        /// If the token does not contain a list of restricting SIDs, the return value is <see cref="FALSE"/>.
+        /// If an error occurs, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateRestrictedToken"/> function can restrict a token by disabling SIDs,
+        /// deleting privileges, and specifying a list of restricting SIDs.
+        /// The <see cref="IsTokenRestricted"/> function checks only for the list of restricting SIDs.
+        /// If a token does not have any restricting SIDs, <see cref="IsTokenRestricted"/> returns <see cref="FALSE"/>,
+        /// even though the token was created by a call to <see cref="CreateRestrictedToken"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTokenRestricted", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsTokenRestricted([In] HANDLE TokenHandle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="LogonUser"/> function attempts to log a user on to the local computer.
         /// The local computer is the computer from which LogonUser was called.
         /// You cannot use <see cref="LogonUser"/> to log on to a remote computer.
