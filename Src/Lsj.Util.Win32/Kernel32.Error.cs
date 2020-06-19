@@ -280,6 +280,25 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the error mode for the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getthreaderrormode
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The process error mode. This function returns one of the following values.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>, <see cref="SEM_NOGPFAULTERRORBOX"/>, <see cref="SEM_NOOPENFILEERRORBOX"/>
+        /// </returns>
+        /// <remarks>
+        /// A thread inherits the error mode of the process in which it is running.
+        /// To change the error mode for the thread, use the <see cref="SetThreadErrorMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetThreadErrorMode();
+
+        /// <summary>
+        /// <para>
         /// Maps a system error code to an <see cref="HRESULT"/> value.
         /// </para>
         /// <para>
