@@ -103,6 +103,16 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <para>
+        /// Retrieves the length of the specified disk, volume, or partition.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_length_info
+        /// </para>
+        /// </summary>
+        IOCTL_DISK_GET_LENGTH_INFO = 0x7405C,
+
+        /// <summary>
+        /// <para>
         /// Retrieves the physical location of a specified volume on one or more disks.
         /// </para>
         /// <para>
