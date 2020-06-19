@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CompareStringEx"/> is declared in Stringapiset.h. Before Windows 8, it was declared in Winnls.h.
         /// Note
         /// The behavior of sorting can change between Windows releases. For example, there may be new Unicode code points created.
-        /// Use <see cref="GetNlsVersionEx"/> to discover if the sort version has changed.
+        /// Use <see cref="GetNLSVersionEx"/> to discover if the sort version has changed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
         public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] StringFlags dwCmpFlags,

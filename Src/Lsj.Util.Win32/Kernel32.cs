@@ -7,6 +7,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.EnumSystemCodePagesFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
+using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.User32;
 
@@ -215,6 +216,36 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCPInfoExW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCPInfoEx([In] CodePages CodePage, [In] DWORD dwFlags, [Out] out CPINFOEX lpCPInfoEx);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the current version of a specified NLS capability for a locale specified by name.
+        /// Note
+        /// The application should call this function in preference to <see cref="GetNLSVersion"/> if designed to run only on Windows Vista and later.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnlsversionex
+        /// </para>
+        /// </summary>
+        /// <param name="function">
+        /// The NLS capability to query.
+        /// This value must be <see cref="COMPARE_STRING"/>.
+        /// See the <see cref="SYSNLS_FUNCTION"/> enumeration.
+        /// </param>
+        /// <param name="lpLocaleName">
+        /// Pointer to a locale name, or one of the following predefined values.
+        /// <see cref="LOCALE_NAME_INVARIANT"/>, <see cref="LOCALE_NAME_SYSTEM_DEFAULT"/>, <see cref="LOCALE_NAME_USER_DEFAULT"/>
+        /// </param>
+        /// <param name="lpVersionInformation">
+        /// Pointer to an <see cref="NLSVERSIONINFOEX"/> structure.
+        /// The application must initialize the <see cref="NLSVERSIONINFOEX.dwNLSVersionInfoSize"/> member to <code>sizeof(NLSVERSIONINFOEX)</code>.
+        /// Note
+        /// On Windows Vista and later, the function can alternatively provide version information in an <see cref="NLSVERSIONINFO"/> structure.
+        /// </param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNLSVersionEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNLSVersionEx([In] SYSNLS_FUNCTION function, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLocaleName,
+            [In] in NLSVERSIONINFOEX lpVersionInformation);
 
         /// <summary>
         /// <para>
