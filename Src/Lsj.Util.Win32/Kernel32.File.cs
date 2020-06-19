@@ -2852,6 +2852,65 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the short path form of the specified path.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpszLongPath">
+        /// The path string.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// </param>
+        /// <param name="lpszShortPath">
+        /// A pointer to a buffer to receive the null-terminated short form of the path that lpszLongPath specifies.
+        /// Passing <see langword="null"/> for this parameter and zero for <paramref name="cchBuffer"/>
+        /// will always return the required buffer size for a specified <paramref name="lpszLongPath"/>.
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer that <paramref name="lpszShortPath"/> points to, in TCHARs.
+        /// Set this parameter to zero if <paramref name="lpszShortPath"/> is set to <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string that is copied to <paramref name="lpszShortPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszShortPath"/> buffer is too small to contain the path, the return value is the size of the buffer, in TCHARs,
+        /// that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The path that the <paramref name="lpszLongPath"/> parameter specifies does not have to be a full or long path.
+        /// The short form can be longer than the specified path.
+        /// If the return value is greater than the value specified in the <paramref name="cchBuffer"/> parameter,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case in addition to using zero-length buffer for dynamic allocation, see the Example Code section.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// If the specified path is already in its short form and conversion is not needed,
+        /// the function simply copies the specified path to the buffer specified by the <paramref name="lpszShortPath"/> parameter.
+        /// You can set the <paramref name="lpszShortPath"/> parameter to the same value as the <paramref name="lpszLongPath"/> parameter;
+        /// in other words, you can set the output buffer for the short path to the address of the input path string.
+        /// Always ensure that the <paramref name="cchBuffer"/> parameter accurately represents the total size, in TCHARs, of this buffer.
+        /// You can obtain the long name of a file from the short name by calling the <see cref="GetLongPathName"/> function.
+        /// Alternatively, where <see cref="GetLongPathName"/> is not available,
+        /// you can call <see cref="FindFirstFile"/> on each component of the path to get the corresponding long name.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetShortPathName"/> may fail when it is unable
+        /// to query the parent directory of a path component to determine the short name for that component.
+        /// This check can be skipped for directory components that already meet the requirements of a short name.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShortPathNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetShortPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszLongPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszShortPath, [In] DWORD cchBuffer);
+
+        /// <summary>
+        /// <para>
         /// Creates a name for a temporary file.
         /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
         /// </para>
