@@ -9,11 +9,12 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BackgroundModes;
 using static Lsj.Util.Win32.Enums.DrawTextFormatFlags;
 using static Lsj.Util.Win32.Enums.ExtTextOutFlags;
+using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.TextAlignments;
-using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
 {
@@ -449,6 +450,92 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextColor", ExactSpelling = true, SetLastError = true)]
         public static extern COLORREF GetTextColor([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTextExtentExPoint"/> function retrieves the number of characters in a specified string
+        /// that will fit within a specified space and fills an array with the text extent for each of those characters.
+        /// (A text extent is the distance between the beginning of the space and a character that will fit in the space.)
+        /// This information is useful for word-wrapping calculations.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentexpointw
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="lpszString">
+        /// A pointer to the null-terminated string for which extents are to be retrieved.
+        /// </param>
+        /// <param name="cchString">
+        /// The number of characters in the string pointed to by the <paramref name="lpszString"/> parameter.
+        /// For an ANSI call it specifies the string length in bytes and for a Unicode it specifies the string length in WORDs.
+        /// Note that for the ANSI function, characters in SBCS code pages take one byte each,
+        /// while most characters in DBCS code pages take two bytes; for the Unicode function,
+        /// most currently defined Unicode characters (those in the Basic Multilingual Plane (BMP)) are one WORD while Unicode surrogates are two WORDs.
+        /// </param>
+        /// <param name="nMaxExtent">
+        /// The maximum allowable width, in logical units, of the formatted string.
+        /// </param>
+        /// <param name="lpnFit">
+        /// A pointer to an integer that receives a count of the maximum number of characters
+        /// that will fit in the space specified by the <paramref name="nMaxExtent"/> parameter.
+        /// When the <paramref name="lpnFit"/> parameter is <see cref="NullRef{INT}"/>, the <paramref name="nMaxExtent"/> parameter is ignored.
+        /// </param>
+        /// <param name="lpnDx">
+        /// A pointer to an array of integers that receives partial string extents.
+        /// Each element in the array gives the distance, in logical units, between the beginning of the string and one of the characters
+        /// that fits in the space specified by the <paramref name="nMaxExtent"/> parameter.
+        /// This array must have at least as many elements as characters specified by the <paramref name="cchString"/> parameter
+        /// because the entire array is used internally.
+        /// The function fills the array with valid extents for as many characters as are specified by the <paramref name="lpnFit"/> parameter.
+        /// Any values in the rest of the array should be ignored.
+        /// If <paramref name="lpnDx"/> is <see cref="NullRef{INT}"/>, the function does not compute partial string widths.
+        /// For complex scripts, where a sequence of characters may be represented by any number of glyphs,
+        /// the values in the alpDx array up to the number specified by the <paramref name="lpnFit"/> parameter match one-to-one with code points.
+        /// Again, you should ignore the rest of the values in the <paramref name="lpnDx"/> array.
+        /// </param>
+        /// <param name="lpSize">
+        /// A pointer to a <see cref="SIZE"/> structure that receives the dimensions of the string, in logical units.
+        /// This parameter cannot be <see cref="NullRef{SIZE}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If both the <paramref name="lpnFit"/> and <paramref name="lpnDx"/> parameters are <see langword="null"/>,
+        /// calling the <see cref="GetTextExtentExPoint"/> function is equivalent to calling the <see cref="GetTextExtentPoint"/> function.
+        /// For the ANSI version of <see cref="GetTextExtentExPoint"/>, the <paramref name="lpnDx"/> array
+        /// has the same number of <see cref="INT"/> values as there are bytes in <paramref name="lpszString"/>.
+        /// The <see cref="INT"/> values that correspond to the two bytes of a DBCS character are each the extent of the entire composite character.
+        /// Note, the <paramref name="lpnDx"/> values for <see cref="GetTextExtentExPoint"/> are
+        /// not the same as the <paramref name="lpnDx"/> values for <see cref="ExtTextOut"/>.
+        /// To use the <paramref name="lpnDx"/> values in <paramref name="lpnDx"/>, you must first process them.
+        /// When this function returns the text extent, it assumes that the text is horizontal, that is, that the escapement is always 0.
+        /// This is true for both the horizontal and vertical measurements of the text.
+        /// Even if you use a font that specifies a nonzero escapement, this function doesn't use the angle while it computes the text extent.
+        /// The app must convert it explicitly.
+        /// However, when the graphics mode is set to <see cref="GM_ADVANCED"/> and the character orientation is 90 degrees from the print orientation,
+        /// the values that this function return do not follow this rule.
+        /// When the character orientation and the print orientation match for a given string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 116, cy : 18 }.
+        /// When the character orientation and the print orientation are 90 degrees apart for the same string,
+        /// this function returns the dimensions of the string in the <see cref="SIZE"/> structure as { cx : 18, cy : 116 }.
+        /// This function returns the extent of each successive character in a string.
+        /// When these are rounded to logical units, you get different results than what is returned from the <see cref="GetCharWidth"/>,
+        /// which returns the width of each individual character rounded to logical units.
+        /// Note
+        /// The wingdi.h header defines <see cref="GetTextExtentExPoint"/> as an alias which automatically selects
+        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral
+        /// can lead to mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextExtentExPointW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetTextExtentExPoint([In] HDC hdc, [MarshalAs(UnmanagedType.LPWStr)] string lpszString, [In] int cchString,
+            [In] int nMaxExtent, [Out] out INT lpnFit, [MarshalAs(UnmanagedType.LPArray)][Out] INT[] lpnDx, [Out] out SIZE lpSize);
 
         /// <summary>
         /// <para>
