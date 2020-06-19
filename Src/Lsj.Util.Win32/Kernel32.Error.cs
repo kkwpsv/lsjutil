@@ -216,6 +216,31 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the error mode for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-geterrormode
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The process error mode. This function returns one of the following values.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>, <see cref="SEM_NOALIGNMENTFAULTEXCEPT"/>,
+        /// <see cref="SEM_NOGPFAULTERRORBOX"/>, <see cref="SEM_NOOPENFILEERRORBOX"/>
+        /// </returns>
+        /// <remarks>
+        /// Each process has an associated error mode that indicates to the system how the application is going to respond to serious errors.
+        /// A child process inherits the error mode of its parent process.
+        /// To change the error mode for the process, use the <see cref="SetErrorMode"/> function.
+        /// Windows 7:
+        /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
+        /// since it is less disruptive to the normal behavior of the system.
+        /// <see cref="GetThreadErrorMode"/> is the call function that corresponds to <see cref="GetErrorMode"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetErrorMode", ExactSpelling = true, SetLastError = true)]
+        public static extern ErrorModes GetErrorMode();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the calling thread's last-error code value.
         /// The last-error code is maintained on a per-thread basis.
         /// Multiple threads do not overwrite each other's last-error code.
