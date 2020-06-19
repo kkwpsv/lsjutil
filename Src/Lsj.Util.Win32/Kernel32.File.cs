@@ -2635,8 +2635,75 @@ namespace Lsj.Util.Win32
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint nBufferLength,
-            [In] IntPtr lpBuffer, [In] IntPtr lpFilePart);
+        public static extern DWORD GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
+            [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the full path and file name of the specified file as a transacted operation.
+        /// To perform this operation without transactions, use the <see cref="GetFullPathName"/> function.
+        /// For more information about file and path names, see File Names, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfullpathnametransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// This string can use short (the 8.3 form) or long file names. This string can be a share or volume name.
+        /// The file must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer to receive the null-terminated string for the drive and path, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the null-terminated string for the drive and path.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to a buffer that receives the address (in <paramref name="lpBuffer"/>) of the final file name component in the path.
+        /// Specify <see cref="NullRef{IntPtr}"/> if you do not need to receive this information.
+        /// If <paramref name="lpBuffer"/> points to a directory and not a file, <paramref name="lpFilePart"/> receives 0 (zero).
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpBuffer"/>, not including the terminating null character.
+        /// If the <paramref name="lpBuffer"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetFullPathNameTransacted"/> merges the name of the current drive and directory
+        /// with a specified file name to determine the full path and file name of a specified file.
+        /// It also calculates the address of the file name portion of the full path and file name.
+        /// This function does not verify that the resulting path and file name are valid, or that they see an existing file on the associated volume.
+        /// Share and volume names are valid input for <paramref name="lpFileName"/>.
+        /// For example, the following list identities the returned path and file names if test-2 is a remote computer and U: is a network mapped drive:
+        /// If you specify "\\test-2\q$\lh" the path returned is "\\test-2\q$\lh"
+        /// If you specify "\\?\UNC\test-2\q$\lh" the path returned is "\\?\UNC\test-2\q$\lh"
+        /// If you specify "U:" the path returned is "U:\"
+        /// <see cref="GetFullPathNameTransacted"/> does not convert the specified file name, <paramref name="lpFileName"/>.
+        /// If the specified file name exists, you can use <see cref="GetLongPathNameTransacted"/>,
+        /// <see cref="GetLongPathName"/>, or <see cref="GetShortPathName"/> to convert to long or short path names, respectively.
+        /// If the return value is greater than the value specified in <paramref name="nBufferLength"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case as well as using zero length buffer for dynamic allocation, see the Example Code section.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetFullPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
+            [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
