@@ -10,6 +10,8 @@ using static Lsj.Util.Win32.Enums.DrawingFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
+using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
 using static Lsj.Util.Win32.Gdi32;
@@ -663,6 +665,61 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorPos", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetCursorPos([Out] out POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified icon or cursor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-geticoninfo
+        /// </para>
+        /// </summary>
+        /// <param name="hIcon">
+        /// A handle to the icon or cursor.
+        /// To retrieve information about a standard icon or cursor, specify one of the following values.
+        /// <see cref="IDC_APPSTARTING"/>: Standard arrow and small hourglass cursor.
+        /// <see cref="IDC_ARROW"/>: Standard arrow cursor.
+        /// <see cref="IDC_CROSS"/>: Crosshair cursor.
+        /// <see cref="IDC_HAND"/>: Hand cursor.
+        /// <see cref="IDC_HELP"/>: Arrow and question mark cursor.
+        /// <see cref="IDC_IBEAM"/>: I-beam cursor.
+        /// <see cref="IDC_NO"/>: Slashed circle cursor.
+        /// <see cref="IDC_SIZEALL"/>: Four-pointed arrow cursor pointing north, south, east, and west.
+        /// <see cref="IDC_SIZENESW"/>: Double-pointed arrow cursor pointing northeast and southwest.
+        /// <see cref="IDC_SIZENS"/>: Double-pointed arrow cursor pointing north and south.
+        /// <see cref="IDC_SIZENWSE"/>: Double-pointed arrow cursor pointing northwest and southeast.
+        /// <see cref="IDC_SIZEWE"/>: Double-pointed arrow cursor pointing west and east.
+        /// <see cref="IDC_UPARROW"/>: Vertical arrow cursor.
+        /// <see cref="IDC_WAIT"/>: Hourglass cursor.
+        /// <see cref="IDI_APPLICATION"/>: Application icon.
+        /// <see cref="IDI_ASTERISK"/>: Asterisk icon.
+        /// <see cref="IDI_EXCLAMATION"/>: Exclamation point icon.
+        /// <see cref="IDI_HAND"/>: Stop sign icon.
+        /// <see cref="IDI_QUESTION"/>: Question-mark icon.
+        /// <see cref="IDI_WINLOGO"/>:
+        /// Application icon.
+        /// Windows 2000: Windows logo icon.
+        /// </param>
+        /// <param name="piconinfo">
+        /// A pointer to an <see cref="ICONINFO"/> structure.
+        /// The function fills in the structure's members.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>
+        /// and the function fills in the members of the specified <see cref="ICONINFO"/> structure.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetIconInfo"/> creates bitmaps for the <see cref="ICONINFO.hbmMask"/>
+        /// and <see cref="ICONINFO.hbmColor"/> members of <see cref="ICONINFO"/>.
+        /// The calling application must manage these bitmaps and delete them when they are no longer necessary.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The output returned is not affected by the DPI of the calling thread. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetIconInfo([In] HICON hIcon, [Out] out ICONINFO piconinfo);
 
         /// <summary>
         /// <para>
