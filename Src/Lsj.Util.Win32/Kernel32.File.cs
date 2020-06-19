@@ -2786,6 +2786,72 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts the specified path to its long form as a transacted operation.
+        /// To perform this operation without a transaction, use the <see cref="GetLongPathName"/> function.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getlongpathnametransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszShortPath">
+        /// The path to be converted.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> (260) characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// The path must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="lpszLongPath">
+        /// A pointer to the buffer to receive the long path.
+        /// You can use the same buffer you used for the <paramref name="lpszShortPath"/> parameter.
+        /// 
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer <paramref name="lpszLongPath"/> points to, in TCHARs.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpszLongPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszLongPath"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, such as if the file does not exist, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// On many file systems, a short file name contains a tilde (~) character.
+        /// However, not all file systems follow this convention.
+        /// Therefore, do not assume that you can skip calling <see cref="GetLongPathNameTransacted"/>
+        /// if the path does not contain a tilde (~) character.
+        /// If a long path is not found, this function returns the name specified
+        /// in the <paramref name="lpszShortPath"/> parameter in the <paramref name="lpszLongPath"/> parameter.
+        /// If the return value is greater than the value specified in <paramref name="cchBuffer"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case, see the Example Code section for <see cref="GetFullPathName"/>.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetLongPathNameTransacted"/> may fail
+        /// when it is unable to query the parent directory of a path component to determine the long name for that component.
+        /// This check can be skipped for directory components that have file extensions longer than 3 characters,
+        /// or total lengths longer than 12 characters.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransacted", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLongPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
+
+        /// <summary>
+        /// <para>
         /// Creates a name for a temporary file.
         /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
         /// </para>
