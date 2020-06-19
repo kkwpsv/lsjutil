@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadImageFlags;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
@@ -758,6 +759,40 @@ namespace Lsj.Util.Win32
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
         public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [In] SystemCursors lpCursorName);
+
+        /// <summary>
+        /// <para>
+        /// Creates a cursor based on data contained in a file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorfromfilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The source of the file data to be used to create the cursor.
+        /// The data in the file must be in either .CUR or .ANI format.
+        /// If the high-order word of <paramref name="lpFileName"/> is nonzero,
+        /// it is a pointer to a string that is a fully qualified name of a file containing cursor data.
+        /// </param>
+        /// <returns>
+        /// If the function is successful, the return value is a handle to the new cursor.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> may return the following value.
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file cannot be found. 
+        /// </returns>
+        /// <remarks>
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization. The output returned is not affected by the DPI of the calling thread.
+        /// Note
+        /// The winuser.h header defines <see cref="LoadCursorFromFile"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorFromFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HCURSOR LoadCursorFromFile([In] StringHandle lpFileName);
 
         /// <summary>
         /// <para>
