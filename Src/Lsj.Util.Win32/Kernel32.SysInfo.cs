@@ -210,6 +210,42 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the amount of memory that is available in a node specified as a <see cref="USHORT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynodeex
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The number of the node.
+        /// </param>
+        /// <param name="AvailableBytes">
+        /// The amount of available memory for the node, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNumaAvailableMemoryNodeEx"/> function returns the amount of memory
+        /// consumed by free and zeroed pages on the specified node.
+        /// On systems with more than one node, this memory does not include standby pages.
+        /// Therefore, the sum of the available memory values for all nodes in the system
+        /// is equal to the value of the Free &amp; Zero Page List Bytes memory performance counter.
+        /// On systems with only one node, the value returned by <see cref="GetNumaAvailableMemoryNode"/>
+        /// includes standby pages and is equal to the value of the Available Bytes memory performance counter.
+        /// For more information about performance counters, see Memory Performance Information.
+        /// The only difference between the <see cref="GetNumaAvailableMemoryNodeEx"/> function
+        /// and the <see cref="GetNumaAvailableMemoryNode"/> function is the data type of the Node parameter.
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaAvailableMemoryNodeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaAvailableMemoryNodeEx([In] USHORT Node, [Out] out ULONGLONG AvailableBytes);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the processor mask for the specified node.
         /// Use the <see cref="GetNumaNodeProcessorMaskEx"/> function to retrieve the processor mask for a node in any processor group.
         /// </para>
