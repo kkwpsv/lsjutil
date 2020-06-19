@@ -2724,6 +2724,68 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Converts the specified path to its long form.
+        /// To perform this operation as a transacted operation, use the <see cref="GetLongPathNameTransacted"/> function.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// Important
+        /// To use this function, the caller must have the following permissions on the specified path and parent directories:
+        /// List Folder, Read Data, Read Attributes
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlongpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpszShortPath">
+        /// The path to be converted.
+        /// In the ANSI version of this function, GetLongPathNameA, the name is limited to <see cref="MAX_PATH"/> (260) characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function,
+        /// <see cref="GetLongPathName"/>, and prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="GetLongPathName"/>),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpszLongPath">
+        /// A pointer to the buffer to receive the long path.
+        /// You can use the same buffer you used for the <paramref name="lpszShortPath"/>  parameter.
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer <paramref name="lpszLongPath"/> points to, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpszLongPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszLongPath"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, such as if the file does not exist, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// On many file systems, a short file name contains a tilde (~) character.
+        /// However, not all file systems follow this convention.
+        /// Therefore, do not assume that you can skip calling <see cref="GetLongPathName"/> if the path does not contain a tilde (~) character.
+        /// If the file or directory exists but a long path is not found, <see cref="GetLongPathName"/> succeeds,
+        /// having copied the string referred to by the <paramref name="lpszShortPath"/> parameter
+        /// to the buffer referred to by the <paramref name="lpszLongPath"/> parameter.
+        /// If the return value is greater than the value specified in <paramref name="cchBuffer"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case, see the Example Code section for <see cref="GetFullPathName"/>.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetLongPathName"/> may fail when it is unable
+        /// to query the parent directory of a path component to determine the long name for that component.
+        /// This check can be skipped for directory components that have file extensions longer than 3 characters,
+        /// or total lengths longer than 12 characters.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLongPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer);
+
+        /// <summary>
+        /// <para>
         /// Creates a name for a temporary file.
         /// If a unique file name is generated, an empty file is created and the handle to it is released; otherwise, only a file name is generated.
         /// </para>
