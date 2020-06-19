@@ -1292,11 +1292,51 @@ namespace Lsj.Util.Win32
         /// Use <see cref="OpenProcessToken"/> and <see cref="IsTokenRestricted"/> to check if the process is restricted.
         /// </returns>
         /// <remarks>
-        /// Anonymous tokens do not include the Everyone Group SID unless the system default has been overridden by setting the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous registry value to DWORD=1.
+        /// Anonymous tokens do not include the Everyone Group SID unless the system default has been overridden
+        /// by setting the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous registry value to DWORD=1.
         /// To cancel the impersonation call <see cref="RevertToSelf"/>.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateAnonymousToken", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ImpersonateAnonymousToken([In] HANDLE ThreadHandle);
+
+        /// <summary>
+        /// <para>
+        /// Enables a Dynamic Data Exchange (DDE) server application to impersonate a DDE client application's security context.
+        /// This protects secure server data from unauthorized DDE clients.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWndClient">
+        /// A handle to the DDE client window to be impersonated.
+        /// The client window must have established a DDE conversation
+        /// with the server window identified by the <paramref name="hWndServer"/> parameter.
+        /// </param>
+        /// <param name="hWndServer">
+        /// A handle to the DDE server window.
+        /// An application must create the server window before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application should call the <see cref="RevertToSelf"/> function
+        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
+        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
+        /// Security Considerations
+        /// Using this function incorrectly might compromise the security of your program.
+        /// It is very important to check the return value of the call.
+        /// If the function fails for any reason, the client is not impersonated
+        /// and any subsequent client request is made in the security context of the calling process.
+        /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
+        /// the user may be able to perform actions that would otherwise be disallowed.
+        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateDdeClientWindow([In] HWND hWndClient, [In] HWND hWndServer);
 
         /// <summary>
         /// <para>
