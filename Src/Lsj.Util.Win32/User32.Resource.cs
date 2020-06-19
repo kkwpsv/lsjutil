@@ -969,6 +969,48 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
+        /// To specify a desired height or width, use the <see cref="LookupIconIdFromDirectoryEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The icon or cursor directory data.
+        /// Because this function does not validate the resource data,
+        /// it causes a general protection (GP) fault or returns an undefined value if presbits is not pointing to valid resource data.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is sought.
+        /// If this parameter is <see cref="TRUE"/>, the function is searching for an icon;
+        /// if the parameter is <see cref="FALSE"/>, the function is searching for a cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an integer resource identifier
+        /// for the icon or cursor that best fits the current display device.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// contains icon (or cursor) data in several device-dependent and device-independent formats.
+        /// <see cref="LookupIconIdFromDirectory"/> searches the resource file for the icon (or cursor)
+        /// that best fits the current display device and returns its integer identifier.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions
+        /// use the <see cref="MAKEINTRESOURCE"/> macro with this identifier to locate the resource in the module.
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
+        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
+        /// <see cref="LookupIconIdFromDirectory"/> returns an integer identifier
+        /// that is the resource name of the icon that best fits the current display device.
+        /// The <see cref="LoadIcon"/>, <see cref="LoadCursor"/>, and <see cref="LoadImage"/> functions
+        /// use this function to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern int LookupIconIdFromDirectory([In] IntPtr presbits, [In] BOOL fIcon);
+
+        /// <summary>
+        /// <para>
+        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex
