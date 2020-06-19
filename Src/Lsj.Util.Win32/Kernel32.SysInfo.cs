@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.USHORT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Enums.ProcessFeatures;
@@ -363,6 +364,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaProcessorNode([In] UCHAR Processor, [Out] out UCHAR NodeNumber);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the node number as a <see cref="USHORT"/> value for the specified logical processor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaprocessornodeex
+        /// </para>
+        /// </summary>
+        /// <param name="Processor">
+        /// A pointer to a <see cref="PROCESSOR_NUMBER"/> structure
+        /// that represents the logical processor and the processor group to which it is assigned.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// A pointer to a variable to receive the node number.
+        /// If the specified processor does not exist, this parameter is set to <see cref="MAXUSHORT"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNodeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaProcessorNodeEx([Out] out PROCESSOR_NUMBER Processor, [Out] out USHORT NodeNumber);
 
         /// <summary>
         /// <para>
