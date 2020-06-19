@@ -246,6 +246,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the node that currently has the highest number.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumahighestnodenumber
+        /// </para>
+        /// </summary>
+        /// <param name="HighestNodeNumber">
+        /// The number of the highest node.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The number of the highest node is not guaranteed to be the total number of nodes.
+        /// To retrieve a list of all processors in a node, use the <see cref="GetNumaNodeProcessorMask"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaHighestNodeNumber", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaHighestNodeNumber([Out] out ULONG HighestNodeNumber);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the processor mask for the specified node.
         /// Use the <see cref="GetNumaNodeProcessorMaskEx"/> function to retrieve the processor mask for a node in any processor group.
         /// </para>
