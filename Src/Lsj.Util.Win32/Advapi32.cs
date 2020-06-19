@@ -800,73 +800,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="DestroyPrivateObjectSecurity"/> function deletes a private object's security descriptor.
-        /// For background information, see the Security Descriptors for Private Objects topic.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity
-        /// </para>
-        /// </summary>
-        /// <param name="ObjectDescriptor">
-        /// A pointer to a pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to be deleted.
-        /// This security descriptor must have been created by a call to the <see cref="CreatePrivateObjectSecurity"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyPrivateObjectSecurity([In] in PSECURITY_DESCRIPTOR ObjectDescriptor);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
-        /// The calling process must have appropriate access rights to obtain the information.
-        /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
-        /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
-        /// </para>
-        /// </summary>
-        /// <param name="TokenHandle">
-        /// A handle to an access token from which information is retrieved.
-        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
-        /// For all other <paramref name="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
-        /// </param>
-        /// <param name="TokenInformationClass">
-        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
-        /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify that
-        /// the caller token is not an identify level impersonation token.
-        /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
-        /// </param>
-        /// <param name="TokenInformation">
-        /// A pointer to a buffer the function fills with the requested information.
-        /// The structure put into this buffer depends upon the type of information specified by the <paramref name="TokenInformationClass"/> parameter.
-        /// </param>
-        /// <param name="TokenInformationLength">
-        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
-        /// If <paramref name="TokenInformation"/> is NULL, this parameter must be zero.
-        /// </param>
-        /// <param name="ReturnLength">
-        /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
-        /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
-        /// the function fails and stores no data in the buffer.
-        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
-        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
-        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTokenInformation([In] IntPtr TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In] IntPtr TokenInformation, [In] uint TokenInformationLength, [Out] out uint ReturnLength);
-
-
-        /// <summary>
-        /// <para>
         /// Creates a new process and its primary thread.
         /// The new process runs in the security context of the user represented by the specified token.
         /// Typically, the process that calls the <see cref="CreateProcessAsUser"/> function must have the SE_INCREASE_QUOTA_NAME privilege
@@ -1145,6 +1078,27 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DestroyPrivateObjectSecurity"/> function deletes a private object's security descriptor.
+        /// For background information, see the Security Descriptors for Private Objects topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="ObjectDescriptor">
+        /// A pointer to a pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to be deleted.
+        /// This security descriptor must have been created by a call to the <see cref="CreatePrivateObjectSecurity"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyPrivateObjectSecurity([In] in PSECURITY_DESCRIPTOR ObjectDescriptor);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
         /// </para>
         /// <para>
@@ -1244,6 +1198,78 @@ namespace Lsj.Util.Win32
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DuplicateTokenEx([In] IntPtr ExistingTokenHandle, [In] uint dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
             [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
+        /// The calling process must have appropriate access rights to obtain the information.
+        /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
+        /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token from which information is retrieved.
+        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
+        /// For all other <paramref name="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="TokenInformationClass">
+        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
+        /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify that
+        /// the caller token is not an identify level impersonation token.
+        /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
+        /// </param>
+        /// <param name="TokenInformation">
+        /// A pointer to a buffer the function fills with the requested information.
+        /// The structure put into this buffer depends upon the type of information specified by the <paramref name="TokenInformationClass"/> parameter.
+        /// </param>
+        /// <param name="TokenInformationLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
+        /// If <paramref name="TokenInformation"/> is NULL, this parameter must be zero.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
+        /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
+        /// the function fails and stores no data in the buffer.
+        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
+        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTokenInformation([In] IntPtr TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] IntPtr TokenInformation, [In] uint TokenInformationLength, [Out] out uint ReturnLength);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetSecurityDescriptorControl"/> function retrieves a security descriptor control and revision information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure whose control and revision information the function retrieves.
+        /// </param>
+        /// <param name="pControl">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure that receives the security descriptor's control information.
+        /// </param>
+        /// <param name="lpdwRevision">
+        /// A pointer to a variable that receives the security descriptor's revision value.
+        /// This value is always set, even when <see cref="GetSecurityDescriptorControl"/> returns an error.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [Out] out SECURITY_DESCRIPTOR_CONTROL pControl, [Out] out DWORD lpdwRevision);
 
         /// <summary>
         /// <para>
