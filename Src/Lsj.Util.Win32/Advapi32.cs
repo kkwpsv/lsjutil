@@ -4,6 +4,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
@@ -1759,8 +1760,53 @@ namespace Lsj.Util.Win32
         /// by calling the provider's NPLogonNotify entry-point function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In] string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDomain,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPassword, [In] LogonTypes dwLogonType, [In] LoginProviders dwLogonProvider, [Out] out HANDLE phToken);
+        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In] string lpszUsername,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDomain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPassword,
+            [In] LogonTypes dwLogonType, [In] LoginProviders dwLogonProvider, [Out] out HANDLE phToken);
+
+        /// <summary>
+        /// <para>
+        /// The LookupPrivilegeName function retrieves the name that corresponds to the privilege
+        /// represented on a specific system by a specified locally unique identifier (LUID).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemName">
+        /// A pointer to a null-terminated string that specifies the name of the system on which the privilege name is retrieved.
+        /// If a null string is specified, the function attempts to find the privilege name on the local system.
+        /// </param>
+        /// <param name="lpLuid">
+        /// A pointer to the LUID by which the privilege is known on the target system.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to a buffer that receives a null-terminated string that represents the privilege name.
+        /// For example, this string could be "SeSecurityPrivilege".
+        /// </param>
+        /// <param name="cchName">
+        /// A pointer to a variable that specifies the size, in a TCHAR value, of the <paramref name="lpName"/> buffer.
+        /// When the function returns, this parameter contains the length of the privilege name, not including the terminating null character.
+        /// If the buffer pointed to by the <paramref name="lpName"/> parameter is too small, this variable contains the required size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LookupPrivilegeName"/> function supports only the privileges specified in the Defined Privileges section of Winnt.h.
+        /// For a list of values, see Privilege Constants.
+        /// Note
+        /// The winbase.h header defines <see cref="LookupPrivilegeName"/> as an alias which automatically selects the ANSI or Unicode version
+        /// of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LookupPrivilegeName([MarshalAs(UnmanagedType.LPWStr)][In] string lpSystemName, [In] in LUID lpLuid,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpName, [In][Out] ref DWORD cchName);
 
         /// <summary>
         /// <para>
