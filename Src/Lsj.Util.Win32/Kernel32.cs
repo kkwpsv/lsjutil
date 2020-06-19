@@ -523,6 +523,27 @@ namespace Lsj.Util.Win32
         public static extern BOOL IsDBCSLeadByte([In] BYTE TestChar);
 
         /// <summary>
+        /// <para>
+        /// Determines if a specified code page is valid.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidcodepage
+        /// </para>
+        /// </summary>
+        /// <param name="CodePage">
+        /// Code page identifier for the code page to check.
+        /// </param>
+        /// <returns>
+        /// Returns a <see cref="TRUE"/> value if the code page is valid, or <see cref="FALSE"/> if the code page is invalid.
+        /// </returns>
+        /// <remarks>
+        /// A code page is considered valid only if it is installed on the operating system. Unicode is preferred.
+        /// Starting with Windows Vista, all code pages that can be installed are loaded by default.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsValidCodePage", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsValidCodePage([In] UINT CodePage);
+
+        /// <summary>
         /// MakeProcInstance
         /// </summary>
         /// <param name="lpProc"></param>
