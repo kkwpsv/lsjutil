@@ -1424,6 +1424,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ImpersonateSelf"/> function obtains an access token that impersonates the security context of the calling process.
+        /// The token is assigned to the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself
+        /// </para>
+        /// </summary>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>. 
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ImpersonateSelf"/> function is used for tasks such as enabling a privilege for a single thread
+        /// rather than for the entire process or for changing the default discretionary access control list (DACL) for a single thread.
+        /// The server can call the <see cref="RevertToSelf"/> function when the impersonation is complete.
+        /// For this function to succeed, the DACL protecting the process token must grant the <see cref="TOKEN_DUPLICATE"/> right to itself.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateSelf", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateSelf([In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel);
+
+        /// <summary>
+        /// <para>
         /// Initiates a shutdown and optional restart of the specified computer.
         /// To record a reason for the shutdown in the event log, call the <see cref="InitiateSystemShutdownEx"/> function.
         /// </para>
