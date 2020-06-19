@@ -1273,6 +1273,33 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="ImpersonateAnonymousToken"/> function enables the specified thread to impersonate the system's anonymous logon token.
+        /// To ensure that a token matches the operating system's concept of anonymous access,
+        /// this function should be called before attempting network access to generate an anonymous token on the remote server.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken
+        /// </para>
+        /// </summary>
+        /// <param name="ThreadHandle">
+        /// A handle to the thread to impersonate the system's anonymous logon token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// An error of <see cref="ACCESS_DENIED"/> may indicate that the token is for a restricted process.
+        /// Use <see cref="OpenProcessToken"/> and <see cref="IsTokenRestricted"/> to check if the process is restricted.
+        /// </returns>
+        /// <remarks>
+        /// Anonymous tokens do not include the Everyone Group SID unless the system default has been overridden by setting the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous registry value to DWORD=1.
+        /// To cancel the impersonation call <see cref="RevertToSelf"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateAnonymousToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateAnonymousToken([In] HANDLE ThreadHandle);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="ImpersonateLoggedOnUser"/> function lets the calling thread impersonate the security context of a logged-on user.
         /// The user is represented by a token handle.
         /// </para>
