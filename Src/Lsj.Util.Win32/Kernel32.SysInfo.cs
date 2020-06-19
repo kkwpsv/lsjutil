@@ -303,6 +303,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the processor mask for a node regardless of the processor group the node belongs to.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumanodeprocessormaskex
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The node number.
+        /// </param>
+        /// <param name="ProcessorMask">
+        /// A pointer to a <see cref="GROUP_AFFINITY"/> structure that receives the processor mask for the specified node.
+        /// A processor mask is a bit vector in which each bit represents a processor and whether it is in the node.
+        /// If the specified node has no processors configured, the <see cref="GROUP_AFFINITY.Mask"/> member is zero
+        /// and the <see cref="GROUP_AFFINITY.Group"/> member is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNumaNodeProcessorMaskEx"/> function differs from <see cref="GetNumaNodeProcessorMask"/> in that
+        /// it can retrieve the processor mask for a node regardless of the group the node belongs to.
+        /// That is, the node does not have to be in the same group as the calling thread.
+        /// The <see cref="GetNumaNodeProcessorMask"/> function can retrieve
+        /// the processor mask only for nodes that are in the same group as the calling thread.
+        /// To retrieve the highest numbered node in the system, use the <see cref="GetNumaHighestNodeNumber"/> function.
+        /// Note that this number is not guaranteed to equal the total number of nodes in the system.
+        /// To ensure that all threads for your process run on the same node,
+        /// use the <see cref="SetProcessAffinityMask"/> function with a process affinity mask that specifies processors in the same node.
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaNodeProcessorMaskEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaNodeProcessorMaskEx([In] USHORT Node, [Out] out GROUP_AFFINITY ProcessorMask);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the node number for the specified processor.
         /// Use the <see cref="GetNumaProcessorNodeEx"/> function to specify a processor group
         /// and retrieve the node number as a <see cref="USHORT"/> value.
