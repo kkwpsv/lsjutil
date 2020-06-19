@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="proc">
         /// Pointer to an application-supplied callback function.
-        /// For more information, see <see cref="EnumMetaFileProc"/>.
+        /// For more information, see <see cref="MFENUMPROC"/>.
         /// </param>
         /// <param name="param">
         /// Pointer to optional data.

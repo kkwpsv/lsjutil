@@ -151,6 +151,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT E_OUTOFMEMORY = new HRESULT { _value = unchecked((int)0x8007000E) };
 
         /// <summary>
+        /// E_PENDING
+        /// </summary>
+        public static readonly HRESULT E_PENDING = new HRESULT { _value = unchecked((int)0x8000000A) };
+
+        /// <summary>
         /// <see cref="NULL"/> was passed incorrectly for a pointer value.
         /// </summary>
         public static readonly HRESULT E_POINTER = new HRESULT { _value = unchecked((int)0x80004003) };

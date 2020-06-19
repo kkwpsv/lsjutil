@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DrawingFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.SystemCursors;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;

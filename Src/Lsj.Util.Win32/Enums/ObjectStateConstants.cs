@@ -1,4 +1,5 @@
-﻿using static Lsj.Util.Win32.Enums.Events;
+﻿using Lsj.Util.Win32.ComInterfaces;
+using static Lsj.Util.Win32.Enums.Events;
 
 namespace Lsj.Util.Win32.Enums
 {
