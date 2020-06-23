@@ -52,6 +52,18 @@ namespace Lsj.Util.Win32.Enums
         FSCTL_LOCK_VOLUME = 0x90018,
 
         /// <summary>
+        /// <para>
+        /// Scans a file or alternate stream looking for ranges that may contain nonzero data.
+        /// Only compressed or sparse files can have zeroed ranges known to the operating system.
+        /// For other files, the output buffer will contain only a single entry that contains the starting point and the length requested.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_query_allocated_ranges
+        /// </para>
+        /// </summary>
+        FSCTL_QUERY_ALLOCATED_RANGES = 0x940cf,
+
+        /// <summary>
         /// Sets the compression state of a file or directory on a volume whose file system supports per-file and per-directory compression.
         /// You can use <see cref="FSCTL_SET_COMPRESSION"/> to compress or uncompress a file or directory on such a volume.
         /// </summary>
