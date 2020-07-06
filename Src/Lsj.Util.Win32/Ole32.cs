@@ -6,6 +6,7 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.CLSID;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
@@ -26,6 +27,7 @@ using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.Enums.MSHCTX;
 
 namespace Lsj.Util.Win32
 {
@@ -570,6 +572,129 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Returns an upper bound on the number of bytes needed to marshal the specified interface pointer to the specified object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cogetmarshalsizemax
+        /// </para>
+        /// </summary>
+        /// <param name="pulSize">
+        /// A pointer to the upper-bound value on the size, in bytes, of the data packet to be written to the marshaling stream.
+        /// If this parameter is 0, the size of the packet is unknown.
+        /// </param>
+        /// <param name="riid">
+        /// A reference to the identifier of the interface whose pointer is to be marshaled.
+        /// This interface must be derived from the <see cref="IUnknown"/> interface.
+        /// </param>
+        /// <param name="pUnk">
+        /// A pointer to the interface to be marshaled.
+        /// This interface must be derived from the <see cref="IUnknown"/> interface.
+        /// </param>
+        /// <param name="dwDestContext">
+        /// The destination context where the specified interface is to be unmarshaled.
+        /// Values for <paramref name="dwDestContext"/> come from the enumeration <see cref="MSHCTX"/>.
+        /// </param>
+        /// <param name="pvDestContext">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="mshlflags">
+        /// Indicates whether the data to be marshaled is to be transmitted back to the client processthe normal case or written to a global table,
+        /// where it can be retrieved by multiple clients.
+        /// Values come from the enumeration <see cref="MSHLFLAGS"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The upper bound was returned successfully.
+        /// <see cref="CO_E_NOTINITIALIZED"/>:
+        /// Before this function can be called, either the <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function must be called. 
+        /// </returns>
+        /// <remarks>
+        /// This function performs the following tasks:
+        /// Queries the object for an <see cref="IMarshal"/> pointer or,
+        /// if the object does not implement <see cref="IMarshal"/>, gets a pointer to COM's standard marshaler.
+        /// Using the pointer obtained in the preceding item, calls <see cref="IMarshal.GetMarshalSizeMax"/>.
+        /// Adds to the value returned by the call to <see cref="GetMarshalSizeMax"/> the size of the marshaling data header and, possibly,
+        /// that of the proxy CLSID to obtain the maximum size in bytes of the amount of data to be written to the marshaling stream.
+        /// You do not explicitly call this function unless you are implementing <see cref="IMarshal"/>,
+        /// in which case your marshaling stub should call this function to get the correct size of the data packet to be marshaled.
+        /// The value returned by this method is guaranteed to be valid only as long
+        /// as the internal state of the object being marshaled does not change.
+        /// Therefore, the actual marshaling should be done immediately after this function returns,
+        /// or the stub runs the risk that the object, because of some change in state,
+        /// might require more memory to marshal than it originally indicated.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMarshalSizeMax", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetMarshalSizeMax([Out] out ULONG pulSize, [In] in IID riid, [In] in object pUnk,
+            [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] in MSHLFLAGS mshlflags);
+
+        /// <summary>
+        /// <para>
+        /// Creates a default, or standard, marshaling object in either the client process or the server process,
+        /// depending on the caller, and returns a pointer to that object's <see cref="IMarshal"/> implementation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cogetstandardmarshal
+        /// </para>
+        /// </summary>
+        /// <param name="riid">
+        /// A reference to the identifier of the interface whose pointer is to be marshaled.
+        /// This interface must be derived from the <see cref="IUnknown"/> interface.
+        /// </param>
+        /// <param name="pUnk">
+        /// A pointer to the interface to be marshaled.
+        /// </param>
+        /// <param name="dwDestContext">
+        /// The destination context where the specified interface is to be unmarshaled.
+        /// Values come from the enumeration <see cref="MSHCTX"/>.
+        /// Unmarshaling can occur either in another apartment of the current process (<see cref="MSHCTX_INPROC"/>)
+        /// or in another process on the same computer as the current process (<see cref="MSHCTX_LOCAL"/>).
+        /// </param>
+        /// <param name="pvDestContext">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="mshlflags">
+        /// Indicates whether the data to be marshaled is to be transmitted back to the client process (the normal case)
+        /// or written to a global table where it can be retrieved by multiple clients.
+        /// Values come from the <see cref="MSHLFLAGS"/> enumeration.
+        /// </param>
+        /// <param name="ppMarshal">
+        /// The address of <see cref="IMarshal"/> pointer variable that receives the interface pointer to the standard marshaler.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_FAIL"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The <see cref="IMarshal"/> instance was returned successfully.
+        /// <see cref="CO_E_NOTINITIALIZED"/>:
+        /// Before this function can be called, the <see cref="CoInitialize"/>
+        /// or <see cref="OleInitialize"/> function must be called on the current thread. 
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoGetStandardMarshal"/> function creates a default, or standard, marshaling object
+        /// in either the client process or the server process, as may be necessary, and returns that object's IMarshal pointer to the caller.
+        /// If you implement <see cref="IMarshal"/>, you may want your implementation to call <see cref="CoGetStandardMarshal"/>
+        /// as a way of delegating to COM's default implementation any destination contexts that you do not fully understand or want to handle.
+        /// Otherwise, you can ignore this function, which COM calls as part of its internal marshaling procedures.
+        /// When the COM library in the client process receives a marshaled interface pointer,
+        /// it looks for a CLSID to be used in creating a proxy for the purposes of unmarshaling the packet.
+        /// If the packet does not contain a CLSID for the proxy, COM calls <see cref="CoGetStandardMarshal"/>,
+        /// passing a <see cref="NULL"/> <paramref name="pUnk"/> value.
+        /// This function creates a standard proxy in the client process and returns a pointer to that proxy's implementation of <see cref="IMarshal"/>.
+        /// COM uses this pointer to call <see cref="CoUnmarshalInterface"/> to retrieve the pointer to the requested interface.
+        /// If your OLE server application's implementation of <see cref="IMarshal"/> calls <see cref="CoGetStandardMarshal"/>,
+        /// you should pass both the IID of (<paramref name="riid"/>), and a pointer to (<paramref name="pUnk"/>), the interface being requested.
+        /// This function performs the following tasks:
+        /// Determines whether <paramref name="pUnk"/> is <see cref="NULL"/>.
+        /// If <paramref name="pUnk"/> is <see cref="NULL"/>, creates a standard interface proxy
+        /// in the client process for the specified <paramref name="riid"/> and returns the proxy's <see cref="IMarshal"/> pointer.
+        /// If <paramref name="pUnk"/> is not <see cref="NULL"/>, checks to see if a marshaler for the object already exists,
+        /// creates a new one if necessary, and returns the marshaler's <see cref="IMarshal"/> pointer.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetStandardMarshal", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoGetStandardMarshal([In] in IID riid, [In] in object pUnk, [In] MSHCTX dwDestContext,
+            [In] LPVOID pvDestContext, [In] MSHLFLAGS mshlflags, [Out] out IMarshal ppMarshal);
+
+        /// <summary>
+        /// <para>
         /// Initializes the COM library on the current thread and identifies the concurrency model as single-thread apartment (STA).
         /// New applications should call <see cref="CoInitializeEx"/> instead of <see cref="CoInitialize"/>.
         /// If you want to use the Windows Runtime, you must call Windows::Foundation::Initialize instead.
@@ -800,6 +925,75 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Writes into a stream the data required to initialize a proxy object in some client process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-comarshalinterface
+        /// </para>
+        /// </summary>
+        /// <param name="pStm">
+        /// A pointer to the stream to be used during marshaling.
+        /// See <see cref="IStream"/>.
+        /// </param>
+        /// <param name="riid">
+        /// A reference to the identifier of the interface to be marshaled.
+        /// This interface must be derived from the <see cref="IUnknown"/> interface.
+        /// </param>
+        /// <param name="pUnk">
+        /// A pointer to the interface to be marshaled.
+        /// This interface must be derived from the <see cref="IUnknown"/> interface.
+        /// </param>
+        /// <param name="dwDestContext">
+        /// The destination context where the specified interface is to be unmarshaled.
+        /// The possible values come from the enumeration <see cref="MSHCTX"/>.
+        /// Currently, unmarshaling can occur in another apartment of the current process (<see cref="MSHCTX_INPROC"/>),
+        /// in another process on the same computer as the current process (<see cref="MSHCTX_LOCAL"/>),
+        /// or in a process on a different computer (<see cref="MSHCTX_DIFFERENTMACHINE"/>).
+        /// </param>
+        /// <param name="pvDestContext">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="mshlflags">
+        /// The flags that specify whether the data to be marshaled is to be transmitted back
+        /// to the client process (the typical case) or written to a global table, where it can be retrieved by multiple clients.
+        /// The possibles values come from the <see cref="MSHLFLAGS"/> enumeration.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_FAIL"/>, <see cref="E_OUTOFMEMORY"/>,
+        /// and <see cref="E_UNEXPECTED"/>, the stream-access error values returned by <see cref="IStream"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The <see cref="HRESULT"/> was marshaled successfully.
+        /// <see cref="CO_E_NOTINITIALIZED"/>:
+        /// The <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function was not called on the current thread before this function was called. 
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoMarshalInterface"/> function marshals the interface referred to by <paramref name="riid"/> on the object
+        /// whose <see cref="IUnknown"/> implementation is pointed to by <paramref name="pUnk"/>.
+        /// To do so, the <see cref="CoMarshalInterface"/> function performs the following tasks:
+        /// Queries the object for a pointer to the <see cref="IMarshal"/> interface.
+        /// If the object does not implement <see cref="IMarshal"/>, meaning that it relies on COM to provide marshaling support,
+        /// <see cref="CoMarshalInterface"/> gets a pointer to COM's default implementation of IMarshal.
+        /// Gets the CLSID of the object's proxy by calling <see cref="IMarshal.GetUnmarshalClass"/>,
+        /// using whichever <see cref="IMarshal"/> interface pointer has been returned.
+        /// Writes the CLSID of the proxy to the stream to be used for marshaling.
+        /// Marshals the interface pointer by calling <see cref="IMarshal.MarshalInterface"/>.
+        /// The COM library in the client process calls the <see cref="CoUnmarshalInterface"/> function to extract the data and initialize the proxy.
+        /// Before calling <see cref="CoUnmarshalInterface"/>, seek back to the original position in the stream.
+        /// If you are implementing existing COM interfaces or defining your own interfaces using the Microsoft Interface Definition Language (MIDL),
+        /// the MIDL-generated proxies and stubs call <see cref="CoMarshalInterface"/> for you.
+        /// If you are writing your own proxies and stubs, your proxy code and stub code
+        /// should each call <see cref="CoMarshalInterface"/> to correctly marshal interface pointers.
+        /// Calling <see cref="IMarshal"/> directly from your proxy and stub code is not recommended.
+        /// If you are writing your own implementation of <see cref="IMarshal"/>, and your proxy needs access to a private object,
+        /// you can include an interface pointer to that object as part of the data you write to the stream.
+        /// In such situations, if you want to use COM's default marshaling implementation when passing the interface pointer,
+        /// you can call <see cref="CoMarshalInterface"/> on the object to do so.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoMarshalInterface", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoMarshalInterface([In] in IStream pStm, [In] in IID riid, [In] object pUnk,
+            [In] DWORD dwDestContext, [In] LPVOID pvDestContext, [In] DWORD mshlflags);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the authentication information the client uses to make calls on the specified proxy.
         /// This is a helper function for <see cref="IClientSecurity.QueryBlanket"/>.
         /// </para>
@@ -942,6 +1136,56 @@ namespace Lsj.Util.Win32
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoRegisterClassObject", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoRegisterClassObject([In] in Guid rclsid, [MarshalAs(UnmanagedType.IUnknown)][In] object pUnk,
             [In] DWORD dwClsContext, [In] REGCLS flags, [Out] out DWORD lpdwRegister);
+
+        /// <summary>
+        /// <para>
+        /// Destroys a previously marshaled data packet.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-coreleasemarshaldata
+        /// </para>
+        /// </summary>
+        /// <param name="pStm">
+        /// A pointer to the stream that contains the data packet to be destroyed. See <see cref="IStream"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_FAIL"/>, <see cref="E_INVALIDARG"/>,
+        /// <see cref="E_OUTOFMEMORY"/>, and <see cref="E_UNEXPECTED"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The data packet was successfully destroyed.
+        /// <see cref="STG_E_INVALIDPOINTER"/>: An error related to the <paramref name="pStm"/> parameter.
+        /// <see cref="CO_E_NOTINITIALIZED"/>:
+        /// The <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function was not called on the current thread before this function was called. 
+        /// </returns>
+        /// <remarks>
+        /// Important  
+        /// Security Note: Calling this method with untrusted data is a security risk.
+        /// Call this method only with trusted data. For more information, see Untrusted Data Security Risks.
+        /// The <see cref="CoReleaseMarshalData"/> function performs the following tasks:
+        /// The function reads a CLSID from the stream.
+        /// If COM's default marshaling implementation is being used,
+        /// the function gets an <see cref="IMarshal"/> pointer to an instance of the standard unmarshaler.
+        /// If custom marshaling is being used, the function creates a proxy by calling the <see cref="CoCreateInstance"/> function,
+        /// passing the CLSID it read from the stream, and requests an <see cref="IMarshal"/> interface pointer to the newly created proxy.
+        /// Using whichever <see cref="IMarshal"/> interface pointer it has acquired, the function calls <see cref="IMarshal.ReleaseMarshalData"/>.
+        /// You typically do not call this function.
+        /// The only situation in which you might need to call this function is if you use custom marshaling
+        /// (write and use your own implementation of <see cref="IMarshal"/>).
+        /// Examples of when <see cref="CoReleaseMarshalData"/> should be called include the following situations:
+        /// An attempt was made to unmarshal the data packet, but it failed.
+        /// A marshaled data packet was removed from a global table.
+        /// As an analogy, the data packet can be thought of as a reference to the original object,
+        /// just as if it were another interface pointer being held on the object.
+        /// Like a real interface pointer, that data packet must be released at some point.
+        /// The use of <see cref="IMarshal.ReleaseMarshalData"/> to release data packets
+        /// is analogous to the use of IUnknown::Release to release interface pointers.
+        /// Note that you do not need to call <see cref="CoReleaseMarshalData"/> after a successful call
+        /// of the <see cref="CoUnmarshalInterface"/> function; that function releases the marshal data as part of the processing that it does.
+        /// Important You must call the <see cref="CoReleaseMarshalData"/> function in the same apartment
+        /// that called <see cref="CoMarshalInterface"/> to marshal the object into the stream.
+        /// Failure to do this may cause the object reference held by the marshaled packet in the stream to be leaked.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoReleaseMarshalData", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoReleaseMarshalData([In] IStream pStm);
 
         /// <summary>
         /// <para>
@@ -1236,6 +1480,64 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUninitialize", ExactSpelling = true, SetLastError = true)]
         public static extern void CoUninitialize();
+
+        /// <summary>
+        /// <para>
+        /// Initializes a newly created proxy using data written into the stream by a previous call to the <see cref="CoMarshalInterface"/> function,
+        /// and returns an interface pointer to that proxy.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-counmarshalinterface
+        /// </para>
+        /// </summary>
+        /// <param name="pStm">
+        /// A pointer to the stream from which the interface is to be unmarshaled.
+        /// </param>
+        /// <param name="riid">
+        /// A reference to the identifier of the interface to be unmarshaled.
+        /// For <see cref="IID_NULL"/>, the returned interface is the one defined by the stream, objref.iid.
+        /// </param>
+        /// <param name="ppv">
+        /// The address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, *<paramref name="ppv"/> contains the requested interface pointer for the unmarshaled interface.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return value <see cref="E_FAIL"/>,
+        /// errors returned by <see cref="CoCreateInstance"/>, and the following values.
+        /// <see cref="S_OK"/>: The interface pointer was unmarshaled successfully.
+        /// <see cref="STG_E_INVALIDPOINTER"/>: <paramref name="pStm"/> is an invalid pointer.
+        /// <see cref="CO_E_NOTINITIALIZED"/>:
+        /// The <see cref="CoInitialize"/> or <see cref="OleInitialize"/> function
+        /// was not called on the current thread before this function was called.
+        /// <see cref="CO_E_OBJNOTCONNECTED"/>:
+        /// The object application has been disconnected from the remoting system
+        /// (for example, as a result of a call to the <see cref="CoDisconnectObject"/> function).
+        /// <see cref="REGDB_E_CLASSNOTREG"/>: An error occurred reading the registration database. 
+        /// <see cref="E_NOINTERFACE"/>: The final QueryInterface of this function for the requested interface returned <see cref="E_NOINTERFACE"/>. 
+        /// </returns>
+        /// <remarks>
+        /// Important  
+        /// Security Note: Calling this method with untrusted data is a security risk.
+        /// Call this method only with trusted data. For more information, see Untrusted Data Security Risks.
+        /// The <see cref="CoUnmarshalInterface"/> function performs the following tasks:
+        /// Reads from the stream the CLSID to be used to create an instance of the proxy.
+        /// Gets an <see cref="IMarshal"/> pointer to the proxy that is to do the unmarshaling.
+        /// If the object uses COM's default marshaling implementation, the pointer thus obtained is to an instance of the generic proxy object.
+        /// If the marshaling is occurring between two threads in the same process,
+        /// the pointer is to an instance of the in-process free threaded marshaler.
+        /// If the object provides its own marshaling code, <see cref="CoUnmarshalInterface"/> calls the <see cref="CoCreateInstance"/> function,
+        /// passing the CLSID it read from the marshaling stream.
+        /// <see cref="CoCreateInstance"/> creates an instance of the object's proxy
+        /// and returns an <see cref="IMarshal"/> interface pointer to the proxy.
+        /// Using whichever <see cref="IMarshal"/> interface pointer it has acquired,
+        /// the function then calls <see cref="IMarshal.UnmarshalInterface"/> and, if appropriate, <see cref="IMarshal.ReleaseMarshalData"/>.
+        /// The primary caller of this function is COM itself, from within interface proxies or stubs that unmarshal an interface pointer.
+        /// There are, however, some situations in which you might call <see cref="CoUnmarshalInterface"/>.
+        /// For example, if you are implementing a stub, your implementation would call <see cref="CoUnmarshalInterface"/>
+        /// when the stub receives an interface pointer as a parameter in a method call. 
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoUnmarshalInterface", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoUnmarshalInterface([In] IStream pStm, [In] in IID riid, [Out] out object ppv);
 
         /// <summary>
         /// <para>

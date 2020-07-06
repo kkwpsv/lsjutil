@@ -46,6 +46,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CLASS_E_NOAGGREGATION = new HRESULT { _value = unchecked((int)0x80040110) };
 
         /// <summary>
+        /// CO_E_ALREADYINITIALIZED
+        /// </summary>
+        public static readonly HRESULT CO_E_ALREADYINITIALIZED = new HRESULT { _value = unchecked((int)0x800401F1) };
+
+        /// <summary>
         /// CO_E_APPDIDNTREG
         /// </summary>
         public static readonly HRESULT CO_E_APPDIDNTREG = new HRESULT { _value = unchecked((int)0x800401FE) };
@@ -344,6 +349,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// RPC_E_CHANGED_MODE
         /// </summary>
         public static readonly HRESULT RPC_E_CHANGED_MODE = new HRESULT { _value = unchecked((int)0x80010106) };
+
+        /// <summary>
+        /// RPC_E_DISCONNECTED
+        /// </summary>
+        public static readonly HRESULT RPC_E_DISCONNECTED = new HRESULT { _value = unchecked((int)0x80010108) };
 
         /// <summary>
         /// RPC_E_NO_GOOD_SECURITY_PACKAGES
