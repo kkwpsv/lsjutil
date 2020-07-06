@@ -105,8 +105,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNamedPipeW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CallNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpNamedPipeName, [In]IntPtr lpInBuffer,
-            [In]uint nInBufferSize, [In]IntPtr lpOutBuffer, [In]uint nOutBufferSize, [Out]out uint lpBytesRead, [In]uint nTimeOut);
+        public static extern bool CallNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpNamedPipeName, [In] IntPtr lpInBuffer,
+            [In] uint nInBufferSize, [In] IntPtr lpOutBuffer, [In] uint nOutBufferSize, [Out] out uint lpBytesRead, [In] uint nTimeOut);
 
         /// <summary>
         /// <para>
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConnectNamedPipe", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ConnectNamedPipe([In]IntPtr hNamedPipe, [In]int lpOverlapped);
+        public static extern bool ConnectNamedPipe([In] IntPtr hNamedPipe, [In] int lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -332,8 +332,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint dwOpenMode, [In]uint dwPipeMode,
-            [In]uint nMaxInstances, [In]uint nOutBufferSize, [In]uint nInBufferSize, [In]uint nDefaultTimeOut, [In]in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern IntPtr CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] uint dwOpenMode, [In] uint dwPipeMode,
+            [In] uint nMaxInstances, [In] uint nOutBufferSize, [In] uint nInBufferSize, [In] uint nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -387,7 +387,7 @@ namespace Lsj.Util.Win32
         /// An instance of a pipe is always deleted when the last handle to the instance of the named pipe is closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePipe", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreatePipe([Out]out IntPtr hReadPipe, [Out]out IntPtr hWritePipe, [In]in SECURITY_ATTRIBUTES lpPipeAttributes, [In]uint nSize);
+        public static extern BOOL CreatePipe([Out] out IntPtr hReadPipe, [Out] out IntPtr hWritePipe, [In] in SECURITY_ATTRIBUTES lpPipeAttributes, [In] uint nSize);
 
         /// <summary>
         /// <para>
@@ -422,7 +422,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DisconnectNamedPipe([In]IntPtr hNamedPipe);
+        public static extern bool DisconnectNamedPipe([In] IntPtr hNamedPipe);
 
         /// <summary>
         /// <para>
@@ -489,9 +489,9 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetNamedPipeHandleState([In]IntPtr hNamedPipe, [Out]PipeModes lpState, [Out]uint lpCurInstances,
-            [Out]uint lpMaxCollectionCount, [Out]uint lpCollectDataTimeout,
-            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpUserName, [In]uint nMaxUserNameSize);
+        public static extern bool GetNamedPipeHandleState([In] IntPtr hNamedPipe, [Out] PipeModes lpState, [Out] uint lpCurInstances,
+            [Out] uint lpMaxCollectionCount, [Out] uint lpCollectDataTimeout,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpUserName, [In] uint nMaxUserNameSize);
 
         /// <summary>
         /// <para>
@@ -549,8 +549,76 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetNamedPipeInfo([In]IntPtr hNamedPipe, [Out]uint lpFlags, [Out]uint lpOutBufferSize,
-            [Out]uint lpInBufferSize, [Out]uint lpMaxInstances);
+        public static extern bool GetNamedPipeInfo([In] IntPtr hNamedPipe, [Out] uint lpFlags, [Out] uint lpOutBufferSize,
+            [Out] uint lpInBufferSize, [Out] uint lpMaxInstances);
+
+        /// <summary>
+        /// <para>
+        /// Copies data from a named or anonymous pipe into a buffer without removing it from the pipe.
+        /// It also returns information about data in the pipe.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-peeknamedpipe
+        /// </para>
+        /// </summary>
+        /// <param name="hNamedPipe">
+        /// A handle to the pipe.
+        /// This parameter can be a handle to a named pipe instance, as returned by the <see cref="CreateNamedPipe"/>
+        /// or <see cref="CreateFile"/> function, or it can be a handle to the read end of an anonymous pipe,
+        /// as returned by the <see cref="CreatePipe"/> function.
+        /// The handle must have <see cref="GENERIC_READ"/> access to the pipe.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives data read from the pipe.
+        /// This parameter can be <see cref="NULL"/> if no data is to be read.
+        /// </param>
+        /// <param name="nBufferSize">
+        /// The size of the buffer specified by the <paramref name="lpBuffer"/> parameter, in bytes.
+        /// This parameter is ignored if <paramref name="lpBuffer"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpBytesRead">
+        /// A pointer to a variable that receives the number of bytes read from the pipe.
+        /// This parameter can be <see cref="NULL"/> if no data is to be read.
+        /// </param>
+        /// <param name="lpTotalBytesAvail">
+        /// A pointer to a variable that receives the total number of bytes available to be read from the pipe.
+        /// This parameter can be <see cref="NULL"/> if no data is to be read.
+        /// </param>
+        /// <param name="lpBytesLeftThisMessage">
+        /// A pointer to a variable that receives the number of bytes remaining in this message.
+        /// This parameter will be zero for byte-type named pipes or for anonymous pipes.
+        /// This parameter can be <see cref="NULL"/> if no data is to be read.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="PeekNamedPipe"/> function is similar to the <see cref="ReadFile"/> function with the following exceptions:
+        /// The data is read in the mode specified with <see cref="CreateNamedPipe"/>.
+        /// For example, create a pipe with <code>PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE</code>.
+        /// If you change the mode to <see cref="PIPE_READMODE_BYTE"/> with <see cref="SetNamedPipeHandleState"/>,
+        /// <see cref="ReadFile"/> will read in byte mode, but <see cref="PeekNamedPipe"/> will continue to read in message mode.
+        /// The data read from the pipe is not removed from the pipe's buffer.
+        /// The function can return additional information about the contents of the pipe.
+        /// The function always returns immediately in a single-threaded application, even if there is no data in the pipe.
+        /// The wait mode of a named pipe handle (blocking or nonblocking) has no effect on the function.
+        /// Note The <see cref="PeekNamedPipe"/> function can block thread execution the same way
+        /// any I/O function can when called on a synchronous handle in a multi-threaded application.
+        /// To avoid this condition, use a pipe handle created for asynchronous I/O.
+        /// If the specified handle is a named pipe handle in byte-read mode,
+        /// the function reads all available bytes up to the size specified in <paramref name="nBufferSize"/>.
+        /// For a named pipe handle in message-read mode, the function reads the next message in the pipe.
+        /// If the message is larger than <paramref name="nBufferSize"/>, the function returns TRUE after reading the specified number of bytes.
+        /// In this situation, <paramref name="lpBytesLeftThisMessage"/> will receive the number of bytes remaining in the message.
+        /// Windows 10, version 1709: 
+        /// Pipes are only supported within an app-container; ie, from one UWP process to another UWP process that's part of the same app.
+        /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekNamedPipe", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PeekNamedPipe([In] HANDLE hNamedPipe, [In] LPVOID lpBuffer, [In] DWORD nBufferSize,
+            [Out] out DWORD lpBytesRead, [Out] out DWORD lpTotalBytesAvail, [Out] out DWORD lpBytesLeftThisMessage);
 
         /// <summary>
         /// <para>
@@ -608,8 +676,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetNamedPipeHandleState", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetNamedPipeHandleState([In]HANDLE hNamedPipe, [In]in PipeModes lpMode,
-            [In]in DWORD lpMaxCollectionCount, [In]in DWORD lpCollectDataTimeout);
+        public static extern BOOL SetNamedPipeHandleState([In] HANDLE hNamedPipe, [In] in PipeModes lpMode,
+            [In] in DWORD lpMaxCollectionCount, [In] in DWORD lpCollectDataTimeout);
 
         /// <summary>
         /// <para>
@@ -697,8 +765,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TransactNamedPipe", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TransactNamedPipe([In]HANDLE hNamedPipe, [In]LPVOID lpInBuffer, [In]DWORD nInBufferSize, [In]LPVOID lpOutBuffer,
-            [In]DWORD nOutBufferSize, [Out]out DWORD lpBytesRead, [In]in OVERLAPPED lpOverlapped);
+        public static extern BOOL TransactNamedPipe([In] HANDLE hNamedPipe, [In] LPVOID lpInBuffer, [In] DWORD nInBufferSize, [In] LPVOID lpOutBuffer,
+            [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesRead, [In] in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -741,6 +809,6 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitNamedPipeW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WaitNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In]string lpNamedPipeName, [In]DWORD nTimeOut);
+        public static extern BOOL WaitNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpNamedPipeName, [In] DWORD nTimeOut);
     }
 }
