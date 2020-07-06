@@ -720,6 +720,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PolyBezier"/> function draws one or more Bézier curves.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polybezier
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to a device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that contain the endpoints and control points of the curve(s), in logical units.
+        /// </param>
+        /// <param name="cpt">
+        /// The number of points in the <paramref name="apt"/> array.
+        /// This value must be one more than three times the number of curves to be drawn,
+        /// because each Bézier curve requires two control points and an endpoint, and the initial curve requires an additional starting point.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The PolyBezier function draws cubic Bézier curves by using the endpoints and control points
+        /// specified by the <paramref name="apt"/> parameter.
+        /// The first curve is drawn from the first point to the fourth point by using the second and third points as control points.
+        /// Each subsequent curve in the sequence needs exactly three more points:
+        /// the ending point of the previous curve is used as the starting point, the next two points in the sequence are control points,
+        /// and the third is the ending point.
+        /// The current position is neither used nor updated by the <see cref="PolyBezier"/> function.
+        /// The figure is not filled.
+        /// This function draws lines by using the current pen.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolyBezier", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolyBezier([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] DWORD cpt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="Polygon"/> function draws a polygon consisting of two or more vertices connected by straight lines.
         /// The polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode.
         /// </para>
