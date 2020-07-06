@@ -783,6 +783,38 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="PolylineTo"/> function draws one or more straight lines.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polylineto
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="apt">
+        /// A pointer to an array of <see cref="POINT"/> structures that contains the vertices of the line, in logical units.
+        /// </param>
+        /// <param name="cpt">
+        /// The number of points in the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unlike the <see cref="Polyline"/> function, the <see cref="PolylineTo"/> function uses and updates the current position.
+        /// A line is drawn from the current position to the first point specified by the <paramref name="apt"/> parameter by using the current pen.
+        /// For each additional line, the function draws from the ending point of the previous line
+        /// to the next point specified by <paramref name="apt"/>.
+        /// <see cref="PolylineTo"/> moves the current position to the ending point of the last line.
+        /// If the line segments drawn by this function form a closed figure, the figure is not filled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PolylineTo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PolylineTo([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] POINT[] apt, [In] DWORD cpt);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="PolyPolygon"/> function draws a series of closed polygons.
         /// Each polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode.
         /// The polygons drawn by this function can overlap.
