@@ -647,8 +647,8 @@ namespace Lsj.Util.Win32
         /// which means all pipe instances are currently connected, CreateFile fails with <see cref="ERROR_PIPE_BUSY"/>.
         /// For more information, see Pipes.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFile", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint dwDesiredAccess,
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] ACCESS_MASK dwDesiredAccess,
             [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
             [In] uint dwFlagsAndAttributes, [In] IntPtr hTemplateFile);
 
