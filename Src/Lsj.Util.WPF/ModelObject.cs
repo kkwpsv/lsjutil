@@ -63,12 +63,19 @@ namespace Lsj.Util.WPF
         /// 
         /// </summary>
         /// <param name="propertyName"></param>
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            if (Application.Current.Dispatcher.CheckAccess())
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }, DispatcherPriority.Send);
+            }
+            else
+            {
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                });
+            }
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace Lsj.Util.WPF
         /// <param name="affectedPropertyNames"></param>
         /// <param name="propertyName"></param>
         /// <param name="extraAction"></param>
-        protected void SetField<T>(ref T field, T value, IEnumerable<string> affectedPropertyNames = null, [CallerMemberName]string propertyName = null, Action extraAction = null)
+        protected void SetField<T>(ref T field, T value, IEnumerable<string> affectedPropertyNames = null, [CallerMemberName] string propertyName = null, Action extraAction = null)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
