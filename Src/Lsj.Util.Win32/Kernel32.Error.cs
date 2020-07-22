@@ -4,13 +4,16 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ExceptionFlags;
 using static Lsj.Util.Win32.Enums.FacilityCodes;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
+using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -53,7 +56,7 @@ namespace Lsj.Util.Win32
         /// An application calls <see cref="FatalAppExit"/> only when it is not capable of terminating any other way.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalAppExitW", ExactSpelling = true, SetLastError = true)]
-        public static extern void FatalAppExit([In]UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessageText);
+        public static extern void FatalAppExit([In] UINT uAction, [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessageText);
 
         /// <summary>
         /// <para>
@@ -130,8 +133,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
-            [Out]out IntPtr lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
+        public static extern uint FormatMessage([In] FormatMessageFlags dwFlags, [In] IntPtr lpSource, [In] uint dwMessageId, [In] uint dwLanguageId,
+            [Out] out IntPtr lpBuffer, [In] uint nSize, [In] IntPtr Arguments);
 
         /// <summary>
         /// <para>
@@ -208,8 +211,33 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint FormatMessage([In]FormatMessageFlags dwFlags, [In]IntPtr lpSource, [In]uint dwMessageId, [In]uint dwLanguageId,
-            [MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpBuffer, [In]uint nSize, [In]IntPtr Arguments);
+        public static extern uint FormatMessage([In] FormatMessageFlags dwFlags, [In] IntPtr lpSource, [In] uint dwMessageId, [In] uint dwLanguageId,
+            [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpBuffer, [In] uint nSize, [In] IntPtr Arguments);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the error mode for the current process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-geterrormode
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The process error mode. This function returns one of the following values.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>, <see cref="SEM_NOALIGNMENTFAULTEXCEPT"/>,
+        /// <see cref="SEM_NOGPFAULTERRORBOX"/>, <see cref="SEM_NOOPENFILEERRORBOX"/>
+        /// </returns>
+        /// <remarks>
+        /// Each process has an associated error mode that indicates to the system how the application is going to respond to serious errors.
+        /// A child process inherits the error mode of its parent process.
+        /// To change the error mode for the process, use the <see cref="SetErrorMode"/> function.
+        /// Windows 7:
+        /// Callers should favor <see cref="SetThreadErrorMode"/> over <see cref="SetErrorMode"/>
+        /// since it is less disruptive to the normal behavior of the system.
+        /// <see cref="GetThreadErrorMode"/> is the call function that corresponds to <see cref="GetErrorMode"/>.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetErrorMode", ExactSpelling = true, SetLastError = true)]
+        public static extern ErrorModes GetErrorMode();
 
         /// <summary>
         /// <para>
@@ -249,6 +277,25 @@ namespace Lsj.Util.Win32
         /// To convert a system error into an HRESULT value, use the <see cref="HRESULT_FROM_WIN32"/> macro.
         /// </remarks>
         public static SystemErrorCodes GetLastError() => (SystemErrorCodes)Marshal.GetLastWin32Error();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the error mode for the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getthreaderrormode
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The process error mode. This function returns one of the following values.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>, <see cref="SEM_NOGPFAULTERRORBOX"/>, <see cref="SEM_NOOPENFILEERRORBOX"/>
+        /// </returns>
+        /// <remarks>
+        /// A thread inherits the error mode of the process in which it is running.
+        /// To change the error mode for the thread, use the <see cref="SetThreadErrorMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetThreadErrorMode();
 
         /// <summary>
         /// <para>
@@ -313,8 +360,8 @@ namespace Lsj.Util.Win32
         /// A debugger can retrieve these values by calling the <see cref="WaitForDebugEvent"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RaiseException", ExactSpelling = true, SetLastError = true)]
-        public static extern void RaiseException([In]ExceptionCodes dwExceptionCode, [In]ExceptionFlags dwExceptionFlags,
-            [In]DWORD nNumberOfArguments, [MarshalAs(UnmanagedType.LPArray)][In]ULONG_PTR[] lpArguments);
+        public static extern void RaiseException([In] ExceptionCodes dwExceptionCode, [In] ExceptionFlags dwExceptionFlags,
+            [In] DWORD nNumberOfArguments, [MarshalAs(UnmanagedType.LPArray)][In] ULONG_PTR[] lpArguments);
 
         /// <summary>
         /// <para>
@@ -361,7 +408,7 @@ namespace Lsj.Util.Win32
         /// since it is less disruptive to the normal behavior of the system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetErrorMode", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SetErrorMode([In]ErrorModes uMode);
+        public static extern UINT SetErrorMode([In] ErrorModes uMode);
 
         /// <summary>
         /// <para>
@@ -373,7 +420,49 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="dwErrCode">The last-error code for the thread.</param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetLastError([In]uint dwErrCode);
+        public static extern void SetLastError([In] uint dwErrCode);
+
+        /// <summary>
+        /// <para>
+        /// Controls whether the system will handle the specified types of serious errors or whether the calling thread will handle them.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-setthreaderrormode
+        /// </para>
+        /// </summary>
+        /// <param name="dwNewMode">
+        /// The thread error mode. This parameter can be one or more of the following values.
+        /// 0: Use the system default, which is to display all error dialog boxes.
+        /// <see cref="SEM_FAILCRITICALERRORS"/>:
+        /// The system does not display the critical-error-handler message box.
+        /// Instead, the system sends the error to the calling thread.
+        /// Best practice is that all applications call the process-wide <see cref="SetErrorMode"/> function
+        /// with a parameter of <see cref="SEM_FAILCRITICALERRORS"/> at startup.
+        /// This is to prevent error mode dialogs from hanging the application.
+        /// <see cref="SEM_NOGPFAULTERRORBOX"/>:
+        /// The system does not display the Windows Error Reporting dialog.
+        /// <see cref="SEM_NOOPENFILEERRORBOX"/>:
+        /// The <see cref="OpenFile"/> function does not display a message box when it fails to find a file.
+        /// Instead, the error is returned to the caller.
+        /// This error mode overrides the <see cref="OF_PROMPT"/> flag. 
+        /// </param>
+        /// <param name="lpOldMode">
+        /// If the function succeeds, this parameter is set to the thread's previous error mode.
+        /// This parameter can be <see cref="NullRef{ErrorModes}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Each process has an associated error mode that indicates to the system how the application is going to respond to serious errors.
+        /// A thread inherits the error mode of the process in which it is running.
+        /// To retrieve the process error mode, use the <see cref="GetErrorMode"/> function.
+        /// To retrieve the error mode of the calling thread, use the <see cref="GetThreadErrorMode"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetThreadErrorMode([In] ErrorModes dwNewMode, [Out] out ErrorModes lpOldMode);
 
         /// <summary>
         /// <para>
@@ -406,6 +495,6 @@ namespace Lsj.Util.Win32
         /// The system uses <see cref="UnhandledExceptionFilter"/> internally to handle exceptions that occur during process and thread creation.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnhandledExceptionFilter", ExactSpelling = true, SetLastError = true)]
-        public static extern LONG UnhandledExceptionFilter([Out]out EXCEPTION_POINTERS ExceptionInfo);
+        public static extern LONG UnhandledExceptionFilter([Out] out EXCEPTION_POINTERS ExceptionInfo);
     }
 }

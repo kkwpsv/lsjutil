@@ -48,6 +48,22 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         WM_MOUSELAST = 0x020E,
 
+        #region Active Accessibility User Interface Services Reference
+
+        /// <summary>
+        /// Sent by both Microsoft Active Accessibility and Microsoft UI Automation to obtain information about an accessible object contained in a server application.
+        /// Applications never send this message directly.
+        /// Microsoft Active Accessibility sends this message in response to calls to <see cref="AccessibleObjectFromPoint"/>,
+        /// <see cref="AccessibleObjectFromEvent"/>, or <see cref="AccessibleObjectFromWindow"/>.
+        /// However, server applications handle this message.
+        /// UI Automation sends this message in response to calls to <see cref="IUIAutomation.ElementFromHandle"/>,
+        /// <see cref="IUIAutomation.ElementFromPoint"/>, and <see cref="IUIAutomation.GetFocusedElement"/>,
+        /// and when handling events for which a client has registered.
+        /// </summary>
+        WM_GETOBJECT = 0x003D,
+
+        #endregion
+
         #region Button Control Notifications
 
         /// <summary>

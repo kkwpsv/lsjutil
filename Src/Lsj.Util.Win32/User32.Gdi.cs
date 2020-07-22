@@ -9,6 +9,8 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BorderFlags;
 using static Lsj.Util.Win32.Enums.BorderStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
+using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
+using static Lsj.Util.Win32.Enums.EnumDisplayDevicesFlags;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
@@ -57,7 +59,7 @@ namespace Lsj.Util.Win32
         /// This API does not participate in DPI virtualization. The output returned is always in terms of physical pixels.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC BeginPaint([In]HWND hWnd, [Out]out PAINTSTRUCT lpPaint);
+        public static extern HDC BeginPaint([In] HWND hWnd, [Out] out PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
@@ -86,7 +88,7 @@ namespace Lsj.Util.Win32
         /// All coordinates are device coordinates.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClientToScreen", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ClientToScreen([In]HWND hWnd, [In][Out]ref POINT lpPoint);
+        public static extern BOOL ClientToScreen([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
         /// <summary>
         /// <para>
@@ -150,7 +152,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawEdge", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawEdge([In]HDC hdc, [In]in RECT qrc, [In]BorderStyles edge, [In]BorderFlags grfFlags);
+        public static extern BOOL DrawEdge([In] HDC hdc, [In] in RECT qrc, [In] BorderStyles edge, [In] BorderFlags grfFlags);
 
         /// <summary>
         /// <para>
@@ -182,7 +184,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DrawFocusRect([In]IntPtr hDC, [In]in RECT lprc);
+        public static extern bool DrawFocusRect([In] IntPtr hDC, [In] in RECT lprc);
 
         /// <summary>
         /// <para>
@@ -207,7 +209,7 @@ namespace Lsj.Util.Win32
         /// <see cref="EndPaint"/> releases the display device context that <see cref="BeginPaint"/> retrieved.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EndPaint([In]HWND hWnd, [In]in PAINTSTRUCT lpPaint);
+        public static extern BOOL EndPaint([In] HWND hWnd, [In] in PAINTSTRUCT lpPaint);
 
         /// <summary>
         /// <para>
@@ -266,8 +268,8 @@ namespace Lsj.Util.Win32
         /// The function fails when there are no more monitors for the adapter.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)][In]string lpDevice, [In]DWORD iDevNum,
-            [In]ref DISPLAY_DEVICE lpDisplayDevice, [In]DWORD dwFlags);
+        public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)][In] string lpDevice, [In] DWORD iDevNum,
+            [In] ref DISPLAY_DEVICE lpDisplayDevice, [In] EnumDisplayDevicesFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -292,7 +294,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SIMPLEREGION"/>: Region is a single rectangle.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExcludeUpdateRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int ExcludeUpdateRgn([In]HDC hDC, [In]HWND hWnd);
+        public static extern int ExcludeUpdateRgn([In] HDC hDC, [In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -315,7 +317,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDC", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC GetDC([In]HWND hwnd);
+        public static extern HDC GetDC([In] HWND hwnd);
 
         /// <summary>
         /// <para>
@@ -359,7 +361,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CS_OWNDC"/> or <see cref="CS_PARENTDC"/> was specified as a style in the <see cref="WNDCLASS"/> structure when the class was registered.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC GetDCEx([In]HWND hWnd, [In]HRGN hrgnClip, [In]GetDCExFlags flags);
+        public static extern HDC GetDCEx([In] HWND hWnd, [In] HRGN hrgnClip, [In] GetDCExFlags flags);
 
         /// <summary>
         /// <para>
@@ -393,7 +395,7 @@ namespace Lsj.Util.Win32
         /// Not releasing the window device context has serious effects on painting requested by applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDC", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC GetWindowDC([In]HWND hWnd);
+        public static extern HDC GetWindowDC([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -430,7 +432,7 @@ namespace Lsj.Util.Win32
         /// after the call to <see cref="BeginPaint"/> retrieves an empty update region.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetUpdateRect([In]HWND hWnd, [In][Out]ref RECT lpRect, [In]BOOL bErase);
+        public static extern BOOL GetUpdateRect([In] HWND hWnd, [In][Out] ref RECT lpRect, [In] BOOL bErase);
 
         /// <summary>
         /// <para>
@@ -463,7 +465,7 @@ namespace Lsj.Util.Win32
         /// so any call to <see cref="GetUpdateRgn"/> made immediately after the call to <see cref="BeginPaint"/> retrieves an empty update region.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUpdateRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetUpdateRgn([In]HWND hWnd, [In]HRGN hRgn, [In]BOOL bErase);
+        public static extern int GetUpdateRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bErase);
 
         /// <summary>
         /// <para>
@@ -502,7 +504,7 @@ namespace Lsj.Util.Win32
         /// the background is erased in the entire region, not just in the specified part.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InvalidateRect([In]HWND hWnd, [In]in RECT lpRect, [In]BOOL bErase);
+        public static extern BOOL InvalidateRect([In] HWND hWnd, [In] in RECT lpRect, [In] BOOL bErase);
 
         /// <summary>
         /// <para>
@@ -541,7 +543,7 @@ namespace Lsj.Util.Win32
         /// the background in the entire region is erased, not just in the specified part.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InvalidateRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InvalidateRgn([In]HWND hWnd, [In]HRGN hRgn, [In]BOOL bErase);
+        public static extern BOOL InvalidateRgn([In] HWND hWnd, [In] HRGN hRgn, [In] BOOL bErase);
 
         /// <summary>
         /// <para>
@@ -558,7 +560,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr LoadBitmap([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpBitmapName);
+        public static extern IntPtr LoadBitmap([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBitmapName);
 
         /// <summary>
         /// <para>
@@ -595,7 +597,7 @@ namespace Lsj.Util.Win32
         /// A locked window cannot be moved.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockWindowUpdate", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LockWindowUpdate([In]HWND hWndLock);
+        public static extern BOOL LockWindowUpdate([In] HWND hWndLock);
 
         /// <summary>
         /// <para>
@@ -660,8 +662,8 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
-        public static extern int MapWindowPoints([In]HWND hWndFrom, [In]HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out]POINT[] lpPoints,
-            [In]UINT cPoints);
+        public static extern int MapWindowPoints([In] HWND hWndFrom, [In] HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lpPoints,
+            [In] UINT cPoints);
 
         /// <summary>
         /// <para>
@@ -710,7 +712,7 @@ namespace Lsj.Util.Win32
         /// To repaint the desktop, an application uses the <see cref="RDW_ERASE"/> flag to generate a <see cref="WM_ERASEBKGND"/> message.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RedrawWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RedrawWindow([In]HWND hWnd, [In]in RECT lprcUpdate, [In]HRGN hrgnUpdate, [In]RedrawWindowFlags flags);
+        public static extern BOOL RedrawWindow([In] HWND hWnd, [In] in RECT lprcUpdate, [In] HRGN hrgnUpdate, [In] RedrawWindowFlags flags);
 
         /// <summary>
         /// <para>
@@ -741,7 +743,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ReleaseDC"/> must be called from the same thread that called <see cref="GetDC"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseDC", ExactSpelling = true, SetLastError = true)]
-        public static extern int ReleaseDC([In]HWND hWnd, [In]HDC hDC);
+        public static extern int ReleaseDC([In] HWND hWnd, [In] HDC hDC);
 
         /// <summary>
         /// <para>
@@ -773,7 +775,7 @@ namespace Lsj.Util.Win32
         /// For more information, see "Window Layout and Mirroring" in Window Features.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScreenToClient", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScreenToClient([In]HWND hWnd, [In][Out]ref POINT lpPoint);
+        public static extern BOOL ScreenToClient([In] HWND hWnd, [In][Out] ref POINT lpPoint);
 
         /// <summary>
         /// <para>
@@ -795,7 +797,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UpdateWindow([In]HWND hWnd);
+        public static extern BOOL UpdateWindow([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -826,7 +828,7 @@ namespace Lsj.Util.Win32
         /// The system continues to generate <see cref="WM_PAINT"/> messages until the current update region is validated.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ValidateRect([In]HWND hWnd, [In]in RECT lpRect);
+        public static extern BOOL ValidateRect([In] HWND hWnd, [In] in RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -856,6 +858,6 @@ namespace Lsj.Util.Win32
         /// if a portion of the update region must be validated before the next <see cref="WM_PAINT"/> message is generated.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ValidateRgn", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ValidateRgn([In]HWND hWnd, [In]HRGN hRgn);
+        public static extern BOOL ValidateRgn([In] HWND hWnd, [In] HRGN hRgn);
     }
 }

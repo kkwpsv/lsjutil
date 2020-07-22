@@ -5,7 +5,9 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.USHORT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Enums.ProcessFeatures;
@@ -13,6 +15,7 @@ using static Lsj.Util.Win32.Enums.ProductTypes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
+using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
 
@@ -20,6 +23,24 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// <para>
+        /// Retrieves the current local date and time.
+        /// To retrieve the current date and time in Coordinated Universal Time (UTC) format, use the <see cref="GetSystemTime"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlocaltime
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the current local date and time.
+        /// </param>
+        /// <remarks>
+        /// To set the current local date and time, use the <see cref="SetLocalTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLocalTime", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetLocalTime([Out] out SYSTEMTIME lpSystemTime);
+
         /// <summary>
         /// <para>
         /// Retrieves information about logical processors and related hardware.
@@ -190,6 +211,65 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the amount of memory that is available in a node specified as a <see cref="USHORT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynodeex
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The number of the node.
+        /// </param>
+        /// <param name="AvailableBytes">
+        /// The amount of available memory for the node, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNumaAvailableMemoryNodeEx"/> function returns the amount of memory
+        /// consumed by free and zeroed pages on the specified node.
+        /// On systems with more than one node, this memory does not include standby pages.
+        /// Therefore, the sum of the available memory values for all nodes in the system
+        /// is equal to the value of the Free &amp; Zero Page List Bytes memory performance counter.
+        /// On systems with only one node, the value returned by <see cref="GetNumaAvailableMemoryNode"/>
+        /// includes standby pages and is equal to the value of the Available Bytes memory performance counter.
+        /// For more information about performance counters, see Memory Performance Information.
+        /// The only difference between the <see cref="GetNumaAvailableMemoryNodeEx"/> function
+        /// and the <see cref="GetNumaAvailableMemoryNode"/> function is the data type of the Node parameter.
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaAvailableMemoryNodeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaAvailableMemoryNodeEx([In] USHORT Node, [Out] out ULONGLONG AvailableBytes);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the node that currently has the highest number.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumahighestnodenumber
+        /// </para>
+        /// </summary>
+        /// <param name="HighestNodeNumber">
+        /// The number of the highest node.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The number of the highest node is not guaranteed to be the total number of nodes.
+        /// To retrieve a list of all processors in a node, use the <see cref="GetNumaNodeProcessorMask"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaHighestNodeNumber", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaHighestNodeNumber([Out] out ULONG HighestNodeNumber);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the processor mask for the specified node.
         /// Use the <see cref="GetNumaNodeProcessorMaskEx"/> function to retrieve the processor mask for a node in any processor group.
         /// </para>
@@ -224,6 +304,43 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the processor mask for a node regardless of the processor group the node belongs to.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumanodeprocessormaskex
+        /// </para>
+        /// </summary>
+        /// <param name="Node">
+        /// The node number.
+        /// </param>
+        /// <param name="ProcessorMask">
+        /// A pointer to a <see cref="GROUP_AFFINITY"/> structure that receives the processor mask for the specified node.
+        /// A processor mask is a bit vector in which each bit represents a processor and whether it is in the node.
+        /// If the specified node has no processors configured, the <see cref="GROUP_AFFINITY.Mask"/> member is zero
+        /// and the <see cref="GROUP_AFFINITY.Group"/> member is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetNumaNodeProcessorMaskEx"/> function differs from <see cref="GetNumaNodeProcessorMask"/> in that
+        /// it can retrieve the processor mask for a node regardless of the group the node belongs to.
+        /// That is, the node does not have to be in the same group as the calling thread.
+        /// The <see cref="GetNumaNodeProcessorMask"/> function can retrieve
+        /// the processor mask only for nodes that are in the same group as the calling thread.
+        /// To retrieve the highest numbered node in the system, use the <see cref="GetNumaHighestNodeNumber"/> function.
+        /// Note that this number is not guaranteed to equal the total number of nodes in the system.
+        /// To ensure that all threads for your process run on the same node,
+        /// use the <see cref="SetProcessAffinityMask"/> function with a process affinity mask that specifies processors in the same node.
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaNodeProcessorMaskEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaNodeProcessorMaskEx([In] USHORT Node, [Out] out GROUP_AFFINITY ProcessorMask);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the node number for the specified processor.
         /// Use the <see cref="GetNumaProcessorNodeEx"/> function to specify a processor group
         /// and retrieve the node number as a <see cref="USHORT"/> value.
@@ -247,6 +364,34 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNode", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNumaProcessorNode([In] UCHAR Processor, [Out] out UCHAR NodeNumber);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the node number as a <see cref="USHORT"/> value for the specified logical processor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaprocessornodeex
+        /// </para>
+        /// </summary>
+        /// <param name="Processor">
+        /// A pointer to a <see cref="PROCESSOR_NUMBER"/> structure
+        /// that represents the logical processor and the processor group to which it is assigned.
+        /// </param>
+        /// <param name="NodeNumber">
+        /// A pointer to a variable to receive the node number.
+        /// If the specified processor does not exist, this parameter is set to <see cref="MAXUSHORT"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// To compile an application that uses this function, set _WIN32_WINNT >= 0x0601.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNumaProcessorNodeEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetNumaProcessorNodeEx([Out] out PROCESSOR_NUMBER Processor, [Out] out USHORT NodeNumber);
 
         /// <summary>
         /// <para>
@@ -361,6 +506,26 @@ namespace Lsj.Util.Win32
         /// </param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemInfo", ExactSpelling = true, SetLastError = true)]
         public static extern void GetSystemInfo([Out] out SYSTEM_INFO lpSystemInfo);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the current system date and time. The system time is expressed in Coordinated Universal Time (UTC).
+        /// To retrieve the current system date and time in local time, use the <see cref="GetLocalTime"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtime
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemTime">
+        /// A pointer to a <see cref="SYSTEMTIME"/> structure to receive the current system date and time. 
+        /// The <paramref name="lpSystemTime"/> parameter must not be <see cref="NULL"/>.
+        /// Using <see cref="NULL"/> will result in an access violation.
+        /// </param>
+        /// <remarks>
+        /// To set the current system date and time, use the <see cref="SetSystemTime"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTime", ExactSpelling = true, SetLastError = true)]
+        public static extern void GetSystemTime([Out] out SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>
@@ -723,6 +888,76 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryUnbiasedInterruptTime", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL QueryUnbiasedInterruptTime([Out] out ULONGLONG UnbiasedTime);
+
+        /// <summary>
+        /// <para>
+        /// Enables or disables periodic time adjustments to the system's time-of-day clock.
+        /// When enabled, such time adjustments can be used to synchronize the time of day with some other source of time information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-setsystemtimeadjustment
+        /// </para>
+        /// </summary>
+        /// <param name="dwTimeAdjustment">
+        /// This value represents the number of 100-nanosecond units added to the system time-of-day
+        /// for each lpTimeIncrement period of time that actually passes.
+        /// Call <see cref="GetSystemTimeAdjustment"/> to obtain the lpTimeIncrement value.
+        /// See remarks.
+        /// Note  
+        /// Currently, Windows Vista and Windows 7 machines will lose any time adjustments set less than 16. 
+        /// </param>
+        /// <param name="bTimeAdjustmentDisabled">
+        /// The time adjustment mode that the system is to use.
+        /// Periodic system time adjustments can be disabled or enabled.
+        /// A value of <see cref="TRUE"/> specifies that periodic time adjustment is to be disabled.
+        /// When disabled, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation, 
+        /// which can include noticeable jumps in time as deemed necessary by the system.
+        /// A value of <see cref="FALSE"/> specifies that periodic time adjustment is to be enabled, and will be used to adjust the time-of-day clock.
+        /// The system will not interfere with the time adjustment scheme, and will not attempt to synchronize time of day on its own.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// One way the function can fail is if the caller does not possess the SE_SYSTEMTIME_NAME privilege.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetSystemTimeAdjustment"/> and <see cref="SetSystemTimeAdjustment"/> functions
+        /// support algorithms that synchronize the time-of-day clock, reported via <see cref="GetSystemTime"/> and <see cref="GetLocalTime"/>,
+        /// with another time source using a periodic time adjustment.
+        /// The <see cref="SetSystemTimeAdjustment"/> function supports two modes of time synchronization:
+        /// Time-Adjustment Disabled:
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="TRUE"/>.
+        /// In this mode, the value of <paramref name="dwTimeAdjustment"/> is ignored,
+        /// and the system may adjust the time of day using its own internal time synchronization mechanisms.
+        /// These internal time synchronization mechanisms may cause the time-of-day clock to change during the normal course of the system operation,
+        /// which can include noticeable jumps in time as deemed necessary by the system.
+        /// Time-Adjustment Enabled:
+        /// For this mode, <paramref name="bTimeAdjustmentDisabled"/> is set to <see cref="FALSE"/>.
+        /// For each lpTimeIncrement period of time that actually passes,
+        /// <paramref name="dwTimeAdjustment"/> will be added to the time of day.
+        /// The period of time represented by lpTimeIncrement can be determined by calling <see cref="GetSystemTimeAdjustment"/>.
+        /// The lpTimeIncrement value is fixed by the system upon start and does not change
+        /// during system operation and is completely independent of the system’s internal clock interrupt resolution at any given time.
+        /// Given this, the lpTimeIncrement value simply expresses a period of time
+        /// for which <paramref name="dwTimeAdjustment"/> will be applied to the system’s time-of-day clock.
+        /// If the <paramref name="dwTimeAdjustment"/> value is smaller than lpTimeIncrement,
+        /// the time-of-day clock will advance at a rate slower than normal.
+        /// If the <paramref name="dwTimeAdjustment"/> value is larger than lpTimeIncrement,
+        /// the time-of-day clock will advance at a rate faster than normal.
+        /// The degree to which the time-of-day-clock will run faster or slower depends on
+        /// how far the <paramref name="dwTimeAdjustment"/> value is above or below the lpTimeIncrement value.
+        /// If <paramref name="dwTimeAdjustment"/> equals lpTimeIncrement, the time-of-day clock will advance at normal speed.
+        /// An application must have system-time privilege (the SE_SYSTEMTIME_NAME privilege) for this function to succeed.
+        /// The SE_SYSTEMTIME_NAME privilege is disabled by default.
+        /// Use the <see cref="AdjustTokenPrivileges"/> function to enable the privilege before calling <see cref="SetSystemTimeAdjustment"/>,
+        /// and then to disable the privilege after the <see cref="SetSystemTimeAdjustment"/> call.
+        /// For more information, see Running with Special Privileges.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSystemTimeAdjustment([In] DWORD dwTimeAdjustment, [In] BOOL bTimeAdjustmentDisabled);
 
         /// <summary>
         /// <para>

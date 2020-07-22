@@ -312,7 +312,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Your implementation should reduce the moniker at least as far as is requested.
         /// </remarks>
         [PreserveSig]
-        HRESULT Reduce([In]IBindCtx pbc, [In]uint dwReduceHowFar, [MarshalAs(UnmanagedType.Interface)][In][Out]ref IMoniker ppmkToLeft,
+        HRESULT Reduce([In]IBindCtx pbc, [In] MKRREDUCE dwReduceHowFar, [MarshalAs(UnmanagedType.Interface)][In][Out]ref IMoniker ppmkToLeft,
             [MarshalAs(UnmanagedType.Interface)][Out]out IMoniker ppmkReduced);
 
         /// <summary>

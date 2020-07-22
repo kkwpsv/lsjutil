@@ -11,9 +11,14 @@ namespace Lsj.Util.Win32.BaseTypes
     /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/c0618c5b-362b-4e06-9cb0-8720d240cf12
     /// </para>
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, Size = 4)]
+    [StructLayout(LayoutKind.Explicit, Size = 2)]
     public struct USHORT
     {
+        /// <summary>
+        /// MAXUSHORT
+        /// </summary>
+        public static USHORT MAXUSHORT = 0xffff;
+
         [FieldOffset(0)]
         private ushort _value;
 

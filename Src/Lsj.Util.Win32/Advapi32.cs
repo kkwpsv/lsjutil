@@ -4,10 +4,12 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.AclRevisions;
 using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
@@ -17,6 +19,7 @@ using static Lsj.Util.Win32.Enums.PrivilegeAttributes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SECURITY_DESCRIPTOR_CONTROL;
 using static Lsj.Util.Win32.Enums.SECURITY_IMPERSONATION_LEVEL;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
@@ -75,7 +78,75 @@ namespace Lsj.Util.Win32
         /// Common reasons for failure include an invalid computer name, an inaccessible computer, or insufficient privilege.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AbortSystemShutdownW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AbortSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName);
+        public static extern BOOL AbortSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AdjustTokenGroups"/> function enables or disables groups already present in the specified access token.
+        /// Access to <see cref="TOKEN_ADJUST_GROUPS"/> is required to enable or disable groups in an access token.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to the access token that contains the groups to be enabled or disabled.
+        /// The handle must have <see cref="TOKEN_ADJUST_GROUPS"/> access to the token.
+        /// If the <paramref name="PreviousState"/> parameter is not <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// the handle must also have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="ResetToDefault">
+        /// Boolean value that indicates whether the groups are to be set to their default enabled and disabled states.
+        /// If this value is <see cref="TRUE"/>, the groups are set to their default states and the <paramref name="NewState"/> parameter is ignored.
+        /// If this value is <see cref="FALSE"/>, the groups are set according to the information pointed to by the <paramref name="NewState"/> parameter.
+        /// </param>
+        /// <param name="NewState">
+        /// A pointer to a <see cref="TOKEN_GROUPS"/> structure that contains the groups to be enabled or disabled.
+        /// If the <paramref name="ResetToDefault"/> parameter is <see cref="FALSE"/>,
+        /// the function sets each of the groups to the value of that group's <see cref="SE_GROUP_ENABLED"/> attribute
+        /// in the <see cref="TOKEN_GROUPS"/> structure.
+        /// If <paramref name="ResetToDefault"/> is <see cref="TRUE"/>, this parameter is ignored.
+        /// </param>
+        /// <param name="BufferLength">
+        /// The size, in bytes, of the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be zero if the <paramref name="PreviousState"/> parameter is <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// </param>
+        /// <param name="PreviousState">
+        /// A pointer to a buffer that receives a <see cref="TOKEN_GROUPS"/> structure containing the previous state of any groups the function modifies.
+        /// That is, if a group has been modified by this function, the group and its previous state are contained
+        /// in the <see cref="TOKEN_GROUPS"/> structure referenced by <paramref name="PreviousState"/>.
+        /// If the <see cref="TOKEN_GROUPS.GroupCount"/> member of <see cref="TOKEN_GROUPS"/> is zero,
+        /// then no groups have been changed by this function.
+        /// This parameter can be <see cref="NullRef{TOKEN_GROUPS}"/>,
+        /// If a buffer is specified but it does not contain enough space to receive the complete list of modified groups,
+        /// no group states are changed and the function fails.
+        /// In this case, the function sets the variable pointed to by the <paramref name="ReturnLength"/> parameter
+        /// to the number of bytes required to hold the complete list of modified groups.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the actual number of bytes needed
+        /// for the buffer pointed to by the <paramref name="PreviousState"/> parameter.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> and is ignored if <paramref name="PreviousState"/> is <see cref="NullRef{TOKEN_GROUPS}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The information retrieved in the <paramref name="PreviousState"/> parameter is formatted as a <see cref="TOKEN_GROUPS"/> structure.
+        /// This means a pointer to the buffer can be passed as the <paramref name="NewState"/> parameter in a subsequent call
+        /// to the <see cref="AdjustTokenGroups"/> function, restoring the original state of the groups.
+        /// The <paramref name="NewState"/> parameter can list groups to be changed that are not present in the access token.
+        /// This does not affect the successful modification of the groups in the token.
+        /// The <see cref="AdjustTokenGroups"/> function cannot disable groups
+        /// with the <see cref="SE_GROUP_MANDATORY"/> attribute in the <see cref="TOKEN_GROUPS"/> structure.
+        /// Use <see cref="CreateRestrictedToken"/> instead.
+        /// You cannot enable a group that has the <see cref="SE_GROUP_USE_FOR_DENY_ONLY"/> attribute.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenGroups", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AdjustTokenGroups([In] HANDLE TokenHandle, [In] BOOL ResetToDefault, [In] in TOKEN_GROUPS NewState,
+            [In] DWORD BufferLength, [Out] out TOKEN_GROUPS PreviousState, [Out] out DWORD ReturnLength);
 
         /// <summary>
         /// <para>
@@ -165,8 +236,8 @@ namespace Lsj.Util.Win32
         /// in a subsequent call to the <see cref="AdjustTokenPrivileges"/> function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AdjustTokenPrivileges", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AdjustTokenPrivileges([In]HANDLE TokenHandle, [In]BOOL DisableAllPrivileges, [In]in TOKEN_PRIVILEGES NewState,
-            [In]DWORD BufferLength, [Out]out TOKEN_PRIVILEGES PreviousState, [Out]out DWORD ReturnLength);
+        public static extern BOOL AdjustTokenPrivileges([In] HANDLE TokenHandle, [In] BOOL DisableAllPrivileges, [In] in TOKEN_PRIVILEGES NewState,
+            [In] DWORD BufferLength, [Out] out TOKEN_PRIVILEGES PreviousState, [Out] out DWORD ReturnLength);
 
         /// <summary>
         /// <para>
@@ -210,7 +281,80 @@ namespace Lsj.Util.Win32
         /// <see cref="CheckTokenMembership"/> also checks whether the SID is present in the list of restricting SIDs.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembership", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckTokenMembership([In]HANDLE TokenHandle, [In]PSID SidToCheck, [Out]out BOOL IsMember);
+        public static extern BOOL CheckTokenMembership([In] HANDLE TokenHandle, [In] PSID SidToCheck, [Out] out BOOL IsMember);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ConvertToAutoInheritPrivateObjectSecurity"/> function converts a security descriptor
+        /// and its access control lists (ACLs) to a format that supports automatic propagation of inheritable access control entries (ACEs).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="ParentDescriptor">
+        /// A pointer to the security descriptor for the parent container of the object.
+        /// If there is no parent container, this parameter is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="CurrentSecurityDescriptor">
+        /// A pointer to the current security descriptor of the object.
+        /// </param>
+        /// <param name="NewSecurityDescriptor">
+        /// A pointer to a variable that receives a pointer to the newly allocated self-relative security descriptor.
+        /// It is the caller's responsibility to call the <see cref="DestroyPrivateObjectSecurity"/> function to free this security descriptor.
+        /// </param>
+        /// <param name="ObjectType">
+        /// A pointer to a <see cref="GUID"/> structure that identifies the type of object
+        /// associated with the <paramref name="CurrentSecurityDescriptor"/> parameter.
+        /// If the object does not have a GUID, this parameter must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="IsDirectoryObject">
+        /// If <see cref="BOOLEAN.TRUE"/>, the new object is a container and can contain other objects.
+        /// If <see cref="BOOLEAN.FALSE"/>, the new object is not a container.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to a <see cref="GENERIC_MAPPING"/> structure that specifies the mapping from each generic right to specific rights for the object.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ConvertToAutoInheritPrivateObjectSecurity"/> function attempts to determine
+        /// whether the ACEs in the discretionary access control list (DACL) and system access control list (SACL) of the current security descriptor
+        /// were inherited from the parent security descriptor.
+        /// The function passes the <paramref name="ParentDescriptor"/> parameter to the <see cref="CreatePrivateObjectSecurityEx"/> function
+        /// to get ACLs that contain only inherited ACEs.
+        /// Then it compares these ACEs to the ACEs in the original security descriptor to determine which of the original ACEs were inherited.
+        /// The ACEs do not need to match one-to-one.
+        /// For instance, an ACE that allows read and write access to a trustee can be equivalent to two ACEs:
+        /// an ACE that allows read access and an ACE that allows write access.
+        /// Any ACEs in the original security descriptor that are equivalent to the ACEs inherited from the parent security descriptor
+        /// are marked with the <see cref="INHERITED_ACE"/> flag and added to the new security descriptor.
+        /// All other ACEs in the original security descriptor are added to the new security descriptor as noninherited ACEs.
+        /// If the original DACL does not have any inherited ACEs, the function sets the <see cref="SE_DACL_PROTECTED"/> flag
+        /// in the control bits of the new security descriptor.
+        /// Similarly, the <see cref="SE_SACL_PROTECTED"/> flag is set if none of the ACEs in the SACL is inherited.
+        /// For DACLs that have inherited ACEs, the function reorders the ACEs into two groups.
+        /// The first group has ACEs that were directly applied to the object.
+        /// The second group has inherited ACEs. This ordering ensures that noninherited ACEs have precedence over inherited ACEs.
+        /// For more information, see Order of ACEs in a DACL.
+        /// The function sets the <see cref="SE_DACL_AUTO_INHERITED"/> and <see cref="SE_SACL_AUTO_INHERITED"/> flags
+        /// in the control bits of the new security descriptor.
+        /// The function does not change the ordering of access-allowed ACEs in relation to access-denied ACEs in the DACL
+        /// because to do so would change the semantics of the resulting security descriptor.
+        /// If the function cannot convert the DACL without changing the semantics,
+        /// it leaves the DACL unchanged and sets the <see cref="SE_DACL_PROTECTED"/> flag.
+        /// The new security descriptor has the same owner and primary group as the original security descriptor.
+        /// The new security descriptor is equivalent to the original security descriptor,
+        /// so the caller needs no access rights or privileges to update the security descriptor to the new format.
+        /// This function works with <see cref="ACL_REVISION"/> and <see cref="ACL_REVISION_DS"/> ACLs.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConvertToAutoInheritPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ConvertToAutoInheritPrivateObjectSecurity([In] PSECURITY_DESCRIPTOR ParentDescriptor,
+            [In] PSECURITY_DESCRIPTOR CurrentSecurityDescriptor, [Out] out PSECURITY_DESCRIPTOR NewSecurityDescriptor, [In] in GUID ObjectType,
+            [In] BOOLEAN IsDirectoryObject, [In] in GENERIC_MAPPING GenericMapping);
 
         /// <summary>
         /// <para>
@@ -431,13 +575,13 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithLogonW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateProcessWithLogonW([MarshalAs(UnmanagedType.LPWStr)][In]string lpUsername,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpDomain, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPassword,
-            [In]LogonFlags dwLogonFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]ProcessCreationFlags dwCreationFlags,
-            [In]IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern BOOL CreateProcessWithLogonW([MarshalAs(UnmanagedType.LPWStr)][In] string lpUsername,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpDomain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPassword,
+            [In] LogonFlags dwLogonFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] ProcessCreationFlags dwCreationFlags,
+            [In] IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
 
         /// <summary>
@@ -649,57 +793,11 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessWithTokenW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateProcessWithTokenW([In]HANDLE hToken, [In]LogonFlags dwLogonFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine,
-            [In]ProcessCreationFlags dwCreationFlags, [In]IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern BOOL CreateProcessWithTokenW([In] HANDLE hToken, [In] LogonFlags dwLogonFlags,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine,
+            [In] ProcessCreationFlags dwCreationFlags, [In] IntPtr lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
             [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
-        /// The calling process must have appropriate access rights to obtain the information.
-        /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
-        /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
-        /// </para>
-        /// </summary>
-        /// <param name="TokenHandle">
-        /// A handle to an access token from which information is retrieved.
-        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
-        /// For all other <paramref name="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
-        /// </param>
-        /// <param name="TokenInformationClass">
-        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
-        /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify that
-        /// the caller token is not an identify level impersonation token.
-        /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
-        /// </param>
-        /// <param name="TokenInformation">
-        /// A pointer to a buffer the function fills with the requested information.
-        /// The structure put into this buffer depends upon the type of information specified by the <paramref name="TokenInformationClass"/> parameter.
-        /// </param>
-        /// <param name="TokenInformationLength">
-        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
-        /// If <paramref name="TokenInformation"/> is NULL, this parameter must be zero.
-        /// </param>
-        /// <param name="ReturnLength">
-        /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
-        /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
-        /// the function fails and stores no data in the buffer.
-        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
-        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
-        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// </returns>
-        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTokenInformation([In]IntPtr TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In]IntPtr TokenInformation, [In]uint TokenInformationLength, [Out]out uint ReturnLength);
-
+            [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
         /// <para>
@@ -972,12 +1070,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateProcessAsUser([In]IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In]string lpApplicationName,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpCommandLine, [In]in SECURITY_ATTRIBUTES lpProcessAttributes,
-          [In]in SECURITY_ATTRIBUTES lpThreadAttributes, [In]bool bInheritHandles, [In]ProcessCreationFlags dwCreationFlags,
-          [MarshalAs(UnmanagedType.LPWStr)][In]string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCurrentDirectory,
+        public static extern bool CreateProcessAsUser([In] IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
+          [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
+          [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] bool bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
+          [MarshalAs(UnmanagedType.LPWStr)][In] string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
-          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out]out PROCESS_INFORMATION lpProcessInformation);
+          [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="DestroyPrivateObjectSecurity"/> function deletes a private object's security descriptor.
+        /// For background information, see the Security Descriptors for Private Objects topic.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity
+        /// </para>
+        /// </summary>
+        /// <param name="ObjectDescriptor">
+        /// A pointer to a pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to be deleted.
+        /// This security descriptor must have been created by a call to the <see cref="CreatePrivateObjectSecurity"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPrivateObjectSecurity", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyPrivateObjectSecurity([In] in PSECURITY_DESCRIPTOR ObjectDescriptor);
 
         /// <summary>
         /// <para>
@@ -1012,8 +1131,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In]IntPtr ExistingTokenHandle, [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out]out IntPtr DuplicateTokenHandle);
+        public static extern bool DuplicateToken([In] IntPtr ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out] out IntPtr DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -1078,8 +1197,147 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateTokenEx([In]IntPtr ExistingTokenHandle, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpTokenAttributes,
-            [In]SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In]TOKEN_TYPE TokenType, [Out]out IntPtr DuplicateTokenHandle);
+        public static extern bool DuplicateTokenEx([In] IntPtr ExistingTokenHandle, [In] uint dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
+            [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out IntPtr DuplicateTokenHandle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetTokenInformation"/> function retrieves a specified type of information about an access token.
+        /// The calling process must have appropriate access rights to obtain the information.
+        /// To determine if a user is a member of a specific group, use the <see cref="CheckTokenMembership"/> function.
+        /// To determine group membership for app container tokens, use the <see cref="CheckTokenMembershipEx"/> function.
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token from which information is retrieved.
+        /// If <paramref name="TokenInformationClass"/> specifies <see cref="TokenSource"/>, the handle must have <see cref="TOKEN_QUERY_SOURCE"/> access.
+        /// For all other <paramref name="TokenInformationClass"/> values, the handle must have <see cref="TOKEN_QUERY"/> access.
+        /// </param>
+        /// <param name="TokenInformationClass">
+        /// Specifies a value from the <see cref="TOKEN_INFORMATION_CLASS"/> enumerated type to identify the type of information the function retrieves.
+        /// Any callers who check the TokenIsAppContainer and have it return 0 should also verify that
+        /// the caller token is not an identify level impersonation token.
+        /// If the current token is not an app container but is an identity level token, you should return AccessDenied.
+        /// </param>
+        /// <param name="TokenInformation">
+        /// A pointer to a buffer the function fills with the requested information.
+        /// The structure put into this buffer depends upon the type of information specified by the <paramref name="TokenInformationClass"/> parameter.
+        /// </param>
+        /// <param name="TokenInformationLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
+        /// If <paramref name="TokenInformation"/> is NULL, this parameter must be zero.
+        /// </param>
+        /// <param name="ReturnLength">
+        /// A pointer to a variable that receives the number of bytes needed for the buffer pointed to by the <paramref name="TokenInformation"/> parameter.
+        /// If this value is larger than the value specified in the <paramref name="TokenInformationLength"/> parameter,
+        /// the function fails and stores no data in the buffer.
+        /// If the value of the <paramref name="TokenInformationClass"/> parameter is <see cref="TokenDefaultDacl"/> and the token has no default DACL,
+        /// the function sets the variable pointed to by <paramref name="ReturnLength"/> to sizeof("TOKEN_DEFAULT_DACL) and
+        /// sets the <see cref="TOKEN_DEFAULT_DACL.DefaultDacl"/> member of the <see cref="TOKEN_DEFAULT_DACL"/> structure to <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetTokenInformation([In] IntPtr TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] IntPtr TokenInformation, [In] uint TokenInformationLength, [Out] out uint ReturnLength);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetSecurityDescriptorControl"/> function retrieves a security descriptor control and revision information.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure whose control and revision information the function retrieves.
+        /// </param>
+        /// <param name="pControl">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure that receives the security descriptor's control information.
+        /// </param>
+        /// <param name="lpdwRevision">
+        /// A pointer to a variable that receives the security descriptor's revision value.
+        /// This value is always set, even when <see cref="GetSecurityDescriptorControl"/> returns an error.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [Out] out SECURITY_DESCRIPTOR_CONTROL pControl, [Out] out DWORD lpdwRevision);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ImpersonateAnonymousToken"/> function enables the specified thread to impersonate the system's anonymous logon token.
+        /// To ensure that a token matches the operating system's concept of anonymous access,
+        /// this function should be called before attempting network access to generate an anonymous token on the remote server.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken
+        /// </para>
+        /// </summary>
+        /// <param name="ThreadHandle">
+        /// A handle to the thread to impersonate the system's anonymous logon token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// An error of <see cref="ACCESS_DENIED"/> may indicate that the token is for a restricted process.
+        /// Use <see cref="OpenProcessToken"/> and <see cref="IsTokenRestricted"/> to check if the process is restricted.
+        /// </returns>
+        /// <remarks>
+        /// Anonymous tokens do not include the Everyone Group SID unless the system default has been overridden
+        /// by setting the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa\EveryoneIncludesAnonymous registry value to DWORD=1.
+        /// To cancel the impersonation call <see cref="RevertToSelf"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateAnonymousToken", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateAnonymousToken([In] HANDLE ThreadHandle);
+
+        /// <summary>
+        /// <para>
+        /// Enables a Dynamic Data Exchange (DDE) server application to impersonate a DDE client application's security context.
+        /// This protects secure server data from unauthorized DDE clients.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hWndClient">
+        /// A handle to the DDE client window to be impersonated.
+        /// The client window must have established a DDE conversation
+        /// with the server window identified by the <paramref name="hWndServer"/> parameter.
+        /// </param>
+        /// <param name="hWndServer">
+        /// A handle to the DDE server window.
+        /// An application must create the server window before calling this function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application should call the <see cref="RevertToSelf"/> function
+        /// to undo the impersonation set by the <see cref="ImpersonateDdeClientWindow"/> function.
+        /// A DDEML application should use the <see cref="DdeImpersonateClient"/> function.
+        /// Security Considerations
+        /// Using this function incorrectly might compromise the security of your program.
+        /// It is very important to check the return value of the call.
+        /// If the function fails for any reason, the client is not impersonated
+        /// and any subsequent client request is made in the security context of the calling process.
+        /// If the calling process is running as a highly privileged account, such as LocalSystem or as a member of an administrative group,
+        /// the user may be able to perform actions that would otherwise be disallowed.
+        /// Therefore, if the call fails or raises an error do not continue execution of the client request. 
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateDdeClientWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateDdeClientWindow([In] HWND hWndClient, [In] HWND hWndServer);
 
         /// <summary>
         /// <para>
@@ -1124,7 +1382,7 @@ namespace Lsj.Util.Win32
         /// For more information about impersonation, see Client Impersonation.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateLoggedOnUser", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateLoggedOnUser([In]HANDLE hToken);
+        public static extern BOOL ImpersonateLoggedOnUser([In] HANDLE hToken);
 
         /// <summary>
         /// <para>
@@ -1163,7 +1421,33 @@ namespace Lsj.Util.Win32
         /// Windows XP with SP1 and earlier:  The SeImpersonatePrivilege privilege is not supported.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateNamedPipeClient", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ImpersonateNamedPipeClient([In]HANDLE hNamedPipe);
+        public static extern BOOL ImpersonateNamedPipeClient([In] HANDLE hNamedPipe);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ImpersonateSelf"/> function obtains an access token that impersonates the security context of the calling process.
+        /// The token is assigned to the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself
+        /// </para>
+        /// </summary>
+        /// <param name="ImpersonationLevel">
+        /// Specifies a <see cref="SECURITY_IMPERSONATION_LEVEL"/> enumerated type that supplies the impersonation level of the new token.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>. 
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ImpersonateSelf"/> function is used for tasks such as enabling a privilege for a single thread
+        /// rather than for the entire process or for changing the default discretionary access control list (DACL) for a single thread.
+        /// The server can call the <see cref="RevertToSelf"/> function when the impersonation is complete.
+        /// For this function to succeed, the DACL protecting the process token must grant the <see cref="TOKEN_DUPLICATE"/> right to itself.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ImpersonateSelf", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ImpersonateSelf([In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel);
 
         /// <summary>
         /// <para>
@@ -1249,8 +1533,8 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitiateSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed, [In]BOOL bRebootAfterShutdown);
+        public static extern BOOL InitiateSystemShutdown([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessage, [In] DWORD dwTimeout, [In] BOOL bForceAppsClosed, [In] BOOL bRebootAfterShutdown);
 
         /// <summary>
         /// <para>
@@ -1340,9 +1624,36 @@ namespace Lsj.Util.Win32
         /// In this case, the application should wait a short while and retry the call.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "InitiateSystemShutdownExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpMachineName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpMessage, [In]DWORD dwTimeout, [In]BOOL bForceAppsClosed,
-            [In]BOOL bRebootAfterShutdown, [In]SystemShutdownReasonCodes dwReason);
+        public static extern BOOL InitiateSystemShutdownEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpMachineName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpMessage, [In] DWORD dwTimeout, [In] BOOL bForceAppsClosed,
+            [In] BOOL bRebootAfterShutdown, [In] SystemShutdownReasonCodes dwReason);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="IsTokenRestricted"/> function indicates whether a token contains a list of restricted security identifiers (SIDs).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted
+        /// </para>
+        /// </summary>
+        /// <param name="TokenHandle">
+        /// A handle to an access token to test.
+        /// </param>
+        /// <returns>
+        /// If the token contains a list of restricting SIDs, the return value is <see cref="TRUE"/>.
+        /// If the token does not contain a list of restricting SIDs, the return value is <see cref="FALSE"/>.
+        /// If an error occurs, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CreateRestrictedToken"/> function can restrict a token by disabling SIDs,
+        /// deleting privileges, and specifying a list of restricting SIDs.
+        /// The <see cref="IsTokenRestricted"/> function checks only for the list of restricting SIDs.
+        /// If a token does not have any restricting SIDs, <see cref="IsTokenRestricted"/> returns <see cref="FALSE"/>,
+        /// even though the token was created by a call to <see cref="CreateRestrictedToken"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsTokenRestricted", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsTokenRestricted([In] HANDLE TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1449,8 +1760,53 @@ namespace Lsj.Util.Win32
         /// by calling the provider's NPLogonNotify entry-point function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LogonUserW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In]string lpszUsername, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszDomain,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPassword, [In]LogonTypes dwLogonType, [In]LoginProviders dwLogonProvider, [Out]out HANDLE phToken);
+        public static extern BOOL LogonUser([MarshalAs(UnmanagedType.LPWStr)][In] string lpszUsername,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDomain, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPassword,
+            [In] LogonTypes dwLogonType, [In] LoginProviders dwLogonProvider, [Out] out HANDLE phToken);
+
+        /// <summary>
+        /// <para>
+        /// The LookupPrivilegeName function retrieves the name that corresponds to the privilege
+        /// represented on a specific system by a specified locally unique identifier (LUID).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpSystemName">
+        /// A pointer to a null-terminated string that specifies the name of the system on which the privilege name is retrieved.
+        /// If a null string is specified, the function attempts to find the privilege name on the local system.
+        /// </param>
+        /// <param name="lpLuid">
+        /// A pointer to the LUID by which the privilege is known on the target system.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to a buffer that receives a null-terminated string that represents the privilege name.
+        /// For example, this string could be "SeSecurityPrivilege".
+        /// </param>
+        /// <param name="cchName">
+        /// A pointer to a variable that specifies the size, in a TCHAR value, of the <paramref name="lpName"/> buffer.
+        /// When the function returns, this parameter contains the length of the privilege name, not including the terminating null character.
+        /// If the buffer pointed to by the <paramref name="lpName"/> parameter is too small, this variable contains the required size.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LookupPrivilegeName"/> function supports only the privileges specified in the Defined Privileges section of Winnt.h.
+        /// For a list of values, see Privilege Constants.
+        /// Note
+        /// The winbase.h header defines <see cref="LookupPrivilegeName"/> as an alias which automatically selects the ANSI or Unicode version
+        /// of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LookupPrivilegeName([MarshalAs(UnmanagedType.LPWStr)][In] string lpSystemName, [In] in LUID lpLuid,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpName, [In][Out] ref DWORD cchName);
 
         /// <summary>
         /// <para>
@@ -1483,7 +1839,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In]IntPtr ProcessHandle, [In]uint DesiredAccess, [Out]out IntPtr TokenHandle);
+        public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, [In] uint DesiredAccess, [Out] out IntPtr TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1526,7 +1882,7 @@ namespace Lsj.Util.Win32
         /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenThreadToken", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL OpenThreadToken([In]HANDLE ThreadHandle, [In]ACCESS_MASK DesiredAccess, [In]BOOL OpenAsSelf, [Out]out HANDLE TokenHandle);
+        public static extern BOOL OpenThreadToken([In] HANDLE ThreadHandle, [In] ACCESS_MASK DesiredAccess, [In] BOOL OpenAsSelf, [Out] out HANDLE TokenHandle);
 
         /// <summary>
         /// <para>
@@ -1555,8 +1911,212 @@ namespace Lsj.Util.Win32
         public static extern BOOL RevertToSelf();
 
         /// <summary>
-        /// The SetTokenInformation function sets various types of information for a specified access token. 
-        /// The information that this function sets replaces existing information. The calling process must have appropriate access rights to set the information.
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorControl"/> function sets the control bits of a security descriptor.
+        /// The function can set only the control bits that relate to automatic inheritance of ACEs.
+        /// To set the other control bits of a security descriptor, use the functions,
+        /// such as <see cref="SetSecurityDescriptorDacl"/>, for modifying the components of a security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure whose control and revision information are set.
+        /// </param>
+        /// <param name="ControlBitsOfInterest">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the control bits to set.
+        /// </param>
+        /// <param name="ControlBitsToSet">
+        /// A <see cref="SECURITY_DESCRIPTOR_CONTROL"/> mask that indicates the new values
+        /// for the control bits specified by the <paramref name="ControlBitsToSet"/> mask.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="SetSecurityDescriptorControl"/> function specifies the control bit or bits to modify, and whether the bits are on or off.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorControl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsOfInterest, [In] SECURITY_DESCRIPTOR_CONTROL ControlBitsToSet);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorDacl"/> function sets information in a discretionary access control list (DACL).
+        /// If a DACL is already present in the security descriptor, the DACL is replaced.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the DACL.
+        /// This security descriptor must be in absolute format,
+        /// meaning that its members must be pointers to other structures, rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bDaclPresent">
+        /// A flag that indicates the presence of a DACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_DACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> parameters.
+        /// If this parameter is <see cref="FALSE"/>, the function clears the <see cref="SE_DACL_PRESENT"/> flag,
+        /// and <paramref name="pDacl"/> and <paramref name="bDaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pDacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the DACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL DACL is assigned to the security descriptor, which allows all access to the object.
+        /// The DACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bDaclDefaulted">
+        /// A flag that indicates the source of the DACL.
+        /// If this flag is <see cref="TRUE"/>, the DACL has been retrieved by some default mechanism.
+        /// If <see cref="FALSE"/>, the DACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_DACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_DACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// There is an important difference between an empty and a nonexistent DACL.
+        /// When a DACL is empty, it contains no access control entries (ACEs); therefore, no access rights are explicitly granted.
+        /// As a result, access to the object is implicitly denied.
+        /// When an object has no DACL (when the <paramref name="pDacl"/> parameter is <see cref="NullRef{ACL}"/>),
+        /// no protection is assigned to the object, and all access requests are granted.
+        /// To help maintain security, restrict access by using a DACL.
+        /// There are three possible outcomes in different configurations
+        /// of the <paramref name="bDaclPresent"/> flag and the <paramref name="pDacl"/> parameter:
+        /// When the <paramref name="pDacl"/> parameter points to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
+        /// a DACL is specified and it must contain access-allowed ACEs to allow access to the object.
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="TRUE"/>,
+        /// a NULL DACL is specified. All access is allowed.
+        /// You should not use a NULL DACL with an object because any user can change the DACL and owner of the security descriptor.
+        /// This will interfere with use of the object.
+        /// When the <paramref name="pDacl"/> parameter does not point to a DACL and the <paramref name="bDaclPresent"/> flag is <see cref="FALSE"/>,
+        /// a DACL can be provided for the object through an inheritance or default mechanism.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorDacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorDacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] BOOL bDaclPresent,
+            [In] in ACL pDacl, [In] BOOL bDaclDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorGroup"/> function sets the primary group information of an absolute-format security descriptor,
+        /// replacing any primary group information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose primary group is set by this function.
+        /// The function replaces any existing primary group with the new primary group.
+        /// </param>
+        /// <param name="pGroup">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary group.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's primary group information.
+        /// This marks the security descriptor as having no primary group.
+        /// </param>
+        /// <param name="bGroupDefaulted">
+        /// Indicates whether the primary group information was derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information, and the function stores
+        /// this value as the <see cref="SE_GROUP_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_GROUP_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorGroup", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorGroup([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pGroup, [In] BOOL bGroupDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorOwner"/> function sets the owner information of an absolute-format security descriptor.
+        /// It replaces any owner information already present in the security descriptor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure whose owner is set by this function.
+        /// The function replaces any existing owner with the new owner.
+        /// </param>
+        /// <param name="pOwner">
+        /// A pointer to a <see cref="SID"/> structure for the security descriptor's new primary owner.
+        /// The <see cref="SID"/> structure is referenced by, not copied into, the security descriptor.
+        /// If this parameter is <see cref="NULL"/>, the function clears the security descriptor's owner information.
+        /// This marks the security descriptor as having no owner.
+        /// </param>
+        /// <param name="bOwnerDefaulted">
+        /// Indicates whether the owner information is derived from a default mechanism.
+        /// If this value is <see cref="TRUE"/>, it is default information.
+        /// The function stores this value as the <see cref="SE_OWNER_DEFAULTED"/> flag in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is <see cref="FALSE"/>, the <see cref="SE_OWNER_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorOwner", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorOwner([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] PSID pOwner, [In] BOOL bOwnerDefaulted);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetSecurityDescriptorSacl"/> function sets information in a system access control list (SACL).
+        /// If there is already a SACL present in the security descriptor, it is replaced.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure to which the function adds the SACL.
+        /// This security descriptor must be in absolute format, meaning that its members must be pointers to other structures,
+        /// rather than offsets to contiguous data.
+        /// </param>
+        /// <param name="bSaclPresent">
+        /// Indicates the presence of a SACL in the security descriptor.
+        /// If this parameter is <see cref="TRUE"/>, the function sets the <see cref="SE_SACL_PRESENT"/> flag
+        /// in the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure and uses the values
+        /// in the <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> parameters.
+        /// If it is <see cref="FALSE"/>, the function does not set the <see cref="SE_SACL_PRESENT"/> flag,
+        /// and <paramref name="pSacl"/> and <paramref name="bSaclDefaulted"/> are ignored.
+        /// </param>
+        /// <param name="pSacl">
+        /// A pointer to an <see cref="ACL"/> structure that specifies the SACL for the security descriptor.
+        /// If this parameter is <see cref="NullRef{ACL}"/>, a NULL SACL is assigned to the security descriptor.
+        /// The SACL is referenced by, not copied into, the security descriptor.
+        /// </param>
+        /// <param name="bSaclDefaulted">
+        /// Indicates the source of the SACL.
+        /// If this flag is <see cref="TRUE"/>, the SACL has been retrieved by some default mechanism.
+        /// If it is <see cref="FALSE"/>, the SACL has been explicitly specified by a user.
+        /// The function stores this value in the <see cref="SE_SACL_DEFAULTED"/> flag of the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> structure.
+        /// If this parameter is not specified, the <see cref="SE_SACL_DEFAULTED"/> flag is cleared.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSecurityDescriptorSacl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSecurityDescriptorSacl([In] PSECURITY_DESCRIPTOR pSecurityDescriptor,
+            [In] BOOL bSaclPresent, [In] in ACL pSacl, [In] BOOL bSaclDefaulted);
+
+        /// <summary>
+        /// The <see cref="SetTokenInformation"/> function sets various types of information for a specified access token. 
+        /// The information that this function sets replaces existing information.
+        /// The calling process must have appropriate access rights to set the information.
         /// <para>
         /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-settokeninformation
         /// </para>
@@ -1565,27 +2125,29 @@ namespace Lsj.Util.Win32
         /// A handle to the access token for which information is to be set.
         /// </param>
         /// <param name="TokenInformationClass">
-        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/>  enumerated type that identifies the type of information the function sets. 
-        /// The valid values from TOKEN_INFORMATION_CLASS are described in the TokenInformation parameter.
+        /// A value from the<see cref="TOKEN_INFORMATION_CLASS"/> enumerated type that identifies the type of information the function sets. 
+        /// The valid values from <see cref="TOKEN_INFORMATION_CLASS"/> are described in the <paramref name="TokenInformation"/> parameter.
         /// </param>
         /// <param name="TokenInformation">
-        /// A pointer to a buffer that contains the information set in the access token. The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
+        /// A pointer to a buffer that contains the information set in the access token.
+        /// The structure of this buffer depends on the type of information specified by the TokenInformationClass parameter.
         /// </param>
         /// <param name="TokenInformationLength">
-        /// Specifies the length, in bytes, of the buffer pointed to by TokenInformation.
+        /// Specifies the length, in bytes, of the buffer pointed to by <paramref name="TokenInformation"/>.
         /// </param>
         /// <returns>
-        /// If the function succeeds, the function returns nonzero.
-        /// If the function fails, it returns zero.To get extended error information, call<see cref="GetLastError"/>.
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call<see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
         /// To set privilege information, an application can call the <see cref="AdjustTokenPrivileges"/> function.
-        /// To set a token's groups, an application can call the AdjustTokenGroups function.
+        /// To set a token's groups, an application can call the <see cref="AdjustTokenGroups"/> function.
         /// Token-type information can be set only when an access token is created.
         /// </remarks>
 
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetTokenInformation([In]HANDLE TokenHandle, [In]TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In]LPVOID TokenInformation, [In]DWORD TokenInformationLength);
+        public static extern BOOL SetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength);
     }
 }

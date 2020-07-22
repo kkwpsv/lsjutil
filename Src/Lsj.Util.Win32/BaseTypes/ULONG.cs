@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct ULONG
     {
+        /// <summary>
+        /// ULONG
+        /// </summary>
+        public static ULONG MAXULONG = 0xffffffff;
+
         [FieldOffset(0)]
         private uint _value;
 

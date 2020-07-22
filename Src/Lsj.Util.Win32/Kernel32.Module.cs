@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddDllDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string NewDirectory);
+        public static extern DLL_DIRECTORY_COOKIE AddDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string NewDirectory);
 
         /// <summary>
         /// <para>
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DisableThreadLibraryCalls([In]IntPtr hLibModule);
+        public static extern bool DisableThreadLibraryCalls([In] IntPtr hLibModule);
 
         /// <summary>
         /// <para>
@@ -134,7 +134,7 @@ namespace Lsj.Util.Win32
         /// For details, see the Remarks section of <see cref="FreeLibraryAndExitThread"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FreeLibrary([In]HMODULE hLibModule);
+        public static extern BOOL FreeLibrary([In] HMODULE hLibModule);
 
         /// <summary>
         /// <para>
@@ -177,8 +177,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out]uint[] lpidProcess,
-            [In]uint cb, [Out]out uint lpcbNeeded);
+        public static extern bool EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] uint[] lpidProcess,
+            [In] uint cb, [Out] out uint lpcbNeeded);
 
         /// <summary>
         /// <para>
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// The library could be unloaded before <see cref="ExitThread"/> is called.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", ExactSpelling = true, SetLastError = true)]
-        public static extern void FreeLibraryAndExitThread([In]IntPtr hLibModule, [In]uint dwExitCode);
+        public static extern void FreeLibraryAndExitThread([In] IntPtr hLibModule, [In] uint dwExitCode);
 
         /// <summary>
         /// 
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetModuleFileName([In]HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]DWORD nSize);
+        public static extern uint GetModuleFileName([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -323,8 +323,8 @@ namespace Lsj.Util.Win32
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetModuleFileNameEx([In]IntPtr hProcess, [In]IntPtr hModule,
-            [MarshalAs(UnmanagedType.LPWStr)][Out]StringBuilder lpFilename, [In]uint nSize);
+        public static extern uint GetModuleFileNameEx([In] IntPtr hProcess, [In] IntPtr hModule,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] uint nSize);
 
         /// <summary>
         /// <para>
@@ -369,7 +369,7 @@ namespace Lsj.Util.Win32
         /// Therefore, the first thread would have a handle to a different module than the one intended.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName);
+        public static extern HMODULE GetModuleHandle([MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName);
 
         /// <summary>
         /// <para>
@@ -431,8 +431,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", ExactSpelling = true, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetModuleHandleEx([In]GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName,
-            [Out]out IntPtr phModule);
+        public static extern bool GetModuleHandleEx([In] GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName,
+            [Out] out IntPtr phModule);
 
         /// <summary>
         /// <para>
@@ -528,7 +528,7 @@ namespace Lsj.Util.Win32
         /// Instead, use the recommended techniques described in Getting the System Version.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE LoadLibrary([MarshalAs(UnmanagedType.LPWStr)][In]string lpLibFileName);
+        public static extern HMODULE LoadLibrary([MarshalAs(UnmanagedType.LPWStr)][In] string lpLibFileName);
 
         /// <summary>
         /// <para>
@@ -709,7 +709,7 @@ namespace Lsj.Util.Win32
         /// For a general discussion of DLL security issues, see Dynamic-Link Library Security.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadLibraryExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMODULE LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpLibFileName, [In]HANDLE hFile, [In]LoadLibraryExFlags dwFlags);
+        public static extern HMODULE LoadLibraryEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpLibFileName, [In] HANDLE hFile, [In] LoadLibraryExFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -732,8 +732,8 @@ namespace Lsj.Util.Win32
         /// The directories that are listed in the PATH environment variable.
         /// </param>
         /// <param name="lpParameterBlock">
-        /// A pointer to an application-defined <see cref="LOADPARMS32"/> structure that defines the new application's parameter block.
-        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for <see cref="LOADPARMS32.lpCmdLine"/>,
+        /// A pointer to an application-defined LOADPARMS32 structure that defines the new application's parameter block.
+        /// Set all unused members to <see cref="IntPtr.Zero"/>, except for LOADPARMS32.lpCmdLine,
         /// which must point to a null-terminated string if it is not used.
         /// For more information, see Remarks.
         /// </param>
@@ -747,7 +747,67 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadModule", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In]string lpModuleName, [In]LPVOID lpParameterBlock);
+        public static extern DWORD LoadModule([MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName, [In] LPVOID lpParameterBlock);
+
+        /// <summary>
+        /// <para>
+        /// Loads the specified packaged module and its dependencies into the address space of the calling process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-loadpackagedlibrary
+        /// </para>
+        /// </summary>
+        /// <param name="lpwLibFileName">
+        /// The file name of the packaged module to load. The module can be a library module (a .dll file) or an executable module (an .exe file).
+        /// If this parameter specifies a module name without a path and the file name extension is omitted,
+        /// the function appends the default library extension .dll to the module name.
+        /// To prevent the function from appending .dll to the module name, include a trailing point character (.) in the module name string.
+        /// If this parameter specifies a path, the function searches that path for the module.
+        /// The path cannot be an absolute path or a relative path that contains ".." in the path.
+        /// When specifying a path, be sure to use backslashes (), not forward slashes (/).
+        /// For more information about paths, see Naming Files, Paths, and Namespaces.
+        /// If the specified module is already loaded in the process, the function returns a handle to the loaded module.
+        /// The module must have been originally loaded from the package dependency graph of the process.
+        /// If loading the specified module causes the system to load other associated modules, the function first searches loaded modules,
+        /// then it searches the package dependency graph of the process.
+        /// For more information, see Remarks.
+        /// </param>
+        /// <param name="Reserved">
+        /// This parameter is reserved. It must be 0.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the loaded module.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="LoadPackagedLibrary"/> function is a simplified version of <see cref="LoadLibraryEx"/>.
+        /// Windows Runtime apps can use <see cref="LoadPackagedLibrary"/> to load packaged modules.
+        /// Desktop applications cannot use <see cref="LoadPackagedLibrary"/>;
+        /// if a desktop application calls this function it fails with <see cref="APPMODEL_ERROR_NO_PACKAGE"/>.
+        /// <see cref="LoadPackagedLibrary"/> returns a handle to the specified module and increments its reference count.
+        /// If the module is already loaded, the function returns a handle to the loaded module.
+        /// The calling process can use the handle returned by <see cref="LoadPackagedLibrary"/>
+        /// to identify the module in calls to the <see cref="GetProcAddress"/> function.
+        /// Use the <see cref="FreeLibrary"/> function to free a loaded module and decrement its reference count.
+        /// If the function must search for the specified module or its dependencies, it searches only the package dependency graph of the process.
+        /// This is the application's package plus any dependencies specified
+        /// as <PackageDependency> in the <Dependencies> section of the application's package manifest.
+        /// Dependencies are searched in the order they appear in the manifest.
+        /// The package dependency graph is specified in the <Dependencies> section of the application's package manifest.
+        /// Dependencies are searched in the order they appear in the manifest.
+        /// The search proceeds as follows:
+        /// The function first searches modules that are already loaded.
+        /// If the specified module was originally loaded from the package dependency graph of the process,
+        /// the function returns a handle to the loaded module.
+        /// If the specified module was not loaded from the package dependency graph of the process, the function returns <see cref="NULL"/>.
+        /// If the module is not already loaded, the function searches the package dependency graph of the process.
+        /// If the function cannot find the specified module or one of its dependencies, the function fails.
+        /// It is not safe to call <see cref="LoadPackagedLibrary"/> from DllMain.
+        /// For more information, see the Remarks section in DllMain.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadPackagedLibrary", ExactSpelling = true, SetLastError = true)]
+        public static extern HMODULE LoadPackagedLibrary([MarshalAs(UnmanagedType.LPWStr)][In] string lpwLibFileName, [In] DWORD Reserved);
 
         /// <summary>
         /// <para>
@@ -772,7 +832,7 @@ namespace Lsj.Util.Win32
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDllDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveDllDirectory([In]DLL_DIRECTORY_COOKIE Cookie);
+        public static extern BOOL RemoveDllDirectory([In] DLL_DIRECTORY_COOKIE Cookie);
 
         /// <summary>
         /// <para>
@@ -831,7 +891,7 @@ namespace Lsj.Util.Win32
         /// KB2533623 must be installed on the target platform.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDefaultDllDirectories", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDefaultDllDirectories([In]LoadLibraryExFlags DirectoryFlags);
+        public static extern BOOL SetDefaultDllDirectories([In] LoadLibraryExFlags DirectoryFlags);
 
         /// <summary>
         /// <para>
@@ -873,6 +933,6 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDllDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In]string lpPathName);
+        public static extern BOOL SetDllDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName);
     }
 }

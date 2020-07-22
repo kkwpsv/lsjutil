@@ -4,9 +4,11 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DIBColorTableIdentifiers;
 using static Lsj.Util.Win32.Enums.HatchStyles;
+using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 using static Lsj.Util.Win32.Enums.StretchBltModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -41,7 +43,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateBrushIndirect([In]in LOGBRUSH plbrush);
+        public static extern HBRUSH CreateBrushIndirect([In] in LOGBRUSH plbrush);
 
         /// <summary>
         /// <para>
@@ -83,7 +85,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             "Applications should use the CreateDIBPatternBrushPt function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrush([In]HGLOBAL h, [In]DIBColorTableIdentifiers iUsage);
+        public static extern HBRUSH CreateDIBPatternBrush([In] HGLOBAL h, [In] DIBColorTableIdentifiers iUsage);
 
         /// <summary>
         /// <para>
@@ -119,7 +121,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDIBPatternBrushPt", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateDIBPatternBrushPt([In]IntPtr lpPackedDIB, [In]DIBColorTableIdentifiers iUsage);
+        public static extern HBRUSH CreateDIBPatternBrushPt([In] IntPtr lpPackedDIB, [In] DIBColorTableIdentifiers iUsage);
 
         /// <summary>
         /// <para>
@@ -149,7 +151,7 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSolidBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateSolidBrush([In]COLORREF color);
+        public static extern HBRUSH CreateSolidBrush([In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -185,7 +187,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is defined at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateHatchBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreateHatchBrush([In]HatchStyles iHatch, [In]COLORREF color);
+        public static extern HBRUSH CreateHatchBrush([In] HatchStyles iHatch, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -214,7 +216,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color is done at brush creation. However, color management is performed when the brush is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePatternBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern HBRUSH CreatePatternBrush([In]HBITMAP hbm);
+        public static extern HBRUSH CreatePatternBrush([In] HBITMAP hbm);
 
         /// <summary>
         /// <para>
@@ -250,7 +252,29 @@ namespace Lsj.Util.Win32
         /// and adjusts their brushes as necessary to maintain an alignment of patterns on the surface.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetBrushOrgEx([In]HDC hdc, [Out]out POINT lppt);
+        public static extern BOOL GetBrushOrgEx([In] HDC hdc, [Out] out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetDCBrushColor"/> function retrieves the current brush color for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcbrushcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose brush color is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the <see cref="COLORREF"/> value for the current DC brush color.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// For information on setting the brush color, see <see cref="SetDCBrushColor"/>.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCBrushColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetDCBrushColor([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -296,6 +320,38 @@ namespace Lsj.Util.Win32
         /// as necessary to maintain an alignment of patterns on the surface.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetBrushOrgEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetBrushOrgEx([In]HDC hdc, [In]int x, [In]int y, [Out]out POINT lppt);
+        public static extern BOOL SetBrushOrgEx([In] HDC hdc, [In] int x, [In] int y, [Out] out POINT lppt);
+
+        /// <summary>
+        /// <para>
+        /// <see cref="SetDCBrushColor"/> function sets the current device context (DC) brush color to the specified color value.
+        /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdcbrushcolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="color">
+        /// The new brush color.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous DC brush color as a <see cref="COLORREF"/> value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the stock <see cref="DC_BRUSH"/> is selected in a DC, all the subsequent drawings will be done
+        /// using the DC brush color until the stock brush is deselected.
+        /// The default <see cref="DC_BRUSH"/> color is <see cref="WHITE"/>.
+        /// The function returns the previous <see cref="DC_BRUSH"/> color, even if the stock brush <see cref="DC_BRUSH"/> is not selected in the DC:
+        /// however, this will not be used in drawing operations until the stock <see cref="DC_BRUSH"/> is selected in the DC.
+        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
+        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDCBrushColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF SetDCBrushColor([In] HDC hdc, [In] COLORREF color);
     }
 }

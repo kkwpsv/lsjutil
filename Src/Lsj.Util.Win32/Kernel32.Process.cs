@@ -10,11 +10,12 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_CHILD_PROCESS_POLICY;
-using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.PROCESS_CREATION_DESKTOP_APP_POLICY;
+using static Lsj.Util.Win32.Enums.PROCESS_CREATION_MITIGATION_POLICY;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.ProcessPriorityClasses;
+using static Lsj.Util.Win32.Enums.SearchPathModes;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
@@ -716,6 +717,40 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the performance values contained in the <see cref="PERFORMANCE_INFORMATION"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-getperformanceinfo
+        /// </para>
+        /// </summary>
+        /// <param name="pPerformanceInformation">
+        /// A pointer to a <see cref="PERFORMANCE_INFORMATION"/> structure that receives the performance information.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <see cref="PERFORMANCE_INFORMATION"/> structure, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32GetPerformanceInfo in Psapi.h
+        /// and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="GetPerformanceInfo"/> in Psapi.h
+        /// and exported in Psapi.lib and Psapi.dll as a wrapper that calls K32GetPerformanceInfo.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7
+        /// and later versions should always call this function as <see cref="GetPerformanceInfo"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPerformanceInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPerformanceInfo([In][Out] ref PERFORMANCE_INFORMATION pPerformanceInformation, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the priority class for the specified process.
         /// This value, together with the priority value of each thread of the process, determines each thread's base priority level.
         /// </para>
@@ -1158,6 +1193,96 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the pages currently added to the working set of the specified process.
+        /// To retrieve working set information for a subset of virtual addresses,
+        /// or to retrieve information about pages that are not part of the working set (such as AWE or large pages),
+        /// use the <see cref="QueryWorkingSetEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingset
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> and <see cref="PROCESS_VM_READ"/> access rights.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="pv">
+        /// A pointer to the buffer that receives the information.
+        /// For more information, see <see cref="PSAPI_WORKING_SET_INFORMATION"/>.
+        /// If the buffer pointed to by the <paramref name="pv"/> parameter is not large enough
+        /// to contain all working set entries for the target process, the function fails with <see cref="ERROR_BAD_LENGTH"/>.
+        /// In this case, the <see cref="PSAPI_WORKING_SET_INFORMATION.NumberOfEntries"/> member
+        /// of the <see cref="PSAPI_WORKING_SET_INFORMATION"/> structure is set to the required number of entries,
+        /// but the function does not return information about the working set entries.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="pv"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32QueryWorkingSet in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="QueryWorkingSet"/> in Psapi.h and exported in Psapi.lib
+        /// and Psapi.dll as a wrapper that calls K32QueryWorkingSet.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="QueryWorkingSet"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSet", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryWorkingSet([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves extended information about the pages at specific virtual addresses in the address space of the specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-queryworkingsetex
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// The handle must have the <see cref="PROCESS_QUERY_INFORMATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="pv">
+        /// A pointer to an array of <see cref="PSAPI_WORKING_SET_EX_INFORMATION"/> structures.
+        /// On input, each item in the array specifies a virtual address of interest.
+        /// On output, each item in the array receives information about the corresponding virtual page.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="pv"/> buffer, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unlike the <see cref="QueryWorkingSet"/> function, which is limited to the working set of the target process,
+        /// the <see cref="QueryWorkingSetEx"/> function can be used to query addresses that are not in the process working set
+        /// but are still part of the process, such as AWE and large pages.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32QueryWorkingSetEx in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as QueryWorkingSetEx in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32QueryWorkingSetEx.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="QueryWorkingSetEx"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with "–DPSAPI_VERSION=1".
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryWorkingSetEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL QueryWorkingSetEx([In] HANDLE hProcess, [In] PVOID pv, [In] DWORD cb);
+
+        /// <summary>
+        /// <para>
         /// Searches for a specified file in a specified path.
         /// </para>
         /// <para>
@@ -1493,6 +1618,54 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWorkingSetSize", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetProcessWorkingSetSize([In] HANDLE hProcess, [In] SIZE_T dwMinimumWorkingSetSize, [In] SIZE_T dwMaximumWorkingSetSize);
+
+        /// <summary>
+        /// <para>
+        /// Sets the per-process mode that the <see cref="SearchPath"/> function uses when locating files.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setsearchpathmode
+        /// </para>
+        /// </summary>
+        /// <param name="Flags">
+        /// The search mode to use.
+        /// <see cref="BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE"/>: Enable safe process search mode for the process. 
+        /// <see cref="BASE_SEARCH_PATH_DISABLE_SAFE_SEARCHMODE"/>: Disable safe process search mode for the process.
+        /// <see cref="BASE_SEARCH_PATH_PERMANENT"/>:
+        /// Optional flag to use in combination with <see cref="BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE"/>
+        /// to make this mode permanent for this process.
+        /// This is done by bitwise OR operation: <code>(BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT)</code>
+        /// This flag cannot be combined with the <see cref="BASE_SEARCH_PATH_DISABLE_SAFE_SEARCHMODE"/> flag.
+        /// </param>
+        /// <returns>
+        /// If the operation completes successfully, the <see cref="SetSearchPathMode"/> function returns a nonzero value.
+        /// If the operation fails, the <see cref="SetSearchPathMode"/> function returns zero.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// If the <see cref="SetSearchPathMode"/> function fails because a parameter value is not valid,
+        /// the value returned by the <see cref="GetLastError"/> function will be <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// If the <see cref="SetSearchPathMode"/> function fails because the combination of current state and parameter value is not valid,
+        /// the value returned by the <see cref="GetLastError"/> function will be <see cref="ERROR_ACCESS_DENIED"/>.
+        /// For more information, see the Remarks section.
+        /// </returns>
+        /// <remarks>
+        /// If the <see cref="SetSearchPathMode"/> function has not been successfully called for the current process,
+        /// the search mode used by the <see cref="SearchPath"/> function is obtained from the system registry.
+        /// For more information, see <see cref="SearchPath"/>.
+        /// After the <see cref="SetSearchPathMode"/> function has been successfully called for the current process,
+        /// the setting in the system registry is ignored in favor of the mode most recently set successfully.
+        /// If the <see cref="SetSearchPathMode"/> function has been successfully called for the current process
+        /// with <paramref name="Flags"/> set to <code>(BASE_SEARCH_PATH_ENABLE_SAFE_SEARCHMODE | BASE_SEARCH_PATH_PERMANENT)</code>,
+        /// safe mode is set permanently for the calling process.
+        /// Any subsequent calls to the <see cref="SetSearchPathMode"/> function from within that process that attempt
+        /// to change the search mode will fail with <see cref="ERROR_ACCESS_DENIED"/> from the <see cref="GetLastError"/> function.
+        /// Note Because setting safe search mode permanently cannot be disabled for the life of the process for which is was set,
+        /// it should be used with careful consideration.
+        /// This is particularly true for DLL development, where the user of the DLL will be affected by this process-wide setting.
+        /// It is not possible to permanently disable safe search mode.
+        /// This function does not modify the system registry.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetSearchPathMode", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetSearchPathMode([In] SearchPathModes Flags);
 
         /// <summary>
         /// <para>

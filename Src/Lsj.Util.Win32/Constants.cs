@@ -24,6 +24,16 @@ namespace Lsj.Util.Win32
         public const uint HOVER_DEFAULT = 0xFFFFFFFF;
 
         /// <summary>
+        /// MAX_DEFAULTCHAR
+        /// </summary>
+        public const int MAX_DEFAULTCHAR = 2;
+
+        /// <summary>
+        /// MAX_LEADBYTES
+        /// </summary>
+        public const int MAX_LEADBYTES = 12;
+
+        /// <summary>
         /// MAX_PATH
         /// </summary>
         public const int MAX_PATH = 260;

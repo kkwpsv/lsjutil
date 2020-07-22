@@ -2,9 +2,11 @@
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.COLORREF;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BrushStyles;
 using static Lsj.Util.Win32.Enums.PenStyles;
+using static Lsj.Util.Win32.Enums.StockObjectIndexes;
 
 namespace Lsj.Util.Win32
 {
@@ -56,7 +58,7 @@ namespace Lsj.Util.Win32
         /// ICM: No color management is done at creation. However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePen", ExactSpelling = true, SetLastError = true)]
-        public static extern HPEN CreatePen([In]PenStyles iStyle, [In]int cWidth, [In]COLORREF color);
+        public static extern HPEN CreatePen([In] PenStyles iStyle, [In] int cWidth, [In] COLORREF color);
 
         /// <summary>
         /// <para>
@@ -79,7 +81,7 @@ namespace Lsj.Util.Win32
         /// When you no longer need the pen, call the <see cref="DeleteObject"/> function to delete it.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePenIndirect", ExactSpelling = true, SetLastError = true)]
-        public static extern HPEN CreatePenIndirect([In]in LOGPEN plpen);
+        public static extern HPEN CreatePenIndirect([In] in LOGPEN plpen);
 
         /// <summary>
         /// <para>
@@ -156,7 +158,58 @@ namespace Lsj.Util.Win32
         /// However, color management is performed when the pen is selected into an ICM-enabled device context.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtCreatePen", ExactSpelling = true, SetLastError = true)]
-        public static extern HPEN ExtCreatePen([In]PenStyles iPenStyle, [In]DWORD cWidth, [In]in LOGBRUSH plbrush,
-            [In]DWORD cStyle, [In]PenStyles[] pstyle);
+        public static extern HPEN ExtCreatePen([In] PenStyles iPenStyle, [In] DWORD cWidth, [In] in LOGBRUSH plbrush,
+            [In] DWORD cStyle, [In] PenStyles[] pstyle);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetDCPenColor"/> function retrieves the current pen color for the specified device context (DC).
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdcpencolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC whose brush color is to be returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a <see cref="COLORREF"/> value for the current DC pen color.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// For information on setting the pen color, see <see cref="SetDCPenColor"/>.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDCPenColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF GetDCPenColor([In] HDC hdc);
+
+        /// <summary>
+        /// <para>
+        /// <see cref="SetDCPenColor"/> function sets the current device context (DC) pen color to the specified color value.
+        /// If the device cannot represent the specified color value, the color is set to the nearest physical color.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdcpencolor
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the DC.
+        /// </param>
+        /// <param name="color">
+        /// The new pen color.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value specifies the previous DC pen color as a <see cref="COLORREF"/> value.
+        /// If the function fails, the return value is <see cref="CLR_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// The function returns the previous <see cref="DC_PEN"/> color, even if the stock pen <see cref="DC_PEN"/> is not selected in the DC;
+        /// however, this will not be used in drawing operations until the stock <see cref="DC_PEN"/> is selected in the DC.
+        /// The <see cref="GetStockObject"/> function with an argument of <see cref="DC_BRUSH"/> or <see cref="DC_PEN"/>
+        /// can be used interchangeably with the <see cref="SetDCPenColor"/> and <see cref="SetDCBrushColor"/> functions.
+        /// ICM: Color management is performed if ICM is enabled.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDCPenColor", ExactSpelling = true, SetLastError = true)]
+        public static extern COLORREF SetDCPenColor([In] HDC hdc, [In] COLORREF color);
     }
 }

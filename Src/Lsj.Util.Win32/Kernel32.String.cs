@@ -5,13 +5,16 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.LCID;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CodePages;
 using static Lsj.Util.Win32.Enums.CompareStringResults;
+using static Lsj.Util.Win32.Enums.MBCSTranslationFlags;
+using static Lsj.Util.Win32.Enums.NORM_FORM;
 using static Lsj.Util.Win32.Enums.StringFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
-using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32
 {
@@ -129,8 +132,8 @@ namespace Lsj.Util.Win32
         /// Before Windows 8, both versions were declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareString([In]LCID Locale, [In]StringFlags dwCmpFlags, [In]StringHandle lpString1,
-            [In]int cchCount1, [In]StringHandle lpString2, [In]int cchCount2);
+        public static extern CompareStringResults CompareString([In] LCID Locale, [In] StringFlags dwCmpFlags, [In] StringHandle lpString1,
+            [In] int cchCount1, [In] StringHandle lpString2, [In] int cchCount2);
 
         /// <summary>
         /// <para>
@@ -187,8 +190,8 @@ namespace Lsj.Util.Win32
         /// Before Windows 8, it was declared in Winnls.h.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringOrdinal", ExactSpelling = true, SetLastError = true)]
-        public static extern int CompareStringOrdinal([In]StringHandle lpString1, [In]int cchCount1, [In]StringHandle lpString2,
-            [In]int cchCount2, [In]BOOL bIgnoreCase);
+        public static extern int CompareStringOrdinal([In] StringHandle lpString1, [In] int cchCount1, [In] StringHandle lpString2,
+            [In] int cchCount2, [In] BOOL bIgnoreCase);
 
         /// <summary>
         /// <para>
@@ -328,12 +331,12 @@ namespace Lsj.Util.Win32
         /// <see cref="CompareStringEx"/> is declared in Stringapiset.h. Before Windows 8, it was declared in Winnls.h.
         /// Note
         /// The behavior of sorting can change between Windows releases. For example, there may be new Unicode code points created.
-        /// Use <see cref="GetNlsVersionEx"/> to discover if the sort version has changed.
+        /// Use <see cref="GetNLSVersionEx"/> to discover if the sort version has changed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CompareStringEx", ExactSpelling = true, SetLastError = true)]
-        public static extern CompareStringResults CompareStringEx([In]StringHandle lpLocaleName, [In]StringFlags dwCmpFlags,
-            [In]StringHandle lpString1, [In]int cchCount1, [In]StringHandle lpString2, [In]int cchCount2, [In]in NLSVERSIONINFOEX lpVersionInformation,
-            [In]LPVOID lpReserved, [In]LPARAM lParam);
+        public static extern CompareStringResults CompareStringEx([In] StringHandle lpLocaleName, [In] StringFlags dwCmpFlags,
+            [In] StringHandle lpString1, [In] int cchCount1, [In] StringHandle lpString2, [In] int cchCount2, [In] in NLSVERSIONINFOEX lpVersionInformation,
+            [In] LPVOID lpReserved, [In] LPARAM lParam);
 
 #pragma warning disable IDE1006
 
@@ -357,8 +360,8 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+        public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -399,7 +402,7 @@ namespace Lsj.Util.Win32
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+        public static extern int lstrcmp([MarshalAs(UnmanagedType.LPWStr)][In] string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -444,7 +447,7 @@ namespace Lsj.Util.Win32
         /// For a detailed discussion of word sorts and string sorts, see Handling Sorting in Your Applications.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcmpiW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In]string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+        public static extern int lstrcmpi([MarshalAs(UnmanagedType.LPWStr)][In] string lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -485,8 +488,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2);
+        public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -539,8 +542,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out]StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpString2, [In]int iMaxLength);
+        public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2, [In] int iMaxLength);
 
         /// <summary>
         /// <para>
@@ -558,7 +561,229 @@ namespace Lsj.Util.Win32
         /// If <paramref name="lpString"/> is <see langword="null"/>, the function returns 0.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrlenW", ExactSpelling = true, SetLastError = true)]
-        public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+        public static extern int lstrlen([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
 #pragma warning restore IDE1006
+
+        /// <summary>
+        /// <para>
+        /// Maps a character string to a UTF-16 (wide character) string.
+        /// The character string is not necessarily from a multibyte character set.
+        /// Caution
+        /// Using the <see cref="MultiByteToWideChar"/> function incorrectly can compromise the security of your application.
+        /// Calling this function can easily cause a buffer overrun because the size of the input buffer
+        /// indicated by <paramref name="lpMultiByteStr"/> equals the number of bytes in the string,
+        /// while the size of the output buffer indicated by <paramref name="lpWideCharStr"/> equals the number of characters.
+        /// To avoid a buffer overrun, your application must specify a buffer size appropriate for the data type the buffer receives.
+        /// For more information, see Security Considerations: International Features.
+        /// Note
+        /// The ANSI code pages can be different on different computers, or can be changed for a single computer, leading to data corruption.
+        /// For the most consistent results, applications should use Unicode, such as UTF-8 or UTF-16, instead of a specific code page,
+        /// unless legacy standards or data formats prevent the use of Unicode.
+        /// If using Unicode is not possible, applications should tag the data stream with the appropriate encoding name when protocols allow it.
+        /// HTML and XML files allow tagging, but text files do not.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-multibytetowidechar
+        /// </para>
+        /// </summary>
+        /// <param name="CodePage">
+        /// Code page to use in performing the conversion.
+        /// This parameter can be set to the value of any code page that is installed or available in the operating system.
+        /// For a list of code pages, see Code Page Identifiers.
+        /// Your application can also specify one of the values shown in the following table.
+        /// <see cref="CP_ACP"/>:
+        /// The system default Windows ANSI code page. 
+        /// Note
+        /// This value can be different on different computers, even on the same network.
+        /// It can be changed on the same computer, leading to stored data becoming irrecoverably corrupted.
+        /// This value is only intended for temporary use and permanent storage should use UTF-16 or UTF-8 if possible.
+        /// <see cref="CP_MACCP"/>:
+        /// The current system Macintosh code page. 
+        /// Note
+        /// This value can be different on different computers, even on the same network.
+        /// It can be changed on the same computer, leading to stored data becoming irrecoverably corrupted.
+        /// This value is only intended for temporary use and permanent storage should use UTF-16 or UTF-8 if possible.
+        /// Note
+        /// This value is used primarily in legacy code and should not generally be needed since modern Macintosh computers use Unicode for encoding.
+        /// <see cref="CP_OEMCP"/>:
+        /// The current system OEM code page.
+        /// Note  This value can be different on different computers, even on the same network.
+        /// It can be changed on the same computer, leading to stored data becoming irrecoverably corrupted.
+        /// This value is only intended for temporary use and permanent storage should use UTF-16 or UTF-8 if possible.
+        /// <see cref="CP_SYMBOL"/>:
+        /// Symbol code page (42).
+        /// <see cref="CP_THREAD_ACP"/>:
+        /// The Windows ANSI code page for the current thread.
+        /// Note  This value can be different on different computers, even on the same network.
+        /// It can be changed on the same computer, leading to stored data becoming irrecoverably corrupted.
+        /// This value is only intended for temporary use and permanent storage should use UTF-16 or UTF-8 if possible.
+        /// <see cref="CP_UTF7"/>:
+        /// UTF-7. Use this value only when forced by a 7-bit transport mechanism. Use of UTF-8 is preferred. 
+        /// <see cref="CP_UTF8"/>:
+        /// UTF-8. 
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags indicating the conversion type.
+        /// The application can specify a combination of the following values, with <see cref="MB_PRECOMPOSED"/> being the default.
+        /// <see cref="MB_PRECOMPOSED"/> and <see cref="MB_COMPOSITE"/> are mutually exclusive.
+        /// <see cref="MB_USEGLYPHCHARS"/> and <see cref="MB_ERR_INVALID_CHARS"/> can be set regardless of the state of the other flags.
+        /// <see cref="MB_COMPOSITE"/>:
+        /// Always use decomposed characters, that is, characters in which a base character
+        /// and one or more nonspacing characters each have distinct code point values.
+        /// For example, Ä is represented by A + ¨: LATIN CAPITAL LETTER A (U+0041) + COMBINING DIAERESIS (U+0308).
+        /// Note that this flag cannot be used with <see cref="MB_PRECOMPOSED"/>.
+        /// <see cref="MB_ERR_INVALID_CHARS"/>:
+        /// Fail if an invalid input character is encountered.
+        /// Starting with Windows Vista, the function does not drop illegal code points if the application does not set this flag,
+        /// but instead replaces illegal sequences with U+FFFD (encoded as appropriate for the specified codepage).
+        /// Windows 2000 with SP4 and later, Windows XP:
+        /// If this flag is not set, the function silently drops illegal code points.
+        /// A call to <see cref="GetLastError"/> returns <see cref="ERROR_NO_UNICODE_TRANSLATION"/>.
+        /// <see cref="MB_PRECOMPOSED"/>:
+        /// Default; do not use with <see cref="MB_COMPOSITE"/>.
+        /// Always use precomposed characters, that is, characters having a single character value for a base or nonspacing character combination.
+        /// For example, in the character è, the e is the base character and the accent grave mark is the nonspacing character.
+        /// If a single Unicode code point is defined for a character, the application should use it
+        /// instead of a separate base character and a nonspacing character.
+        /// For example, Ä is represented by the single Unicode code point LATIN CAPITAL LETTER A WITH DIAERESIS (U+00C4).
+        /// <see cref="MB_USEGLYPHCHARS"/>:
+        /// Use glyph characters instead of control characters.
+        /// For the code pages listed below, <paramref name="dwFlags"/> must be set to 0.
+        /// Otherwise, the function fails with <see cref="ERROR_INVALID_FLAGS"/>.
+        /// 50220,50221,50222,50225,50227,50229,57002 through 57011,65000 (UTF-7),42 (Symbol)
+        /// Note
+        /// For UTF-8 or code page 54936 (GB18030, starting with Windows Vista),
+        /// <paramref name="dwFlags"/> must be set to either 0 or <see cref="MB_ERR_INVALID_CHARS"/>.
+        /// Otherwise, the function fails with <see cref="ERROR_INVALID_FLAGS"/>.
+        /// </param>
+        /// <param name="lpMultiByteStr">
+        /// Pointer to the character string to convert.
+        /// </param>
+        /// <param name="cbMultiByte">
+        /// Size, in bytes, of the string indicated by the <paramref name="lpMultiByteStr"/> parameter.
+        /// Alternatively, this parameter can be set to -1 if the string is null-terminated.
+        /// Note that, if <paramref name="cbMultiByte"/> is 0, the function fails.
+        /// If this parameter is -1, the function processes the entire input string, including the terminating null character.
+        /// Therefore, the resulting Unicode string has a terminating null character, and the length returned by the function includes this character.
+        /// If this parameter is set to a positive integer, the function processes exactly the specified number of bytes.
+        /// If the provided size does not include a terminating null character, the resulting Unicode string is not null-terminated,
+        /// and the returned length does not include this character.
+        /// </param>
+        /// <param name="lpWideCharStr">
+        /// Pointer to a buffer that receives the converted string.
+        /// </param>
+        /// <param name="cchWideChar">
+        /// Size, in characters, of the buffer indicated by <paramref name="lpWideCharStr"/>.
+        /// If this value is 0, the function returns the required buffer size, in characters,
+        /// including any terminating null character, and makes no use of the <paramref name="lpWideCharStr"/> buffer.
+        /// </param>
+        /// <returns>
+        /// Returns the number of characters written to the buffer indicated by <paramref name="lpWideCharStr"/> if successful.
+        /// If the function succeeds and <paramref name="cchWideChar"/> is 0, the return value is the required size, in characters,
+        /// for the buffer indicated by <paramref name="lpWideCharStr"/>.
+        /// Also see <paramref name="dwFlags"/> for info about how the <see cref="MB_ERR_INVALID_CHARS"/> flag
+        /// affects the return value when invalid sequences are input.
+        /// The function returns 0 if it does not succeed.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>, which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_FLAGS"/>. The values supplied for flags were not valid.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>. Invalid Unicode was found in a string.
+        /// </returns>
+        /// <remarks>
+        /// The default behavior of this function is to translate to a precomposed form of the input character string.
+        /// If a precomposed form does not exist, the function attempts to translate to a composite form.
+        /// The use of the <see cref="MB_PRECOMPOSED"/> flag has very little effect on most code pages because most input data is composed already.
+        /// Consider calling <see cref="NormalizeString"/> after converting with <see cref="MultiByteToWideChar"/>.
+        /// <see cref="NormalizeString"/> provides more accurate, standard, and consistent data, and can also be faster.
+        /// Note that for the <see cref="NORM_FORM"/> enumeration being passed to <see cref="NormalizeString"/>,
+        /// <see cref="NormalizationC"/> corresponds to <see cref="MB_PRECOMPOSED"/>
+        /// and <see cref="NormalizationD"/> corresponds to <see cref="MB_COMPOSITE"/>.
+        /// As mentioned in the caution above, the output buffer can easily be overrun if this function is not first called
+        /// with <paramref name="cchWideChar"/> set to 0 in order to obtain the required size.
+        /// If the <see cref="MB_COMPOSITE"/> flag is used, the output can be three or more characters long for each input character.
+        /// The <paramref name="lpMultiByteStr"/> and <paramref name="lpWideCharStr"/> pointers must not be the same.
+        /// If they are the same, the function fails, and <see cref="GetLastError"/> returns the value <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// <see cref="MultiByteToWideChar"/> does not null-terminate an output string
+        /// if the input string length is explicitly specified without a terminating null character.
+        /// To null-terminate an output string for this function, the application should pass in -1
+        /// or explicitly count the terminating null character for the input string.
+        /// The function fails if <see cref="MB_ERR_INVALID_CHARS"/> is set and an invalid character is encountered in the source string.
+        /// An invalid character is one of the following:
+        /// A character that is not the default character in the source string,
+        /// but translates to the default character when <see cref="MB_ERR_INVALID_CHARS"/> is not set
+        /// For DBCS strings, a character that has a lead byte but no valid trail byte
+        /// Starting with Windows Vista, this function fully conforms with the Unicode 4.1 specification for UTF-8 and UTF-16.
+        /// The function used on earlier operating systems encodes or decodes lone surrogate halves or mismatched surrogate pairs.
+        /// Code written in earlier versions of Windows that rely on this behavior to encode random non-text binary data might run into problems.
+        /// However, code that uses this function on valid UTF-8 strings will behave the same way as on earlier Windows operating systems.
+        /// Windows XP:
+        /// To prevent the security problem of the non-shortest-form versions of UTF-8 characters, <see cref="MultiByteToWideChar"/> deletes these characters.
+        /// Starting with Windows 8:
+        /// <see cref="MultiByteToWideChar"/> is declared in Stringapiset.h. Before Windows 8, it was declared in Winnls.h.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
+        public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpMultiByteStr,
+            [In] int cbMultiByte, [Out] StringBuilder lpWideCharStr, [In] int cchWideChar);
+
+        /// <summary>
+        /// <para>
+        /// Normalizes characters of a text string according to Unicode 4.0 TR#15.
+        /// For more information, see Using Unicode Normalization to Represent Strings.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-normalizestring
+        /// </para>
+        /// </summary>
+        /// <param name="NormForm">
+        /// Normalization form to use.
+        /// <see cref="NORM_FORM"/> specifies the standard Unicode normalization forms.
+        /// </param>
+        /// <param name="lpSrcString">
+        /// Pointer to the non-normalized source string.
+        /// </param>
+        /// <param name="cwSrcLength">
+        /// Length, in characters, of the buffer containing the source string.
+        /// The application can set this parameter to -1 if the function should assume the string
+        /// to be null-terminated and calculate the length automatically.
+        /// </param>
+        /// <param name="lpDstString">
+        /// Pointer to a buffer in which the function retrieves the destination string.
+        /// Alternatively, this parameter contains <see cref="NULL"/> if <paramref name="cwDstLength"/> is set to 0.
+        /// Note
+        /// The function does not null-terminate the string if the input string length is explicitly specified without a terminating null character.
+        /// To null-terminate the output string, the application should specify -1
+        /// or explicitly count the terminating null character for the input string.
+        /// </param>
+        /// <param name="cwDstLength">
+        /// Length, in characters, of the buffer containing the destination string.
+        /// Alternatively, the application can set this parameter to 0 to request the function to return the required size for the destination buffer.
+        /// </param>
+        /// <returns>
+        /// Returns the length of the normalized string in the destination buffer.
+        /// If <paramref name="cwDstLength"/> is set to 0, the function returns the estimated buffer length required to do the actual conversion.
+        /// If the string in the input buffer is null-terminated or if <paramref name="cwSrcLength"/> is -1,
+        /// the string written to the destination buffer is null-terminated and the returned string length includes the terminating null character.
+        /// The function returns a value that is less than or equal to 0 if it does not succeed.
+        /// To get extended error information, the application can call GetLastError, which can return one of the following error codes:
+        /// <see cref="ERROR_INSUFFICIENT_BUFFER"/>. A supplied buffer size was not large enough, or it was incorrectly set to <see cref="NULL"/>.
+        /// <see cref="ERROR_INVALID_PARAMETER"/>. Any of the parameter values was invalid.
+        /// <see cref="ERROR_NO_UNICODE_TRANSLATION"/>. Invalid Unicode was found in a string.
+        /// The return value is the negative of the index of the location of the error in the input string.
+        /// <see cref="ERROR_SUCCESS"/>. The action completed successfully but yielded no results.
+        /// </returns>
+        /// <remarks>
+        /// Some Unicode characters have multiple equivalent binary representations consisting of sets of combining and/or composite Unicode characters.
+        /// The Unicode standard defines a process called normalization that returns one binary representation
+        /// when given any of the equivalent binary representations of a character.
+        /// Normalization can be performed with several algorithms, called normalization forms, that obey different rules,
+        /// as described in Using Unicode Normalization to Represent Strings.
+        /// The Win32 and the .NET Framework currently support normalization forms C, D, KC, and KD,
+        /// as defined in Unicode Standard Annex #15: Unicode Normalization Forms.
+        /// Normalized strings are typically evaluated with an ordinal comparison.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "NormalizeString", ExactSpelling = true, SetLastError = true)]
+        public static extern int NormalizeString([In] NORM_FORM NormForm, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSrcString,
+            [In] int cwSrcLength, [Out] StringBuilder lpDstString, [In] int cwDstLength);
     }
 }

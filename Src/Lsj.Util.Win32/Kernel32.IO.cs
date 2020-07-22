@@ -346,6 +346,32 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the time-out parameters for all read and write operations on a specified communications device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getcommtimeouts
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the communications device.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="lpCommTimeouts">
+        /// A pointer to a <see cref="COMMTIMEOUTS"/> structure in which the time-out information is returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information about time-out values for communications devices, see the <see cref="SetCommTimeouts"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCommTimeouts", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetCommTimeouts([In] HANDLE hFile, [Out] out COMMTIMEOUTS lpCommTimeouts);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the results of an overlapped operation on the specified file, named pipe, or communications device.
         /// To specify a timeout interval or wait on an alertable thread, use <see cref="GetOverlappedResultEx"/>.
         /// </para>

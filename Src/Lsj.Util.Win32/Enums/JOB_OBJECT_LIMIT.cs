@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.ErrorModes;
+using static Lsj.Util.Win32.Enums.JOB_OBJECT_MSG;
 using static Lsj.Util.Win32.Enums.JOBOBJECTINFOCLASS;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Kernel32;
@@ -149,7 +150,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// JOB_OBJECT_LIMIT_JOB_READ_BYTES
         /// </summary>
-        JOB_OBJECT_LIMIT_JOB_READ_BYTES =         0x00010000,
+        JOB_OBJECT_LIMIT_JOB_READ_BYTES = 0x00010000,
 
         /// <summary>
         /// JOB_OBJECT_LIMIT_JOB_WRITE_BYTES
@@ -160,5 +161,40 @@ namespace Lsj.Util.Win32.Enums
         /// JOB_OBJECT_LIMIT_RATE_CONTROL
         /// </summary>
         JOB_OBJECT_LIMIT_RATE_CONTROL = 0x00040000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH
+        /// </summary>
+        JOB_OBJECT_LIMIT_JOB_MEMORY_HIGH = 0x00000200,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_JOB_MEMORY_LOW
+        /// </summary>
+        JOB_OBJECT_LIMIT_JOB_MEMORY_LOW = 0x00008000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_CPU_RATE_CONTROL
+        /// </summary>
+        JOB_OBJECT_LIMIT_CPU_RATE_CONTROL = 0x00040000,
+
+        /// <summary>
+        /// 0x00080000
+        /// </summary>
+        JOB_OBJECT_LIMIT_IO_RATE_CONTROL = 0x00080000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_NET_RATE_CONTROL
+        /// </summary>
+        JOB_OBJECT_LIMIT_NET_RATE_CONTROL = 0x00100000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_READ_BYTES
+        /// </summary>
+        JOB_OBJECT_LIMIT_READ_BYTES = 0x00010000,
+
+        /// <summary>
+        /// JOB_OBJECT_LIMIT_WRITE_BYTES
+        /// </summary>
+        JOB_OBJECT_LIMIT_WRITE_BYTES = 0x00020000,
     }
 }

@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Enums.MouseEventFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -66,7 +67,7 @@ namespace Lsj.Util.Win32
         /// You cannot attach a thread to a thread in another desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachThreadInput", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AttachThreadInput([In]DWORD idAttach, [In]DWORD idAttachTo, [In]BOOL fAttach);
+        public static extern BOOL AttachThreadInput([In] DWORD idAttach, [In] DWORD idAttachTo, [In] BOOL fAttach);
 
         /// <summary>
         /// <para>
@@ -134,7 +135,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAsyncKeyState", ExactSpelling = true, SetLastError = true)]
-        public static extern SHORT GetAsyncKeyState([In]int vKey);
+        public static extern SHORT GetAsyncKeyState([In] int vKey);
 
         /// <summary>
         /// <para>
@@ -254,7 +255,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardState", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetKeyboardState([MarshalAs(UnmanagedType.LPArray)][Out]BYTE[] lpKeyState);
+        public static extern BOOL GetKeyboardState([MarshalAs(UnmanagedType.LPArray)][Out] BYTE[] lpKeyState);
 
         /// <summary>
         /// <para>
@@ -298,7 +299,7 @@ namespace Lsj.Util.Win32
         /// When a single USB keyboard is connected to the computer, this function returns the code 81.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyboardType", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetKeyboardType([In]int nTypeFlag);
+        public static extern int GetKeyboardType([In] int nTypeFlag);
 
         /// <summary>
         /// <para>
@@ -340,7 +341,7 @@ namespace Lsj.Util.Win32
         /// The names of dead keys are spelled out in full.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetKeyNameText([In]LONG lParam, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpString, [In]int cchSize);
+        public static extern int GetKeyNameText([In] LONG lParam, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString, [In] int cchSize);
 
         /// <summary>
         /// <para>
@@ -386,7 +387,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyState", ExactSpelling = true, SetLastError = true)]
-        public static extern SHORT GetKeyState([In]int nVirtKey);
+        public static extern SHORT GetKeyState([In] int nVirtKey);
 
         /// <summary>
         /// <para>
@@ -421,7 +422,124 @@ namespace Lsj.Util.Win32
         /// <see cref="SetKeyboardState"/>, <see cref="GetAsyncKeyState"/>, <see cref="GetKeyState"/>, and <see cref="MapVirtualKey"/> functions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapVirtualKeyW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT MapVirtualKey([In]UINT uCode, [In]MapVirtualKeyTypes uMapType);
+        public static extern UINT MapVirtualKey([In] UINT uCode, [In] MapVirtualKeyTypes uMapType);
+
+#pragma warning disable IDE1006
+        /// <summary>
+        /// <para>
+        /// The <see cref="mouse_event"/> function synthesizes mouse motion and button clicks.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mouse_event
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// Controls various aspects of mouse motion and button clicking.
+        /// This parameter can be certain combinations of the following values.
+        /// <see cref="MOUSEEVENTF_ABSOLUTE"/>:
+        /// The <paramref name="dx"/> and <paramref name="dy"/> parameters contain normalized absolute coordinates.
+        /// If not set, those parameters contain relative data: the change in position since the last reported position.
+        /// This flag can be set, or not set, regardless of what kind of mouse or mouse-like device, if any, is connected to the system.
+        /// For further information about relative mouse motion, see the following Remarks section. 
+        /// </param>
+        /// <see cref="MOUSEEVENTF_LEFTDOWN"/>:
+        /// The left button is down. 
+        /// <see cref="MOUSEEVENTF_LEFTUP"/>:
+        /// The left button is up.
+        /// <see cref="MOUSEEVENTF_MIDDLEDOWN"/>:
+        /// The middle button is down.
+        /// <see cref="MOUSEEVENTF_MIDDLEUP"/>:
+        /// The middle button is up.
+        /// <see cref="MOUSEEVENTF_MOVE"/>:
+        /// Movement occurred.
+        /// <see cref="MOUSEEVENTF_RIGHTDOWN"/>:
+        /// The right button is down.
+        /// <see cref="MOUSEEVENTF_RIGHTUP"/>:
+        /// The right button is up.
+        /// <see cref="MOUSEEVENTF_WHEEL"/>:
+        /// The wheel has been moved, if the mouse has a wheel. The amount of movement is specified in <paramref name="dwData"/>.
+        /// <see cref="MOUSEEVENTF_XDOWN"/>:
+        /// An X button was pressed.
+        /// <see cref="MOUSEEVENTF_XUP"/>:
+        /// An X button was released.
+        /// <see cref="MOUSEEVENTF_WHEEL"/>:
+        /// The wheel button is rotated.
+        /// <see cref="MOUSEEVENTF_HWHEEL"/>:
+        /// The wheel button is tilted.
+        /// The values that specify mouse button status are set to indicate changes in status, not ongoing conditions.
+        /// For example, if the left mouse button is pressed and held down, <see cref="MOUSEEVENTF_LEFTDOWN"/> is set
+        /// when the left button is first pressed, but not for subsequent motions.
+        /// Similarly, <see cref="MOUSEEVENTF_LEFTUP"/> is set only when the button is first released.
+        /// You cannot specify both <see cref="MOUSEEVENTF_WHEEL"/> and either <see cref="MOUSEEVENTF_XDOWN"/>
+        /// or <see cref="MOUSEEVENTF_XUP"/> simultaneously in the <paramref name="dwFlags"/> parameter,
+        /// because they both require use of the <paramref name="dwData"/> field.
+        /// <param name="dx">
+        /// The mouse's absolute position along the x-axis or its amount of motion since the last mouse event was generated,
+        /// depending on the setting of <see cref="MOUSEEVENTF_ABSOLUTE"/>.
+        /// Absolute data is specified as the mouse's actual x-coordinate; relative data is specified as the number of mickeys moved.
+        /// A mickey is the amount that a mouse has to move for it to report that it has moved.
+        /// </param>
+        /// <param name="dy">
+        /// The mouse's absolute position along the y-axis or its amount of motion since the last mouse event was generated,
+        /// depending on the setting of <see cref="MOUSEEVENTF_ABSOLUTE"/>.
+        /// Absolute data is specified as the mouse's actual y-coordinate; relative data is specified as the number of mickeys moved.
+        /// </param>
+        /// <param name="dwData">
+        /// If dwFlags contains <see cref="MOUSEEVENTF_WHEEL"/>, then <paramref name="dwData"/> specifies the amount of wheel movement.
+        /// A positive value indicates that the wheel was rotated forward, away from the user;
+        /// a negative value indicates that the wheel was rotated backward, toward the user.
+        /// One wheel click is defined as <see cref="WHEEL_DELTA"/>, which is 120.
+        /// If dwFlags contains <see cref="MOUSEEVENTF_HWHEEL"/>, then <paramref name="dwData"/> specifies the amount of wheel movement.
+        /// A positive value indicates that the wheel was tilted to the right; a negative value indicates that the wheel was tilted to the left.
+        /// If dwFlags contains <see cref="MOUSEEVENTF_XDOWN"/> or <see cref="MOUSEEVENTF_XUP"/>,
+        /// then <paramref name="dwData"/> specifies which X buttons were pressed or released.
+        /// This value may be any combination of the following flags.
+        /// If dwFlags is not <see cref="MOUSEEVENTF_WHEEL"/>, <see cref="MOUSEEVENTF_XDOWN"/>,
+        /// or <see cref="MOUSEEVENTF_XDOWN"/>, then <paramref name="dwData"/> should be zero.
+        /// <see cref="XBUTTON1"/>: Set if the first X button was pressed or released.
+        /// <see cref="XBUTTON2"/>: Set if the second X button was pressed or released. 
+        /// </param>
+        /// <param name="dwExtraInfo">
+        /// An additional value associated with the mouse event.
+        /// An application calls <see cref="GetMessageExtraInfo"/> to obtain this extra information.
+        /// </param>
+        /// <remarks>
+        /// If the mouse has moved, indicated by <see cref="MOUSEEVENTF_MOVE"/> being set,
+        /// <paramref name="dx"/> and <paramref name="dy"/> hold information about that motion.
+        /// The information is specified as absolute or relative integer values.
+        /// If <see cref="MOUSEEVENTF_ABSOLUTE"/> value is specified, dx and dy contain normalized absolute coordinates between 0 and 65,535.
+        /// The event procedure maps these coordinates onto the display surface.
+        /// Coordinate (0,0) maps onto the upper-left corner of the display surface, (65535,65535) maps onto the lower-right corner.
+        /// If the <see cref="MOUSEEVENTF_ABSOLUTE"/> value is not specified,
+        /// <paramref name="dx"/> and <paramref name="dy"/> specify relative motions from
+        /// when the last mouse event was generated (the last reported position).
+        /// Positive values mean the mouse moved right (or down); negative values mean the mouse moved left (or up).
+        /// Relative mouse motion is subject to the settings for mouse speed and acceleration level.
+        /// An end user sets these values using the Mouse application in Control Panel.
+        /// An application obtains and sets these values with the <see cref="SystemParametersInfo"/> function.
+        /// The system applies two tests to the specified relative mouse motion when applying acceleration.
+        /// If the specified distance along either the x or y axis is greater than the first mouse threshold value,
+        /// and the mouse acceleration level is not zero, the operating system doubles the distance.
+        /// If the specified distance along either the x- or y-axis is greater than the second mouse threshold value,
+        /// and the mouse acceleration level is equal to two, the operating system doubles the distance
+        /// that resulted from applying the first threshold test.
+        /// It is thus possible for the operating system to multiply relatively-specified mouse motion along the x- or y-axis by up to four times.
+        /// Once acceleration has been applied, the system scales the resultant value by the desired mouse speed.
+        /// Mouse speed can range from 1 (slowest) to 20 (fastest) and represents how much the pointer moves based on the distance the mouse moves.
+        /// The default value is 10, which results in no additional modification to the mouse motion.
+        /// The <see cref="mouse_event"/> function is used to synthesize mouse events by applications that need to do so.
+        /// It is also used by applications that need to obtain more information from the mouse than its position and button state.
+        /// For example, if a tablet manufacturer wants to pass pen-based information to its own applications,
+        /// it can write a DLL that communicates directly to the tablet hardware, obtains the extra information, and saves it in a queue.
+        /// The DLL then calls mouse_event with the standard button and x/y position data, along with,
+        /// in the <paramref name="dwExtraInfo"/> parameter, some pointer or index to the queued extra information.
+        /// When the application needs the extra information, it calls the DLL with the pointer or index stored in <paramref name="dwExtraInfo"/>,
+        /// and the DLL returns the extra information.
+        /// </remarks>
+        [Obsolete("This function has been superseded. Use SendInput instead.")]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "mouse_event", ExactSpelling = true, SetLastError = true)]
+        public static extern void mouse_event([In] MouseEventFlags dwFlags, [In] DWORD dx, [In] DWORD dy, [In] DWORD dwData, [In] ULONG_PTR dwExtraInfo);
+#pragma warning restore IDE1006
 
         /// <summary>
         /// <para>
@@ -457,7 +575,7 @@ namespace Lsj.Util.Win32
         /// This function is implemented using the <see cref="VkKeyScan"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OemKeyScan", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD OemKeyScan([In]WORD wOemChar);
+        public static extern DWORD OemKeyScan([In] WORD wOemChar);
 
         /// <summary>
         /// <para>
@@ -523,7 +641,7 @@ namespace Lsj.Util.Win32
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendInput", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT SendInput([In]UINT cInputs, [MarshalAs(UnmanagedType.LPArray)][In]INPUT[] pInputs, [In]int cbSize);
+        public static extern UINT SendInput([In] UINT cInputs, [MarshalAs(UnmanagedType.LPArray)][In] INPUT[] pInputs, [In] int cbSize);
 
         /// <summary>
         /// <para>
@@ -549,7 +667,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, the active window status of the calling thread is set to <see cref="NULL"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetActiveWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND SetActiveWindow([In]HWND hWnd);
+        public static extern HWND SetActiveWindow([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -582,7 +700,7 @@ namespace Lsj.Util.Win32
         /// When the mouse is captured, menu hotkeys and other keyboard accelerators do not work.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCapture", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND SetCapture([In]HWND hWnd);
+        public static extern HWND SetCapture([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -615,7 +733,7 @@ namespace Lsj.Util.Win32
         /// This allows a thread to call <see cref="SetFocus"/> to set the keyboard focus to a window attached to another thread's message queue.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFocus", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND SetFocus([In]HWND hWnd);
+        public static extern HWND SetFocus([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -642,7 +760,7 @@ namespace Lsj.Util.Win32
         /// These can be set or cleared using <see cref="SendInput"/> to simulate keystrokes.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetKeyboardState", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetKeyboardState([MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState);
+        public static extern BOOL SetKeyboardState([MarshalAs(UnmanagedType.LPArray)][In] BYTE[] lpKeyState);
 
         /// <summary>
         /// <para>
@@ -667,7 +785,7 @@ namespace Lsj.Util.Win32
         /// reversing the meaning of its buttons affects all applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwapMouseButton", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SwapMouseButton([In]BOOL fSwap);
+        public static extern BOOL SwapMouseButton([In] BOOL fSwap);
 
         /// <summary>
         /// <para>
@@ -716,8 +834,8 @@ namespace Lsj.Util.Win32
         /// from the numeric keys (<see cref="VK_DECIMAL"/>, <see cref="VK_NUMPAD0"/> - <see cref="VK_NUMPAD9"/>).
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ToAscii", ExactSpelling = true, SetLastError = true)]
-        public static extern int ToAscii([In]UINT uVirtKey, [In]UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In]BYTE[] lpKeyState,
-            [Out]out WORD lpChar, [In]UINT uFlags);
+        public static extern int ToAscii([In] UINT uVirtKey, [In] UINT uScanCode, [MarshalAs(UnmanagedType.LPArray)][In] BYTE[] lpKeyState,
+            [Out] out WORD lpChar, [In] UINT uFlags);
 
         /// <summary>
         /// <para>
@@ -753,7 +871,7 @@ namespace Lsj.Util.Win32
         /// if it requires further tracking of mouse hover behavior.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackMouseEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TrackMouseEvent([In]in TRACKMOUSEEVENT lpEventTrack);
+        public static extern BOOL TrackMouseEvent([In] in TRACKMOUSEEVENT lpEventTrack);
 
         /// <summary>
         /// <para>
@@ -788,6 +906,6 @@ namespace Lsj.Util.Win32
         [Obsolete("This function has been superseded by the VkKeyScanEx function." +
             "You can still use VkKeyScan, however, if you do not need to specify a keyboard layout.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "VkKeyScanW", ExactSpelling = true, SetLastError = true)]
-        public static extern SHORT VkKeyScan([In]WCHAR ch);
+        public static extern SHORT VkKeyScan([In] WCHAR ch);
     }
 }

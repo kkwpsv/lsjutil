@@ -51,6 +51,16 @@
         public const string IID_IDataObject = "0000010e-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IEnumIDList
+        /// </summary>
+        public const string IID_IEnumIDList = "000214F2-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IEnumSTATSTG
+        /// </summary>
+        public const string IID_IEnumSTATSTG = "0000000d-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IFileDialog
         /// </summary>
         public const string IID_IFileDialog = "42f85136-db7e-439c-85f1-e4075d135fc8";
@@ -61,9 +71,19 @@
         public const string IID_IFileOpenDialog = "d57c7288-d4ad-4768-be02-9d969532d960";
 
         /// <summary>
+        /// IID_ILockBytes
+        /// </summary>
+        public const string IID_ILockBytes = "0000000a-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IMalloc
         /// </summary>
         public const string IID_IMalloc = "00000002-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IMarshal
+        /// </summary>
+        public const string IID_IMarshal = "00000003-0000-0000-C000-000000000046";
 
         /// <summary>
         /// IID_IModalWindow
@@ -116,6 +136,11 @@
         public const string IID_IPersist = "0000010c-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IPersistStorage
+        /// </summary>
+        public const string IID_IPersistStorage = "0000010a-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IPersistFile
         /// </summary>
         public const string IID_IPersistFile = "0000010b-0000-0000-C000-000000000046";
@@ -134,6 +159,11 @@
         /// IID_IPropertySetStorage
         /// </summary>
         public const string IID_IPropertySetStorage = "0000013A-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_ISequentialStream
+        /// </summary>
+        public const string IID_ISequentialStream = "0c733a30-2a1c-11ce-ade5-00aa0044773d";
 
         /// <summary>
         /// IID_IShellFolder

@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.Structs
         /// The maximum amount of memory the current process can commit, in bytes.
         /// This value should be smaller than the system-wide available commit.
         /// To calculate this value, call <see cref="GetPerformanceInfo"/> and subtract the value
-        /// of <see cref="CommitTotal"/> from <see cref="CommitLimit"/>.
+        /// of <see cref="PERFORMANCE_INFORMATION.CommitTotal"/> from <see cref="PERFORMANCE_INFORMATION.CommitLimit"/>.
         /// </summary>
         public SIZE_T dwAvailPageFile;
 

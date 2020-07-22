@@ -19,8 +19,9 @@ namespace Lsj.Util
         /// Start Process
         /// </summary>
         /// <param name="filename"></param>
+        /// <param name="arguments"></param>
         /// <param name="workingDirectory"></param>
-        public bool StartProcess(string filename, string workingDirectory = null)
+        public bool StartProcess(string filename, string arguments = null, string workingDirectory = null)
         {
             if (_process != null && !_process.HasExited)
             {
@@ -32,6 +33,7 @@ namespace Lsj.Util
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 FileName = filename,
+                Arguments = arguments,
                 UseShellExecute = false,
                 WorkingDirectory = workingDirectory,
             };

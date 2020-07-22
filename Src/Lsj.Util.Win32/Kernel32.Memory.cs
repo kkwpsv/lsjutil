@@ -9,11 +9,13 @@ using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Enums.HeapFlags;
 using static Lsj.Util.Win32.Enums.LocalMemoryFlags;
+using static Lsj.Util.Win32.Enums.MEM_EXTENDED_PARAMETER_TYPE;
 using static Lsj.Util.Win32.Enums.MemoryAllocationTypes;
 using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
 using static Lsj.Util.Win32.Enums.MemoryTypes;
 using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.ProcessHeapFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.VirtualFreeTypes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -22,6 +24,11 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
+        /// <summary>
+        /// WRITE_WATCH_FLAG_RESET
+        /// </summary>
+        public const uint WRITE_WATCH_FLAG_RESET = 0x01;
+
         /// <summary>
         /// <para>
         /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.
@@ -74,6 +81,61 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPages", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL AllocateUserPhysicalPages([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
+
+        /// <summary>
+        /// <para>
+        /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process
+        /// and specifies the NUMA node for the physical memory.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpagesnuma
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to a process.
+        /// The function allocates memory that can later be mapped within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory to allocate, in pages.
+        /// To determine the page size of the computer, use the <see cref="GetSystemInfo"/> function.
+        /// On output, this parameter receives the number of pages that are actually allocated, which might be less than the number requested.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array to store the page frame numbers of the allocated memory.
+        /// The size of the array that is allocated should be at least the <paramref name="NumberOfPages"/> times
+        /// the size of the <see cref="ULONG_PTR"/> data type.
+        /// Caution 
+        /// Do not attempt to modify this buffer. It contains operating system data, and corruption could be catastrophic.
+        /// The information in the buffer is not useful to an application.
+        /// </param>
+        /// <param name="nndPreferred">
+        /// The NUMA node where the physical memory should reside.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// Fewer pages than requested can be allocated.
+        /// The caller must check the value of the <paramref name="NumberOfPages"/> parameter on return to see how many pages are allocated.
+        /// All allocated page frame numbers are sequentially placed in the memory pointed to by the PageArray parameter.
+        /// If the function fails, the return value is <see cref="FALSE"/> and no frames are allocated.
+        /// To get extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="AllocateUserPhysicalPagesNuma"/> function is used to allocate physical memory within a NUMA node
+        /// that can later be mapped within the virtual address space of the process.
+        /// The SeLockMemoryPrivilege privilege must be enabled in the caller's token
+        /// or the function will fail with <see cref="ERROR_PRIVILEGE_NOT_HELD"/>.
+        /// For more information, see Privilege Constants.
+        /// Memory allocated by this function must be physically present in the system.
+        /// After the memory is allocated, it is locked down and unavailable to the rest of the virtual memory management system.
+        /// Physical pages cannot be simultaneously mapped at more than one virtual address.
+        /// Physical pages can reside at any physical address. You should make no assumptions about the contiguity of the physical pages.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocateUserPhysicalPagesNuma", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AllocateUserPhysicalPagesNuma([In] HANDLE hProcess, [In][Out] ref ULONG_PTR NumberOfPages,
+            [In] ULONG_PTR[] PageArray, [In] DWORD nndPreferred);
 
         /// <summary>
         /// <para>
@@ -195,6 +257,60 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
         public static extern uint GetProcessHeaps([In] uint NumberOfHeaps, [In] IntPtr ProcessHeaps);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the addresses of the pages that are written to in a region of virtual memory.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="GetWriteWatch"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getwritewatch
+        /// </para>
+        /// </summary>
+        /// <param name="dwFlags">
+        /// Indicates whether the function resets the write-tracking state.
+        /// To reset the write-tracking state, set this parameter to <see cref="WRITE_WATCH_FLAG_RESET"/>.
+        /// If this parameter is 0 (zero), <see cref="GetWriteWatch"/> does not reset the write-tracking state.
+        /// For more information, see the Remarks section of this topic.
+        /// </param>
+        /// <param name="lpBaseAddress">
+        /// The base address of the memory region for which to retrieve write-tracking information.
+        /// This address must be in a memory region that is allocated by the <see cref="VirtualAlloc"/> function using <see cref="MEM_WRITE_WATCH"/>.
+        /// </param>
+        /// <param name="dwRegionSize">
+        /// The size of the memory region for which to retrieve write-tracking information, in bytes.
+        /// </param>
+        /// <param name="lpAddresses">
+        /// A pointer to a buffer that receives an array of page addresses in the memory region.
+        /// The addresses indicate the pages that have been written to since the region has been allocated or the write-tracking state has been reset.
+        /// </param>
+        /// <param name="lpdwCount">
+        /// On input, this variable indicates the size of the <paramref name="lpAddresses"/> array, in array elements.
+        /// On output, the variable receives the number of page addresses that are returned in the array.
+        /// </param>
+        /// <param name="lpdwGranularity">
+        /// A pointer to a variable that receives the page size, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is 0 (zero).
+        /// If the function fails, the return value is a nonzero value.
+        /// </returns>
+        /// <remarks>
+        /// When you call the <see cref="VirtualAlloc"/> function to reserve or commit memory, you can specify <see cref="MEM_WRITE_WATCH"/>.
+        /// This value causes the system to keep track of the pages that are written to in the committed memory region.
+        /// You can call the <see cref="GetWriteWatch"/> function to retrieve the addresses of the pages
+        /// that have been written to since the region has been allocated or the write-tracking state has been reset.
+        /// To reset the write-tracking state, set the <see cref="WRITE_WATCH_FLAG_RESET"/> value in the <paramref name="dwFlags"/> parameter.
+        /// Alternatively, you can call the <see cref="ResetWriteWatch"/> function to reset the write-tracking state.
+        /// However, if you use <see cref="ResetWriteWatch"/>, you must ensure that no threads write to the region during the interval
+        /// between the <see cref="GetWriteWatch"/> and <see cref="ResetWriteWatch"/> calls.
+        /// Otherwise, there may be written pages that you do not detect.
+        /// The <see cref="GetWriteWatch"/> function can be useful to profilers, debugging tools, or garbage collectors.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWriteWatch", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT GetWriteWatch([In] DWORD dwFlags, [In] PVOID lpBaseAddress, [In] SIZE_T dwRegionSize, [In] PVOID[] lpAddresses,
+            [In][Out] ULONG_PTR[] lpdwCount, [Out] out DWORD lpdwGranularity);
 
         /// <summary>
         /// <para>
@@ -1620,6 +1736,56 @@ namespace Lsj.Util.Win32
         public static extern BOOL MapUserPhysicalPages([In] PVOID VirtualAddress, [In] ULONG_PTR NumberOfPages, [In] ULONG_PTR[] PageArray);
 
         /// <summary>
+        /// <para>
+        /// Maps previously allocated physical memory pages at a specified address in an Address Windowing Extensions (AWE) region.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="MapUserPhysicalPagesScatter"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapuserphysicalpagesscatter
+        /// </para>
+        /// </summary>
+        /// <param name="VirtualAddresses">
+        /// A pointer to an array of starting addresses of the regions of memory to remap.
+        /// Each entry in <paramref name="VirtualAddresses"/> must be within the address range that the <see cref="VirtualAlloc"/> function returns
+        /// when the Address Windowing Extensions (AWE) region is allocated.
+        /// The value in <paramref name="NumberOfPages"/> indicates the size of the array.
+        /// Entries can be from multiple Address Windowing Extensions (AWE) regions.
+        /// </param>
+        /// <param name="NumberOfPages">
+        /// The size of the physical memory and virtual address space for which to establish translations, in pages.
+        /// The array at <paramref name="VirtualAddresses"/> specifies the virtual address range.
+        /// </param>
+        /// <param name="PageArray">
+        /// A pointer to an array of values that indicates how each corresponding page in <paramref name="VirtualAddresses"/> should be treated.
+        /// A 0 (zero) indicates that the corresponding entry in VirtualAddresses should be unmapped, and any nonzero value that it has should be mapped.
+        /// If this parameter is <see langword="null"/>, then every address in the <paramref name="VirtualAddresses"/> array is unmapped.
+        /// The value in <paramref name="NumberOfPages"/> indicates the size of the array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>, and the function does not map or unmap—partial or otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The physical pages may be unmapped, but they are not freed.
+        /// You must call <see cref="FreeUserPhysicalPages"/> to free the physical pages.
+        /// You can specify any number of physical memory pages,
+        /// but the memory cannot extend outside the virtual address space that is allocated by <see cref="VirtualAlloc"/>.
+        /// Any existing address maps are automatically overwritten with the new translations, and the old translations are unmapped.
+        /// You cannot map physical memory pages outside the range that is specified in <see cref="AllocateUserPhysicalPages"/>.
+        /// You can map multiple regions simultaneously, but they cannot overlap.
+        /// Physical pages can be located at any physical address, but do not make assumptions about the contiguity of the physical pages.
+        /// In a multiprocessor environment, this function maintains hardware translation buffer coherence.
+        /// On return from this function, all threads on all processors are guaranteed to see the correct mapping.
+        /// To compile an application that uses this function, define the _WIN32_WINNT macro as 0x0500 or later.
+        /// For more information, see Using the Windows Headers.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapUserPhysicalPagesScatter", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MapUserPhysicalPagesScatter([MarshalAs(UnmanagedType.LPArray)][In] PVOID[] VirtualAddresses,
+            [In] ULONG_PTR NumberOfPages, [MarshalAs(UnmanagedType.LPArray)][In] ULONG_PTR[] PageArray);
+
+        /// <summary>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
         /// </summary>
         /// <param name="hProcess">
@@ -1656,6 +1822,42 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadProcessMemory", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadProcessMemory([In] HANDLE hProcess, [In] LPCVOID lpBaseAddress, [In] LPVOID lpBuffer,
             [In] SIZE_T nSize, [Out] out SIZE_T lpNumberOfBytesRead);
+
+        /// <summary>
+        /// <para>
+        /// Resets the write-tracking state for a region of virtual memory.
+        /// Subsequent calls to the <see cref="GetWriteWatch"/> function only report pages that are written to since the reset operation.
+        /// 64-bit Windows on Itanium-based systems:
+        /// Due to the difference in page sizes, <see cref="ResetWriteWatch"/> is not supported for 32-bit applications.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-resetwritewatch
+        /// </para>
+        /// </summary>
+        /// <param name="lpBaseAddress">
+        /// A pointer to the base address of the memory region for which to reset the write-tracking state.
+        /// This address must be in a memory region that is allocated by the <see cref="VirtualAlloc"/> function with <see cref="MEM_WRITE_WATCH"/>.
+        /// </param>
+        /// <param name="dwRegionSize">
+        /// The size of the memory region for which to reset the write-tracking information, in bytes.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is 0 (zero).
+        /// If the function fails, the return value is a nonzero value.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="ResetWriteWatch"/> function can be useful to an application such as a garbage collector.
+        /// The application calls the <see cref="GetWriteWatch"/> function to retrieve the list of written pages,
+        /// and then writes to those pages as part of its cleanup operation.
+        /// Then the garbage collector calls <see cref="ResetWriteWatch"/> to remove the write-tracking records caused by the cleanup.
+        /// You can also reset the write-tracking state of a memory region
+        /// by specifying <see cref="WRITE_WATCH_FLAG_RESET"/> when you call <see cref="GetWriteWatch"/>.
+        /// If you use <see cref="ResetWriteWatch"/>, you must ensure that no threads write to the region
+        /// during the interval between the <see cref="GetWriteWatch"/> and <see cref="ResetWriteWatch"/> calls.
+        /// Otherwise, there may be written pages that you not detect.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetWriteWatch", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT ResetWriteWatch([In] LPVOID lpBaseAddress, [In] SIZE_T dwRegionSize);
 
         /// <summary>
         /// 
@@ -1799,6 +2001,343 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID VirtualAlloc([In] LPVOID lpAddress, [In] SIZE_T dwSize, [In] MemoryAllocationTypes flAllocationType,
             [In] MemoryProtectionConstants flProtect);
+
+        /// <summary>
+        /// <para>
+        /// Reserves, commits, or changes the state of a region of memory within the virtual address space of a specified process.
+        /// The function initializes the memory it allocates to zero.
+        /// Using this function, you can: for new allocations, specify a range of virtual address space and a power-of-2 alignment restriction;
+        /// specify an arbitrary number of extended parameters; specify a preferred NUMA node for the physical memory as an extended parameter;
+        /// and specify a placeholder operation (specifically, replacement).
+        /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2
+        /// </para>
+        /// </summary>
+        /// <param name="Process">
+        /// The handle to a process.
+        /// The function allocates memory within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="BaseAddress">
+        /// The pointer that specifies a desired starting address for the region of pages that you want to allocate.
+        /// If an explicit base address is specified, then it must be a multiple of the system allocation granularity.
+        /// To determine the size of a page and the allocation granularity on the host computer, use the <see cref="GetSystemInfo"/> function.
+        /// If <paramref name="BaseAddress"/> is <see cref="NULL"/>, the function determines where to allocate the region.
+        /// If this address is within an enclave that you have not initialized by calling <see cref="InitializeEnclave"/>,
+        /// <see cref="VirtualAlloc2"/> allocates a page of zeros for the enclave at that address.
+        /// The page must be previously uncommitted, and will not be measured with the EEXTEND instruction
+        /// of the Intel Software Guard Extensions programming model.
+        /// If the address in within an enclave that you initialized,
+        /// then the allocation operation fails with the <see cref="ERROR_INVALID_ADDRESS"/> error.
+        /// </param>
+        /// <param name="Size">
+        /// The size of the region of memory to allocate, in bytes.
+        /// The size must always be a multiple of the page size.
+        /// If <paramref name="BaseAddress"/> is not <see cref="NULL"/>, the function allocates all pages that contain one or more bytes
+        /// in the range from <paramref name="BaseAddress"/> to <paramref name="BaseAddress"/>+<paramref name="Size"/>.
+        /// This means, for example, that a 2-byte range that straddles a page boundary causes the function to allocate both pages.
+        /// </param>
+        /// <param name="AllocationType">
+        /// The type of memory allocation. This parameter must contain one of the following values.
+        /// <see cref="MEM_COMMIT"/>:
+        /// Allocates memory charges (from the overall size of memory and the paging files on disk) for the specified reserved memory pages.
+        /// The function also guarantees that when the caller later initially accesses the memory, the contents will be zero.
+        /// Actual physical pages are not allocated unless/until the virtual addresses are actually accessed.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAlloc2"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Attempting to commit a specific address range by specifying <see cref="MEM_COMMIT"/> without <see cref="MEM_RESERVE"/>
+        /// and a non-NULL <paramref name="BaseAddress"/> fails unless the entire range has already been reserved.
+        /// The resulting error code is <see cref="ERROR_INVALID_ADDRESS"/>.
+        /// An attempt to commit a page that is already committed does not cause the function to fail.
+        /// This means that you can commit pages without first determining the current commitment state of each page.
+        /// If <paramref name="BaseAddress"/> specifies an address within an enclave, <paramref name="AllocationType"/> must be <see cref="MEM_COMMIT"/>.
+        /// <see cref="MEM_RESERVE"/>:
+        /// Reserves a range of the process's virtual address space without allocating any actual physical storage in memory
+        /// or in the paging file on disk.
+        /// You commit reserved pages by calling <see cref="VirtualAlloc2"/> again with <see cref="MEM_COMMIT"/>.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAlloc2"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Other memory allocation functions, such as malloc and <see cref="LocalAlloc"/>, cannot use reserved memory until it has been released.
+        /// <see cref="MEM_REPLACE_PLACEHOLDER"/>:
+        /// Replaces a placeholder with a normal private allocation.
+        /// Only data/pf-backed section views are supported (no images, physical memory, etc.).
+        /// When you replace a placeholder, <paramref name="BaseAddress"/> and <paramref name="Size"/> must exactly match those of the placeholder.
+        /// After you replace a placeholder with a private allocation, to free that allocation back to a placeholder,
+        /// see the dwFreeType parameter of <see cref="VirtualFree"/> and <see cref="VirtualFreeEx"/>.
+        /// A placeholder is a type of reserved memory region.
+        /// <see cref="MEM_RESERVE_PLACEHOLDER"/>:
+        /// To create a placeholder, call <see cref="VirtualAlloc2"/> with <code>MEM_RESERVE | MEM_RESERVE_PLACEHOLDER</code>
+        /// and <paramref name="PageProtection"/> set to <see cref="PAGE_NOACCESS"/>.
+        /// To free/split/coalesce a placeholder, see the dwFreeType parameter of <see cref="VirtualFree"/> and <see cref="VirtualFreeEx"/>.
+        /// A placeholder is a type of reserved memory region.
+        /// <see cref="MEM_RESET"/>:
+        /// Indicates that data in the memory range specified by <paramref name="BaseAddress"/> and <paramref name="Size"/> is no longer of interest.
+        /// The pages should not be read from or written to the paging file.
+        /// However, the memory block will be used again later, so it should not be decommitted.
+        /// This value cannot be used with any other value.
+        /// Using this value does not guarantee that the range operated on with <see cref="MEM_RESET"/> will contain zeros.
+        /// If you want the range to contain zeros, decommit the memory and then recommit it.
+        /// When you use <see cref="MEM_RESET"/>, the <see cref="VirtualAlloc2"/> function ignores the value of <paramref name="PageProtection"/>.
+        /// However, you must still set <paramref name="PageProtection"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// <see cref="VirtualAlloc2"/> returns an error if you use <see cref="MEM_RESET"/> and the range of memory is mapped to a file.
+        /// A shared view is only acceptable if it is mapped to a paging file.
+        /// <see cref="MEM_RESET_UNDO"/>:
+        /// <see cref="MEM_RESET_UNDO"/> should only be called on an address range to which <see cref="MEM_RESET"/> was successfully applied earlier.
+        /// It indicates that the data in the specified memory range specified by <paramref name="BaseAddress"/> and <paramref name="Size"/>
+        /// is of interest to the caller and attempts to reverse the effects of <see cref="MEM_RESET"/>.
+        /// If the function succeeds, that means all data in the specified address range is intact.
+        /// If the function fails, at least some of the data in the address range has been replaced with zeroes.
+        /// This value cannot be used with any other value.
+        /// If <see cref="MEM_RESET_UNDO"/> is called on an address range which was not <see cref="MEM_RESET"/> earlier, the behavior is undefined.
+        /// When you specify <see cref="MEM_RESET"/>, the <see cref="VirtualAlloc2"/> function ignores the value of <paramref name="PageProtection"/>.
+        /// However, you must still set <paramref name="PageProtection"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// Windows Server 2008 R2, Windows 7, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// The <see cref="MEM_RESET_UNDO"/> flag is not supported until Windows 8 and Windows Server 2012.
+        /// This parameter can also specify the following values as indicated.
+        /// <see cref="MEM_LARGE_PAGES"/>:
+        /// Allocates memory using large page support.
+        /// The size and alignment must be a multiple of the large-page minimum.
+        /// To obtain this value, use the <see cref="GetLargePageMinimum"/> function.
+        /// If you specify this value, you must also specify <see cref="MEM_RESERVE"/> and <see cref="MEM_COMMIT"/>.
+        /// <see cref="MEM_PHYSICAL"/>:
+        /// Reserves an address range that can be used to map Address Windowing Extensions (AWE) pages.
+        /// This value must be used with <see cref="MEM_RESERVE"/> and no other values.
+        /// <see cref="MEM_TOP_DOWN"/>:
+        /// Allocates memory at the highest possible address. 
+        /// This can be slower than regular allocations, especially when there are many allocations. 
+        /// </param>
+        /// <param name="PageProtection">
+        /// The memory protection for the region of pages to be allocated.
+        /// If the pages are being committed, you can specify any one of the memory protection constants.
+        /// If <paramref name="BaseAddress"/> specifies an address within an enclave,
+        /// <paramref name="PageProtection"/> cannot be any of the following values:
+        /// <see cref="PAGE_NOACCESS"/>, <see cref="PAGE_GUARD"/>, <see cref="PAGE_NOCACHE"/>, <see cref="PAGE_WRITECOMBINE"/>
+        /// </param>
+        /// <param name="ExtendedParameters">
+        /// An optional pointer to one or more extended parameters of type <see cref="MEM_EXTENDED_PARAMETER"/>.
+        /// Each of those extended parameter values can itself have a <see cref="MEM_EXTENDED_PARAMETER.Type"/> field
+        /// of either <see cref="MemExtendedParameterAddressRequirements"/> or <see cref="MemExtendedParameterNumaNode"/>.
+        /// If no <see cref="MemExtendedParameterNumaNode"/> extended parameter is provided,
+        /// then the behavior is the same as for the <see cref="VirtualAlloc"/>/<see cref="MapViewOfFile"/> functions
+        /// (that is, the preferred NUMA node for the physical pages is determined based on the ideal processor
+        /// of the thread that first accesses the memory).
+        /// </param>
+        /// <param name="ParameterCount">
+        /// The number of extended parameters pointed to by <paramref name="ExtendedParameters"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the base address of the allocated region of pages.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This API helps support high-performance games, and server applications,
+        /// which have particular requirements around managing their virtual address space.
+        /// For example, mapping memory on top of a previously reserved region; this is useful for implementing an automatically wrapping ring buffer.
+        /// And allocating memory with specific alignment; for example, to enable your application to commit large/huge page-mapped regions on demand.
+        /// Each page has an associated page state.
+        /// The <see cref="VirtualAlloc2"/> function can perform the following operations:
+        /// Commit a region of reserved pages
+        /// Reserve a region of free pages
+        /// Simultaneously reserve and commit a region of free pages
+        /// <see cref="VirtualAlloc2"/> cannot reserve a reserved page. It can commit a page that is already committed.
+        /// This means you can commit a range of pages, regardless of whether they have already been committed, and the function will not fail.
+        /// You can use <see cref="VirtualAlloc2"/> to reserve a block of pages and
+        /// then make additional calls to <see cref="VirtualAlloc2"/> to commit individual pages from the reserved block.
+        /// This enables a process to reserve a range of its virtual address space without consuming physical storage until it is needed.
+        /// If the <paramref name="BaseAddress"/> parameter is not <see cref="NULL"/>,
+        /// the function uses the <paramref name="BaseAddress"/> and <paramref name="Size"/> parameters to compute the region of pages to be allocated.
+        /// The current state of the entire range of pages must be compatible with the type
+        /// of allocation specified by the <paramref name="AllocationType"/> parameter.
+        /// Otherwise, the function fails and none of the pages is allocated.
+        /// This compatibility requirement does not preclude committing an already committed page; see the preceding list.
+        /// To execute dynamically generated code, use <see cref="VirtualAlloc2"/> to allocate memory,
+        /// and the <see cref="VirtualProtectEx"/> function to grant <see cref="PAGE_EXECUTE"/> access.
+        /// The <see cref="VirtualAlloc2"/> function can be used to reserve an Address Windowing Extensions (AWE) region of memory
+        /// within the virtual address space of a specified process.
+        /// This region of memory can then be used to map physical pages into and out of virtual memory as required by the application.
+        /// The <see cref="MEM_PHYSICAL"/> and <see cref="MEM_RESERVE"/> values must be set in the <paramref name="AllocationType"/> parameter.
+        /// The <see cref="MEM_COMMIT"/> value must not be set. The page protection must be set to <see cref="PAGE_READWRITE"/>.
+        /// The <see cref="VirtualFreeEx"/> function can decommit a committed page, releasing the page's storage,
+        /// or it can simultaneously decommit and release a committed page.
+        /// It can also release a reserved page, making it a free page.
+        /// When creating a region that will be executable, the calling program bears responsibility for ensuring cache coherency
+        /// via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
+        /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc2", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID VirtualAlloc2([In] HANDLE Process, [In] PVOID BaseAddress, [In] SIZE_T Size,
+            [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection,
+            [MarshalAs(UnmanagedType.LPArray)][In] MEM_EXTENDED_PARAMETER[] ExtendedParameters, [In] ULONG ParameterCount);
+
+        /// <summary>
+        /// <para>
+        /// Reserves, commits, or changes the state of a region of pages in the virtual address space of the calling process.
+        /// Memory allocated by this function is automatically initialized to zero.
+        /// Using this function, you can: for new allocations, specify a range of virtual address space and a power-of-2 alignment restriction;
+        /// specify an arbitrary number of extended parameters; specify a preferred NUMA node for the physical memory as an extended parameter;
+        /// and specify a placeholder operation (specifically, replacement).
+        /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2fromapp
+        /// </para>
+        /// </summary>
+        /// <param name="Process">
+        /// The handle to a process.
+        /// The function allocates memory within the virtual address space of this process.
+        /// The handle must have the <see cref="PROCESS_VM_OPERATION"/> access right.
+        /// For more information, see Process Security and Access Rights.
+        /// </param>
+        /// <param name="BaseAddress">
+        /// The pointer that specifies a desired starting address for the region of pages that you want to allocate.
+        /// If an explicit base address is specified, then it must be a multiple of the system allocation granularity.
+        /// To determine the size of a page and the allocation granularity on the host computer, use the <see cref="GetSystemInfo"/> function.
+        /// If <paramref name="BaseAddress"/> is <see cref="NULL"/>, the function determines where to allocate the region.
+        /// </param>
+        /// <param name="Size">
+        /// The size of the region of memory to allocate, in bytes.
+        /// The size must always be a multiple of the page size.
+        /// If <paramref name="BaseAddress"/> is not <see cref="NULL"/>, the function allocates all pages that contain one or more bytes
+        /// in the range from <paramref name="BaseAddress"/> to <paramref name="BaseAddress"/>+<paramref name="Size"/>.
+        /// This means, for example, that a 2-byte range that straddles a page boundary causes the function to allocate both pages.
+        /// </param>
+        /// <param name="AllocationType">
+        /// The type of memory allocation. This parameter must contain one of the following values.
+        /// <see cref="MEM_COMMIT"/>:
+        /// Allocates memory charges (from the overall size of memory and the paging files on disk) for the specified reserved memory pages.
+        /// The function also guarantees that when the caller later initially accesses the memory, the contents will be zero.
+        /// Actual physical pages are not allocated unless/until the virtual addresses are actually accessed.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAlloc2FromApp"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Attempting to commit a specific address range by specifying <see cref="MEM_COMMIT"/> without <see cref="MEM_RESERVE"/>
+        /// and a non-NULL <paramref name="BaseAddress"/> fails unless the entire range has already been reserved.
+        /// The resulting error code is <see cref="ERROR_INVALID_ADDRESS"/>.
+        /// An attempt to commit a page that is already committed does not cause the function to fail.
+        /// This means that you can commit pages without first determining the current commitment state of each page.
+        /// <see cref="MEM_RESERVE"/>:
+        /// Reserves a range of the process's virtual address space without allocating any actual physical storage in memory
+        /// or in the paging file on disk.
+        /// You commit reserved pages by calling <see cref="VirtualAlloc2FromApp"/> again with <see cref="MEM_COMMIT"/>.
+        /// To reserve and commit pages in one step, call <see cref="VirtualAlloc2FromApp"/> with <code>MEM_COMMIT | MEM_RESERVE</code>.
+        /// Other memory allocation functions, such as malloc and <see cref="LocalAlloc"/>, cannot use reserved memory until it has been released.
+        /// <see cref="MEM_REPLACE_PLACEHOLDER"/>:
+        /// Replaces a placeholder with a normal private allocation.
+        /// Only data/pf-backed section views are supported (no images, physical memory, etc.).
+        /// When you replace a placeholder, <paramref name="BaseAddress"/> and <paramref name="Size"/> must exactly match those of the placeholder.
+        /// After you replace a placeholder with a private allocation, to free that allocation back to a placeholder,
+        /// see the dwFreeType parameter of <see cref="VirtualFree"/> and <see cref="VirtualFreeEx"/>.
+        /// A placeholder is a type of reserved memory region.
+        /// <see cref="MEM_RESERVE_PLACEHOLDER"/>:
+        /// To create a placeholder, call <see cref="VirtualAlloc2FromApp"/> with <code>MEM_RESERVE | MEM_RESERVE_PLACEHOLDER</code>
+        /// and <paramref name="PageProtection"/> set to <see cref="PAGE_NOACCESS"/>.
+        /// To free/split/coalesce a placeholder, see the dwFreeType parameter of <see cref="VirtualFree"/> and <see cref="VirtualFreeEx"/>.
+        /// A placeholder is a type of reserved memory region.
+        /// <see cref="MEM_RESET"/>:
+        /// Indicates that data in the memory range specified by <paramref name="BaseAddress"/> and <paramref name="Size"/> is no longer of interest.
+        /// The pages should not be read from or written to the paging file.
+        /// However, the memory block will be used again later, so it should not be decommitted.
+        /// This value cannot be used with any other value.
+        /// Using this value does not guarantee that the range operated on with <see cref="MEM_RESET"/> will contain zeros.
+        /// If you want the range to contain zeros, decommit the memory and then recommit it.
+        /// When you use <see cref="MEM_RESET"/>, the <see cref="VirtualAlloc2FromApp"/> function ignores the value of <paramref name="PageProtection"/>.
+        /// However, you must still set <paramref name="PageProtection"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// <see cref="VirtualAlloc2FromApp"/> returns an error if you use <see cref="MEM_RESET"/> and the range of memory is mapped to a file.
+        /// A shared view is only acceptable if it is mapped to a paging file.
+        /// <see cref="MEM_RESET_UNDO"/>:
+        /// <see cref="MEM_RESET_UNDO"/> should only be called on an address range to which <see cref="MEM_RESET"/> was successfully applied earlier.
+        /// It indicates that the data in the specified memory range specified by <paramref name="BaseAddress"/> and <paramref name="Size"/>
+        /// is of interest to the caller and attempts to reverse the effects of <see cref="MEM_RESET"/>.
+        /// If the function succeeds, that means all data in the specified address range is intact.
+        /// If the function fails, at least some of the data in the address range has been replaced with zeroes.
+        /// This value cannot be used with any other value.
+        /// If <see cref="MEM_RESET_UNDO"/> is called on an address range which was not <see cref="MEM_RESET"/> earlier, the behavior is undefined.
+        /// When you specify <see cref="MEM_RESET"/>, the <see cref="VirtualAlloc2"/> function ignores the value of <paramref name="PageProtection"/>.
+        /// However, you must still set <paramref name="PageProtection"/> to a valid protection value, such as <see cref="PAGE_NOACCESS"/>.
+        /// This parameter can also specify the following values as indicated.
+        /// <see cref="MEM_LARGE_PAGES"/>:
+        /// Allocates memory using large page support.
+        /// The size and alignment must be a multiple of the large-page minimum.
+        /// To obtain this value, use the <see cref="GetLargePageMinimum"/> function.
+        /// If you specify this value, you must also specify <see cref="MEM_RESERVE"/> and <see cref="MEM_COMMIT"/>.
+        /// <see cref="MEM_PHYSICAL"/>:
+        /// Reserves an address range that can be used to map Address Windowing Extensions (AWE) pages.
+        /// This value must be used with <see cref="MEM_RESERVE"/> and no other values.
+        /// <see cref="MEM_TOP_DOWN"/>:
+        /// Allocates memory at the highest possible address. 
+        /// This can be slower than regular allocations, especially when there are many allocations.
+        /// <see cref="MEM_WRITE_WATCH"/>:
+        /// Causes the system to track pages that are written to in the allocated region.
+        /// If you specify this value, you must also specify <see cref="MEM_RESERVE"/>.
+        /// To retrieve the addresses of the pages that have been written to since the region was allocated or the write-tracking state was reset,
+        /// call the <see cref="GetWriteWatch"/> function.
+        /// To reset the write-tracking state, call <see cref="GetWriteWatch"/> or <see cref="ResetWriteWatch"/>.
+        /// The write-tracking feature remains enabled for the memory region until the region is freed.
+        /// </param>
+        /// <param name="PageProtection">
+        /// The memory protection for the region of pages to be allocated.
+        /// If the pages are being committed, you can specify any one of the memory protection constants.
+        /// If <paramref name="BaseAddress"/> specifies an address within an enclave,
+        /// <paramref name="PageProtection"/> cannot be any of the following values:
+        /// <see cref="PAGE_EXECUTE"/>, <see cref="PAGE_EXECUTE_READ"/>, <see cref="PAGE_EXECUTE_READWRITE"/>, <see cref="PAGE_EXECUTE_WRITECOPY"/>
+        /// </param>
+        /// <param name="ExtendedParameters">
+        /// An optional pointer to one or more extended parameters of type <see cref="MEM_EXTENDED_PARAMETER"/>.
+        /// Each of those extended parameter values can itself have a <see cref="MEM_EXTENDED_PARAMETER.Type"/> field
+        /// of either <see cref="MemExtendedParameterAddressRequirements"/> or <see cref="MemExtendedParameterNumaNode"/>.
+        /// If no <see cref="MemExtendedParameterNumaNode"/> extended parameter is provided,
+        /// then the behavior is the same as for the <see cref="VirtualAlloc"/>/<see cref="MapViewOfFile"/> functions
+        /// (that is, the preferred NUMA node for the physical pages is determined based on the ideal processor
+        /// of the thread that first accesses the memory).
+        /// </param>
+        /// <param name="ParameterCount">
+        /// The number of extended parameters pointed to by <paramref name="ExtendedParameters"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the base address of the allocated region of pages.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This API helps support high-performance games, and server applications,
+        /// which have particular requirements around managing their virtual address space.
+        /// For example, mapping memory on top of a previously reserved region; this is useful for implementing an automatically wrapping ring buffer.
+        /// And allocating memory with specific alignment; for example, to enable your application to commit large/huge page-mapped regions on demand.
+        /// You can call <see cref="VirtualAlloc2FromApp"/> from Windows Store apps with just-in-time (JIT) capabilities to use JIT functionality.
+        /// The app must include the codeGeneration capability in the app manifest file to use JIT capabilities.
+        /// Each page has an associated page state. The Virtual2AllocFromApp function can perform the following operations:
+        /// Commit a region of reserved pages
+        /// Reserve a region of free pages
+        /// Simultaneously reserve and commit a region of free pages
+        /// <see cref="VirtualAlloc2FromApp"/> cannot reserve a reserved page. It can commit a page that is already committed.
+        /// This means you can commit a range of pages, regardless of whether they have already been committed, and the function will not fail.
+        /// You can use <see cref="VirtualAlloc2FromApp"/> to reserve a block of pages
+        /// and then make additional calls to <see cref="VirtualAlloc2FromApp"/> to commit individual pages from the reserved block.
+        /// This enables a process to reserve a range of its virtual address space without consuming physical storage until it is needed.
+        /// If the <paramref name="BaseAddress"/> parameter is not <see cref="NULL"/>,
+        /// the function uses the <paramref name="BaseAddress"/> and <paramref name="Size"/> parameters to compute the region of pages to be allocated.
+        /// The current state of the entire range of pages must be compatible
+        /// with the type of allocation specified by the <paramref name="AllocationType"/> parameter.
+        /// Otherwise, the function fails and none of the pages are allocated.
+        /// This compatibility requirement does not preclude committing an already committed page, as mentioned previously.
+        /// <see cref="VirtualAlloc2FromApp"/> does not allow the creation of executable pages.
+        /// The <see cref="VirtualAlloc2FromApp"/> function can be used to reserve an Address Windowing Extensions (AWE) region
+        /// of memory within the virtual address space of a specified process.
+        /// This region of memory can then be used to map physical pages into and out of virtual memory as required by the application.
+        /// The <see cref="MEM_PHYSICAL"/> and <see cref="MEM_RESERVE"/> values must be set in the <paramref name="AllocationType"/> parameter.
+        /// The <see cref="MEM_COMMIT"/> value must not be set.
+        /// The page protection must be set to <see cref="PAGE_READWRITE"/>.
+        /// The <see cref="VirtualFree"/> function can decommit a committed page, releasing the page's storage,
+        /// or it can simultaneously decommit and release a committed page. 
+        /// It can also release a reserved page, making it a free page.
+        /// When creating a region that will be executable, the calling program bears responsibility
+        /// for ensuring cache coherency via an appropriate call to <see cref="FlushInstructionCache"/> once the code has been set in place.
+        /// Otherwise attempts to execute code out of the newly executable region may produce unpredictable results.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VirtualAlloc2FromApp", ExactSpelling = true, SetLastError = true)]
+        public static extern PVOID VirtualAlloc2FromApp([In] HANDLE Process, [In] PVOID BaseAddress, [In] SIZE_T Size,
+            [In] MemoryAllocationTypes AllocationType, [In] MemoryProtectionConstants PageProtection,
+            [MarshalAs(UnmanagedType.LPArray)][In] MEM_EXTENDED_PARAMETER[] ExtendedParameters, [In] ULONG ParameterCount);
 
         /// <summary>
         /// <para>
@@ -2104,7 +2643,7 @@ namespace Lsj.Util.Win32
         /// When you coalesce placeholders, <paramref name="lpAddress"/> and <paramref name="dwSize"/> must exactly match those of the placeholder.
         /// <see cref="MEM_PRESERVE_PLACEHOLDER"/>:
         /// Frees an allocation back to a placeholder (after you've replaced a placeholder with a private allocation
-        /// using <see cref="VirtualAlloc2"/> or <see cref="Virtual2AllocFromApp"/>).
+        /// using <see cref="VirtualAlloc2"/> or <see cref="VirtualAlloc2FromApp"/>).
         /// To split a placeholder into two placeholders, specify <code>MEM_RELEASE | MEM_PRESERVE_PLACEHOLDER</code>.
         /// <see cref="MEM_DECOMMIT"/>:
         /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state.
@@ -2193,7 +2732,7 @@ namespace Lsj.Util.Win32
         /// When you coalesce placeholders, <paramref name="lpAddress"/> and <paramref name="dwSize"/> must exactly match those of the placeholder.
         /// <see cref="MEM_PRESERVE_PLACEHOLDER"/>:
         /// Frees an allocation back to a placeholder (after you've replaced a placeholder with a private allocation
-        /// using <see cref="VirtualAlloc2"/> or <see cref="Virtual2AllocFromApp"/>).
+        /// using <see cref="VirtualAlloc2"/> or <see cref="VirtualAlloc2FromApp"/>).
         /// To split a placeholder into two placeholders, specify <code>MEM_RELEASE | MEM_PRESERVE_PLACEHOLDER</code>.
         /// <see cref="MEM_DECOMMIT"/>:
         /// Decommits the specified region of committed pages. After the operation, the pages are in the reserved state.

@@ -52,6 +52,18 @@ namespace Lsj.Util.Win32.Enums
         FSCTL_LOCK_VOLUME = 0x90018,
 
         /// <summary>
+        /// <para>
+        /// Scans a file or alternate stream looking for ranges that may contain nonzero data.
+        /// Only compressed or sparse files can have zeroed ranges known to the operating system.
+        /// For other files, the output buffer will contain only a single entry that contains the starting point and the length requested.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_query_allocated_ranges
+        /// </para>
+        /// </summary>
+        FSCTL_QUERY_ALLOCATED_RANGES = 0x940cf,
+
+        /// <summary>
         /// Sets the compression state of a file or directory on a volume whose file system supports per-file and per-directory compression.
         /// You can use <see cref="FSCTL_SET_COMPRESSION"/> to compress or uncompress a file or directory on such a volume.
         /// </summary>
@@ -76,6 +88,18 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// <para>
+        /// Fills a specified range of a file with zeros (0).
+        /// If the file is sparse or compressed, the NTFS file system may deallocate disk space in the file.
+        /// This sets the range of bytes to zeros (0) without extending the file size.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data?redirectedfrom=MSDN
+        /// </para>
+        /// </summary>
+        FSCTL_SET_ZERO_DATA = 0x980c8,
+
+        /// <summary>
+        /// <para>
         /// Creates a new miniversion for the specified file. Miniversions allow you to refer to a snapshot of the file during a transaction.
         /// Miniversions are discarded when a transaction is committed or rolled back.
         /// </para>
@@ -88,6 +112,16 @@ namespace Lsj.Util.Win32.Enums
             "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         FSCTL_TXFS_CREATE_MINIVERSION = 0x9817C,
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the length of the specified disk, volume, or partition.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_length_info
+        /// </para>
+        /// </summary>
+        IOCTL_DISK_GET_LENGTH_INFO = 0x7405C,
 
         /// <summary>
         /// <para>

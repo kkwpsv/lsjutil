@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.OLEUPDATE;
 using static Lsj.Util.Win32.Enums.OLEVERB;
 using static Lsj.Util.Win32.Enums.USERCLASSTYPE;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -39,7 +40,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </param>
         /// <returns></returns>
         [PreserveSig]
-        DWORD GetNextLink([In]DWORD dwLink);
+        DWORD GetNextLink([In] DWORD dwLink);
 
         /// <summary>
         /// Sets a link's update options to automatic or manual.
@@ -63,7 +64,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Containers can implement this method for OLE links by simply calling <see cref="IOleLink.SetUpdateOptions"/> on the link object. 
         /// </remarks>
         [PreserveSig]
-        HRESULT SetLinkUpdateOptions([In]DWORD dwLink, [In]OLEUPDATE dwUpdateOpt);
+        HRESULT SetLinkUpdateOptions([In] DWORD dwLink, [In] OLEUPDATE dwUpdateOpt);
 
         /// <summary>
         /// Determines the current update options for a link.
@@ -86,7 +87,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Containers can implement this method for OLE links by simply calling <see cref="IOleLink.SetUpdateOptions"/> on the link object. 
         /// </remarks>
         [PreserveSig]
-        HRESULT GetLinkUpdateOptions([In]DWORD dwLink, [Out]out OLEUPDATE lpdwUpdateOpt);
+        HRESULT GetLinkUpdateOptions([In] DWORD dwLink, [Out] out OLEUPDATE lpdwUpdateOpt);
 
         /// <summary>
         /// Changes the source of a link.
@@ -131,8 +132,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// and the user should be returned to the Links dialog box with the link marked Unavailable. 
         /// </remarks>
         [PreserveSig]
-        HRESULT SetLinkSource([In]DWORD dwLink, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszDisplayName, [In]ULONG lenFileName,
-            [Out]out ULONG pchEaten, [In]BOOL fValidateSource);
+        HRESULT SetLinkSource([In] DWORD dwLink, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDisplayName, [In] ULONG lenFileName,
+            [Out] out ULONG pchEaten, [In] BOOL fValidateSource);
 
         /// <summary>
         /// Retrieves information about a link that can be displayed in the Links dialog box.
@@ -192,8 +193,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Call this method during dialog box initialization, after returning from the Change Source dialog box. 
         /// </remarks>
         [PreserveSig]
-        HRESULT GetLinkSource([In]DWORD dwLink, [Out]out IntPtr lplpszDisplayName, [Out]out ULONG lplenFileName, [Out]out IntPtr lplpszFullLinkType,
-            [Out]out IntPtr lplpszShortLinkType, [Out]out BOOL lpfSourceAvailable, [Out]out BOOL lpfIsSelected);
+        HRESULT GetLinkSource([In] DWORD dwLink, [Out] out IntPtr lplpszDisplayName, [Out] out ULONG lplenFileName, [Out] out IntPtr lplpszFullLinkType,
+            [Out] out IntPtr lplpszShortLinkType, [Out] out BOOL lpfSourceAvailable, [Out] out BOOL lpfIsSelected);
 
         /// <summary>
         /// Opens the link's source.
@@ -215,7 +216,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For OLE links, call <see cref="IOleObject.DoVerb"/>, specifying <see cref="OLEIVERB_SHOW"/> for iVerb. 
         /// </remarks>
         [PreserveSig]
-        HRESULT OpenLinkSource([In]DWORD dwLink);
+        HRESULT OpenLinkSource([In] DWORD dwLink);
 
         /// <summary>
         /// Forces selected links to connect to their source and retrieve current information.
@@ -253,7 +254,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For OLE links, call <see cref="IOleObject.Update"/>. 
         /// </remarks>
         [PreserveSig]
-        HRESULT UpdateLink([In]DWORD dwLink, [In]BOOL fErrorMessage, [In]BOOL fReserved);
+        HRESULT UpdateLink([In] DWORD dwLink, [In] BOOL fErrorMessage, [In] BOOL fReserved);
 
         /// <summary>
         /// Disconnects the selected links.
@@ -278,6 +279,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// using the <see cref="IDataObject"/> interface of the link as the source. 
         /// </remarks>
         [PreserveSig]
-        HRESULT CancelLink([In]DWORD dwLink);
+        HRESULT CancelLink([In] DWORD dwLink);
     }
 }

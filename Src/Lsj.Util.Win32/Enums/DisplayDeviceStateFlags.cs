@@ -51,5 +51,10 @@ namespace Lsj.Util.Win32.Enums
         /// The device is VGA compatible.
         /// </summary>
         DISPLAY_DEVICE_VGA_COMPATIBLE = 0x00000010,
+
+        /// <summary>
+        /// DISPLAY_DEVICE_ATTACHED_TO_DESKTOP
+        /// </summary>
+        DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001,
     }
 }

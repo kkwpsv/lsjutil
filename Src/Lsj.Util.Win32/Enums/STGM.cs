@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -123,7 +124,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Indicates that, in transacted mode, changes are buffered and written only if an explicit commit operation is called.
-        /// To ignore the changes, call the <see cref="Revert"/> method in the <see cref="IStream"/>,
+        /// To ignore the changes, call the <see cref="IStream.Revert"/> method in the <see cref="IStream"/>,
         /// <see cref="IStorage"/>, or <see cref="IPropertyStorage"/> interface.
         /// The COM compound file implementation of <see cref="IStorage"/> does not support transacted streams,
         /// which means that streams can be opened only in direct mode, and you cannot revert changes to them, however transacted storages are supported.
@@ -136,7 +137,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Indicates that, in transacted mode, a temporary scratch file is usually used
-        /// to save modifications until the <see cref="Commit"/> method is called.
+        /// to save modifications until the <see cref="IStream.Commit"/> method is called.
         /// Specifying <see cref="STGM_NOSCRATCH"/> permits the unused portion of the original file to be used
         /// as work space instead of creating a new file for that purpose.
         /// This does not affect the data in the original file, and in certain cases can result in improved performance.

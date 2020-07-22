@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -60,13 +61,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        [MarshalAs(UnmanagedType.LPStr)]
-        public ACL Sacl;
+        public IntPtr Sacl;
 
         /// <summary>
         /// 
         /// </summary>
-        [MarshalAs(UnmanagedType.LPStr)]
-        public ACL Dacl;
+        public IntPtr Dacl;
     }
 }

@@ -6,7 +6,7 @@ namespace Lsj.Util.Win32.Enums
     /// <summary>
     /// <para>
     /// The <see cref="STGC"/> enumeration constants specify the conditions for performing the commit operation
-    /// in the <see cref="IStorage.Commit"/>::Commit and <see cref="IStream.Commit"/> methods.
+    /// in the <see cref="IStorage.Commit"/> and <see cref="IStream.Commit"/> methods.
     /// </para>
     /// </summary>
     /// <remarks>

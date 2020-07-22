@@ -48,8 +48,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with Windows-format metafiles." +
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is EnhMetaFileProc.")]
-        public delegate int MFENUMPROC([In] HDC hDC, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHTable,
-            [In]in METARECORD lpMFR, [In]int nObj, [In]LPARAM lpClientData);
+        public delegate int MFENUMPROC([In] HDC hDC, [MarshalAs(UnmanagedType.LPArray)][In] HGDIOBJ[] lpHTable,
+            [In] in METARECORD lpMFR, [In] int nObj, [In] LPARAM lpClientData);
 
         /// <summary>
         /// <para>
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is CreateEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDC CreateMetaFile([In]string pszFile);
+        public static extern HDC CreateMetaFile([In] string pszFile);
 
         /// <summary>
         /// <para>
@@ -116,7 +116,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is CloseEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseMetaFile", ExactSpelling = true, SetLastError = true)]
-        public static extern HMETAFILE CloseMetaFile([In]HDC hdc);
+        public static extern HMETAFILE CloseMetaFile([In] HDC hdc);
 
         /// <summary>
         /// <para>
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is CopyEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMETAFILE CopyMetaFile([In]HMETAFILE arg1, [MarshalAs(UnmanagedType.LPWStr)][In]string arg2);
+        public static extern HMETAFILE CopyMetaFile([In] HMETAFILE arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string arg2);
 
         /// <summary>
         /// <para>
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// An application can retrieve the file by calling the <see cref="GetEnhMetaFile"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteEnhMetaFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteEnhMetaFile([In]HENHMETAFILE hmf);
+        public static extern BOOL DeleteEnhMetaFile([In] HENHMETAFILE hmf);
 
         /// <summary>
         /// <para>
@@ -195,7 +195,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             " The corresponding function for an enhanced-format metafile is DeleteEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMetaFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteMetaFile([In]HMETAFILE hmf);
+        public static extern BOOL DeleteMetaFile([In] HMETAFILE hmf);
 
         /// <summary>
         /// <para>
@@ -217,7 +217,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <param name="proc">
         /// Pointer to an application-supplied callback function.
-        /// For more information, see <see cref="EnumMetaFileProc"/>.
+        /// For more information, see <see cref="MFENUMPROC"/>.
         /// </param>
         /// <param name="param">
         /// Pointer to optional data.
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is EnumEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumMetaFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumMetaFile([In]HDC hdc, [In]HMETAFILE hmf, [In]MFENUMPROC proc, [In]LPARAM param);
+        public static extern BOOL EnumMetaFile([In] HDC hdc, [In] HMETAFILE hmf, [In] MFENUMPROC proc, [In] LPARAM param);
 
         /// <summary>
         /// <para>
@@ -258,7 +258,33 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("GetMetaFile is no longer available for use as of Windows 2000. Instead, use GetEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMetaFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMETAFILE GetMetaFile([MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HMETAFILE GetMetaFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="GetEnhMetaFile"/> function creates a handle that identifies the enhanced-format metafile stored in the specified file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpName">
+        /// A pointer to a null-terminated string that specifies the name of an enhanced metafile.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is a handle to the enhanced metafile.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When the application no longer needs an enhanced-metafile handle,
+        /// it should delete the handle by calling the <see cref="DeleteEnhMetaFile"/> function.
+        /// A Windows-format metafile must be converted to the enhanced format before it can be processed by the <see cref="GetEnhMetaFile"/> function.
+        /// To convert the file, use the <see cref="SetWinMetaFileBits"/> function.
+        /// Where text arguments must use Unicode characters, use this function as a wide-character function.
+        /// Where text arguments must use characters from the Windows character set, use this function as an ANSI function.
+        /// </remarks>
+        [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnhMetaFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HENHMETAFILE GetEnhMetaFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -291,7 +317,7 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is PlayEnhMetaFile.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PlayMetaFile([In]HDC hdc, [In]HMETAFILE hmf);
+        public static extern BOOL PlayMetaFile([In] HDC hdc, [In] HMETAFILE hmf);
 
         /// <summary>
         /// <para>
@@ -331,8 +357,8 @@ namespace Lsj.Util.Win32
             "Enhanced-format metafiles provide superior functionality and are recommended for new applications." +
             "The corresponding function for an enhanced-format metafile is PlayEnhMetaFileRecord.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "PlayMetaFileRecord", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PlayMetaFileRecord([In]HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In]HGDIOBJ[] lpHandleTable,
-            [In]in METARECORD lpMR, [In]UINT noObjs);
+        public static extern BOOL PlayMetaFileRecord([In] HDC hdc, [MarshalAs(UnmanagedType.LPArray)][In] HGDIOBJ[] lpHandleTable,
+            [In] in METARECORD lpMR, [In] UINT noObjs);
 
         /// <summary>
         /// <para>
@@ -373,6 +399,6 @@ namespace Lsj.Util.Win32
         /// some GDI functions that use device units may not draw the picture correctly.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWinMetaFileBits", ExactSpelling = true, SetLastError = true)]
-        public static extern HENHMETAFILE SetWinMetaFileBits([In]UINT nSize, [In]IntPtr lpMeta16Data, [In]HDC hdcRef, [In]in METAFILEPICT lpMFP);
+        public static extern HENHMETAFILE SetWinMetaFileBits([In] UINT nSize, [In] IntPtr lpMeta16Data, [In] HDC hdcRef, [In] in METAFILEPICT lpMFP);
     }
 }

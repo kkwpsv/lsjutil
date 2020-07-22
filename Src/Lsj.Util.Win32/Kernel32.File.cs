@@ -15,6 +15,7 @@ using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Enums.FileAccessRights;
 using static Lsj.Util.Win32.Enums.FileAttributes;
+using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.FileNotifyFilters;
@@ -26,12 +27,12 @@ using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
+using static Lsj.Util.Win32.Enums.MoveMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.FileCompletionNotificationModes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
@@ -646,8 +647,8 @@ namespace Lsj.Util.Win32
         /// which means all pipe instances are currently connected, CreateFile fails with <see cref="ERROR_PIPE_BUSY"/>.
         /// For more information, see Pipes.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFile", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint dwDesiredAccess,
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] ACCESS_MASK dwDesiredAccess,
             [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
             [In] uint dwFlagsAndAttributes, [In] IntPtr hTemplateFile);
 
@@ -2025,6 +2026,114 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the specified disk, including the amount of free space on the disk.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespacew
+        /// </para>
+        /// </summary>
+        /// <param name="lpRootPathName">
+        /// The root directory of the disk for which information is to be returned.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current disk.
+        /// If this parameter is a UNC name, it must include a trailing backslash (for example, "\\MyServer\MyShare\").
+        /// Furthermore, a drive specification must have a trailing backslash (for example, "C:\").
+        /// The calling application must have <see cref="FILE_LIST_DIRECTORY"/> access rights for this directory.
+        /// </param>
+        /// <param name="lpSectorsPerCluster">
+        /// A pointer to a variable that receives the number of sectors per cluster.
+        /// </param>
+        /// <param name="lpBytesPerSector">
+        /// A pointer to a variable that receives the number of bytes per sector.
+        /// </param>
+        /// <param name="lpNumberOfFreeClusters">
+        /// A pointer to a variable that receives the total number of free clusters
+        /// on the disk that are available to the user who is associated with the calling thread.
+        /// If per-user disk quotas are in use, this value may be less than the total number of free clusters on the disk.
+        /// </param>
+        /// <param name="lpTotalNumberOfClusters">
+        /// A pointer to a variable that receives the total number of clusters on the disk
+        /// that are available to the user who is associated with the calling thread.
+        /// If per-user disk quotas are in use, this value may be less than the total number of clusters on the disk.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetDiskFreeSpaceEx"/> function lets you avoid some of the arithmetic
+        /// that is required by the <see cref="GetDiskFreeSpace"/> function.
+        /// Symbolic link behavior—If the path points to a symbolic link, the operation is performed on the target.
+        /// Note
+        /// The fileapi.h header defines <see cref="GetDiskFreeSpace"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDiskFreeSpace([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName, [Out] out DWORD lpSectorsPerCluster,
+            [Out] out DWORD lpBytesPerSector, [Out] out DWORD lpNumberOfFreeClusters, [Out] out DWORD lpTotalNumberOfClusters);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the amount of space that is available on a disk volume,
+        /// which is the total amount of space, the total amount of free space,
+        /// and the total amount of free space available to the user that is associated with the calling thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdiskfreespaceexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpDirectoryName">
+        /// A directory on the disk.
+        /// If this parameter is <see langword="null"/>, the function uses the root of the current disk.
+        /// If this parameter is a UNC name, it must include a trailing backslash, for example, "\\MyServer\MyShare\".
+        /// This parameter does not have to specify the root directory on a disk. The function accepts any directory on a disk.
+        /// The calling application must have <see cref="FILE_LIST_DIRECTORY"/> access rights for this directory.
+        /// </param>
+        /// <param name="lpFreeBytesAvailableToCaller">
+        /// A pointer to a variable that receives the total number of free bytes on a disk
+        /// that are available to the user who is associated with the calling thread.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// If per-user quotas are being used, this value may be less than the total number of free bytes on a disk.
+        /// </param>
+        /// <param name="lpTotalNumberOfBytes">
+        /// A pointer to a variable that receives the total number of bytes on a disk
+        /// that are available to the user who is associated with the calling thread.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// If per-user quotas are being used, this value may be less than the total number of bytes on a disk.
+        /// To determine the total number of bytes on a disk or volume, use <see cref="IOCTL_DISK_GET_LENGTH_INFO"/>.
+        /// </param>
+        /// <param name="lpTotalNumberOfFreeBytes">
+        /// A pointer to a variable that receives the total number of free bytes on a disk.
+        /// This parameter can be <see cref="NullRef{ULARGE_INTEGER}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The values obtained by this function are of the type <see cref="ULARGE_INTEGER"/>.
+        /// Do not truncate these values to 32 bits.
+        /// The <see cref="GetDiskFreeSpaceEx"/> function returns <see cref="FALSE"/> for <paramref name="lpTotalNumberOfFreeBytes"/>
+        /// and <paramref name="lpFreeBytesAvailableToCaller"/> for all CD requests unless the disk is an unwritten CD in a CD-RW drive.
+        /// Symbolic link behavior—If the path points to a symbolic link, the operation is performed on the target.
+        /// Note
+        /// The fileapi.h header defines <see cref="GetDiskFreeSpaceEx"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDiskFreeSpaceExW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetDiskFreeSpaceEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpDirectoryName,
+            [Out] out ULARGE_INTEGER lpFreeBytesAvailableToCaller, [Out] out ULARGE_INTEGER lpTotalNumberOfBytes,
+            [Out] out ULARGE_INTEGER lpTotalNumberOfFreeBytes);
+
+        /// <summary>
+        /// <para>
         /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
         /// To determine whether a drive is a USB-type drive,
         /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the SPDRP_REMOVAL_POLICY property.
@@ -2526,8 +2635,75 @@ namespace Lsj.Util.Win32
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint nBufferLength,
-            [In] IntPtr lpBuffer, [In] IntPtr lpFilePart);
+        public static extern DWORD GetFullPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
+            [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the full path and file name of the specified file as a transacted operation.
+        /// To perform this operation without transactions, use the <see cref="GetFullPathName"/> function.
+        /// For more information about file and path names, see File Names, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getfullpathnametransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file.
+        /// This string can use short (the 8.3 form) or long file names. This string can be a share or volume name.
+        /// The file must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="nBufferLength">
+        /// The size of the buffer to receive the null-terminated string for the drive and path, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a buffer that receives the null-terminated string for the drive and path.
+        /// </param>
+        /// <param name="lpFilePart">
+        /// A pointer to a buffer that receives the address (in <paramref name="lpBuffer"/>) of the final file name component in the path.
+        /// Specify <see cref="NullRef{IntPtr}"/> if you do not need to receive this information.
+        /// If <paramref name="lpBuffer"/> points to a directory and not a file, <paramref name="lpFilePart"/> receives 0 (zero).
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpBuffer"/>, not including the terminating null character.
+        /// If the <paramref name="lpBuffer"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetFullPathNameTransacted"/> merges the name of the current drive and directory
+        /// with a specified file name to determine the full path and file name of a specified file.
+        /// It also calculates the address of the file name portion of the full path and file name.
+        /// This function does not verify that the resulting path and file name are valid, or that they see an existing file on the associated volume.
+        /// Share and volume names are valid input for <paramref name="lpFileName"/>.
+        /// For example, the following list identities the returned path and file names if test-2 is a remote computer and U: is a network mapped drive:
+        /// If you specify "\\test-2\q$\lh" the path returned is "\\test-2\q$\lh"
+        /// If you specify "\\?\UNC\test-2\q$\lh" the path returned is "\\?\UNC\test-2\q$\lh"
+        /// If you specify "U:" the path returned is "U:\"
+        /// <see cref="GetFullPathNameTransacted"/> does not convert the specified file name, <paramref name="lpFileName"/>.
+        /// If the specified file name exists, you can use <see cref="GetLongPathNameTransacted"/>,
+        /// <see cref="GetLongPathName"/>, or <see cref="GetShortPathName"/> to convert to long or short path names, respectively.
+        /// If the return value is greater than the value specified in <paramref name="nBufferLength"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case as well as using zero length buffer for dynamic allocation, see the Example Code section.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFullPathNameTransactedW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetFullPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD nBufferLength,
+            [In] IntPtr lpBuffer, [Out] out IntPtr lpFilePart, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -2545,6 +2721,193 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalDrives", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLogicalDrives();
+
+        /// <summary>
+        /// <para>
+        /// Converts the specified path to its long form.
+        /// To perform this operation as a transacted operation, use the <see cref="GetLongPathNameTransacted"/> function.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// Important
+        /// To use this function, the caller must have the following permissions on the specified path and parent directories:
+        /// List Folder, Read Data, Read Attributes
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getlongpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpszShortPath">
+        /// The path to be converted.
+        /// In the ANSI version of this function, GetLongPathNameA, the name is limited to <see cref="MAX_PATH"/> (260) characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function,
+        /// <see cref="GetLongPathName"/>, and prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="GetLongPathName"/>),
+        /// you can opt-in to remove the MAX_PATH limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="lpszLongPath">
+        /// A pointer to the buffer to receive the long path.
+        /// You can use the same buffer you used for the <paramref name="lpszShortPath"/>  parameter.
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer <paramref name="lpszLongPath"/> points to, in TCHARs.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpszLongPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszLongPath"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, such as if the file does not exist, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// On many file systems, a short file name contains a tilde (~) character.
+        /// However, not all file systems follow this convention.
+        /// Therefore, do not assume that you can skip calling <see cref="GetLongPathName"/> if the path does not contain a tilde (~) character.
+        /// If the file or directory exists but a long path is not found, <see cref="GetLongPathName"/> succeeds,
+        /// having copied the string referred to by the <paramref name="lpszShortPath"/> parameter
+        /// to the buffer referred to by the <paramref name="lpszLongPath"/> parameter.
+        /// If the return value is greater than the value specified in <paramref name="cchBuffer"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case, see the Example Code section for <see cref="GetFullPathName"/>.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetLongPathName"/> may fail when it is unable
+        /// to query the parent directory of a path component to determine the long name for that component.
+        /// This check can be skipped for directory components that have file extensions longer than 3 characters,
+        /// or total lengths longer than 12 characters.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLongPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer);
+
+        /// <summary>
+        /// <para>
+        /// Converts the specified path to its long form as a transacted operation.
+        /// To perform this operation without a transaction, use the <see cref="GetLongPathName"/> function.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getlongpathnametransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszShortPath">
+        /// The path to be converted.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> (260) characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// The path must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="lpszLongPath">
+        /// A pointer to the buffer to receive the long path.
+        /// You can use the same buffer you used for the <paramref name="lpszShortPath"/> parameter.
+        /// 
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer <paramref name="lpszLongPath"/> points to, in TCHARs.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string copied to <paramref name="lpszLongPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszLongPath"/> buffer is too small to contain the path, the return value is the size, in TCHARs,
+        /// of the buffer that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, such as if the file does not exist, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// On many file systems, a short file name contains a tilde (~) character.
+        /// However, not all file systems follow this convention.
+        /// Therefore, do not assume that you can skip calling <see cref="GetLongPathNameTransacted"/>
+        /// if the path does not contain a tilde (~) character.
+        /// If a long path is not found, this function returns the name specified
+        /// in the <paramref name="lpszShortPath"/> parameter in the <paramref name="lpszLongPath"/> parameter.
+        /// If the return value is greater than the value specified in <paramref name="cchBuffer"/>,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case, see the Example Code section for <see cref="GetFullPathName"/>.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetLongPathNameTransacted"/> may fail
+        /// when it is unable to query the parent directory of a path component to determine the long name for that component.
+        /// This check can be skipped for directory components that have file extensions longer than 3 characters,
+        /// or total lengths longer than 12 characters.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces. 
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques." +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows." +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransacted", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetLongPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the short path form of the specified path.
+        /// For more information about file and path names, see Naming Files, Paths, and Namespaces.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew
+        /// </para>
+        /// </summary>
+        /// <param name="lpszLongPath">
+        /// The path string.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\\?\" to the path.
+        /// For more information, see Naming Files, Paths, and Namespaces.
+        /// </param>
+        /// <param name="lpszShortPath">
+        /// A pointer to a buffer to receive the null-terminated short form of the path that lpszLongPath specifies.
+        /// Passing <see langword="null"/> for this parameter and zero for <paramref name="cchBuffer"/>
+        /// will always return the required buffer size for a specified <paramref name="lpszLongPath"/>.
+        /// </param>
+        /// <param name="cchBuffer">
+        /// The size of the buffer that <paramref name="lpszShortPath"/> points to, in TCHARs.
+        /// Set this parameter to zero if <paramref name="lpszShortPath"/> is set to <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs,
+        /// of the string that is copied to <paramref name="lpszShortPath"/>, not including the terminating null character.
+        /// If the <paramref name="lpszShortPath"/> buffer is too small to contain the path, the return value is the size of the buffer, in TCHARs,
+        /// that is required to hold the path and the terminating null character.
+        /// If the function fails for any other reason, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The path that the <paramref name="lpszLongPath"/> parameter specifies does not have to be a full or long path.
+        /// The short form can be longer than the specified path.
+        /// If the return value is greater than the value specified in the <paramref name="cchBuffer"/> parameter,
+        /// you can call the function again with a buffer that is large enough to hold the path.
+        /// For an example of this case in addition to using zero-length buffer for dynamic allocation, see the Example Code section.
+        /// Note
+        /// Although the return value in this case is a length that includes the terminating null character,
+        /// the return value on success does not include the terminating null character in the count.
+        /// If the specified path is already in its short form and conversion is not needed,
+        /// the function simply copies the specified path to the buffer specified by the <paramref name="lpszShortPath"/> parameter.
+        /// You can set the <paramref name="lpszShortPath"/> parameter to the same value as the <paramref name="lpszLongPath"/> parameter;
+        /// in other words, you can set the output buffer for the short path to the address of the input path string.
+        /// Always ensure that the <paramref name="cchBuffer"/> parameter accurately represents the total size, in TCHARs, of this buffer.
+        /// You can obtain the long name of a file from the short name by calling the <see cref="GetLongPathName"/> function.
+        /// Alternatively, where <see cref="GetLongPathName"/> is not available,
+        /// you can call <see cref="FindFirstFile"/> on each component of the path to get the corresponding long name.
+        /// It is possible to have access to a file or directory but not have access to some of the parent directories of that file or directory.
+        /// As a result, <see cref="GetShortPathName"/> may fail when it is unable
+        /// to query the parent directory of a path component to determine the short name for that component.
+        /// This check can be skipped for directory components that already meet the requirements of a short name.
+        /// For more information, see the Short vs. Long Names section of Naming Files, Paths, and Namespaces.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShortPathNameW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetShortPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszLongPath,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszShortPath, [In] DWORD cchBuffer);
 
         /// <summary>
         /// <para>
@@ -2611,6 +2974,46 @@ namespace Lsj.Util.Win32
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetTempFileName([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpPrefixString, [In] UINT uUnique, [Out] StringBuilder lpTempFileName);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the path of the directory designated for temporary files.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-gettemppathw
+        /// </para>
+        /// </summary>
+        /// <param name="nBufferLength">
+        /// The size of the string buffer identified by <paramref name="lpBuffer"/>, in TCHARs.
+        /// </param>
+        /// <param name="lpBuffer">
+        /// A pointer to a string buffer that receives the null-terminated string specifying the temporary file path.
+        /// The returned string ends with a backslash, for example, "C:\TEMP\".
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is the length, in TCHARs, of the string copied to lpBuffer,
+        /// not including the terminating null character.
+        /// If the return value is greater than nBufferLength, the return value is the length, in TCHARs, of the buffer required to hold the path.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The maximum possible return value is <see cref="MAX_PATH"/>+1 (261).
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetTempPath"/> function checks for the existence of environment variables in the following order
+        /// and uses the first path found:
+        /// The path specified by the TMP environment variable.
+        /// The path specified by the TEMP environment variable.
+        /// The path specified by the USERPROFILE environment variable.
+        /// The Windows directory.
+        /// Note that the function does not verify that the path exists, nor does it test to see
+        /// if the current process has any kind of access rights to the path.
+        /// The GetTempPath function returns the properly formatted string that specifies the fully qualified path
+        /// based on the environment variable search order as previously specified.
+        /// The application should verify the existence of the path and adequate access rights to the path prior to any use for file I/O operations.
+        /// Symbolic link behavior—If the path points to a symbolic link, the temp path name maintains any symbolic links.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempPathW", ExactSpelling = true, SetLastError = true)]
+        public static extern DWORD GetTempPath([In] DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer);
 
         /// <summary>
         /// <para>
@@ -3561,7 +3964,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFilePointerEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFilePointerEx([In] HANDLE hFile, [In] LARGE_INTEGER liDistanceToMove, [Out] out LARGE_INTEGER lpNewFilePointer,
-            [In] DWORD dwMoveMethod);
+            [In] MoveMethods dwMoveMethod);
 
         /// <summary>
         /// <para>

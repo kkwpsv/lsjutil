@@ -1,5 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Enums.SYSNLS_FUNCTION;
 
 namespace Lsj.Util.Win32.Structs
 {

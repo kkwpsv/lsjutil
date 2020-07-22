@@ -6,9 +6,14 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.DrawingFlags;
 using static Lsj.Util.Win32.Enums.ImageTypes;
 using static Lsj.Util.Win32.Enums.LoadImageFlags;
+using static Lsj.Util.Win32.Enums.ResourceTypes;
 using static Lsj.Util.Win32.Enums.SystemColors;
+using static Lsj.Util.Win32.Enums.SystemCursors;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemIcons;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.WindowStationAccessRights;
 using static Lsj.Util.Win32.Gdi32;
@@ -44,7 +49,7 @@ namespace Lsj.Util.Win32
         /// The calling process must have <see cref="WINSTA_WRITEATTRIBUTES"/> access to the window station.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClipCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ClipCursor([In]in RECT lpRect);
+        public static extern BOOL ClipCursor([In] in RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -93,7 +98,7 @@ namespace Lsj.Util.Win32
         /// Before closing, an application must call the <see cref="DestroyIcon"/> function to free any system resources associated with the icon.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CopyIcon([In]HICON hIcon);
+        public static extern HICON CopyIcon([In] HICON hIcon);
 
         /// <summary>
         /// <para>
@@ -161,7 +166,7 @@ namespace Lsj.Util.Win32
         /// calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CopyImage", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE CopyImage([In]HANDLE h, [In]ImageTypes type, [In]int cx, [In]int cy, [In]LoadImageFlags flags);
+        public static extern HANDLE CopyImage([In] HANDLE h, [In] ImageTypes type, [In] int cx, [In] int cy, [In] LoadImageFlags flags);
 
         /// <summary>
         /// <para>
@@ -209,8 +214,8 @@ namespace Lsj.Util.Win32
         /// Note that the cursor created may still be scaled to match the DPI of any given window it is drawn into.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR CreateCursor([In]HINSTANCE hInst, [In]int xHotSpot, [In]int yHotSpot, [In]int nWidth, [In]int nHeight,
-            [In]IntPtr pvANDPlane, [In]IntPtr pvXORPlane);
+        public static extern HCURSOR CreateCursor([In] HINSTANCE hInst, [In] int xHotSpot, [In] int yHotSpot, [In] int nWidth, [In] int nHeight,
+            [In] IntPtr pvANDPlane, [In] IntPtr pvXORPlane);
 
         /// <summary>
         /// <para>
@@ -262,8 +267,8 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIcon([In]HINSTANCE hInstance, [In]int nWidth, [In]int nHeight, [In]BYTE cPlanes, [In]BYTE cBitsPixel,
-            [In]IntPtr lpbANDbits, [In]IntPtr lpbXORbits);
+        public static extern HICON CreateIcon([In] HINSTANCE hInstance, [In] int nWidth, [In] int nHeight, [In] BYTE cPlanes, [In] BYTE cBitsPixel,
+            [In] IntPtr lpbANDbits, [In] IntPtr lpbXORbits);
 
         /// <summary>
         /// <para>
@@ -306,7 +311,7 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResource", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResource([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer);
+        public static extern HICON CreateIconFromResource([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer);
 
         /// <summary>
         /// <para>
@@ -372,8 +377,8 @@ namespace Lsj.Util.Win32
         /// You should call DestroyIcon for icons created with <see cref="CreateIconFromResourceEx"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconFromResourceEx", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconFromResourceEx([In]IntPtr presbits, [In]DWORD dwResSize, [In]BOOL fIcon, [In]DWORD dwVer,
-            [In]int cxDesired, [In]int cyDesired, [In]LoadImageFlags Flags);
+        public static extern HICON CreateIconFromResourceEx([In] IntPtr presbits, [In] DWORD dwResSize, [In] BOOL fIcon, [In] DWORD dwVer,
+            [In] int cxDesired, [In] int cyDesired, [In] LoadImageFlags Flags);
 
         /// <summary>
         /// <para>
@@ -400,7 +405,7 @@ namespace Lsj.Util.Win32
         /// When you are finished using the icon, destroy it using the <see cref="DestroyIcon"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIconIndirect", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON CreateIconIndirect([In]in ICONINFO piconinfo);
+        public static extern HICON CreateIconIndirect([In] in ICONINFO piconinfo);
 
         /// <summary>
         /// <para>
@@ -431,7 +436,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CopyImage"/> (if you use the <see cref="LR_COPYRETURNORG"/> flag and the hImage parameter is a shared cursor)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyCursor([In]HCURSOR hCursor);
+        public static extern BOOL DestroyCursor([In] HCURSOR hCursor);
 
         /// <summary>
         /// <para>
@@ -463,7 +468,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CreateIconFromResourceEx"/> (if you use the <see cref="LR_SHARED"/> flag)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyIcon([In]HICON hIcon);
+        public static extern BOOL DestroyIcon([In] HICON hIcon);
 
         /// <summary>
         /// <para>
@@ -499,7 +504,81 @@ namespace Lsj.Util.Win32
         /// for more information, see <see cref="GetSystemMetrics"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIcon", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawIcon([In]HDC hDC, [In]int X, [In]int Y, [In]HICON hIcon);
+        public static extern BOOL DrawIcon([In] HDC hDC, [In] int X, [In] int Y, [In] HICON hIcon);
+
+        /// <summary>
+        /// <para>
+        /// Draws an icon or cursor into the specified device context, performing the specified raster operations,
+        /// and stretching or compressing the icon or cursor as specified.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawiconex
+        /// </para>
+        /// </summary>
+        /// <param name="hdc">
+        /// A handle to the device context into which the icon or cursor will be drawn.
+        /// </param>
+        /// <param name="xLeft">
+        /// The logical x-coordinate of the upper-left corner of the icon or cursor.
+        /// </param>
+        /// <param name="yTop">
+        /// The logical y-coordinate of the upper-left corner of the icon or cursor.
+        /// </param>
+        /// <param name="hIcon">
+        /// A handle to the icon or cursor to be drawn. This parameter can identify an animated cursor.
+        /// </param>
+        /// <param name="cxWidth">
+        /// The logical width of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="diFlags"/> parameter is <see cref="DI_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CXICON"/> system metric value to set the width.
+        /// If this parameter is zero and <see cref="DI_DEFAULTSIZE"/> is not used, the function uses the actual resource width.
+        /// </param>
+        /// <param name="cyWidth">
+        /// The logical height of the icon or cursor.
+        /// If this parameter is zero and the <paramref name="diFlags"/> parameter is <see cref="DI_DEFAULTSIZE"/>,
+        /// the function uses the <see cref="SM_CYICON"/> system metric value to set the width.
+        /// If this parameter is zero and <see cref="DI_DEFAULTSIZE"/> is not used, the function uses the actual resource height.
+        /// </param>
+        /// <param name="istepIfAniCur">
+        /// The index of the frame to draw, if hIcon identifies an animated cursor.
+        /// This parameter is ignored if hIcon does not identify an animated cursor.
+        /// </param>
+        /// <param name="hbrFlickerFreeDraw">
+        /// A handle to a brush that the system uses for flicker-free drawing.
+        /// If <paramref name="hbrFlickerFreeDraw"/> is a valid brush handle,
+        /// the system creates an offscreen bitmap using the specified brush for the background color,
+        /// draws the icon or cursor into the bitmap, and then copies the bitmap into the device context identified by <paramref name="hdc"/>.
+        /// If <paramref name="hbrFlickerFreeDraw"/> is <see cref="NULL"/>, the system draws the icon or cursor directly into the device context.
+        /// </param>
+        /// <param name="diFlags">
+        /// The drawing flags.
+        /// This parameter can be one of the following values.
+        /// <see cref="DI_COMPAT"/>: This flag is ignored.
+        /// <see cref="DI_DEFAULTSIZE"/>:
+        /// Draws the icon or cursor using the width and height specified by the system metric values for icons,
+        /// if the <paramref name="cxWidth"/> and <paramref name="cyWidth"/> parameters are set to zero.
+        /// If this flag is not specified and <paramref name="cxWidth"/> and <paramref name="cyWidth"/> are set to zero,
+        /// the function uses the actual resource size.
+        /// <see cref="DI_IMAGE"/>: Draws the icon or cursor using the image.
+        /// <see cref="DI_MASK"/>: Draws the icon or cursor using the mask.
+        /// <see cref="DI_NOMIRROR"/>: Draws the icon as an unmirrored icon. By default, the icon is drawn as a mirrored icon if hdc is mirrored.
+        /// <see cref="DI_NORMAL"/>: Combination of <see cref="DI_IMAGE"/> and <see cref="DI_MASK"/>. 
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="DrawIconEx"/> function places the icon's upper-left corner
+        /// at the location specified by the <paramref name="xLeft"/> and <paramref name="yTop"/> parameters.
+        /// The location is subject to the current mapping mode of the device context.
+        /// To duplicate <code>DrawIcon (hDC, X, Y, hIcon)</code>, call <see cref="DrawIconEx"/> as follows:
+        /// <code>DrawIconEx (hDC, X, Y, hIcon, 0, 0, 0, NULL, DI_NORMAL | DI_COMPAT | DI_DEFAULTSIZE); </code>
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawIconEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DrawIconEx([In] HDC hdc, [In] int xLeft, [In] int yTop, [In] HICON hIcon, [In] int cxWidth, [In] int cyWidth,
+            [In] UINT istepIfAniCur, [In] HBRUSH hbrFlickerFreeDraw, [In] DrawingFlags diFlags);
 
         /// <summary>
         /// <para>
@@ -525,7 +604,7 @@ namespace Lsj.Util.Win32
         /// The calling process must have <see cref="WINSTA_READATTRIBUTES"/> access to the window station.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetClipCursor([Out]out RECT lpRect);
+        public static extern BOOL GetClipCursor([Out] out RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -561,7 +640,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCursorInfo([In][Out]ref CURSORINFO pci);
+        public static extern BOOL GetCursorInfo([In][Out] ref CURSORINFO pci);
 
         /// <summary>
         /// <para>
@@ -587,7 +666,62 @@ namespace Lsj.Util.Win32
         /// returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCursorPos", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCursorPos([Out]out POINT lpPoint);
+        public static extern BOOL GetCursorPos([Out] out POINT lpPoint);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified icon or cursor.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-geticoninfo
+        /// </para>
+        /// </summary>
+        /// <param name="hIcon">
+        /// A handle to the icon or cursor.
+        /// To retrieve information about a standard icon or cursor, specify one of the following values.
+        /// <see cref="IDC_APPSTARTING"/>: Standard arrow and small hourglass cursor.
+        /// <see cref="IDC_ARROW"/>: Standard arrow cursor.
+        /// <see cref="IDC_CROSS"/>: Crosshair cursor.
+        /// <see cref="IDC_HAND"/>: Hand cursor.
+        /// <see cref="IDC_HELP"/>: Arrow and question mark cursor.
+        /// <see cref="IDC_IBEAM"/>: I-beam cursor.
+        /// <see cref="IDC_NO"/>: Slashed circle cursor.
+        /// <see cref="IDC_SIZEALL"/>: Four-pointed arrow cursor pointing north, south, east, and west.
+        /// <see cref="IDC_SIZENESW"/>: Double-pointed arrow cursor pointing northeast and southwest.
+        /// <see cref="IDC_SIZENS"/>: Double-pointed arrow cursor pointing north and south.
+        /// <see cref="IDC_SIZENWSE"/>: Double-pointed arrow cursor pointing northwest and southeast.
+        /// <see cref="IDC_SIZEWE"/>: Double-pointed arrow cursor pointing west and east.
+        /// <see cref="IDC_UPARROW"/>: Vertical arrow cursor.
+        /// <see cref="IDC_WAIT"/>: Hourglass cursor.
+        /// <see cref="IDI_APPLICATION"/>: Application icon.
+        /// <see cref="IDI_ASTERISK"/>: Asterisk icon.
+        /// <see cref="IDI_EXCLAMATION"/>: Exclamation point icon.
+        /// <see cref="IDI_HAND"/>: Stop sign icon.
+        /// <see cref="IDI_QUESTION"/>: Question-mark icon.
+        /// <see cref="IDI_WINLOGO"/>:
+        /// Application icon.
+        /// Windows 2000: Windows logo icon.
+        /// </param>
+        /// <param name="piconinfo">
+        /// A pointer to an <see cref="ICONINFO"/> structure.
+        /// The function fills in the structure's members.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>
+        /// and the function fills in the members of the specified <see cref="ICONINFO"/> structure.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="GetIconInfo"/> creates bitmaps for the <see cref="ICONINFO.hbmMask"/>
+        /// and <see cref="ICONINFO.hbmColor"/> members of <see cref="ICONINFO"/>.
+        /// The calling application must manage these bitmaps and delete them when they are no longer necessary.
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization.
+        /// The output returned is not affected by the DPI of the calling thread. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetIconInfo", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetIconInfo([In] HICON hIcon, [Out] out ICONINFO piconinfo);
 
         /// <summary>
         /// <para>
@@ -606,7 +740,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpCursorName);
+        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCursorName);
 
         /// <summary>
         /// <para>
@@ -625,7 +759,41 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In]IntPtr hInstance, [In]SystemCursors lpCursorName);
+        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [In] SystemCursors lpCursorName);
+
+        /// <summary>
+        /// <para>
+        /// Creates a cursor based on data contained in a file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorfromfilew
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The source of the file data to be used to create the cursor.
+        /// The data in the file must be in either .CUR or .ANI format.
+        /// If the high-order word of <paramref name="lpFileName"/> is nonzero,
+        /// it is a pointer to a string that is a fully qualified name of a file containing cursor data.
+        /// </param>
+        /// <returns>
+        /// If the function is successful, the return value is a handle to the new cursor.
+        /// If the function fails, the return value is <see cref="NULL"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// <see cref="GetLastError"/> may return the following value.
+        /// <see cref="ERROR_FILE_NOT_FOUND"/>: The specified file cannot be found. 
+        /// </returns>
+        /// <remarks>
+        /// DPI Virtualization
+        /// This API does not participate in DPI virtualization. The output returned is not affected by the DPI of the calling thread.
+        /// Note
+        /// The winuser.h header defines <see cref="LoadCursorFromFile"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorFromFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern HCURSOR LoadCursorFromFile([In] StringHandle lpFileName);
 
         /// <summary>
         /// <para>
@@ -649,7 +817,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In]IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpIconName);
+        public static extern HICON LoadIcon([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpIconName);
 
         /// <summary>
         /// <para>
@@ -672,7 +840,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In]IntPtr hInstance, [In]SystemIcons lpIconName);
+        public static extern HICON LoadIcon([In] IntPtr hInstance, [In] SystemIcons lpIconName);
 
         /// <summary>
         /// <para>
@@ -796,8 +964,105 @@ namespace Lsj.Util.Win32
         /// however, calling the appropriate function saves memory and decreases the size of the process's working set.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadImageW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE LoadImage([In]HINSTANCE hInst, [In]StringHandle name, [In]ImageTypes type,
-            [In]int cx, [In]int cy, [In]LoadImageFlags fuLoad);
+        public static extern HANDLE LoadImage([In] HINSTANCE hInst, [In] StringHandle name, [In] ImageTypes type,
+            [In] int cx, [In] int cy, [In] LoadImageFlags fuLoad);
+
+        /// <summary>
+        /// <para>
+        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
+        /// To specify a desired height or width, use the <see cref="LookupIconIdFromDirectoryEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectory
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The icon or cursor directory data.
+        /// Because this function does not validate the resource data,
+        /// it causes a general protection (GP) fault or returns an undefined value if presbits is not pointing to valid resource data.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is sought.
+        /// If this parameter is <see cref="TRUE"/>, the function is searching for an icon;
+        /// if the parameter is <see cref="FALSE"/>, the function is searching for a cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an integer resource identifier
+        /// for the icon or cursor that best fits the current display device.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// contains icon (or cursor) data in several device-dependent and device-independent formats.
+        /// <see cref="LookupIconIdFromDirectory"/> searches the resource file for the icon (or cursor)
+        /// that best fits the current display device and returns its integer identifier.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions
+        /// use the <see cref="MAKEINTRESOURCE"/> macro with this identifier to locate the resource in the module.
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
+        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
+        /// <see cref="LookupIconIdFromDirectory"/> returns an integer identifier
+        /// that is the resource name of the icon that best fits the current display device.
+        /// The <see cref="LoadIcon"/>, <see cref="LoadCursor"/>, and <see cref="LoadImage"/> functions
+        /// use this function to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectory", ExactSpelling = true, SetLastError = true)]
+        public static extern int LookupIconIdFromDirectory([In] IntPtr presbits, [In] BOOL fIcon);
+
+        /// <summary>
+        /// <para>
+        /// Searches through icon or cursor data for the icon or cursor that best fits the current display device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lookupiconidfromdirectoryex
+        /// </para>
+        /// </summary>
+        /// <param name="presbits">
+        /// The icon or cursor directory data.
+        /// Because this function does not validate the resource data, it causes a general protection (GP) fault
+        /// or returns an undefined value if presbits is not pointing to valid resource data.
+        /// </param>
+        /// <param name="fIcon">
+        /// Indicates whether an icon or a cursor is sought.
+        /// If this parameter is <see cref="TRUE"/>, the function is searching for an icon;
+        /// if the parameter is <see cref="FALSE"/>, the function is searching for a cursor.
+        /// </param>
+        /// <param name="cxDesired">
+        /// The desired width, in pixels, of the icon
+        /// If this parameter is zero, the function uses the <see cref="SM_CXICON"/> or <see cref="SM_CXCURSOR"/> system metric value.
+        /// </param>
+        /// <param name="cyDesired">
+        /// The desired height, in pixels, of the icon.
+        /// If this parameter is zero, the function uses the <see cref="SM_CYICON"/> or <see cref="SM_CYCURSOR"/> system metric value.
+        /// </param>
+        /// <param name="Flags">
+        /// A combination of the following values.
+        /// <see cref="LR_DEFAULTCOLOR"/>: Uses the default color format.
+        /// <see cref="LR_MONOCHROME"/>: Creates a monochrome icon or cursor.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an integer resource identifier for the icon
+        /// or cursor that best fits the current display device.
+        /// If the function fails, the return value is zero.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// A resource file of type <see cref="RT_GROUP_ICON"/> (<see cref="RT_GROUP_CURSOR"/> indicates cursors)
+        /// contains icon (or cursor) data in several device-dependent and device-independent formats.
+        /// <see cref="LookupIconIdFromDirectoryEx"/> searches the resource file for the icon (or cursor) that best fits
+        /// the current display device and returns its integer identifier.
+        /// The <see cref="FindResource"/> and <see cref="FindResourceEx"/> functions use the <see cref="MAKEINTRESOURCE"/> macro
+        /// with this identifier to locate the resource in the module.
+        /// The icon directory is loaded from a resource file with resource type <see cref="RT_GROUP_ICON"/>
+        /// (or <see cref="RT_GROUP_CURSOR"/> for cursors), and an integer resource name for the specific icon to be loaded.
+        /// <see cref="LookupIconIdFromDirectoryEx"/> returns an integer identifier that is the resource name
+        /// of the icon that best fits the current display device.
+        /// The <see cref="LoadIcon"/>, <see cref="LoadImage"/>, and <see cref="LoadCursor"/> functions use this function
+        /// to search the specified resource data for the icon or cursor that best fits the current display device.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupIconIdFromDirectoryEx", ExactSpelling = true, SetLastError = true)]
+        public static extern int LookupIconIdFromDirectoryEx([In] IntPtr presbits, [In] BOOL fIcon, [In] int cxDesired,
+            [In] int cyDesired, [In] LoadImageFlags Flags);
 
         /// <summary>
         /// <para>
@@ -830,7 +1095,7 @@ namespace Lsj.Util.Win32
         /// This occurs if the application uses the <see cref="ShowCursor"/> function to hide the cursor more times than to show the cursor.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR SetCursor([In]HCURSOR hCursor);
+        public static extern HCURSOR SetCursor([In] HCURSOR hCursor);
 
         /// <summary>
         /// <para>
@@ -861,7 +1126,7 @@ namespace Lsj.Util.Win32
         /// If it is not, call <see cref="SetThreadDesktop"/> with the <see cref="HDESK"/> returned by <see cref="OpenInputDesktop"/> to switch to that desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCursorPos", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetCursorPos([In]int X, [In]int Y);
+        public static extern BOOL SetCursorPos([In] int X, [In] int Y);
 
         /// <summary>
         /// <para>
@@ -886,6 +1151,6 @@ namespace Lsj.Util.Win32
         /// If no mouse is installed, the display count is –1.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowCursor", ExactSpelling = true, SetLastError = true)]
-        public static extern int ShowCursor([In]BOOL bShow);
+        public static extern int ShowCursor([In] BOOL bShow);
     }
 }
