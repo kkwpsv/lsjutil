@@ -129,6 +129,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the <see cref="DPI_AWARENESS"/> value from a <see cref="DPI_AWARENESS_CONTEXT"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getawarenessfromdpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="value">
+        /// The <see cref="DPI_AWARENESS_CONTEXT"/> you want to examine.
+        /// </param>
+        /// <returns>
+        /// The <see cref="DPI_AWARENESS"/>. If the provided value is null or invalid, this method will return <see cref="DPI_AWARENESS_INVALID"/>.
+        /// </returns>
+        /// <remarks>
+        /// A <see cref="DPI_AWARENESS_CONTEXT"/> contains multiple pieces of information.
+        /// For example, it includes both the current and the inherited <see cref="DPI_AWARENESS"/>.
+        /// This method retrieves the <see cref="DPI_AWARENESS"/> from the structure.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAwarenessFromDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern DPI_AWARENESS GetAwarenessFromDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
+
+        /// <summary>
+        /// <para>
         /// Returns the dots per inch (dpi) value for the associated window.
         /// </para>
         /// <para>
