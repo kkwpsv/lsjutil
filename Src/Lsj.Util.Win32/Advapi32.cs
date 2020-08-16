@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
     /// <summary>
     /// Advapi32.dll
     /// </summary>
-    public static class Advapi32
+    public static partial class Advapi32
     {
         /// <summary>
         /// MAX_SHUTDOWN_TIMEOUT

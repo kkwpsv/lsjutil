@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Enums;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -11,6 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/secauthz/access-mask
     /// </para>
     /// </summary>
+    [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct ACCESS_MASK
     {
         /// <summary>
@@ -23,6 +25,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         public static readonly ACCESS_MASK MAXIMUM_ALLOWED = new ACCESS_MASK { _value = 0x02000000 };
 
+        [FieldOffset(0)]
         private uint _value;
 
         /// <summary>
