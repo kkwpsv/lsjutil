@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Extensions;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
@@ -31,6 +32,18 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator WPARAM(UIntPtr val) => new WPARAM { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IntPtr(WPARAM val) => val._value.SafeToIntPtr();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator WPARAM(IntPtr val) => new WPARAM { _value = val.SafeToUIntPtr() };
 
         /// <summary>
         /// 
