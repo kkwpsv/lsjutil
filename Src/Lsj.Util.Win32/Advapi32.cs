@@ -1069,11 +1069,10 @@ namespace Lsj.Util.Win32
         /// use the <see cref="CreateProcess"/> function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateProcessAsUserW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateProcessAsUser([In] IntPtr hToken, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
+        public static extern BOOL CreateProcessAsUser([In] HANDLE hToken, [MarshalAs(UnmanagedType.LPWStr)][In] string lpApplicationName,
           [MarshalAs(UnmanagedType.LPWStr)][In] string lpCommandLine, [In] in SECURITY_ATTRIBUTES lpProcessAttributes,
-          [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] bool bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
-          [MarshalAs(UnmanagedType.LPWStr)][In] string lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
+          [In] in SECURITY_ATTRIBUTES lpThreadAttributes, [In] BOOL bInheritHandles, [In] ProcessCreationFlags dwCreationFlags,
+          [In] LPVOID lpEnvironment, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCurrentDirectory,
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<STARTUPINFO, STARTUPINFOEX>))]
           [In]AlternativeStructObject<STARTUPINFO, STARTUPINFOEX> lpStartupInfo, [Out] out PROCESS_INFORMATION lpProcessInformation);
 
@@ -1130,9 +1129,8 @@ namespace Lsj.Util.Win32
         /// To create a token that you can pass to <see cref="CreateProcessAsUser"/>, use the <see cref="DuplicateTokenEx"/> function.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateToken([In] IntPtr ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
-            [Out] out IntPtr DuplicateTokenHandle);
+        public static extern BOOL DuplicateToken([In] HANDLE ExistingTokenHandle, [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+            [Out] out HANDLE DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -1196,9 +1194,8 @@ namespace Lsj.Util.Win32
         /// The <see cref="DuplicateTokenEx"/> function creates a primary token that has the security context of the client.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateTokenEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateTokenEx([In] IntPtr ExistingTokenHandle, [In] uint dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
-            [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out IntPtr DuplicateTokenHandle);
+        public static extern BOOL DuplicateTokenEx([In] HANDLE ExistingTokenHandle, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpTokenAttributes,
+            [In] SECURITY_IMPERSONATION_LEVEL ImpersonationLevel, [In] TOKEN_TYPE TokenType, [Out] out HANDLE DuplicateTokenHandle);
 
         /// <summary>
         /// <para>
@@ -1241,9 +1238,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTokenInformation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetTokenInformation([In] IntPtr TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
-            [In] IntPtr TokenInformation, [In] uint TokenInformationLength, [Out] out uint ReturnLength);
+        public static extern BOOL GetTokenInformation([In] HANDLE TokenHandle, [In] TOKEN_INFORMATION_CLASS TokenInformationClass,
+            [In] LPVOID TokenInformation, [In] DWORD TokenInformationLength, [Out] out DWORD ReturnLength);
 
         /// <summary>
         /// <para>
@@ -1838,8 +1834,7 @@ namespace Lsj.Util.Win32
         /// Close the access token handle returned through the <paramref name="TokenHandle"/> parameter by calling <see cref="CloseHandle"/>.
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcessToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool OpenProcessToken([In] IntPtr ProcessHandle, [In] uint DesiredAccess, [Out] out IntPtr TokenHandle);
+        public static extern BOOL OpenProcessToken([In] HANDLE ProcessHandle, [In] ACCESS_MASK DesiredAccess, [Out] out HANDLE TokenHandle);
 
         /// <summary>
         /// <para>
