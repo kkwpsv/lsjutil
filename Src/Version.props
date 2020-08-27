@@ -18,6 +18,6 @@
     <LsjUtilWin32VersionPrefix>4.1.10</LsjUtilWin32VersionPrefix>
     <LsjUtilWin32NativeUIVersionPrefix>4.0.7</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>4.0.0</LsjUtilWinFormVersionPrefix>
-    <LsjUtilWPFVersionPrefix>4.1.5</LsjUtilWPFVersionPrefix>
+    <LsjUtilWPFVersionPrefix>4.1.6</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
 </Project>
