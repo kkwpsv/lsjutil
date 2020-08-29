@@ -43,6 +43,18 @@ namespace Lsj.Util.Win32.BaseTypes
         /// 
         /// </summary>
         /// <param name="val"></param>
+        public static implicit operator HGDIOBJ(HBITMAP val) => val._value;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator HBITMAP(HGDIOBJ val) => new HBITMAP { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
         public static implicit operator IntPtr(HBITMAP val) => val._value;
 
         /// <summary>

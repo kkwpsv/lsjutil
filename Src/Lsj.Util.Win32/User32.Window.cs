@@ -1480,7 +1480,7 @@ namespace Lsj.Util.Win32
         /// For a description of a potential problem that can arise, see the Remarks for <see cref="GetWindowText"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowW", ExactSpelling = true, SetLastError = true)]
-        private static extern HWND FindWindow([In] StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName);
+        public static extern HWND FindWindow([In] StringHandle lpClassName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpWindowName);
 
         /// <summary>
         /// <para>
@@ -1533,7 +1533,7 @@ namespace Lsj.Util.Win32
         /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr FindWindowEx([In] IntPtr hWndParent, [In] IntPtr hWndChildAfter, [In] StringHandle lpszClass,
+        public static extern IntPtr FindWindowEx([In] IntPtr hWndParent, [In] IntPtr hWndChildAfter, [In] StringHandle lpszClass,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpszWindow);
 
         /// <summary>
@@ -1568,7 +1568,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FlashWindow"/> function flashes the window only once; for repeated flashing, the application should create a system timer.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlashWindow", ExactSpelling = true, SetLastError = true)]
-        private static extern BOOL FlashWindow([In] HWND hWnd, [In] BOOL bInvert);
+        public static extern BOOL FlashWindow([In] HWND hWnd, [In] BOOL bInvert);
 
         /// <summary>
         /// <para>
@@ -1593,7 +1593,7 @@ namespace Lsj.Util.Win32
         /// An inactive caption bar changes to an active caption bar; an active caption bar changes to an inactive caption bar.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlashWindowEx", ExactSpelling = true, SetLastError = true)]
-        private static extern BOOL FlashWindowEx([In] in FLASHWINFO pfwi);
+        public static extern BOOL FlashWindowEx([In] in FLASHWINFO pfwi);
 
         /// <summary>
         /// <para>
@@ -1615,7 +1615,7 @@ namespace Lsj.Util.Win32
         /// The return value is the handle to the ancestor window.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAncestor", ExactSpelling = true, SetLastError = true)]
-        private static extern HWND GetAncestor([In] HWND hwnd, [In] GetAncestorFlags gaFlags);
+        public static extern HWND GetAncestor([In] HWND hwnd, [In] GetAncestorFlags gaFlags);
 
         /// <summary>
         /// <para>
