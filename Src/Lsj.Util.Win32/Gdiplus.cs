@@ -1,9 +1,8 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -24,7 +23,7 @@ namespace Lsj.Util.Win32
         /// <param name="graphics">Graphics object.</param>
         /// <returns></returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipCreateFromHDC", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipCreateFromHDC([In]IntPtr hdc, [Out]out IntPtr graphics);
+        public static extern GpStatus GdipCreateFromHDC([In] HDC hdc, [Out] out IntPtr graphics);
 
         /// <summary>
         /// Draws an image at a specified location.
@@ -35,7 +34,7 @@ namespace Lsj.Util.Win32
         /// <param name="y">Y position.</param>
         /// <returns></returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImage", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipDrawImage([In]IntPtr graphics, [In]IntPtr image, [In]float x, [In]float y);
+        public static extern GpStatus GdipDrawImage([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y);
 
         /// <summary>
         /// Draws an image at a specified location.
@@ -46,7 +45,7 @@ namespace Lsj.Util.Win32
         /// <param name="y">Y position.</param>
         /// <returns></returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageI", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipDrawImageI([In]IntPtr graphics, [In]IntPtr image, [In]int x, [In]int y);
+        public static extern GpStatus GdipDrawImageI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y);
 
         /// <summary>
         /// Draws an image.
@@ -59,7 +58,7 @@ namespace Lsj.Util.Win32
         /// <param name="width">Width.</param>
         /// <returns></returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRect", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipDrawImageRect([In]IntPtr graphics, [In]IntPtr image, [In]float x, [In]float y, [In]float width, [In]float height);
+        public static extern GpStatus GdipDrawImageRect([In] IntPtr graphics, [In] IntPtr image, [In] float x, [In] float y, [In] float width, [In] float height);
 
         /// <summary>
         /// Draws an image.
@@ -72,7 +71,7 @@ namespace Lsj.Util.Win32
         /// <param name="width">Width.</param>
         /// <returns></returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDrawImageRectI", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipDrawImageRectI([In]IntPtr graphics, [In]IntPtr image, [In]int x, [In]int y, [In]int width, [In]int height);
+        public static extern GpStatus GdipDrawImageRectI([In] IntPtr graphics, [In] IntPtr image, [In] int x, [In] int y, [In] int width, [In] int height);
 
         /// <summary>
         /// Creates an Image object based on a file. This flat function does not use ICM.
@@ -82,7 +81,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         /// </summary>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipLoadImageFromFile", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdipLoadImageFromFile([In][MarshalAs(UnmanagedType.LPWStr)]string filename, [Out]out IntPtr image);
+        public static extern GpStatus GdipLoadImageFromFile([In][MarshalAs(UnmanagedType.LPWStr)] string filename, [Out] out IntPtr image);
 
         /// <summary>
         /// <para>
@@ -97,7 +96,7 @@ namespace Lsj.Util.Win32
         /// Token returned by a previous call to <see cref="GdiplusStartup"/>.
         /// </param>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusShutdown", ExactSpelling = true, SetLastError = true)]
-        public static extern void GdiplusShutdown([In]UIntPtr token);
+        public static extern void GdiplusShutdown([In] ULONG_PTR token);
 
         /// <summary>
         /// <para>
@@ -122,6 +121,6 @@ namespace Lsj.Util.Win32
         /// If the function fails, it returns one of the other elements of the <see cref="GpStatus"/> enumeration.
         /// </returns>
         [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdiplusStartup", ExactSpelling = true, SetLastError = true)]
-        public static extern GpStatus GdiplusStartup([Out]out UIntPtr token, [In]ref GdiplusStartupInput input, [Out]out GdiplusStartupOutput output);
+        public static extern GpStatus GdiplusStartup([Out] out ULONG_PTR token, [In] ref GdiplusStartupInput input, [Out] out GdiplusStartupOutput output);
     }
 }

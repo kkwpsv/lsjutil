@@ -168,7 +168,6 @@ namespace Lsj.Util.Win32
         [Obsolete]
         public static void FreeProcInstance(FARPROC lpProc)
         {
-
         }
 
         /// <summary>
@@ -325,12 +324,12 @@ namespace Lsj.Util.Win32
         /// A pointer to a memory address.
         /// </param>
         /// <returns>
-        /// If the calling process has read access to the specified memory, the return value is <see cref="BOOL.FALSE"/>.
-        /// If the calling process does not have read access to the specified memory, the return value is <see cref="BOOL.TRUE"/>.
+        /// If the calling process has read access to the specified memory, the return value is <see cref="FALSE"/>.
+        /// If the calling process does not have read access to the specified memory, the return value is <see cref="TRUE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// If the application is compiled as a debugging version, and the process does not have read access to the specified memory location,
         /// the function causes an assertion and breaks into the debugger.
-        /// Leaving the debugger, the function continues as usual, and returns a <see cref="BOOL.FALSE"/> value.
+        /// Leaving the debugger, the function continues as usual, and returns a <see cref="FALSE"/> value.
         /// This behavior is by design, as a debugging aid.
         /// </returns>
         /// <remarks>
@@ -600,8 +599,7 @@ namespace Lsj.Util.Win32
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceCounter", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryPerformanceCounter([Out] out LARGE_INTEGER lpPerformanceCount);
+        public static extern BOOL QueryPerformanceCounter([Out] out LARGE_INTEGER lpPerformanceCount);
 
         /// <summary>
         /// <para>
@@ -628,8 +626,7 @@ namespace Lsj.Util.Win32
         /// For more info about this function and its usage, see Acquiring high-resolution time stamps.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryPerformanceFrequency", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
+        public static extern BOOL QueryPerformanceFrequency([Out] out LARGE_INTEGER lpFrequency);
 
         /// <summary>
         /// <para>

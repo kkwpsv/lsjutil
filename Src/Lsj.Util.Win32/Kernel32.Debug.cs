@@ -47,8 +47,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ContinueDebugEvent"/> closes the handles the debugger has to the process and to the thread.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ContinueDebugEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ContinueDebugEvent([In]uint dwProcessId, [In]uint dwThreadId, [In]DebugContinueStatus dwContinueStatus);
+        public static extern BOOL ContinueDebugEvent([In] DWORD dwProcessId, [In] DWORD dwThreadId, [In] DebugContinueStatus dwContinueStatus);
 
         /// <summary>
         /// <para>
@@ -94,7 +93,7 @@ namespace Lsj.Util.Win32
         /// All future debugging events are sent to the debugger by using the normal mechanism and rules.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugActiveProcess", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DebugActiveProcess([In]DWORD dwProcessId);
+        public static extern BOOL DebugActiveProcess([In] DWORD dwProcessId);
 
         /// <summary>
         /// <para>
@@ -113,7 +112,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugActiveProcessStop", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DebugActiveProcessStop([In]DWORD dwProcessId);
+        public static extern BOOL DebugActiveProcessStop([In] DWORD dwProcessId);
 
         /// <summary>
         /// <para>
@@ -154,7 +153,7 @@ namespace Lsj.Util.Win32
         /// In most cases, this causes the process to terminate because of an unhandled breakpoint exception.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugBreakProcess", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DebugBreakProcess([In]HANDLE Process);
+        public static extern BOOL DebugBreakProcess([In] HANDLE Process);
 
         /// <summary>
         /// <para>
@@ -180,7 +179,7 @@ namespace Lsj.Util.Win32
         /// A thread can call this function multiple times to change the action as needed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DebugSetProcessKillOnExit", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DebugSetProcessKillOnExit([In]BOOL KillOnExit);
+        public static extern BOOL DebugSetProcessKillOnExit([In] BOOL KillOnExit);
 
         /// <summary>
         /// <para>
@@ -199,7 +198,7 @@ namespace Lsj.Util.Win32
         /// It should not call the function in a retail version of the application because doing so will terminate the application.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FatalExit", ExactSpelling = true, SetLastError = true)]
-        public static extern void FatalExit([In]int ExitCode);
+        public static extern void FatalExit([In] int ExitCode);
 
         /// <summary>
         /// <para>
@@ -246,7 +245,7 @@ namespace Lsj.Util.Win32
         /// Do not queue an asynchronous procedure call (APC) to a thread that calls <see cref="WaitForDebugEvent"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEvent", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WaitForDebugEvent([Out]out DEBUG_EVENT lpDebugEvent, [In]uint dwMilliseconds);
+        public static extern BOOL WaitForDebugEvent([Out] out DEBUG_EVENT lpDebugEvent, [In] uint dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -295,7 +294,7 @@ namespace Lsj.Util.Win32
         /// Warning Do not queue an asynchronous procedure call (APC) to a thread that calls <see cref="WaitForDebugEventEx"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WaitForDebugEventEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL WaitForDebugEventEx([Out]out DEBUG_EVENT lpDebugEvent, [In]DWORD dwMilliseconds);
+        public static extern BOOL WaitForDebugEventEx([Out] out DEBUG_EVENT lpDebugEvent, [In] DWORD dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -330,7 +329,6 @@ namespace Lsj.Util.Win32
         /// Refer to the Visual Studio documentation for details of how your version deals with this.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OutputDebugStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)][In]string lpOutputString
-);
+        public static extern void OutputDebugString([MarshalAs(UnmanagedType.LPWStr)][In] string lpOutputString);
     }
 }

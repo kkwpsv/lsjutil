@@ -98,8 +98,8 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateEvent([In]in SECURITY_ATTRIBUTES lpEventAttributes, [In]BOOL bManualReset, [In]BOOL bInitialState,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE CreateEvent([In] in SECURITY_ATTRIBUTES lpEventAttributes, [In] BOOL bManualReset, [In] BOOL bInitialState,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -169,8 +169,8 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEventExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateEventEx([In]in SECURITY_ATTRIBUTES lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
-            [In]CreateEventExFlags dwFlags, [In]uint dwDesiredAccess);
+        public static extern HANDLE CreateEventEx([In] in SECURITY_ATTRIBUTES lpEventAttributes, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName,
+            [In] CreateEventExFlags dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -216,7 +216,8 @@ namespace Lsj.Util.Win32
         /// The event object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenEventW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr OpenEvent([In]uint dwDesiredAccess, [In]bool bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE OpenEvent([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -264,8 +265,7 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is unreliable and should not be used. It exists mainly for backward compatibility." +
             " For more information, see Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PulseEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool PulseEvent([In]IntPtr hEvent);
+        public static extern BOOL PulseEvent([In] HANDLE hEvent);
 
         /// <summary>
         /// <para>
@@ -296,8 +296,7 @@ namespace Lsj.Util.Win32
         /// Resetting an event that is already reset has no effect.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ResetEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ResetEvent([In]IntPtr hEvent);
+        public static extern BOOL ResetEvent([In] HANDLE hEvent);
 
         /// <summary>
         /// <para>
@@ -330,7 +329,6 @@ namespace Lsj.Util.Win32
         /// Windows Store apps can respond to named events and semaphores as described in How to respond to named events and semaphores.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetEvent([In]IntPtr hEvent);
+        public static extern BOOL SetEvent([In] HANDLE hEvent);
     }
 }
