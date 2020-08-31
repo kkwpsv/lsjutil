@@ -58,8 +58,7 @@ namespace Lsj.Util.Win32
         /// To load a user's profile, call the <see cref="LoadUserProfile"/> function.
         /// </remarks>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateEnvironmentBlock([Out]out IntPtr lpEnvironment, [In]IntPtr hToken, [In]bool bInherit);
+        public static extern BOOL CreateEnvironmentBlock([Out] out LPVOID lpEnvironment, [In] HANDLE hToken, [In] BOOL bInherit);
 
         /// <summary>
         /// <para>
@@ -79,7 +78,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyEnvironmentBlock", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyEnvironmentBlock([In]IntPtr lpEnvironment);
+        public static extern BOOL DestroyEnvironmentBlock([In] LPVOID lpEnvironment);
 
         /// <summary>
         /// <para>
@@ -135,7 +134,7 @@ namespace Lsj.Util.Win32
         /// It is not sufficient for the caller to merely impersonate the administrator or LocalSystem account.
         /// </remarks>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadUserProfileW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL LoadUserProfile([In]HANDLE hToken, [In]in PROFILEINFO lpProfileInfo);
+        public static extern BOOL LoadUserProfile([In] HANDLE hToken, [In] in PROFILEINFO lpProfileInfo);
 
         /// <summary>
         /// <para>
@@ -168,6 +167,6 @@ namespace Lsj.Util.Win32
         /// For more information about calling functions that require administrator privileges, see Running with Special Privileges.
         /// </remarks>
         [DllImport("userenv.dll", CharSet = CharSet.Unicode, EntryPoint = "UnloadUserProfile", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL UnloadUserProfile([In]HANDLE hToken, [In]HANDLE hProfile);
+        public static extern BOOL UnloadUserProfile([In] HANDLE hToken, [In] HANDLE hProfile);
     }
 }

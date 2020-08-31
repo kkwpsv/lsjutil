@@ -49,8 +49,33 @@ namespace Lsj.Util.Win32
         /// if the handle refers to the initial desktop of the calling process.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseDesktop", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CloseDesktop([In]IntPtr hDesktop);
+        public static extern BOOL CloseDesktop([In] HDESK hDesktop);
+
+
+        /// <summary>
+        /// <para>
+        /// Closes an open window station handle.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation
+        /// </para>
+        /// </summary>
+        /// <param name="hWinSta">
+        /// A handle to the window station to be closed.
+        /// This handle is returned by the <see cref="CreateWindowStation"/> or <see cref="OpenWindowStation"/> function.
+        /// Do not specify the handle returned by the <see cref="GetProcessWindowStation"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Windows Server 2003 and Windows XP/2000:  This function does not set the last error code on failure.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CloseWindowStation"/> function will fail if the handle being closed is for the window station assigned to the calling process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindowStation", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL CloseWindowStation([In] HWINSTA hWinSta);
 
         /// <summary>
         /// <para>
@@ -116,8 +141,9 @@ namespace Lsj.Util.Win32
         /// that is created in a noninteractive window station, in kilobytes.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateDesktop([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]IntPtr lpszDevice, [In]IntPtr pDevmode,
-            [In]uint dwFlags, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa);
+        public static extern HDESK CreateDesktop([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDevice, [In] in DEVMODE pDevmode,
+            [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
         /// <para>
@@ -191,8 +217,9 @@ namespace Lsj.Util.Win32
         /// To retrieve the size of the desktop heap, call the <see cref="GetUserObjectInformation"/> function with <see cref="UOI_HEAPSIZE"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDesktopExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]IntPtr lpszDevice, [In]IntPtr pDevmode,
-            [In]uint dwFlags, [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa, [In]uint ulHeapSize, [In]IntPtr pvoid);
+        public static extern HDESK CreateDesktopEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDevice, [In] in DEVMODE pDevmode, [In] DWORD dwFlags,
+            [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa, [In] ULONG ulHeapSize, [In] PVOID pvoid);
 
         /// <summary>
         /// <para>
@@ -239,34 +266,8 @@ namespace Lsj.Util.Win32
         /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWindowStationW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpwinsta, [In]uint dwFlags,
-            [In]uint dwDesiredAccess, [In]in SECURITY_ATTRIBUTES lpsa);
-
-        /// <summary>
-        /// <para>
-        /// Closes an open window station handle.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation
-        /// </para>
-        /// </summary>
-        /// <param name="hWinSta">
-        /// A handle to the window station to be closed.
-        /// This handle is returned by the <see cref="CreateWindowStation"/> or <see cref="OpenWindowStation"/> function.
-        /// Do not specify the handle returned by the <see cref="GetProcessWindowStation"/> function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, call <see cref="GetLastError"/>.
-        /// Windows Server 2003 and Windows XP/2000:  This function does not set the last error code on failure.
-        /// </returns>
-        /// <remarks>
-        /// The <see cref="CloseWindowStation"/> function will fail if the handle being closed is for the window station assigned to the calling process.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseWindowStation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CloseWindowStation([In]IntPtr hWinSta);
+        public static extern HWINSTA CreateWindowStation([MarshalAs(UnmanagedType.LPWStr)][In] string lpwinsta, [In] DWORD dwFlags,
+            [In] ACCESS_MASK dwDesiredAccess, [In] in SECURITY_ATTRIBUTES lpsa);
 
         /// <summary>
         /// <para>
@@ -302,8 +303,7 @@ namespace Lsj.Util.Win32
         /// until the last top-level window is enumerated or the callback function returns <see langword="false"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDesktopWindows", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumDesktopWindows([In]IntPtr hDesktop, [In]WNDENUMPROC lpfn, [In]IntPtr lParam);
+        public static extern BOOL EnumDesktopWindows([In] HDESK hDesktop, [In] WNDENUMPROC lpfn, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -344,7 +344,7 @@ namespace Lsj.Util.Win32
         /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetProcessWindowStation();
+        public static extern HWINSTA GetProcessWindowStation();
 
         /// <summary>
         /// <para>
@@ -374,7 +374,7 @@ namespace Lsj.Util.Win32
         /// so there is no need to call a USER or GDI function to connect the service to a window station and desktop.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadDesktop", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetThreadDesktop([In]uint dwThreadId);
+        public static extern HDESK GetThreadDesktop([In] DWORD dwThreadId);
 
         /// <summary>
         /// <para>
@@ -411,9 +411,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectInformationW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetUserObjectInformation([In]IntPtr hObj, [In]GetUserObjectInformationIndexes nIndex, [In]IntPtr pvInfo,
-            [In]uint nLength, [Out]out uint lpnLengthNeeded);
+        public static extern BOOL GetUserObjectInformation([In] IntPtr hObj, [In] GetUserObjectInformationIndexes nIndex, [In] PVOID pvInfo,
+            [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
 
         /// <summary>
         /// <para>
@@ -454,8 +453,8 @@ namespace Lsj.Util.Win32
         /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenDesktopW", ExactSpelling = true, SetLastError = true)]
-        public static extern HDESK OpenDesktop([MarshalAs(UnmanagedType.LPWStr)][In]string lpszDesktop, [In]DWORD dwFlags,
-            [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
+        public static extern HDESK OpenDesktop([MarshalAs(UnmanagedType.LPWStr)][In] string lpszDesktop, [In] DWORD dwFlags,
+            [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -487,8 +486,8 @@ namespace Lsj.Util.Win32
         /// After you are done with the handle, you must call <see cref="CloseWindowStation"/> to free the handle.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWindowStationW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWINSTA OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)][In]string lpszWinSta, [In]BOOL fInherit,
-            [In]ACCESS_MASK dwDesiredAccess);
+        public static extern HWINSTA OpenWindowStation([MarshalAs(UnmanagedType.LPWStr)][In] string lpszWinSta, [In] BOOL fInherit,
+            [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -527,7 +526,7 @@ namespace Lsj.Util.Win32
         /// you must also request the <see cref="DESKTOP_READOBJECTS"/> and <see cref="DESKTOP_WRITEOBJECTS"/> access rights.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenInputDesktop", ExactSpelling = true, SetLastError = true)]
-        public static extern HDESK OpenInputDesktop([In]DWORD dwFlags, [In]BOOL fInherit, [In]ACCESS_MASK dwDesiredAccess);
+        public static extern HDESK OpenInputDesktop([In] DWORD dwFlags, [In] BOOL fInherit, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -551,7 +550,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessWindowStation", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetProcessWindowStation([In]HWINSTA hWinSta);
+        public static extern BOOL SetProcessWindowStation([In] HWINSTA hWinSta);
 
         /// <summary>
         /// <para>
@@ -581,7 +580,7 @@ namespace Lsj.Util.Win32
         /// whose application could send malicious messages to the service's desktop window and affect its ability to function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetThreadDesktop", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetThreadDesktop([In]HDESK hDesktop);
+        public static extern BOOL SetThreadDesktop([In] HDESK hDesktop);
 
         /// <summary>
         /// <para>
@@ -612,6 +611,6 @@ namespace Lsj.Util.Win32
         /// Such calls typically fail with an "access denied" error.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SwitchDesktop", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SwitchDesktop([In]HDESK hDesktop);
+        public static extern BOOL SwitchDesktop([In] HDESK hDesktop);
     }
 }

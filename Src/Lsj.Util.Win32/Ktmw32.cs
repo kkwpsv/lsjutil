@@ -1,9 +1,9 @@
-﻿using Lsj.Util.Win32.Marshals;
+﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.TransactionAccessRights;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
 {
@@ -41,8 +41,7 @@ namespace Lsj.Util.Win32
         /// This function can only be called if the transaction is still active, not prepared, pre-prepared, or rolled back.
         /// </remarks>
         [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommitTransaction", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CommitTransaction([In]IntPtr TransactionHandle);
+        public static extern BOOL CommitTransaction([In] HANDLE TransactionHandle);
 
         /// <summary>
         /// <para>
@@ -96,7 +95,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Distributed Transaction Coordinator and Access Control Components.
         /// </remarks>
         [DllImport("Ktmw32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateTransaction", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateTransaction([In]in SECURITY_ATTRIBUTES lpTransactionAttributes, [In]IntPtr UOW, [In]uint CreateOptions,
-            [In]uint IsolationLevel, [In]uint IsolationFlags, [In]uint Timeout, [MarshalAs(UnmanagedType.LPWStr)][In]string Description);
+        public static extern HANDLE CreateTransaction([In] in SECURITY_ATTRIBUTES lpTransactionAttributes, [In] in GUID UOW,
+            [In] DWORD CreateOptions, [In] DWORD IsolationLevel, [In] DWORD IsolationFlags, [In] DWORD Timeout,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string Description);
     }
 }

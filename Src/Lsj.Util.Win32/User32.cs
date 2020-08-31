@@ -329,8 +329,7 @@ namespace Lsj.Util.Win32
         /// <see langword="true"/> if the method succeeds, otherwise <see langword="false"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAutoRotationState", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetAutoRotationState([In][Out] ref AR_STATE pState);
+        public static extern BOOL GetAutoRotationState([In][Out] ref AR_STATE pState);
 
         /// <summary>
         /// <para>
@@ -404,27 +403,6 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
-        /// </para>
-        /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu
-        /// </para>
-        /// </summary>
-        /// <param name="hMenu">
-        /// A handle to the menu.
-        /// </param>
-        /// <param name="nPos">
-        /// The zero-based relative position in the specified menu of an item that activates a drop-down menu or submenu.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is a handle to the drop-down menu or submenu activated by the menu item.
-        /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="IntPtr.Zero"/>.
-        /// </returns>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetSubMenu([In] IntPtr hMenu, [In] int nPos);
-
-        /// <summary>
-        /// <para>
         /// Retrieves the current color of the specified display element.
         /// Display elements are the parts of a window and the display that appear on the system display screen.
         /// </para>
@@ -484,7 +462,7 @@ namespace Lsj.Util.Win32
         /// no harm occurs by calling <see cref="DeleteObject"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSysColorBrush", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetSysColorBrush([In] SystemColors nIndex);
+        public static extern HBRUSH GetSysColorBrush([In] SystemColors nIndex);
 
         /// <summary>
         /// <para>
@@ -546,9 +524,8 @@ namespace Lsj.Util.Win32
         /// open the handle for <see cref="ACCESS_SYSTEM_SECURITY"/> access, and then disable the privilege.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetUserObjectSecurity", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetUserObjectSecurity([In] IntPtr hObj, [In] IntPtr pSIRequested, [In] IntPtr pSID,
-            [In] uint nLength, [Out] out uint lpnLengthNeeded);
+        public static extern BOOL GetUserObjectSecurity([In] HANDLE hObj, [In] in SECURITY_INFORMATION pSIRequested,
+            [In] in SECURITY_DESCRIPTOR pSID, [In] DWORD nLength, [Out] out DWORD lpnLengthNeeded);
 
         /// <summary>
         /// 
@@ -891,7 +868,7 @@ namespace Lsj.Util.Win32
         /// If the window is currently minimized, <see cref="MonitorFromWindow"/> uses the rectangle of the window before it was minimized.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MonitorFromWindow", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr MonitorFromWindow([In] IntPtr hwnd, [In] MonitorDefaultFlags dwFlags);
+        public static extern HMONITOR MonitorFromWindow([In] HWND hwnd, [In] MonitorDefaultFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -923,8 +900,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterPowerSettingNotification", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr RegisterPowerSettingNotification([In] IntPtr hRecipient,
-            [MarshalAs(UnmanagedType.LPStruct)][In] Guid PowerSettingGuid, [In] RegisterPowerSettingNotificationFlags Flags);
+        public static extern IntPtr RegisterPowerSettingNotification([In] HANDLE hRecipient, [In] in GUID PowerSettingGuid,
+            [In] RegisterPowerSettingNotificationFlags Flags);
 
         /// <summary>
         /// <para>

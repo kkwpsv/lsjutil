@@ -62,8 +62,13 @@ namespace Lsj.Util.Win32
         public static readonly StringHandle COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
 
         /// <summary>
+        /// <para>
         /// Locates an object by means of its moniker, activates the object if it is inactive,
         /// and retrieves a pointer to the specified interface on that object.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-bindmoniker
+        /// </para>
         /// </summary>
         /// <param name="pmk">
         /// A pointer to the object's moniker. See <see cref="IMoniker"/>.
@@ -105,7 +110,7 @@ namespace Lsj.Util.Win32
         /// The default handler implements this interface and calls the appropriate <see cref="IMoniker"/> methods as needed.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "BindMoniker", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT BindMoniker([In] IMoniker pmk, [In] uint grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In] Guid iidResult,
+        public static extern HRESULT BindMoniker([In] IMoniker pmk, [In] DWORD grfOpt, [MarshalAs(UnmanagedType.LPStruct)][In] Guid iidResult,
             [MarshalAs(UnmanagedType.IUnknown)][Out] object ppvResult);
 
         /// <summary>
@@ -568,7 +573,7 @@ namespace Lsj.Util.Win32
         /// each process must have its own allocator.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMalloc", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoGetMalloc([In] uint dwMemContext, [Out] out IntPtr ppMalloc);
+        public static extern HRESULT CoGetMalloc([In] DWORD dwMemContext, [MarshalAs(UnmanagedType.Interface)][Out] out IMalloc ppMalloc);
 
         /// <summary>
         /// <para>
@@ -1385,7 +1390,7 @@ namespace Lsj.Util.Win32
         /// because there is no guarantee that the memory will be allocated.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemAlloc([In] IntPtr cb);
+        public static extern LPVOID CoTaskMemAlloc([In] SIZE_T cb);
 
         /// <summary>
         /// <para>
@@ -1405,7 +1410,7 @@ namespace Lsj.Util.Win32
         /// After the call, the memory block pointed to by pv is invalid and can no longer be used.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemFree", ExactSpelling = true, SetLastError = true)]
-        public static extern void CoTaskMemFree([In] IntPtr pv);
+        public static extern void CoTaskMemFree([In] LPVOID pv);
 
         /// <summary>
         /// <para>
@@ -1450,7 +1455,7 @@ namespace Lsj.Util.Win32
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CoTaskMemRealloc([In] IntPtr pv, [In] IntPtr cb);
+        public static extern LPVOID CoTaskMemRealloc([In] LPVOID pv, [In] SIZE_T cb);
 
         /// <summary>
         /// <para>

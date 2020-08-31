@@ -163,8 +163,8 @@ namespace Lsj.Util.Win32
         /// <see cref="MF_MENUBARBREAK"/> and <see cref="MF_MENUBREAK"/>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AppendMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL AppendMenu([In]HMENU hMenu, [In]MenuFlags uFlags, [In]UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewItem);
+        public static extern BOOL AppendMenu([In] HMENU hMenu, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
 
         /// <summary>
         /// 
@@ -177,8 +177,8 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [Obsolete]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChangeMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ChangeMenu([In]HMENU hMenu, [In]UINT cmd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszNewItem,
-            [In]UINT cmdInsert, [In]MenuFlags flags);
+        public static extern BOOL ChangeMenu([In] HMENU hMenu, [In] UINT cmd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszNewItem,
+            [In] UINT cmdInsert, [In] MenuFlags flags);
 
         /// <summary>
         /// <para>
@@ -221,7 +221,7 @@ namespace Lsj.Util.Win32
         [Obsolete("CheckMenuItem is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions. Instead, use SetMenuItemInfo.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckMenuItem", ExactSpelling = true, SetLastError = true)]
-        public static extern MenuFlags CheckMenuItem([In]HMENU hMenu, [In]UINT uIDCheckItem, [In]MenuFlags uCheck);
+        public static extern MenuFlags CheckMenuItem([In] HMENU hMenu, [In] UINT uIDCheckItem, [In] MenuFlags uCheck);
 
         /// <summary>
         /// <para>
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// that it created by using the <see cref="CreateAcceleratorTable"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateAcceleratorTableW", ExactSpelling = true, SetLastError = true)]
-        public static extern HACCEL CreateAcceleratorTable([MarshalAs(UnmanagedType.LPArray)][In]ACCEL[] paccel, [In]int cAccel);
+        public static extern HACCEL CreateAcceleratorTable([MarshalAs(UnmanagedType.LPArray)][In] ACCEL[] paccel, [In] int cAccel);
 
         /// <summary>
         /// <para>
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DeleteMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags);
+        public static extern BOOL DeleteMenu([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -354,7 +354,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyAcceleratorTable", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyAcceleratorTable([In]HACCEL hAccel);
+        public static extern BOOL DestroyAcceleratorTable([In] HACCEL hAccel);
 
         /// <summary>
         /// <para>
@@ -378,7 +378,7 @@ namespace Lsj.Util.Win32
         /// DestroyMenu is recursive, that is, it will destroy the menu and all its submenus.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DestroyMenu([In]HMENU hMenu);
+        public static extern BOOL DestroyMenu([In] HMENU hMenu);
 
         /// <summary>
         /// <para>
@@ -398,7 +398,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawMenuBar", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DrawMenuBar([In]HWND hWnd);
+        public static extern BOOL DrawMenuBar([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -449,7 +449,7 @@ namespace Lsj.Util.Win32
         /// To force the update, call <see cref="DrawMenuBar"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableMenuItem", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnableMenuItem([In]HMENU hMenu, [In]UINT uIDEnableItem, [In]MenuFlags uEnable);
+        public static extern BOOL EnableMenuItem([In] HMENU hMenu, [In] UINT uIDEnableItem, [In] MenuFlags uEnable);
 
         /// <summary>
         /// <para>
@@ -473,7 +473,7 @@ namespace Lsj.Util.Win32
         /// To get the handle on a floating menu bar, use the Active Accessibility APIs.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU GetMenu([In]HWND hWnd);
+        public static extern HMENU GetMenu([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -536,7 +536,7 @@ namespace Lsj.Util.Win32
         /// whose type is specified by the <see cref="MENUITEMINFO.fType"/> member and sets cch to 0.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmii);
+        public static extern BOOL GetMenuItemInfo([In] HMENU hmenu, [In] UINT item, [In] BOOL fByPosition, [In] in MENUITEMINFO lpmii);
 
         /// <summary>
         /// <para>
@@ -555,7 +555,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemCount", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetMenuItemCount([In]HMENU hMenu);
+        public static extern int GetMenuItemCount([In] HMENU hMenu);
 
         /// <summary>
         /// <para>
@@ -576,7 +576,7 @@ namespace Lsj.Util.Win32
         /// If the menu item identifier is <see cref="NULL"/> or if the specified item opens a submenu, the return value is -1.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuItemID", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetMenuItemID([In]HMENU hMenu, [In]int nPos);
+        public static extern UINT GetMenuItemID([In] HMENU hMenu, [In] int nPos);
 
         /// <summary>
         /// <para>
@@ -640,7 +640,7 @@ namespace Lsj.Util.Win32
         [Obsolete("The GetMenuState function has been superseded by the GetMenuItemInfo." +
             "You can still use GetMenuState, however, if you do not need any of the extended features of GetMenuItemInfo.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuState", ExactSpelling = true, SetLastError = true)]
-        public static extern MenuFlags GetMenuState([In]HMENU hMenu, [In]UINT uId, [In]MenuFlags uFlags);
+        public static extern MenuFlags GetMenuState([In] HMENU hMenu, [In] UINT uId, [In] MenuFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -687,8 +687,8 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetMenuString function has been superseded. Use the GetMenuItemInfo function to retrieve the menu item text.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetMenuString([In]HMENU hMenu, [In]UINT uIDItem, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpString,
-            [In]int cchMax, [In]MenuFlags flags);
+        public static extern int GetMenuString([In] HMENU hMenu, [In] UINT uIDItem, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString,
+            [In] int cchMax, [In] MenuFlags flags);
 
         /// <summary>
         /// <para>
@@ -724,7 +724,7 @@ namespace Lsj.Util.Win32
         /// that is sent before any menu is displayed.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU GetSystemMenu([In]HWND hWnd, [In]BOOL bRevert);
+        public static extern HMENU GetSystemMenu([In] HWND hWnd, [In] BOOL bRevert);
 
         /// <summary>
         /// <para>
@@ -745,7 +745,7 @@ namespace Lsj.Util.Win32
         /// If the menu item does not activate a drop-down menu or submenu, the return value is <see cref="NULL"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSubMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU GetSubMenu([In]HMENU hMenu, [In]int nPos);
+        public static extern HMENU GetSubMenu([In] HMENU hMenu, [In] int nPos);
 
         /// <summary>
         /// <para>
@@ -783,7 +783,7 @@ namespace Lsj.Util.Win32
         /// they cannot be used with the <see cref="ModifyMenu"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "HiliteMenuItem", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL HiliteMenuItem([In]HWND hWnd, [In]HMENU hMenu, [In]UINT uIDHiliteItem, [In]MenuFlags uHilite);
+        public static extern BOOL HiliteMenuItem([In] HWND hWnd, [In] HMENU hMenu, [In] UINT uIDHiliteItem, [In] MenuFlags uHilite);
 
         /// <summary>
         /// <para>
@@ -882,8 +882,8 @@ namespace Lsj.Util.Win32
         [Obsolete("The InsertMenu function has been superseded by the InsertMenuItem function." +
             "You can still use InsertMenu, however, if you do not need any of the extended features of InsertMenuItem.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InsertMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewItem);
+        public static extern BOOL InsertMenu([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
 
         /// <summary>
         /// <para>
@@ -921,7 +921,7 @@ namespace Lsj.Util.Win32
         /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InsertMenuItemW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL InsertMenuItem([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPosition, [In]in MENUITEMINFO lpmi);
+        public static extern BOOL InsertMenuItem([In] HMENU hmenu, [In] UINT item, [In] BOOL fByPosition, [In] in MENUITEMINFO lpmi);
 
         /// <summary>
         /// <para>
@@ -950,7 +950,7 @@ namespace Lsj.Util.Win32
         /// Accelerator tables loaded from resources are freed automatically when the application terminates.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadAcceleratorsW", ExactSpelling = true, SetLastError = true)]
-        public static extern HACCEL LoadAccelerators([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpTableName);
+        public static extern HACCEL LoadAccelerators([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpTableName);
 
         /// <summary>
         /// <para>
@@ -978,7 +978,7 @@ namespace Lsj.Util.Win32
         /// to destroy the menu and free memory that the loaded menu occupied.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU LoadMenu([In]HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In]string lpMenuName);
+        public static extern HMENU LoadMenu([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpMenuName);
 
         /// <summary>
         /// <para>
@@ -1004,7 +1004,7 @@ namespace Lsj.Util.Win32
         /// For both the ANSI and the Unicode version of this function, the strings in the <see cref="MENUITEMTEMPLATE"/> structure must be Unicode strings.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadMenuIndirectW", ExactSpelling = true, SetLastError = true)]
-        public static extern HMENU LoadMenuIndirect([In]IntPtr lpMenuTemplate);
+        public static extern HMENU LoadMenuIndirect([In] IntPtr lpMenuTemplate);
 
         /// <summary>
         /// <para>
@@ -1110,8 +1110,8 @@ namespace Lsj.Util.Win32
         [Obsolete("The ModifyMenu function has been superseded by the SetMenuItemInfo function." +
             "You can still use ModifyMenu, however, if you do not need any of the extended features of SetMenuItemInfo.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ModifyMenuW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ModifyMenu([In]HMENU hMnu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]UINT_PTR uIDNewItem,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpNewItem);
+        public static extern BOOL ModifyMenu([In] HMENU hMnu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] UINT_PTR uIDNewItem,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewItem);
 
         /// <summary>
         /// <para>
@@ -1149,7 +1149,7 @@ namespace Lsj.Util.Win32
         /// The application must call the <see cref="DrawMenuBar"/> function whenever a menu changes, whether the menu is in a displayed window.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveMenu([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags);
+        public static extern BOOL RemoveMenu([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags);
 
         /// <summary>
         /// <para>
@@ -1178,7 +1178,7 @@ namespace Lsj.Util.Win32
         /// An application should call the <see cref="DestroyMenu"/> function to accomplish this task.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetMenu([In]HWND hWnd, [In]HMENU hMenu);
+        public static extern BOOL SetMenu([In] HWND hWnd, [In] HMENU hMenu);
 
         /// <summary>
         /// <para>
@@ -1229,8 +1229,8 @@ namespace Lsj.Util.Win32
         /// and <see cref="SM_CYMENUCHECK"/> values to retrieve the bitmap dimensions.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemBitmaps", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetMenuItemBitmaps([In]HMENU hMenu, [In]UINT uPosition, [In]MenuFlags uFlags, [In]HBITMAP hBitmapUnchecked,
-            [In]HBITMAP hBitmapChecked);
+        public static extern BOOL SetMenuItemBitmaps([In] HMENU hMenu, [In] UINT uPosition, [In] MenuFlags uFlags, [In] HBITMAP hBitmapUnchecked,
+            [In] HBITMAP hBitmapChecked);
 
         /// <summary>
         /// <para>
@@ -1268,7 +1268,7 @@ namespace Lsj.Util.Win32
         /// See Owner-Drawn Menus and the <see cref="WM_MENUCHAR"/> Message for more information.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMenuItemInfoW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetMenuItemInfo([In]HMENU hmenu, [In]UINT item, [In]BOOL fByPositon, [In]in MENUITEMINFO lpmii);
+        public static extern BOOL SetMenuItemInfo([In] HMENU hmenu, [In] UINT item, [In] BOOL fByPositon, [In] in MENUITEMINFO lpmii);
 
         /// <summary>
         /// <para>
@@ -1356,8 +1356,8 @@ namespace Lsj.Util.Win32
         /// </code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackPopupMenu", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TrackPopupMenu([In]HMENU hMenu, [In]TrackPopupMenuFlags uFlags, [In]int x, [In]int y, [In]int nReserved,
-            [In]HWND hWnd, [In]in RECT prcRect);
+        public static extern BOOL TrackPopupMenu([In] HMENU hMenu, [In] TrackPopupMenuFlags uFlags, [In] int x, [In] int y, [In] int nReserved,
+            [In] HWND hWnd, [In] in RECT prcRect);
 
         /// <summary>
         /// <para>
@@ -1436,8 +1436,8 @@ namespace Lsj.Util.Win32
         /// If the current window is a child window, you must set the (top-level) parent window as the foreground window.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TrackPopupMenuEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TrackPopupMenuEx([In]HMENU hMenu, [In]TrackPopupMenuFlags uFlags, [In] int x, [In]int y,
-            [In]HWND hwnd, [In]in TPMPARAMS lptpm);
+        public static extern BOOL TrackPopupMenuEx([In] HMENU hMenu, [In] TrackPopupMenuFlags uFlags, [In] int x, [In] int y,
+            [In] HWND hwnd, [In] in TPMPARAMS lptpm);
 
         /// <summary>
         /// <para>
@@ -1491,6 +1491,6 @@ namespace Lsj.Util.Win32
         /// the function sends a <see cref="WM_COMMAND"/> message, even if the window is minimized.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateAcceleratorW", ExactSpelling = true, SetLastError = true)]
-        public static extern int TranslateAccelerator([In]HWND hWnd, [In]HACCEL hAccTable, [In][Out]ref MSG lpMsg);
+        public static extern int TranslateAccelerator([In] HWND hWnd, [In] HACCEL hAccTable, [In][Out] ref MSG lpMsg);
     }
 }

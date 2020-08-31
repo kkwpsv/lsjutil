@@ -48,8 +48,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckTokenMembershipEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckTokenMembershipEx([In]HANDLE TokenHandle, [In]PSID SidToCheck,
-            [In]CheckTokenMembershipExFlags Flags, [Out]out BOOL IsMember);
+        public static extern BOOL CheckTokenMembershipEx([In] HANDLE TokenHandle, [In] PSID SidToCheck,
+            [In] CheckTokenMembershipExFlags Flags, [Out] out BOOL IsMember);
 
         /// <summary>
         /// <para>
@@ -145,10 +145,11 @@ namespace Lsj.Util.Win32
         ///  If necessary, switch between desktops for your application purposes.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateRestrictedToken", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateRestrictedToken([In]IntPtr ExistingTokenHandle, [In]CreateRestrictedTokenFlags Flags, [In]uint DisableSidCount,
-            [In]IntPtr SidsToDisable, [In]uint DeletePrivilegeCount, [In]IntPtr PrivilegesToDelete, [In]uint RestrictedSidCount,
-            [In]IntPtr SidsToRestrict, [Out]out IntPtr NewTokenHandle);
+        public static extern BOOL CreateRestrictedToken([In] HANDLE ExistingTokenHandle, [In] CreateRestrictedTokenFlags Flags,
+            [In] DWORD DisableSidCount, [MarshalAs(UnmanagedType.LPArray)][In] SID_AND_ATTRIBUTES[] SidsToDisable,
+            [In] DWORD DeletePrivilegeCount, [MarshalAs(UnmanagedType.LPArray)][In] LUID_AND_ATTRIBUTES[] PrivilegesToDelete,
+            [In] DWORD RestrictedSidCount, [MarshalAs(UnmanagedType.LPArray)][In] SID_AND_ATTRIBUTES[] SidsToRestrict,
+            [Out] out HANDLE NewTokenHandle);
 
         /// <summary>
         /// <para>
@@ -178,8 +179,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWellKnownSid", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateWellKnownSid([In]WELL_KNOWN_SID_TYPE WellKnownSidType, [In]IntPtr DomainSid,
-            [In]IntPtr pSid, [Out]out uint cbSid);
+        public static extern BOOL CreateWellKnownSid([In] WELL_KNOWN_SID_TYPE WellKnownSidType, [In] PSID DomainSid,
+            [In] PSID pSid, [Out] out DWORD cbSid);
     }
 }

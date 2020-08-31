@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions;
 using System;
 using System.Runtime.InteropServices;
@@ -29,7 +30,7 @@ namespace Lsj.Util.Win32
         /// The size of the buffer pointed to by <paramref name="lpwText"/> in WCHARs.
         /// </param>
         /// <returns></returns>
-        public static bool ComboBox_GetCueBannerText(IntPtr hwnd, out string lpwText, int cchText)
+        public static bool ComboBox_GetCueBannerText(HWND hwnd, out string lpwText, int cchText)
         {
             var lparam = Marshal.AllocHGlobal(cchText * 2);
             var result = SendMessage(hwnd, (WindowsMessages)CB_GETCUEBANNER, lparam.SafeToUIntPtr(), (IntPtr)cchText);

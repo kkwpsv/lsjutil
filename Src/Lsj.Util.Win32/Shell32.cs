@@ -67,7 +67,7 @@ namespace Lsj.Util.Win32
         /// Excess whitespace at the end of <paramref name="lpCmdLine"/> is ignored.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out]out int pNumArgs);
+        public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out] out int pNumArgs);
 
         /// <summary>
         /// <para>
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out]string AppID);
+        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out] string AppID);
 
         /// <summary>
         /// <para>
@@ -240,9 +240,9 @@ namespace Lsj.Util.Win32
         /// If no Explorer window is open, <see cref="ShellExecute"/> launches a new one.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteW", ExactSpelling = true, SetLastError = true)]
-        public static extern HINSTANCE ShellExecute([In]HWND hwnd, [MarshalAs(UnmanagedType.LPWStr)][In]string lpOperation,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpFile, [MarshalAs(UnmanagedType.LPWStr)][In]string lpParameters,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpDirectory, [In]ShowWindowCommands nShowCmd);
+        public static extern HINSTANCE ShellExecute([In] HWND hwnd, [MarshalAs(UnmanagedType.LPWStr)][In] string lpOperation,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpFile, [MarshalAs(UnmanagedType.LPWStr)][In] string lpParameters,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpDirectory, [In] ShowWindowCommands nShowCmd);
 
         /// <summary>
         /// <para>
@@ -303,8 +303,7 @@ namespace Lsj.Util.Win32
         /// See Launching Applications(<see cref="ShellExecute"/>, <see cref="ShellExecuteEx"/>, <see cref="SHELLEXECUTEINFO"/>) for more information.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShellExecuteExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ShellExecuteEx([In][Out]ref SHELLEXECUTEINFO pExecInfo);
+        public static extern BOOL ShellExecuteEx([In][Out] ref SHELLEXECUTEINFO pExecInfo);
 
         /// <summary>
         /// <para>
@@ -335,6 +334,6 @@ namespace Lsj.Util.Win32
         /// pointed to by <paramref name="psii"/>, you are responsible for freeing the icon with <see cref="DestroyIcon"/> when you no longer need it.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetStockIconInfo([In]SHSTOCKICONID siid, [In]SHGetStockIconInfoFlags uFlags, [Out]out SHSTOCKICONINFO psii);
+        public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] SHGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
     }
 }

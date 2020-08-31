@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32
         /// it must not call the <see cref="DefWindowProc"/> function to process unwanted messages.
         /// Unwanted messages are processed internally by the dialog box window procedure.
         /// </remarks>
-        public delegate IntPtr DLGPROC([In]IntPtr Arg1, [In]WindowsMessages Arg2, [In]UIntPtr Arg3, [In]IntPtr Arg4);
+        public delegate IntPtr DLGPROC([In] IntPtr Arg1, [In] WindowsMessages Arg2, [In] UIntPtr Arg3, [In] IntPtr Arg4);
 
         /// <summary>
         /// <para>
@@ -204,8 +204,8 @@ namespace Lsj.Util.Win32
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// Use the <see cref="MultiByteToWideChar"/> function to generate Unicode strings from ANSI strings.
         /// </remarks>
-        public static HWND CreateDialogIndirect([In]HINSTANCE hInstance, [In]in DLGTEMPLATE lpTemplate, [In]HWND hWndParent,
-            [In]DLGPROC lpDialogFunc) => CreateDialogIndirectParam(hInstance, lpTemplate, hWndParent, lpDialogFunc, NULL);
+        public static HWND CreateDialogIndirect([In] HINSTANCE hInstance, [In] in DLGTEMPLATE lpTemplate, [In] HWND hWndParent,
+            [In] DLGPROC lpDialogFunc) => CreateDialogIndirectParam(hInstance, lpTemplate, hWndParent, lpDialogFunc, NULL);
 
         /// <summary>
         /// <para>
@@ -271,8 +271,8 @@ namespace Lsj.Util.Win32
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogIndirectParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND CreateDialogIndirectParam([In]HINSTANCE hInstance, [In]in DLGTEMPLATE lpTemplate, [In]HWND hWndParent,
-            [In]DLGPROC lpDialogFunc, [In]LPARAM dwInitParam);
+        public static extern HWND CreateDialogIndirectParam([In] HINSTANCE hInstance, [In] in DLGTEMPLATE lpTemplate, [In] HWND hWndParent,
+            [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>
         /// <para>
@@ -325,8 +325,8 @@ namespace Lsj.Util.Win32
         /// the message loop for the dialog box must call the <see cref="IsDialogMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDialogParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND CreateDialogParam([In]HINSTANCE hInstance, [In]StringHandle lpTemplateName, [In]HWND hWndParent,
-            [In]DLGPROC lpDialogFunc, [In]LPARAM dwInitParam);
+        public static extern HWND CreateDialogParam([In] HINSTANCE hInstance, [In] StringHandle lpTemplateName, [In] HWND hWndParent,
+            [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>
         /// <para>
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DefDlgProc"/> function must not be called by a dialog box procedure; doing so results in recursive execution.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefDlgProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT DefDlgProc([In]HWND hDlg, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+        public static extern LRESULT DefDlgProc([In] HWND hDlg, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -531,8 +531,8 @@ namespace Lsj.Util.Win32
         /// All character strings in the dialog box template, such as titles for the dialog box and buttons, must be Unicode strings.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxIndirectParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern INT_PTR DialogBoxIndirectParam([In]HINSTANCE hInstance, [In]in DLGTEMPLATE lpTemplateName, [In]HWND hWndParent,
-            [In]DLGPROC lpDialogFunc, [In]LPARAM dwInitParam);
+        public static extern INT_PTR DialogBoxIndirectParam([In] HINSTANCE hInstance, [In] in DLGTEMPLATE lpTemplateName, [In] HWND hWndParent,
+            [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>
         /// <para>
@@ -585,8 +585,8 @@ namespace Lsj.Util.Win32
         /// by the dialog box procedure when it called <see cref="EndDialog"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DialogBoxParamW", ExactSpelling = true, SetLastError = true)]
-        public static extern INT_PTR DialogBoxParam([In]HINSTANCE hInstance, [In]StringHandle lpTemplateName, [In]HWND hWndParent,
-            [In] DLGPROC lpDialogFunc, [In]LPARAM dwInitParam);
+        public static extern INT_PTR DialogBoxParam([In] HINSTANCE hInstance, [In] StringHandle lpTemplateName, [In] HWND hWndParent,
+            [In] DLGPROC lpDialogFunc, [In] LPARAM dwInitParam);
 
         /// <summary>
         /// <para>
@@ -666,8 +666,8 @@ namespace Lsj.Util.Win32
         /// The directory listing displays long filenames, if any.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirList([In]HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPathSpec, [In]int nIDListBox,
-            [In]int nIDStaticPath, [In]DlgDirListFlags uFileType);
+        public static extern int DlgDirList([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDListBox,
+            [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
 
         /// <summary>
         /// <para>
@@ -759,8 +759,8 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirListComboBoxW", ExactSpelling = true, SetLastError = true)]
-        public static extern int DlgDirListComboBox([In]HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In]string lpPathSpec, [In]int nIDComboBox,
-             [In]int nIDStaticPath, [In]DlgDirListFlags uFileType);
+        public static extern int DlgDirListComboBox([In] HWND hDlg, [MarshalAs(UnmanagedType.LPWStr)][In] string lpPathSpec, [In] int nIDComboBox,
+             [In] int nIDStaticPath, [In] DlgDirListFlags uFileType);
 
         /// <summary>
         /// <para>
@@ -808,7 +808,7 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectComboBoxEx([In]HWND hwndDlg, [Out]StringBuilder lpString, [In]int cchOut, [In]int idComboBox);
+        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [Out] StringBuilder lpString, [In] int cchOut, [In] int idComboBox);
 
         /// <summary>
         /// <para>
@@ -852,7 +852,7 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectEx([In]HWND hwndDlg, [Out]StringBuilder lpString, [In]int chCount, [In]int idListBox);
+        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [Out] StringBuilder lpString, [In] int chCount, [In] int idListBox);
 
         /// <summary>
         /// <para>
@@ -887,7 +887,7 @@ namespace Lsj.Util.Win32
         /// as the return value from the function that created the dialog box.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndDialog", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EndDialog([In]HWND hDlg, [In]INT_PTR nResult);
+        public static extern BOOL EndDialog([In] HWND hDlg, [In] INT_PTR nResult);
 
         /// <summary>
         /// <para>
@@ -957,7 +957,7 @@ namespace Lsj.Util.Win32
         /// top-level windows cannot have identifiers and such a return value is never valid.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgCtrlID", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetDlgCtrlID([In]HWND hWnd);
+        public static extern int GetDlgCtrlID([In] HWND hWnd);
 
         /// <summary>
         /// <para>
@@ -985,7 +985,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetDlgItem"/> returns a valid handle to the child window.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItem", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND GetDlgItem([In]HWND hDlg, [In]int nIDDlgItem);
+        public static extern HWND GetDlgItem([In] HWND hDlg, [In] int nIDDlgItem);
 
         /// <summary>
         /// <para>
@@ -1030,7 +1030,7 @@ namespace Lsj.Util.Win32
         /// greater than <see cref="int.MaxValue"/> (for signed numbers) or <see cref="uint.MaxValue"/> (for unsigned numbers).
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemInt", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetDlgItemInt([In]HWND hDlg, [In]int nIDDlgItem, [Out]out BOOL lpTranslated, [In]BOOL bSigned);
+        public static extern UINT GetDlgItemInt([In] HWND hDlg, [In] int nIDDlgItem, [Out] out BOOL lpTranslated, [In] BOOL bSigned);
 
         /// <summary>
         /// <para>
@@ -1063,8 +1063,8 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDlgItemText"/> function sends a <see cref="WM_GETTEXT"/> message to the control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetDlgItemText([In]HWND hDlg, [In]int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpString,
-            [In]int cchMax);
+        public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString,
+            [In] int cchMax);
 
         /// <summary>
         /// <para>
@@ -1110,7 +1110,7 @@ namespace Lsj.Util.Win32
         /// the system recursively searches the window's children.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNextDlgGroupItem", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND GetNextDlgGroupItem([In]HWND hDlg, [In]HWND hCtl, [In]BOOL bPrevious);
+        public static extern HWND GetNextDlgGroupItem([In] HWND hDlg, [In] HWND hCtl, [In] BOOL bPrevious);
 
         /// <summary>
         /// <para>
@@ -1145,7 +1145,7 @@ namespace Lsj.Util.Win32
         /// the system recursively searches the window's children.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNextDlgTabItem", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND GetNextDlgTabItem([In]HWND hDlg, [In]HWND hCtl, [In]BOOL bPrevious);
+        public static extern HWND GetNextDlgTabItem([In] HWND hDlg, [In] HWND hCtl, [In] BOOL bPrevious);
 
         /// <summary>
         /// <para>
@@ -1181,7 +1181,7 @@ namespace Lsj.Util.Win32
         /// so conflicts are possible with application-defined messages having the same values.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDialogMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsDialogMessage([In]HWND hDlg, [In]in MSG lpMsg);
+        public static extern BOOL IsDialogMessage([In] HWND hDlg, [In] in MSG lpMsg);
 
         /// <summary>
         /// <para>
@@ -1216,7 +1216,7 @@ namespace Lsj.Util.Win32
         /// the base units are the average width and height, in pixels, of the characters in the font specified by the template.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapDialogRect", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL MapDialogRect([In]HWND hDlg, [In][Out]ref RECT lpRect);
+        public static extern BOOL MapDialogRect([In] HWND hDlg, [In][Out] ref RECT lpRect);
 
         /// <summary>
         /// <para>
@@ -1251,8 +1251,8 @@ namespace Lsj.Util.Win32
         /// and calling the <see cref="SendMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendDlgItemMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendDlgItemMessage([In]HWND hDlg, [In]int nIDDlgItem, [In]WindowsMessages Msg, [In]WPARAM wParam,
-            [In]LPARAM lParam);
+        public static extern LRESULT SendDlgItemMessage([In] HWND hDlg, [In] int nIDDlgItem, [In] WindowsMessages Msg, [In] WPARAM wParam,
+            [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -1287,7 +1287,7 @@ namespace Lsj.Util.Win32
         /// To set the new text, this function sends a <see cref="WM_SETTEXT"/> message to the specified control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDlgItemInt", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDlgItemInt([In]HWND hDlg, [In]int nIDDlgItem, [In]UINT uValue, [In]BOOL bSigned);
+        public static extern BOOL SetDlgItemInt([In] HWND hDlg, [In] int nIDDlgItem, [In] UINT uValue, [In] BOOL bSigned);
 
         /// <summary>
         /// <para>
@@ -1315,6 +1315,6 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetDlgItemText"/> function sends a <see cref="WM_SETTEXT"/> message to the specified control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetDlgItemText([In]HWND hDlg, [In]int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+        public static extern BOOL SetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
     }
 }

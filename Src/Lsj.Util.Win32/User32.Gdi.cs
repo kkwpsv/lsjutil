@@ -183,8 +183,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SPI_SETFOCUSBORDERHEIGHT"/> in <see cref="SystemParametersInfo"/>.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFocusRect", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DrawFocusRect([In] IntPtr hDC, [In] in RECT lprc);
+        public static extern BOOL DrawFocusRect([In] HDC hDC, [In] in RECT lprc);
 
         /// <summary>
         /// <para>
@@ -560,7 +559,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is <see cref="IntPtr.Zero"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadBitmapW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr LoadBitmap([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBitmapName);
+        public static extern HBITMAP LoadBitmap([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBitmapName);
 
         /// <summary>
         /// <para>
