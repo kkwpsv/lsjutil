@@ -193,7 +193,7 @@ namespace Lsj.Util.Win32
         /// The minimum large page size varies, but it is typically 2 MB or greater.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLargePageMinimum", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetLargePageMinimum();
+        public static extern SIZE_T GetLargePageMinimum();
 
         /// <summary>
         /// <para>
@@ -218,7 +218,7 @@ namespace Lsj.Util.Win32
         /// call the <see cref="HeapSetInformation"/> function with the handle returned by <see cref="GetProcessHeap"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeap", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetProcessHeap();
+        public static extern HANDLE GetProcessHeap();
 
         /// <summary>
         /// <para>
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// To obtain a handle to the process heap of the calling process, use the <see cref="GetProcessHeap"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessHeaps", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetProcessHeaps([In] uint NumberOfHeaps, [In] IntPtr ProcessHeaps);
+        public static extern DWORD GetProcessHeaps([In] DWORD NumberOfHeaps, [MarshalAs(UnmanagedType.LPArray)][In][Out] HANDLE[] ProcessHeaps);
 
         /// <summary>
         /// <para>
@@ -771,7 +771,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapAlloc([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr dwBytes);
+        public static extern LPVOID HeapAlloc([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] SIZE_T dwBytes);
 
         /// <summary>
         /// <para>
@@ -867,7 +867,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GetProcessHeaps"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapCreate([In] HeapFlags flOptions, [In] IntPtr dwInitialSize, [In] IntPtr dwMaximumSize);
+        public static extern HANDLE HeapCreate([In] HeapFlags flOptions, [In] SIZE_T dwInitialSize, [In] SIZE_T dwMaximumSize);
 
         /// <summary>
         /// <para>
@@ -948,12 +948,14 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapFree", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapFree([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr lpMem);
+        public static extern BOOL HeapFree([In] DWORD hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem);
 
         /// <summary>
         /// <para>
         /// Attempts to acquire the critical section object, or lock, that is associated with a specified heap.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heaplock
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -977,8 +979,7 @@ namespace Lsj.Util.Win32
         /// Failure to call <see cref="HeapUnlock"/> will block the execution of any other threads of the calling process that attempt to access the heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapLock", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapLock([In] IntPtr hHeap);
+        public static extern BOOL HeapLock([In] HANDLE hHeap);
 
         /// <summary>
         /// <para>
@@ -997,7 +998,7 @@ namespace Lsj.Util.Win32
         /// This parameter can be the following value from the <see cref="HEAP_INFORMATION_CLASS"/> enumeration type.
         /// <see cref="HeapCompatibilityInformation"/>:
         /// Indicates the heap features that are enabled.
-        /// The <paramref name="HeapInformation"/> parameter is a pointer to a ULONG variable.
+        /// The <paramref name="HeapInformation"/> parameter is a pointer to a <see cref="ULONG"/> variable.
         /// If <paramref name="HeapInformation"/> is 0, the heap is a standard heap that does not support look-aside lists.
         /// If <paramref name="HeapInformation"/> is 1, the heap supports look-aside lists. For more information, see Remarks.
         /// If <paramref name="HeapInformation"/> is 2, the low-fragmentation heap (LFH) has been enabled for the heap.
@@ -1011,7 +1012,7 @@ namespace Lsj.Util.Win32
         /// The size of the heap information being queried, in bytes.
         /// </param>
         /// <param name="ReturnLength">
-        /// A pointer to a variable that receives the length of data written to the HeapInformation buffer.
+        /// A pointer to a variable that receives the length of data written to the <paramref name="HeapInformation"/> buffer.
         /// If the buffer is too small, the function fails and <paramref name="ReturnLength"/> specifies the minimum size required for the buffer.
         /// If you do not want to receive this information, specify <see langword="null"/>.
         /// </param>
@@ -1032,9 +1033,8 @@ namespace Lsj.Util.Win32
         /// Look-aside lists can be created by the system or drivers.They can be allocated from paged or nonpaged pool.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapQueryInformation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapQueryInformation([In] IntPtr HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
-            [In] IntPtr HeapInformation, [In] IntPtr HeapInformationLength, [Out] out IntPtr ReturnLength);
+        public static extern BOOL HeapQueryInformation([In] HANDLE HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In] PVOID HeapInformation, [In] SIZE_T HeapInformationLength, [Out] out SIZE_T ReturnLength);
 
         /// <summary>
         /// <para>
@@ -1115,7 +1115,7 @@ namespace Lsj.Util.Win32
         /// The process has multiple threads, and the application provides its own mechanism for mutual exclusion to a specific heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapReAlloc", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr HeapReAlloc([In] IntPtr hHeap, [In] HeapFlags dwFlags, [In] IntPtr lpMem, [In] IntPtr dwBytes);
+        public static extern LPVOID HeapReAlloc([In] HANDLE hHeap, [In] HeapFlags dwFlags, [In] LPVOID lpMem, [In] SIZE_T dwBytes);
 
         /// <summary>
         /// <para>
@@ -1179,9 +1179,8 @@ namespace Lsj.Util.Win32
         /// because it reduces an application's exposure to security exploits that take advantage of a corrupted heap.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapSetInformation", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapSetInformation([In] IntPtr HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
-            [In] IntPtr HeapInformation, [In] IntPtr HeapInformationLength);
+        public static extern BOOL HeapSetInformation([In] HANDLE HeapHandle, [In] HEAP_INFORMATION_CLASS HeapInformationClass,
+            [In] PVOID HeapInformation, [In] SIZE_T HeapInformationLength);
 
         /// <summary>
         /// <para>
@@ -1264,8 +1263,7 @@ namespace Lsj.Util.Win32
         /// the results are undefined.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapUnlock", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapUnlock([In] IntPtr hHeap);
+        public static extern BOOL HeapUnlock([In] HANDLE hHeap);
 
         /// <summary>
         /// <para>
@@ -1387,8 +1385,7 @@ namespace Lsj.Util.Win32
         /// <see cref="HeapWalk"/> can fail in a multithreaded application if the heap is not locked during the heap enumeration.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "HeapWalk", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool HeapWalk([In] IntPtr hHeap, [In][Out] ref PROCESS_HEAP_ENTRY lpEntry);
+        public static extern BOOL HeapWalk([In] HANDLE hHeap, [In][Out] ref PROCESS_HEAP_ENTRY lpEntry);
 
         /// <summary>
         /// <para>

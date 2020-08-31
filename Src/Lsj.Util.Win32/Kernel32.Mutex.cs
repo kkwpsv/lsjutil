@@ -113,8 +113,8 @@ namespace Lsj.Util.Win32
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateMutex([In]in SECURITY_ATTRIBUTES lpMutexAttributes, [In]BOOL bInitialOwner,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE CreateMutex([In] in SECURITY_ATTRIBUTES lpMutexAttributes, [In] BOOL bInitialOwner,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -202,8 +202,8 @@ namespace Lsj.Util.Win32
         /// The mutex object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateMutexExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateMutexEx([In]in SECURITY_ATTRIBUTES lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName,
-                [In]uint dwFlags, [In]uint dwDesiredAccess);
+        public static extern HANDLE CreateMutexEx([In] in SECURITY_ATTRIBUTES lpMutexAttributes, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName,
+                [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -257,7 +257,7 @@ namespace Lsj.Util.Win32
         /// because <see cref="CreateMutex"/> opens a mutex if it exists and creates it if it does not.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenMutexW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenMutex([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE OpenMutex([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -287,6 +287,6 @@ namespace Lsj.Util.Win32
         /// that it obtained ownership (either through <see cref="CreateMutex"/> or a wait function).
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseMutex", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReleaseMutex([In]HANDLE hMutex);
+        public static extern BOOL ReleaseMutex([In] HANDLE hMutex);
     }
 }

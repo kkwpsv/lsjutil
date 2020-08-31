@@ -88,8 +88,7 @@ namespace Lsj.Util.Win32
         /// The static CRT requires <see cref="DLL_THREAD_ATTACH"/> and <see cref="DLL_THREAD_DETACH"/> notifications to function properly.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableThreadLibraryCalls", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DisableThreadLibraryCalls([In] IntPtr hLibModule);
+        public static extern BOOL DisableThreadLibraryCalls([In] HMODULE hLibModule);
 
         /// <summary>
         /// <para>
@@ -176,9 +175,8 @@ namespace Lsj.Util.Win32
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] uint[] lpidProcess,
-            [In] uint cb, [Out] out uint lpcbNeeded);
+        public static extern BOOL EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] DWORD[] lpidProcess,
+            [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
         /// <summary>
         /// <para>
@@ -206,7 +204,7 @@ namespace Lsj.Util.Win32
         /// The library could be unloaded before <see cref="ExitThread"/> is called.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibraryAndExitThread", ExactSpelling = true, SetLastError = true)]
-        public static extern void FreeLibraryAndExitThread([In] IntPtr hLibModule, [In] uint dwExitCode);
+        public static extern void FreeLibraryAndExitThread([In] HMODULE hLibModule, [In] DWORD dwExitCode);
 
         /// <summary>
         /// 
@@ -265,7 +263,7 @@ namespace Lsj.Util.Win32
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetModuleFileName([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
+        public static extern DWORD GetModuleFileName([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -323,8 +321,8 @@ namespace Lsj.Util.Win32
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetModuleFileNameEx([In] IntPtr hProcess, [In] IntPtr hModule,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] uint nSize);
+        public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -430,9 +428,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleHandleExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetModuleHandleEx([In] GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName,
-            [Out] out IntPtr phModule);
+        public static extern BOOL GetModuleHandleEx([In] GetModuleHandleExFlags dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string lpModuleName,
+            [Out] out HMODULE phModule);
 
         /// <summary>
         /// <para>
