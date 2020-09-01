@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
@@ -34,7 +35,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies the size, in bytes, of this structure.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
         /// A set of bit flags that specify properties of the time-out behavior for accessibility features.
@@ -44,6 +45,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies the time-out period, in milliseconds.
         /// </summary>
-        public uint iTimeOutMSec;
+        public DWORD iTimeOutMSec;
     }
 }

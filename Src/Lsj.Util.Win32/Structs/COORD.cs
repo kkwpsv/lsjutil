@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -17,11 +18,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The horizontal coordinate or column value. The units depend on the function call.
         /// </summary>
-        public short X;
+        public SHORT X;
 
         /// <summary>
         /// The vertical coordinate or row value. The units depend on the function call.
         /// </summary>
-        public short Y;
+        public SHORT Y;
     }
 }

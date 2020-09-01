@@ -1,5 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
-using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.Structs
         /// A handle to the MDI application's window menu.
         /// An MDI application can retrieve this handle from the menu of the MDI frame window by using the <see cref="GetSubMenu"/> function.
         /// </summary>
-        public IntPtr hWindowMenu;
+        public HANDLE hWindowMenu;
 
         /// <summary>
         /// The child window identifier of the first MDI child window created.
@@ -37,6 +37,6 @@ namespace Lsj.Util.Win32.Structs
         /// These identifiers are used in <see cref="WindowsMessages.WM_COMMAND"/> messages sent to the application's MDI frame window
         /// when a child window is chosen from the window menu; they should not conflict with any other command identifiers.
         /// </summary>
-        public uint idFirstChild;
+        public UINT idFirstChild;
     }
 }

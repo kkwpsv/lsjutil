@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -27,18 +28,18 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved. Must be <see cref="STAMP_DESIGNVECTOR"/>.
         /// </summary>
-        public uint dvReserved;
+        public DWORD dvReserved;
 
         /// <summary>
         /// Number of values in the dvValues array.
         /// </summary>
-        public uint dvNumAxes;
+        public DWORD dvNumAxes;
 
         /// <summary>
         /// An array specifying the values of the axes of a multiple master OpenType font.
         /// This array corresponds to the <see cref="AXESLIST.axlAxisInfo"/> array in the <see cref="AXESLIST"/> structure.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.I4, SizeConst = MM_MAX_NUMAXES)]
-        public int[] dvValues;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = MM_MAX_NUMAXES)]
+        public LONG[] dvValues;
     }
 }

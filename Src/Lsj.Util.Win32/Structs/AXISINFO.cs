@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -25,12 +26,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The minimum value for this axis.
         /// </summary>
-        public int axMinValue;
+        public LONG axMinValue;
 
         /// <summary>
         /// The maximum value for this axis.
         /// </summary>
-        public int axMaxValue;
+        public LONG axMaxValue;
 
         /// <summary>
         /// The name of the axis, specified as an array of characters.

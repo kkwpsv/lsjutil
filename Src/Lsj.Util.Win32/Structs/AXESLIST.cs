@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -28,12 +29,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved. Must be <see cref="STAMP_AXESLIST"/>.
         /// </summary>
-        public uint axlReserved;
+        public DWORD axlReserved;
 
         /// <summary>
         /// Number of axes for a specified multiple master font.
         /// </summary>
-        public uint axlNumAxes;
+        public DWORD axlNumAxes;
 
         /// <summary>
         /// An array of <see cref="AXISINFO"/> structures.

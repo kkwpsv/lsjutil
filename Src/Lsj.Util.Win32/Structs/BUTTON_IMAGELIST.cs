@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// The provider retains ownership of the image list and is ultimately responsible for its disposal.
         /// Under Windows Vista, you can pass <see cref="BCCL_NOGLYPH"/> in this parameter to indicate that no glyph should be displayed.
         /// </summary>
-        public IntPtr himl;
+        public HIMAGELIST  himl;
 
         /// <summary>
         /// A RECT that specifies the margin around the icon.

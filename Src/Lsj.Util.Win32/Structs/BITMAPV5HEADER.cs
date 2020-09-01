@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.Compression;
 using static Lsj.Util.Win32.Enums.GamutMappingIntent;
@@ -45,14 +46,14 @@ namespace Lsj.Util.Win32.Structs
         /// The number of bytes required by the structure.
         /// Applications should use this member to determine which bitmap information header structure is being used.
         /// </summary>
-        public uint bV5Size;
+        public DWORD bV5Size;
 
         /// <summary>
         /// The width of the bitmap, in pixels.
         /// If <see cref="bV5Compression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// the <see cref="bV5Width"/> member specifies the width of the decompressed JPEG or PNG image in pixels.
         /// </summary>
-        public int bV5Width;
+        public LONG bV5Width;
 
         /// <summary>
         /// The height of the bitmap, in pixels.
@@ -64,12 +65,12 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="bV5Compression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// the <see cref="bV5Height"/> member specifies the height of the decompressed JPEG or PNG image in pixels.
         /// </summary>
-        public int bV5Height;
+        public LONG bV5Height;
 
         /// <summary>
         /// The number of planes for the target device. This value must be set to 1.
         /// </summary>
-        public ushort bV5Planes;
+        public WORD bV5Planes;
 
         /// <summary>
         /// The number of bits that define each pixel and the maximum number of colors in the bitmap.
@@ -125,7 +126,7 @@ namespace Lsj.Util.Win32.Structs
         /// respectively, of each pixel.
         /// Each DWORD in the bitmap array represents a single pixel.
         /// </summary>
-        public ushort bV5BitCount;
+        public WORD bV5BitCount;
 
         /// <summary>
         /// Specifies that the bitmap is not compressed.
@@ -157,18 +158,18 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="bV5Compression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// <see cref="bV5SizeImage"/> is the size of the JPEG or PNG image buffer.
         /// </summary>
-        public uint bV5SizeImage;
+        public DWORD bV5SizeImage;
 
         /// <summary>
         /// The horizontal resolution, in pixels-per-meter, of the target device for the bitmap.
         /// An application can use this value to select a bitmap from a resource group that best matches the characteristics of the current device.
         /// </summary>
-        public int bV5XPelsPerMeter;
+        public LONG bV5XPelsPerMeter;
 
         /// <summary>
         /// The vertical resolution, in pixels-per-meter, of the target device for the bitmap.
         /// </summary>
-        public int bV5YPelsPerMeter;
+        public LONG bV5YPelsPerMeter;
 
         /// <summary>
         /// The number of color indexes in the color table that are actually used by the bitmap.
@@ -182,33 +183,33 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="bV5ClrUsed"/> is nonzero, the color table is used on palettized devices,
         /// and <see cref="bV5ClrUsed"/> specifies the number of entries.
         /// </summary>
-        public uint bV5ClrUsed;
+        public DWORD bV5ClrUsed;
 
         /// <summary>
         /// The number of color indexes that are required for displaying the bitmap.
         /// If this value is zero, all colors are required.
         /// </summary>
-        public uint bV5ClrImportant;
+        public DWORD bV5ClrImportant;
 
         /// <summary>
         /// Color mask that specifies the red component of each pixel, valid only if <see cref="bV5Compression"/> is set to <see cref="BI_BITFIELDS"/>.
         /// </summary>
-        public uint bV5RedMask;
+        public DWORD bV5RedMask;
 
         /// <summary>
         /// Color mask that specifies the green component of each pixel, valid only if <see cref="bV5Compression"/> is set to <see cref="BI_BITFIELDS"/>.
         /// </summary>
-        public uint bV5GreenMask;
+        public DWORD bV5GreenMask;
 
         /// <summary>
         /// Color mask that specifies the blue component of each pixel, valid only if <see cref="bV5Compression"/> is set to <see cref="BI_BITFIELDS"/>.
         /// </summary>
-        public uint bV5BlueMask;
+        public DWORD bV5BlueMask;
 
         /// <summary>
         /// Color mask that specifies the alpha component of each pixel.
         /// </summary>
-        public uint bV5AlphaMask;
+        public DWORD bV5AlphaMask;
 
         /// <summary>
         /// The color space of the DIB.
@@ -239,7 +240,7 @@ namespace Lsj.Util.Win32.Structs
         /// The upper 16 bits are the unsigned integer value.
         /// The lower 16 bits are the fractional part.
         /// </summary>
-        public uint bV5GammaRed;
+        public DWORD bV5GammaRed;
 
         /// <summary>
         /// Toned response curve for green.
@@ -248,7 +249,7 @@ namespace Lsj.Util.Win32.Structs
         /// The upper 16 bits are the unsigned integer value.
         /// The lower 16 bits are the fractional part.
         /// </summary>
-        public uint bV5GammaGreen;
+        public DWORD bV5GammaGreen;
 
         /// <summary>
         /// Toned response curve for blue.
@@ -257,7 +258,7 @@ namespace Lsj.Util.Win32.Structs
         /// The upper 16 bits are the unsigned integer value.
         /// The lower 16 bits are the fractional part.
         /// </summary>
-        public uint bV5GammaBlue;
+        public DWORD bV5GammaBlue;
 
         /// <summary>
         /// Rendering intent for bitmap. This can be one of the following values.
@@ -281,16 +282,16 @@ namespace Lsj.Util.Win32.Structs
         /// These profile members are ignored unless the <see cref="bV5CSType"/> member
         /// specifies <see cref="PROFILE_LINKED"/> or <see cref="PROFILE_EMBEDDED"/>.
         /// </summary>
-        public uint bV5ProfileData;
+        public DWORD bV5ProfileData;
 
         /// <summary>
         /// Size, in bytes, of embedded profile data.
         /// </summary>
-        public uint bV5ProfileSize;
+        public DWORD bV5ProfileSize;
 
         /// <summary>
         /// This member has been reserved. Its value should be set to zero.
         /// </summary>
-        public uint bV5Reserved;
+        public DWORD bV5Reserved;
     }
 }

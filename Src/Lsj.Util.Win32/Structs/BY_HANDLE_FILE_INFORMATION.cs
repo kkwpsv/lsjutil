@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Kernel32;
@@ -66,29 +67,29 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The serial number of the volume that contains a file.
         /// </summary>
-        public uint dwVolumeSerialNumber;
+        public DWORD dwVolumeSerialNumber;
 
         /// <summary>
         /// The high-order part of the file size.
         /// </summary>
-        public uint nFileSizeHigh;
+        public DWORD nFileSizeHigh;
 
         /// <summary>
         /// The low-order part of the file size.
         /// </summary>
-        public uint nFileSizeLow;
+        public DWORD nFileSizeLow;
 
         /// <summary>
         /// The number of links to this file. For the FAT file system this member is always 1.
         /// For the NTFS file system, it can be more than 1.
         /// </summary>
-        public uint nNumberOfLinks;
+        public DWORD nNumberOfLinks;
 
         /// <summary>
         /// The high-order part of a unique identifier that is associated with a file.
         /// For more information, see <see cref="nFileIndexLow"/>.
         /// </summary>
-        public uint nFileIndexHigh;
+        public DWORD nFileIndexHigh;
 
         /// <summary>
         /// The low-order part of a unique identifier that is associated with a file.
@@ -100,6 +101,6 @@ namespace Lsj.Util.Win32.Structs
         /// with <see cref="FileIdInfo"/> to retrieve the <see cref="FILE_ID_INFO"/> structure.
         /// The 64-bit identifier in this structure is not guaranteed to be unique on ReFS.
         /// </summary>
-        public uint nFileIndexLow;
+        public DWORD nFileIndexLow;
     }
 }

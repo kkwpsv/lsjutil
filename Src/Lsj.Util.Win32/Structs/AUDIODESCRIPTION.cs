@@ -1,6 +1,8 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -11,6 +13,9 @@ namespace Lsj.Util.Win32.Structs
     /// when the <see cref="SystemParametersInfoParameters.SPI_GETAUDIODESCRIPTION"/>
     /// or <see cref="SystemParametersInfoParameters.SPI_SETAUDIODESCRIPTION"/> action value is specified.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-audiodescription
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct AUDIODESCRIPTION
@@ -18,17 +23,16 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of the structure, in bytes. The caller must set this member to <code>sizeof(AUDIODESCRIPTION)</code>.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
-        /// If this member is <see langword="true"/>, audio descriptions are enabled; Otherwise, this member is <see langword="false"/>.
+        /// If this member is <see cref="TRUE"/>, audio descriptions are enabled; Otherwise, this member is <see cref="FALSE"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.Bool)]
-        public bool Enabled;
+        public BOOL Enabled;
 
         /// <summary>
         /// The locale identifier (LCID) of the language for the audio description. For more information, see Locales and Languages.
         /// </summary>
-        public uint Locale;
+        public LCID Locale;
     }
 }

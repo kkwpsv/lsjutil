@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -7,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BLENDFUNCTION"/> structure controls blending by specifying the blending functions for source and destination bitmaps.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-_blendfunction
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-blendfunction
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -16,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// AC_SRC_OVER
         /// </summary>
-        public static readonly byte AC_SRC_OVER = 0;
+        public static readonly BYTE AC_SRC_OVER = 0;
 
         /// <summary>
         /// This flag is set when the bitmap has an Alpha channel (that is, per-pixel alpha)
@@ -25,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
         /// For example, if the alpha channel value is x, the red, green and blue channels must be multiplied by x and
         /// divided by 0xff prior to the call.
         /// </summary>
-        public static readonly byte AC_SRC_ALPHA = 1;
+        public static readonly BYTE AC_SRC_ALPHA = 1;
 
 
         /// <summary>
@@ -33,12 +34,12 @@ namespace Lsj.Util.Win32.Structs
         /// Currently, the only source and destination blend operation that has been defined is <see cref="AC_SRC_OVER"/>.
         /// For details, see the following Remarks section.
         /// </summary>
-        public byte BlendOp;
+        public BYTE BlendOp;
 
         /// <summary>
         /// Must be zero.
         /// </summary>
-        public byte BlendFlags;
+        public BYTE BlendFlags;
 
         /// <summary>
         /// Specifies an alpha transparency value to be used on the entire source bitmap.
@@ -46,13 +47,13 @@ namespace Lsj.Util.Win32.Structs
         /// If you set <see cref="SourceConstantAlpha"/> to 0, it is assumed that your image is transparent. 
         /// Set the <see cref="SourceConstantAlpha"/> value to 255 (opaque) when you only want to use per-pixel alpha values.
         /// </summary>
-        public byte SourceConstantAlpha;
+        public BYTE SourceConstantAlpha;
 
         /// <summary>
         /// This member controls the way the source and destination bitmaps are interpreted.
         /// <see cref="AlphaFormat"/> has value of <see cref="AC_SRC_ALPHA"/>
         /// </summary>
-        public byte AlphaFormat;
+        public BYTE AlphaFormat;
     }
 
 

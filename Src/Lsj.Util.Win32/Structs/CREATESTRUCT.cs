@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
@@ -9,6 +10,9 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// Defines the initialization parameters passed to the window procedure of an application.
     /// These members are identical to the parameters of the <see cref="CreateWindowEx"/> function.
+    /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-createstructw
     /// </para>
     /// </summary>
     /// <remarks>
@@ -32,24 +36,24 @@ namespace Lsj.Util.Win32.Structs
         /// The value is immediately followed by the creation data.
         /// For more information, see the following Remarks section.
         /// </summary>
-        public IntPtr lpCreateParams;
+        public LPVOID lpCreateParams;
 
         /// <summary>
         /// A handle to the module that owns the new window.
         /// </summary>
-        public IntPtr hInstance;
+        public HINSTANCE hInstance;
 
         /// <summary>
         /// A handle to the menu to be used by the new window.
         /// </summary>
-        public IntPtr hMenu;
+        public HMENU hMenu;
 
         /// <summary>
         /// A handle to the parent window, if the window is a child window.
         /// If the window is owned, this member identifies the owner window.
         /// If the window is not a child or owned window, this member is <see cref="IntPtr.Zero"/>.
         /// </summary>
-        public IntPtr hwndParent;
+        public HWND hwndParent;
 
         /// <summary>
         /// The height of the new window, in pixels.
