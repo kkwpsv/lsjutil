@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.PlatformIds;
+using Lsj.Util.Win32.BaseTypes;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -50,22 +51,22 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of this data structure, in bytes. Set this member to sizeof(<see cref="OSVERSIONINFO"/>).
         /// </summary>
-        public uint dwOSVersionInfoSize;
+        public DWORD dwOSVersionInfoSize;
 
         /// <summary>
         /// The major version number of the operating system. For more information, see Remarks.
         /// </summary>
-        public uint dwMajorVersion;
+        public DWORD dwMajorVersion;
 
         /// <summary>
         /// The minor version number of the operating system. For more information, see Remarks.
         /// </summary>
-        public uint dwMinorVersion;
+        public DWORD dwMinorVersion;
 
         /// <summary>
         /// The build number of the operating system. This member can be <see cref="VER_PLATFORM_WIN32_NT"/>.
         /// </summary>
-        public uint dwBuildNumber;
+        public DWORD dwBuildNumber;
 
         /// <summary>
         /// The operating system platform. This member can be the following value.
@@ -76,7 +77,7 @@ namespace Lsj.Util.Win32.Structs
         /// A null-terminated string, such as "Service Pack 3", that indicates the latest Service Pack installed on the system.
         /// If no Service Pack has been installed, the string is empty.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U2, SizeConst = 128)]
-        public ushort[] szCSDVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string szCSDVersion;
     }
 }

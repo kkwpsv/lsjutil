@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Kernel32;
@@ -38,7 +39,7 @@ namespace Lsj.Util.Win32.Structs
         /// The size of the structure.
         /// </summary>
         [FieldOffset(4)]
-        public uint Size;
+        public DWORD Size;
 
         /// <summary>
         /// A <see cref="PROCESSOR_RELATIONSHIP"/> structure that describes processor affinity.

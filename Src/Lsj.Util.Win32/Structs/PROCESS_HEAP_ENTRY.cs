@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ProcessHeapFlags;
@@ -26,7 +27,7 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="PROCESS_HEAP_UNCOMMITTED_RANGE"/> is used in <see cref="wFlags"/>,
         /// <see cref="lpData"/> points to the beginning of the range of uncommitted memory.
         /// </summary>
-        public IntPtr lpData;
+        public PVOID lpData;
 
         /// <summary>
         /// The size of the data portion of the heap element, in bytes.
@@ -35,7 +36,7 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="PROCESS_HEAP_UNCOMMITTED_RANGE"/> is used in <see cref="wFlags"/>,
         /// <see cref="cbData"/> specifies the size, in bytes, of the range of uncommitted memory.
         /// </summary>
-        public uint cbData;
+        public DWORD cbData;
 
         /// <summary>
         /// The size of the data used by the system to maintain information about the heap element, in bytes.
@@ -45,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="PROCESS_HEAP_UNCOMMITTED_RANGE"/> is used in <see cref="wFlags"/>,
         /// <see cref="cbOverhead"/> specifies the size, in bytes, of the control structures that describe this uncommitted range.
         /// </summary>
-        public byte cbOverhead;
+        public BYTE cbOverhead;
 
         /// <summary>
         /// A handle to the heap region that contains the heap element.
@@ -59,7 +60,7 @@ namespace Lsj.Util.Win32.Structs
         /// so the members of the Region structure are not valid.
         /// You can use the <see cref="VirtualQuery"/> function to get additional information about a large block region.
         /// </summary>
-        public byte iRegionIndex;
+        public BYTE iRegionIndex;
 
         /// <summary>
         /// The properties of the heap element.
@@ -98,13 +99,13 @@ namespace Lsj.Util.Win32.Structs
             /// <summary>
             /// Handle to the allocated, moveable memory block.
             /// </summary>
-            public IntPtr hMem;
+            public HANDLE hMem;
 
             /// <summary>
             /// Reserved; not used.
             /// </summary>
-            [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 3)]
-            public uint[] dwReserved;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+            public DWORD[] dwReserved;
         }
 
         /// <summary>
@@ -117,23 +118,23 @@ namespace Lsj.Util.Win32.Structs
             /// Number of bytes in the heap region that are currently committed as free memory blocks, busy memory blocks, or heap control structures.
             /// This is an optional field that is set to zero if the number of committed bytes is not available.
             /// </summary>
-            public uint dwCommittedSize;
+            public DWORD dwCommittedSize;
 
             /// <summary>
             /// Number of bytes in the heap region that are currently uncommitted.
             /// This is an optional field that is set to zero if the number of uncommitted bytes is not available.
             /// </summary>
-            public uint dwUnCommittedSize;
+            public DWORD dwUnCommittedSize;
 
             /// <summary>
             /// Pointer to the first valid memory block in this heap region.
             /// </summary>
-            public IntPtr lpFirstBlock;
+            public LPVOID lpFirstBlock;
 
             /// <summary>
             /// Pointer to the first invalid memory block in this heap region.
             /// </summary>
-            public IntPtr lpLastBlock;
+            public LPVOID lpLastBlock;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -30,7 +31,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The year. The valid values for this member are 1601 through 30827.
         /// </summary>
-        public ushort wYear;
+        public WORD wYear;
 
         /// <summary>
         /// The month. This member can be one of the following values.
@@ -47,7 +48,7 @@ namespace Lsj.Util.Win32.Structs
         /// 11 November
         /// 12 December
         /// </summary>
-        public ushort wMonth;
+        public WORD wMonth;
 
         /// <summary>
         /// The day of the week. This member can be one of the following values.
@@ -59,31 +60,31 @@ namespace Lsj.Util.Win32.Structs
         /// 5 Friday
         /// 6 Saturday
         /// </summary>
-        public short wDayOfWeek;
+        public WORD wDayOfWeek;
 
         /// <summary>
         /// The day of the month. The valid values for this member are 1 through 31.
         /// </summary>
-        public short wDay;
+        public WORD wDay;
 
         /// <summary>
         /// The hour. The valid values for this member are 0 through 23.
         /// </summary>
-        public short wHour;
+        public WORD wHour;
 
         /// <summary>
         /// The minute. The valid values for this member are 0 through 59.
         /// </summary>
-        public short wMinute;
+        public WORD wMinute;
 
         /// <summary>
         /// The second. The valid values for this member are 0 through 59.
         /// </summary>
-        public short wSecond;
+        public WORD wSecond;
 
         /// <summary>
         /// The millisecond. The valid values for this member are 0 through 999.
         /// </summary>
-        public short wMilliseconds;
+        public WORD wMilliseconds;
     }
 }

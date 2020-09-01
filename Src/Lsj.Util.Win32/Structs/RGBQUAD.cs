@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -19,21 +20,21 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The intensity of blue in the color.
         /// </summary>
-        public byte rgbBlue;
+        public BYTE rgbBlue;
 
         /// <summary>
         /// The intensity of green in the color.
         /// </summary>
-        public byte rgbGreen;
+        public BYTE rgbGreen;
 
         /// <summary>
         /// The intensity of red in the color.
         /// </summary>
-        public byte rgbRed;
+        public BYTE rgbRed;
 
         /// <summary>
         /// This member is reserved and must be zero.
         /// </summary>
-        public byte rgbReserved;
+        public BYTE rgbReserved;
     }
 }

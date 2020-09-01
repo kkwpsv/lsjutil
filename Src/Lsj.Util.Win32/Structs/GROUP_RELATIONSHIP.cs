@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -19,19 +20,19 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The maximum number of processor groups on the system.
         /// </summary>
-        public ushort MaximumGroupCount;
+        public WORD MaximumGroupCount;
 
         /// <summary>
         /// The number of active groups on the system.
         /// This member indicates the number of <see cref="PROCESSOR_GROUP_INFO"/> structures in the <see cref="GroupInfo"/> array.
         /// </summary>
-        public ushort ActiveGroupCount;
+        public WORD ActiveGroupCount;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 20)]
-        public byte[] Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+        public BYTE[] Reserved;
 
         /// <summary>
         /// An array of <see cref="PROCESSOR_GROUP_INFO"/> structures.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -18,7 +19,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A handle to the display DC to be used for painting.
         /// </summary>
-        public IntPtr hdc;
+        public HDC hdc;
 
         /// <summary>
         /// Indicates whether the background must be erased.
@@ -26,7 +27,7 @@ namespace Lsj.Util.Win32.Structs
         /// The application is responsible for erasing the background if a window class is created without a background brush.
         /// For more information, see the description of the <see cref="WNDCLASS.hbrBackground"/> member of the <see cref="WNDCLASS"/> structure.
         /// </summary>
-        public bool fErase;
+        public BOOL fErase;
 
         /// <summary>
         /// A <see cref="RECT"/> structure that specifies the upper left and lower right corners of the rectangle in which the painting is requested,
@@ -37,17 +38,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Reserved; used internally by the system.
         /// </summary>
-        public bool fRestore;
+        public BOOL fRestore;
 
         /// <summary>
         /// Reserved; used internally by the system.
         /// </summary>
-        public bool fIncUpdate;
+        public BOOL fIncUpdate;
 
         /// <summary>
         /// Reserved; used internally by the system.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32, ArraySubType = UnmanagedType.U1)]
-        public byte[] rgbReserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+        public BYTE[] rgbReserved;
     }
 }

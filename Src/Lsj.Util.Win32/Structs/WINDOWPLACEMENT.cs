@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Lsj.Util.Win32.Structs
         /// set this member to <code>sizeof(WINDOWPLACEMENT)</code>.
         /// <see cref="GetWindowPlacement"/> and <see cref="SetWindowPlacement"/> fail if this member is not set correctly.
         /// </summary>
-        public uint length;
+        public UINT length;
 
         /// <summary>
         /// The flags that control the position of the minimized window and the method by which the window is restored.

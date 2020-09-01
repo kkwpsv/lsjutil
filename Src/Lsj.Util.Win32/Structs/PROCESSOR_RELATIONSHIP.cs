@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
 using static Lsj.Util.Win32.Kernel32;
@@ -37,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of
         /// the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX"/> structure is <see cref="RelationProcessorPackage"/>, this member is always 0.
         /// </summary>
-        public byte Flags;
+        public BYTE Flags;
 
         /// <summary>
         /// If the <see cref="SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX.Relationship"/> member of
@@ -51,19 +52,19 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="EfficiencyClass"/> is always 0.
         /// The minimum operating system version that supports this member is Windows 10.
         /// </summary>
-        public byte EfficiencyClass;
+        public BYTE EfficiencyClass;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 20)]
-        public byte[] Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+        public BYTE[] Reserved;
 
         /// <summary>
         /// This member specifies the number of entries in the <see cref="GroupMask"/> array.
         /// For more information, see Remarks.
         /// </summary>
-        public ushort GroupCount;
+        public WORD GroupCount;
 
         /// <summary>
         /// An array of <see cref="GROUP_AFFINITY"/> structures.

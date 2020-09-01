@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -18,13 +19,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The number of the NUMA node.
         /// </summary>
-        public uint NodeNumber;
+        public DWORD NodeNumber;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 20)]
-        public byte[] Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 20)]
+        public BYTE[] Reserved;
 
         /// <summary>
         /// A <see cref="GROUP_AFFINITY"/> structure that specifies a group number and processor affinity within the group.

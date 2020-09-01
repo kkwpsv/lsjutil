@@ -40,14 +40,14 @@ namespace Lsj.Util.Win32.Structs
         /// The offset for the next <see cref="FILE_ID_BOTH_DIR_INFO"/> structure that is returned.
         /// Contains zero (0) if no other entries follow this one.
         /// </summary>
-        public uint NextEntryOffset;
+        public DWORD NextEntryOffset;
 
         /// <summary>
         /// The byte offset of the file within the parent directory.
         /// This member is undefined for file systems, such as NTFS, in which the position of a file
         /// within the parent directory is not fixed and can be changed at any time to maintain sort order.
         /// </summary>
-        public uint FileIndex;
+        public DWORD FileIndex;
 
         /// <summary>
         /// The time that the file was created.
@@ -91,12 +91,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The length of the file name.
         /// </summary>
-        public uint FileNameLength;
+        public DWORD FileNameLength;
 
         /// <summary>
         /// The size of the extended attributes for the file.
         /// </summary>
-        public uint EaSize;
+        public DWORD EaSize;
 
         /// <summary>
         /// The length of <see cref="ShortName"/>.
@@ -118,6 +118,7 @@ namespace Lsj.Util.Win32.Structs
         /// The first character of the file name string.
         /// This is followed in memory by the remainder of the string.
         /// </summary>
-        public char FileName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+        public WCHAR[] FileName;
     }
 }

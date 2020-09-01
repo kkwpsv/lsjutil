@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using static Lsj.Util.Win32.User32;
 
@@ -19,12 +20,12 @@ namespace Lsj.Util.Win32.Structs
         /// This member can be a handle to the window behind which this window is placed,
         /// or can be one of the special values listed with the <see cref="SetWindowPos"/> function.
         /// </summary>
-        public IntPtr hwndInsertAfter;
+        public HWND hwndInsertAfter;
 
         /// <summary>
         /// A handle to the window.
         /// </summary>
-        public IntPtr hwnd;
+        public HWND hwnd;
 
         /// <summary>
         /// The position of the left edge of the window.

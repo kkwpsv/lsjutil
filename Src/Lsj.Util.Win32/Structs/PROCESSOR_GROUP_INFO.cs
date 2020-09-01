@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -17,22 +18,22 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The maximum number of processors in the group.
         /// </summary>
-        public byte MaximumProcessorCount;
+        public BYTE MaximumProcessorCount;
 
         /// <summary>
         /// The number of active processors in the group.
         /// </summary>
-        public byte ActiveProcessorCount;
+        public BYTE ActiveProcessorCount;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 38)]
-        public byte[] Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 38)]
+        public BYTE[] Reserved;
 
         /// <summary>
         /// A bitmap that specifies the affinity for zero or more active processors within the group.
         /// </summary>
-        public UIntPtr ActiveProcessorMask;
+        public KAFFINITY ActiveProcessorMask;
     }
 }

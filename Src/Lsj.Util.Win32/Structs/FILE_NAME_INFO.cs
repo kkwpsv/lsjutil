@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -16,11 +17,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of the <see cref="FileName"/> string, in bytes.
         /// </summary>
-        public uint FileNameLength;
+        public DWORD FileNameLength;
 
         /// <summary>
         /// The file name that is returned.
         /// </summary>
-        public char FileName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+        public WCHAR[] FileName;
     }
 }

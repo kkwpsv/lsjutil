@@ -7,6 +7,9 @@ namespace Lsj.Util.Win32.Structs
     /// <para>
     /// The <see cref="KERNINGPAIR"/> structure defines a kerning pair.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-kerningpair
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct KERNINGPAIR

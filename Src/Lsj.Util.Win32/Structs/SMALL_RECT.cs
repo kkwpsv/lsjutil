@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -20,21 +21,21 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The x-coordinate of the upper left corner of the rectangle.
         /// </summary>
-        public short Left;
+        public SHORT Left;
 
         /// <summary>
         /// The y-coordinate of the upper left corner of the rectangle.
         /// </summary>
-        public short Top;
+        public SHORT Top;
 
         /// <summary>
         /// The x-coordinate of the lower right corner of the rectangle.
         /// </summary>
-        public short Right;
+        public SHORT Right;
 
         /// <summary>
         /// The y-coordinate of the lower right corner of the rectangle.
         /// </summary>
-        public short Bottom;
+        public SHORT Bottom;
     }
 }

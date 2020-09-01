@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -26,7 +27,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see Unicode Subset Bitfields.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 4)]
-        public uint[] fsUsb;
+        public DWORD[] fsUsb;
 
         /// <summary>
         /// A 64-bit, code-page bitfield (CPB) that identifies a specific character set or code page.
@@ -35,6 +36,6 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see Code Page Bitfields.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 2)]
-        public uint[] fsCsb;
+        public DWORD[] fsCsb;
     }
 }

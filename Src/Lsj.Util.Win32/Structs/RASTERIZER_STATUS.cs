@@ -10,6 +10,9 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="RASTERIZER_STATUS"/> structure contains information about whether TrueType is installed.
     /// This structure is filled when an application calls the <see cref="GetRasterizerCaps"/> function.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-rasterizer_status
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct RASTERIZER_STATUS

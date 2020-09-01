@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdiplus;
 
@@ -34,12 +35,12 @@ namespace Lsj.Util.Win32.Structs
         /// If you do not want to be responsible for calling the hook and unhook functions,
         /// set this member to <see langword="false"/>. The default value is <see langword="false"/>.
         /// </summary>
-        public bool SuppressBackgroundThread;
+        public BOOL SuppressBackgroundThread;
 
         /// <summary>
         /// Boolean value that specifies whether you want GDI+ to suppress external image codecs.
         /// GDI+ version 1.0 does not support external image codecs, so this parameter is ignored.
         /// </summary>
-        public bool SuppressExternalCodecs;
+        public BOOL SuppressExternalCodecs;
     }
 }

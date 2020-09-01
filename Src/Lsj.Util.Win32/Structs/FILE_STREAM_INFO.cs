@@ -27,12 +27,12 @@ namespace Lsj.Util.Win32.Structs
         /// The offset for the next <see cref="FILE_STREAM_INFO"/> entry that is returned.
         /// This member is zero if no other entries follow this one.
         /// </summary>
-        public uint NextEntryOffset;
+        public DWORD NextEntryOffset;
 
         /// <summary>
         /// The length, in bytes, of StreamName.
         /// </summary>
-        public uint StreamNameLength;
+        public DWORD StreamNameLength;
 
         /// <summary>
         /// The size, in bytes, of the data stream.
@@ -48,6 +48,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The stream name.
         /// </summary>
-        public char StreamName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+        public WCHAR[] StreamName;
     }
 }

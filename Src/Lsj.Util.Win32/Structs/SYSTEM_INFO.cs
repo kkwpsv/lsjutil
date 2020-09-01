@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ProcessorArchitectures;
@@ -26,28 +27,28 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// This member is reserved for future use.
         /// </summary>
-        public ushort wReserved;
+        public WORD wReserved;
 
         /// <summary>
         /// The page size and the granularity of page protection and commitment.
         /// This is the page size used by the <see cref="VirtualAlloc"/> function.
         /// </summary>
-        public uint dwPageSize;
+        public DWORD dwPageSize;
 
         /// <summary>
         /// A pointer to the lowest memory address accessible to applications and dynamic-link libraries (DLLs).
         /// </summary>
-        public IntPtr lpMinimumApplicationAddress;
+        public LPVOID lpMinimumApplicationAddress;
 
         /// <summary>
         /// A pointer to the highest memory address accessible to applications and DLLs.
         /// </summary>
-        public IntPtr lpMaximumApplicationAddress;
+        public LPVOID lpMaximumApplicationAddress;
 
         /// <summary>
         /// A mask representing the set of processors configured into the system. Bit 0 is processor 0; bit 31 is processor 31.
         /// </summary>
-        public UIntPtr dwActiveProcessorMask;
+        public DWORD_PTR dwActiveProcessorMask;
 
         /// <summary>
         /// The number of logical processors in the current group.
@@ -55,7 +56,7 @@ namespace Lsj.Util.Win32.Structs
         ///  For information about the physical processors shared by logical processors,
         ///  call <see cref="GetLogicalProcessorInformationEx"/> with the RelationshipType parameter set to <see cref="RelationProcessorPackage"/>
         /// </summary>
-        public uint dwNumberOfProcessors;
+        public DWORD dwNumberOfProcessors;
 
         /// <summary>
         /// An obsolete member that is retained for compatibility.
@@ -68,7 +69,7 @@ namespace Lsj.Util.Win32.Structs
         /// The granularity for the starting address at which virtual memory can be allocated.
         /// For more information, see <see cref="VirtualAlloc"/>.
         /// </summary>
-        public uint dwAllocationGranularity;
+        public DWORD dwAllocationGranularity;
 
         /// <summary>
         /// The architecture-dependent processor level.
@@ -78,7 +79,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="wProcessorLevel"/> is defined by the CPU vendor.
         /// If <see cref="wProcessorArchitecture"/> is <see cref="PROCESSOR_ARCHITECTURE_IA64"/>, <see cref="wProcessorLevel"/> is set to 1.
         /// </summary>
-        public ushort wProcessorLevel;
+        public WORD wProcessorLevel;
 
         /// <summary>
         /// The architecture-dependent processor revision.
@@ -94,6 +95,6 @@ namespace Lsj.Util.Win32.Structs
         /// ARM:
         /// Reserved.
         /// </summary>
-        public ushort wProcessorRevision;
+        public WORD wProcessorRevision;
     }
 }

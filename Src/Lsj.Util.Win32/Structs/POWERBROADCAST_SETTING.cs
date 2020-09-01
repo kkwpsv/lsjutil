@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -15,18 +16,18 @@ namespace Lsj.Util.Win32.Structs
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-powerbroadcast_setting
     /// </para>
     /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct POWERBROADCAST_SETTING
     {
         /// <summary>
         /// Indicates the power setting for which this notification is being delivered. For more info, see Power Setting GUIDs.
         /// </summary>
-        public Guid PowerSetting;
+        public GUID PowerSetting;
 
         /// <summary>
         /// The size in bytes of the data in the Data member.
         /// </summary>
-        public int DataLength;
+        public DWORD DataLength;
 
         /*
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -27,6 +28,6 @@ namespace Lsj.Util.Win32.Structs
         /// Specifies attributes of the LUID.
         /// This value contains up to 32 one-bit flags. Its meaning depends on the definition and use of the LUID.
         /// </summary>
-        public uint Attributes;
+        public ULONG Attributes;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -9,6 +10,9 @@ namespace Lsj.Util.Win32.Structs
     /// Used for any handles.
     /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_attribute_tag_info
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_ATTRIBUTE_TAG_INFO
@@ -16,11 +20,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The file attribute information.
         /// </summary>
-        public uint FileAttributes;
+        public DWORD FileAttributes;
 
         /// <summary>
         /// The reparse tag.
         /// </summary>
-        public uint ReparseTag;
+        public DWORD ReparseTag;
     }
 }

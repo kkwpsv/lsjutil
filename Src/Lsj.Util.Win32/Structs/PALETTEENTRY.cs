@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.PaletteEntryFlags;
 
 namespace Lsj.Util.Win32.Structs
@@ -18,23 +20,23 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The red intensity value for the palette entry.
         /// </summary>
-        public byte peRed;
+        public BYTE peRed;
 
         /// <summary>
         /// The green intensity value for the palette entry.
         /// </summary>
-        public byte peGreen;
+        public BYTE peGreen;
 
         /// <summary>
         /// The blue intensity value for the palette entry.
         /// </summary>
-        public byte peBlue;
+        public BYTE peBlue;
 
         /// <summary>
         /// Indicates how the palette entry is to be used.
         /// This member may be set to 0 or one of the following values.
         /// <see cref="PC_EXPLICIT"/>, <see cref="PC_NOCOLLAPSE"/>,<see cref="PC_RESERVED"/>
         /// </summary>
-        public byte peFlags;
+        public PaletteEntryFlags peFlags;
     }
 }

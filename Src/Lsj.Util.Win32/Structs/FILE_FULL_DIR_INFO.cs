@@ -12,6 +12,9 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is returned from the <see cref="GetFileInformationByHandleEx"/> function
     /// when <see cref="FileFullDirectoryInfo"/> or <see cref="FileFullDirectoryRestartInfo"/> is passed in the FileInformationClass parameter.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_full_dir_info
+    /// </para>
     /// </summary>
     /// <remarks>
     /// The <see cref="FILE_FULL_DIR_INFO"/> structure is a subset of the information in the <see cref="FILE_ID_BOTH_DIR_INFO"/> structure.
@@ -32,14 +35,14 @@ namespace Lsj.Util.Win32.Structs
         /// The offset for the next <see cref="FILE_FULL_DIR_INFO"/> structure that is returned.
         /// Contains zero (0) if no other entries follow this one.
         /// </summary>
-        public uint NextEntryOffset;
+        public ULONG NextEntryOffset;
 
         /// <summary>
         /// The byte offset of the file within the parent directory.
         /// This member is undefined for file systems, such as NTFS,
         /// in which the position of a file within the parent directory is not fixed and can be changed at any time to maintain sort order.
         /// </summary>
-        public uint FileIndex;
+        public ULONG FileIndex;
 
         /// <summary>
         /// The time that the file was created.
@@ -82,16 +85,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The length of the file name.
         /// </summary>
-        public uint FileNameLength;
+        public ULONG FileNameLength;
 
         /// <summary>
         /// The size of the extended attributes for the file.
         /// </summary>
-        public uint EaSize;
+        public ULONG EaSize;
 
         /// <summary>
         /// The first character of the file name string. This is followed in memory by the remainder of the string.
         /// </summary>
-        public char FileName;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
+        public WCHAR[] FileName;
     }
 }

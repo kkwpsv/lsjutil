@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -20,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The serial number of the volume that contains a file.
         /// </summary>
-        public ulong VolumeSerialNumber;
+        public ULONGLONG VolumeSerialNumber;
 
         /// <summary>
         /// The 128-bit file identifier for the file.

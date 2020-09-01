@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.STRRET_TYPE;
@@ -37,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
         /// The offset into the item identifier list.
         /// </summary>
         [FieldOffset(4)]
-        public uint uOffset;
+        public UINT uOffset;
 
         /// <summary>
         /// The buffer to receive the display name.

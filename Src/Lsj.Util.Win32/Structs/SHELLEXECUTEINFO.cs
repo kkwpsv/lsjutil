@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
@@ -46,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Required. The size of this structure, in bytes.
         /// </summary>
-        public uint cbSize;
+        public DWORD cbSize;
 
         /// <summary>
         /// Flags that indicate the content and validity of the other structure members; a combination of the following values:
@@ -66,7 +67,7 @@ namespace Lsj.Util.Win32.Structs
         /// A handle to the parent window, used to display any message boxes that the system might produce while executing this function.
         /// This value can be <see cref="IntPtr.Zero"/>.
         /// </summary>
-        public IntPtr hwnd;
+        public HWND hwnd;
 
         /// <summary>
         /// A string, referred to as a verb, that specifies the action to be performed.
@@ -155,7 +156,7 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="SE_ERR_DDEBUSY"/>: DDE operation is busy.
         /// <see cref="SE_ERR_NOASSOC"/>: File association not available.
         /// </summary>
-        public IntPtr hInstApp;
+        public HINSTANCE hInstApp;
 
         /// <summary>
         /// The address of an absolute <see cref="ITEMIDLIST"/> structure (PCIDLIST_ABSOLUTE) to contain an item identifier list
@@ -181,7 +182,7 @@ namespace Lsj.Util.Win32.Structs
         /// The access rights for this registry key should be set to <see cref="KEY_READ"/>.
         /// This member is ignored if <see cref="fMask"/> does not include <see cref="SEE_MASK_CLASSKEY"/>.
         /// </summary>
-        public IntPtr hkeyClass;
+        public HKEY hkeyClass;
 
         /// <summary>
         /// A keyboard shortcut to associate with the application.
@@ -189,7 +190,7 @@ namespace Lsj.Util.Win32.Structs
         /// For a list of modifier flags, see the description of the <see cref="WM_SETHOTKEY"/> message.
         /// This member is ignored if <see cref="fMask"/> does not include <see cref="SEE_MASK_HOTKEY"/>.
         /// </summary>
-        public uint dwHotKey;
+        public DWORD dwHotKey;
 
         private UnionStruct _union;
 
@@ -198,7 +199,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is ignored if fMask does not include <see cref="SEE_MASK_ICON"/>.
         /// This value is used only in Windows XP and earlier. It is ignored as of Windows Vista.
         /// </summary>
-        public IntPtr hIcon
+        public HANDLE hIcon
         {
             get => _union.hIcon;
             set => _union.hIcon = value;
@@ -208,7 +209,7 @@ namespace Lsj.Util.Win32.Structs
         /// A handle to the monitor upon which the document is to be displayed.
         /// This member is ignored if <see cref="fMask"/> does not include <see cref="SEE_MASK_HMONITOR"/>.
         /// </summary>
-        public IntPtr hMonitor
+        public HANDLE hMonitor
         {
             get => _union.hMonitor;
             set => _union.hMonitor = value;
@@ -224,16 +225,16 @@ namespace Lsj.Util.Win32.Structs
         /// <see cref="ShellExecuteEx"/> does not always return an <see cref="hProcess"/>, even if a process is launched as the result of the call.
         /// For example, an <see cref="hProcess"/> does not return when you use <see cref="SEE_MASK_INVOKEIDLIST"/> to invoke IContextMenu.
         /// </summary>
-        public IntPtr hProcess;
+        public HANDLE hProcess;
 
         [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
         private struct UnionStruct
         {
             [FieldOffset(0)]
-            public IntPtr hIcon;
+            public HANDLE hIcon;
 
             [FieldOffset(0)]
-            public IntPtr hMonitor;
+            public HANDLE hMonitor;
         }
     }
 }
