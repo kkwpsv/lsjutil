@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetOverlappedResultEx([In] HANDLE hFile, [In] in OVERLAPPED lpOverlapped,
-            [Out] out DispatchWrapper lpNumberOfBytesTransferred, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
+            [Out] out DWORD lpNumberOfBytesTransferred, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
         /// <summary>
         /// <para>
