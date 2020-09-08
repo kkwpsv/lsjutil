@@ -789,9 +789,9 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="FreeLibrary"/> function to free a loaded module and decrement its reference count.
         /// If the function must search for the specified module or its dependencies, it searches only the package dependency graph of the process.
         /// This is the application's package plus any dependencies specified
-        /// as <PackageDependency> in the <Dependencies> section of the application's package manifest.
+        /// as &lt;PackageDependency&gt; in the &lt;Dependencies&gt; section of the application's package manifest.
         /// Dependencies are searched in the order they appear in the manifest.
-        /// The package dependency graph is specified in the <Dependencies> section of the application's package manifest.
+        /// The package dependency graph is specified in the &lt;Dependencies&gt; section of the application's package manifest.
         /// Dependencies are searched in the order they appear in the manifest.
         /// The search proceeds as follows:
         /// The function first searches modules that are already loaded.
