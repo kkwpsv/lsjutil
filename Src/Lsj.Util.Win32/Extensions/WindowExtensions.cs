@@ -1,15 +1,14 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.RasterCodes;
+using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Constants;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Gdi32;
-using static Lsj.Util.Win32.Enums.RasterCodes;
-using Lsj.Util.Win32.Structs;
 
 namespace Lsj.Util.Win32.Extensions
 {
@@ -91,7 +90,28 @@ namespace Lsj.Util.Win32.Extensions
         /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
         /// </param>
         /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
-        public static HBITMAP GetWindowScreenshot(HWND hwnd)
+        public static HBITMAP GetWindowScreenshot(HWND hwnd) => GetWindowScreenshot(hwnd, SRCCOPY);
+
+        /// <summary>
+        /// Get Window Screenshot (Use GDI with <see cref="CAPTUREBLT"/>)
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
+        /// </param>
+        /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        public static HBITMAP GetWindowScreenshotWithCaptureBlt(HWND hwnd) => GetWindowScreenshot(hwnd, SRCCOPY | CAPTUREBLT);
+
+        /// <summary>
+        /// Get Window Screenshot (Use GDI)
+        /// </summary>
+        /// <param name="hwnd">
+        /// The window to screenshot. If <see cref="NULL"/>, the result will be of the main display monitor.
+        /// </param>
+        /// <param name="rasterCodes">
+        /// The rasterCodes for <see cref="BitBlt"/>
+        /// </param>
+        /// <returns>The <see cref="HBITMAP"/>, must use <see cref="DeleteObject"/> to delete it.</returns>
+        public static HBITMAP GetWindowScreenshot(HWND hwnd, RasterCodes rasterCodes)
         {
             HDC windowDC = NULL;
             HDC destDC = NULL;
@@ -130,7 +150,7 @@ namespace Lsj.Util.Win32.Extensions
                     throw new Win32Exception();
                 }
 
-                if (!BitBlt(destDC, 0, 0, width, height, windowDC, 0, 0, SRCCOPY))
+                if (!BitBlt(destDC, 0, 0, width, height, windowDC, 0, 0, rasterCodes))
                 {
                     throw new Win32Exception();
                 }
