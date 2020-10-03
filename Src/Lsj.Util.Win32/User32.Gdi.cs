@@ -13,6 +13,7 @@ using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
 using static Lsj.Util.Win32.Enums.EnumDisplayDevicesFlags;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
+using static Lsj.Util.Win32.Enums.PrintWindowFlags;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
@@ -663,6 +664,42 @@ namespace Lsj.Util.Win32
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapWindowPoints", ExactSpelling = true, SetLastError = true)]
         public static extern int MapWindowPoints([In] HWND hWndFrom, [In] HWND hWndTo, [MarshalAs(UnmanagedType.LPArray)][In][Out] POINT[] lpPoints,
             [In] UINT cPoints);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="PrintWindow"/> function copies a visual window into the specified device context (DC), typically a printer DC.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-printwindow
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// A handle to the window that will be copied.
+        /// </param>
+        /// <param name="hdcBlt">
+        /// A handle to the device context.
+        /// </param>
+        /// <param name="nFlags">
+        /// The drawing options. It can be one of the following values.
+        /// <see cref="PW_CLIENTONLY"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, it returns a <see cref="TRUE"/> value.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note  This is a blocking or synchronous function and might not return immediately.
+        /// How quickly this function returns depends on run-time factors such as network status, print server configuration,
+        /// and printer driver implementation—factors that are difficult to predict when writing an application.
+        /// Calling this function from a thread that manages interaction with the user interface could make the application appear to be unresponsive.
+        /// The application that owns the window referenced by <paramref name="hwnd"/> processes the <see cref="PrintWindow"/> call
+        /// and renders the image in the device context that is referenced by <paramref name="hdcBlt"/>.
+        /// The application receives a <see cref="WM_PRINT"/> message or,
+        /// if the <see cref="PW_CLIENTONLY"/> flag is specified, a <see cref="WM_PRINTCLIENT"/> message.
+        /// For more information, see <see cref="WM_PRINT"/> and <see cref="WM_PRINTCLIENT"/>. 
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PrintWindow([In] HWND hwnd, [In] HDC hdcBlt, [In] PrintWindowFlags nFlags);
 
         /// <summary>
         /// <para>
