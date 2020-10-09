@@ -12,6 +12,7 @@ using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
+using System.Text;
 
 namespace Lsj.Util.Win32
 {
@@ -91,7 +92,31 @@ namespace Lsj.Util.Win32
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out] string AppID);
+        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder AppID);
+
+        /// <summary>
+        /// <para>
+        /// Specifies a unique application-defined Application User Model ID (AppUserModelID) that identifies the current process to the taskbar.
+        /// This identifier allows an application to group its associated processes and windows under a single taskbar button.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nf-shobjidl_core-setcurrentprocessexplicitappusermodelid
+        /// </para>
+        /// </summary>
+        /// <param name="AppID">
+        /// Pointer to the AppUserModelID to assign to the current process.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="S_OK"/>.
+        /// Otherwise, it returns an <see cref="HRESULT"/> error code.
+        /// </returns>
+        /// <remarks>
+        /// This method must be called during an application's initial startup routine
+        /// before the application presents any UI or makes any manipulation of its Jump Lists.
+        /// This includes any call to <see cref="SHAddToRecentDocs"/>.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][In] string AppID);
 
         /// <summary>
         /// <para>

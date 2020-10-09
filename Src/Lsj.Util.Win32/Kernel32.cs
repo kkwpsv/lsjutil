@@ -523,6 +523,52 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Determines if a specified character is potentially a lead byte.
+        /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex
+        /// </para>
+        /// </summary>
+        /// <param name="CodePage">
+        /// Identifier of the code page used to check lead byte ranges.
+        /// This parameter can be one of the code page identifiers defined in Unicode and Character Set Constants
+        /// or one of the following predefined values.
+        /// This function validates lead byte values only in code pages 932, 936, 949, 950, and 1361.
+        /// <see cref="CP_ACP"/>: Use system default Windows ANSI code page.
+        /// <see cref="CP_MACCP"/>: Use the system default Macintosh code page.
+        /// <see cref="CP_OEMCP"/>: Use system default OEM code page.
+        /// <see cref="CP_THREAD_ACP"/>: Use the Windows ANSI code page for the current thread. 
+        /// </param>
+        /// <param name="TestChar">
+        /// The character to test.
+        /// </param>
+        /// <returns>
+        /// Returns a nonzero value if the byte is a lead byte.
+        /// The function returns 0 if the byte is not a lead byte or if the character is a single-byte character.
+        /// To get extended error information, the application can call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Note
+        /// This function does not validate the presence or validity of a trail byte.
+        /// Therefore, <see cref="MultiByteToWideChar"/> might not recognize a sequence
+        /// that the application using <see cref="IsDBCSLeadByte"/> reports as a lead byte.
+        /// The application can easily become unsynchronized with the results of <see cref="MultiByteToWideChar"/>,
+        /// potentially leading to unexpected errors or buffer size mismatches.
+        /// In general, instead of attempting low-level manipulation of code page data,
+        /// applications should use <see cref="MultiByteToWideChar"/> to convert the data to UTF-16 and work with it in that encoding.
+        /// Lead byte values are specific to each distinct DBCS.
+        /// Some byte values can appear in a single code page as both the lead and trail byte of a DBCS character.
+        /// Thus, <see cref="IsDBCSLeadByteEx"/> can only indicate a potential lead byte value.
+        /// To make sense of a DBCS string, an application normally starts at the beginning of the string and scans forward,
+        /// keeping track when it encounters a lead byte, and treating the next byte as the trailing part of the same character.
+        /// To back up, the application should use <see cref="CharPrevEx"/> instead of attempting to develop its own algorithm.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDBCSLeadByteEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL IsDBCSLeadByteEx([In] UINT CodePage, [In] BYTE TestChar);
+
+        /// <summary>
+        /// <para>
         /// Determines if a specified code page is valid.
         /// </para>
         /// <para>
