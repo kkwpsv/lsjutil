@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -16,11 +17,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies the x-coordinate of the point.
         /// </summary>
-        public int x;
+        public LONG x;
 
         /// <summary>
         /// Specifies the y-coordinate of the point.
         /// </summary>
-        public int y;
+        public LONG y;
     }
 }

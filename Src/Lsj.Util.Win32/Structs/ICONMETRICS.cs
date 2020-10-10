@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
 
@@ -20,7 +21,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of the structure, in bytes.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
         /// The horizontal space, in pixels, for each arranged icon.

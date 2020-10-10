@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.Compression;
 using static Lsj.Util.Win32.Gdi32;
@@ -31,14 +32,14 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The number of bytes required by the structure.
         /// </summary>
-        public uint biSize;
+        public DWORD biSize;
 
         /// <summary>
         /// The width of the bitmap, in pixels.
         /// If <see cref="biCompression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// the <see cref="biWidth"/> member specifies the width of the decompressed JPEG or PNG image file, respectively.
         /// </summary>
-        public int biWidth;
+        public LONG biWidth;
 
         /// <summary>
         /// The height of the bitmap, in pixels.
@@ -50,13 +51,13 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="biCompression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// the <see cref="biHeight"/> member specifies the height of the decompressed JPEG or PNG image file, respectively.
         /// </summary>
-        public int biHeight;
+        public LONG biHeight;
 
         /// <summary>
         /// The number of planes for the target device.
         /// This value must be set to 1.
         /// </summary>
-        public ushort biPlanes;
+        public WORD biPlanes;
 
         /// <summary>
         /// The number of bits-per-pixel.
@@ -117,7 +118,7 @@ namespace Lsj.Util.Win32.Structs
         /// bits set in each DWORD mask must be contiguous and should not overlap the bits of another mask.
         /// All the bits in the pixel do not need to be used.
         /// </summary>
-        public ushort biBitCount;
+        public WORD biBitCount;
 
         /// <summary>
         /// The type of compression for a compressed bottom-up bitmap (top-down DIBs cannot be compressed).
@@ -145,18 +146,18 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="biCompression"/> is <see cref="BI_JPEG"/> or <see cref="BI_PNG"/>,
         /// <see cref="biSizeImage"/> indicates the size of the JPEG or PNG image buffer, respectively.
         /// </summary>
-        public uint biSizeImage;
+        public DWORD biSizeImage;
 
         /// <summary>
         /// The horizontal resolution, in pixels-per-meter, of the target device for the bitmap.
         /// An application can use this value to select a bitmap from a resource group that best matches the characteristics of the current device.
         /// </summary>
-        public int biXPelsPerMeter;
+        public LONG biXPelsPerMeter;
 
         /// <summary>
         /// The vertical resolution, in pixels-per-meter, of the target device for the bitmap.
         /// </summary>
-        public int biYPelsPerMeter;
+        public LONG biYPelsPerMeter;
 
         /// <summary>
         /// The number of color indexes in the color table that are actually used by the bitmap.
@@ -171,12 +172,12 @@ namespace Lsj.Util.Win32.Structs
         /// Packed bitmaps are referenced by a single pointer.
         /// Packed bitmaps require that the <see cref="biClrUsed"/> member must be either zero or the actual size of the color table.
         /// </summary>
-        public int biClrUsed;
+        public DWORD biClrUsed;
 
         /// <summary>
         /// The number of color indexes that are required for displaying the bitmap.
         /// If this value is zero, all colors are required.
         /// </summary>
-        public int biClrImportant;
+        public DWORD biClrImportant;
     }
 }

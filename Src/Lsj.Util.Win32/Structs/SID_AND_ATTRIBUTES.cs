@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -25,12 +26,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A pointer to a SID structure.
         /// </summary>
-        public IntPtr Sid;
+        public PSID Sid;
 
         /// <summary>
         /// Specifies attributes of the SID.
         /// This value contains up to 32 one-bit flags. Its meaning depends on the definition and use of the SID.
         /// </summary>
-        public uint Attributes;
+        public DWORD Attributes;
     }
 }

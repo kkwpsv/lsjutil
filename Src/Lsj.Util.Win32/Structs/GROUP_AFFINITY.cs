@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
@@ -17,17 +18,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A bitmap that specifies the affinity for zero or more processors within the specified group.
         /// </summary>
-        public UIntPtr Mask;
+        public KAFFINITY Mask;
 
         /// <summary>
         /// The processor group number.
         /// </summary>
-        public ushort Group;
+        public WORD Group;
 
         /// <summary>
         /// This member is reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U2, SizeConst = 3)]
-        public ushort[] Reserved;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
+        public WORD[] Reserved;
     }
 }

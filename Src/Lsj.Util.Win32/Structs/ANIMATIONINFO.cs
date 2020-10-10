@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.User32;
 
@@ -21,7 +22,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of the structure, in bytes. The caller must set this to <code>sizeof(ANIMATIONINFO)</code>.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
         /// If this member is nonzero, minimize and restore animation is enabled; otherwise it is disabled.

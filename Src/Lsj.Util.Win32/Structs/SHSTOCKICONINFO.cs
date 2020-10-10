@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SHGetStockIconInfoFlags;
@@ -21,12 +22,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of this structure, in bytes.
         /// </summary>
-        public uint cbSize;
+        public DWORD cbSize;
 
         /// <summary>
         /// When <see cref="SHGetStockIconInfo"/> is called with the <see cref="SHGSI_ICON"/> flag, this member receives a handle to the icon.
         /// </summary>
-        public IntPtr hIcon;
+        public HICON hIcon;
 
         /// <summary>
         /// When <see cref="SHGetStockIconInfo"/> is called with the <see cref="SHGSI_SYSICONINDEX"/> flag,

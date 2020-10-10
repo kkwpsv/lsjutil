@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
@@ -93,6 +94,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The control identifier.
         /// </summary>
-        public ushort id;
+        public WORD id;
     }
 }

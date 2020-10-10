@@ -1,12 +1,13 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.Enums.DuplicateHandleOptions;
 using static Lsj.Util.Win32.Enums.FileFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
-using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Ws2_32;
@@ -72,8 +73,7 @@ namespace Lsj.Util.Win32
         /// <see cref="CloseHandle"/> does not close the handle to the registry key, but does not return an error to indicate this failure.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseHandle", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CloseHandle([In]IntPtr hObject);
+        public static extern BOOL CloseHandle([In] HANDLE hObject);
 
         /// <summary>
         /// <para>
@@ -229,8 +229,7 @@ namespace Lsj.Util.Win32
         /// Set <paramref name="dwOptions"/> to <see cref="DUPLICATE_CLOSE_SOURCE"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DuplicateHandle", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DuplicateHandle([In]IntPtr hSourceProcessHandle, [In]IntPtr hSourceHandle, [In]IntPtr hTargetProcessHandle,
-            [Out]out IntPtr lpTargetHandle, [In]uint dwDesiredAccess, [In]bool bInheritHandle, [In]DuplicateHandleOptions dwOptions);
+        public static extern BOOL DuplicateHandle([In] HANDLE hSourceProcessHandle, [In] HANDLE hSourceHandle, [In] HANDLE hTargetProcessHandle,
+            [Out] out HANDLE lpTargetHandle, [In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [In] DuplicateHandleOptions dwOptions);
     }
 }

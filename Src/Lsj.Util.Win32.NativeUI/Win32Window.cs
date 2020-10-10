@@ -40,13 +40,11 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// 
         /// </summary>
-        protected override void CleanUpUnmanagedResources()
+        /// <param name="windowClassName"></param>
+        /// <param name="windowName"></param>
+        public Win32Window(string windowClassName, string windowName) : this(windowClassName, windowName, true)
         {
-            if (_window != NULL)
-            {
-                DestroyWindow(_window);
-                _window = NULL;
-            }
+
         }
 
         /// <summary>
@@ -54,39 +52,58 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         /// <param name="windowClassName"></param>
         /// <param name="windowName"></param>
-        public Win32Window(string windowClassName, string windowName)
+        /// <param name="needRegisterClass"></param>
+        public Win32Window(string windowClassName, string windowName, bool needRegisterClass)
         {
             var hInstance = GetModuleHandle(null);
             _wndProc = WindowProc;
 
-            using var marshal = new StringToIntPtrMarshaler(windowClassName);
-            var wndclass = new WNDCLASSEX
+            if (needRegisterClass)
             {
-                cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
-                style = CS_DBLCLKS,
-                lpfnWndProc = _wndProc,
-                cbClsExtra = 0,
-                cbWndExtra = 0,
-                hInstance = hInstance,
-                hIcon = LoadImage(NULL, (IntPtr)SystemIcons.IDI_APPLICATION, ImageTypes.IMAGE_ICON, 0, 0, LR_SHARED),
-                hCursor = LoadImage(NULL, (IntPtr)SystemCursors.IDC_ARROW, ImageTypes.IMAGE_CURSOR, 0, 0, LR_SHARED),
-                hbrBackground = COLOR_WINDOW,
-                lpszMenuName = IntPtr.Zero,
-                lpszClassName = marshal.GetPtr(),
-            };
-            if (RegisterClassEx(wndclass) != 0)
-            {
-                _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-                    CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
-                if (_window == NULL)
+                using var marshal = new StringToIntPtrMarshaler(windowClassName);
+                var wndclass = new WNDCLASSEX
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
+                    style = CS_DBLCLKS,
+                    lpfnWndProc = _wndProc,
+                    cbClsExtra = 0,
+                    cbWndExtra = 0,
+                    hInstance = hInstance,
+                    hIcon = LoadImage(NULL, (IntPtr)SystemIcons.IDI_APPLICATION, ImageTypes.IMAGE_ICON, 0, 0, LR_SHARED),
+                    hCursor = LoadImage(NULL, (IntPtr)SystemCursors.IDC_ARROW, ImageTypes.IMAGE_CURSOR, 0, 0, LR_SHARED),
+                    hbrBackground = COLOR_WINDOW,
+                    lpszMenuName = IntPtr.Zero,
+                    lpszClassName = marshal.GetPtr(),
+                };
+                if (RegisterClassEx(wndclass) == 0)
                 {
                     throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
             }
-            else
+            _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+                   CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
+            if (_window == NULL)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
+        }
+
+        /// <summary>
+        /// WindowStyles
+        /// </summary>
+        public WindowStyles WindowStyles
+        {
+            get => (WindowStyles)GetWindowLong(_window, GetWindowLongIndexes.GWL_STYLE).SafeToUInt32();
+            set => SetWindowLong(_window, GetWindowLongIndexes.GWL_STYLE, (IntPtr)value);
+        }
+
+        /// <summary>
+        /// WindowStylesEx
+        /// </summary>
+        public WindowStylesEx WindowStylesEx
+        {
+            get => (WindowStylesEx)GetWindowLong(_window, GetWindowLongIndexes.GWL_EXSTYLE).SafeToUInt32();
+            set => SetWindowLong(_window, GetWindowLongIndexes.GWL_EXSTYLE, (IntPtr)value);
         }
 
         /// <summary>
@@ -161,6 +178,18 @@ namespace Lsj.Util.Win32.NativeUI
                 //So we must handle exception here.
                 DestroyWindow(_window);
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected override void CleanUpUnmanagedResources()
+        {
+            if (_window != NULL)
+            {
+                DestroyWindow(_window);
+                _window = NULL;
             }
         }
     }

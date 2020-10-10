@@ -133,8 +133,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint FormatMessage([In] FormatMessageFlags dwFlags, [In] IntPtr lpSource, [In] uint dwMessageId, [In] uint dwLanguageId,
-            [Out] out IntPtr lpBuffer, [In] uint nSize, [In] IntPtr Arguments);
+        public static extern DWORD FormatMessage([In] FormatMessageFlags dwFlags, [In] LPCVOID lpSource, [In] DWORD dwMessageId,
+            [In] DWORD dwLanguageId, [Out] out IntPtr lpBuffer, [In] DWORD nSize, [In] IntPtr Arguments);
 
         /// <summary>
         /// <para>
@@ -211,8 +211,8 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FormatMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint FormatMessage([In] FormatMessageFlags dwFlags, [In] IntPtr lpSource, [In] uint dwMessageId, [In] uint dwLanguageId,
-            [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpBuffer, [In] uint nSize, [In] IntPtr Arguments);
+        public static extern DWORD FormatMessage([In] FormatMessageFlags dwFlags, [In] LPCVOID lpSource, [In] DWORD dwMessageId,
+            [In] DWORD dwLanguageId, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpBuffer, [In] DWORD nSize, [In] IntPtr Arguments);
 
         /// <summary>
         /// <para>
@@ -295,7 +295,7 @@ namespace Lsj.Util.Win32
         /// To change the error mode for the thread, use the <see cref="SetThreadErrorMode"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetThreadErrorMode", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetThreadErrorMode();
+        public static extern ErrorModes GetThreadErrorMode();
 
         /// <summary>
         /// <para>

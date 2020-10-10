@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Structs
         /// The clsid can be retrieved by the source by loading the object and calling the <see cref="IOleObject.GetUserClassID"/> method.
         /// Note that for link objects, this value is not the same as the value returned by the <see cref="IPersist.GetClassID"/> method.
         /// </summary>
-        public Guid clsid;
+        public CLSID clsid;
 
         /// <summary>
         /// The display aspect of the object.

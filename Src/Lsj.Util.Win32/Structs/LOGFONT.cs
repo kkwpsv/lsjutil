@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
@@ -55,7 +56,7 @@ namespace Lsj.Util.Win32.Structs
         /// For the <see cref="MM_TEXT"/> mapping mode, you can use the following formula to specify a height for a font with a specified point size:
         /// <code>lfHeight = -MulDiv(PointSize, GetDeviceCaps(hDC, LOGPIXELSY), 72);</code>
         /// </summary>
-        public int lfHeight;
+        public LONG lfHeight;
 
         /// <summary>
         /// <para>
@@ -64,7 +65,7 @@ namespace Lsj.Util.Win32.Structs
         /// of the available fonts to find the closest match, determined by the absolute value of the difference.
         /// </para>
         /// </summary>
-        public int lfWidth;
+        public LONG lfWidth;
 
         /// <summary>
         /// The angle, in tenths of degrees, between the escapement vector and the x-axis of the device.
@@ -74,12 +75,12 @@ namespace Lsj.Util.Win32.Structs
         /// When the graphics mode is set to <see cref="GM_COMPATIBLE"/>, lfEscapement specifies both the escapement and orientation.
         /// You should set <see cref="lfEscapement"/> and <see cref="lfOrientation"/> to the same value.
         /// </summary>
-        public int lfEscapement;
+        public LONG lfEscapement;
 
         /// <summary>
         /// The angle, in tenths of degrees, between each character's base line and the x-axis of the device.
         /// </summary>
-        public int lfOrientation;
+        public LONG lfOrientation;
 
         /// <summary>
         /// The weight of the font in the range 0 through 1000. For example, 400 is normal and 700 is bold.
@@ -106,20 +107,17 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// An italic font if set to <see langword="true"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool lfItalic;
+        public BYTE lfItalic;
 
         /// <summary>
         /// An underlined font if set to <see langword="true"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool lfUnderline;
+        public BYTE lfUnderline;
 
         /// <summary>
         /// A strikeout font if set to <see langword="true"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool lfStrikeOut;
+        public BYTE lfStrikeOut;
 
         /// <summary>
         /// The character set. The following values are predefined.
@@ -289,7 +287,7 @@ namespace Lsj.Util.Win32.Structs
         /// Fonts with variable stroke width (proportional) and without serifs.
         /// MS Sans Serif is an example.
         /// </summary>
-        public byte lfPitchAndFamily;
+        public BYTE lfPitchAndFamily;
 
         /// <summary>
         /// A null-terminated string that specifies the typeface name of the font.

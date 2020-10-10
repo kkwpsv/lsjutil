@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
@@ -37,7 +38,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The identifier of the combo box, list box, button, or static control. This member is not used for a menu item.
         /// </summary>
-        public uint CtlID;
+        public UINT CtlID;
 
         /// <summary>
         /// The menu item identifier for a menu item or the index of the item in a list box or combo box.
@@ -48,7 +49,7 @@ namespace Lsj.Util.Win32.Structs
         /// How the bits are set in the <see cref="itemAction"/> member determines whether the rectangle is to be drawn
         /// as though the list box or combo box has the focus.
         /// </summary>
-        public uint itemID;
+        public UINT itemID;
 
         /// <summary>
         /// The required drawing action. This member can be one or more of the values.
@@ -70,12 +71,12 @@ namespace Lsj.Util.Win32.Structs
         /// A handle to the control for combo boxes, list boxes, buttons, and static controls.
         /// For menus, this member is a handle to the menu that contains the item.
         /// </summary>
-        public IntPtr hwndItem;
+        public HWND hwndItem;
 
         /// <summary>
         /// A handle to a device context; this device context must be used when performing drawing operations on the control.
         /// </summary>
-        public IntPtr hDC;
+        public HDC hDC;
 
         /// <summary>
         /// A rectangle that defines the boundaries of the control to be drawn.
@@ -99,6 +100,6 @@ namespace Lsj.Util.Win32.Structs
         /// If <see cref="CtlType"/> is <see cref="ODT_BUTTON"/> or
         /// <see cref="ODT_STATIC"/>, <see cref="itemData"/> is zero.
         /// </summary>
-        public UIntPtr itemData;
+        public ULONG_PTR itemData;
     }
 }

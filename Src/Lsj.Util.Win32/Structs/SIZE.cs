@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -16,11 +17,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies the rectangle's width. The units depend on which function uses this structure.
         /// </summary>
-        public int cx;
+        public LONG cx;
 
         /// <summary>
         /// Specifies the rectangle's height. The units depend on which function uses this structure.
         /// </summary>
-        public int cy;
+        public LONG cy;
     }
 }

@@ -17,6 +17,9 @@ namespace Lsj.Util.Win32
         /// Creates or opens a named or unnamed semaphore object.
         /// To specify an access mask for the object, use the <see cref="CreateSemaphoreEx"/> function.
         /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createsemaphorew
+        /// </para>
         /// </summary>
         /// <param name="lpSemaphoreAttributes">
         /// A pointer to a <see cref="SECURITY_ATTRIBUTES"/> structure.
@@ -91,13 +94,16 @@ namespace Lsj.Util.Win32
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateSemaphore([In]in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In]int lInitialCount, [In]int lMaximumCount,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE CreateSemaphore([In] in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In] LONG lInitialCount,
+            [In] LONG lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
         /// Creates or opens a named or unnamed semaphore object.
         /// To specify an access mask for the object, use the <see cref="CreateSemaphoreEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createsemaphoreexw
         /// </para>
         /// </summary>
         /// <param name="lpSemaphoreAttributes">
@@ -174,8 +180,8 @@ namespace Lsj.Util.Win32
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateSemaphoreExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateSemaphoreEx([In]in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In]int lInitialCount, [In]int lMaximumCount,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName, [In]uint dwFlags, [In]uint dwDesiredAccess);
+        public static extern HANDLE CreateSemaphoreEx([In] in SECURITY_ATTRIBUTES lpSemaphoreAttributes, [In] LONG lInitialCount,
+            [In] LONG lMaximumCount, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -220,8 +226,8 @@ namespace Lsj.Util.Win32
         /// The semaphore object is destroyed when its last handle has been closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenSemaphoreW", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE OpenSemaphore([In]ACCESS_MASK dwDesiredAccess, [In]BOOL bInheritHandle,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern HANDLE OpenSemaphore([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -274,6 +280,6 @@ namespace Lsj.Util.Win32
         /// <see cref="WaitForSingleObject"/> was called in the loop.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReleaseSemaphore", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReleaseSemaphore([In]HANDLE hSemaphore, [In]LONG lReleaseCount, [Out]out LONG lpPreviousCount);
+        public static extern BOOL ReleaseSemaphore([In] HANDLE hSemaphore, [In] LONG lReleaseCount, [Out] out LONG lpPreviousCount);
     }
 }

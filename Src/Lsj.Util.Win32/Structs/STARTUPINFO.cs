@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -13,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies the window station, desktop, standard handles, and appearance of the main window for a process at creation time.
     /// </para>
     /// <para>
-    /// From : https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-startupinfoexw
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow
     /// </para>
     /// </summary>
     /// <remarks>
@@ -45,7 +46,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of the structure, in bytes.
         /// </summary>
-        public uint cb;
+        public DWORD cb;
 
         /// <summary>
         /// Reserved; must be <see cref="IntPtr.Zero"/>.
@@ -63,7 +64,7 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="string"/> value of <see cref="lpDesktop"/>,
         /// which cannot be declared as <see cref="string"/> ,or lead to heap memory corruption.
         /// </summary>
-        public unsafe string lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
+        public string lpDesktopString => Marshal.PtrToStringUni(lpDesktop);
 
         /// <summary>
         /// For console processes, this is the title displayed in the title bar if a new console window is created.
@@ -85,7 +86,7 @@ namespace Lsj.Util.Win32.Structs
         /// the specified position is used the first time the new process calls <see cref="CreateWindow"/> to create an overlapped window
         /// if the x parameter of <see cref="CreateWindow"/> is <see cref="CW_USEDEFAULT"/>.
         /// </summary>
-        public uint dwX;
+        public DWORD dwX;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEPOSITION"/>,
@@ -94,7 +95,7 @@ namespace Lsj.Util.Win32.Structs
         /// For GUI processes, the specified position is used the first time the new process calls <see cref="CreateWindow"/> to create an overlapped window
         /// if the y parameter of <see cref="CreateWindow"/> is <see cref="CW_USEDEFAULT"/>.
         /// </summary>
-        public uint dwY;
+        public DWORD dwY;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USESIZE"/>,
@@ -102,7 +103,7 @@ namespace Lsj.Util.Win32.Structs
         /// For GUI processes, this is used only the first time the new process calls <see cref="CreateWindow"/> to create an overlapped window
         /// if the nWidth parameter of <see cref="CreateWindow"/> is <see cref="CW_USEDEFAULT"/>.
         /// </summary>
-        public uint dwXSize;
+        public DWORD dwXSize;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USESIZE"/>,
@@ -110,21 +111,21 @@ namespace Lsj.Util.Win32.Structs
         /// For GUI processes, this is used only the first time the new process calls <see cref="CreateWindow"/> to create an overlapped window
         /// if the nHeight parameter of <see cref="CreateWindow"/> is <see cref="CW_USEDEFAULT"/>.
         /// </summary>
-        public uint dwYSize;
+        public DWORD dwYSize;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USECOUNTCHARS"/>,
         /// if a new console window is created in a console process,
         /// this member specifies the screen buffer width, in character columns. Otherwise, this member is ignored.
         /// </summary>
-        public uint dwXCountChars;
+        public DWORD dwXCountChars;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USECOUNTCHARS"/>,
         /// if a new console window is created in a console process,
         /// this member specifies the screen buffer height, in character rows. Otherwise, this member is ignored.
         /// </summary>
-        public uint dwYCountChars;
+        public DWORD dwYCountChars;
 
         /// <summary>
         /// If <see cref="dwFlags"/> specifies <see cref="STARTUPINFOFlags.STARTF_USEFILLATTRIBUTE"/>,
@@ -138,7 +139,7 @@ namespace Lsj.Util.Win32.Structs
         /// For example, the following combination of values produces red text on a white background:
         /// <code>FOREGROUND_RED| BACKGROUND_RED| BACKGROUND_GREEN| BACKGROUND_BLUE</code>
         /// </summary>
-        public uint dwFillAttribute;
+        public DWORD dwFillAttribute;
 
         /// <summary>
         /// A bitfield that determines whether certain <see cref="STARTUPINFO"/> members are used when the process creates a window.
@@ -154,12 +155,12 @@ namespace Lsj.Util.Win32.Structs
         /// In subsequent calls to <see cref="ShowWindow"/>, the <see cref="wShowWindow"/> member is used
         /// if the nCmdShow parameter of <see cref="ShowWindow"/> is set to <see cref="ShowWindowCommands.SW_SHOWDEFAULT"/>.
         /// </summary>
-        public ushort wShowWindow;
+        public WORD wShowWindow;
 
         /// <summary>
         /// Reserved for use by the C Run-time; must be zero.
         /// </summary>
-        public ushort cbReserved2;
+        public WORD cbReserved2;
 
         /// <summary>
         /// Reserved for use by the C Run-time; must be <see cref="IntPtr.Zero"/>.
@@ -178,7 +179,7 @@ namespace Lsj.Util.Win32.Structs
         /// For more information, see CreateWindowEx.
         /// Otherwise, this member is ignored.
         /// </summary>
-        public IntPtr hStdInput;
+        public HANDLE hStdInput;
 
         /// <summary>
         /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>, this member is the standard output handle for the process.
@@ -187,12 +188,12 @@ namespace Lsj.Util.Win32.Structs
         /// the system sets <see cref="hStdOutput"/> to a handle to the monitor that contains the taskbar or jump list used to launch the process.
         /// For more information, see Remarks. This behavior was introduced in Windows 8 and Windows Server 2012.
         /// </summary>
-        public IntPtr hStdOutput;
+        public HANDLE hStdOutput;
 
         /// <summary>
         /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/>, this member is the standard error handle for the process.
         /// Otherwise, this member is ignored and the default for standard error is the console window's buffer.
         /// </summary>
-        public IntPtr hStdError;
+        public HANDLE hStdError;
     }
 }

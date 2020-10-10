@@ -54,8 +54,7 @@ namespace Lsj.Util.Win32
         /// and all completion notifications for the I/O operations occur normally.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIo", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CancelIo([In] IntPtr hFile);
+        public static extern BOOL CancelIo([In] HANDLE hFile);
 
         /// <summary>
         /// <para>
@@ -110,8 +109,7 @@ namespace Lsj.Util.Win32
         /// The operation failed with another error. The <see cref="GetLastError"/> function returns the relevant error code.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelIoEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CancelIoEx([In] IntPtr hFile, [In][Out] ref OVERLAPPED lpOverlapped);
+        public static extern BOOL CancelIoEx([In] HANDLE hFile, [In] in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -158,6 +156,9 @@ namespace Lsj.Util.Win32
         /// The term file handle as used here refers to a system abstraction that represents an overlapped I/O endpoint, not only a file on disk.
         /// Any system objects that support overlapped I/O—such as network endpoints, TCP sockets, named pipes, and mail slots—can be used as file handles.
         /// For additional information, see the Remarks section.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ioapiset/nf-ioapiset-createiocompletionport
         /// </para>
         /// </summary>
         /// <param name="FileHandle">
@@ -241,8 +242,8 @@ namespace Lsj.Util.Win32
         /// After these conditions are satisfied, close the I/O completion port handle by calling the <see cref="CloseHandle"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateIoCompletionPort", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateIoCompletionPort([In] IntPtr FileHandle, [In] IntPtr ExistingCompletionPort, [In] UIntPtr CompletionKey,
-            [In] uint NumberOfConcurrentThreads);
+        public static extern HANDLE CreateIoCompletionPort([In] HANDLE FileHandle, [In] HANDLE ExistingCompletionPort, [In] ULONG_PTR CompletionKey,
+            [In] DWORD NumberOfConcurrentThreads);
 
         /// <summary>
         /// <para>
@@ -423,8 +424,8 @@ namespace Lsj.Util.Win32
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResult", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetOverlappedResult([In] IntPtr hFile, [In] IntPtr lpOverlapped, [Out] out uint lpNumberOfBytesTransferred, [In] bool bWait);
+        public static extern BOOL GetOverlappedResult([In] HANDLE hFile, [In] in OVERLAPPED lpOverlapped,
+            [Out] out DWORD lpNumberOfBytesTransferred, [In] BOOL bWait);
 
         /// <summary>
         /// <para>
@@ -511,9 +512,8 @@ namespace Lsj.Util.Win32
         /// In this situation, there is no way to know which operation caused the object's state to be signaled.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOverlappedResultEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetOverlappedResultEx([In] IntPtr hFile, [In] IntPtr lpOverlapped, [Out] out uint lpNumberOfBytesTransferred,
-            [In] uint dwMilliseconds, [In] bool bAlertable);
+        public static extern BOOL GetOverlappedResultEx([In] HANDLE hFile, [In] in OVERLAPPED lpOverlapped,
+            [Out] out DWORD lpNumberOfBytesTransferred, [In] DWORD dwMilliseconds, [In] BOOL bAlertable);
 
         /// <summary>
         /// <para>
@@ -582,9 +582,8 @@ namespace Lsj.Util.Win32
         /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatus", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetQueuedCompletionStatus([In] IntPtr CompletionPort, [Out] out int lpNumberOfBytesTransferred,
-            [Out] out UIntPtr lpCompletionKey, [Out] out IntPtr lpOverlapped, [In] uint dwMilliseconds);
+        public static extern BOOL GetQueuedCompletionStatus([In] HANDLE CompletionPort, [Out] out DWORD lpNumberOfBytesTransferred,
+            [Out] out ULONG_PTR lpCompletionKey, [Out] out IntPtr lpOverlapped, [In] DWORD dwMilliseconds);
 
         /// <summary>
         /// <para>
@@ -651,9 +650,9 @@ namespace Lsj.Util.Win32
         /// For more information on I/O completion port theory, usage, and associated functions, see I/O Completion Ports.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueuedCompletionStatusEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetQueuedCompletionStatusEx([In] IntPtr CompletionPort, [In] IntPtr lpCompletionPortEntries, [In] uint ulCount,
-            [Out] out uint ulNumEntriesRemoved, [In] uint dwMilliseconds, [In] bool fAlertable);
+        public static extern BOOL GetQueuedCompletionStatusEx([In] HANDLE CompletionPort,
+            [MarshalAs(UnmanagedType.LPArray)][In][Out] OVERLAPPED_ENTRY[] lpCompletionPortEntries, [In] ULONG ulCount,
+            [Out] out ULONG ulNumEntriesRemoved, [In] DWORD dwMilliseconds, [In] BOOL fAlertable);
 
         /// <summary>
         /// <para>

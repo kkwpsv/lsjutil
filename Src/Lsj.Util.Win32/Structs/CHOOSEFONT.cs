@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,13 +26,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The length of the structure, in bytes.
         /// </summary>
-        public uint lStructSize;
+        public DWORD lStructSize;
 
         /// <summary>
         /// A handle to the window that owns the dialog box.
         /// This member can be any valid window handle, or it can be <see cref="IntPtr.Zero"/> if the dialog box has no owner.
         /// </summary>
-        public IntPtr hwndOwner;
+        public HWND hwndOwner;
 
         /// <summary>
         /// This member is ignored by the <see cref="ChooseFont"/> function.
@@ -40,7 +41,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is used only if the <see cref="Flags"/> member specifies the <see cref="CF_PRINTERFONTS"/> or <see cref="CF_BOTH"/> flag;
         /// otherwise, this member is ignored.
         /// </summary>
-        public IntPtr hDC;
+        public HDC hDC;
 
         /// <summary>
         /// A pointer to a <see cref="LOGFONT"/> structure.
@@ -54,7 +55,7 @@ namespace Lsj.Util.Win32.Structs
         /// The size of the selected font, in units of 1/10 of a point.
         /// The <see cref="ChooseFont"/> function sets this value after the user closes the dialog box.
         /// </summary>
-        public int iPointSize;
+        public INT iPointSize;
 
         /// <summary>
         /// A set of bit flags that you can use to initialize the Font dialog box.
@@ -76,7 +77,7 @@ namespace Lsj.Util.Win32.Structs
         /// When <see cref="ChooseFont"/> returns successfully, this member contains the RGB value of the text color that the user selected.
         /// To create a COLORREF color value, use the <see cref="RGB"/> macro.
         /// </summary>
-        public uint rgbColors;
+        public COLORREF rgbColors;
 
         /// <summary>
         /// Application-defined data that the system passes to the hook procedure identified by the <see cref="lpfnHook"/> member.
@@ -84,7 +85,7 @@ namespace Lsj.Util.Win32.Structs
         /// the message's lParam parameter is a pointer to the <see cref="CHOOSEFONT"/> structure specified when the dialog was created.
         /// The hook procedure can use this pointer to get the <see cref="lCustData"/> value.
         /// </summary>
-        public IntPtr lCustData;
+        public LPARAM lCustData;
 
         /// <summary>
         /// A pointer to a <see cref="LPCFHOOKPROC"/> hook procedure that can process messages intended for the dialog box.
@@ -107,7 +108,7 @@ namespace Lsj.Util.Win32.Structs
         /// named by the <see cref="lpTemplateName"/> member.
         /// If neither <see cref="CF_ENABLETEMPLATEHANDLE"/> nor <see cref="CF_ENABLETEMPLATE"/> is set, this member is ignored.
         /// </summary>
-        public IntPtr hInstance;
+        public HINSTANCE hInstance;
 
         /// <summary>
         /// The style data.
@@ -129,12 +130,12 @@ namespace Lsj.Util.Win32.Structs
         /// The minimum point size a user can select.
         /// <see cref="ChooseFont"/> recognizes this member only if the <see cref="CF_LIMITSIZE"/> flag is specified.
         /// </summary>
-        public int nSizeMin;
+        public INT nSizeMin;
 
         /// <summary>
         /// The maximum point size a user can select.
         /// <see cref="ChooseFont"/> recognizes this member only if the <see cref="CF_LIMITSIZE"/> flag is specified.
         /// </summary>
-        public int nSizeMax;
+        public INT nSizeMax;
     }
 }

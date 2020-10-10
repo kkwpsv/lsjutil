@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32
         /// However, the thread must be in an alertable state.
         /// For more information, see Asynchronous Procedure Calls.
         /// </remarks>
-        public delegate void PTIMERAPCROUTINE([In]IntPtr lpArgToCompletionRoutine, [In]uint dwTimerLowValue, [In]uint dwTimerHighValue);
+        public delegate void PTIMERAPCROUTINE([In] LPVOID lpArgToCompletionRoutine, [In] DWORD dwTimerLowValue, [In] DWORD dwTimerHighValue);
 
         /// <summary>
         /// <para>
@@ -68,13 +68,15 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelWaitableTimer", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CancelWaitableTimer([In]IntPtr hTimer);
+        public static extern BOOL CancelWaitableTimer([In] HANDLE hTimer);
 
         /// <summary>
         /// <para>
         /// Creates or opens a waitable timer object.
         /// To specify an access mask for the object, use the <see cref="CreateWaitableTimerEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerw
         /// </para>
         /// </summary>
         /// <param name="lpTimerAttributes">
@@ -132,8 +134,8 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateWaitableTimer([In]in SECURITY_ATTRIBUTES lpTimerAttributes, [In]BOOL bManualReset,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName);
+        public static extern HANDLE CreateWaitableTimer([In] in SECURITY_ATTRIBUTES lpTimerAttributes, [In] BOOL bManualReset,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName);
 
         /// <summary>
         /// <para>
@@ -151,7 +153,7 @@ namespace Lsj.Util.Win32
         /// The ACLs in the default security descriptor for a timer come from the primary or impersonation token of the creator.
         /// </param>
         /// <param name="lpTimerName">
-        /// The name of the timer object. The name is limited to MAX_PATH characters. Name comparison is case sensitive.
+        /// The name of the timer object. The name is limited to <see cref="MAX_PATH"/> characters. Name comparison is case sensitive.
         /// If <param ref="lpTimerName"/> is <see langword="null"/>, the timer object is created without a name.
         /// If <param ref="lpTimerName"/> matches the name of an existing event, semaphore, mutex, job, or file-mapping object,
         /// the function fails and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_HANDLE"/>.
@@ -195,8 +197,8 @@ namespace Lsj.Util.Win32
         /// To associate a timer with a window, use the <see cref="SetTimer"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateWaitableTimerExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateWaitableTimerEx([In]in SECURITY_ATTRIBUTES lpTimerAttributes, [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName,
-            [In]IntPtr dwFlags, [In]uint dwDesiredAccess);
+        public static extern HANDLE CreateWaitableTimerEx([In] in SECURITY_ATTRIBUTES lpTimerAttributes,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName, [In] DWORD dwFlags, [In] ACCESS_MASK dwDesiredAccess);
 
         /// <summary>
         /// <para>
@@ -245,8 +247,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr OpenWaitableTimer([In]uint dwDesiredAccess, [In]bool bInheritHandle,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string lpTimerName);
+        public static extern HANDLE OpenWaitableTimer([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpTimerName);
 
         /// <summary>
         /// <para>
@@ -338,9 +340,8 @@ namespace Lsj.Util.Win32
         /// How precise you can change the resolution depends on which hardware clock the particular API uses.
         /// For more information, check your hardware documentation.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenWaitableTimerW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetWaitableTimer([In]IntPtr hTimer, [In]in LARGE_INTEGER lpDueTime, [In]int lPeriod,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In]PTIMERAPCROUTINE pfnCompletionRoutine, [In]IntPtr lpArgToCompletionRoutine, [In]bool fResume);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimer", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetWaitableTimer([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
+            [MarshalAs(UnmanagedType.FunctionPtr)][In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] BOOL fResume);
     }
 }

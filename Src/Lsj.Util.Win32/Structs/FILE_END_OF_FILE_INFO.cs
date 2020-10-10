@@ -10,6 +10,9 @@ namespace Lsj.Util.Win32.Structs
     /// Used for file handles.
     /// Use only when calling <see cref="SetFileInformationByHandle"/>.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_end_of_file_info
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_END_OF_FILE_INFO

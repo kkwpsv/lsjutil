@@ -10,6 +10,9 @@ namespace Lsj.Util.Win32.Structs
     /// Used for any handles.
     /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_compression_info
+    /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct FILE_COMPRESSION_INFO
@@ -22,27 +25,27 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The compression format that is used to compress the file.
         /// </summary>
-        public ushort CompressionFormat;
+        public WORD CompressionFormat;
 
         /// <summary>
         /// The factor that the compression uses.
         /// </summary>
-        public byte CompressionUnitShift;
+        public UCHAR CompressionUnitShift;
 
         /// <summary>
         /// The number of chunks that are shifted by compression.
         /// </summary>
-        public byte ChunkShift;
+        public UCHAR ChunkShift;
 
         /// <summary>
         /// The number of clusters that are shifted by compression.
         /// </summary>
-        public byte ClusterShift;
+        public UCHAR ClusterShift;
 
         /// <summary>
         /// Reserved.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 3)]
-        public byte[] Reserved;
+        public UCHAR[] Reserved;
     }
 }

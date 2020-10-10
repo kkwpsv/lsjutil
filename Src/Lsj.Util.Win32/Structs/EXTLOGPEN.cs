@@ -14,12 +14,12 @@ namespace Lsj.Util.Win32.Structs
 {
     /// <summary>
     /// <para>
-    /// The EXTLOGPEN structure defines the pen style, width, and brush attributes for an extended pen.
+    /// The <see cref="EXTLOGPEN"/> structure defines the pen style, width, and brush attributes for an extended pen.
     /// This structure is used by the <see cref="GetObject"/> function when it retrieves a description of a pen that was create
     /// when an application called the <see cref="ExtCreatePen"/> function.
     /// </para>
     /// <para>
-    /// From: 
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-extlogpen
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32.Structs
         /// If elpWidth specifies geometric lines, the lengths are in logical units.
         /// Otherwise, the lines are cosmetic and lengths are in device units.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValArray)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1)]
         public DWORD[] elpStyleEntry;
     }
 }

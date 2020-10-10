@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// Setting a higher resolution does not improve the accuracy of the high-resolution performance counter.
         /// </remarks>
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeBeginPeriod", ExactSpelling = true, SetLastError = true)]
-        public static extern MMRESULT timeBeginPeriod([In]UINT uPeriod);
+        public static extern MMRESULT timeBeginPeriod([In] UINT uPeriod);
 
         /// <summary>
         /// <para>
@@ -63,7 +63,7 @@ namespace Lsj.Util.Win32
         /// An application can make multiple <see cref="timeBeginPeriod"/> calls as long as each call is matched with a call to <see cref="timeEndPeriod"/>.
         /// </remarks>
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeEndPeriod", ExactSpelling = true, SetLastError = true)]
-        public static extern MMRESULT timeEndPeriod([In]UINT uPeriod);
+        public static extern MMRESULT timeEndPeriod([In] UINT uPeriod);
 #pragma warning restore IDE1006
     }
 }

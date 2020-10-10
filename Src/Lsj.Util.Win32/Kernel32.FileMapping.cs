@@ -238,8 +238,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMapping([In] IntPtr hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] uint flProtect,
-            [In] uint dwMaximumSizeHigh, [In] uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE CreateFileMapping([In] HANDLE hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] DWORD flProtect,
+            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -464,8 +464,8 @@ namespace Lsj.Util.Win32
         /// or <see cref="FILE_MAP_EXECUTE"/> | <see cref="FILE_MAP_READ"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileMappingNumaW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileMappingNuma([In] IntPtr hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] uint flProtect,
-            [In] uint dwMaximumSizeHigh, [In] uint dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] uint nndPreferred);
+        public static extern HANDLE CreateFileMappingNuma([In] HANDLE hFile, [In] in SECURITY_ATTRIBUTES lpFileMappingAttributes, [In] DWORD flProtect,
+            [In] DWORD dwMaximumSizeHigh, [In] DWORD dwMaximumSizeLow, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD nndPreferred);
 
         /// <summary>
         /// <para>

@@ -61,7 +61,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CheckDlgButton"/> function sends a <see cref="BM_SETCHECK"/> message to the specified button control in the specified dialog box.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckDlgButton", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckDlgButton([In]HWND hDlg, [In]int nIDButton, [In]ButtonStates uCheck);
+        public static extern BOOL CheckDlgButton([In] HWND hDlg, [In] int nIDButton, [In] ButtonStates uCheck);
 
         /// <summary>
         /// <para>
@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32
         /// but has an ID outside the specified range,it is not affected by this call.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CheckRadioButton", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CheckRadioButton([In]HWND hDlg, [In]int nIDFirstButton, [In]int nIDLastButton, [In]int nIDCheckButton);
+        public static extern BOOL CheckRadioButton([In] HWND hDlg, [In] int nIDFirstButton, [In] int nIDLastButton, [In] int nIDCheckButton);
 
         /// <summary>
         /// <para>
@@ -137,7 +137,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnableScrollBar", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnableScrollBar([In]HWND hWnd, [In]ScrollBarConstants wSBflags, [In]EnableScrollBarFlags wArrows);
+        public static extern BOOL EnableScrollBar([In] HWND hWnd, [In] ScrollBarConstants wSBflags, [In] EnableScrollBarFlags wArrows);
 
         /// <summary>
         /// <para>
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// If the window does not handle the <see cref="SBM_GETSCROLLINFO"/> message, the <see cref="GetScrollInfo"/> function fails.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetScrollInfo([In]HWND hwnd, [In]ScrollBarConstants nBar, [In][Out]ref SCROLLINFO lpsi);
+        public static extern BOOL GetScrollInfo([In] HWND hwnd, [In] ScrollBarConstants nBar, [In][Out] ref SCROLLINFO lpsi);
 
         /// <summary>
         /// <para>
@@ -273,7 +273,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetScrollPos function is provided for backward compatibility. New applications should use the GetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollPos", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetScrollPos([In]HWND hWnd, [In]ScrollBarConstants nBar);
+        public static extern int GetScrollPos([In] HWND hWnd, [In] ScrollBarConstants nBar);
 
         /// <summary>
         /// <para>
@@ -323,7 +323,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetScrollRange function is provided for compatibility only. New applications should use the GetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetScrollRange", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetScrollRange([In]HWND hWnd, [In]ScrollBarConstants nBar, [Out]out int lpMinPos, [Out]out int lpMaxPos);
+        public static extern BOOL GetScrollRange([In] HWND hWnd, [In] ScrollBarConstants nBar, [Out] out INT lpMinPos, [Out] out INT lpMaxPos);
 
         /// <summary>
         /// <para>
@@ -355,7 +355,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="IsDlgButtonChecked"/> function sends a <see cref="BM_GETCHECK"/> message to the specified button control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsDlgButtonChecked", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT IsDlgButtonChecked([In]HWND hDlg, [In]int nIDButton);
+        public static extern UINT IsDlgButtonChecked([In] HWND hDlg, [In] int nIDButton);
 
         /// <summary>
         /// <para>
@@ -411,8 +411,8 @@ namespace Lsj.Util.Win32
         /// When you must scroll the entire client area of a window, use the <see cref="ScrollWindowEx"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollDC", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScrollDC([In]HDC hDC, [In]int dx, [In]int dy, [In]in RECT lprcScroll, [In]in RECT lprcClip,
-            [In]HRGN hrgnUpdate, [Out]out RECT lprcUpdate);
+        public static extern BOOL ScrollDC([In] HDC hDC, [In] int dx, [In] int dy, [In] in RECT lprcScroll, [In] in RECT lprcClip,
+            [In] HRGN hrgnUpdate, [Out] out RECT lprcUpdate);
 
         /// <summary>
         /// <para>
@@ -472,7 +472,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The ScrollWindow function is provided for backward compatibility. New applications should use the ScrollWindowEx function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "BeginPaint", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ScrollWindow([In]HWND hWnd, [In]int XAmount, [In]int YAmount, [In]in RECT lpRect, [In]in RECT lpClipRect);
+        public static extern BOOL ScrollWindow([In] HWND hWnd, [In] int XAmount, [In] int YAmount, [In] in RECT lpRect, [In] in RECT lpClipRect);
 
         /// <summary>
         /// <para>
@@ -543,8 +543,8 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="LPtoDP"/> and <see cref="DPtoLP"/> functions to convert to and from logical coordinates, if necessary.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
-        public static extern RegionFlags ScrollWindowEx([In]HWND hWnd, [In]int dx, [In]int dy, [In]in RECT prcScroll, [In]in RECT prcClip,
-            [In]HRGN hrgnUpdate, [Out]out RECT prcUpdate, [In]ScrollWindowExFlags flags);
+        public static extern RegionFlags ScrollWindowEx([In] HWND hWnd, [In] int dx, [In] int dy, [In] in RECT prcScroll, [In] in RECT prcClip,
+            [In] HRGN hrgnUpdate, [Out] out RECT prcUpdate, [In] ScrollWindowExFlags flags);
 
         /// <summary>
         /// <para>
@@ -608,7 +608,7 @@ namespace Lsj.Util.Win32
         /// or <see cref="SBM_SETRANGE"/> message), then the <see cref="SetScrollInfo"/> function fails.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ScrollWindowEx", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetScrollInfo([In]HWND hwnd, [In]ScrollBarConstants nBar, [In]in SCROLLINFO lpsi, [In]BOOL redraw);
+        public static extern int SetScrollInfo([In] HWND hwnd, [In] ScrollBarConstants nBar, [In] in SCROLLINFO lpsi, [In] BOOL redraw);
 
         /// <summary>
         /// <para>
@@ -665,7 +665,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The SetScrollPos function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollPos", ExactSpelling = true, SetLastError = true)]
-        public static extern int SetScrollPos([In]HWND hWnd, [In]int nBar, [In]int nPos, [In]BOOL bRedraw);
+        public static extern int SetScrollPos([In] HWND hWnd, [In] int nBar, [In] int nPos, [In] BOOL bRedraw);
 
         /// <summary>
         /// <para>
@@ -729,7 +729,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The SetScrollRange function is provided for backward compatibility. New applications should use the SetScrollInfo function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetScrollRange", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetScrollRange([In]HWND hWnd, [In]int nBar, [In]int nMinPos, [In]int nMaxPos, [In]BOOL bRedraw);
+        public static extern BOOL SetScrollRange([In] HWND hWnd, [In] int nBar, [In] int nMinPos, [In] int nMaxPos, [In] BOOL bRedraw);
 
         /// <summary>
         /// <para>
@@ -767,6 +767,6 @@ namespace Lsj.Util.Win32
         /// You should not call this function to hide a scroll bar while processing a scroll bar message.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ShowScrollBar", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ShowScrollBar([In]HWND hWnd, [In]int wBar, [In]BOOL bShow);
+        public static extern BOOL ShowScrollBar([In] HWND hWnd, [In] int wBar, [In] BOOL bShow);
     }
 }

@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
         /// </para>
         /// </summary>
-        public static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        public static readonly HWND HWND_NOTOPMOST = new IntPtr(-2);
 
         /// <summary>
         /// <para>
@@ -67,7 +67,7 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
         /// </para>
         /// </summary>
-        public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+        public static readonly HWND HWND_TOPMOST = new IntPtr(-1);
 
         /// <summary>
         /// <para>
@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
         /// </para>
         /// </summary>
-        public static readonly IntPtr HWND_TOP = new IntPtr(0);
+        public static readonly HWND HWND_TOP = new IntPtr(0);
 
         /// <summary>
         /// <para>
@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
         /// </para>
         /// </summary>
-        public static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+        public static readonly HWND HWND_BOTTOM = new IntPtr(1);
 
 
         /// <summary>
@@ -349,8 +349,7 @@ namespace Lsj.Util.Win32
         /// or the next time a process calls <see cref="AllowSetForegroundWindow"/>, unless that process is specified.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllowSetForegroundWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AllowSetForegroundWindow([In] uint dwProcessId);
+        public static extern BOOL AllowSetForegroundWindow([In] DWORD dwProcessId);
 
         /// <summary>
         /// <para>
@@ -402,8 +401,7 @@ namespace Lsj.Util.Win32
         /// Avoid animating a window that has a drop shadow because it produces visually distracting, jerky animations.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "AnimateWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AnimateWindow([In] IntPtr hWnd, [In] uint dwTime, [In] AnimateWindowFlags dwFlags);
+        public static extern BOOL AnimateWindow([In] HWND hWnd, [In] DWORD dwTime, [In] AnimateWindowFlags dwFlags);
 
         /// <summary>
         /// <para>
@@ -1533,7 +1531,7 @@ namespace Lsj.Util.Win32
         /// When an application calls this function, the function checks whether a context menu is being displayed that the application created.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindWindowExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindWindowEx([In] IntPtr hWndParent, [In] IntPtr hWndChildAfter, [In] StringHandle lpszClass,
+        public static extern HWND FindWindowEx([In] HWND hWndParent, [In] HWND hWndChildAfter, [In] StringHandle lpszClass,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpszWindow);
 
         /// <summary>
@@ -1685,8 +1683,7 @@ namespace Lsj.Util.Win32
         /// not the <see cref="GlobalAddAtom"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClassInfoExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetClassInfoEx([In] IntPtr hInstance, [In] StringHandle lpszClass, out WNDCLASSEX lpWndClass);
+        public static extern BOOL GetClassInfoEx([In] HINSTANCE hInstance, [In] StringHandle lpszClass, out WNDCLASSEX lpWndClass);
 
         /// <summary>
         /// <para>
@@ -2061,14 +2058,14 @@ namespace Lsj.Util.Win32
         /// If <see cref="SetWindowLong"/> has not been called previously,
         /// <see cref="GetWindowLong"/> returns zero for values in the extra window or class memory.
         /// </returns>   
-        public static IntPtr GetWindowLong([In] IntPtr hWnd, [In] GetWindowLongIndexes nIndex) =>
-            IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : GetWindowLongImp(hWnd, nIndex);
+        public static LONG_PTR GetWindowLong([In] HWND hWnd, [In] GetWindowLongIndexes nIndex) =>
+            IntPtr.Size > 4 ? GetWindowLongPtrImp(hWnd, nIndex) : (LONG_PTR)(IntPtr)(int)GetWindowLongImp(hWnd, nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr GetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+        private static extern LONG GetWindowLongImp(HWND hWnd, GetWindowLongIndexes nIndex);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowLongPtrW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr GetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex);
+        private static extern LONG_PTR GetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex);
 
         /// <summary>
         /// Retrieves the show state and the restored, minimized, and maximized positions of the specified window.
@@ -2105,7 +2102,7 @@ namespace Lsj.Util.Win32
         /// </param>
         /// <returns>The return value is the identifier of the thread that created the window.</returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, [Out] out uint lpdwProcessId);
+        public static extern DWORD GetWindowThreadProcessId([In] HWND hWnd, [Out] out DWORD lpdwProcessId);
 
         /// <summary>
         /// <para>
@@ -3032,14 +3029,14 @@ namespace Lsj.Util.Win32
         /// To deal with this, you should clear the last error information by calling SetLastError with 0 before calling <see cref="SetWindowLong"/>.
         /// Then, function failure will be indicated by a return value of zero and a <see cref="GetLastError"/> result that is nonzero.
         /// </returns>
-        public static IntPtr SetWindowLong([In] IntPtr hWnd, [In] GetWindowLongIndexes nIndex, [In] IntPtr dwNewLong)
-            => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : SetWindowLongImp(hWnd, nIndex, dwNewLong);
+        public static LONG_PTR SetWindowLong([In] HWND hWnd, [In] GetWindowLongIndexes nIndex, [In] LONG_PTR dwNewLong)
+            => IntPtr.Size > 4 ? SetWindowLongPtrImp(hWnd, nIndex, dwNewLong) : (LONG_PTR)(IntPtr)(int)SetWindowLongImp(hWnd, nIndex, ((IntPtr)dwNewLong).SafeToInt32());
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr SetWindowLongImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+        private static extern LONG SetWindowLongImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG dwNewLong);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWindowLongPtrW", ExactSpelling = true, SetLastError = true)]
-        private static extern IntPtr SetWindowLongPtrImp(IntPtr hWnd, GetWindowLongIndexes nIndex, IntPtr dwNewLong);
+        private static extern LONG_PTR SetWindowLongPtrImp(HWND hWnd, GetWindowLongIndexes nIndex, LONG_PTR dwNewLong);
 
         /// <summary>
         /// Sets the show state and the restored, minimized, and maximized positions of the specified window.
@@ -3356,9 +3353,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateLayeredWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UpdateLayeredWindow([In] IntPtr hwnd, [In] IntPtr hdcDst, [In] ref POINT pptDst, [In] ref SIZE psize,
-            [In] IntPtr hdcSrc, [In] ref POINT pptSrc, [In] uint crKey, [In] ref BLENDFUNCTION pblend, [In] UpdateLayeredWindowFlags dwFlags);
+        public static extern BOOL UpdateLayeredWindow([In] HWND hwnd, [In] HDC hdcDst, [In] in POINT pptDst, [In] in SIZE psize,
+            [In] HDC hdcSrc, [In] in POINT pptSrc, [In] COLORREF crKey, [In] in BLENDFUNCTION pblend, [In] UpdateLayeredWindowFlags dwFlags);
 
         /// <summary>
         /// <para>

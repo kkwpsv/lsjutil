@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-postmessagew
         /// </para>
         /// </summary>
-        public static readonly IntPtr HWND_BROADCAST = new IntPtr(0xFFFF);
+        public static readonly HWND HWND_BROADCAST = new IntPtr(0xFFFF);
 
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32
         /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/>
         /// calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
         /// </remarks>
-        public delegate void SENDASYNCPROC([In]HWND Arg1, [In]WindowsMessages Arg2, [In]ULONG_PTR Arg3, [In]LRESULT Arg4);
+        public delegate void SENDASYNCPROC([In] HWND Arg1, [In] WindowsMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
 
         /// <summary>
         /// <para>
@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32
         /// Install this hook procedure by using the <see cref="SetWindowsHookEx"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallMsgFilterW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CallMsgFilter([In][Out]ref MSG lpMsg, [In]int nCode);
+        public static extern BOOL CallMsgFilter([In][Out] ref MSG lpMsg, [In] int nCode);
 
         /// <summary>
         /// <para>
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Dialog Box Keyboard Interface.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DispatchMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT DispatchMessage([In]in MSG lpmsg);
+        public static extern LRESULT DispatchMessage([In] in MSG lpmsg);
 
         /// <summary>
         /// <para>
@@ -164,7 +164,7 @@ namespace Lsj.Util.Win32
         /// <code>fBlocked = ( InSendMessageEx(NULL) &amp; (ISMEX_REPLIED|ISMEX_SEND) ) == ISMEX_SEND;</code>
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "InSendMessageEx", ExactSpelling = true, SetLastError = true)]
-        public static extern InSendMessageExResults InSendMessageEx([In]LPVOID lpReserved);
+        public static extern InSendMessageExResults InSendMessageEx([In] LPVOID lpReserved);
 
         /// <summary>
         /// <para>
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax);
+        public static extern BOOL GetMessage([Out] out MSG lpMsg, [In] HWND hWnd, [In] UINT wMsgFilterMin, [In] UINT wMsgFilterMax);
 
         /// <summary>
         /// <para>
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32
         /// This can be useful when you call <see cref="PeekMessage"/> multiple times to get messages in different ranges.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetQueueStatus", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetQueueStatus([In]QueueStatus flags);
+        public static extern DWORD GetQueueStatus([In] QueueStatus flags);
 
         /// <summary>
         /// <para>
@@ -412,8 +412,8 @@ namespace Lsj.Util.Win32
         /// The calling thread is not taken into consideration.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PeekMessage([Out]out MSG lpMsg, [In]HWND hWnd, [In]UINT wMsgFilterMin, [In]UINT wMsgFilterMax,
-            [In]PeekMessageFlags wRemoveMsg);
+        public static extern BOOL PeekMessage([Out] out MSG lpMsg, [In] HWND hWnd, [In] UINT wMsgFilterMin, [In] UINT wMsgFilterMax,
+            [In] PeekMessageFlags wRemoveMsg);
 
         /// <summary>
         /// 
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// <param name="lParam"></param>
         /// <returns></returns>
         [Obsolete]
-        public static BOOL PostAppMessage([In]DWORD idThread, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam) =>
+        public static BOOL PostAppMessage([In] DWORD idThread, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam) =>
              PostThreadMessage(idThread, Msg, wParam, lParam);
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace Lsj.Util.Win32
         /// The minimum acceptable value is 4000.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PostMessage([In]HWND hWnd, [In]WindowsMessages msg, [In]WPARAM wParam, [In]LPARAM lParam);
+        public static extern BOOL PostMessage([In] HWND hWnd, [In] WindowsMessages msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -506,7 +506,7 @@ namespace Lsj.Util.Win32
         /// The exit value returned to the system must be the <see cref="MSG.wParam"/> parameter of the <see cref="WM_QUIT"/> message.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostQuitMessage", ExactSpelling = true, SetLastError = true)]
-        public static extern void PostQuitMessage([In]int nExitCode);
+        public static extern void PostQuitMessage([In] int nExitCode);
 
         /// <summary>
         /// <para>
@@ -573,7 +573,7 @@ namespace Lsj.Util.Win32
         /// The minimum acceptable value is 4000.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PostThreadMessage([In]DWORD idThread, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+        public static extern BOOL PostThreadMessage([In] DWORD idThread, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -602,7 +602,7 @@ namespace Lsj.Util.Win32
         /// For example, predefined control classes such as BUTTON, EDIT, LISTBOX, and COMBOBOX may use values in this range.)
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegisterWindowMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)][In]string lpString);
+        public static extern UINT RegisterWindowMessage([MarshalAs(UnmanagedType.LPWStr)][In] string lpString);
 
         /// <summary>
         /// <para>
@@ -627,7 +627,7 @@ namespace Lsj.Util.Win32
         /// <see cref="ReplyMessage"/> has no effect.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplyMessage", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ReplyMessage([In]LRESULT lResult);
+        public static extern BOOL ReplyMessage([In] LRESULT lResult);
 
         /// <summary>
         /// <para>
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+        public static extern LRESULT SendMessage([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -736,8 +736,8 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageCallbackW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SendMessageCallback([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam,
-            [In]SENDASYNCPROC lpResultCallBack, [In]ULONG_PTR dwData);
+        public static extern BOOL SendMessageCallback([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
+            [In] SENDASYNCPROC lpResultCallBack, [In] ULONG_PTR dwData);
 
         /// <summary>
         /// <para>
@@ -756,7 +756,7 @@ namespace Lsj.Util.Win32
         /// The return value is the previous value associated with the current thread.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMessageExtraInfo", ExactSpelling = true, SetLastError = true)]
-        public static extern LPARAM SetMessageExtraInfo([In]LPARAM lParam);
+        public static extern LPARAM SetMessageExtraInfo([In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -815,8 +815,8 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendMessageTimeout([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam,
-            [In]SendMessageTimeoutFlags fuFlags, [In]UINT uTimeout, [Out]out DWORD_PTR lpdwResult);
+        public static extern LRESULT SendMessageTimeout([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
+            [In] SendMessageTimeoutFlags fuFlags, [In] UINT uTimeout, [Out] out DWORD_PTR lpdwResult);
 
         /// <summary>
         /// 
@@ -871,7 +871,7 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SendNotifyMessage([In]HWND hWnd, [In]WindowsMessages Msg, [In]WPARAM wParam, [In]LPARAM lParam);
+        public static extern BOOL SendNotifyMessage([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -897,7 +897,7 @@ namespace Lsj.Util.Win32
         /// the return value is <see langword="false"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "TranslateMessage", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL TranslateMessage([In]in MSG lpMsg);
+        public static extern BOOL TranslateMessage([In] in MSG lpMsg);
 
         /// <summary>
         /// <para>

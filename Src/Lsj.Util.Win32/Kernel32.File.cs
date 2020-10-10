@@ -145,8 +145,8 @@ namespace Lsj.Util.Win32
         /// and report that inheritance is in effect. See Automatic Propagation of Inheritable ACEs for more information.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern BOOL CreateDirectory([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
+            [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -209,8 +209,7 @@ namespace Lsj.Util.Win32
         /// that inheritance is in effect. For more information, see Automatic Propagation of Inheritable ACEs.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
+        public static extern BOOL CreateDirectoryEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
             [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
@@ -278,9 +277,8 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, IntPtr hTransaction);
+        public static extern BOOL CreateDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpTemplateDirectory,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpNewDirectory, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -648,9 +646,9 @@ namespace Lsj.Util.Win32
         /// For more information, see Pipes.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] ACCESS_MASK dwDesiredAccess,
+        public static extern HANDLE CreateFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] ACCESS_MASK dwDesiredAccess,
             [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
-            [In] uint dwFlagsAndAttributes, [In] IntPtr hTemplateFile);
+            [In] uint dwFlagsAndAttributes, [In] HANDLE hTemplateFile);
 
         /// <summary>
         /// <para>
@@ -861,9 +859,10 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAccessRights dwDesiredAccess,
-            [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes, [In] FileCreationDispositions dwCreationDisposition,
-            [In] uint dwFlagsAndAttributes, [In] IntPtr hTemplateFile, [In] IntPtr hTransaction, [In] IntPtr pusMiniVersion, [In] IntPtr lpExtendedParameter);
+        public static extern HANDLE CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [In] FileAccessRights dwDesiredAccess, [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes,
+            [In] FileCreationDispositions dwCreationDisposition, [In] uint dwFlagsAndAttributes, [In] HANDLE hTemplateFile,
+            [In] HANDLE hTransaction, [Out] out USHORT pusMiniVersion, [In] PVOID lpExtendedParameter);
 
         /// <summary>
         /// <para>
@@ -949,8 +948,7 @@ namespace Lsj.Util.Win32
         /// To delete a target, you must call <see cref="CreateFile"/> and specify <see cref="FILE_FLAG_DELETE_ON_CLOSE"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
+        public static extern BOOL DeleteFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
 
         /// <summary>
         /// <para>
@@ -1009,8 +1007,7 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DeleteFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DeleteFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] IntPtr hTransaction);
+        public static extern BOOL DeleteFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -1066,8 +1063,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FileTimeToSystemTime", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FileTimeToSystemTime([In] ref FILETIME lpFileTime, [In][Out] ref SYSTEMTIME lpSystemTime);
+        public static extern BOOL FileTimeToSystemTime([In] in FILETIME lpFileTime, [Out] out SYSTEMTIME lpSystemTime);
 
         /// <summary>
         /// <para>
@@ -1093,8 +1089,7 @@ namespace Lsj.Util.Win32
         /// <see cref="FindNextFileNameW"/>, <see cref="FindNextStreamW"/>, or <see cref="FindClose"/> functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindClose", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindClose([In] IntPtr hFindFile);
+        public static extern BOOL FindClose([In] HANDLE hFindFile);
 
         /// <summary>
         /// <para>
@@ -1119,8 +1114,7 @@ namespace Lsj.Util.Win32
         /// Change notifications can also be used in the wait functions.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindCloseChangeNotification", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindCloseChangeNotification([In] IntPtr hChangeHandle);
+        public static extern BOOL FindCloseChangeNotification([In] HANDLE hChangeHandle);
 
         /// <summary>
         /// <para>
@@ -1166,8 +1160,8 @@ namespace Lsj.Util.Win32
         /// the application is only notified when the symbolic links have been changed, not the target files.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstChangeNotificationW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
-            [In] bool bWatchSubtree, [In] FileNotifyFilters dwNotifyFilter);
+        public static extern HANDLE FindFirstChangeNotification([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
+            [In] BOOL bWatchSubtree, [In] FileNotifyFilters dwNotifyFilter);
 
         /// <summary>
         /// <para>
@@ -1250,7 +1244,7 @@ namespace Lsj.Util.Win32
         /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In][Out] ref WIN32_FIND_DATA lpFindFileData);
+        public static extern HANDLE FindFirstFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [Out] out WIN32_FIND_DATA lpFindFileData);
 
         /// <summary>
         /// <para>
@@ -1350,8 +1344,8 @@ namespace Lsj.Util.Win32
         /// If the path points to a symbolic link, the <see cref="WIN32_FIND_DATA"/> buffer contains information about the symbolic link, not the target.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileExW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
-            [In] IntPtr lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] IntPtr lpSearchFilter, [In] FindFirstFileExFlags dwAdditionalFlags);
+        public static extern HANDLE FindFirstFileEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
+            [In] LPVOID lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter, [In] FindFirstFileExFlags dwAdditionalFlags);
 
         /// <summary>
         /// <para>
@@ -1388,8 +1382,8 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call the <see cref="GetLastError"/> function.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstFileNameW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint dwFlags,
-            [In][Out] ref uint StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName);
+        public static extern HANDLE FindFirstFileNameW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
+            [In][Out] ref DWORD StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName);
 
         /// <summary>
         /// <para>
@@ -1431,8 +1425,8 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] uint dwFlags,
-            [In][Out] ref uint StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName, [In] IntPtr hTransaction);
+        public static extern HANDLE FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
+            [In][Out] ref DWORD StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -1535,9 +1529,9 @@ namespace Lsj.Util.Win32
                     " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
                     " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FINDEX_INFO_LEVELS fInfoLevelId,
-            [In] IntPtr lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] IntPtr lpSearchFilter,
-            [In] FindFirstFileExFlags dwAdditionalFlags, [In] IntPtr hTransaction);
+        public static extern HANDLE FindFirstFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [In] FINDEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFindFileData, [In] FINDEX_SEARCH_OPS fSearchOp, [In] LPVOID lpSearchFilter,
+            [In] FindFirstFileExFlags dwAdditionalFlags, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -1591,8 +1585,8 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstStreamTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] STREAM_INFO_LEVELS InfoLevel,
-            [In] IntPtr lpFindStreamData, [In] uint dwFlags, [In] IntPtr hTransaction);
+        public static extern HANDLE FindFirstStreamTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [In] STREAM_INFO_LEVELS InfoLevel, [In] LPVOID lpFindStreamData, [In] DWORD dwFlags, [In] LPVOID hTransaction);
 
         /// <summary>
         /// <para>
@@ -1632,8 +1626,8 @@ namespace Lsj.Util.Win32
         /// When the search handle is no longer needed, it should be closed using the <see cref="FindClose"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstStreamTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstStreamW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] STREAM_INFO_LEVELS InfoLevel,
-            [In] IntPtr lpFindStreamData, [In] uint dwFlags);
+        public static extern HANDLE FindFirstStreamW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] STREAM_INFO_LEVELS InfoLevel,
+            [In] LPVOID lpFindStreamData, [In] DWORD dwFlags);
 
         /// <summary>
         /// <para>
@@ -1672,8 +1666,8 @@ namespace Lsj.Util.Win32
         /// and the order of the mounted folders that are returned by other functions or tools.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr FindFirstVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszRootPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] uint cchBufferLength);
+        public static extern HANDLE FindFirstVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszRootPathName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -1702,8 +1696,7 @@ namespace Lsj.Util.Win32
         /// When <paramref name="hChangeHandle"/> is no longer needed, close it by using the <see cref="FindCloseChangeNotification"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextChangeNotification", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindNextChangeNotification([In] IntPtr hChangeHandle);
+        public static extern BOOL FindNextChangeNotification([In] HANDLE hChangeHandle);
 
         /// <summary>
         /// <para>
@@ -1746,12 +1739,14 @@ namespace Lsj.Util.Win32
         /// then the files that are returned are subject to transaction isolation rules.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindNextFile([In] IntPtr hFindFile, [In][Out] ref WIN32_FIND_DATA lpFindFileData);
+        public static extern BOOL FindNextFile([In] HANDLE hFindFile, [Out] out WIN32_FIND_DATA lpFindFileData);
 
         /// <summary>
         /// <para>
         /// Continues enumerating the hard links to a file using the handle returned by a successful call to the <see cref="FindFirstFileNameW"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findnextfilenamew
         /// </para>
         /// </summary>
         /// <param name="hFindStream">
@@ -1775,8 +1770,7 @@ namespace Lsj.Util.Win32
         /// If the function returns <see langword="true"/>, there are more hard links to enumerate.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileNameW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindNextFileNameW([In] IntPtr hFindStream, [In][Out] ref uint StringLength,
+        public static extern BOOL FindNextFileNameW([In] HANDLE hFindStream, [In][Out] ref DWORD StringLength,
             [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName);
 
         /// <summary>
@@ -1800,8 +1794,7 @@ namespace Lsj.Util.Win32
         /// If no matching files can be found, the <see cref="GetLastError"/> function returns <see cref="ERROR_HANDLE_EOF"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextStreamW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindNextStreamW([In] IntPtr hFindStream, [In] IntPtr lpFindStreamData);
+        public static extern BOOL FindNextStreamW([In] HANDLE hFindStream, [In] LPVOID lpFindStreamData);
 
         /// <summary>
         /// <para>
@@ -1839,9 +1832,8 @@ namespace Lsj.Util.Win32
         /// with these functions and the order of the mounted folders that are returned by other functions or tools.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindNextVolumeMountPoint([In] IntPtr hFindVolumeMountPoint,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] uint cchBufferLength);
+        public static extern BOOL FindNextVolumeMountPoint([In] IntPtr hFindVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -1869,8 +1861,7 @@ namespace Lsj.Util.Win32
         /// For information about enumerating the volume GUID paths for a volume, see Enumerating Volume GUID Paths.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindVolumeMountPointClose", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FindVolumeMountPointClose([In] IntPtr hFindVolumeMountPoint);
+        public static extern BOOL FindVolumeMountPointClose([In] HANDLE hFindVolumeMountPoint);
 
         /// <summary>
         /// <para>
@@ -1914,8 +1905,7 @@ namespace Lsj.Util.Win32
         /// Do not use a trailing backslash in the volume name, because that indicates the root directory of a drive.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FlushFileBuffers", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FlushFileBuffers([In] IntPtr hFile);
+        public static extern BOOL FlushFileBuffers([In] HANDLE hFile);
 
         /// <summary>
         /// <para>
@@ -1966,7 +1956,7 @@ namespace Lsj.Util.Win32
         /// Symbolic link behavior—If the path points to a symbolic link, the function returns the file size of the target.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [Out] out uint lpFileSizeHigh);
+        public static extern DWORD GetCompressedFileSize([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [Out] out DWORD lpFileSizeHigh);
 
         /// <summary>
         /// <para>
@@ -2021,8 +2011,8 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCompressedFileSizeTransactedW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [Out] out uint lpFileSizeHigh, [In] IntPtr hTransaction);
+        public static extern DWORD GetCompressedFileSizeTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [Out] out DWORD lpFileSizeHigh, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -2253,9 +2243,8 @@ namespace Lsj.Util.Win32
         /// the transaction receives the error <see cref="ERROR_TRANSACTIONAL_CONFLICT"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] IntPtr lpFileInformation);
+        public static extern BOOL GetFileAttributesEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation);
 
         /// <summary>
         /// <para>
@@ -2309,15 +2298,17 @@ namespace Lsj.Util.Win32
             " Furthermore, TxF may not be available in future versions of Microsoft Windows." +
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] IntPtr lpFileInformation, [In] IntPtr hTransaction);
+        public static extern BOOL GetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
+            [In] GET_FILEEX_INFO_LEVELS fInfoLevelId, [In] LPVOID lpFileInformation, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
         /// Retrieves file information for the specified file.
         /// For a more advanced version of this function, see <see cref="GetFileInformationByHandleEx"/>.
         /// To set file information using a file handle, see <see cref="SetFileInformationByHandle"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfileinformationbyhandle
         /// </para>
         /// </summary>
         /// <param name="hFile">
@@ -2346,8 +2337,7 @@ namespace Lsj.Util.Win32
         /// For more information, see About Transactional NTFS.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandle", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileInformationByHandle([In] IntPtr hFile, [Out] out BY_HANDLE_FILE_INFORMATION lpFileInformation);
+        public static extern BOOL GetFileInformationByHandle([In] HANDLE hFile, [Out] out BY_HANDLE_FILE_INFORMATION lpFileInformation);
 
         /// <summary>
         /// <para>
@@ -2409,9 +2399,8 @@ namespace Lsj.Util.Win32
         /// For more information, see About Transactional NTFS.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileInformationByHandleEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileInformationByHandleEx([In] IntPtr hFile, [In] FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
-            [Out] out IntPtr lpFileInformation, [In] uint dwBufferSize);
+        public static extern BOOL GetFileInformationByHandleEx([In] HANDLE hFile, [In] FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+            [Out] out LPVOID lpFileInformation, [In] DWORD dwBufferSize);
 
         /// <summary>
         /// <para>
@@ -2455,7 +2444,7 @@ namespace Lsj.Util.Win32
         /// Transacted Operations:  If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSize", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetFileSize([In] IntPtr hFile, [Out] out uint lpFileSizeHigh);
+        public static extern DWORD GetFileSize([In] HANDLE hFile, [Out] out DWORD lpFileSizeHigh);
 
         /// <summary>
         /// <para>
@@ -2484,8 +2473,7 @@ namespace Lsj.Util.Win32
         /// If there is a transaction bound to the file handle, then the function returns information for the isolated file view.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileSizeEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileSizeEx([In] IntPtr hFile, [Out] out LARGE_INTEGER lpFileSize);
+        public static extern BOOL GetFileSizeEx([In] HANDLE hFile, [Out] out LARGE_INTEGER lpFileSize);
 
         /// <summary>
         /// <para>
@@ -2535,8 +2523,7 @@ namespace Lsj.Util.Win32
         /// Cached information includes its short/long name pair and creation time.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileTime", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetFileTime([In] IntPtr hFile, [Out] out FILETIME lpCreationTime,
+        public static extern BOOL GetFileTime([In] HANDLE hFile, [Out] out FILETIME lpCreationTime,
             [Out] out FILETIME lpLastAccessTime, [Out] out FILETIME lpLastWriteTime);
 
         /// <summary>
@@ -2559,7 +2546,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetLastError"/> will return the error code.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFileType", ExactSpelling = true, SetLastError = true)]
-        public static extern FileTypes GetFileType([In] IntPtr hFile);
+        public static extern FileTypes GetFileType([In] HANDLE hFile);
 
         /// <summary>
         /// <para>
@@ -3155,11 +3142,10 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationByHandleW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVolumeInformationByHandleW([In] IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpVolumeNameBuffer,
-            [In] uint nVolumeNameSize, [Out] out uint lpVolumeSerialNumber, [Out] out uint lpMaximumComponentLength,
+        public static extern BOOL GetVolumeInformationByHandleW([In] HANDLE hFile, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpVolumeNameBuffer,
+            [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength,
             [Out] out FileSystemFlags lpFileSystemFlags, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpFileSystemNameBuffer,
-            [In] uint nFileSystemNameSize);
+            [In] DWORD nFileSystemNameSize);
 
         /// <summary>
         /// <para>
@@ -3194,9 +3180,8 @@ namespace Lsj.Util.Win32
         /// For more information about volume GUID paths, see Naming A Volume.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeMountPoint,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeName, [In] uint cchBufferLength);
+        public static extern BOOL GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeName, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -3224,8 +3209,7 @@ namespace Lsj.Util.Win32
         /// even if the time you are converting is in standard time.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LocalFileTimeToFileTime", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool LocalFileTimeToFileTime([In] in FILETIME lpLocalFileTime,
+        public static extern BOOL LocalFileTimeToFileTime([In] in FILETIME lpLocalFileTime,
             [Out] out FILETIME lpFileTime);
 
         /// <summary>
@@ -3890,9 +3874,8 @@ namespace Lsj.Util.Win32
         /// For more information about TxF, see Transactional NTFS (TxF).
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileInformationByHandle", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetFileInformationByHandle([In] IntPtr hFile, [In] FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
-          [In] IntPtr lpFileInformation, [In] uint dwBufferSize);
+        public static extern BOOL SetFileInformationByHandle([In] IntPtr hFile, [In] FILE_INFO_BY_HANDLE_CLASS FileInformationClass,
+          [In] LPVOID lpFileInformation, [In] DWORD dwBufferSize);
 
         /// <summary>
         /// <para>

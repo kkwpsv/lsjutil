@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -20,12 +21,12 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The version number of the system.
         /// </summary>
-        public ushort palVersion;
+        public WORD palVersion;
 
         /// <summary>
         /// The number of entries in the logical palette.
         /// </summary>
-        public ushort palNumEntries;
+        public WORD palNumEntries;
 
         /// <summary>
         /// Specifies an array of <see cref="PALETTEENTRY"/> structures that define the color and usage of each entry in the logical palette.

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAttributes;
@@ -55,12 +56,12 @@ namespace Lsj.Util.Win32.Structs
         /// This value is zero unless the file size is greater than <see cref="uint.MaxValue"/>.
         /// The size of the file is equal to(<see cref="nFileSizeHigh"/>* (<see cref="uint.MaxValue"/>+1)) + <see cref="nFileSizeLow"/>.
         /// </summary>
-        public uint nFileSizeHigh;
+        public DWORD nFileSizeHigh;
 
         /// <summary>
         /// The low-order DWORD value of the file size, in bytes.
         /// </summary>
-        public uint nFileSizeLow;
+        public DWORD nFileSizeLow;
 
         /// <summary>
         /// If the <see cref="dwFileAttributes"/> member includes the <see cref="FILE_ATTRIBUTE_REPARSE_POINT"/> attribute,
@@ -68,12 +69,12 @@ namespace Lsj.Util.Win32.Structs
         /// Otherwise, this value is undefined and should not be used.
         /// For more information see Reparse Point Tags.
         /// </summary>
-        public uint dwReserved0;
+        public DWORD dwReserved0;
 
         /// <summary>
         /// Reserved for future use.
         /// </summary>
-        public uint dwReserved1;
+        public DWORD dwReserved1;
 
         /// <summary>
         /// The name of the file.
@@ -91,16 +92,16 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public uint dwFileType;
+        public DWORD dwFileType;
 
         /// <summary>
         /// 
         /// </summary>
-        public uint dwCreatorType;
+        public DWORD dwCreatorType;
 
         /// <summary>
         /// 
         /// </summary>
-        public ushort wFinderFlags;
+        public DWORD wFinderFlags;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.LOGICAL_PROCESSOR_RELATIONSHIP;
@@ -24,7 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// At least one bit will be set.
         /// On a system with more than 64 processors, the processor mask identifies processors in a single processor group.
         /// </summary>
-        public UIntPtr ProcessorMask;
+        public ULONG_PTR ProcessorMask;
 
         /// <summary>
         /// The relationship between the processors identified by the value of the <see cref="ProcessorMask"/> member.
@@ -65,7 +66,7 @@ namespace Lsj.Util.Win32.Structs
             /// use the CPUID instruction.
             /// </summary>
             [FieldOffset(0)]
-            public byte Flags;
+            public BYTE Flags;
 
             /// <summary>
             /// Identifies the NUMA node.
@@ -73,7 +74,7 @@ namespace Lsj.Util.Win32.Structs
             /// A non-NUMA multiprocessor system will report that all processors belong to one NUMA node.
             /// </summary>
             [FieldOffset(0)]
-            public uint NodeNumber;
+            public DWORD NodeNumber;
 
             /// <summary>
             /// A <see cref="CACHE_DESCRIPTOR"/> structure that identifies the characteristics of a particular cache.
@@ -91,8 +92,8 @@ namespace Lsj.Util.Win32.Structs
             /// Reserved. Do not use.
             /// </summary>
             [FieldOffset(0)]
-            [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U8, SizeConst = 2)]
-            public ulong[] Reserved;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
+            public ULONGLONG[] Reserved;
         }
     }
 }

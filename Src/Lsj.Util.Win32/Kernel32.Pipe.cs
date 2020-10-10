@@ -104,9 +104,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallNamedPipeW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool CallNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpNamedPipeName, [In] IntPtr lpInBuffer,
-            [In] uint nInBufferSize, [In] IntPtr lpOutBuffer, [In] uint nOutBufferSize, [Out] out uint lpBytesRead, [In] uint nTimeOut);
+        public static extern BOOL CallNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpNamedPipeName, [In] LPVOID lpInBuffer,
+            [In] DWORD nInBufferSize, [In] LPVOID lpOutBuffer, [In] DWORD nOutBufferSize, [Out] out DWORD lpBytesRead, [In] DWORD nTimeOut);
 
         /// <summary>
         /// <para>
@@ -187,8 +186,7 @@ namespace Lsj.Util.Win32
         /// that's part of the same app. Also, named pipes must use the syntax "\\.\pipe\LOCAL\" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ConnectNamedPipe", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ConnectNamedPipe([In] IntPtr hNamedPipe, [In] int lpOverlapped);
+        public static extern BOOL ConnectNamedPipe([In] HANDLE hNamedPipe, [In][Out] ref OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
@@ -332,8 +330,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateNamedPipeW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] uint dwOpenMode, [In] uint dwPipeMode,
-            [In] uint nMaxInstances, [In] uint nOutBufferSize, [In] uint nInBufferSize, [In] uint nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
+        public static extern HANDLE CreateNamedPipe([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] DWORD dwOpenMode, [In] DWORD dwPipeMode,
+            [In] DWORD nMaxInstances, [In] DWORD nOutBufferSize, [In] DWORD nInBufferSize, [In] DWORD nDefaultTimeOut, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes);
 
         /// <summary>
         /// <para>
@@ -387,7 +385,7 @@ namespace Lsj.Util.Win32
         /// An instance of a pipe is always deleted when the last handle to the instance of the named pipe is closed.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePipe", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreatePipe([Out] out IntPtr hReadPipe, [Out] out IntPtr hWritePipe, [In] in SECURITY_ATTRIBUTES lpPipeAttributes, [In] uint nSize);
+        public static extern BOOL CreatePipe([Out] out HANDLE hReadPipe, [Out] out HANDLE hWritePipe, [In] in SECURITY_ATTRIBUTES lpPipeAttributes, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -421,8 +419,7 @@ namespace Lsj.Util.Win32
         /// that's part of the same app. Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisconnectNamedPipe", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DisconnectNamedPipe([In] IntPtr hNamedPipe);
+        public static extern BOOL DisconnectNamedPipe([In] HANDLE hNamedPipe);
 
         /// <summary>
         /// <para>
@@ -488,10 +485,9 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetNamedPipeHandleState([In] IntPtr hNamedPipe, [Out] PipeModes lpState, [Out] uint lpCurInstances,
-            [Out] uint lpMaxCollectionCount, [Out] uint lpCollectDataTimeout,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpUserName, [In] uint nMaxUserNameSize);
+        public static extern BOOL GetNamedPipeHandleState([In] HANDLE hNamedPipe, [Out] out PipeModes lpState, [Out] out DWORD lpCurInstances,
+            [Out] out DWORD lpMaxCollectionCount, [Out] out DWORD lpCollectDataTimeout,
+            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpUserName, [In] DWORD nMaxUserNameSize);
 
         /// <summary>
         /// <para>
@@ -548,9 +544,8 @@ namespace Lsj.Util.Win32
         /// Also, named pipes must use the syntax "\.\pipe\LOCAL" for the pipe name.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetNamedPipeInfo([In] IntPtr hNamedPipe, [Out] uint lpFlags, [Out] uint lpOutBufferSize,
-            [Out] uint lpInBufferSize, [Out] uint lpMaxInstances);
+        public static extern BOOL GetNamedPipeInfo([In] HANDLE hNamedPipe, [Out] DWORD lpFlags, [Out] DWORD lpOutBufferSize,
+            [Out] DWORD lpInBufferSize, [Out] DWORD lpMaxInstances);
 
         /// <summary>
         /// <para>

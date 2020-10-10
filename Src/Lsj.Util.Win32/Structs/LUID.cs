@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -17,11 +18,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The low-order bits of the structure.
         /// </summary>
-        public uint LowPart;
+        public DWORD LowPart;
 
         /// <summary>
         /// The high-order bits of the structure.
         /// </summary>
-        public int HighPart;
+        public LONG HighPart;
     }
 }

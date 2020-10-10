@@ -40,11 +40,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The low-order part of the file time.
         /// </summary>
-        public uint dwLowDateTime;
+        public DWORD dwLowDateTime;
 
         /// <summary>
         /// The high-order part of the file time.
         /// </summary>
-        public uint dwHighDateTime;
+        public DWORD dwHighDateTime;
     }
 }

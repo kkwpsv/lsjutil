@@ -185,8 +185,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsProcessInJob", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool IsProcessInJob([In] IntPtr ProcessHandle, [In] IntPtr JobHandle, [Out] out bool Result);
+        public static extern BOOL IsProcessInJob([In] HANDLE ProcessHandle, [In] HANDLE JobHandle, [Out] out BOOL Result);
 
         /// <summary>
         /// <para>
@@ -227,7 +226,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenJobObjectW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr OpenJobObject([In] uint dwDesiredAccess, [In] bool bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
+        public static extern HANDLE OpenJobObject([In] ACCESS_MASK dwDesiredAccess, [In] BOOL bInheritHandle, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -326,9 +325,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryInformationJobObject", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool QueryInformationJobObject([In] IntPtr hJob, [In] JOBOBJECTINFOCLASS JobObjectInformationClass,
-            [In] IntPtr lpJobObjectInformation, [In] uint cbJobObjectInformationLength, [Out] out uint lpReturnLength);
+        public static extern BOOL QueryInformationJobObject([In] HANDLE hJob, [In] JOBOBJECTINFOCLASS JobObjectInformationClass,
+            [In] LPVOID lpJobObjectInformation, [In] DWORD cbJobObjectInformationLength, [Out] out DWORD lpReturnLength);
 
         /// <summary>
         /// <para>
@@ -464,7 +462,6 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "TerminateJobObject", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool TerminateJobObject([In] IntPtr hJob, [In] uint uExitCode);
+        public static extern BOOL TerminateJobObject([In] HANDLE hJob, [In] UINT uExitCode);
     }
 }

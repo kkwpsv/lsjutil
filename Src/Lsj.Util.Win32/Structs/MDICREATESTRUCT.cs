@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
@@ -29,12 +30,12 @@ namespace Lsj.Util.Win32.Structs
         /// The name of the window class of the MDI child window.
         /// The class name must have been registered by a previous call to the <see cref="RegisterClass"/> function.
         /// </summary>
-        public string szClass;
+        public IntPtr szClass;
 
         /// <summary>
         /// The title of the MDI child window. The system displays the title in the child window's title bar.
         /// </summary>
-        public string szTitle;
+        public IntPtr szTitle;
 
         /// <summary>
         /// A handle to the instance of the application creating the MDI client window.

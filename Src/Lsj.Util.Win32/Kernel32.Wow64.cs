@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsWow64Process([In]HANDLE hProcess, [Out]out BOOL Wow64Process);
+        public static extern BOOL IsWow64Process([In] HANDLE hProcess, [Out] out BOOL Wow64Process);
 
         /// <summary>
         /// <para>
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32
         /// Optionally, the architecture of the host system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "IsWow64Process2", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL IsWow64Process2([In]HANDLE hProcess, [Out]out USHORT pProcessMachine, [Out]out USHORT pNativeMachine);
+        public static extern BOOL IsWow64Process2([In] HANDLE hProcess, [Out] out USHORT pProcessMachine, [Out] out USHORT pNativeMachine);
 
         /// <summary>
         /// <para>
@@ -125,7 +125,7 @@ namespace Lsj.Util.Win32
         /// which is not affected by the state of file system redirection in the calling thread.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64DisableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Wow64DisableWow64FsRedirection([Out]out PVOID OldValue);
+        public static extern BOOL Wow64DisableWow64FsRedirection([Out] out PVOID OldValue);
 
         /// <summary>
         /// <para>
@@ -167,7 +167,7 @@ namespace Lsj.Util.Win32
         /// which is not affected by the state of file system redirection in the calling thread.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64EnableWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOLEAN Wow64EnableWow64FsRedirection([In]BOOLEAN Wow64FsEnableRedirection);
+        public static extern BOOLEAN Wow64EnableWow64FsRedirection([In] BOOLEAN Wow64FsEnableRedirection);
 
         /// <summary>
         /// <para>
@@ -194,7 +194,7 @@ namespace Lsj.Util.Win32
         /// This will ensure redirection is re-enabled and frees associated system resources.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64RevertWow64FsRedirection", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL Wow64RevertWow64FsRedirection([In]PVOID OlValue);
+        public static extern BOOL Wow64RevertWow64FsRedirection([In] PVOID OlValue);
 
         /// <summary>
         /// <para>
@@ -232,6 +232,6 @@ namespace Lsj.Util.Win32
         /// A 32-bit application can call this function on a WOW64 thread; the result is the same as calling the <see cref="SuspendThread"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Wow64SuspendThread", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD Wow64SuspendThread([In]HANDLE hThread);
+        public static extern DWORD Wow64SuspendThread([In] HANDLE hThread);
     }
 }

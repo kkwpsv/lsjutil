@@ -740,7 +740,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCursorName);
+        public static extern HCURSOR LoadCursor([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpCursorName);
 
         /// <summary>
         /// <para>
@@ -759,7 +759,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadCursorW", ExactSpelling = true, SetLastError = true)]
-        public static extern HCURSOR LoadCursor([In] IntPtr hInstance, [In] SystemCursors lpCursorName);
+        public static extern HCURSOR LoadCursor([In] HINSTANCE hInstance, [In] SystemCursors lpCursorName);
 
         /// <summary>
         /// <para>
@@ -817,7 +817,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In] IntPtr hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpIconName);
+        public static extern HICON LoadIcon([In] HINSTANCE hInstance, [MarshalAs(UnmanagedType.LPWStr)][In] string lpIconName);
 
         /// <summary>
         /// <para>
@@ -840,7 +840,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("This function has been superseded by the LoadImage function.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadIconW", ExactSpelling = true, SetLastError = true)]
-        public static extern HICON LoadIcon([In] IntPtr hInstance, [In] SystemIcons lpIconName);
+        public static extern HICON LoadIcon([In] HINSTANCE hInstance, [In] SystemIcons lpIconName);
 
         /// <summary>
         /// <para>

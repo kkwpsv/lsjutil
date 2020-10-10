@@ -93,8 +93,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetLogicalProcessorInformationEx"/> function to retrieve information about processors in all processor groups on the system.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetLogicalProcessorInformation([In] IntPtr Buffer, [In][Out] ref uint ReturnedLength);
+        public static extern BOOL GetLogicalProcessorInformation([Out] out SYSTEM_LOGICAL_PROCESSOR_INFORMATION Buffer, [In][Out] ref uint ReturnedLength);
 
         /// <summary>
         /// <para>
@@ -155,9 +154,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLogicalProcessorInformationEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetLogicalProcessorInformationEx([In] LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
-            [In] IntPtr Buffer, [In][Out] ref uint ReturnedLength);
+        public static extern BOOL GetLogicalProcessorInformationEx([In] LOGICAL_PROCESSOR_RELATIONSHIP RelationshipType,
+            [Out] out SYSTEM_LOGICAL_PROCESSOR_INFORMATION_EX Buffer, [In][Out] ref DWORD ReturnedLength);
 
         /// <summary>
         /// <para>
@@ -401,6 +399,9 @@ namespace Lsj.Util.Win32
         /// in the Requirements section, use the <see cref="GetVersionEx"/> function.
         /// You can also use the OperatingSystemSKU property of the Win32_OperatingSystem WMI class.
         /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getproductinfo
+        /// </para>
         /// </summary>
         /// <param name="dwOSMajorVersion">
         /// The major version number of the operating system. The minimum value is 6.
@@ -452,9 +453,8 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProductInfo", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetProductInfo([In] uint dwOSMajorVersion, [In] uint dwOSMinorVersion, [In] uint dwSpMajorVersion,
-            [In] uint dwSpMinorVersion, [In][Out] ref ProductTypes pdwReturnedProductType);
+        public static extern BOOL GetProductInfo([In] DWORD dwOSMajorVersion, [In] DWORD dwOSMinorVersion, [In] DWORD dwSpMajorVersion,
+            [In] DWORD dwSpMinorVersion, [In][Out] ref ProductTypes pdwReturnedProductType);
 
         /// <summary>
         /// <para>
@@ -579,8 +579,8 @@ namespace Lsj.Util.Win32
         /// and set the value of the adjusting increment.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemTimeAdjustment", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetSystemTimeAdjustment([Out] out uint lpTimeAdjustment, [Out] out uint lpTimeIncrement, [Out] out bool lpTimeAdjustmentDisabled);
+        public static extern BOOL GetSystemTimeAdjustment([Out] out DWORD lpTimeAdjustment, [Out] out DWORD lpTimeIncrement,
+            [Out] out BOOL lpTimeAdjustmentDisabled);
 
         /// <summary>
         /// <para>
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTickCount64", ExactSpelling = true, SetLastError = true)]
-        public static extern ulong GetTickCount64();
+        public static extern ULONGLONG GetTickCount64();
 
         /// <summary>
         /// <para>
@@ -762,8 +762,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("GetVersionEx may be altered or unavailable for releases after Windows 8.1. Instead, use the Version Helper functions")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVersionExW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVersionEx(
+        public static extern BOOL GetVersionEx(
           [MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(AlternativeStructObjectMarshaler<OSVERSIONINFO, OSVERSIONINFOEX>))]
           [In]AlternativeStructObject<OSVERSIONINFO, OSVERSIONINFOEX> lpVersionInformation);
 
@@ -995,8 +994,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="GetLastError"/> returns an error code other than <see cref="ERROR_OLD_WIN_VERSION"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "VerifyVersionInfoW", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool VerifyVersionInfo([In] in OSVERSIONINFOEX lpVersionInformation,
-            [In] VerifyVersionInfoTypeMasks dwTypeMask, [In] ulong dwlConditionMask);
+        public static extern BOOL VerifyVersionInfo([In] in OSVERSIONINFOEX lpVersionInformation,
+            [In] VerifyVersionInfoTypeMasks dwTypeMask, [In] DWORDLONG dwlConditionMask);
     }
 }

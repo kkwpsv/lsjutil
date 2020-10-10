@@ -30,18 +30,16 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The number of links to the file.
         /// </summary>
-        public uint NumberOfLinks;
+        public DWORD NumberOfLinks;
 
         /// <summary>
         /// <see langword="true"/> if the file in the delete queue; otherwise, <see langword="false"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool DeletePending;
+        public BOOLEAN DeletePending;
 
         /// <summary>
         /// <see langword="true"/> if the file is a directory; otherwise, <see langword="false"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.U1)]
-        public bool Directory;
+        public BOOLEAN Directory;
     }
 }

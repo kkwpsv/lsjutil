@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.HIGHCONTRASTFlags;
@@ -23,7 +24,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Specifies the size, in bytes, of this structure.
         /// </summary>
-        public uint cbSize;
+        public UINT cbSize;
 
         /// <summary>
         /// Specifies a combination of the following values:

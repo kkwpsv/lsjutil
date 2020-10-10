@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.NEWTEXTMETRICFlags;
 using static Lsj.Util.Win32.Gdi32;
@@ -10,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="NEWTEXTMETRIC"/> structure contains data that describes a physical font.
     /// </para>
     /// <para>
-    /// From: 
+    /// From: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-newtextmetricw
     /// </para>
     /// </summary>
     /// <remarks>
@@ -25,24 +26,24 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The height (ascent + descent) of characters.
         /// </summary>
-        public int tmHeight;
+        public LONG tmHeight;
 
         /// <summary>
         /// The ascent (units above the base line) of characters.
         /// </summary>
-        public int tmAscent;
+        public LONG tmAscent;
 
         /// <summary>
         /// The descent (units below the base line) of characters.
         /// </summary>
-        public int tmDescent;
+        public LONG tmDescent;
 
         /// <summary>
         /// The amount of leading (space) inside the bounds set by the <see cref="tmHeight"/> member.
         /// Accent marks and other diacritical characters may occur in this area.
         /// The designer may set this member to zero.
         /// </summary>
-        public int tmInternalLeading;
+        public LONG tmInternalLeading;
 
         /// <summary>
         /// The amount of extra leading (space) that the application adds between rows.
@@ -50,23 +51,23 @@ namespace Lsj.Util.Win32.Structs
         /// by text output calls in either OPAQUE or TRANSPARENT mode.
         /// The designer may set this member to zero.
         /// </summary>
-        public int tmExternalLeading;
+        public LONG tmExternalLeading;
 
         /// <summary>
         /// The average width of characters in the font (generally defined as the width of the letter x).
         /// This value does not include overhang required for bold or italic characters.
         /// </summary>
-        public int tmAveCharWidth;
+        public LONG tmAveCharWidth;
 
         /// <summary>
         /// The width of the widest character in the font.
         /// </summary>
-        public int tmMaxCharWidth;
+        public LONG tmMaxCharWidth;
 
         /// <summary>
         /// The weight of the font.
         /// </summary>
-        public int tmWeight;
+        public LONG tmWeight;
 
         /// <summary>
         /// The extra width per string that may be added to some synthesized fonts.
@@ -82,54 +83,54 @@ namespace Lsj.Util.Win32.Structs
         /// is the actual character width and how much is the per-string extra width.
         /// The actual width is the extent minus the overhang.
         /// </summary>
-        public int tmOverhang;
+        public LONG tmOverhang;
 
         /// <summary>
         /// The horizontal aspect of the device for which the font was designed.
         /// </summary>
-        public int tmDigitizedAspectX;
+        public LONG tmDigitizedAspectX;
 
         /// <summary>
         /// The vertical aspect of the device for which the font was designed.
         /// The ratio of the <see cref="tmDigitizedAspectX"/> and <see cref="tmDigitizedAspectY"/> members
         /// is the aspect ratio of the device for which the font was designed.
         /// </summary>
-        public int tmDigitizedAspectY;
+        public LONG tmDigitizedAspectY;
 
         /// <summary>
         /// The value of the first character defined in the font.
         /// </summary>
-        public char tmFirstChar;
+        public WCHAR tmFirstChar;
 
         /// <summary>
         /// The value of the last character defined in the font.
         /// </summary>
-        public char tmLastChar;
+        public WCHAR tmLastChar;
 
         /// <summary>
         /// The value of the character to be substituted for characters that are not in the font.
         /// </summary>
-        public char tmDefaultChar;
+        public WCHAR tmDefaultChar;
 
         /// <summary>
         /// The value of the character to be used to define word breaks for text justification.
         /// </summary>
-        public char tmBreakChar;
+        public WCHAR tmBreakChar;
 
         /// <summary>
         /// An italic font if it is nonzero.
         /// </summary>
-        public byte tmItalic;
+        public BYTE tmItalic;
 
         /// <summary>
         /// An underlined font if it is nonzero.
         /// </summary>
-        public byte tmUnderlined;
+        public BYTE tmUnderlined;
 
         /// <summary>
         /// A strikeout font if it is nonzero.
         /// </summary>
-        public byte tmStruckOut;
+        public BYTE tmStruckOut;
 
         /// <summary>
         /// The pitch and family of the selected font.
@@ -145,12 +146,12 @@ namespace Lsj.Util.Win32.Structs
         /// by using the bitwise AND operator and can then be compared with the font family names for an identical match.
         /// For more information about the font families, see <see cref="LOGFONT"/>.
         /// </summary>
-        public byte tmPitchAndFamily;
+        public BYTE tmPitchAndFamily;
 
         /// <summary>
         /// The character set of the font.
         /// </summary>
-        public byte tmCharSet;
+        public BYTE tmCharSet;
 
         /// <summary>
         /// Specifies whether the font is italic, underscored, outlined, bold, and so forth.
@@ -172,18 +173,18 @@ namespace Lsj.Util.Win32.Structs
         /// The size of the em square for the font.
         /// This value is in notional units (that is, the units for which the font was designed).
         /// </summary>
-        public uint ntmSizeEM;
+        public UINT ntmSizeEM;
 
         /// <summary>
         /// The height, in notional units, of the font.
         /// This value should be compared with the value of the ntmSizeEM member.
         /// </summary>
-        public uint ntmCellHeight;
+        public UINT ntmCellHeight;
 
         /// <summary>
         /// The average width of characters in the font, in notional units.
         /// This value should be compared with the value of the <see cref="ntmSizeEM"/> member.
         /// </summary>
-        public uint ntmAvgWidth;
+        public UINT ntmAvgWidth;
     }
 }

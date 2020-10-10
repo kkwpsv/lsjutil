@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -63,7 +64,7 @@ namespace Lsj.Util.Win32.Structs
         /// The most common value is -1, which identifies all of the data.
         /// For the aspects <see cref="DVASPECT_THUMBNAIL"/> and <see cref="DVASPECT_ICON"/>, lindex is ignored.
         /// </summary>
-        public int lindex;
+        public LONG lindex;
 
         /// <summary>
         /// One of the <see cref="TYMED"/> enumeration constants which indicate the type of storage medium used to transfer the object's data.

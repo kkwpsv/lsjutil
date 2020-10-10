@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.Enums;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
@@ -23,23 +24,23 @@ namespace Lsj.Util.Win32.Structs
         /// 2: L2
         /// 3: L3
         /// </summary>
-        public byte Level;
+        public BYTE Level;
 
         /// <summary>
         /// The cache associativity.
         /// If this member is <see cref="CACHE_FULLY_ASSOCIATIVE"/>, the cache is fully associative.
         /// </summary>
-        public byte Associativity;
+        public BYTE Associativity;
 
         /// <summary>
         /// The cache line size, in bytes.
         /// </summary>
-        public ushort LineSize;
+        public WORD LineSize;
 
         /// <summary>
         /// The cache size, in bytes.
         /// </summary>
-        public uint CacheSize;
+        public DWORD CacheSize;
 
         /// <summary>
         /// The cache type. This member is a <see cref="PROCESSOR_CACHE_TYPE"/> value.

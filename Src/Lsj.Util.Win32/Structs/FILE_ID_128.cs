@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -17,6 +18,6 @@ namespace Lsj.Util.Win32.Structs
         /// A byte array containing the 128 bit identifier.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U1, SizeConst = 16)]
-        public byte[] Identifier;
+        public BYTE[] Identifier;
     }
 }

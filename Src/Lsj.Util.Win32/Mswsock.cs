@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -157,9 +159,8 @@ namespace Lsj.Util.Win32
         /// Please see the Remarks section in the accept function documentation for important ATM connection setup information.
         /// </remarks>
         [DllImport("Mswsock.dll", CharSet = CharSet.Unicode, EntryPoint = "AcceptEx", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AcceptEx([In]UIntPtr sListenSocket, [In]UIntPtr sAcceptSocket, [In]IntPtr lpOutputBuffer, [In]uint dwReceiveDataLength,
-                [In]uint dwLocalAddressLength, [In]uint dwRemoteAddressLength, [Out]out uint lpdwBytesReceived, [In]IntPtr lpOverlapped);
+        public static extern BOOL AcceptEx([In] UIntPtr sListenSocket, [In] UIntPtr sAcceptSocket, [In] PVOID lpOutputBuffer, [In] DWORD dwReceiveDataLength,
+                [In] DWORD dwLocalAddressLength, [In] DWORD dwRemoteAddressLength, [Out] out DWORD lpdwBytesReceived, [In] in OVERLAPPED lpOverlapped);
     }
 }
 #pragma warning restore CS1574

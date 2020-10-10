@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -74,6 +75,6 @@ namespace Lsj.Util.Win32.Structs
         /// Consequently, callers should be careful not to inadvertently pass a zero value (which indicates no deadline),
         /// and moniker implementations should be aware of clock wrapping problems.
         /// </summary>
-        public uint dwTickCountDeadline;
+        public DWORD dwTickCountDeadline;
     }
 }

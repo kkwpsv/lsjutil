@@ -142,8 +142,7 @@ namespace Lsj.Util.Win32
         /// (by calling the <see cref="CreateProcess"/> function with the <see cref="DETACHED_PROCESS"/> flag).
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AllocConsole", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AllocConsole();
+        public static extern BOOL AllocConsole();
 
         /// <summary>
         /// <para>
@@ -177,8 +176,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using the Windows Headers.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "AttachConsole", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool AttachConsole([In] uint dwProcessId);
+        public static extern BOOL AttachConsole([In] DWORD dwProcessId);
 
         /// <summary>
         /// <para>
@@ -285,8 +283,7 @@ namespace Lsj.Util.Win32
         /// or <see cref="AttachConsole"/> to attach to another console.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeConsole", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool FreeConsole();
+        public static extern BOOL FreeConsole();
 
         /// <summary>
         /// <para>
@@ -332,8 +329,7 @@ namespace Lsj.Util.Win32
         /// CTRL+BREAK signals always cause the handler functions to be called.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GenerateConsoleCtrlEvent([In] CtrlEventFlags dwCtrlEvent, [In] uint dwProcessGroupId);
+        public static extern BOOL GenerateConsoleCtrlEvent([In] CtrlEventFlags dwCtrlEvent, [In] DWORD dwProcessGroupId);
 
         /// <summary>
         /// <para>
@@ -488,8 +484,7 @@ namespace Lsj.Util.Win32
         /// where the origin (0, 0) is at the upper-left corner of the console screen buffer.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GenerateConsoleCtrlEvent", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetConsoleScreenBufferInfo([In] IntPtr hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
+        public static extern BOOL GetConsoleScreenBufferInfo([In] HANDLE hConsoleOutput, [Out] out CONSOLE_SCREEN_BUFFER_INFO lpConsoleScreenBufferInfo);
 
         /// <summary>
         /// <para>
@@ -597,7 +592,7 @@ namespace Lsj.Util.Win32
         /// standard handles will not be replaced unless the existing value of the standard handle is <see cref="IntPtr.Zero"/> or a console pseudohandle.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetStdHandle", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr GetStdHandle([In] uint nStdHandle);
+        public static extern HANDLE GetStdHandle([In] DWORD nStdHandle);
 
         /// <summary>
         /// <para>

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.HEAP_INFORMATION_CLASS;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -29,11 +30,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// 
         /// </summary>
-        public uint Version;
+        public DWORD Version;
 
         /// <summary>
         /// 
         /// </summary>
-        public uint Flags;
+        public DWORD Flags;
     }
 }

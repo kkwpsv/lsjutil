@@ -1,8 +1,10 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.STGM;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
@@ -15,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains parameters used during a moniker-binding operation.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-bind_opts3~r1
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-bind_opts3-r1
     /// </para>
     /// </summary>
     /// <remarks>
@@ -38,7 +40,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The size of this structure, in bytes.
         /// </summary>
-        public uint cbStruct;
+        public DWORD cbStruct;
 
         /// <summary>
         /// Flags that control aspects of moniker binding operations.
@@ -76,7 +78,7 @@ namespace Lsj.Util.Win32.Structs
         /// Consequently, callers should be careful not to inadvertently pass a zero value (which indicates no deadline),
         /// and moniker implementations should be aware of clock wrapping problems.
         /// </summary>
-        public uint dwTickCountDeadline;
+        public DWORD dwTickCountDeadline;
 
         /// <summary>
         /// A moniker can use this value during link tracking.
@@ -86,7 +88,7 @@ namespace Lsj.Util.Win32.Structs
         /// See the documentation of the fFlags parameter in <see cref="IShellLink.Resolve"/>.
         /// COM's file moniker implementation uses the shell link mechanism to reestablish links and passes these flags to <see cref="IShellLink.Resolve"/>.
         /// </summary>
-        public uint dwTrackFlags;
+        public DWORD dwTrackFlags;
 
         /// <summary>
         /// The class context, taken from the <see cref="CLSCTX"/> enumeration, that is to be used for instantiating the object.
@@ -98,7 +100,7 @@ namespace Lsj.Util.Win32.Structs
         /// The LCID value indicating the client's preference for the locale to be used by the object to which they are binding.
         /// A moniker passes this value to <see cref="IClassActivator.GetClassObject"/>.
         /// </summary>
-        public uint locale;
+        public LCID locale;
 
         /// <summary>
         /// A pointer to a <see cref="COSERVERINFO"/> structure.
@@ -114,11 +116,11 @@ namespace Lsj.Util.Win32.Structs
 
         /// <summary>
         /// A handle to the window that becomes the owner of the elevation UI, if applicable.
-        /// If hwnd is <see cref="IntPtr.Zero"/>, COM will call the <see cref="GetActiveWindow"/> function to find a window handle
+        /// If hwnd is <see cref="NULL"/>, COM will call the <see cref="GetActiveWindow"/> function to find a window handle
         /// associated with the current thread. This case might occur if the client is a script,
         /// which cannot fill in a <see cref="BIND_OPTS3"/> structure.
         /// In this case, COM will try to use the window associated with the script thread.
         /// </summary>
-        public IntPtr hwnd;
+        public HWND hwnd;
     }
 }
