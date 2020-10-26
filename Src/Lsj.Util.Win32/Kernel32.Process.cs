@@ -1894,7 +1894,6 @@ namespace Lsj.Util.Win32
         /// The <see cref="CREATE_PROTECTED_PROCESS"/> flag must be specified in both cases.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UpdateProcThreadAttribute", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern BOOL UpdateProcThreadAttribute([In] LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList, [In] DWORD dwFlags,
             [In] DWORD_PTR Attribute, [In] PVOID lpValue, [In] SIZE_T cbSize, [In] PVOID lpPreviousValue, [Out] out SIZE_T lpReturnSize);
     }
