@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.DPI_AWARENESS_CONTEXT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Kernel32;
@@ -222,6 +223,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// It is recommended that you set the process-default DPI awareness via application manifest.
+        /// See Setting the default DPI awareness for a process for more information.
+        /// Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
+        /// Sets the current process to a specified dots per inch (dpi) awareness context.
+        /// The DPI awareness contexts are from the <see cref="DPI_AWARENESS_CONTEXT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="value">
+        /// A <see cref="DPI_AWARENESS_CONTEXT"/> handle to set.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="TRUE"/> if the operation was successful, and <see cref="FALSE"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible errors are <see cref="ERROR_INVALID_PARAMETER"/> for an invalid input,
+        /// and <see cref="ERROR_ACCESS_DENIED"/> if the default API awareness mode for the process has already been set
+        /// (via a previous API call or within the application manifest).
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
         /// <summary>
         /// <para>
