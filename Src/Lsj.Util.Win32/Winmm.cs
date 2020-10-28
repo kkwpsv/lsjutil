@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.MMRESULT;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -40,6 +42,31 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeBeginPeriod", ExactSpelling = true, SetLastError = true)]
         public static extern MMRESULT timeBeginPeriod([In] UINT uPeriod);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="timeGetDevCaps"/> function queries the timer device to determine its resolution.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timegetdevcaps
+        /// </para>
+        /// </summary>
+        /// <param name="ptc">
+        /// A pointer to a <see cref="TIMECAPS"/> structure.
+        /// This structure is filled with information about the resolution of the timer device.
+        /// </param>
+        /// <param name="cbtc">
+        /// The size, in bytes, of the <see cref="TIMECAPS"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error code otherwise.
+        /// Possible error codes include the following.
+        /// <see cref="MMSYSERR_ERROR"/>: General error code.
+        /// <see cref="TIMERR_NOCANDO"/>: The <paramref name="ptc"/> parameter is <see cref="NullRef{TIMECAPS}"/>,
+        /// or the <paramref name="cbtc"/> parameter is invalid, or some other error occurred.
+        /// </returns>
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeGetDevCaps", ExactSpelling = true, SetLastError = true)]
+        public static extern MMRESULT timeGetDevCaps([Out] out TIMECAPS ptc, [In] UINT cbtc);
 
         /// <summary>
         /// <para>
