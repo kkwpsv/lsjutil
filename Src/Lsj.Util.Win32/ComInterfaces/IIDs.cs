@@ -181,6 +181,11 @@
         public const string IID_IShellItem = "43826d1e-e718-42ee-bc55-a1e261c37bfe";
 
         /// <summary>
+        /// IID_IShellLinkW
+        /// </summary>
+        public const string IID_IShellLinkW = "000214F9-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IShellView
         /// </summary>
         public const string IID_IShellView = "000214E3-0000-0000-C000-000000000046";

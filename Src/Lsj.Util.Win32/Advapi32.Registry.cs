@@ -12,12 +12,13 @@ using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.RegistryKeyDispositions;
 using static Lsj.Util.Win32.Enums.RegistryOptions;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
-using static Lsj.Util.Win32.Enums.RegSaveKeyExFlags;
 using static Lsj.Util.Win32.Enums.RegRestoreKeyFlags;
+using static Lsj.Util.Win32.Enums.RegSaveKeyExFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ktmw32;
+using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32

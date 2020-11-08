@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Enums.SFGAOF;
 using static Lsj.Util.Win32.Enums.SHCIDS;
 using static Lsj.Util.Win32.Enums.SHGDNF;
 using static Lsj.Util.Win32.Ole32;
+using static Lsj.Util.Win32.Shell32;
 using BIND_OPTS = Lsj.Util.Win32.Structs.BIND_OPTS;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -134,8 +135,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method is similar to the <see cref="IParseDisplayName.ParseDisplayName"/> method.
         /// </remarks>
         [PreserveSig]
-        HRESULT ParseDisplayName([In]IntPtr hwnd, [MarshalAs(UnmanagedType.Interface)][In]IBindCtx pbc, [MarshalAs(UnmanagedType.LPWStr)]string pszDisplayName,
-            [In][Out]ref uint pchEaten, [Out]out IntPtr ppidl, [In][Out]ref SFGAOF pdwAttributes);
+        HRESULT ParseDisplayName([In] IntPtr hwnd, [MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc, [MarshalAs(UnmanagedType.LPWStr)] string pszDisplayName,
+            [In][Out] ref uint pchEaten, [Out] out IntPtr ppidl, [In][Out] ref SFGAOF pdwAttributes);
 
         /// <summary>
         /// Enables a client to determine the contents of a folder by creating an item identifier enumeration object
@@ -176,7 +177,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Calling applications must be prepared for both success cases.
         /// </remarks>
         [PreserveSig]
-        HRESULT EnumObjects([In]IntPtr hwnd, [In]SHCONTF grfFlags, [MarshalAs(UnmanagedType.Interface)][Out]out IEnumIDList ppenumIDList);
+        HRESULT EnumObjects([In] IntPtr hwnd, [In] SHCONTF grfFlags, [MarshalAs(UnmanagedType.Interface)][Out] out IEnumIDList ppenumIDList);
 
         /// <summary>
         /// Retrieves a handler, typically the Shell folder object that implements <see cref="IShellFolder"/> for a particular item. 
@@ -220,8 +221,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// for the subitem and then finding that <see cref="IRemoteComputer"/> was not supported after all.
         /// </remarks>
         [PreserveSig]
-        HRESULT BindToObject([In]IntPtr pidl, [MarshalAs(UnmanagedType.Interface)][In]IBindCtx pbc,
-            [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        HRESULT BindToObject([In] IntPtr pidl, [MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
+            [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out] out object ppv);
 
         /// <summary>
         /// Requests a pointer to an object's storage interface.
@@ -255,8 +256,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// See the <see cref="IMoniker.BindToStorage"/> reference for further discussion.
         /// </remarks>
         [PreserveSig]
-        HRESULT BindToStorage([In]IntPtr pidl, [MarshalAs(UnmanagedType.Interface)][In]IBindCtx pbc,
-            [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        HRESULT BindToStorage([In] IntPtr pidl, [MarshalAs(UnmanagedType.Interface)][In] IBindCtx pbc,
+            [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out] out object ppv);
 
         /// <summary>
         /// Determines the relative order of two file objects or folders, given their item identifier lists.
@@ -320,7 +321,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="MAKE_HRESULT"/> macro is useful for constructing the return value for an implementation of the <see cref="CompareIDs"/> method.
         /// </remarks>
         [PreserveSig]
-        HRESULT CompareIDs([In]IntPtr lParam, [In]IntPtr pidl1, [In]IntPtr pidl2);
+        HRESULT CompareIDs([In] IntPtr lParam, [In] IntPtr pidl1, [In] IntPtr pidl2);
 
         /// <summary>
         /// Requests an object that can be used to obtain information from or interact with a folder object.
@@ -367,8 +368,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which eliminates the possibility of a coding error in <paramref name="riid"/> that could lead to unexpected results.
         /// </remarks>
         [PreserveSig]
-        HRESULT CreateViewObject([In]IntPtr hwndOwner, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        HRESULT CreateViewObject([In] IntPtr hwndOwner, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [MarshalAs(UnmanagedType.IUnknown)][Out] out object ppv);
 
         /// <summary>
         /// Gets the attributes of one or more file or folder objects contained in the object represented by <see cref="IShellFolder"/>.
@@ -408,7 +409,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// by the <see cref="EnumObjects"/> method.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetAttributesOf([In]uint cidl, [In]IntPtr apidl, [In][Out]ref SFGAOF rgfInOut);
+        HRESULT GetAttributesOf([In] uint cidl, [In] IntPtr apidl, [In][Out] ref SFGAOF rgfInOut);
 
         /// <summary>
         /// Gets an object that can be used to carry out actions on the specified file objects or folders.
@@ -458,8 +459,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which eliminates the possibility of a coding error in riid that could lead to unexpected results.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetUIObjectOf([In]IntPtr hwndOwner, [In]uint cidl, [In]IntPtr apidl, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [In]IntPtr rgfReserved, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        HRESULT GetUIObjectOf([In] IntPtr hwndOwner, [In] uint cidl, [In] IntPtr apidl, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
+            [In] IntPtr rgfReserved, [MarshalAs(UnmanagedType.IUnknown)][Out] out object ppv);
 
         /// <summary>
         /// Retrieves the display name for the specified file object or subfolder.
@@ -510,7 +511,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because the end user often needs to type or edit these names.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetDisplayNameOf([In]IntPtr pidl, [In]SHGDNF uFlags, [Out]out STRRET pName);
+        HRESULT GetDisplayNameOf([In] IntPtr pidl, [In] SHGDNF uFlags, [Out] out STRRET pName);
 
         /// <summary>
         /// Sets the display name of a file object or subfolder, changing the item identifier in the process.
@@ -553,6 +554,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This call prevents both the old and new names being displayed in the view.
         /// </remarks>
         [PreserveSig]
-        HRESULT SetNameOf([In]IntPtr hwnd, [In]IntPtr pidl, [MarshalAs(UnmanagedType.LPWStr)][In]string pszName, [In]SHGDNF uFlags, [Out]out IntPtr ppidlOut);
+        HRESULT SetNameOf([In] IntPtr hwnd, [In] IntPtr pidl, [MarshalAs(UnmanagedType.LPWStr)][In] string pszName, [In] SHGDNF uFlags, [Out] out IntPtr ppidlOut);
     }
 }

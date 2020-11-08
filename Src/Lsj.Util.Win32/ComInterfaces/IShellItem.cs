@@ -88,8 +88,8 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
         [PreserveSig]
-        HRESULT BindToHandler([In][MarshalAs(UnmanagedType.Interface)]IBindCtx pbc, [In][MarshalAs(UnmanagedType.LPStruct)]Guid bhid,
-            [In][MarshalAs(UnmanagedType.LPStruct)]Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        HRESULT BindToHandler([In][MarshalAs(UnmanagedType.Interface)] IBindCtx pbc, [In][MarshalAs(UnmanagedType.LPStruct)] Guid bhid,
+            [In][MarshalAs(UnmanagedType.LPStruct)] Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out] out object ppv);
 
         /// <summary>
         /// Gets the parent of an <see cref="IShellItem"/> object.
@@ -101,7 +101,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
         /// </returns>
         [PreserveSig]
-        HRESULT GetParent([MarshalAs(UnmanagedType.Interface)][Out]out IShellItem ppsi);
+        HRESULT GetParent([MarshalAs(UnmanagedType.Interface)][Out] out IShellItem ppsi);
 
         /// <summary>
         /// Gets the display name of the <see cref="IShellItem"/> object.
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Call <see cref="CoTaskMemFree"/> on <paramref name="ppszName"/> to free the memory.
         /// </remarks>
         [PreserveSig]
-        HRESULT GetDisplayName([In]SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)][Out]out string ppszName);
+        HRESULT GetDisplayName([In] SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)][Out] out string ppszName);
 
         /// <summary>
         /// Gets a requested set of attributes of the IShellItem object.
@@ -141,7 +141,7 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="S_FALSE"/> if the attributes do not exactly match, or a standard COM error value otherwise.
         /// </returns>
         [PreserveSig]
-        HRESULT GetAttributes([In]SFGAOF sfgaoMask, [Out]out SFGAOF psfgaoAttribs);
+        HRESULT GetAttributes([In] SFGAOF sfgaoMask, [Out] out SFGAOF psfgaoAttribs);
 
         /// <summary>
         /// Compares two <see cref="IShellItem"/> objects.
@@ -161,6 +161,6 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Returns <see cref="S_OK"/> if the items are the same, <see cref="S_FALSE"/> if they are different, or an error value otherwise.
         /// </returns>
         [PreserveSig]
-        HRESULT Compare([MarshalAs(UnmanagedType.Interface)][In]IShellItem psi, [In]SICHINTF hint, [Out]out int piOrder);
+        HRESULT Compare([MarshalAs(UnmanagedType.Interface)][In] IShellItem psi, [In] SICHINTF hint, [Out] out int piOrder);
     }
 }

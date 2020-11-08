@@ -18,6 +18,7 @@ using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32
 {
@@ -462,7 +463,7 @@ namespace Lsj.Util.Win32
         /// The system directory contains system files such as dynamic-link libraries and drivers.
         /// This function is provided primarily for compatibility.
         /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemdirectoryw
@@ -587,7 +588,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of the shared Windows directory on a multi-user system.
         /// This function is provided primarily for compatibility.
         /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemwindowsdirectoryw
@@ -771,7 +772,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of the Windows directory.
         /// This function is provided primarily for compatibility with legacy applications.
         /// New applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw

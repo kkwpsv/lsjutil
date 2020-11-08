@@ -12,12 +12,13 @@ using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.CommonDialogBoxNotifications;
 using static Lsj.Util.Win32.Enums.DialogBoxCommandIDs;
 using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
+using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
 using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
 using static Lsj.Util.Win32.Enums.PrintDlgExResults;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
 using static Lsj.Util.Win32.Enums.WindowsMessages;
-using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
+using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32
@@ -91,7 +92,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPCCHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPCCHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -136,7 +137,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPCFHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPCFHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -182,7 +183,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPFRHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPFRHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -240,7 +241,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
-        public delegate UINT_PTR LPOFNHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPOFNHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -298,7 +299,7 @@ namespace Lsj.Util.Win32
         /// The dialog box is about to draw the return address portion of an envelope sample page.
         /// This message is sent for envelopes and other paper sizes.
         /// </remarks>
-        public delegate UINT_PTR LPPAGEPAINTHOOK([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPPAGEPAINTHOOK([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -343,7 +344,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPPAGESETUPHOOK([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPPAGESETUPHOOK([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -388,7 +389,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPPRINTHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPPRINTHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -435,7 +436,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPSETUPHOOKPROC([In]HWND Arg1, [In]UINT Arg2, [In]WPARAM Arg3, [In]LPARAM Arg4);
+        public delegate UINT_PTR LPSETUPHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -468,7 +469,7 @@ namespace Lsj.Util.Win32
         /// of the <see cref="CHOOSECOLOR"/> structure and specify the address of the hook procedure in the <see cref="CHOOSECOLOR.lpfnHook"/> member.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseColorW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ChooseColor([In][Out]CHOOSECOLOR lpcc);
+        public static extern BOOL ChooseColor([In][Out] CHOOSECOLOR lpcc);
 
         /// <summary>
         /// <para>
@@ -504,7 +505,7 @@ namespace Lsj.Util.Win32
         /// and <see cref="WM_CHOOSEFONT_SETLOGFONT"/> messages to the dialog box to get and set the current values and flags of the dialog box.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ChooseFontW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL ChooseFont([In][Out]ref CHOOSEFONT lpcf);
+        public static extern BOOL ChooseFont([In][Out] ref CHOOSEFONT lpcf);
 
         /// <summary>
         /// <para>
@@ -582,7 +583,7 @@ namespace Lsj.Util.Win32
         /// of the <see cref="FINDREPLACE"/> structure and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND FindText([In][Out]ref FINDREPLACE Arg1);
+        public static extern HWND FindText([In][Out] ref FINDREPLACE Arg1);
 
         /// <summary>
         /// <para>
@@ -621,7 +622,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOpenFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetOpenFileName([In][Out]ref OPENFILENAME Arg1);
+        public static extern BOOL GetOpenFileName([In][Out] ref OPENFILENAME Arg1);
 
         /// <summary>
         /// <para>
@@ -657,7 +658,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSaveFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetSaveFileName([In][Out]ref OPENFILENAME Arg1);
+        public static extern BOOL GetSaveFileName([In][Out] ref OPENFILENAME Arg1);
 
         /// <summary>
         /// <para>
@@ -686,7 +687,7 @@ namespace Lsj.Util.Win32
         /// To switch printer selection, use <see cref="PrintDlg"/> or <see cref="PrintDlgEx"/>.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PageSetupDlgW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PageSetupDlg([In][Out]ref PAGESETUPDLG lppsd);
+        public static extern BOOL PageSetupDlg([In][Out] ref PAGESETUPDLG lppsd);
 
         /// <summary>
         /// <para>
@@ -733,7 +734,7 @@ namespace Lsj.Util.Win32
         [Obsolete("PrintDlg is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions. Instead, use PrintDlgEx or PageSetupDlg.")]
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PrintDlg([In][Out]ref PRINTDLG lppd);
+        public static extern BOOL PrintDlg([In][Out] ref PRINTDLG lppd);
 
         /// <summary>
         /// <para>
@@ -781,7 +782,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Print Property Sheet.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "PrintDlgExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT PrintDlgEx([In][Out]ref PRINTDLGEX lppd);
+        public static extern HRESULT PrintDlgEx([In][Out] ref PRINTDLGEX lppd);
 
         /// <summary>
         /// <para>
@@ -825,6 +826,6 @@ namespace Lsj.Util.Win32
         /// of the <see cref="FINDREPLACE"/> structure and specify the address of the hook procedure in the <see cref="FINDREPLACE.lpfnHook"/> member.
         /// </remarks>
         [DllImport("Comdlg32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern HWND ReplaceText([In][Out]ref FINDREPLACE Arg1);
+        public static extern HWND ReplaceText([In][Out] ref FINDREPLACE Arg1);
     }
 }

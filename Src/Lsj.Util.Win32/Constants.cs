@@ -24,6 +24,11 @@ namespace Lsj.Util.Win32
         public const uint HOVER_DEFAULT = 0xFFFFFFFF;
 
         /// <summary>
+        /// INFOTIPSIZE
+        /// </summary>
+        public const int INFOTIPSIZE = 1024;
+
+        /// <summary>
         /// MAX_DEFAULTCHAR
         /// </summary>
         public const int MAX_DEFAULTCHAR = 2;
