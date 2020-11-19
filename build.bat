@@ -1,5 +1,3 @@
-nuget restore
-
 cd Src\Lsj.Util\
 dotnet build -c Release || exit -1
 
@@ -37,7 +35,7 @@ cd ..\Lsj.Util.Net.Web
 dotnet build -c Release || exit -1
 
 cd ..\Lsj.Util.Office
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /p:Configuration=Release || exit -1
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /p:Configuration=Release -restore || exit -1
 
 cd ..\Lsj.Util.Protobuf
 dotnet build -c Release || exit -1
