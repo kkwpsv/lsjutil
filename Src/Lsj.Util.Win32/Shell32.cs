@@ -1417,7 +1417,7 @@ namespace Lsj.Util.Win32
             "which is supported only for backward compatibility.")]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken,
-            [In] SHGFP_TYPE dwFlags, [MarshalAs(UnmanagedType.LPWStr)][In] string pszPath);
+            [In] SHGFP_TYPE dwFlags, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder pszPath);
 
         /// <summary>
         /// <para>
