@@ -1,5 +1,3 @@
-nuget restore
-
 b64 -d %SnkFile% Src\LSJ.snk
 
 cd Src\Lsj.Util\
@@ -39,7 +37,7 @@ cd ..\Lsj.Util.Net.Web
 dotnet pack -c Release --include-source || exit -1
 
 cd ..\Lsj.Util.Office
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /t:pack /p:Configuration=Release /p:IncludeSymbols=true || exit -1
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /p:Configuration=Release -restore /t:pack /p:IncludeSymbols=true || exit -1
 
 cd ..\Lsj.Util.Protobuf
 dotnet pack -c Release --include-source || exit -1
