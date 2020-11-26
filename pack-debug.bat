@@ -1,5 +1,3 @@
-nuget restore
-
 git rev-list HEAD --count > VersionSuffix.txt
 set /p VersionSuffix= < VersionSuffix.txt
 
@@ -42,7 +40,7 @@ cd ..\Lsj.Util.Net.Web
 dotnet pack -c Debug --include-source || exit -1
 
 cd ..\Lsj.Util.Office
-"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /t:pack /p:Configuration=Debug /p:IncludeSymbols=true || exit -1
+"%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" /p:Configuration=Debug -restore /t:pack /p:IncludeSymbols=true || exit -1
 
 cd ..\Lsj.Util.Protobuf
 dotnet pack -c Debug --include-source || exit -1
