@@ -19,11 +19,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolecache
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleCache)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleCache
+    public unsafe struct IOleCache
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Specifies the format and other data to be cached inside an embedded object.
         /// </summary>
@@ -96,8 +95,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The cache is also updated when the OLE object changes from the running state back to the loaded state
         /// (because a subsequent save operation would require running the object again).
         /// </remarks>
-        [PreserveSig]
-        HRESULT Cache([In]in FORMATETC pformatetc, [In]ADVF advf, [Out]out uint pdwConnection);
+        public HRESULT Cache([In] in FORMATETC pformatetc, [In] ADVF advf, [Out] out DWORD pdwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, ADVF, out DWORD, HRESULT>)_vTable[3])(thisPtr, pformatetc, advf, out pdwConnection);
+            }
+        }
 
         /// <summary>
         /// Removes a cache connection created previously using <see cref="Cache"/>.
@@ -114,8 +118,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="Uncache"/> method removes a cache connection that was created in a prior call to <see cref="Cache"/>.
         /// It uses the <paramref name="dwConnection"/> parameter that was returned by the prior call to <see cref="Cache"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Uncache([In]uint dwConnection);
+        public HRESULT Uncache([In] DWORD dwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[4])(thisPtr, dwConnection);
+            }
+        }
 
         /// <summary>
         /// Creates an enumerator that can be used to enumerate the current cache connections.
@@ -134,8 +143,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="IEnumSTATDATA"/> enumerates the data stored in an array of <see cref="STATDATA"/> structures
         /// containing information about current cache connections.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumCache([Out]out IEnumSTATDATA ppenumSTATDATA);
+        public HRESULT EnumCache([Out] out IntPtr ppenumSTATDATA)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumSTATDATA);
+            }
+        }
 
         /// <summary>
         /// Fills the cache as needed using the data provided by the specified data object.
@@ -159,8 +173,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If a container does not use these helper functions to create compound document objects,
         /// it can use <see cref="Cache"/> to set up the cache entries which are then filled by <see cref="InitCache"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT InitCache([In]IDataObject pDataObject);
+        public HRESULT InitCache([In] in IDataObject pDataObject)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, HRESULT>)_vTable[6])(thisPtr, pDataObject);
+            }
+        }
 
         /// <summary>
         /// Initializes the cache with data in a specified format and on a specified medium.
@@ -197,7 +216,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Second, the <see cref="SetData"/> method ignores the <see cref="ADVF_NODATA"/> flag while <see cref="InitCache"/> obeys this flag.
         /// A container can use this method to maintain a single aspect of an object, such as the icon aspect of the object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetData([In]in FORMATETC pformatetc, [In]IntPtr pmedium, [In]bool fRelease);
+        public HRESULT SetData([In] in FORMATETC pformatetc, [In] in STGMEDIUM pmedium, [In] BOOL fRelease)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, in STGMEDIUM, BOOL, HRESULT>)_vTable[7])(thisPtr, pformatetc, pmedium, fRelease);
+            }
+        }
     }
 }

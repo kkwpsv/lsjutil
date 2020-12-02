@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Ole32;
 using BIND_OPTS = Lsj.Util.Win32.Structs.BIND_OPTS;
 
@@ -35,11 +34,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// For example, OLE defines several string keys ("ExceededDeadline", "ConnectManually", and so on)
     /// that can be used to store a pointer to the object that caused an error during a binding operation.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IBindCtx)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IBindCtx
+    public unsafe struct IBindCtx
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Registers an object with the bind context to ensure that the object remains active until the bind context is released.
         /// </summary>
@@ -69,8 +67,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Assuming the object has registered itself with the running object table,
         /// moniker implementations can call <see cref="IRunningObjectTable.GetObject"/> to retrieve a pointer to the object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RegisterObjectBound([MarshalAs(UnmanagedType.Interface)][In]object punk);
+        public HRESULT RegisterObjectBound([In] in IUnknown punk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HRESULT>)_vTable[3])(thisPtr, punk);
+            }
+        }
 
         /// <summary>
         /// Removes the object from the bind context, undoing a previous call to <see cref="RegisterObjectBound"/>.
@@ -87,8 +90,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You would rarely call this method.
         /// It is documented primarily for completeness.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RevokeObjectBound([MarshalAs(UnmanagedType.Interface)][In]object punk);
+        public HRESULT RevokeObjectBound([In] in IUnknown punk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, HRESULT>)_vTable[4])(thisPtr, punk);
+            }
+        }
 
         /// <summary>
         /// Releases all pointers to all objects that were previously registered by calls to <see cref="RegisterObjectBound"/>.
@@ -105,8 +113,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the same object has been registered more than once,
         /// this method calls the Release method on the object the number of times it was registered.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ReleaseBoundObjects();
+        public HRESULT ReleaseBoundObjects([In] in IUnknown punk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[5])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Sets new values for the binding parameters stored in the bind context.
@@ -137,8 +150,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// but not the <see cref="COSERVERINFO"/> structure and the pointers it contains.
         /// Callers may not free these pointers until the bind context is released.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetBindOptions([In]in BIND_OPTS pbindopts);
+        public HRESULT SetBindOptions([In] in BIND_OPTS pbindopts)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in BIND_OPTS, HRESULT>)_vTable[6])(thisPtr, pbindopts);
+            }
+        }
 
         /// <summary>
         /// Retrieves the binding options stored in this bind context.
@@ -160,8 +178,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You must initialize the structure that is filled in by this method.
         /// Before calling this method, you must initialize the <see cref="BIND_OPTS.cbStruct"/> member to the size of the structure.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetBindOptions([In][Out]ref BIND_OPTS pbindopts);
+        public HRESULT GetBindOptions([In][Out] ref BIND_OPTS pbindopts)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ref BIND_OPTS, HRESULT>)_vTable[7])(thisPtr, ref pbindopts);
+            }
+        }
 
         /// <summary>
         /// Retrieves an interface pointer to the running object table (ROT) for the computer on which this bind context is running.
@@ -188,8 +211,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Moniker implementations should call this method instead of using the <see cref="Ole32.GetRunningObjectTable"/> function.
         /// This makes it possible for future implementations of <see cref="IBindCtx"/> to modify binding behavior.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetRunningObjectTable([Out]out IRunningObjectTable pprot);
+        public HRESULT GetRunningObjectTable([Out] out IntPtr pprot)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out pprot);
+            }
+        }
 
         /// <summary>
         /// Associates an object with a string key in the bind context's string-keyed table of pointers.
@@ -246,8 +274,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is removed from the table by a call to <see cref="RevokeObjectParam"/>.
         /// The bind context is released. All registered objects are released when the bind context is released.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RegisterObjectParam([MarshalAs(UnmanagedType.LPWStr)][In]string pszKey, [MarshalAs(UnmanagedType.IUnknown)][In]object punk);
+        public HRESULT RegisterObjectParam([In] string pszKey, [In] in IUnknown punk)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszKeyPtr = pszKey)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, in IUnknown, HRESULT>)_vTable[9])(thisPtr, pszKeyPtr, punk);
+            }
+        }
 
         /// <summary>
         /// Retrieves an interface pointer to the object associated with the specified key in the bind context's string-keyed table of pointers.
@@ -282,8 +316,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// By convention, the implementer should use key names that begin with the string form of the CLSID of a moniker class.
         /// (See the <see cref="StringFromCLSID"/> function.)
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetObjectParam([MarshalAs(UnmanagedType.LPWStr)][In]string pszKey, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppunk);
+        public HRESULT GetObjectParam([In] string pszKey, [Out] out IntPtr ppunk)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszKeyPtr = pszKey)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pszKeyPtr, out ppunk);
+            }
+        }
+
 
         /// <summary>
         /// Retrieves a pointer to an interface that can be used to enumerate the keys of the bind context's string-keyed table of pointers.
@@ -307,8 +348,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the system implementation of the <see cref="IBindCtx"/> interface, this method is not implemented.
         /// Therefore, calling this method results in a return value of <see cref="E_NOTIMPL"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumObjectParam([Out]out IEnumString ppenum);
+        public HRESULT EnumObjectParam([Out] out IntPtr ppenum)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppenum);
+            }
+        }
 
         /// <summary>
         /// Removes the specified key and its associated pointer from the bind context's string-keyed table of objects.
@@ -331,7 +377,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method is used to remove an entry from the table.
         /// If the specified key is found, the bind context also releases its reference to the object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RevokeObjectParam([MarshalAs(UnmanagedType.LPWStr)][In]string pszKey);
+
+        public HRESULT RevokeObjectParam([In] string pszKey)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszKeyPtr = pszKey)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[12])(thisPtr, pszKeyPtr);
+            }
+        }
     }
 }

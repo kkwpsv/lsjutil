@@ -9,6 +9,15 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 16)]
     public struct IID
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public IID(string value)
+        {
+            _value = new Guid(value);
+        }
+
         [FieldOffset(0)]
         private Guid _value;
 
@@ -23,5 +32,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator IID(Guid val) => new IID { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IID(string val) => new IID { _value = new Guid(val) };
     }
 }

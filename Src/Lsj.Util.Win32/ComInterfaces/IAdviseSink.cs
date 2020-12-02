@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 
@@ -37,11 +36,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iadvisesink
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IAdviseSink)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IAdviseSink
+    public unsafe struct IAdviseSink
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Called by the server to notify a data object's currently registered advise sinks that data in the object has changed.
         /// </summary>
@@ -53,8 +51,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A pointer to a STGMEDIUM structure, which defines the storage medium
         /// (global memory, disk file, storage object, stream object, GDI object, or undefined) and ownership of that medium for the calling data object.
         /// </param>
-        [PreserveSig]
-        void OnDataChange([In]in FORMATETC pFormatetc, [In]in STGMEDIUM pStgmed);
+        public void OnDataChange([In] in FORMATETC pFormatetc, [In] in STGMEDIUM pStgmed)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, in STGMEDIUM, void>)_vTable[3])(thisPtr, pFormatetc, pStgmed);
+            }
+        }
 
         /// <summary>
         /// Notifies an object's registered advise sinks that its view has changed.
@@ -78,8 +81,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If <paramref name="dwAspect"/> is <see cref="DVASPECT_CONTENT"/>, lindex must be -1, 
         /// which indicates that the entire view is of interest and is the only value that is currently valid.
         /// </remarks>
-        [PreserveSig]
-        void OnViewChange([In]DVASPECT dwAspect, [In]LONG lindex);
+        public void OnViewChange([In] DVASPECT dwAspect, [In] LONG lindex)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, DVASPECT, LONG, void>)_vTable[4])(thisPtr, dwAspect, lindex);
+            }
+        }
 
         /// <summary>
         /// Called by the server to notify all registered advisory sinks that the object has been renamed.
@@ -94,8 +102,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In response, the link object must update its moniker.
         /// The link object, in turn, forwards the notification to its own container.
         /// </remarks>
-        [PreserveSig]
-        void OnRename([In]IMoniker pmk);
+        public void OnRename([In] in IMoniker pmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, in IMoniker, void>)_vTable[5])(thisPtr, pmk);
+            }
+        }
 
         /// <summary>
         /// Called by the server to notify all registered advisory sinks that the object has been saved.
@@ -107,8 +120,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// but then only if the advise flag passed during registration specifies <see cref="ADVFCACHE_ONSAVE"/>.
         /// Object handlers and link objects forward these notifications to their containers.
         /// </remarks>
-        [PreserveSig]
-        void OnSave();
+        public void OnSave()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, void>)_vTable[6])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Called by the server to notify all registered advisory sinks that the object has changed from the running to the loaded state.
@@ -121,7 +139,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the case of a link object, the notification that the object is closing should always be interpreted to mean
         /// that the connection to the link source has broken.
         /// </remarks>
-        [PreserveSig]
-        void OnClose();
+        public void OnClose()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, void>)_vTable[7])(thisPtr);
+            }
+        }
     }
 }

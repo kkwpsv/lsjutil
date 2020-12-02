@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -22,11 +21,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-ioleadviseholder
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleAdviseHolder)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleAdviseHolder
+    public unsafe struct IOleAdviseHolder
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Establishes an advisory connection between an OLE object and the calling object's advise sink.
         /// Through that sink, the calling object can receive notification when the OLE object is renamed, saved, or closed.
@@ -59,8 +57,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the attempt fails, the object returns a zero.
         /// To delete an advisory connection, the object with the advise sink passes this nonzero token back to the object by calling <see cref="Advise"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Advise([In]IAdviseSink pAdvise, [Out]out uint pdwConnection);
+        HRESULT Advise([In] in IAdviseSink pAdvise, [Out] out DWORD pdwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IAdviseSink, out DWORD, HRESULT>)_vTable[3])(thisPtr, pAdvise, out pdwConnection);
+            }
+        }
 
         /// <summary>
         /// Deletes a previously established advisory connection.
@@ -79,8 +82,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In certain cases, containers could call this method on objects that are running but not currently visible,
         /// as a way of reducing the overhead of maintaining multiple advisory connections.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Unadvise([In]uint dwConnection);
+        public HRESULT Unadvise([In] DWORD dwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[4])(thisPtr, dwConnection);
+            }
+        }
 
         /// <summary>
         /// Creates an enumerator that can be used to enumerate the advisory connections currently established for an object.
@@ -106,8 +114,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When you call the enumeration methods, and while an enumeration is in progress,
         /// the effect of registering or revoking advisory connections on what is to be enumerated is undefined.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumAdvise([Out]out IEnumSTATDATA ppenumAdvise);
+        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
+            }
+        }
 
         /// <summary>
         /// Sends notification to all advisory sinks currently registered with the advise holder that the name of object has changed.
@@ -125,8 +138,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you can call <see cref="SendOnRename"/> in the implementation of <see cref="IOleObject.SetMoniker"/>,
         /// when you have determined that the operation is successful.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SendOnRename([In]IMoniker pmk);
+        public HRESULT SendOnRename([In] in IMoniker pmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[6])(thisPtr, pmk);
+            }
+        }
 
         /// <summary>
         /// Sends notification to all advisory sinks currently registered with the advise holder that the object has been saved.
@@ -143,8 +161,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Within that implementation, if the user wants to save the object to persistent storage,
         /// the object calls <see cref="IOleClientSite.SaveObject"/>, followed by the call to <see cref="SendOnSave"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SendOnSave();
+        public HRESULT SendOnSave()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[7])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Sends notification to all advisory sinks currently registered with the advise holder that the object has closed.
@@ -159,7 +182,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This occurs through a call to <see cref="IOleObject.Close"/>, so you can call <see cref="SendOnClose"/>
         /// when you determine that a Close operation has been successful.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SendOnClose();
+        public HRESULT SendOnClose()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[8])(thisPtr);
+            }
+        }
     }
 }

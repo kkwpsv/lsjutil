@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using STATSTG = Lsj.Util.Win32.Structs.STATSTG;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -14,12 +13,14 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <see cref="IEnumSTATSTG"/> has the same methods as all enumerator interfaces
     /// : <see cref="Next"/>, <see cref="Skip"/>, <see cref="Reset"/>, and <see cref="Clone"/>.
     /// </para>
+    /// <para>
+    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ienumstatstg
+    /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IEnumSTATSTG)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IEnumSTATSTG
+    public unsafe struct IEnumSTATSTG
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// The <see cref="Next"/> method retrieves a specified number of <see cref="STATSTG"/> structures, that follow in the enumeration sequence.
         /// If there are fewer than the requested number of <see cref="STATSTG"/> structures that remain in the enumeration sequence,
@@ -41,8 +42,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="S_FALSE"/>:
         /// The number of <see cref="STATSTG"/> structures returned is less than the number specified in the <paramref name="celt"/> parameter. 
         /// </returns>
-        [PreserveSig]
-        HRESULT Next([In] ULONG celt, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)][Out] STATSTG[] rgelt, [Out] out ULONG pceltFetched);
+        public HRESULT Next([In] ULONG celt, [Out] STATSTG[] rgelt, [Out] out ULONG pceltFetched)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULONG, STATSTG[], out ULONG, HRESULT>)_vTable[3])(thisPtr, celt, rgelt, out pceltFetched);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Skip"/> method skips a specified number of <see cref="STATSTG"/> structures in the enumeration sequence.
@@ -53,8 +59,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// This method supports the following return values:
         /// </returns>
-        [PreserveSig]
-        HRESULT Skip([In] ULONG celt);
+        public HRESULT Skip([In] ULONG celt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULONG, HRESULT>)_vTable[4])(thisPtr, celt);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Reset"/> method resets the enumeration sequence to the beginning of the <see cref="STATSTG"/> structure array.
@@ -63,8 +74,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method supports the <see cref="S_OK"/> return value.
         /// <see cref="S_OK"/>: The enumeration sequence was successfully reset to the beginning of the enumeration.
         /// </returns>
-        [PreserveSig]
-        HRESULT Reset();
+        public HRESULT Reset()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[5])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Clone"/> method creates a new enumerator that
@@ -82,7 +98,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="E_OUTOFMEMORY"/>: Insufficient memory.
         /// <see cref="E_UNEXPECTED"/>: An unexpected exception occurred.
         /// </returns>
-        [PreserveSig]
-        HRESULT Clone([Out] out IEnumSTATSTG ppenum);
+        public HRESULT Clone([Out] out IntPtr ppenum)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppenum);
+            }
+        }
     }
 }

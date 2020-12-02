@@ -4,10 +4,10 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.BIND_FLAGS;
 using static Lsj.Util.Win32.Enums.MKSYS;
 using static Lsj.Util.Win32.Ole32;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -24,50 +24,9 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imoniker
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IMoniker)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IMoniker : IPersistStream
+    public unsafe struct IMoniker
     {
-        /// <summary>
-        /// From <see cref="IPersist"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pClassID"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT GetClassID([Out]out Guid pClassID);
-
-        /// <summary>
-        /// From <see cref="IPersistStream"/>, just make COM happy.
-        /// </summary>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT IsDirty();
-
-        /// <summary>
-        /// From <see cref="IPersistStream"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pStm"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT Load([In]IStream pStm);
-
-        /// <summary>
-        /// From <see cref="IPersistStream"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pStm"></param>
-        /// <param name="fClearDirty"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT Save([In]IStream pStm, [In]BOOL fClearDirty);
-
-        /// <summary>
-        /// From <see cref="IPersistStream"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pcbSize"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT GetSizeMax([Out]out ULARGE_INTEGER pcbSize);
+        IntPtr* _vTable;
 
         /// <summary>
         /// Binds to the specified object.
@@ -176,9 +135,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvResult"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
-        [PreserveSig]
-        HRESULT BindToObject([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riidResult,
-            [MarshalAs(UnmanagedType.Interface)][Out]out object ppvResult);
+        public HRESULT BindToObject([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IID riidResult, [Out] out IntPtr ppvResult)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IID, out IntPtr, HRESULT>)_vTable[8])(thisPtr, pbc, pmkToLeft, riidResult, out ppvResult);
+            }
+        }
 
         /// <summary>
         /// Binds to the storage for the specified object.
@@ -244,9 +207,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// your implementation has the option of returning <see langword="null"/> in <paramref name="ppvObj"/>
         /// (although you can also ignore the flag and perform the complete binding operation).
         /// </remarks>
-        [PreserveSig]
-        HRESULT BindToStorage([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [MarshalAs(UnmanagedType.Interface)][Out]out object ppvObj);
+        public HRESULT BindToStorage([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IID riid, [Out] out IntPtr ppvObj)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IID, out IntPtr, HRESULT>)_vTable[9])(thisPtr, pbc, pmkToLeft, riid, out ppvObj);
+            }
+        }
 
         /// <summary>
         /// Reduces a moniker to its simplest form.
@@ -311,9 +278,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This way, the caller still has the option of using the nonreduced moniker (for example, enumerating its components).
         /// Your implementation should reduce the moniker at least as far as is requested.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Reduce([In]IBindCtx pbc, [In] MKRREDUCE dwReduceHowFar, [MarshalAs(UnmanagedType.Interface)][In][Out]ref IMoniker ppmkToLeft,
-            [MarshalAs(UnmanagedType.Interface)][Out]out IMoniker ppmkReduced);
+        public HRESULT Reduce([In] in IBindCtx pbc, [In] MKRREDUCE dwReduceHowFar, [In][Out] ref IMoniker* ppmkToLeft, [Out] out IntPtr ppmkReduced)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, MKRREDUCE, ref IMoniker*, out IntPtr, HRESULT>)_vTable[10])(thisPtr, pbc, dwReduceHowFar, ref ppmkToLeft, out ppmkReduced);
+            }
+        }
 
         /// <summary>
         /// Creates a new composite moniker by combining the current moniker with the specified moniker.
@@ -383,8 +354,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If <paramref name="fOnlyIfNotGeneric"/> is <see langword="false"/>,
         /// call the <see cref="CreateGenericComposite"/> function to perform the composition generically.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ComposeWith([In]IMoniker pmkRight, [MarshalAs(UnmanagedType.Bool)]bool fOnlyIfNotGeneric, [Out]out IMoniker ppmkComposite);
+        public HRESULT ComposeWith([In] in IMoniker pmkRight, [In] BOOL fOnlyIfNotGeneric, [Out] out IntPtr ppmkComposite)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, BOOL, out IntPtr, HRESULT>)_vTable[11])(thisPtr, pmkRight, fOnlyIfNotGeneric, out ppmkComposite);
+            }
+        }
 
         /// <summary>
         /// Retrieves a pointer to an enumerator for the components of a composite moniker.
@@ -414,8 +390,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the new moniker class has no discernible internal structure, your implementation of this method can simply return <see cref="S_OK"/>
         /// and set <paramref name="ppenumMoniker"/> to <see langword="null"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Enum([MarshalAs(UnmanagedType.Bool)][In]bool fForward, [Out]out IEnumMoniker ppenumMoniker);
+        public HRESULT Enum([In] BOOL fForward, [Out] out IntPtr ppenumMoniker)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL, out IntPtr, HRESULT>)_vTable[12])(thisPtr, fForward, out ppenumMoniker);
+            }
+        }
 
         /// <summary>
         /// Determines whether this moniker is identical to the specified moniker.
@@ -440,8 +421,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is the caller's responsibility to call <see cref="Reduce"/> to compare reduced monikers.
         /// Two monikers that compare as equal must hash to the same value using <see cref="Hash"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsEqual([In]IMoniker pmkOtherMoniker);
+        public HRESULT IsEqual([In] in IMoniker pmkOtherMoniker)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[13])(thisPtr, pmkOtherMoniker);
+            }
+        }
 
         /// <summary>
         /// Creates a hash value using the internal state of the moniker.
@@ -464,8 +450,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Marshaling and then unmarshaling a moniker should have no effect on its hash value.
         /// Consequently, your implementation of <see cref="Hash"/> should rely only on the internal state of the moniker, not on its memory address.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Hash(out uint pdwHash);
+        public HRESULT Hash(out DWORD pdwHash)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out DWORD, HRESULT>)_vTable[14])(thisPtr, out pdwHash);
+            }
+        }
 
         /// <summary>
         /// Determines whether the object identified by this moniker is currently loaded and running.
@@ -505,8 +496,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// by the moniker is running.
         /// The object identified by the moniker must have registered itself with the ROT when it first began running.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsRunning([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [In]IMoniker pmkNewlyRunning);
+        public HRESULT IsRunning([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] in IMoniker pmkNewlyRunning)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, in IMoniker, HRESULT>)_vTable[15])(thisPtr, pbc, pmkToLeft, pmkNewlyRunning);
+            }
+        }
 
         /// <summary>
         /// Retrieves the time at which the object identified by this moniker was last changed.
@@ -565,8 +561,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// You can get the storage associated with this moniker (or the <paramref name="pmkToLeft"/> moniker) and
         /// return the storage's last modification time with a call to <see cref="IStorage.Stat"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetTimeOfLastChange([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [Out]out Structs.FILETIME pFileTime);
+        public HRESULT GetTimeOfLastChange([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [Out] out FILETIME pFileTime)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, out FILETIME, HRESULT>)_vTable[16])(thisPtr, pbc, pmkToLeft, out pFileTime);
+            }
+        }
 
         /// <summary>
         /// Creates a moniker that is the inverse of this moniker.
@@ -605,8 +606,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// in your implementation of <see cref="Inverse"/>. In your implementation of <see cref="ComposeWith"/>,
         /// you need to check for the inverse you supply in the implementation of <see cref="Inverse"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Inverse([Out]out IMoniker ppmk);
+        public HRESULT Inverse([Out] out IntPtr ppmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[17])(thisPtr, out ppmk);
+            }
+        }
 
         /// <summary>
         /// Creates a new moniker based on the prefix that this moniker has in common with the specified moniker.
@@ -649,8 +655,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Otherwise, it should pass both monikers in a call to the <see cref="MonikerCommonPrefixWith"/> function,
         /// which correctly handles the generic case.
         /// </remarks>
-        [PreserveSig]
-        HRESULT CommonPrefixWith([In]IMoniker pmkOther, [Out]out IMoniker ppmkPrefix);
+        public HRESULT CommonPrefixWith([In] in IMoniker pmkOther, [Out] out IntPtr ppmkPrefix)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[18])(thisPtr, pmkOther, out ppmkPrefix);
+            }
+        }
 
         /// <summary>
         /// Creates a relative moniker between this moniker and the specified moniker.
@@ -703,8 +714,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For example, a file moniker returns an anti-moniker as an inverse, while its <see cref="RelativePathTo"/> method
         /// must use one or more file monikers that each represent the path ".." to construct the inverse of myTail.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RelativePathTo([In]IMoniker pmkOther, [Out]out IMoniker ppmkRelPath);
+        public HRESULT RelativePathTo([In] in IMoniker pmkOther, [Out] out IntPtr ppmkRelPath)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[19])(thisPtr, pmkOther, out ppmkRelPath);
+            }
+        }
 
         /// <summary>
         /// Retrieves the display name for the moniker.
@@ -758,8 +774,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The display name for a file moniker does not include a delimiter because file monikers are always expected to be
         /// the leftmost component of a composite.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetDisplayName([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [MarshalAs(UnmanagedType.LPWStr)][Out]out string ppszDisplayName);
+        public HRESULT GetDisplayName([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [Out] out IntPtr ppszDisplayName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, out IntPtr, HRESULT>)_vTable[20])(thisPtr, pbc, pmkToLeft, out ppszDisplayName);
+            }
+        }
 
         /// <summary>
         /// Converts a display name into a moniker.
@@ -818,9 +839,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Any objects that are bound should be registered with the bind context (see <see cref="IBindCtx.RegisterObjectBound"/>)
         /// to ensure that they remain running for the duration of the parsing operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ParseDisplayName([In]IBindCtx pbc, [In]IMoniker pmkToLeft, [In][MarshalAs(UnmanagedType.LPWStr)]string pszDisplayName,
-            [Out]out int pchEaten, [Out]out IMoniker ppmkOut);
+        public HRESULT ParseDisplayName([In] in IBindCtx pbc, [In] in IMoniker pmkToLeft, [In] string pszDisplayName,
+            [Out] out ULONG pchEaten, [Out] out IntPtr ppmkOut)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszDisplayNamePtr = pszDisplayName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in IMoniker, char*, out ULONG, out IntPtr, HRESULT>)_vTable[21])(thisPtr, pbc, pmkToLeft, pszDisplayNamePtr, out pchEaten, out ppmkOut);
+            }
+        }
 
         /// <summary>
         /// Determines whether this moniker is one of the system-provided moniker classes.
@@ -842,7 +869,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Instead, you should use your moniker's implementation of <see cref="IPersist.GetClassID"/>
         /// or use QueryInterface to test for your own private interface.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsSystemMoniker([Out]out MKSYS pdwMksys);
+        public HRESULT IsSystemMoniker([Out] out MKSYS pdwMksys)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out MKSYS, HRESULT>)_vTable[22])(thisPtr, out pdwMksys);
+            }
+        }
     }
 }

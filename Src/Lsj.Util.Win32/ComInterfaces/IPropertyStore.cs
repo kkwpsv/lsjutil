@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    interface IPropertyStore
+    /// <summary>
+    /// 
+    /// </summary>
+    public unsafe struct IPropertyStore
     {
+        IntPtr* _vTable;
     }
 }

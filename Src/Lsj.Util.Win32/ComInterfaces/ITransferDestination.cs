@@ -4,7 +4,11 @@ using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    interface ITransferDestination
+    /// <summary>
+    /// 
+    /// </summary>
+    public unsafe struct ITransferDestination
     {
+        IntPtr* _vTable;
     }
 }

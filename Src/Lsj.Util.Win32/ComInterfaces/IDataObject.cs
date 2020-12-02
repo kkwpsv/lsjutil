@@ -5,7 +5,6 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DATADIR;
@@ -35,11 +34,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-idataobject
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IDataObject)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IDataObject
+    public unsafe struct IDataObject
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Called by a data consumer to obtain data from a source data object.
         /// The <see cref="GetData"/> method renders the data described in the specified <see cref="FORMATETC"/> structure
@@ -92,8 +90,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the initial transfer fails with the selected medium,
         /// this method can be implemented to try one of the other media specified before returning an error.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetData([In]in FORMATETC pformatetcIn, [Out]out STGMEDIUM pmedium);
+        public HRESULT GetData([In] in FORMATETC pformatetcIn, [Out] out STGMEDIUM pmedium)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, out STGMEDIUM, HRESULT>)_vTable[3])(thisPtr, pformatetcIn, out pmedium);
+            }
+        }
 
         /// <summary>
         /// Called by a data consumer to obtain data from a source data object.
@@ -138,8 +141,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// before the current seek pointer of the stream (that is, the position on exit).
         /// For <see cref="GetDataHere"/>, the data returned is from the stream position on entry through just before the position on exit.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetDataHere([In]in FORMATETC pformatetc, [In][Out]ref STGMEDIUM pmedium);
+        public HRESULT GetDataHere([In] in FORMATETC pformatetc, [In][Out] ref STGMEDIUM pmedium)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, ref STGMEDIUM, HRESULT>)_vTable[4])(thisPtr, pformatetc, ref pmedium);
+            }
+        }
 
         /// <summary>
         /// Determines whether the data object is capable of rendering the data as specified.
@@ -165,8 +173,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// whether passing the specified <see cref="FORMATETC"/> structure to a subsequent call to <see cref="GetData"/> is likely to be successful.
         /// A successful return from this method does not necessarily ensure the success of the subsequent paste or drop operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT QueryGetData([In]in FORMATETC pformatetc);
+        public HRESULT QueryGetData([In] in FORMATETC pformatetc)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, HRESULT>)_vTable[5])(thisPtr, pformatetc);
+            }
+        }
 
         /// <summary>
         /// Provides a potentially different but logically equivalent <see cref="FORMATETC"/> structure.
@@ -220,8 +233,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// store a <see cref="NULL"/> in the <see cref="FORMATETC.ptd"/> member of the output <see cref="FORMATETC"/>,
         /// and return <see cref="DATA_S_SAMEFORMATETC"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetCanonicalFormatEtc([In]in FORMATETC pformatectIn, [Out]out FORMATETC pformatetcOut);
+        public HRESULT GetCanonicalFormatEtc([In] in FORMATETC pformatectIn, [Out] out FORMATETC pformatetcOut)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, out FORMATETC, HRESULT>)_vTable[6])(thisPtr, pformatectIn, out pformatetcOut);
+            }
+        }
 
         /// <summary>
         /// Called by an object containing a data source to transfer data to the object that implements this method.
@@ -263,8 +281,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The type of medium specified in the pformatetc and pmedium parameters must be the same.
         /// For example, one cannot be a global handle and the other a stream.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetData([In]in FORMATETC pformatetc, [In]in STGMEDIUM pmedium, [In]BOOL fRelease);
+        public HRESULT SetData([In] in FORMATETC pformatetc, [In] in STGMEDIUM pmedium, [In] BOOL fRelease)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, in STGMEDIUM, BOOL, HRESULT>)_vTable[7])(thisPtr, pformatetc, pmedium, fRelease);
+            }
+        }
 
         /// <summary>
         /// Creates an object to enumerate the formats supported by a data object.
@@ -327,8 +350,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The tymed member of <see cref="FORMATETC"/> often indicates that more than one kind of storage medium is acceptable.
         /// You should always mask and test for this by using a Boolean OR operator.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumFormatEtc([In]DWORD dwDirection, [Out]out IEnumFORMATETC ppenumFormatEtc);
+        public HRESULT EnumFormatEtc([In] DWORD dwDirection, [Out] out IntPtr ppenumFormatEtc)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, HRESULT>)_vTable[8])(thisPtr, dwDirection, out ppenumFormatEtc);
+            }
+        }
 
         /// <summary>
         /// Called by an object supporting an advise sink to create a connection between a data object and the advise sink.
@@ -418,8 +446,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Then, delegate the call to the <see cref="IDataAdviseHolder.Advise"/> method in the data advise holder,
         /// which creates, and subsequently manages, the requested connection.
         /// </remarks>
-        [PreserveSig]
-        HRESULT DAdvise([In]in FORMATETC pformatetc, [In]ADVF advf, [In]IAdviseSink pAdvSink, [Out]DWORD pdwConnection);
+        public HRESULT DAdvise([In] in FORMATETC pformatetc, [In] ADVF advf, [In] in IAdviseSink pAdvSink, [Out] out DWORD pdwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in FORMATETC, ADVF, in IAdviseSink, out DWORD, HRESULT>)_vTable[9])(thisPtr, pformatetc, advf, pAdvSink, out pdwConnection);
+            }
+        }
 
         /// <summary>
         /// Destroys a notification connection that had been previously set up.
@@ -438,8 +471,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the advisory connection being deleted was initially set up by delegating the <see cref="DAdvise"/> call to <see cref="IDataAdviseHolder.Advise"/>,
         /// you must delegate this call to <see cref="IDataAdviseHolder.Unadvise"/> to delete it.
         /// </remarks>
-        [PreserveSig]
-        HRESULT DUnadvise([In]DWORD dwConnection);
+        public HRESULT DUnadvise([In] DWORD dwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[10])(thisPtr, dwConnection);
+            }
+        }
 
         /// <summary>
         /// Creates an object that can be used to enumerate the current advisory connections.
@@ -467,7 +505,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This creates the enumerator and supplies the pointer to the OLE implementation of <see cref="IEnumSTATDATA"/>.
         /// At that point, you can call its methods to enumerate the current advisory connections.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumDAdvise([Out]IEnumSTATDATA ppenumAdvise);
+        public HRESULT EnumDAdvise([Out] out IntPtr ppenumAdvise)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppenumAdvise);
+            }
+        }
     }
 }

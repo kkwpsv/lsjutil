@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    interface IQueryAssociations
+    /// <summary>
+    /// 
+    /// </summary>
+    public unsafe struct IQueryAssociations
     {
+        IntPtr* _vTable;
     }
 }

@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.STATFLAG;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using STATSTG = Lsj.Util.Win32.Structs.STATSTG;
@@ -21,11 +20,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ilockbytes
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_ILockBytes)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface ILockBytes
+    public unsafe struct ILockBytes
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// The <see cref="ReadAt"/> method reads a specified number of bytes
         /// starting at a specified offset from the beginning of the byte array object.
@@ -55,8 +53,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is not an error to read less than the specified number of bytes if the operation encounters the end of the byte array.
         /// Note that this is the same end-of-file behavior as found in MS-DOS file allocation table (FAT) file system files.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ReadAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead);
+        public HRESULT ReadAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, ulOffset, pv, cb, out pcbRead);
+            }
+        }
 
         /// <summary>
         /// The <see cref="WriteAt"/> method writes the specified number of bytes starting at a specified offset from the beginning of the byte array.
@@ -86,8 +89,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="WriteAt"/> increases the size of the byte array.
         /// The fill bytes written to the byte array are not initialized to any particular value.
         /// </remarks>
-        [PreserveSig]
-        HRESULT WriteAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten);
+        public HRESULT WriteAt([In] ULARGE_INTEGER ulOffset, [In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[4])(thisPtr, ulOffset, pv, cb, out pcbWritten);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Flush"/> method ensures that any internal buffers maintained
@@ -101,8 +109,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The COM-provided implementation of compound files calls this method during a transacted commit operation
         /// to provide a two-phase commit process that protects against loss of data.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Flush();
+        public HRESULT Flush()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[5])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="SetSize"/> method changes the size of the byte array.
@@ -124,8 +137,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because of cache buffering in the operating system or network.
         /// However, callers must be able to deal with this return code because some <see cref="ILockBytes"/> implementations might support it. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetSize([In] ULARGE_INTEGER cb);
+        public HRESULT SetSize([In] ULARGE_INTEGER cb)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, HRESULT>)_vTable[6])(thisPtr, cb);
+            }
+        }
 
         /// <summary>
         /// The <see cref="LockRegion"/> method restricts access to a specified range of bytes in the byte array.
@@ -174,8 +192,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A <see cref="LockRegion"/> implementation can choose to support all, some, or none of the lock types.
         /// For unsupported lock types, the implementation should return <see cref="STG_E_INVALIDFUNCTION"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT LockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType);
+        public HRESULT LockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, ULARGE_INTEGER, LOCKTYPE, HRESULT>)_vTable[7])(thisPtr, libOffset, cb, dwLockType);
+            }
+        }
 
         /// <summary>
         /// The <see cref="UnlockRegion"/> method removes the access restriction on a previously locked range of bytes.
@@ -199,8 +222,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <paramref name="cb"/>, and <paramref name="dwLockType"/> parameters as in the matching calls to <see cref="LockRegion"/>.
         /// Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.
         /// </remarks>
-        [PreserveSig]
-        HRESULT UnlockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType);
+        public HRESULT UnlockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, ULARGE_INTEGER, LOCKTYPE, HRESULT>)_vTable[8])(thisPtr, libOffset, cb, dwLockType);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Stat"/> method retrieves a <see cref="STATSTG"/> structure containing information for this byte array object.
@@ -217,7 +245,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The other possible value, <see cref="STATFLAG_DEFAULT"/>, indicates that all members of the <see cref="STATSTG"/> structure be supplied.
         /// </param>
         /// <returns></returns>
-        [PreserveSig]
-        HRESULT Stat([Out] out STATSTG pstatstg, [In] STATFLAG grfStatFlag);
+        public HRESULT Stat([Out] out STATSTG pstatstg, [In] STATFLAG grfStatFlag)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out STATSTG, STATFLAG, HRESULT>)_vTable[9])(thisPtr, out pstatstg, grfStatFlag);
+            }
+        }
     }
 }

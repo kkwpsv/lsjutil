@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lsj.Util.IL;
+﻿using Lsj.Util.IL;
+using System;
 
 namespace Lsj.Util.Win32
 {
@@ -31,7 +29,15 @@ namespace Lsj.Util.Win32
         /// <typeparam name="T"></typeparam>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static ref T AsStructRef<T>(IntPtr p) => ref Unsafe.AsRef<T>(p.ToPointer());
+        public static ref T AsStructRef<T>(void* p) where T : struct => ref Unsafe.AsRef<T>(p);
+
+        /// <summary>
+        /// As Struct Ref
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public static ref T AsStructRef<T>(this IntPtr p) where T : struct => ref Unsafe.AsRef<T>(p.ToPointer());
 
         /// <summary>
         /// As

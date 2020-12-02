@@ -35,11 +35,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// that result in compilation or runtime errors.
     /// For more information, see Conventions for Function Prototypes.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IShellLinkW)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IShellLink
+    public unsafe struct IShellLink
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Gets the path and file name of the target of a Shell link object.
         /// </summary>
@@ -71,9 +70,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the operation is successful but no path is retrieved, it returns <see cref="S_FALSE"/> and <paramref name="pszFile"/> will be empty.
         /// Otherwise, it returns one of the standard <see cref="HRESULT"/> error values.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetPath([Out][MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszFile, [In] int cch,
-            [In][Out] ref WIN32_FIND_DATA pfd, [In] SLGP_FLAGS fFlags);
+        public HRESULT GetPath([In] IntPtr pszFile, [In] int cch, [In][Out] ref WIN32_FIND_DATA pfd, [In] SLGP_FLAGS fFlags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, ref WIN32_FIND_DATA, SLGP_FLAGS, HRESULT>)_vTable[3])(thisPtr, pszFile, cch, ref pfd, fFlags);
+            }
+        }
 
         /// <summary>
         /// Gets the list of item identifiers for the target of a Shell link object.
@@ -87,8 +90,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it returns <see cref="S_FALSE"/> with <paramref name="ppidl"/> set to <see cref="NULL"/>.
         /// Otherwise, it returns a standard error value.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetIDList([Out] out LPITEMIDLIST ppidl);
+        public HRESULT GetIDList([Out] out LPITEMIDLIST ppidl)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out LPITEMIDLIST, HRESULT>)_vTable[4])(thisPtr, out ppidl);
+            }
+        }
 
         /// <summary>
         /// Sets the pointer to an item identifier list (PIDL) for a Shell link object.
@@ -104,8 +112,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method is useful when an application needs to set a Shell link to an object that is not a file,
         /// such as a Control Panel application, a printer, or another computer.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetIDList([In] in LPCITEMIDLIST pidl);
+        public HRESULT SetIDList([In] in LPCITEMIDLIST pidl)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in LPCITEMIDLIST, HRESULT>)_vTable[5])(thisPtr, pidl);
+            }
+        }
 
         /// <summary>
         /// Gets the description string for a Shell link object.
@@ -124,8 +137,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For Windows 2000 or later, the string returned to <paramref name="pszName"/> has a maximum length of <see cref="INFOTIPSIZE"/>.
         /// For systems prior to Windows 2000, the size of the string is limited by <see cref="MAX_PATH"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetDescription([Out][MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszName, [In] int cch);
+        public HRESULT GetDescription([In] IntPtr pszName, [In] int cch)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[6])(thisPtr, pszName, cch);
+            }
+        }
 
         /// <summary>
         /// Sets the description for a Shell link object.
@@ -142,8 +160,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For Windows 2000 or later, the string specified by <paramref name="pszName"/> must be no larger than <see cref="INFOTIPSIZE"/>.
         /// For systems prior to Windows 2000, the size of the string is limited by <see cref="MAX_PATH"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetDescription([In] string pszName);
+        public HRESULT SetDescription([In] string pszName)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszNamePtr = pszName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[7])(thisPtr, pszNamePtr);
+            }
+        }
 
         /// <summary>
         /// Gets the name of the working directory for a Shell link object.
@@ -159,8 +183,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetWorkingDirectory([Out][MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszDir, [In] int cch);
+        public HRESULT GetWorkingDirectory([In] IntPtr pszDir, [In] int cch)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[8])(thisPtr, pszDir, cch);
+            }
+        }
 
         /// <summary>
         /// Sets the name of the working directory for a Shell link object.
@@ -177,8 +206,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For example, if an application creates a Shell link to a Microsoft Word document that uses a template residing in a different directory,
         /// the application would use this method to set the working directory.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetWorkingDirectory([In] string pszDir);
+        public HRESULT SetWorkingDirectory([In] string pszDir)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszDirPtr = pszDir)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[9])(thisPtr, pszDirPtr);
+            }
+        }
 
         /// <summary>
         /// Gets the command-line arguments associated with a Shell link object.
@@ -202,8 +237,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which can silently truncate the string if the provided buffer is not large enough.
         /// <see cref="IPropertyStore"/> allocates a string of the correct size.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetArguments([Out][MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszArgs, [In] int cch);
+        public HRESULT GetArguments([In] IntPtr pszArgs, [In] int cch)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, HRESULT>)_vTable[10])(thisPtr, pszArgs, cch);
+            }
+        }
 
         /// <summary>
         /// Sets the command-line arguments for a Shell link object.
@@ -221,8 +261,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// This method is useful when creating a link to an application that takes special flags as arguments, such as a compiler.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetArguments([In] string pszArgs);
+        public HRESULT SetArguments([In] string pszArgs)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszArgsPtr = pszArgs)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[11])(thisPtr, pszArgsPtr);
+            }
+        }
 
         /// <summary>
         /// Gets the keyboard shortcut (hot key) for a Shell link object.
@@ -240,8 +286,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetHotkey([Out] out WORD pwHotkey);
+        public HRESULT GetHotkey([Out] out WORD pwHotkey)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out WORD, HRESULT>)_vTable[12])(thisPtr, out pwHotkey);
+            }
+        }
 
         /// <summary>
         /// Sets a keyboard shortcut (hot key) for a Shell link object.
@@ -258,8 +309,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// Setting a keyboard shortcut allows the user to activate the object by pressing a particular combination of keys.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetHotkey([In] WORD wHotkey);
+        public HRESULT SetHotkey([In] WORD wHotkey)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, WORD, HRESULT>)_vTable[13])(thisPtr, wHotkey);
+            }
+        }
 
         /// <summary>
         /// Gets the show command for a Shell link object.
@@ -283,8 +339,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The show command is used to set the initial show state of the corresponding object.
         /// This is one of the SW_xxx values described in <see cref="ShowWindow"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetShowCmd([Out] out ShowWindowCommands piShowCmd);
+        public HRESULT GetShowCmd([Out] out ShowWindowCommands piShowCmd)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out ShowWindowCommands, HRESULT>)_vTable[14])(thisPtr, out piShowCmd);
+            }
+        }
 
         /// <summary>
         /// Sets the show command for a Shell link object.
@@ -306,8 +367,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetShowCmd([In] ShowWindowCommands iShowCmd);
+        public HRESULT SetShowCmd([In] ShowWindowCommands iShowCmd)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ShowWindowCommands, HRESULT>)_vTable[15])(thisPtr, iShowCmd);
+            }
+        }
 
         /// <summary>
         /// Gets the location (path and index) of the icon for a Shell link object.
@@ -325,8 +391,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetIconLocation([Out][MarshalAs(UnmanagedType.LPWStr)] StringBuilder pszIconPath, [In] int cch, [Out] int piIcon);
+        public HRESULT GetIconLocation([In] IntPtr pszIconPath, [In] int cch, [Out] out int piIcon)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int, out int, HRESULT>)_vTable[16])(thisPtr, pszIconPath, cch, out piIcon);
+            }
+        }
 
         /// <summary>
         /// Sets the location (path and index) of the icon for a Shell link object.
@@ -341,8 +412,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetIconLocation([In][MarshalAs(UnmanagedType.LPWStr)] string pszIconPath, [In] int iIcon);
+        public HRESULT SetIconLocation([In] string pszIconPath, [In] int iIcon)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszIconPathPtr = pszIconPath)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, int, HRESULT>)_vTable[17])(thisPtr, pszIconPathPtr, iIcon);
+            }
+        }
 
         /// <summary>
         /// Sets the relative path to the Shell link object.
@@ -378,8 +455,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// ::SetRelativePath("d:\MyLink.lnk", NULL);
         /// </code>
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetRelativePath([In][MarshalAs(UnmanagedType.LPWStr)] string pszPathRel, [In] DWORD dwReserved);
+        public HRESULT SetRelativePath([In] string pszPathRel, [In] DWORD dwReserved)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszPathRelPtr = pszPathRel)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, DWORD, HRESULT>)_vTable[18])(thisPtr, pszPathRelPtr, dwReserved);
+            }
+        }
 
         /// <summary>
         /// Attempts to find the target of a Shell link, even if it has been moved or renamed.
@@ -462,8 +545,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If both approaches fail, the system will display a dialog box prompting the user for a location.
         /// To suppress the dialog box, set the <see cref="SLR_NO_UI"/> flag.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Resolve([In] HWND hwnd, [In] SLR_FLAGS fFlags);
+        public HRESULT Resolve([In] HWND hwnd, [In] SLR_FLAGS fFlags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, SLR_FLAGS, HRESULT>)_vTable[19])(thisPtr, hwnd, fFlags);
+            }
+        }
 
         /// <summary>
         /// Sets the path and file name for the target of a Shell link object.
@@ -475,7 +563,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetPath([In][MarshalAs(UnmanagedType.LPWStr)] string pszFile);
+        public HRESULT SetPath([In] string pszFile)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszFilePtr = pszFile)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[20])(thisPtr, pszFilePtr);
+            }
+        }
     }
 }

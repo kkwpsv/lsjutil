@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MSHCTX;
 using static Lsj.Util.Win32.Ole32;
@@ -18,11 +17,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imarshal
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IMarshal)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IMarshal
+    public unsafe struct IMarshal
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Retrieves the CLSID of the unmarshaling code.
         /// </summary>
@@ -99,9 +97,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// that implements the CLSID returned from the <see cref="GetUnmarshalClass"/> method.
         /// For more information, see InprocServer32.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetUnmarshalClass([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
-            [In] MSHLFLAGS mshlflags, [Out] out CLSID pCid);
+        public HRESULT GetUnmarshalClass([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
+            [In] MSHLFLAGS mshlflags, [Out] out CLSID pCid)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, PVOID, MSHCTX, IntPtr, MSHLFLAGS, out CLSID, HRESULT>)_vTable[3])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pCid);
+            }
+        }
 
         /// <summary>
         /// Retrieves the maximum size of the buffer that will be needed during marshaling.
@@ -175,9 +178,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// for all <paramref name="dwDestContext"/> values that your implementation does not understand.
         /// To delegate marshaling to the COM default implementation, call the <see cref="CoGetStandardMarshal"/> function.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetMarshalSizeMax([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
-            [In] MSHLFLAGS mshlflags, [Out] out DWORD pSize);
+        public HRESULT GetMarshalSizeMax([In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext, [In] IntPtr pvDestContext,
+               [In] MSHLFLAGS mshlflags, [Out] out DWORD pSize)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, out DWORD, HRESULT>)_vTable[4])(thisPtr, riid, pv, dwDestContext, pvDestContext, mshlflags, out pSize);
+            }
+        }
 
         /// <summary>
         /// Marshals an interface pointer.
@@ -208,9 +216,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Possible values come from the <see cref="MSHLFLAGS"/> enumeration.
         /// </param>
         /// <returns></returns>
-        [PreserveSig]
-        HRESULT MarshalInterface([In] IStream pStm, [In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext,
-            [In] IntPtr pvDestContext, [In] MSHLFLAGS mshlflags);
+        public HRESULT MarshalInterface([In] in IStream pStm, [In] in IID riid, [In] IntPtr pv, [In] MSHCTX dwDestContext,
+            [In] IntPtr pvDestContext, [In] MSHLFLAGS mshlflags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, in IID, IntPtr, MSHCTX, IntPtr, MSHLFLAGS, HRESULT>)_vTable[5])(thisPtr, pStm, riid, pv, dwDestContext, pvDestContext, mshlflags);
+            }
+        }
 
         /// <summary>
         /// Unmarshals an interface pointer.
@@ -249,8 +262,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Just before exiting, even if exiting with an error, your implementation should reposition
         /// the seek pointer in the stream immediately after the last byte of data read.
         /// </remarks>
-        [PreserveSig]
-        HRESULT UnmarshalInterface([In] IStream pStm, [In] in IID riid, [Out] out object ppv);
+        public HRESULT UnmarshalInterface([In] in IStream pStm, [In] in IID riid, [Out] out IntPtr ppv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, in IID, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pStm, riid, out ppv);
+            }
+        }
 
         /// <summary>
         /// Destroys a marshaled data packet.
@@ -282,8 +300,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// you can use this method to release the state information associated with the data packet represented by <paramref name="pStm"/>.
         /// Your implementation should also position the seek pointer in the stream past the last byte of data. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT ReleaseMarshalData([In] IStream pStm);
+        public HRESULT ReleaseMarshalData([In] in IStream pStm)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, HRESULT>)_vTable[7])(thisPtr, pStm);
+            }
+        }
 
         /// <summary>
         /// Releases all connections to an object.
@@ -317,7 +340,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Therefore, they have neither a proxy nor a connection to the original object.
         /// For more information on marshaling immutable objects, see the "When to Implement" section of the IMarshal topic.
         /// </remarks>
-        [PreserveSig]
-        HRESULT DisconnectObject([In] DWORD dwReserved);
+        public HRESULT DisconnectObject([In] DWORD dwReserved)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[7])(thisPtr, dwReserved);
+            }
+        }
     }
 }

@@ -1,10 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.Urlmon;
@@ -36,18 +34,9 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <see cref="IPersistStream"/>, in addition to inheriting its definition from <see cref="IUnknown"/>,
     /// also inherits the single method of <see cref="IPersist"/>, <see cref="GetClassID"/>.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IPersistStream)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPersistStream : IPersist
+    public unsafe struct IPersistStream
     {
-        /// <summary>
-        /// From <see cref="IPersist"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pClassID"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT GetClassID([Out]out Guid pClassID);
+        IntPtr* _vTable;
 
         /// <summary>
         /// Determines whether an object has changed since it was last saved to its stream.
@@ -65,8 +54,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Note that the OLE-provided implementations of the <see cref="IsDirty"/> method
         /// in the OLE-provided moniker interfaces always return <see cref="S_FALSE"/> because their internal state never changes.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsDirty();
+        public HRESULT IsDirty()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[4])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Initializes an object from the stream where it was saved previously.
@@ -100,8 +94,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// (may be a full or partial URL string, see <see cref="CreateURLMonikerEx"/> for details).
         /// This is represented as a <see cref="ULONG"/> count of characters followed by that many Unicode characters.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Load([In]IStream pStm);
+        public HRESULT Load([In] in IStream pStm)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, HRESULT>)_vTable[5])(thisPtr, pStm);
+            }
+        }
 
         /// <summary>
         /// Saves an object to the specified stream.
@@ -145,8 +144,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// (may be a full or partial URL string, see <see cref="CreateURLMonikerEx"/> for details).
         /// This is represented as a <see cref="ULONG"/> count of characters followed by that many Unicode characters.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Save([In]IStream pStm, [In]BOOL fClearDirty);
+        public HRESULT Save([In] in IStream pStm, [In] BOOL fClearDirty)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, BOOL, HRESULT>)_vTable[6])(thisPtr, pStm, fClearDirty);
+            }
+        }
 
         /// <summary>
         /// Retrieves the size of the stream needed to save the object.
@@ -168,7 +172,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This value is sizeof(ULONG)==4 plus sizeof(WCHAR)*n where n is the length
         /// of the full or partial URL string, including the <see cref="NULL"/> terminator.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetSizeMax([Out]out ULARGE_INTEGER pcbSize);
+        public HRESULT GetSizeMax([Out] out ULARGE_INTEGER pcbSize)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out ULARGE_INTEGER, HRESULT>)_vTable[7])(thisPtr, out pcbSize);
+            }
+        }
     }
 }

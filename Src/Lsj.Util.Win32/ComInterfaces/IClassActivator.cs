@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -15,11 +14,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iclassactivator
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IClassActivator)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IClassActivator
+    public unsafe struct IClassActivator
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Retrieves a class object.
         /// </summary>
@@ -44,7 +42,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the method succeeds, the return value is <see cref="S_OK"/>.
         /// Otherwise, it is <see cref="E_FAIL"/>.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetClassObject([In]in CLSID rclsid, [In]CLSCTX dwClassContext, [In]LCID locale, [In]in IID riid, [Out]out object ppv);
+        public HRESULT GetClassObject([In] in CLSID rclsid, [In] CLSCTX dwClassContext, [In] LCID locale, [In] in IID riid, [Out] out IntPtr ppv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in CLSID, CLSCTX, LCID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, rclsid, dwClassContext, locale, riid, out ppv);
+            }
+        }
     }
 }

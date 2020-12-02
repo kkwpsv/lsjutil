@@ -59,30 +59,9 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-istream
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IStream)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IStream : ISequentialStream
+    public unsafe struct IStream
     {
-        /// <summary>
-        /// From <see cref="ISequentialStream"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pv"></param>
-        /// <param name="cb"></param>
-        /// <param name="pcbRead"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead);
-
-        /// <summary>
-        /// From <see cref="ISequentialStream"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pv"></param>
-        /// <param name="cb"></param>
-        /// <param name="pcbWritten"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten);
+        IntPtr* _vTable;
 
         /// <summary>
         /// The Seek method changes the seek pointer to a new location.
@@ -118,8 +97,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// and the <paramref name="dlibMove"/> parameter set to 0 so that the seek pointer is not changed.
         /// The current seek pointer is returned in the <paramref name="plibNewPosition"/> parameter.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Seek([In] LARGE_INTEGER dlibMove, [In] STREAM_SEEK dwOrigin, [Out] out ULARGE_INTEGER plibNewPosition);
+        public HRESULT Seek([In] LARGE_INTEGER dlibMove, [In] STREAM_SEEK dwOrigin, [Out] out ULARGE_INTEGER plibNewPosition)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, LARGE_INTEGER, STREAM_SEEK, out ULARGE_INTEGER, HRESULT>)_vTable[5])(thisPtr, dlibMove, dwOrigin, out plibNewPosition);
+            }
+        }
 
         /// <summary>
         /// The <see cref="SetSize"/> method changes the size of the stream object.
@@ -140,8 +124,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The seek pointer is not affected by the change in stream size.
         /// Calling <see cref="IStream.SetSize"/> can be an effective way to obtain a large chunk of contiguous space.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetSize([In] ULARGE_INTEGER libNewSize);
+        public HRESULT SetSize([In] ULARGE_INTEGER libNewSize)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, HRESULT>)_vTable[6])(thisPtr, libNewSize);
+            }
+        }
 
         /// <summary>
         /// The <see cref="CopyTo"/> method copies a specified number of bytes
@@ -182,8 +171,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// specify the maximum large integer value for the <paramref name="cb"/> parameter.
         /// If the seek pointer is the beginning of the stream, this operation copies the entire stream.
         /// </remarks>
-        [PreserveSig]
-        HRESULT CopyTo([In] IStream pstm, [In] ULARGE_INTEGER cb, [Out] out ULARGE_INTEGER pcbRead, [Out] out ULARGE_INTEGER pcbWritten);
+        public HRESULT CopyTo([In] in IStream pstm, [In] ULARGE_INTEGER cb, [Out] out ULARGE_INTEGER pcbRead, [Out] out ULARGE_INTEGER pcbWritten)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStream, ULARGE_INTEGER, out ULARGE_INTEGER, out ULARGE_INTEGER, HRESULT>)_vTable[7])
+                    (thisPtr, pstm, cb, out pcbRead, out pcbWritten);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Commit"/> method ensures that any changes made to a stream object open
@@ -212,8 +207,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// when the implementation of the <see cref="IStream"/> interface is a wrapper for underlying file system APIs.
         /// In this case, <see cref="Commit"/> would be connected to the file system's flush call.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Commit([In] STGC grfCommitFlags);
+        public HRESULT Commit([In] STGC grfCommitFlags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, STGC, HRESULT>)_vTable[8])(thisPtr, grfCommitFlags);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Revert"/> method discards all changes that have been made to a transacted stream since the last <see cref="Commit"/> call.
@@ -225,8 +225,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The <see cref="Revert"/> method discards changes made to a transacted stream since the last commit operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Revert();
+        public HRESULT Revert()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[9])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="LockRegion"/> method restricts access to a specified range of bytes in the stream.
@@ -267,8 +272,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The type of locking supported is also optional.
         /// The <see cref="STG_E_INVALIDFUNCTION"/> error is returned if the requested type of locking is not supported. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT LockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType);
+        public HRESULT LockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, ULARGE_INTEGER, LOCKTYPE, HRESULT>)_vTable[10])(thisPtr, libOffset, cb, dwLockType);
+            }
+        }
 
         /// <summary>
         /// The <see cref="UnlockRegion"/> method removes the access restriction
@@ -293,8 +303,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The region must be unlocked before the stream is released.
         /// Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.
         /// </remarks>
-        [PreserveSig]
-        HRESULT UnlockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType);
+        public HRESULT UnlockRegion([In] ULARGE_INTEGER libOffset, [In] ULARGE_INTEGER cb, [In] LOCKTYPE dwLockType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULARGE_INTEGER, ULARGE_INTEGER, LOCKTYPE, HRESULT>)_vTable[11])(thisPtr, libOffset, cb, dwLockType);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Stat"/> method retrieves the <see cref="STATSTG"/> structure for this stream.
@@ -316,8 +331,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it creates an enumerator object with the <see cref="IEnumSTATSTG"/> interface on it,
         /// which can be called to enumerate the storages and streams through the <see cref="STATSTG"/> structures associated with each of them.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Stat([In] in STATSTG pstatstg, [In] STATFLAG grfStatFlag);
+        public HRESULT Stat([In] in STATSTG pstatstg, [In] STATFLAG grfStatFlag)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in STATSTG, STATFLAG, HRESULT>)_vTable[12])(thisPtr, pstatstg, grfStatFlag);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Clone"/> method creates a new stream object with its own seek pointer that references the same bytes as the original stream.
@@ -337,7 +357,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The initial setting of the seek pointer in the cloned stream instance is the same as
         /// the current setting of the seek pointer in the original stream at the time of the clone operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Clone([Out] out IStream ppstm);
+        public HRESULT Clone([Out] out IntPtr ppstm)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[13])(thisPtr, out ppstm);
+            }
+        }
     }
 }

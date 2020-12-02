@@ -16,11 +16,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/unknwn/nn-unknwn-iclassfactory
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IClassFactory)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IClassFactory
+    public unsafe struct IClassFactory
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Creates an uninitialized object.
         /// </summary>
@@ -80,9 +79,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When B is created, revoke the class object for A.
         /// This solution complicates shutdown because one of the class objects might have already been revoked (and cannot be revoked twice).
         /// </remarks>
-        [PreserveSig]
-        HRESULT CreateInstance([MarshalAs(UnmanagedType.IUnknown)][In]object pUnkOuter, [MarshalAs(UnmanagedType.LPStruct)][In]Guid riid,
-            [Out]out object ppvObject);
+        public HRESULT CreateInstance([In] in IUnknown pUnkOuter, [In] in IID riid, [Out] out IntPtr ppvObject)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IUnknown, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pUnkOuter, riid, out ppvObject);
+            }
+        }
 
         /// <summary>
         /// Locks an object application open in memory. This enables instances to be created more quickly.
@@ -113,7 +116,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// there must be a call to <see cref="LockServer"/> with <paramref name="fLock"/> set to <see cref="FALSE"/>.
         /// When the lock count and the class object reference count are both zero, the class object can be freed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT LockServer([In]BOOL fLock);
+        public HRESULT LockServer([In] BOOL fLock)
+        {
+
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL, HRESULT>)_vTable[4])(thisPtr, fLock);
+            }
+        }
     }
 }

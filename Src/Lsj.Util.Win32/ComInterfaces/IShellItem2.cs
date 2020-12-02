@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    interface IShellItem2
+    /// <summary>
+    /// 
+    /// </summary>
+    public unsafe struct  IShellItem2
     {
+        IntPtr* _vTable;
     }
 }

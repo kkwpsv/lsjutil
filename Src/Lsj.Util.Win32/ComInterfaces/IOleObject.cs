@@ -4,7 +4,6 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
@@ -24,11 +23,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-ioleobject
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleObject)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleObject
+    public unsafe struct IOleObject
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Informs an embedded object of its display location, called a "client site," within its container.
         /// </summary>
@@ -59,8 +57,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Implementation consists simply of incrementing the reference count on, and storing, the pointer to the client site.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetClientSite([In]IOleClientSite pClientSite);
+        public HRESULT SetClientSite([In] in IOleClientSite pClientSite)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IOleClientSite, HRESULT>)_vTable[3])(thisPtr, pClientSite);
+            }
+        }
 
         /// <summary>
         /// Retrieves a pointer to an embedded object's client site.
@@ -88,8 +91,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This will be the case with a newly loaded or created object when a container has passed a <see langword="null"/> client-site pointer
         /// to one of the object-creation helper functions but has not yet called <see cref="SetClientSite"/> as part of initializing the object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetClientSite([Out]out IOleClientSite ppClientSite);
+        public HRESULT GetClientSite([Out] out IntPtr ppClientSite)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[4])(thisPtr, out ppClientSite);
+            }
+        }
 
         /// <summary>
         /// Provides an object with the names of its container application and the compound document in which it is embedded.
@@ -126,8 +134,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Because these identifying strings are not stored as part of the persistent state of the object,
         /// <see cref="SetHostNames"/> must be called each time the object loads or runs.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetHostNames([MarshalAs(UnmanagedType.LPWStr)][In]string szContainerApp, [MarshalAs(UnmanagedType.LPWStr)][In]string szContainerObj);
+        public HRESULT SetHostNames([In] string szContainerApp, [In] string szContainerObj)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* szContainerAppPtr = szContainerApp)
+            fixed (char* szContainerObjPtr = szContainerObj)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, char*, HRESULT>)_vTable[5])(thisPtr, szContainerAppPtr, szContainerObjPtr);
+            }
+        }
 
         /// <summary>
         /// Changes an embedded object from the running to the loaded state. Disconnects a linked object from its link source.
@@ -170,8 +185,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A source application that is visible to the user when the object is closed remains visible and running
         /// after the disconnection and does not send an <see cref="IAdviseSink.OnClose"/> notification to the link container.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Close([In]OLECLOSE dwSaveOption);
+        public HRESULT Close([In] OLECLOSE dwSaveOption)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLECLOSE, HRESULT>)_vTable[6])(thisPtr, dwSaveOption);
+            }
+        }
 
         /// <summary>
         /// Notifies an object of its container's moniker, the object's own moniker relative to the container, or the object's full moniker.
@@ -207,8 +227,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Upon receiving a call to <see cref="SetMoniker"/>, an object should register its full moniker in the running object table
         /// and send <see cref="IAdviseSink.OnRename"/> notification to all advise sinks that exist for the object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetMoniker([In]OLEWHICHMK dwWhichMoniker, [In]IMoniker pmk);
+        public HRESULT SetMoniker([In] OLEWHICHMK dwWhichMoniker, [In] in IMoniker pmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLEWHICHMK, in IMoniker, HRESULT>)_vTable[7])(thisPtr, dwWhichMoniker, pmk);
+            }
+        }
 
         /// <summary>
         /// Retrieves an embedded object's moniker, which the caller can use to link to the object.
@@ -244,8 +269,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The default implementation of <see cref="GetMoniker"/> calls the <see cref="IOleClientSite.GetMoniker"/>,
         /// returning <see cref="E_UNEXPECTED"/> if the object is not running or does not have a valid pointer to a client site.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetMoniker([In]OLEGETMONIKER dwAssign, [In]OLEWHICHMK dwWhichMoniker, [Out]out IMoniker ppmk);
+        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out IntPtr ppmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out IntPtr, HRESULT>)_vTable[8])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
+            }
+        }
 
         /// <summary>
         /// Initializes a newly created object with data from a specified data object,
@@ -301,8 +331,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For example, if the type of the data provided is unacceptable, the object should fail to initialize and return <see cref="S_FALSE"/>.
         /// If the object returns <see cref="S_FALSE"/>, it cannot initialize itself from the provided data.
         /// </remarks>
-        [PreserveSig]
-        HRESULT InitFromData([In]IDataObject pDataObject, [MarshalAs(UnmanagedType.Bool)][In]bool fCreation, [In]uint dwReserved);
+        public HRESULT InitFromData([In] in IDataObject pDataObject, [In] BOOL fCreation, [In] DWORD dwReserved)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, BOOL, DWORD, HRESULT>)_vTable[9])(thisPtr, pDataObject, fCreation, dwReserved);
+            }
+        }
 
         /// <summary>
         /// Retrieves a data object containing the current contents of the embedded object on which this method is called.
@@ -334,8 +369,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// If you implement this function, you must return an <see cref="IDataObject"/> pointer for an object whose data will not change.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetClipboardData([In]uint dwReserved, [Out]out IDataObject ppDataObject);
+        public HRESULT GetClipboardData([In] DWORD dwReserved, [Out] out IntPtr ppDataObject)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, HRESULT>)_vTable[10])(thisPtr, dwReserved, out ppDataObject);
+            }
+        }
 
         /// <summary>
         /// Requests that an object perform an action in response to an end-user's action.
@@ -482,8 +522,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This ensures that the object's window will be visible to the user even if another process originally obscured it.
         /// For more information see <see cref="SetForegroundWindow"/> and <see cref="SetActiveWindow"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT DoVerb([In]OLEVERB iVerb, [In]IntPtr lpmsg, [In]IOleClientSite pActiveSite, [In]int lindex, [In]IntPtr hwndParent, [In]IntPtr lprcPosRect);
+        public HRESULT DoVerb([In] OLEVERB iVerb, [In] in MSG lpmsg, [In] in IOleClientSite pActiveSite, [In] LONG lindex, [In] HWND hwndParent, [In] in RECT lprcPosRect)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLEVERB, in MSG, in IOleClientSite, LONG, HWND, in RECT, HRESULT>)_vTable[11])(thisPtr, iVerb, lpmsg, pActiveSite, lindex, hwndParent, lprcPosRect);
+            }
+        }
 
         /// <summary>
         /// Exposes a pull-down menu listing the verbs available for an object in ascending order by verb number.
@@ -499,8 +544,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <see cref="OLE_S_USEREG"/>: Delegate to the default handler to use the entries in the registry to provide the enumeration.
         /// <see cref="OLEOBJ_E_NOVERBS"/>: Object does not support any verbs.
         /// </returns>
-        [PreserveSig]
-        HRESULT EnumVerbs([Out]out IEnumOLEVERB ppEnumOleVerb);
+        public HRESULT EnumVerbs([Out] out IntPtr ppEnumOleVerb)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[12])(thisPtr, out ppEnumOleVerb);
+            }
+        }
 
         /// <summary>
         /// Updates an object handler's or link object's data or view caches.
@@ -523,8 +573,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When a container calls an embedded object's <see cref="Update"/> method, it is requesting the object to update all link objects it may contain.
         /// In response, the object handler recursively calls <see cref="Update"/> for each of its own linked objects, running each one as needed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Update();
+        public HRESULT Update()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[13])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Checks whether an object is up to date.
@@ -545,8 +600,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In cases where the object to be queried is small and contains no objects itself, thereby making an efficient query possible,
         /// this method can return either <see cref="S_OK"/> or <see cref="S_FALSE"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsUpToDate();
+        public HRESULT IsUpToDate()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[14])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves an object's class identifier, the CLSID corresponding to the string identifying the object to an end user.
@@ -567,8 +627,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// for the purpose of being edited is emulating a class that the container application recognizes,
         /// the CLSID returned will be that of the class being emulated rather than that of the object's own class.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetUserClassID([MarshalAs(UnmanagedType.LPStruct)][In]Guid pClsid);
+        public HRESULT GetUserClassID([In] in CLSID pClsid)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in CLSID, HRESULT>)_vTable[15])(thisPtr, pClsid);
+            }
+        }
 
         /// <summary>
         /// Retrieves the user-type name of an object for display in user-interface elements such as menus, list boxes, and dialog boxes.
@@ -609,8 +674,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the user type name is an empty string, the message "Unknown Object" is returned.
         /// You can call the OLE helper function OleRegGetUserType to return the appropriate user type.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetUserType([In]USERCLASSTYPE dwFormOfType, [MarshalAs(UnmanagedType.LPWStr)][Out]out string pszUserType);
+        public HRESULT GetUserType([In] USERCLASSTYPE dwFormOfType, [Out] out IntPtr pszUserType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, USERCLASSTYPE, out IntPtr, HRESULT>)_vTable[16])(thisPtr, dwFormOfType, out pszUserType);
+            }
+        }
 
         /// <summary>
         /// Informs an object of how much display space its container has assigned it.
@@ -655,8 +725,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If an object's size is fixed, that is, if it cannot be set by its container, <see cref="SetExtent"/> should return <see cref="E_FAIL"/>.
         /// This is always the case with linked objects, whose sizes are set by their link sources, not by their containers.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetExtent([In]DVASPECT dwDrawAspect, [In]in SIZE psizel);
+        public HRESULT SetExtent([In] DVASPECT dwDrawAspect, [In] in SIZE psizel)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, in SIZE, HRESULT>)_vTable[17])(thisPtr, dwDrawAspect, psizel);
+            }
+        }
 
         /// <summary>
         /// Retrieves a running object's current display size.
@@ -693,8 +768,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Implementation consists of filling the sizel structure with an object's height and width.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetExtent([In]DVASPECT dwDrawAspect, [Out]out SIZE psizel);
+        public HRESULT GetExtent([In] DVASPECT dwDrawAspect, [Out] out SIZE psizel)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, out SIZE, HRESULT>)_vTable[18])(thisPtr, dwDrawAspect, out psizel);
+            }
+        }
 
         /// <summary>
         /// Establishes an advisory connection between a compound document object and the calling object's advise sink,
@@ -727,8 +807,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Calls to <see cref="Advise"/>, <see cref="Unadvise"/>, or <see cref="EnumAdvise"/> are delegated to corresponding methods in the advise holder.
         /// To destroy the advise holder, simply call IUnknown::Release on the <see cref="IOleAdviseHolder"/> interface.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Advise([In]IAdviseSink pAdvSink, [Out]uint pdwConnection);
+        public HRESULT Advise([In] in IAdviseSink pAdvSink, [Out] out DWORD pdwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IAdviseSink, out DWORD, HRESULT>)_vTable[19])(thisPtr, pAdvSink, out pdwConnection);
+            }
+        }
 
         /// <summary>
         /// Deletes a previously established advisory connection.
@@ -748,8 +833,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// as a way of reducing the overhead of maintaining multiple advisory connections.
         /// The easiest way to implement this method is to delegate the call to <see cref="Unadvise"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Unadvise([In]uint dwConnection);
+        public HRESULT Unadvise([In] DWORD dwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[20])(thisPtr, dwConnection);
+            }
+        }
 
         /// <summary>
         /// Retrieves a pointer to an enumerator that can be used to enumerate the advisory connections registered for an object,
@@ -778,8 +868,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The usual way to implement this function is to delegate the call to the <see cref="IOleAdviseHolder"/> interface.
         /// Only the pAdvise and <see cref="STATDATA.dwConnection"/> members of <see cref="STATDATA"/> are relevant for <see cref="EnumAdvise"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumAdvise([Out]out IEnumSTATDATA ppenumAdvise);
+        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[21])(thisPtr, out ppenumAdvise);
+            }
+        }
 
         /// <summary>
         /// Retrieves the status of an object at creation and loading.
@@ -815,8 +910,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Implementation normally consists of delegating the call to the default handler.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetMiscStatus([In]DVASPECT dwAspect, [Out]out OLEMISC pdwStatus);
+        public HRESULT GetMiscStatus([In] DVASPECT dwAspect, [Out] out OLEMISC pdwStatus)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DVASPECT, out OLEMISC, HRESULT>)_vTable[22])(thisPtr, dwAspect, out pdwStatus);
+            }
+        }
 
         /// <summary>
         /// Specifies the color palette that the object application should use when it edits the specified object.
@@ -834,7 +934,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="IOleObject.SetColorScheme"/> method sends the container application's recommended color palette to the object application,
         /// which is not obliged to use it.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetColorScheme([In]in LOGPALETTE pLogpal);
+        public HRESULT SetColorScheme([In] in LOGPALETTE pLogpal)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in LOGPALETTE, HRESULT>)_vTable[23])(thisPtr, pLogpal);
+            }
+        }
     }
 }

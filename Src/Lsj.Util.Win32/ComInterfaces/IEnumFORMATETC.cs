@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IEnumFORMATETC
+    public unsafe struct IEnumFORMATETC
     {
+        IntPtr* _vTable;
     }
 }
