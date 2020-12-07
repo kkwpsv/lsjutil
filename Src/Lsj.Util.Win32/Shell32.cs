@@ -1421,6 +1421,62 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the full path of a known folder identified by the folder's <see cref="KNOWNFOLDERID"/>.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderpath
+        /// </para>
+        /// </summary>
+        /// <param name="rfid">
+        /// A reference to the <see cref="KNOWNFOLDERID"/> that identifies the folder.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags that specify special retrieval options.
+        /// This value can be 0; otherwise, one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
+        /// </param>
+        /// <param name="hToken">
+        /// An access token that represents a particular user.
+        /// If this parameter is <see cref="NULL"/>, which is the most common usage, the function requests the known folder for the current user.
+        /// Request a specific user's folder by passing the hToken of that user.
+        /// This is typically done in the context of a service that has sufficient privileges to retrieve the token of a given user.
+        /// That token must be opened with <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/> rights.
+        /// In some cases, you also need to include <see cref="TOKEN_DUPLICATE"/>.
+        /// In addition to passing the user's <paramref name="hToken"/>, the registry hive of that specific user must be mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// Assigning the hToken parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetKnownFolderPath"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created,
+        /// and includes special folders such as Documents and Desktop.
+        /// Any items added to the Default User folder also appear in any new user account.
+        /// Note that access to the Default User folders requires administrator privileges.
+        /// </param>
+        /// <param name="ppszPath">
+        /// When this method returns, contains the address of a pointer to a null-terminated Unicode string that specifies the path of the known folder.
+        /// The calling process is responsible for freeing this resource once it is no longer needed by calling <see cref="CoTaskMemFree"/>,
+        /// whether <see cref="SHGetKnownFolderPath"/> succeeds or not.
+        /// The returned path does not include a trailing backslash. For example, "C:\Users" is returned rather than "C:\Users\".
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
+        /// <see cref="E_FAIL"/>:
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter references a <see cref="KNOWNFOLDERID"/>
+        /// which does not have a path (such as a folder marked as <see cref="KF_CATEGORY_VIRTUAL"/>).
+        /// <see cref="E_INVALIDARG"/>:
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </returns>
+        /// <remarks>
+        /// This function replaces <see cref="SHGetFolderPath"/>.
+        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderPath"/>.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHGetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
+            [In] HANDLE hToken, [Out] out string ppszPath);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the display name of an item identified by its IDList.
         /// </para>
         /// <para>
