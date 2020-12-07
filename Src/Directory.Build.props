@@ -8,6 +8,7 @@
     <LangVersion>9.0</LangVersion>
     <DebugType>portable</DebugType>
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
