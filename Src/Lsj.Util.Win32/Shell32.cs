@@ -430,7 +430,7 @@ namespace Lsj.Util.Win32
         ///     HRESULT hr = SHBindToParent(pidl, IID_PPV_ARG(IShellFolder, &amp;psf), &amp;pidlChild);
         ///     if (SUCCEEDED(hr))
         ///     {
-        ///         hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
+        ///         hr = psf->GetUIObjectOf(hwnd, 1, &amp;pidlChild, riid, NULL, ppv);
         ///         psf->Release();
         ///     }
         ///     return hr;
@@ -511,7 +511,7 @@ namespace Lsj.Util.Win32
         ///     HRESULT hr = SHBindToParent(pidl, IID_IShellFolder, (LPVOID*)&amp;psf, &amp;pidlChild);
         ///     if (SUCCEEDED(hr))
         ///     {
-        ///         hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
+        ///         hr = psf->GetUIObjectOf(hwnd, 1, &amp;pidlChild, riid, NULL, ppv);
         ///         psf->Release();
         ///     }
         ///     return hr;
@@ -546,7 +546,7 @@ namespace Lsj.Util.Win32
         ///     IShellLink* psl;
         ///     *ppidl = NULL;
         ///     
-        ///     HRESULT hr = SHGetUIObjectFromFullPIDL(pidlFolder, NULL, IID_IShellLink, (LPVOID*)&psl);
+        ///     HRESULT hr = SHGetUIObjectFromFullPIDL(pidlFolder, NULL, IID_IShellLink, (LPVOID*)&amp;psl);
         ///     if (SUCCEEDED(hr))
         ///     {
         ///         hr = psl->GetIDList(ppidl);
@@ -1528,7 +1528,7 @@ namespace Lsj.Util.Win32
         /// Indicates whether the folder should be created if it does not already exist.
         /// If this value is nonzero, the folder is created.
         /// If this value is zero, the folder is not created.
-        /// <param>
+        /// </param>
         /// <returns>
         /// <see cref="TRUE"/> if successful; otherwise, <see cref="FALSE"/>.
         /// </returns>

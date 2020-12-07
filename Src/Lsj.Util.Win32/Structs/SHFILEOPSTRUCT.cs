@@ -66,7 +66,7 @@ namespace Lsj.Util.Win32.Structs
     /// the application must employ conditional code to deal with name mappings.
     /// For example:
     /// <code>
-    /// x = SHFileOperation(&shop);
+    /// x = SHFileOperation(&amp;shop);
     /// if (fWin9x)
     ///     HandleAnsiNameMappings(shop.hNameMappings);
     /// else 
