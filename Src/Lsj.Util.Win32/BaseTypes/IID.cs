@@ -10,6 +10,12 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct IID
     {
         /// <summary>
+        /// IID_NULL
+        /// </summary>
+        public static readonly IID IID_NULL = new IID();
+
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="value"></param>

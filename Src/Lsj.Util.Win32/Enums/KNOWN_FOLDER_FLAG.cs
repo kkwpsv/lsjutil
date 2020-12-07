@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Lsj.Util.Win32.BaseTypes;
 using static Lsj.Util.Win32.BaseTypes.KNOWNFOLDERID;
 
 namespace Lsj.Util.Win32.Enums
