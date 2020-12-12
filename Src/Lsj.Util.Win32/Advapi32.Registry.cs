@@ -21,6 +21,7 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ktmw32;
 using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32
 {
