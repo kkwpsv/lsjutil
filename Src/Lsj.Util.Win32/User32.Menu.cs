@@ -687,8 +687,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("The GetMenuString function has been superseded. Use the GetMenuItemInfo function to retrieve the menu item text.")]
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetMenuStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetMenuString([In] HMENU hMenu, [In] UINT uIDItem, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString,
-            [In] int cchMax, [In] MenuFlags flags);
+        public static extern int GetMenuString([In] HMENU hMenu, [In] UINT uIDItem, [In] IntPtr lpString, [In] int cchMax, [In] MenuFlags flags);
 
         /// <summary>
         /// <para>

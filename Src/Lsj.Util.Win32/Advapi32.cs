@@ -1802,7 +1802,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "LookupPrivilegeNameW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL LookupPrivilegeName([MarshalAs(UnmanagedType.LPWStr)][In] string lpSystemName, [In] in LUID lpLuid,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpName, [In][Out] ref DWORD cchName);
+            [In] IntPtr lpName, [In][Out] ref DWORD cchName);
 
         /// <summary>
         /// <para>

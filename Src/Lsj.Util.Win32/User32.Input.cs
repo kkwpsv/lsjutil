@@ -341,7 +341,7 @@ namespace Lsj.Util.Win32
         /// The names of dead keys are spelled out in full.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKeyNameTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetKeyNameText([In] LONG lParam, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString, [In] int cchSize);
+        public static extern int GetKeyNameText([In] LONG lParam, [In] IntPtr lpString, [In] int cchSize);
 
         /// <summary>
         /// <para>

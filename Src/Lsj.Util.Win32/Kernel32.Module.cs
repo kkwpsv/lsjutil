@@ -263,7 +263,7 @@ namespace Lsj.Util.Win32
         /// and can be used to retrieve the full path name of an executable file.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetModuleFileName([In] HMODULE hModule, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
+        public static extern DWORD GetModuleFileName([In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -321,8 +321,7 @@ namespace Lsj.Util.Win32
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetModuleFileNameExW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpFilename, [In] DWORD nSize);
+        public static extern DWORD GetModuleFileNameEx([In] HANDLE hProcess, [In] HMODULE hModule, [In] IntPtr lpFilename, [In] DWORD nSize);
 
         /// <summary>
         /// <para>

@@ -486,8 +486,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetNamedPipeHandleStateW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetNamedPipeHandleState([In] HANDLE hNamedPipe, [Out] out PipeModes lpState, [Out] out DWORD lpCurInstances,
-            [Out] out DWORD lpMaxCollectionCount, [Out] out DWORD lpCollectDataTimeout,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpUserName, [In] DWORD nMaxUserNameSize);
+            [Out] out DWORD lpMaxCollectionCount, [Out] out DWORD lpCollectDataTimeout, [In] IntPtr lpUserName, [In] DWORD nMaxUserNameSize);
 
         /// <summary>
         /// <para>

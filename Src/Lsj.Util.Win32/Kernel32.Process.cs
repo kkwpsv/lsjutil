@@ -470,8 +470,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the list of environment variables for a process, use the <see cref="GetEnvironmentStrings"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExpandEnvironmentStringsW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In] string lpSrc,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpDst, [In] DWORD nSize);
+        public static extern DWORD ExpandEnvironmentStrings([MarshalAs(UnmanagedType.LPWStr)][In] string lpSrc, [In] IntPtr lpDst, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -566,7 +565,7 @@ namespace Lsj.Util.Win32
         /// Using relative path names in multithreaded applications or shared library code can yield unpredictable results and is not supported.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentDirectory", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetCurrentDirectory([In] DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer);
+        public static extern DWORD GetCurrentDirectory([In] DWORD nBufferLength, [In] IntPtr lpBuffer);
 
         /// <summary>
         /// <para>
@@ -672,8 +671,7 @@ namespace Lsj.Util.Win32
         /// This function can retrieve either a system environment variable or a user environment variable.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetEnvironmentVariableW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In] string lpName,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] DWORD nSize);
+        public static extern DWORD GetEnvironmentVariable([MarshalAs(UnmanagedType.LPWStr)][In] string lpName, [In] IntPtr lpBuffer, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -886,8 +884,7 @@ namespace Lsj.Util.Win32
         /// To use run-time dynamic linking, load Psapi.dll.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetProcessImageFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpImageFileName,
-            [In] DWORD nSize);
+        public static extern DWORD GetProcessImageFileName([In] HANDLE hProcess, [In] IntPtr lpImageFileName, [In] DWORD nSize);
 
         /// <summary>
         /// <para>
@@ -1154,8 +1151,7 @@ namespace Lsj.Util.Win32
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "QueryFullProcessImageNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL QueryFullProcessImageName([In] HANDLE hProcess, [In] DWORD dwFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpExeName, [In][Out] ref DWORD lpdwSize);
+        public static extern BOOL QueryFullProcessImageName([In] HANDLE hProcess, [In] DWORD dwFlags, [In] IntPtr lpExeName, [In][Out] ref DWORD lpdwSize);
 
         /// <summary>
         /// <para>
@@ -1336,9 +1332,9 @@ namespace Lsj.Util.Win32
         /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SearchPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SearchPath([MarshalAs(UnmanagedType.LPWStr)][In] string lpPath, [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpExtension, [In] DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpBuffer,
-            [Out] IntPtr lpFilePart);
+        public static extern DWORD SearchPath([MarshalAs(UnmanagedType.LPWStr)][In] string lpPath,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpExtension,
+            [In] DWORD nBufferLength, [In] IntPtr lpBuffer, [Out] IntPtr lpFilePart);
 
         /// <summary>
         /// <para>

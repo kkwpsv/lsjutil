@@ -28,7 +28,7 @@ namespace Lsj.Util.Win32.Extensions
         /// <returns></returns>
         public static bool IsSupportSparseFile(string path)
         {
-            var result = GetVolumeInformation(path, null, 0, out NullRef<DWORD>(), out NullRef<DWORD>(), out var fileSystemFlags, null, 0);
+            var result = GetVolumeInformation(path, NULL, 0, out NullRef<DWORD>(), out NullRef<DWORD>(), out var fileSystemFlags, NULL, 0);
             if (result)
             {
                 return (fileSystemFlags & FileSystemFlags.FILE_SUPPORTS_SPARSE_FILES) != 0;

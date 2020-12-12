@@ -491,7 +491,7 @@ namespace Lsj.Util.Win32
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetSystemDirectory([Out] StringBuilder lpBuffer, [In] UINT uSize);
+        public static extern UINT GetSystemDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>
@@ -619,7 +619,7 @@ namespace Lsj.Util.Win32
         /// On a single-user system, <see cref="GetSystemWindowsDirectory"/> is the same as <see cref="GetWindowsDirectory"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] uint uSize);
+        public static extern uint GetSystemWindowsDirectory([In] IntPtr lpBuffer, [In] uint uSize);
 
         /// <summary>
         /// <para>
@@ -813,7 +813,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] UINT uSize);
+        public static extern UINT GetWindowsDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>

@@ -809,7 +809,7 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectComboBoxExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [Out] StringBuilder lpString, [In] int cchOut, [In] int idComboBox);
+        public static extern BOOL DlgDirSelectComboBoxEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int cchOut, [In] int idComboBox);
 
         /// <summary>
         /// <para>
@@ -853,7 +853,7 @@ namespace Lsj.Util.Win32
         /// To use this, you must add certain files to your application, as outlined in Microsoft Layer for Unicode on Windows Me/98/95 Systems.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DlgDirSelectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [Out] StringBuilder lpString, [In] int chCount, [In] int idListBox);
+        public static extern BOOL DlgDirSelectEx([In] HWND hwndDlg, [In] IntPtr lpString, [In] int chCount, [In] int idListBox);
 
         /// <summary>
         /// <para>
@@ -1064,8 +1064,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDlgItemText"/> function sends a <see cref="WM_GETTEXT"/> message to the control.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetDlgItemTextW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpString,
-            [In] int cchMax);
+        public static extern UINT GetDlgItemText([In] HWND hDlg, [In] int nIDDlgItem, [In] IntPtr lpString, [In] int cchMax);
 
         /// <summary>
         /// <para>

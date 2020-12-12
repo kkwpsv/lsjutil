@@ -115,8 +115,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the <see cref="CF_USESTYLE"/> flag is specified, <see cref="ChooseFont"/> uses the data in this buffer to initialize the Font Style combo box.
         /// When the user closes the dialog box, <see cref="ChooseFont"/> copies the string in the Font Style combo box into this buffer.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public StringBuilder lpszStyle;
+        public IntPtr lpszStyle;
 
         /// <summary>
         /// The type of the selected font when <see cref="ChooseFont"/> returns.

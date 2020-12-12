@@ -729,8 +729,7 @@ namespace Lsj.Util.Win32
         /// String resources are stored in blocks of 16 strings, and any empty slots within a block are indicated by null characters.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadStringW", ExactSpelling = true, SetLastError = true)]
-        public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpBuffer,
-            [In] int cchBufferMax);
+        public static extern int LoadString([In] HINSTANCE hInstance, [In] UINT uID, [In] IntPtr lpBuffer, [In] int cchBufferMax);
 
         /// <summary>
         /// 

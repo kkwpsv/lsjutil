@@ -1384,7 +1384,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileNameW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
-            [In][Out] ref DWORD StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName);
+            [In][Out] ref DWORD StringLength, [In] IntPtr LinkName);
 
         /// <summary>
         /// <para>
@@ -1427,7 +1427,7 @@ namespace Lsj.Util.Win32
             " For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstFileNameTransactedW ", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstFileNameTransactedW([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] DWORD dwFlags,
-            [In][Out] ref DWORD StringLength, [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName, [In] HANDLE hTransaction);
+            [In][Out] ref DWORD StringLength, [In] IntPtr LinkName, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -1668,7 +1668,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindFirstVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern HANDLE FindFirstVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszRootPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] DWORD cchBufferLength);
+            [In] IntPtr lpszVolumeMountPoint, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -1771,8 +1771,7 @@ namespace Lsj.Util.Win32
         /// If the function returns <see langword="true"/>, there are more hard links to enumerate.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextFileNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FindNextFileNameW([In] HANDLE hFindStream, [In][Out] ref DWORD StringLength,
-            [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder LinkName);
+        public static extern BOOL FindNextFileNameW([In] HANDLE hFindStream, [In][Out] ref DWORD StringLength, [In] IntPtr LinkName);
 
         /// <summary>
         /// <para>
@@ -1833,8 +1832,8 @@ namespace Lsj.Util.Win32
         /// with these functions and the order of the mounted folders that are returned by other functions or tools.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FindNextVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL FindNextVolumeMountPoint([In] IntPtr hFindVolumeMountPoint,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeMountPoint, [In] DWORD cchBufferLength);
+        public static extern BOOL FindNextVolumeMountPoint([In] IntPtr hFindVolumeMountPoint, [In] IntPtr lpszVolumeMountPoint,
+            [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>
@@ -2770,7 +2769,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLongPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer);
+            [In] IntPtr lpszLongPath, [In] DWORD cchBuffer);
 
         /// <summary>
         /// <para>
@@ -2836,7 +2835,7 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetLongPathNameTransacted", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetLongPathNameTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpszShortPath,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
+            [In] IntPtr lpszLongPath, [In] DWORD cchBuffer, [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -2895,7 +2894,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShortPathNameW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetShortPathName([MarshalAs(UnmanagedType.LPWStr)][In] string lpszLongPath,
-            [MarshalAs(UnmanagedType.LPWStr)][Out] out StringBuilder lpszShortPath, [In] DWORD cchBuffer);
+           [In] IntPtr lpszShortPath, [In] DWORD cchBuffer);
 
         /// <summary>
         /// <para>
@@ -2961,7 +2960,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempFileNameW", ExactSpelling = true, SetLastError = true)]
         public static extern UINT GetTempFileName([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpPrefixString, [In] UINT uUnique, [Out] StringBuilder lpTempFileName);
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpPrefixString, [In] UINT uUnique, [In] IntPtr lpTempFileName);
 
         /// <summary>
         /// <para>
@@ -3001,7 +3000,7 @@ namespace Lsj.Util.Win32
         /// Symbolic link behavior—If the path points to a symbolic link, the temp path name maintains any symbolic links.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTempPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetTempPath([In] DWORD nBufferLength, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer);
+        public static extern DWORD GetTempPath([In] DWORD nBufferLength, [In] IntPtr lpBuffer);
 
         /// <summary>
         /// <para>
@@ -3083,10 +3082,9 @@ namespace Lsj.Util.Win32
         /// the function returns <see cref="FILE_SUPPORTS_TRANSACTIONS"/> in <paramref name="lpFileSystemFlags"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName,
-            [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpVolumeNameBuffer, [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber,
-            [Out] out DWORD lpMaximumComponentLength, [Out] out FileSystemFlags lpFileSystemFlags,
-            [MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpFileSystemNameBuffer, [In] DWORD nFileSystemNameSize);
+        public static extern BOOL GetVolumeInformation([MarshalAs(UnmanagedType.LPWStr)][In] string lpRootPathName, [In] IntPtr lpVolumeNameBuffer,
+            [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength,
+            [Out] out FileSystemFlags lpFileSystemFlags, [In] IntPtr lpFileSystemNameBuffer, [In] DWORD nFileSystemNameSize);
 
         /// <summary>
         /// <para>
@@ -3143,10 +3141,9 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeInformationByHandleW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetVolumeInformationByHandleW([In] HANDLE hFile, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpVolumeNameBuffer,
-            [In] DWORD nVolumeNameSize, [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength,
-            [Out] out FileSystemFlags lpFileSystemFlags, [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpFileSystemNameBuffer,
-            [In] DWORD nFileSystemNameSize);
+        public static extern BOOL GetVolumeInformationByHandleW([In] HANDLE hFile, [In] IntPtr lpVolumeNameBuffer, [In] DWORD nVolumeNameSize,
+            [Out] out DWORD lpVolumeSerialNumber, [Out] out DWORD lpMaximumComponentLength, [Out] out FileSystemFlags lpFileSystemFlags,
+            [In] IntPtr lpFileSystemNameBuffer, [In] DWORD nFileSystemNameSize);
 
         /// <summary>
         /// <para>
@@ -3182,7 +3179,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetVolumeNameForVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL GetVolumeNameForVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeMountPoint,
-            [MarshalAs(UnmanagedType.LPWStr)][In] StringBuilder lpszVolumeName, [In] DWORD cchBufferLength);
+            [In] IntPtr lpszVolumeName, [In] DWORD cchBufferLength);
 
         /// <summary>
         /// <para>

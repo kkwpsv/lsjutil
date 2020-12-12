@@ -360,8 +360,7 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete("Do not use. Consider using StringCchCat instead. See Security Considerations.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcatW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcat([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern IntPtr lstrcat([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -488,8 +487,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpyW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpy([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
+        public static extern IntPtr lstrcpy([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2);
 
         /// <summary>
         /// <para>
@@ -542,8 +540,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Do not use. Consider using StringCchCopy instead. See Remarks.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "lstrcpynW", ExactSpelling = true, SetLastError = true)]
-        public static extern IntPtr lstrcpyn([MarshalAs(UnmanagedType.LPWStr)][In][Out] StringBuilder lpString1,
-            [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2, [In] int iMaxLength);
+        public static extern IntPtr lstrcpyn([In] IntPtr lpString1, [MarshalAs(UnmanagedType.LPWStr)][In] string lpString2, [In] int iMaxLength);
 
         /// <summary>
         /// <para>
@@ -724,7 +721,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "MultiByteToWideChar", ExactSpelling = true, SetLastError = true)]
         public static extern int MultiByteToWideChar([In] CodePages CodePage, [In] MBCSTranslationFlags dwFlags, [In] IntPtr lpMultiByteStr,
-            [In] int cbMultiByte, [Out] StringBuilder lpWideCharStr, [In] int cchWideChar);
+            [In] int cbMultiByte, [In] IntPtr lpWideCharStr, [In] int cchWideChar);
 
         /// <summary>
         /// <para>
@@ -784,6 +781,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "NormalizeString", ExactSpelling = true, SetLastError = true)]
         public static extern int NormalizeString([In] NORM_FORM NormForm, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSrcString,
-            [In] int cwSrcLength, [Out] StringBuilder lpDstString, [In] int cwDstLength);
+            [In] int cwSrcLength, [In] IntPtr lpDstString, [In] int cwDstLength);
     }
 }

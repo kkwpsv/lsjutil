@@ -5,6 +5,7 @@ using static Lsj.Util.Win32.Constants;
 using System.Text;
 using Lsj.Util.Win32.Enums;
 using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;
+using System;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -43,8 +44,7 @@ namespace Lsj.Util.Win32.Structs
         /// Pointer to a buffer to receive the display name of the folder selected by the user.
         /// The size of this buffer is assumed to be <see cref="MAX_PATH"/> characters.
         /// </summary>
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public StringBuilder pszDisplayName;
+        public IntPtr pszDisplayName;
 
         /// <summary>
         /// Pointer to a null-terminated string that is displayed above the tree view control in the dialog box.

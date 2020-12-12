@@ -185,7 +185,7 @@ namespace Lsj.Util.Win32
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder AppID);
+        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([In] IntPtr AppID);
 
         /// <summary>
         /// <para>
@@ -1421,8 +1421,7 @@ namespace Lsj.Util.Win32
             "New applications should use the known folder system rather than the older CSIDL system," +
             "which is supported only for backward compatibility.")]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken,
-            [In] SHGFP_TYPE dwFlags, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder pszPath);
+        public static extern HRESULT SHGetFolderPath([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] SHGFP_TYPE dwFlags, [In] IntPtr pszPath);
 
         /// <summary>
         /// <para>
@@ -1538,7 +1537,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Conventions for Function Prototypes.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetPathFromIDListW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SHGetPathFromIDList([In] LPCITEMIDLIST pidl, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder pszPath);
+        public static extern BOOL SHGetPathFromIDList([In] LPCITEMIDLIST pidl, [In] IntPtr pszPath);
 
         /// <summary>
         /// <para>
@@ -1603,7 +1602,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("SHGetSpecialFolderPath is not supported. Instead, use SHGetFolderPath.")]
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetSpecialFolderPathW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [Out] StringBuilder pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
+        public static extern BOOL SHGetSpecialFolderPath([In] HWND hwnd, [In] IntPtr pszPath, [In] CSIDL csidl, [In] BOOL fCreate);
 
         /// <summary>
         /// <para>
