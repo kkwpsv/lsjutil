@@ -11,6 +11,7 @@ using static Lsj.Util.Win32.Enums.LogonTypes;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.RegistryKeyDispositions;
 using static Lsj.Util.Win32.Enums.RegistryOptions;
+using static Lsj.Util.Win32.Enums.RegistryRoutineFlags;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.RegRestoreKeyFlags;
 using static Lsj.Util.Win32.Enums.RegSaveKeyExFlags;
@@ -480,6 +481,50 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes a subkey and its values.
+        /// Note that key names are not case sensitive.
+        /// 64-bit Windows:
+        /// On WOW64, 32-bit applications view a registry tree that is separate from the registry tree that 64-bit applications view.
+        /// To enable an application to delete an entry in the alternate registry view, use the <see cref="RegDeleteKeyEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletekeyw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The access rights of this key do not affect the delete operation.
+        /// For more information about access rights, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/> or <see cref="RegOpenKeyEx"/> function,
+        /// or it can be one of the following Predefined Keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/> <see cref="HKEY_CURRENT_CONFIG"/> <see cref="HKEY_CURRENT_USER"/>
+        /// <see cref="HKEY_LOCAL_MACHINE"/> <see cref="HKEY_USERS"/> 
+        /// </param>
+        /// <param name="lpSubKey">
+        /// The name of the key to be deleted.
+        /// It must be a subkey of the key that <paramref name="hKey"/> identifies, but it cannot have subkeys.
+        /// This parameter cannot be <see langword="null"/>.
+        /// The function opens the subkey with the <see cref="DELETE"/> access right.
+        /// Key names are not case sensitive.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// To get a generic description of the error, you can use the <see cref="FormatMessage"/> function
+        /// with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag.
+        /// </returns>
+        /// <remarks>
+        /// A deleted key is not removed until the last handle to it is closed.
+        /// The subkey to be deleted must not have subkeys.
+        /// To delete a key and all its subkeys, you need to enumerate the subkeys and delete them individually.
+        /// To delete keys recursively, use the <see cref="RegDeleteTree"/> or <see cref="SHDeleteKey"/> function.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteKeyW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegDeleteKey([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey);
+
+        /// <summary>
+        /// <para>
         /// Deletes a subkey and its values from the specified platform-specific view of the registry.
         /// Note that key names are not case sensitive.
         /// To delete a subkey as a transacted operation, call the <see cref="RegDeleteKeyTransacted"/> function.
@@ -651,6 +696,466 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Removes a named value from the specified registry key.
+        /// Note that value names are not case sensitive.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regdeletevaluew
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_SET_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpValueName">
+        /// The registry value to be removed.
+        /// If this parameter is <see langword="null"/> or an empty string, the value set by the <see cref="RegSetValue"/> function is removed.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag
+        /// to get a generic description of the error.
+        /// </returns>
+        /// <remarks>
+        /// The winreg.h header defines <see cref="RegDeleteValue"/> as an alias which automatically selects
+        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to mismatches
+        /// that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegDeleteValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegDeleteValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpValueName);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the subkeys of the specified open registry key.
+        /// The function retrieves the name of one subkey each time it is called.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumkeyw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="dwIndex">
+        /// The index of the subkey of <paramref name="hKey"/> to be retrieved.
+        /// This value should be zero for the first call to the <see cref="RegEnumKey"/> function and then incremented for subsequent calls.
+        /// Because subkeys are not ordered, any new subkey will have an arbitrary index.
+        /// This means that the function may return subkeys in any order.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to a buffer that receives the name of the subkey, including the terminating null character.
+        /// This function copies only the name of the subkey, not the full key hierarchy, to the buffer.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="cchName">
+        /// The size of the buffer pointed to by the <paramref name="lpName"/> parameter, in TCHARs.
+        /// To determine the required buffer size, use the <see cref="RegQueryInfoKey"/> function
+        /// to determine the size of the largest subkey for the key identified by the <paramref name="hKey"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If there are no more subkeys available, the function returns <see cref="ERROR_NO_MORE_ITEMS"/>.
+        /// If the <paramref name="lpName"/> buffer is too small to receive the name of the key, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate subkeys, an application should initially call the <see cref="RegEnumKey"/> function
+        /// with the <paramref name="dwIndex"/> parameter set to zero.
+        /// The application should then increment the <paramref name="dwIndex"/> parameter
+        /// and call the <see cref="RegEnumKey"/> function until there are no more subkeys
+        /// (meaning the function returns <see cref="ERROR_NO_MORE_ITEMS"/>).
+        /// The application can also set <paramref name="dwIndex"/> to the index of the last key on the first call
+        /// to the function and decrement the index until the subkey with index 0 is enumerated.
+        /// To retrieve the index of the last subkey, use the <see cref="RegQueryInfoKey"/>.
+        /// While an application is using the <see cref="RegEnumKey"/> function,
+        /// it should not make calls to any registration functions that might change the key being queried.
+        /// The winreg.h header defines <see cref="RegEnumKey"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the RegEnumKeyEx function.")]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegEnumKey([In] HKEY hKey, [In] DWORD dwIndex, [In] IntPtr lpName, [In] DWORD cchName);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the subkeys of the specified open registry key.
+        /// The function retrieves information about one subkey each time it is called.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumkeyexw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_ENUMERATE_SUB_KEYS"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_PERFORMANCE_DATA"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="dwIndex">
+        /// The index of the subkey to retrieve.
+        /// This parameter should be zero for the first call to the <see cref="RegEnumKeyEx"/> function and then incremented for subsequent calls.
+        /// Because subkeys are not ordered, any new subkey will have an arbitrary index.
+        /// This means that the function may return subkeys in any order.
+        /// </param>
+        /// <param name="lpName">
+        /// A pointer to a buffer that receives the name of the subkey, including the terminating null character.
+        /// The function copies only the name of the subkey, not the full key hierarchy, to the buffer.
+        /// If the function fails, no information is copied to this buffer.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="lpcchName">
+        /// A pointer to a variable that specifies the size of the buffer specified by the <paramref name="lpName"/> parameter, in characters.
+        /// This size should include the terminating null character.
+        /// If the function succeeds, the variable pointed to by <paramref name="lpName"/> contains the number of characters stored in the buffer,
+        /// not including the terminating null character.
+        /// To determine the required buffer size, use the <see cref="RegQueryInfoKey"/> function
+        /// to determine the size of the largest subkey for the key identified by the <paramref name="hKey"/> parameter.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpClass">
+        /// A pointer to a buffer that receives the user-defined class of the enumerated subkey.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpcchClass">
+        /// A pointer to a variable that specifies the size of the buffer specified by the <paramref name="lpClass"/> parameter, in characters.
+        /// The size should include the terminating null character.
+        /// If the function succeeds, lpcClass contains the number of characters stored in the buffer, not including the terminating null character.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> only if <paramref name="lpClass"/> is <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpftLastWriteTime">
+        /// A pointer to <see cref="FILETIME"/> structure that receives the time at which the enumerated subkey was last written.
+        /// This parameter can be <see cref="NullRef{FILETIME}"/>.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If there are no more subkeys available, the function returns <see cref="ERROR_NO_MORE_ITEMS"/>.
+        /// If the <paramref name="lpName"/> buffer is too small to receive the name of the key,
+        /// the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate subkeys, an application should initially call the <see cref="RegEnumKeyEx"/> function
+        /// with the <paramref name="dwIndex"/> parameter set to zero.
+        /// The application should then increment the <paramref name="dwIndex"/> parameter
+        /// and call <see cref="RegEnumKeyEx"/> until there are no more subkeys (meaning the function returns <see cref="ERROR_NO_MORE_ITEMS"/>).
+        /// The application can also set <paramref name="dwIndex"/> to the index of the last subkey on the first call to the function
+        /// and decrement the index until the subkey with the index 0 is enumerated.
+        /// To retrieve the index of the last subkey, use the <see cref="RegQueryInfoKey"/> function.
+        /// While an application is using the <see cref="RegEnumKeyEx"/> function,
+        /// it should not make calls to any registration functions that might change the key being enumerated.
+        /// Note that operations that access certain registry keys are redirected.
+        /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
+        /// The winreg.h header defines <see cref="RegEnumKeyEx"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumKeyExW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegEnumKeyEx([In] HKEY hKey, [In] DWORD dwIndex, [In] IntPtr lpName, [In][Out] ref DWORD lpcchName,
+            [In] IntPtr lpReserved, [In] IntPtr lpClass, [Out] out DWORD lpcchClass, [Out] out FILETIME lpftLastWriteTime);
+
+        /// <summary>
+        /// <para>
+        /// Enumerates the values for the specified open registry key.
+        /// The function copies one indexed value name and data block for the key each time it is called.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regenumvaluew
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_ENUMERATE_SUB_KEYS"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_PERFORMANCE_DATA"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="dwIndex">
+        /// The index of the value to be retrieved.
+        /// This parameter should be zero for the first call to the <see cref="RegEnumValue"/> function and then be incremented for subsequent calls.
+        /// Because values are not ordered, any new value will have an arbitrary index.
+        /// This means that the function may return values in any order.
+        /// </param>
+        /// <param name="lpValueName">
+        /// A pointer to a buffer that receives the name of the value as a null-terminated string.
+        /// This buffer must be large enough to include the terminating null character.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="lpcchValueName">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpValueName"/> parameter, in characters.
+        /// When the function returns, the variable receives the number of characters stored in the buffer, not including the terminating null character.
+        /// Registry value names are limited to 32,767 bytes.
+        /// The ANSI version of this function treats this parameter as a SHORT value.
+        /// Therefore, if you specify a value greater than 32,767 bytes, there is an overflow and the function may return <see cref="ERROR_MORE_DATA"/>.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpType">
+        /// A pointer to a variable that receives a code indicating the type of data stored in the specified value.
+        /// For a list of the possible type codes, see Registry Value Types.
+        /// The <paramref name="lpType"/> parameter can be <see cref="NullRef{RegristryValueType}"/> if the type code is not required.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a buffer that receives the data for the value entry.
+        /// This parameter can be <see cref="NULL"/> if the data is not required.
+        /// If <paramref name="lpData"/> is <see cref="NULL"/> and <paramref name="lpcbData"/> is non-NULL,
+        /// the function stores the size of the data, in bytes, in the variable pointed to by <paramref name="lpcbData"/>.
+        /// This enables an application to determine the best way to allocate a buffer for the data.
+        /// </param>
+        /// <param name="lpcbData">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpData"/> parameter, in bytes.
+        /// When the function returns, the variable receives the number of bytes stored in the buffer.
+        /// This parameter can be <see cref="NullRef{DWORD}"/> only if <paramref name="lpData"/> is <see cref="NULL"/>.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// this size includes any terminating null character or characters.
+        /// For more information, see Remarks.
+        /// If the buffer specified by lpData is not large enough to hold the data,
+        /// the function returns <see cref="ERROR_MORE_DATA"/> and stores the required buffer size
+        /// in the variable pointed to by <paramref name="lpcbData"/>.
+        /// In this case, the contents of <paramref name="lpData"/> are undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If there are no more values available, the function returns <see cref="ERROR_NO_MORE_ITEMS"/>.
+        /// If the <paramref name="lpData"/> buffer is too small to receive the value, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// </returns>
+        /// <remarks>
+        /// To enumerate values, an application should initially call the <see cref="RegEnumValue"/> function
+        /// with the <paramref name="dwIndex"/> parameter set to zero.
+        /// The application should then increment <paramref name="dwIndex"/> and
+        /// call the <see cref="RegEnumValue"/> function until there are no more values (until the function returns <see cref="ERROR_NO_MORE_ITEMS"/>).
+        /// The application can also set <paramref name="dwIndex"/> to the index of the last value on the first call to the function
+        /// and decrement the index until the value with index 0 is enumerated.
+        /// To retrieve the index of the last value, use the <see cref="RegQueryInfoKey"/> function.
+        /// While using <see cref="RegEnumValue"/>, an application should not call any registry functions that might change the key being queried.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// the string may not have been stored with the proper null-terminating characters.
+        /// Therefore, even if the function returns <see cref="ERROR_SUCCESS"/>,
+        /// the application should ensure that the string is properly terminated before using it;
+        /// otherwise, it may overwrite a buffer. (Note that <see cref="REG_MULTI_SZ"/> strings should have two null-terminating characters.)
+        /// To determine the maximum size of the name and data buffers, use the <see cref="RegQueryInfoKey"/> function.
+        /// The winreg.h header defines <see cref="RegEnumValue"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegEnumValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegEnumValue([In] HKEY hKey, [In] DWORD dwIndex, [In] IntPtr lpValueName, [In][Out] ref DWORD lpcchValueName,
+            [In] IntPtr lpReserved, [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [In][Out] ref DWORD lpcbData);
+
+        /// <summary>
+        /// <para>
+        /// Writes all the attributes of the specified open registry key into the registry.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regflushkey
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_PERFORMANCE_DATA"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag
+        /// to get a generic description of the error.
+        /// </returns>
+        /// <remarks>
+        /// Calling <see cref="RegFlushKey"/> is an expensive operation that significantly affects system-wide performance
+        /// as it consumes disk bandwidth and blocks modifications to all keys by all processes in the registry hive
+        /// that is being flushed until the flush operation completes.
+        /// <see cref="RegFlushKey"/> should only be called explicitly when an application must guarantee that
+        /// registry changes are persisted to disk immediately after modification.
+        /// All modifications made to keys are visible to other processes without the need to flush them to disk.
+        /// Alternatively, the registry has a 'lazy flush' mechanism that flushes registry modifications to disk at regular intervals of time.
+        /// In addition to this regular flush operation, registry changes are also flushed to disk at system shutdown.
+        /// Allowing the 'lazy flush' to flush registry changes is the most efficient way to manage registry writes to the registry store on disk.
+        /// The <see cref="RegFlushKey"/> function returns only when all the data for the hive
+        /// that contains the specified key has been written to the registry store on disk.
+        /// The <see cref="RegFlushKey"/> function writes out the data for other keys in the hive
+        /// that have been modified since the last lazy flush or system start.
+        /// After <see cref="RegFlushKey"/> returns, use <see cref="RegCloseKey"/> to close the handle to the registry key.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegFlushKey", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegFlushKey([In] HKEY hKey);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the type and data for the specified registry value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-reggetvaluew
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_PERFORMANCE_DATA"/>, <see cref="HKEY_PERFORMANCE_NLSTEXT"/>,
+        /// <see cref="HKEY_PERFORMANCE_TEXT"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpSubKey">
+        /// The path of a registry key relative to the key specified by the <paramref name="hKey"/> parameter.
+        /// The registry value will be retrieved from this subkey.
+        /// The path is not case sensitive.
+        /// If this parameter is <see langword="null"/> or an empty string, "",
+        /// the value will be read from the key specified by <paramref name="hKey"/> itself.
+        /// </param>
+        /// <param name="lpValue">
+        /// The name of the registry value.
+        /// If this parameter is <see langword="null"/> or an empty string, "", the function retrieves the type and data
+        /// for the key's unnamed or default value, if any.
+        /// Keys do not automatically have an unnamed or default value, and unnamed values can be of any type.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="dwFlags">
+        /// The flags that restrict the data type of value to be queried.
+        /// If the data type of the value does not meet this criteria, the function fails.
+        /// This parameter can be one or more of the following values.
+        /// The flags that restrict the data type of value to be queried.
+        /// If the data type of the value does not meet this criteria, the function fails.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="RRF_RT_ANY"/>: No type restriction.
+        /// <see cref="RRF_RT_DWORD"/>: Restrict type to 32-bit <see cref="RRF_RT_REG_BINARY"/> | <see cref="RRF_RT_REG_DWORD"/>. 
+        /// <see cref="RRF_RT_QWORD"/>: Restrict type to 64-bit <see cref="RRF_RT_REG_BINARY"/> | <see cref="RRF_RT_REG_DWORD"/>. 
+        /// <see cref="RRF_RT_REG_BINARY"/>: Restrict type to <see cref="REG_BINARY"/>.
+        /// <see cref="RRF_RT_REG_DWORD"/>: Restrict type to <see cref="REG_DWORD"/>.
+        /// <see cref="RRF_RT_REG_EXPAND_SZ"/>: Restrict type to <see cref="REG_EXPAND_SZ"/>.
+        /// <see cref="RRF_RT_REG_MULTI_SZ"/>: Restrict type to <see cref="REG_MULTI_SZ"/>.
+        /// <see cref="RRF_RT_REG_NONE"/>: Restrict type to <see cref="REG_NONE"/>.
+        /// <see cref="RRF_RT_REG_QWORD"/>: Restrict type to <see cref="REG_QWORD"/>.
+        /// <see cref="RRF_RT_REG_SZ"/>: Restrict type to <see cref="REG_SZ"/>.
+        /// This parameter can also include one or more of the following values.
+        /// <see cref="RRF_NOEXPAND"/>: Do not automatically expand environment strings if the value is of type <see cref="REG_EXPAND_SZ"/>.
+        /// <see cref="RRF_ZEROONFAILURE"/>: If <paramref name="pvData"/> is not <see cref="NULL"/>, set the contents of the buffer to zeroes on failure.
+        /// <see cref="RRF_SUBKEY_WOW6464KEY"/>:
+        /// If <paramref name="lpSubKey"/> is not <see langword="null"/>, open the subkey that <paramref name="lpSubKey"/>
+        /// specifies with the <see cref="KEY_WOW64_64KEY"/> access rights.
+        /// For information about these access rights, see Registry Key Security and Access Rights.
+        /// You cannot specify <see cref="RRF_SUBKEY_WOW6464KEY"/> in combination with <see cref="RRF_SUBKEY_WOW6432KEY"/>.
+        /// <see cref="RRF_SUBKEY_WOW6432KEY"/>:
+        /// If <paramref name="lpSubKey"/> is not <see langword="null"/>, open the subkey that <paramref name="lpSubKey"/>
+        /// specifies with the <see cref="KEY_WOW64_32KEY"/> access rights.
+        /// For information about these access rights, see Registry Key Security and Access Rights.
+        /// You cannot specify <see cref="RRF_SUBKEY_WOW6464KEY"/> in combination with <see cref="RRF_SUBKEY_WOW6432KEY"/>.
+        /// </param>
+        /// <param name="pdwType">
+        /// A pointer to a variable that receives a code indicating the type of data stored in the specified value.
+        /// For a list of the possible type codes, see Registry Value Types.
+        /// This parameter can be <see cref="NullRef{RegistryValueTypes}"/> if the type is not required.
+        /// </param>
+        /// <param name="pvData">
+        /// A pointer to a buffer that receives the value's data.
+        /// This parameter can be <see cref="NULL"/> if the data is not required.
+        /// If the data is a string, the function checks for a terminating null character.
+        /// If one is not found, the string is stored with a null terminator if the buffer is large enough to accommodate the extra character.
+        /// Otherwise, the function fails and returns <see cref="ERROR_MORE_DATA"/>.
+        /// </param>
+        /// <param name="pcbData">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="pvData"/> parameter, in bytes.
+        /// When the function returns, this variable contains the size of the data copied to <paramref name="pvData"/>.
+        /// The <paramref name="pcbData"/> parameter can be <see cref="NullRef{DWORD}"/> only if <paramref name="pvData"/> is <see cref="NULL"/>.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// this size includes any terminating null character or characters.
+        /// For more information, see Remarks.
+        /// If the buffer specified by <paramref name="pvData"/> parameter is not large enough to hold the data,
+        /// the function returns <see cref="ERROR_MORE_DATA"/> and stores the required buffer size
+        /// in the variable pointed to by <paramref name="pcbData"/>.
+        /// In this case, the contents of the <paramref name="pvData"/> buffer are zeroes
+        /// if <paramref name="dwFlags"/> specifies <see cref="RRF_ZEROONFAILURE"/> and undefined otherwise.
+        /// If <paramref name="pvData"/> is <see cref="NULL"/>, and <paramref name="pcbData"/> is non-NULL,
+        /// the function returns <see cref="ERROR_SUCCESS"/> and stores the size of the data, in bytes,
+        /// in the variable pointed to by <paramref name="pcbData"/>.
+        /// This enables an application to determine the best way to allocate a buffer for the value's data.
+        /// If <paramref name="hKey"/> specifies <see cref="HKEY_PERFORMANCE_DATA"/> and the <paramref name="pvData"/> buffer is not large enough
+        /// to contain all of the returned data, the function returns <see cref="ERROR_MORE_DATA"/>
+        /// and the value returned through the <paramref name="pcbData"/> parameter is undefined.
+        /// This is because the size of the performance data can change from one call to the next.
+        /// In this case, you must increase the buffer size and call <see cref="RegGetValue"/> again
+        /// passing the updated buffer size in the <paramref name="pcbData"/> parameter.
+        /// Repeat this until the function succeeds.
+        /// You need to maintain a separate variable to keep track of the buffer size,
+        /// because the value returned by <paramref name="pcbData"/> is unpredictable.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If the <paramref name="pvData"/> buffer is too small to receive the value, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// If <paramref name="dwFlags"/> specifies a combination of both <see cref="RRF_SUBKEY_WOW6464KEY"/> and <see cref="RRF_SUBKEY_WOW6432KEY"/>,
+        /// the function returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application typically calls RegEnumValue to determine the value names and then RegGetValue to retrieve the data for the names.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// and the ANSI version of this function is used (either by explicitly calling RegGetValueA
+        /// or by not defining UNICODE before including the Windows.h file),
+        /// this function converts the stored Unicode string to an ANSI string before copying it to the buffer pointed to by <paramref name="pvData"/>.
+        /// When calling this function with hkey set to the <see cref="HKEY_PERFORMANCE_DATA"/> handle and a value string of a specified object,
+        /// the returned data structure sometimes has unrequested objects.
+        /// Do not be surprised; this is normal behavior.
+        /// You should always expect to walk the returned data structure to look for the requested object.
+        /// Note that operations that access certain registry keys are redirected.
+        /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
+        /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or later.
+        /// For more information, see Using the Windows Headers.
+        /// The winreg.h header defines <see cref="RegGetValue"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegGetValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegGetValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpValue, [In] RegistryRoutineFlags dwFlags, [Out] out RegistryValueTypes pdwType,
+            [In] PVOID pvData, [Out] out DWORD pcbData);
+
+        /// <summary>
+        /// <para>
         /// Loads the specified registry hive as an application hive.
         /// </para>
         /// <para>
@@ -803,6 +1308,57 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// Opens the specified registry key.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regopenkeyw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/> or <see cref="RegOpenKeyEx"/> function,
+        /// or it can be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>, <see cref="HKEY_CURRENT_USER"/>,
+        /// <see cref="HKEY_LOCAL_MACHINE"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpSubKey">
+        /// The name of the registry key to be opened.
+        /// This key must be a subkey of the key identified by the <paramref name="hKey"/> parameter.
+        /// Key names are not case sensitive.
+        /// If this parameter is <see langword="null"/> or a pointer to an empty string, the function returns the same handle that was passed in.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="phkResult">
+        /// A pointer to a variable that receives a handle to the opened key.
+        /// If the key is not one of the predefined registry keys,
+        /// call the <see cref="RegCloseKey"/> function after you have finished using the handle.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag
+        /// to get a generic description of the error.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="RegOpenKey"/> function uses the default security access mask to open a key.
+        /// If opening the key requires a different access right, the function fails, returning <see cref="ERROR_ACCESS_DENIED"/>.
+        /// An application should use the <see cref="RegOpenKeyEx"/> function to specify an access mask in this situation.
+        /// <see cref="RegOpenKey"/> does not create the specified key if the key does not exist in the database.
+        /// If your service or application impersonates different users, do not use this function with <see cref="HKEY_CURRENT_USER"/>.
+        /// Instead, call the <see cref="RegOpenCurrentUser"/> function.
+        /// The winreg.h header defines <see cref="RegOpenKey"/> as an alias which automatically selects
+        /// the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            " Applications should use the RegOpenKeyEx function.")]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegOpenKey([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey, [Out] out HKEY phkResult);
+
+        /// <summary>
+        /// <para>
+        /// Opens the specified registry key.
         /// Note that key names are not case sensitive.
         /// To perform transacted registry operations on a key, call the <see cref="RegOpenKeyTransacted"/> function.
         /// </para>
@@ -886,7 +1442,7 @@ namespace Lsj.Util.Win32
         /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
         /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
         /// It can also be one of the following predefined keys:
-        /// <see cref="RegOpenKeyTransacted"/> <see cref="HKEY_CURRENT_USER"/>
+        /// <see cref="HKEY_CLASSES_ROOT "/> <see cref="HKEY_CURRENT_USER"/>
         /// <see cref="HKEY_LOCAL_MACHINE"/> <see cref="HKEY_USERS"/>
         /// </param>
         /// <param name="lpSubKey">
@@ -946,6 +1502,283 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegOpenKeyTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegOpenKeyTransacted([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
             [In] RegistryOptions ulOptions, [In] REGSAM samDesired, [Out] out HKEY phkResult, [In] HANDLE hTransaction, [In] PVOID pExtendedParemeter);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the specified registry key.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryinfokeyw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT "/> <see cref="HKEY_CURRENT_CONFIG"/>
+        /// <see cref="HKEY_CURRENT_USER"/> <see cref="HKEY_LOCAL_MACHINE"/>
+        /// <see cref="HKEY_PERFORMANCE_DATA"/> <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpClass">
+        /// A pointer to a buffer that receives the user-defined class of the key.
+        /// This parameter can be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpcchClass">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpClass"/> parameter, in characters.
+        /// The size should include the terminating null character.
+        /// When the function returns, this variable contains the size of the class string that is stored in the buffer.
+        /// The count returned does not include the terminating null character.
+        /// If the buffer is not big enough, the function returns <see cref="ERROR_MORE_DATA"/>,
+        /// and the variable contains the size of the string, in characters, without counting the terminating null character.
+        /// If <paramref name="lpClass"/> is <see cref="NULL"/>, <paramref name="lpcchClass"/> can be <see cref="NullRef{DWORD}"/>.
+        /// If the <paramref name="lpClass"/> parameter is a valid address, but the <paramref name="lpcchClass"/> parameter is not,
+        /// for example, it is <see cref="NULL"/>, then the function returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpcSubKeys">
+        /// A pointer to a variable that receives the number of subkeys that are contained by the specified key.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcbMaxSubKeyLen">
+        /// A pointer to a variable that receives the size of the key's subkey with the longest name,
+        /// in Unicode characters, not including the terminating null character.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcbMaxClassLen">
+        /// A pointer to a variable that receives the size of the longest string that specifies a subkey class, in Unicode characters.
+        /// The count returned does not include the terminating null character.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcValues">
+        /// A pointer to a variable that receives the number of values that are associated with the key.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcbMaxValueNameLen">
+        /// A pointer to a variable that receives the size of the key's longest value name, in Unicode characters.
+        /// The size does not include the terminating null character.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcbMaxValueLen">
+        /// A pointer to a variable that receives the size of the longest data component among the key's values, in bytes.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpcbSecurityDescriptor">
+        /// A pointer to a variable that receives the size of the key's security descriptor, in bytes.
+        /// This parameter can be <see cref="NullRef{DWORD}"/>.
+        /// </param>
+        /// <param name="lpftLastWriteTime">
+        /// A pointer to a <see cref="FILETIME"/> structure that receives the last write time.
+        /// This parameter can be <see cref="NullRef{FILETIME}"/>.
+        /// The function sets the members of the <see cref="FILETIME"/> structure to indicate
+        /// the last time that the key or any of its value entries is modified.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If the <paramref name="lpClass"/> buffer is too small to receive the name of the class, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// </returns>
+        /// <remarks>
+        /// The winreg.h header defines <see cref="RegQueryInfoKey"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryInfoKeyW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegQueryInfoKey([In] HKEY hKey, [In] IntPtr lpClass, [Out] out DWORD lpcchClass, [In] IntPtr lpReserved,
+            [Out] out DWORD lpcSubKeys, [Out] out DWORD lpcbMaxSubKeyLen, [Out] out DWORD lpcbMaxClassLen, [Out] out DWORD lpcValues,
+            [Out] out DWORD lpcbMaxValueNameLen, [Out] out DWORD lpcbMaxValueLen, [Out] out DWORD lpcbSecurityDescriptor,
+            [Out] out FILETIME lpftLastWriteTime);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the data associated with the default or unnamed value of a specified registry key.
+        /// The data must be a null-terminated string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryvaluew
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// or it can be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>,
+        /// <see cref="HKEY_CURRENT_USER"/>, <see cref="HKEY_LOCAL_MACHINE"/>,
+        /// <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpSubKey">
+        /// The name of the subkey of the hKey parameter for which the default value is retrieved.
+        /// Key names are not case sensitive.
+        /// If this parameter is <see langword="null"/> or points to an empty string,
+        /// the function retrieves the default value for the key identified by <paramref name="hKey"/>.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a buffer that receives the default value of the specified key.
+        /// If <paramref name="lpData"/> is <see cref="NULL"/>, and <paramref name="lpcbData"/> is non-NULL,
+        /// the function returns <see cref="ERROR_SUCCESS"/>, and stores the size of the data, in bytes,
+        /// in the variable pointed to by <paramref name="lpcbData"/>.
+        /// This enables an application to determine the best way to allocate a buffer for the value's data.
+        /// </param>
+        /// <param name="lpcbData">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpData"/> parameter, in bytes.
+        /// When the function returns, this variable contains the size of the data copied to <paramref name="lpData"/>,
+        /// including any terminating null characters.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// this size includes any terminating null character or characters.
+        /// For more information, see Remarks.
+        /// If the buffer specified <paramref name="lpData"/> is not large enough to hold the data,
+        /// the function returns <see cref="ERROR_MORE_DATA"/> and stores the required buffer size
+        /// in the variable pointed to by <paramref name="lpcbData"/>.
+        /// In this case, the contents of the <paramref name="lpData"/> buffer are undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If the <paramref name="lpData"/> buffer is too small to receive the value, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the ANSI version of this function is used (either by explicitly calling RegQueryValueA
+        /// or by not defining UNICODE before including the Windows.h file),
+        /// this function converts the stored Unicode string to an ANSI string
+        /// before copying it to the buffer specified by the <paramref name="lpData"/> parameter.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// the string may not have been stored with the proper null-terminating characters.
+        /// Therefore, even if the function returns <see cref="ERROR_SUCCESS"/>,
+        /// the application should ensure that the string is properly terminated before using it;
+        /// otherwise, it may overwrite a buffer.
+        /// (Note that <see cref="REG_MULTI_SZ"/> strings should have two null-terminating characters.)
+        /// Note that operations that access certain registry keys are redirected.
+        /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
+        /// The winreg.h header defines <see cref="RegQueryValue"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            " Applications should use the RegQueryValueEx function.")]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegQueryValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
+            [In] IntPtr lpData, [Out] out LONG lpcbData);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the type and data for the specified value name associated with an open registry key.
+        /// To ensure that any string values (<see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/>, and <see cref="REG_EXPAND_SZ"/>)
+        /// returned are null-terminated, use the <see cref="RegGetValue"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regqueryvalueexw
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_QUERY_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// or it can be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/>, <see cref="HKEY_CURRENT_CONFIG"/>,
+        /// <see cref="HKEY_CURRENT_USER"/>, <see cref="HKEY_LOCAL_MACHINE"/>,
+        /// <see cref="HKEY_PERFORMANCE_DATA"/>, <see cref="HKEY_PERFORMANCE_NLSTEXT"/>,
+        /// <see cref="HKEY_PERFORMANCE_TEXT"/>, <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpValueName">
+        /// The name of the registry value.
+        /// If lpValueName is <see langword="null"/> or an empty string, "",
+        /// the function retrieves the type and data for the key's unnamed or default value, if any.
+        /// If <paramref name="lpValueName"/> specifies a value that is not in the registry,
+        /// the function returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// Keys do not automatically have an unnamed or default value. 
+        /// Unnamed values can be of any type.For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="lpReserved">
+        /// This parameter is reserved and must be <see cref="NULL"/>.
+        /// </param>
+        /// <param name="lpType">
+        /// A pointer to a variable that receives a code indicating the type of data stored in the specified value.
+        /// For a list of the possible type codes, see Registry Value Types.
+        /// The <paramref name="lpType"/> parameter can be <see cref="NullRef{RegistryValueTypes}"/> if the type code is not required.
+        /// </param>
+        /// <param name="lpData">
+        /// A pointer to a buffer that receives the value's data.
+        /// This parameter can be <see cref="NULL"/> if the data is not required.
+        /// </param>
+        /// <param name="lpcbData">
+        /// A pointer to a variable that specifies the size of the buffer pointed to by the <paramref name="lpData"/> parameter, in bytes.
+        /// When the function returns, this variable contains the size of the data copied to <paramref name="lpData"/>.
+        /// The <paramref name="lpcbData"/> parameter can be <see cref="NullRef{DWORD}"/> only if <paramref name="lpData"/> is <see cref="NULL"/>.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// this size includes any terminating null character or characters unless the data was stored without them.
+        /// For more information, see Remarks.
+        /// If the buffer specified by <paramref name="lpData"/> parameter is not large enough to hold the data,
+        /// the function returns <see cref="ERROR_MORE_DATA"/> and stores the required buffer size
+        /// in the variable pointed to by <paramref name="lpcbData"/>.
+        /// In this case, the contents of the <paramref name="lpData"/> buffer are undefined.
+        /// If <paramref name="lpData"/> is <see cref="NULL"/>, and <paramref name="lpcbData"/> is non-NULL,
+        /// the function returns <see cref="ERROR_SUCCESS"/> and stores the size of the data, in bytes,
+        /// in the variable pointed to by <paramref name="lpcbData"/>.
+        /// This enables an application to determine the best way to allocate a buffer for the value's data.
+        /// If <paramref name="hKey"/> specifies <see cref="HKEY_PERFORMANCE_DATA"/> and
+        /// the <paramref name="lpData"/> buffer is not large enough to contain all of the returned data,
+        /// <see cref="RegQueryValueEx"/> returns <see cref="ERROR_MORE_DATA"/> and the value returned
+        /// through the <paramref name="lpcbData"/> parameter is undefined.
+        /// This is because the size of the performance data can change from one call to the next.
+        /// In this case, you must increase the buffer size and call <see cref="RegQueryValueEx"/> again
+        /// passing the updated buffer size in the <paramref name="lpcbData"/> parameter.
+        /// Repeat this until the function succeeds.
+        /// You need to maintain a separate variable to keep track of the buffer size,
+        /// because the value returned by <paramref name="lpcbData"/> is unpredictable.
+        /// If the <paramref name="lpValueName"/> registry value does not exist,
+        /// <see cref="RegQueryValueEx"/> returns <see cref="ERROR_FILE_NOT_FOUND"/> and
+        /// the value returned through the <paramref name="lpcbData"/> parameter is undefined.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a system error code.
+        /// If the <paramref name="lpData"/> buffer is too small to receive the data, the function returns <see cref="ERROR_MORE_DATA"/>.
+        /// If the <paramref name="lpValueName"/> registry value does not exist, the function returns <see cref="ERROR_FILE_NOT_FOUND"/>.
+        /// </returns>
+        /// <remarks>
+        /// An application typically calls <see cref="RegEnumValue"/> to determine the value names
+        /// and then <see cref="RegQueryValueEx"/> to retrieve the data for the names.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// the string may not have been stored with the proper terminating null characters.
+        /// Therefore, even if the function returns <see cref="ERROR_SUCCESS"/>,
+        /// the application should ensure that the string is properly terminated before using it;
+        /// otherwise, it may overwrite a buffer. (Note that <see cref="REG_MULTI_SZ"/> strings should have two terminating null characters.)
+        /// One way an application can ensure that the string is properly terminated is to use <see cref="RegGetValue"/>,
+        /// which adds terminating null characters if needed.
+        /// If the data has the <see cref="REG_SZ"/>, <see cref="REG_MULTI_SZ"/> or <see cref="REG_EXPAND_SZ"/> type,
+        /// and the ANSI version of this function is used (either by explicitly calling RegQueryValueExA
+        /// or by not defining UNICODE before including the Windows.h file),
+        /// this function converts the stored Unicode string to an ANSI string before copying it to the buffer pointed to by <paramref name="lpData"/>.
+        /// When calling the <see cref="RegQueryValueEx"/> function with <paramref name="hKey"/> set to
+        /// the <see cref="HKEY_PERFORMANCE_DATA"/> handle and a value string of a specified object,
+        /// the returned data structure sometimes has unrequested objects. Do not be surprised; this is normal behavior.
+        /// When calling the <see cref="RegQueryValueEx"/> function, you should always expect to
+        /// walk the returned data structure to look for the requested object.
+        /// Note that operations that access certain registry keys are redirected.
+        /// For more information, see Registry Virtualization and 32-bit and 64-bit Application Data in the Registry.
+        /// The winreg.h header defines <see cref="RegQueryValueEx"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding - neutral alias with code that not encoding - neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegQueryValueExW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegQueryValueEx([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpValueName,
+            [In] IntPtr lpReserved, [Out] out RegistryValueTypes lpType, [In] IntPtr lpData, [Out] out DWORD lpcbData);
 
         /// <summary>
         /// <para>
@@ -1274,6 +2107,70 @@ namespace Lsj.Util.Win32
         [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetKeyValueW", ExactSpelling = true, SetLastError = true)]
         public static extern LSTATUS RegSetKeyValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
              [MarshalAs(UnmanagedType.LPWStr)][In] string lpValueName, [In] RegistryValueTypes dwType, [In] LPCVOID lpData, [In] DWORD cbData);
+
+        /// <summary>
+        /// <para>
+        /// Sets the data for the default or unnamed value of a specified registry key.
+        /// The data must be a text string.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regsetvaluew
+        /// </para>
+        /// </summary>
+        /// <param name="hKey">
+        /// A handle to an open registry key.
+        /// The key must have been opened with the <see cref="KEY_SET_VALUE"/> access right.
+        /// For more information, see Registry Key Security and Access Rights.
+        /// This handle is returned by the <see cref="RegCreateKeyEx"/>, <see cref="RegCreateKeyTransacted"/>,
+        /// <see cref="RegOpenKeyEx"/>, or <see cref="RegOpenKeyTransacted"/> function.
+        /// It can also be one of the following predefined keys:
+        /// <see cref="HKEY_CLASSES_ROOT"/> <see cref="HKEY_CURRENT_CONFIG"/> <see cref="HKEY_CURRENT_USER"/>
+        /// <see cref="HKEY_LOCAL_MACHINE"/> <see cref="HKEY_USERS"/>
+        /// </param>
+        /// <param name="lpSubKey">
+        /// The name of a subkey of the <paramref name="hKey"/> parameter.
+        /// The function sets the default value of the specified subkey.
+        /// If <paramref name="lpSubKey"/> does not exist, the function creates it.
+        /// Key names are not case sensitive.
+        /// If this parameter is <see langword="null"/> or points to an empty string,
+        /// the function sets the default value of the key identified by <paramref name="hKey"/>.
+        /// For more information, see Registry Element Size Limits.
+        /// </param>
+        /// <param name="dwType">
+        /// The type of information to be stored.
+        /// This parameter must be the <see cref="REG_SZ"/> type.
+        /// To store other data types, use the <see cref="RegSetValueEx"/> function.
+        /// </param>
+        /// <param name="lpData">
+        /// The data to be stored.
+        /// This parameter cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="cbData">
+        /// This parameter is ignored.
+        /// The function calculates this value based on the size of the data in the <paramref name="lpData"/> parameter.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="ERROR_SUCCESS"/>.
+        /// If the function fails, the return value is a nonzero error code defined in Winerror.h.
+        /// You can use the <see cref="FormatMessage"/> function with the <see cref="FORMAT_MESSAGE_FROM_SYSTEM"/> flag
+        /// to get a generic description of the error.
+        /// </returns>
+        /// <remarks>
+        /// If the key specified by the <paramref name="lpSubKey"/> parameter does not exist, the <see cref="RegSetValue"/> function creates it.
+        /// If the ANSI version of this function is used (either by explicitly calling RegSetValueA
+        /// or by not defining UNICODE before including the Windows.h file), the <paramref name="lpData"/> parameter must be an ANSI character string.
+        /// The string is converted to Unicode before it is stored in the registry.
+        /// The winreg.h header defines <see cref="RegSetValue"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
+            "Applications should use the RegSetValueEx function.")]
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RegSetValueW", ExactSpelling = true, SetLastError = true)]
+        public static extern LSTATUS RegSetValue([In] HKEY hKey, [MarshalAs(UnmanagedType.LPWStr)][In] string lpSubKey,
+            [In] RegistryValueTypes dwType, [MarshalAs(UnmanagedType.LPWStr)][In] string lpData, [In] DWORD cbData);
 
         /// <summary>
         /// <para>
