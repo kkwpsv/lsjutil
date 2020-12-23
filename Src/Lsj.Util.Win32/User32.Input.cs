@@ -391,6 +391,68 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Gets device properties that aren't included in the <see cref="POINTER_DEVICE_INFO"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdeviceproperties
+        /// </para>
+        /// </summary>
+        /// <param name="device">
+        /// The pointer device to query properties from.
+        /// A call to the <see cref="GetPointerDevices"/> function returns this handle in the <see cref="POINTER_DEVICE_INFO"/> structure.
+        /// </param>
+        /// <param name="propertyCount">
+        /// The number of properties.
+        /// Returns the count that's written or needed if <paramref name="pointerProperties"/> is <see langword="null"/>.
+        /// If this value is less than the number of properties that the pointer device supports
+        /// and <paramref name="pointerProperties"/> is not <see langword="null"/>,
+        /// the function returns the actual number of properties in this variable and fails.
+        /// </param>
+        /// <param name="pointerProperties">
+        /// The array of properties.
+        /// </param>
+        /// <returns>
+        /// <see cref="TRUE"/> if the function succeeds; otherwise, <see cref="FALSE"/>.
+        /// If the function fails, call the <see cref="GetLastError"/> function for more information.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDeviceProperties", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPointerDeviceProperties([In] HANDLE device, [In][Out] ref UINT32 propertyCount,
+            [Out] POINTER_DEVICE_PROPERTY[] pointerProperties);
+
+        /// <summary>
+        /// <para>
+        /// Gets information about the pointer devices attached to the system.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdevices
+        /// </para>
+        /// </summary>
+        /// <param name="deviceCount">
+        /// If <paramref name="pointerDevices"/> is <see langword="null"/>,
+        /// <paramref name="deviceCount"/> returns the total number of attached pointer devices.
+        /// Otherwise, <paramref name="deviceCount"/> specifies
+        /// the number of <see cref="POINTER_DEVICE_INFO"/> structures pointed to by <paramref name="pointerDevices"/>.
+        /// </param>
+        /// <param name="pointerDevices">
+        /// Array of <see cref="POINTER_DEVICE_INFO"/> structures for the pointer devices attached to the system.
+        /// If <see langword="null"/>, the total number of attached pointer devices is returned in <paramref name="deviceCount"/>.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        /// <remarks>
+        /// Windows 8 supports the following:
+        /// 256 contacts per pointer device.
+        /// 2560 total contacts per system session, regardless of the number of attached devices.
+        /// For example, 10 pointer devices with 256 contacts each, 20 pointer devices with 128 contacts each, and so on.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevices", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPointerDevices([In][Out] ref UINT32 deviceCount, [Out] POINTER_DEVICE_INFO[] pointerDevices);
+
+        /// <summary>
+        /// <para>
         /// Translates (maps) a virtual-key code into a scan code or character value, or translates a scan code into a virtual-key code.
         /// To specify a handle to the keyboard layout to use for translating the specified code, use the <see cref="MapVirtualKeyEx"/> function.
         /// </para>
