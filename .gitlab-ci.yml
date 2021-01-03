@@ -18,7 +18,7 @@ build:
 test:
   stage: test
   script:
-    - ".\\test.bat"
+    - ".\\test.ps1"
     
 push-debug:
   stage: push
