@@ -26,9 +26,19 @@ namespace Lsj.Util.Net.Socks5.Proxyer
             _client.handle = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
+        /// <summary>
+        /// IP
+        /// </summary>
         public IPAddress IP { get; set; }
+
+        /// <summary>
+        /// Port
+        /// </summary>
         public int Port { get; set; }
 
+        /// <summary>
+        /// Start
+        /// </summary>
         public async void Start()
         {
             await _client.handle.ConnectAsync(IP, Port);

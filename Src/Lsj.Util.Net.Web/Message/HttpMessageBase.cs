@@ -155,6 +155,13 @@ namespace Lsj.Util.Net.Web.Message
             return false;
         }
 
+        /// <summary>
+        /// Validate Header
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <param name="errorcode"></param>
+        /// <returns></returns>
         protected virtual bool ValidateHeader(string name, string content, out int errorcode)
         {
             errorcode = 200;

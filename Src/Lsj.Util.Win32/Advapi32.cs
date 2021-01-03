@@ -1285,7 +1285,7 @@ namespace Lsj.Util.Win32
         /// If the function succeeds, the return value is <see cref="TRUE"/>.
         /// If the function fails, the return value is <see cref="FALSE"/>.
         /// To get extended error information, call <see cref="GetLastError"/>.
-        /// An error of <see cref="ACCESS_DENIED"/> may indicate that the token is for a restricted process.
+        /// An error of ACCESS_DENIED may indicate that the token is for a restricted process.
         /// Use <see cref="OpenProcessToken"/> and <see cref="IsTokenRestricted"/> to check if the process is restricted.
         /// </returns>
         /// <remarks>

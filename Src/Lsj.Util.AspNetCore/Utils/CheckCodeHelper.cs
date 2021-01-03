@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Lsj.Util.AspNetCore.Utils
 {
+    /// <summary>
+    /// CheckCode Helper
+    /// </summary>
     public static class CheckCodeHelper
     {
         private static string GetRandomString(int length = 4)
@@ -28,6 +31,12 @@ namespace Lsj.Util.AspNetCore.Utils
         /// <returns></returns>
         public static byte[] GetCheckCodeImage(out string code) => GetCheckCodeImage(ImageFormat.Jpeg, out code);
 
+        /// <summary>
+        /// Get CheckCode Image
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
         public static byte[] GetCheckCodeImage(ImageFormat format, out string code)
         {
             code = GetRandomString();
