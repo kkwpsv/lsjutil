@@ -4,6 +4,7 @@
     <VersionPrefix>$(LsjUtilAspNetCoreVersionPrefix)</VersionPrefix>
     <Description>My Utility For asp.net core</Description>
     <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
