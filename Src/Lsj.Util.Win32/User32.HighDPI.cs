@@ -6,9 +6,11 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.DPI_AWARENESS_CONTEXT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DPI_AWARENESS;
+using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Shcore;
 
 namespace Lsj.Util.Win32
 {
@@ -222,6 +224,47 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
         public static extern DPI_AWARENESS_CONTEXT GetWindowDpiAwarenessContext([In] HWND hwnd);
+
+        /// <summary>
+        /// <para>
+        /// It is recommended that you set the process-default DPI awareness via application manifest.
+        /// See Setting the default DPI awareness for a process for more information.
+        /// Setting the process-default DPI awareness via API call can lead to unexpected application behavior.
+        /// Sets the current process to a specified dots per inch (dpi) awareness context.
+        /// The DPI awareness contexts are from the <see cref="DPI_AWARENESS_CONTEXT"/> value.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdpiawarenesscontext
+        /// </para>
+        /// </summary>
+        /// <param name="value">
+        /// A <see cref="DPI_AWARENESS_CONTEXT"/> handle to set.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="TRUE"/> if the operation was successful, and <see cref="FALSE"/> otherwise.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// Possible errors are <see cref="ERROR_INVALID_PARAMETER"/> for an invalid input,
+        /// and <see cref="ERROR_ACCESS_DENIED"/> if the default API awareness mode for the process has already been set
+        /// (via a previous API call or within the application manifest).
+        /// </returns>
+        /// <remarks>
+        /// This API is a more advanced version of the previously existing <see cref="SetProcessDpiAwareness"/> API,
+        /// allowing for the process default to be set to the finer-grained <see cref="DPI_AWARENESS_CONTEXT"/> values.
+        /// Most importantly, this allows you to programmatically set Per Monitor v2 as the process default value,
+        /// which is not possible with the previous API.
+        /// This method sets the default <see cref="DPI_AWARENESS_CONTEXT"/> for all threads within an application.
+        /// Individual threads can have their DPI awareness changed from the default with the <see cref="SetThreadDpiAwarenessContext"/> method.
+        /// Important 
+        /// In general, it is recommended to not use <see cref="SetProcessDpiAwarenessContext"/> to set the DPI awareness for your application.
+        /// If possible, you should declare the DPI awareness for your application in the application manifest.
+        /// For more information, see Setting the default DPI awareness for a process.
+        /// You must call this API before you call any APIs that depend on the DPI awareness (including before creating any UI in your process).
+        /// Once API awareness is set for an app, any future calls to this API will fail.
+        /// This is true regardless of whether you set the DPI awareness in the manifest or by using this API.
+        /// If the DPI awareness level is not set, the default value is <see cref="DPI_AWARENESS_CONTEXT_UNAWARE"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetProcessDpiAwarenessContext", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetProcessDpiAwarenessContext([In] DPI_AWARENESS_CONTEXT value);
 
         /// <summary>
         /// <para>

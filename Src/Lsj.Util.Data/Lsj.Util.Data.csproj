@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;net40;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilDataVersionPrefix)</VersionPrefix>
     <Description>My Utility For Data</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -11,10 +11,10 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
   </ItemGroup>
 </Project>

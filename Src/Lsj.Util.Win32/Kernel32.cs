@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.BaseTypes;
+﻿using Lsj.Util.IL;
+using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -753,5 +754,28 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit Windows. Applications should use the CreateProcess function.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "WinExec", ExactSpelling = true, SetLastError = true)]
         public static extern UINT WinExec([MarshalAs(UnmanagedType.LPWStr)][In] string lpCmdLine, [In] ShowWindowCommands uCmdShow);
+
+        /// <summary>
+        /// <para>
+        /// Fills a block of memory with zeros.
+        /// To avoid any undesired effects of optimizing compilers, use the <see cref="SecureZeroMemory"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920(v=vs.85)
+        /// </para>
+        /// </summary>
+        /// <param name="Destination">
+        /// A pointer to the starting address of the block of memory to fill with zeros.
+        /// </param>
+        /// <param name="Length">
+        /// The size of the block of memory to fill with zeros, in bytes.
+        /// </param>
+        /// <remarks>
+        /// Many programming languages include syntax for initializing complex variables to zero.
+        /// There can be differences between the results of these operations and the <see cref="ZeroMemory"/> function.
+        /// Use <see cref="ZeroMemory"/> to clear a block of memory in any programming language.
+        /// This macro is defined as the RtlZeroMemory macro. For more information, see WinBase.h and WinNT.h.
+        /// </remarks>
+        public static unsafe void ZeroMemory([In] PVOID Destination, [In] SIZE_T Length) => Unsafe.InitBlock(Destination, 0, (uint)(IntPtr)Length);
     }
 }

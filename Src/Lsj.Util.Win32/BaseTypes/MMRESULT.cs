@@ -9,6 +9,21 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct MMRESULT
     {
         /// <summary>
+        /// MMSYSERR_NOERROR
+        /// </summary>
+        public static readonly MMRESULT MMSYSERR_NOERROR = new MMRESULT();
+
+        /// <summary>
+        /// MMSYSERR_BASE
+        /// </summary>
+        public static readonly MMRESULT MMSYSERR_BASE = new MMRESULT { _value = 0 };
+
+        /// <summary>
+        /// MMSYSERR_ERROR
+        /// </summary>
+        public static readonly MMRESULT MMSYSERR_ERROR = new MMRESULT { _value = MMSYSERR_BASE + 1 };
+
+        /// <summary>
         /// TIMERR_BASE
         /// </summary>
         public static readonly MMRESULT TIMERR_BASE = new MMRESULT { _value = 96 };

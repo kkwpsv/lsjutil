@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
 using static Lsj.Util.Win32.Enums.SFGAOF;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Enums
 {

@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -23,11 +22,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersist
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IPersist)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPersist
+    public unsafe struct IPersist
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Retrieves the class identifier (CLSID) of the object.
         /// </summary>
@@ -67,7 +65,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// URL Moniker Notes
         /// This method returns <see cref="CLSID_StdURLMoniker"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetClassID([Out] out Guid pClassID);
+        public HRESULT GetClassID([Out] out CLSID pClassID)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out CLSID, HRESULT>)_vTable[3])(thisPtr, out pClassID);
+            }
+        }
     }
 }

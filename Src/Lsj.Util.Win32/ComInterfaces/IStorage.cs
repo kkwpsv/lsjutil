@@ -42,11 +42,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-istorage
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IStorage)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IStorage
+    public unsafe struct IStorage
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// The <see cref="CreateStream"/> method creates and opens a stream object with the specified name contained in this storage object.
         /// All elements within a storage objects, both streams and other storage objects, are kept in the same name space.
@@ -89,9 +88,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the stream already exists and grfMode is set to <see cref="STGM_FAILIFTHERE"/>,
         /// this method fails with the return value <see cref="STG_E_FILEALREADYEXISTS"/>. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT CreateStream([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]STGM grfMode, [In]DWORD reserved1, [In]DWORD reserved2,
-            [Out]out IStream ppstm);
+        public HRESULT CreateStream([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pwcsNamePtr, grfMode, reserved1, reserved2, out ppstm);
+            }
+        }
 
         /// <summary>
         /// The <see cref="OpenStream"/> method opens an existing stream object within this storage object in the specified access mode.
@@ -128,9 +132,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In general, access restrictions on streams need to be stricter than those on their parent storages.
         /// Compound-file streams must be opened with <see cref="STGM_SHARE_EXCLUSIVE"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT OpenStream([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]IntPtr reserved1, [In]STGM grfMode, [In]DWORD reserved2,
-            [Out]out IStream ppstm);
+        public HRESULT OpenStream([In] string pwcsName, [In] IntPtr reserved1, [In] STGM grfMode, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, IntPtr, STGM, DWORD, out IntPtr, HRESULT>)_vTable[4])(thisPtr, pwcsNamePtr, reserved1, grfMode, reserved2, out ppstm);
+            }
+        }
 
         /// <summary>
         /// The <see cref="CreateStorage"/> method creates and opens a new storage object nested
@@ -178,9 +187,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If a storage object with the same name already exists and <paramref name="grfMode"/> is set to <see cref="STGM_FAILIFTHERE"/>,
         /// this method fails with the return value <see cref="STG_E_FILEALREADYEXISTS"/>. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT CreateStorage([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]STGM grfMode, [In]DWORD reserved1, [In]DWORD reserved2,
-            [Out]out IStream ppstm);
+        public HRESULT CreateStorage([In] string pwcsName, [In] STGM grfMode, [In] DWORD reserved1, [In] DWORD reserved2, [Out] out IntPtr ppstm)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, DWORD, DWORD, out IntPtr, HRESULT>)_vTable[5])
+                    (thisPtr, pwcsNamePtr, grfMode, reserved1, reserved2, out ppstm);
+            }
+        }
 
         /// <summary>
         /// The <see cref="OpenStorage"/> method opens an existing storage object with the specified name in the specified access mode.
@@ -226,9 +241,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// in which case the object is destroyed when it receives its final release.
         /// This is useful for creating temporary storage objects.
         /// </remarks>
-        [PreserveSig]
-        HRESULT OpenStorage([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]IStorage pstgPriority, [In]STGM grfMode,
-            [MarshalAs(UnmanagedType.LPWStr)][In]in string snbExclude, [In]DWORD reserved, [Out]out IStorage ppstg);
+        public HRESULT OpenStorage([In] string pwcsName, [In] in IStorage pstgPriority, [In] STGM grfMode,
+            [In] in IntPtr snbExclude, [In] DWORD reserved, [Out] out IntPtr ppstg)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, in IStorage, STGM, in IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[6])
+                    (thisPtr, pwcsNamePtr, pstgPriority, grfMode, snbExclude, reserved, out ppstg);
+            }
+        }
 
         /// <summary>
         /// The <see cref="CopyTo"/> method copies the entire contents of an open storage object to another storage object.
@@ -286,9 +308,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// </code>
         /// Note To compact a document file, call <see cref="CopyTo"/> on the root storage object and copy to a new storage object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT CopyTo([In]DWORD ciidExclude, [MarshalAs(UnmanagedType.LPArray)][In]Guid[] rgiidExclude,
-            [MarshalAs(UnmanagedType.LPWStr)][In]in string snbExclude, [In]in IStorage pstgDest);
+        public HRESULT CopyTo([In] DWORD ciidExclude, [In] IID[] rgiidExclude, [In] IntPtr snbExclude, [In] in IStorage pstgDest)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IID[], IntPtr, in IStorage, HRESULT>)_vTable[7])
+                    (thisPtr, ciidExclude, rgiidExclude, snbExclude, pstgDest);
+            }
+        }
 
         /// <summary>
         /// The <see cref="MoveElementTo"/> method copies or moves a substorage or stream from this storage object to another storage object.
@@ -320,9 +347,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Also, the destination object and element cannot be the same storage object/element name as the source of the move.
         /// That is, you cannot move an element to itself.
         /// </remarks>
-        [PreserveSig]
-        HRESULT MoveElementTo([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]IStorage pstgDest,
-            [MarshalAs(UnmanagedType.LPWStr)][In]string pwcsNewName, [In]STGMOVE grfFlags);
+        public HRESULT MoveElementTo([In] string pwcsName, [In] in IStorage pstgDest, [In] string pwcsNewName, [In] STGMOVE grfFlags)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            fixed (char* pwcsNewNamePtr = pwcsNewName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, in IStorage, char*, STGMOVE, HRESULT>)_vTable[8])
+                    (thisPtr, pwcsNamePtr, pstgDest, pwcsNewNamePtr, grfFlags);
+            }
+        }
 
         /// <summary>
         /// The Commit method ensures that any changes made to a storage object open in transacted mode are reflected in the parent storage.
@@ -368,8 +402,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// calling <see cref="Commit"/> with <see cref="STGC_CONSOLIDATE"/> specified
         /// in the <paramref name="grfCommitFlags"/> parameter returns the value <see cref="STG_E_INVALIDFLAG"/>. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT Commit([In]STGC grfCommitFlags);
+        public HRESULT Commit([In] STGC grfCommitFlags)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, STGC, HRESULT>)_vTable[9])(thisPtr, grfCommitFlags);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Revert"/> method discards all changes that have been made to the storage object since the last commit operation.
@@ -385,8 +424,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Specifying these reverted elements in any call except IUnknown::Release returns the error <see cref="STG_E_REVERTED"/>
         /// This method has no effect on storage objects opened in direct mode.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Revert();
+        public HRESULT Revert()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[10])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="EnumElements"/> method retrieves a pointer to an enumerator object
@@ -416,8 +460,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The order in which the elements are enumerated and whether the enumerator is a snapshot
         /// or always reflects the current state of the storage object, and depends on the <see cref="IStorage"/> implementation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumElements([In]DWORD reserved1, [In]IntPtr reserved2, [In]DWORD reserved3, [Out]IEnumSTATSTG ppenum);
+        public HRESULT EnumElements([In] DWORD reserved1, [In] IntPtr reserved2, [In] DWORD reserved3, [Out] out IntPtr ppenum)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, IntPtr, DWORD, out IntPtr, HRESULT>)_vTable[11])
+                    (thisPtr, reserved1, reserved2, reserved3, out ppenum);
+            }
+        }
 
         /// <summary>
         /// The <see cref="DestroyElement"/> method removes the specified storage or stream from this storage object.
@@ -442,8 +492,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the free sectors are at the end of the file, the document file should shrink.
         /// To compact a document file, call <see cref="CopyTo"/> on the root storage object and copy to a new storage object. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT DestroyElement([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName);
+        public HRESULT DestroyElement([In] string pwcsName)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[12])(thisPtr, pwcsNamePtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="RenameElement"/> method renames the specified substorage or stream in this storage object.
@@ -470,8 +526,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="RenameElement"/> method is not guaranteed to work in low memory with storage objects open in transacted mode.
         /// It may work in direct mode.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RenameElement([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsOldName, [MarshalAs(UnmanagedType.LPWStr)][In]string pwcsNewName);
+        public HRESULT RenameElement([In] string pwcsOldName, [In] string pwcsNewName)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsOldNamePtr = pwcsOldName)
+            fixed (char* pwcsNewNamePtr = pwcsNewName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, char*, HRESULT>)_vTable[13])(thisPtr, pwcsOldNamePtr, pwcsNewNamePtr);
+            }
+        }
 
         /// <summary>
         /// The <see cref="SetElementTimes"/> method sets the modification, access, and creation times of the specified storage element,
@@ -499,9 +562,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Each time-value parameter can be <see cref="NullRef{FILETIME}"/>; indicating that no modification should occur.
         /// Call the <see cref="Stat"/> method to retrieve these time values.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetElementTimes([MarshalAs(UnmanagedType.LPWStr)][In]string pwcsName, [In]in FILETIME pctime,
-            [In]in FILETIME patime, [In]in FILETIME pmtime);
+        public HRESULT SetElementTimes([In] string pwcsName, [In] in FILETIME pctime, [In] in FILETIME patime, [In] in FILETIME pmtime)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pwcsNamePtr = pwcsName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, in FILETIME, in FILETIME, in FILETIME, HRESULT>)_vTable[14])(thisPtr, pwcsNamePtr, pctime, patime, pmtime);
+            }
+        }
 
         /// <summary>
         /// The <see cref="SetClass"/> method assigns the specified class identifier (CLSID) to this storage object.
@@ -517,8 +585,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Call <see cref="SetClass"/> to assign a CLSID to the storage object.
         /// Call the <see cref="Stat"/> method to retrieve the current CLSID of a storage object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetClass([In]in CLSID clsid);
+        public HRESULT SetClass([In] in CLSID clsid)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in CLSID, HRESULT>)_vTable[15])(thisPtr, clsid);
+            }
+        }
 
         /// <summary>
         /// The <see cref="SetStateBits"/> method stores up to 32 bits of state information in this storage object.
@@ -537,8 +610,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The values for the state bits are not currently defined.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetStateBits([In]DWORD grfStateBits, [In]DWORD grfMask);
+        public HRESULT SetStateBits([In] DWORD grfStateBits, [In] DWORD grfMask)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, DWORD, HRESULT>)_vTable[16])(thisPtr, grfStateBits, grfMask);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Stat"/> method retrieves the <see cref="STATSTG"/> structure for this open storage object.
@@ -561,7 +639,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The enumerator object returned by this method implements the <see cref="IEnumSTATSTG"/> interface,
         /// through which the data stored in the array of the <see cref="STATSTG"/> structures is enumerated.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Stat([Out]out STATSTG pstatstg, [In]STATFLAG grfStatFlag);
+        public HRESULT Stat([Out] out STATSTG pstatstg, [In] STATFLAG grfStatFlag)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out STATSTG, STATFLAG, HRESULT>)_vTable[17])(thisPtr, out pstatstg, grfStatFlag);
+            }
+        }
     }
 }

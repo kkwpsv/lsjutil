@@ -4,7 +4,6 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -19,18 +18,9 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersistfile
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IPersistFile)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPersistFile : IPersist
+    public unsafe struct IPersistFile
     {
-        /// <summary>
-        /// From <see cref="IPersist"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pClassID"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT GetClassID([Out] out Guid pClassID);
+        IntPtr* _vTable;
 
         /// <summary>
         /// Determines whether an object has changed since it was last saved to its current file.
@@ -59,8 +49,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// which the object is saved is the current working file after the save.
         /// Therefore, the dirty flag would be cleared after a successful Save or Save As operation, but not after a Save A Copy As . . . operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsDirty();
+        public HRESULT IsDirty()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[4])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Opens the specified file and initializes an object from the file contents.
@@ -101,8 +96,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// When the object has been loaded, your implementation should register the object in the running object table
         /// (see <see cref="IRunningObjectTable.Register"/>).
         /// </remarks>
-        [PreserveSig]
-        HRESULT Load([MarshalAs(UnmanagedType.LPWStr)][In] string pszFileName, [In] STGM dwMode);
+        public HRESULT Load([In] string pszFileName, [In] STGM dwMode)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszFileNamePtr = pszFileName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, STGM, HRESULT>)_vTable[5])(thisPtr, pszFileNamePtr, dwMode);
+            }
+        }
 
         /// <summary>
         /// Saves a copy of the object to the specified file.
@@ -139,8 +140,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// OLE does not call <see cref="Save"/>.
         /// Typically, applications would not call it unless they are saving an object to a file directly, which is generally left to the end-user. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT Save([MarshalAs(UnmanagedType.LPWStr)][In] string pszFileName, [In] BOOL fRemember);
+        public HRESULT Save([In] string pszFileName, [In] BOOL fRemember)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszFileNamePtr = pszFileName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, BOOL, HRESULT>)_vTable[6])(thisPtr, pszFileNamePtr, fRemember);
+            }
+        }
+
 
         /// <summary>
         /// Notifies the object that it can write to its file.
@@ -164,8 +172,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Typically, applications would not call it unless they are saving objects directly to files,
         /// an operation which is generally left to the end-user. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT SaveCompleted([MarshalAs(UnmanagedType.LPWStr)][In] string pszFileName);
+        public HRESULT SaveCompleted([In] string pszFileName)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszFileNamePtr = pszFileName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[7])(thisPtr, pszFileNamePtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves the current name of the file associated with the object.
@@ -201,7 +215,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to ask the end user to provide a file name.
         /// Then, you can call <see cref="Save"/> with the file name that the user entered to perform a Save As operation.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetCurFile([Out] out IntPtr ppszFileName);
+        public HRESULT GetCurFile([Out] out IntPtr ppszFileName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out ppszFileName);
+            }
+        }
     }
 }

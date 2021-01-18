@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.BaseTypes;
+using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 
@@ -12,11 +13,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imalloc
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IMalloc)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IMalloc
+    public unsafe struct IMalloc
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Allocates a block of memory.
         /// </summary>
@@ -35,8 +35,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If <paramref name="cb"/> is zero, <see cref="Alloc"/> allocates a zero-length item and returns a valid pointer to that item.
         /// If there is insufficient memory available, <see cref="Alloc"/> returns <see cref="IntPtr.Zero"/>.
         /// </remarks>
-        [PreserveSig]
-        IntPtr Alloc([In]IntPtr cb);
+        public IntPtr Alloc([In] SIZE_T cb)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, SIZE_T, IntPtr>)_vTable[3])(thisPtr, cb);
+            }
+        }
 
         /// <summary>
         /// Changes the size of a previously allocated block of memory.
@@ -74,8 +79,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The storage space pointed to by the return value is guaranteed to be suitably aligned for storage of any type of object.
         /// To get a pointer to a type other than void, use a type cast on the return value.
         /// </remarks>
-        [PreserveSig]
-        IntPtr Realloc([In]IntPtr pv, [In]IntPtr cb);
+        public IntPtr Realloc([In] IntPtr pv, [In] SIZE_T cb)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T, IntPtr>)_vTable[4])(thisPtr, pv, cb);
+            }
+        }
 
         /// <summary>
         /// Frees a previously allocated block of memory.
@@ -88,8 +98,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The number of bytes freed equals the number of bytes that were allocated.
         /// After the call, the block of memory pointed to by <paramref name="pv"/> is invalid and can no longer be used.
         /// </remarks>
-        [PreserveSig]
-        void Free([In]IntPtr pv);
+        public void Free([In] IntPtr pv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, IntPtr, void>)_vTable[5])(thisPtr, pv);
+            }
+        }
 
         /// <summary>
         /// Retrieves the size of a previously allocated block of memory.
@@ -104,8 +119,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// To get the size in bytes of a memory block, the block must have been previously allocated with <see cref="Alloc"/> or <see cref="Realloc"/>.
         /// The size returned is the actual size of the allocation, which may be greater than the size requested when the allocation was made.
         /// </remarks>
-        [PreserveSig]
-        IntPtr GetSize([In]IntPtr pv);
+        public SIZE_T GetSize([In] IntPtr pv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, SIZE_T>)_vTable[6])(thisPtr, pv);
+            }
+        }
 
         /// <summary>
         /// Determines whether this allocator was used to allocate the specified block of memory.
@@ -119,14 +139,24 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// 0   The block of memory was not allocated by this allocator.
         /// -1  This method cannot determine whether this allocator allocated the block of memory.
         /// </returns>
-        [PreserveSig]
-        int DidAlloc([In]IntPtr pv);
+        public int DidAlloc([In] IntPtr pv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, int>)_vTable[7])(thisPtr, pv);
+            }
+        }
 
         /// <summary>
         /// Minimizes the heap as much as possible by releasing unused memory to the operating system,
         /// coalescing adjacent free blocks, and committing free pages.
         /// </summary>
-        [PreserveSig]
-        void HeapMinimize();
+        public void HeapMinimize()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                ((delegate* unmanaged[Stdcall]<void*, void>)_vTable[8])(thisPtr);
+            }
+        }
     }
 }

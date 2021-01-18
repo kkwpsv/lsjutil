@@ -4,7 +4,6 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.CLSIDs;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.SFGAOF;
 using static Lsj.Util.Win32.GUIDs.BHIDs;
 using static Lsj.Util.Win32.Ole32;
@@ -24,11 +23,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// When to Implement
     /// Third parties do not implement this interface; only use the implementation provided with the system.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IShellItem)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IShellItem
+    public unsafe struct IShellItem
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Binds to a handler for an item as specified by the handler ID value (BHID).
         /// </summary>
@@ -87,9 +85,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT BindToHandler([In][MarshalAs(UnmanagedType.Interface)]IBindCtx pbc, [In][MarshalAs(UnmanagedType.LPStruct)]Guid bhid,
-            [In][MarshalAs(UnmanagedType.LPStruct)]Guid riid, [MarshalAs(UnmanagedType.IUnknown)][Out]out object ppv);
+        public HRESULT BindToHandler([In] in IBindCtx pbc, [In] in GUID bhid, [In] in IID riid, [Out] out IntPtr ppv)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, in GUID, in IID, out IntPtr, HRESULT>)_vTable[3])(thisPtr, pbc, bhid, riid, out ppv);
+            }
+        }
 
         /// <summary>
         /// Gets the parent of an <see cref="IShellItem"/> object.
@@ -100,8 +102,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful, or an error value otherwise.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetParent([MarshalAs(UnmanagedType.Interface)][Out]out IShellItem ppsi);
+        public HRESULT GetParent([Out] out IntPtr ppsi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[4])(thisPtr, out ppsi);
+            }
+        }
 
         /// <summary>
         /// Gets the display name of the <see cref="IShellItem"/> object.
@@ -120,8 +127,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It is the responsibility of the caller to free the string pointed to by <paramref name="ppszName"/> when it is no longer needed.
         /// Call <see cref="CoTaskMemFree"/> on <paramref name="ppszName"/> to free the memory.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetDisplayName([In]SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)][Out]out string ppszName);
+        public HRESULT GetDisplayName([In] SIGDN sigdnName, [Out] out IntPtr ppszName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, SIGDN, out IntPtr, HRESULT>)_vTable[5])(thisPtr, sigdnName, out ppszName);
+            }
+        }
 
         /// <summary>
         /// Gets a requested set of attributes of the IShellItem object.
@@ -140,8 +152,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Returns <see cref="S_OK"/> if the attributes returned exactly match those requested in <paramref name="sfgaoMask"/>,
         /// <see cref="S_FALSE"/> if the attributes do not exactly match, or a standard COM error value otherwise.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetAttributes([In]SFGAOF sfgaoMask, [Out]out SFGAOF psfgaoAttribs);
+        public HRESULT GetAttributes([In] SFGAOF sfgaoMask, [Out] out SFGAOF psfgaoAttribs)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, SFGAOF, out SFGAOF, HRESULT>)_vTable[6])(thisPtr, sfgaoMask, out psfgaoAttribs);
+            }
+        }
 
         /// <summary>
         /// Compares two <see cref="IShellItem"/> objects.
@@ -160,7 +177,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if the items are the same, <see cref="S_FALSE"/> if they are different, or an error value otherwise.
         /// </returns>
-        [PreserveSig]
-        HRESULT Compare([MarshalAs(UnmanagedType.Interface)][In]IShellItem psi, [In]SICHINTF hint, [Out]out int piOrder);
+        public HRESULT Compare([In] in IShellItem psi, [In] SICHINTF hint, [Out] out int piOrder)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, SICHINTF, out int, HRESULT>)_vTable[7])(thisPtr, psi, hint, out piOrder);
+            }
+        }
     }
 }

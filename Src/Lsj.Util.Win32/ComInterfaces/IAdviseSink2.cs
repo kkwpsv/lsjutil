@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IAdviseSink2
+    public unsafe struct IAdviseSink2
     {
+        IntPtr* _vTable;
     }
 }

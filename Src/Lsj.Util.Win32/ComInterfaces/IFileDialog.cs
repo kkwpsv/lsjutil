@@ -1,10 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
 using static Lsj.Util.Win32.Ole32;
 
@@ -18,18 +18,22 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ifiledialog
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IFileDialog)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IFileDialog : IModalWindow
+    public unsafe struct IFileDialog
     {
+        IntPtr* _vTable;
+
         /// <summary>
-        /// From <see cref="IModalWindow"/>, just make COM happy.
+        /// From <see cref="IModalWindow"/>.
         /// </summary>
         /// <param name="parent"></param>
         /// <returns></returns>
-        [PreserveSig]
-        new HRESULT Show([In]IntPtr parent);
+        public HRESULT Show([In] HWND parent)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, HRESULT>)_vTable[3])(thisPtr, parent);
+            }
+        }
 
         /// <summary>
         /// Sets the file types that the dialog can open or save.
@@ -53,8 +57,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method must be called before the dialog is shown and can only be called once for each dialog instance.
         /// File types cannot be modified once the Common Item dialog box is displayed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetFileTypes([In]uint cFileTypes, [MarshalAs(UnmanagedType.LPArray)][In]COMDLG_FILTERSPEC[] rgFilterSpec);
+        public HRESULT SetFileTypes([In] UINT cFileTypes, [In] COMDLG_FILTERSPEC[] rgFilterSpec)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, COMDLG_FILTERSPEC[], HRESULT>)_vTable[4])(thisPtr, cFileTypes, rgFilterSpec);
+            }
+        }
 
         /// <summary>
         /// Sets the file type that appears as selected in the dialog.
@@ -64,8 +73,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Note that this is a one-based index, not zero-based.
         /// </param>
         /// <returns></returns>
-        [PreserveSig]
-        HRESULT SetFileTypeIndex([In]uint iFileType);
+        public HRESULT SetFileTypeIndex([In] UINT iFileType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, UINT, HRESULT>)_vTable[5])(thisPtr, iFileType);
+            }
+        }
 
         /// <summary>
         /// Gets the currently selected file type.
@@ -81,8 +95,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// <see cref="GetFileTypeIndex"/> can be called either while the dialog is open or after it has closed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetFileTypeIndex([Out]out uint piFileType);
+        public HRESULT GetFileTypeIndex([Out] out UINT piFileType)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out UINT, HRESULT>)_vTable[6])(thisPtr, out piFileType);
+            }
+        }
 
         /// <summary>
         /// Assigns an event handler that listens for events coming from the dialog.
@@ -98,8 +117,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT Advise([MarshalAs(UnmanagedType.Interface)]IFileDialogEvents pfde, [Out]out uint pdwCookie);
+        public HRESULT Advise([In] in IFileDialogEvents pfde, [Out] out DWORD pdwCookie)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IFileDialogEvents, out DWORD, HRESULT>)_vTable[7])(thisPtr, pfde, out pdwCookie);
+            }
+        }
 
         /// <summary>
         /// Removes an event handler that was attached through the <see cref="Advise"/> method.
@@ -112,8 +136,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT Unadvise([In]uint dwCookie);
+        public HRESULT Unadvise([In] DWORD dwCookie)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[8])(thisPtr, dwCookie);
+            }
+        }
 
         /// <summary>
         /// Sets flags to control the behavior of the dialog.
@@ -129,8 +158,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Generally, this method should take the value that was retrieved by <see cref="GetOptions"/>
         /// and modify it to include or exclude options by setting the appropriate flags.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetOptions([In]FILEOPENDIALOGOPTIONS fos);
+        public HRESULT SetOptions([In] FILEOPENDIALOGOPTIONS fos)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, FILEOPENDIALOGOPTIONS, HRESULT>)_vTable[9])(thisPtr, fos);
+            }
+        }
 
         /// <summary>
         /// Gets the current flags that are set to control dialog behavior.
@@ -142,8 +176,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetOptions([Out]out FILEOPENDIALOGOPTIONS pfos);
+        public HRESULT GetOptions([Out] out FILEOPENDIALOGOPTIONS pfos)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out FILEOPENDIALOGOPTIONS, HRESULT>)_vTable[10])(thisPtr, out pfos);
+            }
+        }
 
         /// <summary>
         /// Sets the folder used as a default if there is not a recently used folder value available.
@@ -155,8 +194,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetDefaultFolder([MarshalAs(UnmanagedType.Interface)][In]IShellItem psi);
+        public HRESULT SetDefaultFolder([In] in IShellItem psi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, HRESULT>)_vTable[11])(thisPtr, psi);
+            }
+        }
 
         /// <summary>
         /// Sets a folder that is always selected when the dialog is opened, regardless of previous user action.
@@ -183,8 +227,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// such as the Microsoft OneDrive Documents folder for the Documents library.
         /// Because of these mappings, the folder location used in the dialog might not be exactly as you specified when you called this method.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetFolder([MarshalAs(UnmanagedType.Interface)][In]IShellItem psi);
+        public HRESULT SetFolder([In] in IShellItem psi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, HRESULT>)_vTable[12])(thisPtr, psi);
+            }
+        }
 
         /// <summary>
         /// Gets either the folder currently selected in the dialog, or, if the dialog is not currently displayed,
@@ -200,8 +249,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The calling application is responsible for releasing the retrieved <see cref="IShellItem"/> when it is no longer needed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetFolder([MarshalAs(UnmanagedType.Interface)][Out]out IShellItem ppsi);
+        public HRESULT GetFolder([Out] out IntPtr ppsi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[13])(thisPtr, out ppsi);
+            }
+        }
 
         /// <summary>
         /// Gets the user's current selection in the dialog.
@@ -218,8 +272,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// The calling application is responsible for releasing the retrieved <see cref="IShellItem"/> when it is no longer needed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetCurrentSelection([MarshalAs(UnmanagedType.Interface)][Out]out IShellItem ppsi);
+        public HRESULT GetCurrentSelection([Out] out IntPtr ppsi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[14])(thisPtr, out ppsi);
+            }
+        }
 
         /// <summary>
         /// Sets the file name that appears in the File name edit box when that dialog box is opened.
@@ -231,8 +290,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetFileName([MarshalAs(UnmanagedType.LPWStr)][In]string pszName);
+        public HRESULT SetFileName([In] string pszName)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszNamePtr = pszName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[15])(thisPtr, pszNamePtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves the text currently entered in the dialog's File name edit box.
@@ -249,8 +314,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// To get the item the user chose, use <see cref="GetResult"/>.
         /// The calling application is responsible for releasing the retrieved buffer by using the <see cref="CoTaskMemFree"/> function.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetFileName([MarshalAs(UnmanagedType.LPWStr)][Out]out string pszName);
+        public HRESULT GetFileName([Out] out IntPtr pszName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[16])(thisPtr, out pszName);
+            }
+        }
 
         /// <summary>
         /// Sets the title of the dialog.
@@ -262,8 +332,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetTitle([MarshalAs(UnmanagedType.LPWStr)][In]string pszTitle);
+        public HRESULT SetTitle([In] string pszTitle)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszTitlePtr = pszTitle)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[17])(thisPtr, pszTitlePtr);
+            }
+        }
 
         /// <summary>
         /// <para>
@@ -277,8 +353,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetOkButtonLabel([MarshalAs(UnmanagedType.LPWStr)][In]string pszText);
+        public HRESULT SetOkButtonLabel([In] string pszText)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszTextPtr = pszText)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[18])(thisPtr, pszTextPtr);
+            }
+        }
 
         /// <summary>
         /// Sets the text of the label next to the file name edit box.
@@ -290,8 +372,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method succeeds, it returns <see cref="S_OK"/>.
         /// Otherwise, it returns an <see cref="HRESULT"/> error code.
         /// </returns>
-        [PreserveSig]
-        HRESULT SetFileNameLabel([MarshalAs(UnmanagedType.LPWStr)][In]string pszLabel);
+        public HRESULT SetFileNameLabel([In] string pszLabel)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszLabelPtr = pszLabel)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[19])(thisPtr, pszLabelPtr);
+            }
+        }
 
         /// <summary>
         /// Gets the choice that the user made in the dialog.
@@ -310,8 +398,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the case of multiple items, call <see cref="GetResults"/>.
         /// <see cref="Show"/> must return a success code for a result to be available to <see cref="GetResult"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetResult([MarshalAs(UnmanagedType.Interface)][Out]out IShellItem ppsi);
+        public HRESULT GetResult([Out] out IntPtr ppsi)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[20])(thisPtr, out ppsi);
+            }
+        }
 
         /// <summary>
         /// Adds a folder to the list of places available for the user to open or save items.
@@ -333,8 +426,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// on the item represented by the <paramref name="psi"/> parameter.
         /// The value for this property will be used in place of the item's UI name.
         /// </remarks>
-        [PreserveSig]
-        HRESULT AddPlace([MarshalAs(UnmanagedType.Interface)][In]IShellItem psi, [In]FDAP fdap);
+        public HRESULT AddPlace([In] in IShellItem psi, [In] FDAP fdap)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IShellItem, FDAP, HRESULT>)_vTable[21])(thisPtr, psi, fdap);
+            }
+        }
 
         /// <summary>
         /// Sets the default extension to be added to file names.
@@ -351,8 +449,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method is called before showing the dialog, the dialog will update the default extension automatically
         /// when the user chooses a new file type (see <see cref="SetFileTypes"/>).
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetDefaultExtension([MarshalAs(UnmanagedType.LPWStr)][In]string pszDefaultExtension);
+        public HRESULT SetDefaultExtension([In] string pszDefaultExtension)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszDefaultExtensionPtr = pszDefaultExtension)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[22])(thisPtr, pszDefaultExtensionPtr);
+            }
+        }
 
         /// <summary>
         /// Closes the dialog.
@@ -370,8 +474,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method is called, there is no result available for the <see cref="GetResult"/> or <see cref="GetResults"/> methods,
         /// and they will fail if called.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Close([In]HRESULT hr);
+        public HRESULT Close([In] HRESULT hr)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT, HRESULT>)_vTable[23])(thisPtr, hr);
+            }
+        }
 
         /// <summary>
         /// Enables a calling application to associate a GUID with a dialog's persisted state.
@@ -390,8 +499,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// within the same application (for example, an import dialog and an open dialog).
         /// <see cref="SetClientGuid"/> should be called immediately after creation of the dialog object.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetClientGuid([In]ref Guid guid);
+        public HRESULT SetClientGuid([In] in GUID guid)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in GUID, HRESULT>)_vTable[24])(thisPtr, guid);
+            }
+        }
 
         /// <summary>
         /// Instructs the dialog to clear all persisted state information.
@@ -404,8 +518,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Persisted information can be associated with an application or a GUID.
         /// If a GUID was set by using <see cref="SetClientGuid"/>, that GUID is used to clear persisted information.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ClearClientData();
+        public HRESULT ClearClientData()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[25])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Sets the filter.
@@ -425,7 +544,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because in folders with a large number of items it may offer better performance than applying an <see cref="IShellItemFilter"/>.
         /// </remarks>
         [Obsolete("Deprecated. SetFilter is no longer available for use as of Windows 7.")]
-        [PreserveSig]
-        HRESULT SetFilter([MarshalAs(UnmanagedType.Interface)][In]IShellItemFilter pFilter);
+        public HRESULT SetFilter([In] in IShellItemFilter pFilter)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IShellItemFilter, HRESULT>)_vTable[26])(thisPtr, pFilter);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -67,7 +68,7 @@ namespace Lsj.Util.Win32.Extensions
                 var code = GetLastError();
                 if (code == 0)
                 {
-                    var sb = new StringBuilder(length);
+                    var sb = new StringBuffer(length);
                     GetWindowText(handle, sb, 20);
                     code = GetLastError();
                     if (code == 0)

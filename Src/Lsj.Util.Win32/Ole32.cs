@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CLSID;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
+using static Lsj.Util.Win32.BaseTypes.IID;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CLSCTX;
@@ -176,9 +177,8 @@ namespace Lsj.Util.Win32
         /// For more information about the use of one or a combination of these constants, see <see cref="CLSCTX"/>.
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCreateInstance", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT CoCreateInstance([MarshalAs(UnmanagedType.LPStruct)][In] Guid rclsid,
-            [MarshalAs(UnmanagedType.IUnknown)] object pUnkOuter, [In] CLSCTX dwClsContext, [MarshalAs(UnmanagedType.LPStruct)][In] Guid riid,
-            [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+        public static extern HRESULT CoCreateInstance([In] in CLSID rclsid, [In] in IUnknown pUnkOuter,
+            [In] CLSCTX dwClsContext, [In] in IID riid, [Out] out LPVOID ppv);
 
         /// <summary>
         /// <para>

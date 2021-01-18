@@ -26,6 +26,14 @@ namespace Lsj.Util.Win32
         public static extern GpStatus GdipCreateFromHDC([In] HDC hdc, [Out] out IntPtr graphics);
 
         /// <summary>
+        /// Releases resources used by the Image object.
+        /// </summary>
+        /// <param name="image">Image object.</param>
+        /// <returns></returns>
+        [DllImport("gdiplus.dll", CharSet = CharSet.Unicode, EntryPoint = "GdipDisposeImage", ExactSpelling = true, SetLastError = true)]
+        public static extern GpStatus GdipDisposeImage([In] IntPtr image);
+
+        /// <summary>
         /// Draws an image at a specified location.
         /// </summary>
         /// <param name="graphics">Graphics object.</param>

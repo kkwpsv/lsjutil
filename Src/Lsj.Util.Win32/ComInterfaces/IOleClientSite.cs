@@ -4,7 +4,6 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
 using static Lsj.Util.Win32.Enums.OLEWHICHMK;
 
@@ -23,11 +22,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-ioleclientsite
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleClientSite)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleClientSite
+    public unsafe struct IOleClientSite
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Saves the embedded object associated with the client site.
         /// This function is synchronous; by the time it returns, the save will be completed.
@@ -47,8 +45,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it calls <see cref="SaveObject"/> to ask the container application to save the object's contents before the object closes itself.
         /// If a container instructs an object not to save itself, the object should not call <see cref="SaveObject"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SaveObject();
+        public HRESULT SaveObject()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[3])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves a moniker for the object's client site.
@@ -91,8 +94,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// assigned to it and may wish to have it removed as an optimization.
         /// In such cases, the object can call GetMoniker with <see cref="OLEGETMONIKER_UNASSIGN"/> to have the moniker removed.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetMoniker([In]OLEGETMONIKER dwAssign, [In]OLEWHICHMK dwWhichMoniker, [Out]out IMoniker ppmk);
+        public HRESULT GetMoniker([In] OLEGETMONIKER dwAssign, [In] OLEWHICHMK dwWhichMoniker, [Out] out IntPtr ppmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLEGETMONIKER, OLEWHICHMK, out IntPtr, HRESULT>)_vTable[4])(thisPtr, dwAssign, dwWhichMoniker, out ppmk);
+            }
+        }
 
         /// <summary>
         /// <para>
@@ -119,8 +127,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Simple containers that do not support links to their embedded objects probably do not need to implement this method.
         /// Instead, they can return <see cref="E_NOINTERFACE"/> and set <paramref name="ppContainer"/> to <see langword="null"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetContainer([Out]out IOleContainer ppContainer);
+        public HRESULT GetContainer([Out] out IntPtr ppContainer)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppContainer);
+            }
+        }
 
         /// <summary>
         /// Asks a container to display its object to the user.
@@ -140,8 +153,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because its container may not be able to do so at the time of the call.
         /// The <see cref="ShowObject"/> method does not guarantee visibility, only that the container will do the best it can.
         /// </remarks>
-        [PreserveSig]
-        HRESULT ShowObject();
+        public HRESULT ShowObject()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[6])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Notifies a container when an embedded object's window is about to become visible or invisible.
@@ -162,8 +180,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// knows that it already has an open window and therefore can respond to being double-clicked by bringing this window quickly to the top,
         /// instead of launching its application in order to obtain a new one.
         /// </remarks>
-        [PreserveSig]
-        HRESULT OnShowWindow([In]BOOL fShow);
+        public HRESULT OnShowWindow([In] BOOL fShow)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, BOOL, HRESULT>)_vTable[7])(thisPtr, fShow);
+            }
+        }
 
         /// <summary>
         /// Asks a container to resize the display site for embedded objects.
@@ -177,7 +200,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Currently, there is no standard mechanism by which a container can negotiate how much room an object would like.
         /// When such a negotiation is defined, responding to this method will be optional for containers.
         /// </remarks>
-        [PreserveSig]
-        HRESULT RequestNewObjectLayout();
+        public HRESULT RequestNewObjectLayout()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[8])(thisPtr);
+            }
+        }
     }
 }

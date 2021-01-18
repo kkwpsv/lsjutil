@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
-    interface IRandomAccessStream
+    /// <summary>
+    /// 
+    /// </summary>
+    public unsafe struct IRandomAccessStream
     {
+        IntPtr* _vTable;
     }
 }

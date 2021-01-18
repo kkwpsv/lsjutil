@@ -17,10 +17,11 @@ namespace Lsj.Util.Win32.Extensions
         /// </summary>
         /// <param name="code">Error Code</param>
         /// <returns>Error Message</returns>
-        public static string GetSystemErrorMessageFromCode(uint code)
+        public unsafe static string GetSystemErrorMessageFromCode(uint code)
         {
+            var strPtr = IntPtr.Zero;
             if (FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER | FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM, IntPtr.Zero,
-                code, 0, out var strPtr, 0, IntPtr.Zero) != 0)
+                code, 0, (IntPtr)(&strPtr), 0, IntPtr.Zero) != 0)
             {
                 var str = Marshal.PtrToStringUni(strPtr);
                 LocalFree(strPtr);

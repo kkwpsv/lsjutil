@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IQueryInfo
+    public unsafe struct IQueryInfo
     {
+        IntPtr* _vTable;
     }
 }

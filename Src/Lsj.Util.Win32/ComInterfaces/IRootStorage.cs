@@ -1,9 +1,12 @@
-﻿namespace Lsj.Util.Win32.ComInterfaces
+﻿using System;
+
+namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IRootStorage
+    public unsafe struct IRootStorage
     {
+        IntPtr* _vTable;
     }
 }

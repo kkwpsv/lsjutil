@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IOleItemContainer
+    public unsafe struct IOleItemContainer
     {
+        IntPtr* _vTable;
     }
 }

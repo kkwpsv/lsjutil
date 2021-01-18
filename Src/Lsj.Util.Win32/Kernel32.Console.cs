@@ -845,7 +845,7 @@ namespace Lsj.Util.Win32
         /// and then handle the <see cref="WM_QUERYENDSESSION"/> and <see cref="WM_ENDSESSION"/> window messages that the hidden window receives.
         /// You can create a hidden window by calling the <see cref="CreateWindowEx"/> method with the dwExStyle parameter set to 0.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCP", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetConsoleCtrlHandler", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetConsoleCtrlHandler([In] PHANDLER_ROUTINE HandlerRoutine, [In] BOOL Add);
 
         /// <summary>

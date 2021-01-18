@@ -7,7 +7,7 @@ My utility
 
 | Master | Dev |
 | ------ | ------ |
-| [![pipeline status](https://gitlab.sdlsj.net/lsj/lsjutil/badges/master/pipeline.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/master) | [![pipeline status](https://gitlab.sdlsj.net/lsj/lsjutil/badges/dev/pipeline.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/dev) |
+| [![pipeline status](https://gitlab.sdlsj.net/lsj/lsjutil/badges/master/pipeline.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/master) [![coverage report](https://gitlab.sdlsj.net/lsj/lsjutil/badges/master/coverage.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/master) | [![pipeline status](https://gitlab.sdlsj.net/lsj/lsjutil/badges/dev/pipeline.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/dev) [![coverage report](https://gitlab.sdlsj.net/lsj/lsjutil/badges/dev/coverage.svg)](https://gitlab.sdlsj.net/lsj/lsjutil/-/commits/dev) |
 
 **Nuget Package Status:**
 

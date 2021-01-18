@@ -1,4 +1,5 @@
-﻿using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
 using static Lsj.Util.Win32.Enums.SIGDN;
+using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.NativeUI.Dialogs
 {
@@ -16,9 +18,9 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
     public abstract class FileDialog : BaseDialog<string>
     {
         /// <summary>
-        /// dialog
+        /// Dialog
         /// </summary>
-        protected IFileDialog _dialog = null;
+        protected unsafe IFileDialog* _dialog = null;
 
         /// <summary>
         /// IsPickFolders
@@ -38,95 +40,113 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <inheritdoc/>
         public override ShowDialogResult ShowDialog(IntPtr owner)
         {
-            _dialog = CreateDialog();
-            try
+            unsafe
             {
-                SetOptions();
-                SetFileTypes();
-                SetTitle();
-                if (_dialog.Show(owner))
+                _dialog = CreateDialog();
+                try
                 {
-                    GetResult();
-                    return ShowDialogResult.OK;
+                    SetOptions();
+                    SetFileTypes();
+                    SetTitle();
+                    if (_dialog->Show(owner))
+                    {
+                        GetResult();
+                        return ShowDialogResult.OK;
+                    }
+                    else
+                    {
+                        return ShowDialogResult.Cancel;
+                    }
                 }
-                else
+                finally
                 {
-                    return ShowDialogResult.Cancel;
+                    ((IUnknown*)_dialog)->Release();
                 }
-            }
-            finally
-            {
-                Marshal.ReleaseComObject(_dialog);
             }
         }
 
         /// <summary>
         /// Create Dialog
         /// </summary>
-        protected abstract IFileDialog CreateDialog();
+        protected abstract unsafe IFileDialog* CreateDialog();
 
         private void SetOptions()
         {
-            var result = S_OK;
-            if (_dialog.GetOptions(out var options))
+            unsafe
             {
-                if (IsPickFolders)
+                var result = S_OK;
+                if (_dialog->GetOptions(out var options))
                 {
-                    options |= FOS_PICKFOLDERS;
+                    if (IsPickFolders)
+                    {
+                        options |= FOS_PICKFOLDERS;
+                    }
+                    if (_dialog->SetOptions(options))
+                    {
+                        return;
+                    }
                 }
-                if (_dialog.SetOptions(options))
-                {
-                    return;
-                }
+                throw Marshal.GetExceptionForHR(result);
             }
-            throw Marshal.GetExceptionForHR(result);
         }
 
         private void SetFileTypes()
         {
-            var result = S_OK;
-            if (FileTypes == null || FileTypes.Count == 0 ||
-                _dialog.SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
-                new COMDLG_FILTERSPEC
-                {
-                    pszName = x.Name,
-                    pszSpec = x.Pattern
-                }).ToArray()))
+            unsafe
             {
-                return;
+                var result = S_OK;
+                if (FileTypes == null || FileTypes.Count == 0 ||
+                    _dialog->SetFileTypes((uint)FileTypes.Count, FileTypes.Select(x =>
+                    new COMDLG_FILTERSPEC
+                    {
+                        pszName = x.Name,
+                        pszSpec = x.Pattern
+                    }).ToArray()))
+                {
+                    return;
+                }
+                throw Marshal.GetExceptionForHR(result);
             }
-            throw Marshal.GetExceptionForHR(result);
         }
 
         private void SetTitle()
         {
-            var result = S_OK;
-            if (Title == null || _dialog.SetTitle(Title))
+            unsafe
             {
-                return;
+                var result = S_OK;
+                if (Title == null || _dialog->SetTitle(Title))
+                {
+                    return;
+                }
+                throw Marshal.GetExceptionForHR(result);
             }
-            throw Marshal.GetExceptionForHR(result);
         }
 
         private void GetResult()
         {
-            var result = S_OK;
-            if (result = _dialog.GetResult(out var shellItem))
+
+            unsafe
             {
-                try
+                var result = S_OK;
+                if (result = _dialog->GetResult(out var shellItemPtr))
                 {
-                    if (result = shellItem.GetDisplayName(SIGDN_FILESYSPATH, out var path))
+                    var shellItem = (IShellItem*)shellItemPtr;
+                    try
                     {
-                        Result = path;
-                        return;
+                        if (result = shellItem->GetDisplayName(SIGDN_FILESYSPATH, out var path))
+                        {
+                            Result = Marshal.PtrToStringUni(path);
+                            CoTaskMemFree(path);
+                            return;
+                        }
+                    }
+                    finally
+                    {
+                        ((IUnknown*)shellItem)->Release();
                     }
                 }
-                finally
-                {
-                    Marshal.ReleaseComObject(shellItem);
-                }
+                throw Marshal.GetExceptionForHR(result);
             }
-            throw Marshal.GetExceptionForHR(result);
         }
     }
 }

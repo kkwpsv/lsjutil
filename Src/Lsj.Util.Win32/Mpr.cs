@@ -190,6 +190,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "WNetGetConnectionW", ExactSpelling = true, SetLastError = true)]
         public static extern SystemErrorCodes WNetGetConnection([MarshalAs(UnmanagedType.LPWStr)][In]string lpLocalName,
-            [MarshalAs(UnmanagedType.LPWStr)][In]StringBuilder lpRemoteName, [In][Out]ref DWORD lpnLength);
+            [In] IntPtr lpRemoteName, [In][Out]ref DWORD lpnLength);
     }
 }

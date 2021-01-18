@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Ole32;
 
@@ -26,11 +25,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Use this interface to enumerate the contents of a Shell folder object. Call the folder's <see cref="IShellFolder.EnumObjects"/> method
     /// and use the returned <see cref="IEnumIDList"/> pointer to enumerate the PIDLs of the items in the folder.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IEnumIDList)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IEnumIDList
+    public unsafe struct IEnumIDList
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Retrieves the specified number of item identifiers in the enumeration sequence and advances the current position by the number of items retrieved.
         /// </summary>
@@ -68,8 +66,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// *<paramref name="pceltFetched"/> will be 3 and the method will return <see cref="S_FALSE"/> meaning that you reached the end of the file.
         /// The three fetched elements will be stored into rgelt and are valid.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Next([In] ULONG celt, [In] IntPtr[] rgelt, [Out] out ULONG pceltFetched);
+        public HRESULT Next([In] ULONG celt, [In] in LPITEMIDLIST rgelt, [Out] out ULONG pceltFetched)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULONG, in LPITEMIDLIST, out ULONG, HRESULT>)_vTable[3])(thisPtr, celt, rgelt, out pceltFetched);
+            }
+        }
 
         /// <summary>
         /// Skips the specified number of elements in the enumeration sequence.
@@ -80,8 +83,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful, or a COM-defined error value otherwise.
         /// </returns>
-        [PreserveSig]
-        HRESULT Skip([In] ULONG celt);
+        public HRESULT Skip([In] ULONG celt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, ULONG, HRESULT>)_vTable[4])(thisPtr, celt);
+            }
+        }
 
         /// <summary>
         /// Returns to the beginning of the enumeration sequence.
@@ -89,8 +97,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// Returns <see cref="S_OK"/> if successful, or a COM-defined error value otherwise.
         /// </returns>
-        [PreserveSig]
-        HRESULT Reset();
+        public HRESULT Reset()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[5])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Creates a new item enumeration object with the same contents and state as the current one.
@@ -105,7 +118,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// This method makes it possible to record a particular point in the enumeration sequence and then return to that point at a later time.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Clone([MarshalAs(UnmanagedType.Interface)][Out] out IEnumIDList ppenum);
+        public HRESULT Clone([Out] out IntPtr ppenum)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppenum);
+            }
+        }
     }
 }

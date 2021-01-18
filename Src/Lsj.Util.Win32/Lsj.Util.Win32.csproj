@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;net40;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilWin32VersionPrefix)</VersionPrefix>
     <Description>My Utility For Win32</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>0419,CA1401,CA1712,CA2101</NoWarn>
+    <NoWarn>0419,CA1401,CA1712,CA2101,CS0169</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Lsj.Util.IL" Version="1.0.5" />
+    <PackageReference Include="Lsj.Util.IL" Version="1.0.6" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />

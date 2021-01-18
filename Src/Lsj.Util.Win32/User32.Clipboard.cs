@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -207,8 +208,7 @@ namespace Lsj.Util.Win32
         /// To get extended error information, call <see cref="GetLastError"/>.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetClipboardFormatNameW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetClipboardFormatName([In] CLIPFORMAT format, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpszFormatName,
-            [In] int cchMaxCount);
+        public static extern int GetClipboardFormatName([In] CLIPFORMAT format, [In] IntPtr lpszFormatName, [In] int cchMaxCount);
 
         /// <summary>
         /// <para>

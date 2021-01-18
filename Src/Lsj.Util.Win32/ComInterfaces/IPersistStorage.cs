@@ -3,7 +3,6 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Ole32;
 
 namespace Lsj.Util.Win32.ComInterfaces
@@ -18,18 +17,9 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersiststorage
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IPersistStorage)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPersistStorage : IPersist
+    public unsafe struct IPersistStorage
     {
-        /// <summary>
-        /// From <see cref="IPersist"/>, just make COM happy.
-        /// </summary>
-        /// <param name="pClassID"></param>
-        /// <returns></returns>
-        [PreserveSig]
-        new HRESULT GetClassID([Out] out Guid pClassID);
+        IntPtr* _vTable;
 
         /// <summary>
         /// Determines whether an object has changed since it was last saved to its current storage.
@@ -50,8 +40,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A container with one or more contained objects must maintain an internal dirty flag that is set
         /// when any of its contained objects has changed since it was last saved.
         /// </remarks>
-        [PreserveSig]
-        HRESULT IsDirty();
+        public HRESULT IsDirty()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[4])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Initializes a new storage object.
@@ -63,8 +58,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to initialize the new storage object with the object class identifier (CLSID).
         /// </param>
         /// <returns></returns>
-        [PreserveSig]
-        HRESULT InitNew([MarshalAs(UnmanagedType.Interface)][In] IStorage pStg);
+        public HRESULT InitNew([In] in IStorage pStg)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[5])(thisPtr, pStg);
+            }
+        }
 
         /// <summary>
         /// Loads an object from its existing storage.
@@ -105,8 +105,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Your implementation of this method should return the <see cref="CO_E_ALREADYINITIALIZED"/> error code
         /// if it receives a call to either the <see cref="InitNew"/> method or the <see cref="Load"/> method after it is already initialized.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Load([MarshalAs(UnmanagedType.Interface)][In] IStorage pStg);
+        public HRESULT Load([In] in IStorage pStg)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[6])(thisPtr, pStg);
+            }
+        }
 
         /// <summary>
         /// Saves an object, and any nested objects that it contains, into the specified storage object. The object enters NoScribble mode.
@@ -151,8 +156,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If an embedded object passes the <see cref="Save"/> method to its nested objects,
         /// it must receive a call to its <see cref="SaveCompleted"/> method before calling this method for its nested objects.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Save([MarshalAs(UnmanagedType.Interface)][In] IStorage pStgSave, [In] BOOL fSameAsLoad);
+        public HRESULT Save([MarshalAs(UnmanagedType.Interface)][In] in IStorage pStgSave, [In] BOOL fSameAsLoad)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, BOOL, HRESULT>)_vTable[7])(thisPtr, pStgSave, fSameAsLoad);
+            }
+        }
 
         /// <summary>
         /// Notifies the object that it can write to its storage object.
@@ -195,8 +205,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If this method returns an error code, the object is not returned to Normal mode.
         /// Thus, the container object can attempt different save strategies.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SaveCompleted([MarshalAs(UnmanagedType.Interface)][In] IStorage pStgNew);
+        public HRESULT SaveCompleted([In] in IStorage pStgNew)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IStorage, HRESULT>)_vTable[8])(thisPtr, pStgNew);
+            }
+        }
 
         /// <summary>
         /// Instructs the object to release all storage objects that have been passed to it by its container and to enter HandsOff mode.
@@ -224,7 +239,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the object contains nested objects, the container application must recursively
         /// call this method for any nested objects that are loaded or running. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT HandsOffStorage();
+        public HRESULT HandsOffStorage()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[9])(thisPtr);
+            }
+        }
     }
 }

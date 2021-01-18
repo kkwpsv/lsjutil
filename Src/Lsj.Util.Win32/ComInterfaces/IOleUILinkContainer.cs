@@ -25,11 +25,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oledlg/nn-oledlg-ioleuilinkcontainerw
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleUILinkContainer)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleUILinkContainer
+    public unsafe struct IOleUILinkContainer
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Enumerates the links in a container.
         /// </summary>
@@ -39,8 +38,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Containers frequently use the pointer to the link's container site object for this value.
         /// </param>
         /// <returns></returns>
-        [PreserveSig]
-        DWORD GetNextLink([In] DWORD dwLink);
+        public DWORD GetNextLink([In] DWORD dwLink)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, DWORD>)_vTable[3])(thisPtr, dwLink);
+            }
+        }
 
         /// <summary>
         /// Sets a link's update options to automatic or manual.
@@ -63,8 +67,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Containers can implement this method for OLE links by simply calling <see cref="IOleLink.SetUpdateOptions"/> on the link object. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetLinkUpdateOptions([In] DWORD dwLink, [In] OLEUPDATE dwUpdateOpt);
+        public HRESULT SetLinkUpdateOptions([In] DWORD dwLink, [In] OLEUPDATE dwUpdateOpt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, OLEUPDATE, HRESULT>)_vTable[4])(thisPtr, dwLink, dwUpdateOpt);
+            }
+        }
 
         /// <summary>
         /// Determines the current update options for a link.
@@ -86,8 +95,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// Containers can implement this method for OLE links by simply calling <see cref="IOleLink.SetUpdateOptions"/> on the link object. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetLinkUpdateOptions([In] DWORD dwLink, [Out] out OLEUPDATE lpdwUpdateOpt);
+        public HRESULT GetLinkUpdateOptions([In] DWORD dwLink, [Out] out OLEUPDATE lpdwUpdateOpt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out OLEUPDATE, HRESULT>)_vTable[5])(thisPtr, dwLink, out lpdwUpdateOpt);
+            }
+        }
 
         /// <summary>
         /// Changes the source of a link.
@@ -131,9 +145,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// with <paramref name="fValidateSource"/> set to <see cref="FALSE"/>,
         /// and the user should be returned to the Links dialog box with the link marked Unavailable. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetLinkSource([In] DWORD dwLink, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszDisplayName, [In] ULONG lenFileName,
-            [Out] out ULONG pchEaten, [In] BOOL fValidateSource);
+        public HRESULT SetLinkSource([In] DWORD dwLink, [In] string lpszDisplayName, [In] ULONG lenFileName,
+            [Out] out ULONG pchEaten, [In] BOOL fValidateSource)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* lpszDisplayNamePtr = lpszDisplayName)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, char*, ULONG, out ULONG, BOOL, HRESULT>)_vTable[6])(thisPtr, dwLink, lpszDisplayNamePtr, lenFileName, out pchEaten, fValidateSource);
+            }
+        }
 
         /// <summary>
         /// Retrieves information about a link that can be displayed in the Links dialog box.
@@ -192,9 +212,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Callers
         /// Call this method during dialog box initialization, after returning from the Change Source dialog box. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetLinkSource([In] DWORD dwLink, [Out] out IntPtr lplpszDisplayName, [Out] out ULONG lplenFileName, [Out] out IntPtr lplpszFullLinkType,
-            [Out] out IntPtr lplpszShortLinkType, [Out] out BOOL lpfSourceAvailable, [Out] out BOOL lpfIsSelected);
+        public HRESULT GetLinkSource([In] DWORD dwLink, [Out] out IntPtr lplpszDisplayName, [Out] out ULONG lplenFileName, [Out] out IntPtr lplpszFullLinkType,
+              [Out] out IntPtr lplpszShortLinkType, [Out] out BOOL lpfSourceAvailable, [Out] out BOOL lpfIsSelected)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, out IntPtr, out ULONG, out IntPtr, out IntPtr, out BOOL, out BOOL, HRESULT>)_vTable[7])
+                    (thisPtr, dwLink, out lplpszDisplayName, out lplenFileName, out lplpszFullLinkType, out lplpszShortLinkType, out lpfSourceAvailable, out lpfIsSelected);
+            }
+        }
 
         /// <summary>
         /// Opens the link's source.
@@ -215,8 +241,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// The <see cref="OpenLinkSource"/> method is called when the Open Source button is selected from the Links dialog box.
         /// For OLE links, call <see cref="IOleObject.DoVerb"/>, specifying <see cref="OLEIVERB_SHOW"/> for iVerb. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT OpenLinkSource([In] DWORD dwLink);
+        public HRESULT OpenLinkSource([In] DWORD dwLink)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[8])(thisPtr, dwLink);
+            }
+        }
 
         /// <summary>
         /// Forces selected links to connect to their source and retrieve current information.
@@ -253,8 +284,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Notes to Implementers
         /// For OLE links, call <see cref="IOleObject.Update"/>. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT UpdateLink([In] DWORD dwLink, [In] BOOL fErrorMessage, [In] BOOL fReserved);
+        public HRESULT UpdateLink([In] DWORD dwLink, [In] BOOL fErrorMessage, [In] BOOL fReserved)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, BOOL, BOOL, HRESULT>)_vTable[9])(thisPtr, dwLink, fErrorMessage, fReserved);
+            }
+        }
 
         /// <summary>
         /// Disconnects the selected links.
@@ -278,7 +314,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For OLE links, <see cref="OleCreateStaticFromData"/> can be used to create a static picture object
         /// using the <see cref="IDataObject"/> interface of the link as the source. 
         /// </remarks>
-        [PreserveSig]
-        HRESULT CancelLink([In] DWORD dwLink);
+        public HRESULT CancelLink([In] DWORD dwLink)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[10])(thisPtr, dwLink);
+            }
+        }
     }
 }

@@ -18,11 +18,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// <remarks>
     /// <see cref="IModalWindow"/>'s IID is <see cref="IID_IModalWindow"/>.
     /// </remarks>
-    [ComImport]
-    [Guid(IID_IModalWindow)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IModalWindow
+    public unsafe struct IModalWindow
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Launches the modal window.
         /// </summary>
@@ -36,6 +35,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// HRESULT_FROM_WIN32(ERROR_CANCELLED):
         /// The user closed the window by cancelling the operation.
         /// </returns>
-        HRESULT Show([In]IntPtr parent);
+        public HRESULT Show([In] HWND parent)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HWND, HRESULT>)_vTable[3])(thisPtr, parent);
+            }
+        }
     }
 }

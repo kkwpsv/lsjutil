@@ -2,7 +2,6 @@
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.STGM;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
@@ -18,11 +17,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-isequentialstream
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_ISequentialStream)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface ISequentialStream
+    public unsafe struct ISequentialStream
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// The <see cref="Read"/> method reads a specified number of bytes from the stream object into memory, starting at the current seek pointer.
         /// </summary>
@@ -52,8 +50,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// it usually means the Read method attempted to read past the end of the stream.
         /// The application should handle both a returned error and <see cref="S_OK"/> return values on end-of-stream read operations.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead);
+        public HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbRead);
+            }
+        }
 
         /// <summary>
         /// The <see cref="Write"/> method writes a specified number of bytes into the stream object starting at the current seek pointer.
@@ -89,7 +92,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In the COM-provided implementation, stream objects are not sparse.
         /// Any fill bytes are eventually allocated on the disk and assigned to the stream.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten);
+        public HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbWritten);
+            }
+        }
     }
 }

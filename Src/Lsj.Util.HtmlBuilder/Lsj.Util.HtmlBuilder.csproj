@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp3.0;netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;net40;net45</TargetFrameworks>
     <VersionPrefix>$(LsjUtilHtmlBuilderVersionPrefix)</VersionPrefix>
     <Description>My Utility For Building Html File</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

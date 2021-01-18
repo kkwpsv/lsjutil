@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.OLELINKBIND;
 using static Lsj.Util.Win32.Enums.OLEUPDATE;
 using static Lsj.Util.Win32.Ole32;
@@ -24,11 +23,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolelink
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IOleLink)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IOleLink
+    public unsafe struct IOleLink
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Specifies how often a linked object should update its cached data.
         /// </summary>
@@ -59,8 +57,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For both manual and automatic links, the linked object updates the cache whenever the container application
         /// calls <see cref="IOleObject.Update"/> or <see cref="Update"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetUpdateOptions([In] OLEUPDATE dwUpdateOpt);
+        public HRESULT SetUpdateOptions([In] OLEUPDATE dwUpdateOpt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLEUPDATE, HRESULT>)_vTable[3])(thisPtr, dwUpdateOpt);
+            }
+        }
 
         /// <summary>
         /// Retrieves a value indicating how often the linked object updates its cached data.
@@ -73,8 +76,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <returns>
         /// This method returns <see cref="S_OK"/> on success.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetUpdateOptions([Out] out OLEUPDATE pdwUpdateOpt);
+        public HRESULT GetUpdateOptions([Out] out OLEUPDATE pdwUpdateOpt)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out OLEUPDATE, HRESULT>)_vTable[4])(thisPtr, out pdwUpdateOpt);
+            }
+        }
 
         /// <summary>
         /// Sets the moniker for the link source.
@@ -123,8 +131,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// A container application can also use the <see cref="SetSourceDisplayName"/> method to change a link's moniker.
         /// The linked object's implementation of <see cref="IPersistStorage.Save"/> saves both the relative and the absolute moniker.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetSourceMoniker([In] IMoniker pmk, [In][Out] ref Guid rclsid);
+        public HRESULT SetSourceMoniker([In] in IMoniker pmk, [In] in CLSID rclsid)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, in CLSID, HRESULT>)_vTable[5])(thisPtr, pmk, rclsid);
+            }
+        }
 
         /// <summary>
         /// Retrieves the moniker identifying the link source of a linked object.
@@ -156,8 +169,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// In addition, the linked object automatically updates the monikers whenever it successfully binds to the link source,
         /// or when it is bound to the link source and it receives a rename notification through the <see cref="IAdviseSink.OnRename"/> method.
         /// </returns>
-        [PreserveSig]
-        HRESULT GetSourceMoniker([Out] out IMoniker ppmk);
+        public HRESULT GetSourceMoniker([Out] out IntPtr ppmk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[6])(thisPtr, out ppmk);
+            }
+        }
 
         /// <summary>
         /// Sets the display name for the link source.
@@ -194,8 +212,14 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// If the linked object is bound to the current link source, the implementation of <see cref="SetSourceDisplayName"/> breaks the connection.
         /// For more information on how the linked object stores and uses the moniker to the link source, see <see cref="SetSourceMoniker"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][In] string pszStatusText);
+        public HRESULT SetSourceDisplayName([In] string pszStatusText)
+        {
+            fixed (void* thisPtr = &this)
+            fixed (char* pszStatusTextPtr = pszStatusText)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, char*, HRESULT>)_vTable[7])(thisPtr, pszStatusTextPtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves the display name of the link source of the linked object.
@@ -230,8 +254,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// Instead of making repeated calls to <see cref="GetSourceDisplayName"/>, your container application can cache the name
         /// and update it whenever the link source is bound.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetSourceDisplayName([MarshalAs(UnmanagedType.LPWStr)][Out] out string ppszDisplayName);
+        public HRESULT GetSourceDisplayName([Out] out IntPtr ppszDisplayName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[8])(thisPtr, out ppszDisplayName);
+            }
+        }
 
         /// <summary>
         /// Activates the connection to the link source by binding the moniker stored within the linked object.
@@ -291,8 +320,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// source to set up advisory connections.
         /// The <see cref="UnbindSource"/> implementation unlocks the container and deletes the advisory connections.
         /// </remarks>
-        [PreserveSig]
-        HRESULT BindToSource([In] OLELINKBIND bindflags, [In] IBindCtx pbc);
+        public HRESULT BindToSource([In] OLELINKBIND bindflags, [In] in IBindCtx pbc)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, OLELINKBIND, in IBindCtx, HRESULT>)_vTable[9])(thisPtr, bindflags, pbc);
+            }
+        }
 
         /// <summary>
         /// Activates the connection between the linked object and the link source if the link source is already running.
@@ -311,8 +345,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// It checks both the relative and absolute monikers.
         /// If the link source is running, <see cref="BindIfRunning"/> calls <see cref="BindToSource"/> to connect the linked object to the link source.
         /// </remarks>
-        [PreserveSig]
-        HRESULT BindIfRunning();
+        public HRESULT BindIfRunning()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[10])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Retrieves a pointer to the link source if the connection is active.
@@ -330,8 +369,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// <remarks>
         /// You typically do not need to call <see cref="GetBoundSource"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT GetBoundSource([Out] out object ppunk);
+        public HRESULT GetBoundSource([Out] out IntPtr ppunk)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[11])(thisPtr, out ppunk);
+            }
+        }
 
         /// <summary>
         /// Breaks the connection between a linked object and its link source.
@@ -353,8 +397,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This undoes the lock on the container and the advisory connections that were established in <see cref="IOleLink.BindToSource"/>.
         /// <see cref="UnbindSource"/> releases all the linked object's interface pointers to the link source.
         /// </remarks>
-        [PreserveSig]
-        HRESULT UnbindSource();
+        public HRESULT UnbindSource()
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, HRESULT>)_vTable[12])(thisPtr);
+            }
+        }
 
         /// <summary>
         /// Updates the compound document's cached data for a linked object.
@@ -392,7 +441,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This ensures that the link source remains running until the bind context is released.
         /// The current caches are left intact if the link source cannot be bound.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Update([In] IBindCtx pbc);
+        public HRESULT Update([In] in IBindCtx pbc)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IBindCtx, HRESULT>)_vTable[13])(thisPtr, pbc);
+            }
+        }
     }
 }

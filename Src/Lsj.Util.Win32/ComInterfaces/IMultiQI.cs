@@ -1,9 +1,12 @@
-﻿namespace Lsj.Util.Win32.ComInterfaces
+﻿using System;
+
+namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// 
     /// </summary>
-    public interface IMultiQI
+    public unsafe struct IMultiQI
     {
+        IntPtr* _vTable;
     }
 }

@@ -25,6 +25,9 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         public virtual long ContentLength => content.Length;
 
+        /// <summary>
+        /// Content
+        /// </summary>
         public override Stream Content
         {
             get

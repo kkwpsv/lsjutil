@@ -18,6 +18,7 @@ using static Lsj.Util.Win32.Enums.VerifyVersionInfoTypeMasks;
 using static Lsj.Util.Win32.Shlwapi;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Winmm;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32
 {
@@ -462,7 +463,7 @@ namespace Lsj.Util.Win32
         /// The system directory contains system files such as dynamic-link libraries and drivers.
         /// This function is provided primarily for compatibility.
         /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemdirectoryw
@@ -490,7 +491,7 @@ namespace Lsj.Util.Win32
         /// If the user is running a shared version of the operating system, the application does not have write access to the system directory.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetSystemDirectory([Out] StringBuilder lpBuffer, [In] UINT uSize);
+        public static extern UINT GetSystemDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>
@@ -587,7 +588,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of the shared Windows directory on a multi-user system.
         /// This function is provided primarily for compatibility.
         /// Applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemwindowsdirectoryw
@@ -618,7 +619,7 @@ namespace Lsj.Util.Win32
         /// On a single-user system, <see cref="GetSystemWindowsDirectory"/> is the same as <see cref="GetWindowsDirectory"/>.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetSystemWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern uint GetSystemWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] uint uSize);
+        public static extern uint GetSystemWindowsDirectory([In] IntPtr lpBuffer, [In] uint uSize);
 
         /// <summary>
         /// <para>
@@ -771,7 +772,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the path of the Windows directory.
         /// This function is provided primarily for compatibility with legacy applications.
         /// New applications should store code in the Program Files folder and persistent data in the Application Data folder in the user's profile.
-        /// For more information, see <see cref="ShGetFolderPath"/>.
+        /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
@@ -812,7 +813,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, it retrieves the path of the private Windows directory for the user.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowsDirectoryW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetWindowsDirectory([MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder lpBuffer, [In] UINT uSize);
+        public static extern UINT GetWindowsDirectory([In] IntPtr lpBuffer, [In] UINT uSize);
 
         /// <summary>
         /// <para>

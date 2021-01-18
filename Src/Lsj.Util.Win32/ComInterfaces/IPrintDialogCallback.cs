@@ -1,9 +1,12 @@
-﻿namespace Lsj.Util.Win32.ComInterfaces
+﻿using System;
+
+namespace Lsj.Util.Win32.ComInterfaces
 {
     /// <summary>
     /// IPrintDialogCallback
     /// </summary>
-    public interface IPrintDialogCallback
+    public unsafe struct IPrintDialogCallback
     {
+        IntPtr* _vTable;
     }
 }

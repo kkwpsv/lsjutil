@@ -4,7 +4,6 @@ using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Enums.ADVF;
 using static Lsj.Util.Win32.Ole32;
 
@@ -24,11 +23,10 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-idataadviseholder
     /// </para>
     /// </summary>
-    [ComImport]
-    [Guid(IID_IDataAdviseHolder)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IDataAdviseHolder
+    public unsafe struct IDataAdviseHolder
     {
+        IntPtr* _vTable;
+
         /// <summary>
         /// Creates a connection between an advise sink and a data object for receiving notifications.
         /// </summary>
@@ -84,9 +82,15 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// to send the necessary notifications.
         /// The established connection can be deleted by passing the value in <paramref name="pdwConnection"/> in a call to <see cref="Unadvise"/>.
         /// </remarks>
-        [PreserveSig]
-        HRESULT Advise([In]IDataObject pDataObject, [In]in FORMATETC pFetc, [In]ADVF advf,
-            [In]IAdviseSink pAdvise, [Out]out uint pdwConnection);
+        public HRESULT Advise([In] in IDataObject pDataObject, [In] in FORMATETC pFetc, [In] ADVF advf,
+            [In] in IAdviseSink pAdvise, [Out] out DWORD pdwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, in FORMATETC, ADVF, in IAdviseSink, out DWORD, HRESULT>)_vTable[3])
+                    (thisPtr, pDataObject, pFetc, advf, pAdvise, out pdwConnection);
+            }
+        }
 
         /// <summary>
         /// Removes a connection between a data object and an advisory sink that was set up through a previous call to <see cref="Advise"/>.
@@ -100,8 +104,13 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// This method returns <see cref="S_OK"/> on success. Other possible values include the following.
         /// <see cref="OLE_E_NOCONNECTION"/>: The <paramref name="dwConnection"/> parameter does not specify a valid connection.
         /// </returns>
-        [PreserveSig]
-        HRESULT Unadvise([In]uint dwConnection);
+        public HRESULT Unadvise([In] DWORD dwConnection)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[4])(thisPtr, dwConnection);
+            }
+        }
 
         /// <summary>
         /// Returns an object that can be used to enumerate the current advisory connections.
@@ -120,11 +129,16 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// and then call <see cref="EnumAdvise"/> to implement <see cref="IDataObject.EnumDAdvise"/>.
         /// Adding more advisory connections while the enumerator object is active has an undefined effect on the enumeration that results from this method.
         /// </remarks>
-        [PreserveSig]
-        HRESULT EnumAdvise([Out]out IEnumSTATDATA ppenumAdvise);
+        public HRESULT EnumAdvise([Out] out IntPtr ppenumAdvise)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, out IntPtr, HRESULT>)_vTable[5])(thisPtr, out ppenumAdvise);
+            }
+        }
 
         /// <summary>
-        /// Sends notifications to each advise sink for which there is a connection established by calling the <see cref="OnDataChange"/> method
+        /// Sends notifications to each advise sink for which there is a connection established by calling the <see cref="IAdviseSink.OnDataChange"/> method
         /// for each advise sink currently being handled by this instance of the advise holder object.
         /// </summary>
         /// <param name="pDataObject">
@@ -155,7 +169,12 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// this method obtains the actual data by calling the <see cref="IDataObject.GetData"/> method through the pointer
         /// specified in the <paramref name="pDataObject"/> parameter.
         /// </remarks>
-        [PreserveSig]
-        HRESULT SendOnDataChange([In]IDataObject pDataObject, [In]uint dwReserved, [In]ADVF advf);
+        public HRESULT SendOnDataChange([In] in IDataObject pDataObject, [In] DWORD dwReserved, [In] ADVF advf)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IDataObject, DWORD, ADVF, HRESULT>)_vTable[6])(thisPtr, pDataObject, dwReserved, advf);
+            }
+        }
     }
 }
