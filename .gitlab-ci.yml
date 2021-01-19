@@ -8,6 +8,8 @@ stages:
 
 build-debug:
   stage: build
+  only:
+    - dev
   script:
     - ".\\build-debug.ps1"
   artifacts:
@@ -26,6 +28,8 @@ build:
 
 test-debug:
   stage: test
+  only:
+    - dev
   script:
     - ".\\test-debug.ps1"
 
