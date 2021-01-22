@@ -2,54 +2,55 @@ $ErrorActionPreference = "Stop"
 
 $env:VersionSuffix = git rev-list HEAD --count
 
-b64 -d %SnkFile% Src\LSJ.snk
+b64 -d $env:SnkFile Src\LSJ.snk
+if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location Src\Lsj.Util\
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.APIs.Alipay
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.APIs.UmeTrip
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.APIs.WeChat
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.AspNetCore
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.CsBuilder
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Data
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Dynamic
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.HtmlBuilder
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.JSON
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Net
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Net.Web
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Office
@@ -57,25 +58,25 @@ Set-Location ..\Lsj.Util.Office
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.SQLBuilder
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Win32
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Win32.NativeUI
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.WinForm
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.WPF
-dotnet pack --no-build --include-source
+dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
