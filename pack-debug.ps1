@@ -54,7 +54,7 @@ dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Office
-&${env:ProgramFiles(x86)}'\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe' /t:pack /p:IncludeSymbols=true
+&${env:ProgramFiles(x86)}'\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe' -restore /t:pack /p:IncludeSymbols=true
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf
