@@ -80,3 +80,5 @@ if(!$?) { Exit $LASTEXITCODE }
 Set-Location ..\Lsj.Util.WPF
 dotnet pack --include-source
 if(!$?) { Exit $LASTEXITCODE }
+
+Set-Location ..\..\
