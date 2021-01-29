@@ -28,6 +28,8 @@ namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        public delegate BOOL MONITORENUMPROC([In] HMONITOR Arg1, [In] HDC Arg2, [In] in RECT Arg3, [In] LPARAM Arg4);
+
         /// <summary>
         /// <para>
         /// The <see cref="BeginPaint"/> function prepares the specified window for painting
