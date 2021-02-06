@@ -6,6 +6,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FILEOP_FLAGS;
 using static Lsj.Util.Win32.Enums.ShellFileOperations;
+using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Structs

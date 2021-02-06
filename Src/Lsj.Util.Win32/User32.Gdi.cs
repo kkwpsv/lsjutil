@@ -28,6 +28,56 @@ namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
+        /// <summary>
+        /// <para>
+        /// A MonitorEnumProc function is an application-defined callback function that is called by the <see cref="EnumDisplayMonitors"/> function.
+        /// A value of type <see cref="MONITORENUMPROC"/> is a pointer to a MonitorEnumProc function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-monitorenumproc
+        /// </para>
+        /// </summary>
+        /// <param name="Arg1">
+        /// A handle to the display monitor.
+        /// This value will always be non-NULL.
+        /// </param>
+        /// <param name="Arg2">
+        /// A handle to a device context.
+        /// The device context has color attributes that are appropriate for the display monitor identified by hMonitor.
+        /// The clipping area of the device context is set to the intersection of the visible region of the device context
+        /// identified by the hdc parameter of <see cref="EnumDisplayMonitors"/>,
+        /// the rectangle pointed to by the lprcClip parameter of <see cref="EnumDisplayMonitors"/>, and the display monitor rectangle.
+        /// This value is <see cref="NULL"/> if the hdc parameter of <see cref="EnumDisplayMonitors"/> was <see cref="NULL"/>.
+        /// </param>
+        /// <param name="Arg3">
+        /// A pointer to a <see cref="RECT"/> structure.
+        /// If hdcMonitor is non-NULL, this rectangle is the intersection of the clipping area of the device context
+        /// identified by hdcMonitor and the display monitor rectangle.
+        /// The rectangle coordinates are device-context coordinates.
+        /// If hdcMonitor is <see cref="NULL"/>, this rectangle is the display monitor rectangle.
+        /// The rectangle coordinates are virtual-screen coordinates.
+        /// </param>
+        /// <param name="Arg4">
+        /// Application-defined data that <see cref="EnumDisplayMonitors"/> passes directly to the enumeration function.
+        /// </param>
+        /// <returns>
+        /// To continue the enumeration, return <see cref="TRUE"/>.
+        /// To stop the enumeration, return <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// You can use the <see cref="EnumDisplayMonitors"/> function to enumerate the set of display monitors
+        /// that intersect the visible region of a specified device context and, optionally, a clipping rectangle.
+        /// To do this, set the hdc parameter to a non-NULL value, and set the lprcClip parameter as needed.
+        /// You can also use the <see cref="EnumDisplayMonitors"/> function to enumerate one or more of the display monitors on the desktop,
+        /// without supplying a device context.
+        /// To do this, set the hdc parameter of <see cref="EnumDisplayMonitors"/> to <see cref="NULL"/> and set the lprcClip parameter as needed.
+        /// In all cases, <see cref="EnumDisplayMonitors"/> calls a specified MonitorEnumProc function once
+        /// for each display monitor in the calculated enumeration set.
+        /// The MonitorEnumProc function always receives a handle to the display monitor.
+        /// If the hdc parameter of <see cref="EnumDisplayMonitors"/> is non-NULL, the MonitorEnumProc function also receives a handle
+        /// to a device context whose color format is appropriate for the display monitor.
+        /// You can then paint into the device context in a manner that is optimal for the display monitor.
+        /// </remarks>
         public delegate BOOL MONITORENUMPROC([In] HMONITOR Arg1, [In] HDC Arg2, [In] in RECT Arg3, [In] LPARAM Arg4);
 
         /// <summary>
