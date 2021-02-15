@@ -14,6 +14,7 @@ using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 
 namespace Lsj.Util.Win32
 {
@@ -160,6 +161,146 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetErrorMode", ExactSpelling = true, SetLastError = true)]
         public static extern ErrorModes GetErrorMode();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a code that identifies the type of exception that occurs.
+        /// The function can be called only from within the filter expression or exception-handler block of an exception handler.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/debug/getexceptioncode
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value identifies the type of exception.
+        /// The following table identifies the exception codes that can occur due to common programming errors.
+        /// These values are defined in WinBase.h and WinNT.h.
+        /// <see cref="EXCEPTION_ACCESS_VIOLATION"/>:
+        /// The thread attempts to read from or write to a virtual address for which it does not have access.
+        /// This value is defined as <see cref="STATUS_ACCESS_VIOLATION"/>.
+        /// <see cref="EXCEPTION_ARRAY_BOUNDS_EXCEEDED"/>:
+        /// The thread attempts to access an array element that is out of bounds, and the underlying hardware supports bounds checking.
+        /// This value is defined as <see cref="STATUS_ARRAY_BOUNDS_EXCEEDED"/>.
+        /// <see cref="EXCEPTION_BREAKPOINT"/>:
+        /// A breakpoint is encountered.
+        /// This value is defined as <see cref="STATUS_BREAKPOINT"/>.
+        /// <see cref="EXCEPTION_DATATYPE_MISALIGNMENT"/>:
+        /// The thread attempts to read or write data that is misaligned on hardware that does not provide alignment.
+        /// For example, 16-bit values must be aligned on 2-byte boundaries, 32-bit values on 4-byte boundaries, and so on.
+        /// This value is defined as <see cref="STATUS_DATATYPE_MISALIGNMENT"/>.
+        /// <see cref="EXCEPTION_FLT_DENORMAL_OPERAND"/>:
+        /// One of the operands in a floating point operation is denormal.
+        /// A denormal value is one that is too small to represent as a standard floating point value.
+        /// This value is defined as <see cref="STATUS_FLOAT_DENORMAL_OPERAND"/>.
+        /// <see cref="EXCEPTION_FLT_DIVIDE_BY_ZERO"/>:
+        /// The thread attempts to divide a floating point value by a floating point divisor of 0 (zero).
+        /// This value is defined as <see cref="STATUS_FLOAT_DIVIDE_BY_ZERO"/>.
+        /// <see cref="EXCEPTION_FLT_INEXACT_RESULT"/>:
+        /// The result of a floating point operation cannot be represented exactly as a decimal fraction.
+        /// This value is defined as <see cref="STATUS_FLOAT_INEXACT_RESULT"/>.
+        /// <see cref="EXCEPTION_FLT_INVALID_OPERATION"/>:
+        /// A floating point exception that is not included in this list.
+        /// This value is defined as <see cref="STATUS_FLOAT_INVALID_OPERATION"/>.
+        /// <see cref="EXCEPTION_FLT_OVERFLOW"/>:
+        /// The exponent of a floating point operation is greater than the magnitude allowed by the corresponding type.
+        /// This value is defined as <see cref="STATUS_FLOAT_OVERFLOW"/>.
+        /// <see cref="EXCEPTION_FLT_STACK_CHECK"/>:
+        /// The stack has overflowed or underflowed, because of a floating point operation.
+        /// This value is defined as <see cref="STATUS_FLOAT_STACK_CHECK"/>.
+        /// <see cref="EXCEPTION_FLT_UNDERFLOW"/>:
+        /// The exponent of a floating point operation is less than the magnitude allowed by the corresponding type.
+        /// This value is defined as <see cref="STATUS_FLOAT_UNDERFLOW"/>.
+        /// <see cref="EXCEPTION_GUARD_PAGE"/>:
+        /// The thread accessed memory allocated with the <see cref="PAGE_GUARD"/> modifier.
+        /// This value is defined as <see cref="STATUS_GUARD_PAGE_VIOLATION"/>.
+        /// <see cref="EXCEPTION_ILLEGAL_INSTRUCTION"/>:
+        /// The thread tries to execute an invalid instruction.
+        /// This value is defined as <see cref="STATUS_ILLEGAL_INSTRUCTION"/>.
+        /// <see cref="EXCEPTION_IN_PAGE_ERROR"/>:
+        /// The thread tries to access a page that is not present, and the system is unable to load the page.
+        /// For example, this exception might occur if a network connection is lost while running a program over a network.
+        /// This value is defined as <see cref="STATUS_IN_PAGE_ERROR"/>.
+        /// <see cref="EXCEPTION_INT_DIVIDE_BY_ZERO"/>:
+        /// The thread attempts to divide an integer value by an integer divisor of 0 (zero).
+        /// This value is defined as <see cref="STATUS_INTEGER_DIVIDE_BY_ZERO"/>.
+        /// <see cref="EXCEPTION_INT_OVERFLOW"/>:
+        /// The result of an integer operation creates a value that is too large to be held by the destination register.
+        /// In some cases, this will result in a carry out of the most significant bit of the result.
+        /// Some operations do not set the carry flag.
+        /// This value is defined as <see cref="STATUS_INTEGER_OVERFLOW"/>.
+        /// <see cref="EXCEPTION_INVALID_DISPOSITION"/>:
+        /// An exception handler returns an invalid disposition to the exception dispatcher.
+        /// Programmers using a high-level language such as C should never encounter this exception.
+        /// This value is defined as <see cref="STATUS_INVALID_DISPOSITION"/>.
+        /// <see cref="EXCEPTION_INVALID_HANDLE"/>:
+        /// The thread used a handle to a kernel object that was invalid (probably because it had been closed.)
+        /// This value is defined as <see cref="STATUS_INVALID_HANDLE"/>.
+        /// <see cref="EXCEPTION_NONCONTINUABLE_EXCEPTION"/>:
+        /// The thread attempts to continue execution after a non-continuable exception occurs.
+        /// This value is defined as <see cref="STATUS_NONCONTINUABLE_EXCEPTION"/>.
+        /// <see cref="EXCEPTION_PRIV_INSTRUCTION"/>:
+        /// The thread attempts to execute an instruction with an operation that is not allowed in the current computer mode.
+        /// This value is defined as <see cref="STATUS_PRIVILEGED_INSTRUCTION"/>.
+        /// <see cref="EXCEPTION_SINGLE_STEP"/>:
+        /// A trace trap or other single instruction mechanism signals that one instruction is executed.
+        /// This value is defined as <see cref="STATUS_SINGLE_STEP"/>.
+        /// <see cref="EXCEPTION_STACK_OVERFLOW"/>:
+        /// The thread uses up its stack.
+        /// This value is defined as <see cref="STATUS_STACK_OVERFLOW"/>.
+        /// <see cref="STATUS_UNWIND_CONSOLIDATE"/>:
+        /// A frame consolidation has been executed.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="GetExceptionCode"/> function can be called only
+        /// from within the filter expression or exception-handler block of an exception handler.
+        /// The filter expression is evaluated if an exception occurs during execution of the __try block,
+        /// and it determines whether or not the __except block is executed.
+        /// The filter expression can invoke a filter function.
+        /// The filter function cannot call <see cref="GetExceptionCode"/>.
+        /// However, the return value of <see cref="GetExceptionCode"/> can be passed as a parameter to a filter function.
+        /// The return value of the <see cref="GetExceptionInformation"/> function can also be passed as a parameter to a filter function.
+        /// <see cref="GetExceptionInformation"/> returns a pointer to a structure that includes the exception code information.
+        /// When nested handlers exist, each filter expression is evaluated
+        /// until one is evaluated as <see cref="EXCEPTION_EXECUTE_HANDLER"/> or <see cref="EXCEPTION_CONTINUE_EXECUTION"/>.
+        /// Each filter expression can invoke <see cref="GetExceptionCode"/> to get the exception code.
+        /// The exception code returned is the code generated by a hardware exception,
+        /// or the code specified in the <see cref="RaiseException"/> function for a software generated exception.
+        /// When handling the breakpoint exception, it is important to increment the instruction pointer
+        /// in the context record to continue from this exception.
+        /// </remarks>
+        public static ExceptionCodes GetExceptionCode() => (ExceptionCodes)Marshal.GetExceptionCode();
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a computer-independent description of an exception,
+        /// and information about the computer state that exists for the thread when the exception occurs.
+        /// This function can be called only from within the filter expression of an exception handler.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/debug/getexceptioninformation
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// A pointer to an <see cref="EXCEPTION_POINTERS"/> structure that contains pointers to the following two structures:
+        /// <see cref="EXCEPTION_RECORD"/> structure that contains a description of the exception.
+        /// <see cref="CONTEXT"/> structure that contains the computer state information.
+        /// </returns>
+        /// <remarks>
+        /// The filter expression (from which the function is called) is evaluated if an exception occurs during execution of the __try block,
+        /// and it determines whether or not the __except block is executed.
+        /// The filter expression can invoke a filter function. The filter function cannot call <see cref="GetExceptionInformation"/>.
+        /// However, the return value of <see cref="GetExceptionInformation"/> can be passed as a parameter to a filter function.
+        /// To pass the <see cref="EXCEPTION_POINTERS"/> information to the exception-handler block,
+        /// the filter expression or filter function must copy the pointer or the data to safe storage that the handler can later access.
+        /// In the case of nested handlers, each filter expression is evaluated
+        /// until one is evaluated as <see cref="EXCEPTION_EXECUTE_HANDLER"/> or <see cref="EXCEPTION_CONTINUE_EXECUTION"/>.
+        /// Each filter expression can invoke <see cref="GetExceptionInformation"/> to get exception information.
+        /// </remarks>
+#if NETSTANDARD2_0
+        public static IntPtr GetExceptionInformation() =>throw new NotSupportedException();
+#else
+        public static IntPtr GetExceptionInformation() => Marshal.GetExceptionPointers();
+#endif
 
         /// <summary>
         /// <para>

@@ -703,6 +703,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the first heap that has been allocated by a specified process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listfirst
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lphl">
+        /// A pointer to a <see cref="HEAPLIST32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the first entry of the heap list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// when no heap list exists or the snapshot does not contain heap list information.
+        /// </returns>
+        /// <remarks>
+        /// The calling application must set the <see cref="HEAPLIST32.dwSize"/> member of <see cref="HEAPLIST32"/> to the size,
+        /// in bytes, of the structure.
+        /// <see cref="Heap32ListFirst"/> changes <see cref="HEAPLIST32.dwSize"/> to the number of bytes written to the structure.
+        /// This will never be greater than the initial value of <see cref="HEAPLIST32.dwSize"/>, but it may be smaller.
+        /// If the value is smaller, do not rely on the values of any members whose offsets are greater than this value.
+        /// To retrieve information about other heaps in the heap list, use the <see cref="Heap32ListNext"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32ListFirst", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Heap32ListFirst([In] HANDLE hSnapshot, [In][Out] ref HEAPLIST32 lphl);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the next heap that has been allocated by a process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listnext
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lphl">
+        /// A pointer to a <see cref="HEAPLIST32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the next entry of the heap list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// when no more entries in the heap list exist.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve information about the first heap in a heap list, use the <see cref="Heap32ListFirst"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Heap32ListNext", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Heap32ListNext([In] HANDLE hSnapshot, [In][Out] ref HEAPLIST32 lphl);
+
+        /// <summary>
+        /// <para>
         /// Allocates a block of memory from a heap. The allocated memory is not movable.
         /// </para>
         /// <para>

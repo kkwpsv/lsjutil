@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -804,6 +805,57 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LoadPackagedLibrary", ExactSpelling = true, SetLastError = true)]
         public static extern HMODULE LoadPackagedLibrary([MarshalAs(UnmanagedType.LPWStr)][In] string lpwLibFileName, [In] DWORD Reserved);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the first module associated with a process.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-module32firstw
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lpme">
+        /// A pointer to a <see cref="MODULEENTRY32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the first entry of the module list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// if no modules exist or the snapshot does not contain module information.
+        /// </returns>
+        /// <remarks>
+        /// The calling application must set the <see cref="MODULEENTRY32.dwSize"/> member
+        /// of <see cref="MODULEENTRY32"/> to the size, in bytes, of the structure.
+        /// To retrieve information about other modules associated with the specified process, use the <see cref="Module32Next"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32FirstW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Module32First([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the next module associated with a process or thread.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-module32nextw
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lpme">
+        /// A pointer to a <see cref="MODULEENTRY32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the next entry of the module list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function if no more modules exist.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve information about first module associated with a process, use the <see cref="Module32First"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Module32NextW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL Module32Next([In] HANDLE hSnapshot, [In][Out] ref MODULEENTRY32 lpme);
 
         /// <summary>
         /// <para>

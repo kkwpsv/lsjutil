@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CM_DEVCAP;
 using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SetupDiGetClassDevsFlags;
