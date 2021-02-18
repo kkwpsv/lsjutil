@@ -94,6 +94,7 @@ namespace Lsj.Util.JSON
                     int length = str.Length;
                     var r = 0;
                     var result = ParseValue(ptr, ref index, length, type, ref r);
+                    index++;
                     if (index != length)
                     {
                         char c = *(ptr + index);
@@ -102,7 +103,7 @@ namespace Lsj.Util.JSON
                             index++;
                             c = *(ptr + index);
                         }
-                        if (index != length - 1)
+                        if (index != length)
                         {
                             Error($"Error JSON string. Index = {index}. Error char is {*(ptr + index)}. Surrounding is {StringHelper.GetSurroundingChars(ptr, length, index, 5)}");
                         }

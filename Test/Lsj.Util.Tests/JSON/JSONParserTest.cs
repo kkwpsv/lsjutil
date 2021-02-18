@@ -17,11 +17,14 @@ namespace Lsj.Util.Tests.JSON
             Assert.AreEqual(0, JSONParser.Parse<int>(""));
             Assert.AreEqual(0, JSONParser.Parse<int>(null));
 
-            var nullobj = JSONParser.Parse("{}");
-            Assert.AreEqual(0, (nullobj as JSONObject).GetDynamicMemberNames().Count());
+            var emptyObject = JSONParser.Parse("{}");
+            Assert.AreEqual(0, (emptyObject as JSONObject).GetDynamicMemberNames().Count());
 
             var obj = JSONParser.Parse<TestObject>(@"{""C"":null}");
             Assert.AreEqual(null, obj.C);
+
+            var emptyObject2 = JSONParser.Parse("\r\n{\r\n}\r\n");
+            Assert.AreEqual(0, (emptyObject2 as JSONObject).GetDynamicMemberNames().Count());
         }
 
         [TestMethod]
