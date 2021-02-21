@@ -2,7 +2,7 @@ $ErrorActionPreference = "Stop"
 
 Set-Location Test/Lsj.Util.Tests
 
-dotnet test -c Release --collect:"XPlat Code Coverage"
+dotnet test --collect:"XPlat Code Coverage"
 if(!$?) { Exit $LASTEXITCODE }
 
 $coverage = (Get-Content .\TestResults\*\coverage.cobertura.xml | Select-String -Pattern "coverage line-rate=`"(.+?)`"").Matches.Groups[1].Value

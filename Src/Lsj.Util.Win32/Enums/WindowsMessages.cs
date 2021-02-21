@@ -2166,5 +2166,19 @@ namespace Lsj.Util.Win32.Enums
         WM_WINDOWPOSCHANGING = 0x0046,
 
         #endregion
+
+        #region Windows Touch Input
+
+        /// <summary>
+        /// <para>
+        /// Notifies the window when one or more touch points, such as a finger or pen, touches a touch-sensitive digitizer surface.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/wintouch/wm-touchdown
+        /// </para>
+        /// </summary>
+        WM_TOUCH = 0x0240,
+
+        #endregion
     }
 }

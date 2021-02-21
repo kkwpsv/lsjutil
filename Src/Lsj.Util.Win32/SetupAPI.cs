@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CM_DEVCAP;
 using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SetupDiGetClassDevsFlags;
@@ -167,7 +168,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SPDRP_CHARACTERISTICS"/>:
         /// The function retrieves a bitwise OR of a device's characteristics flags in a DWORD.
         /// For a description of these flags, which are defined in Wdm.h and Ntddk.h,
-        /// see the DeviceCharacteristics parameter of the <see cref="IoCreateDevice"/> function.
+        /// see the DeviceCharacteristics parameter of the IoCreateDevice function.
         /// <see cref="SPDRP_CLASS"/>:
         /// The function retrieves a <see cref="REG_SZ"/> string that contains the device setup class of a device.
         /// <see cref="SPDRP_CLASSGUID"/>:
@@ -194,7 +195,7 @@ namespace Lsj.Util.Win32
         /// <see cref="SPDRP_EXCLUSIVE"/>:
         /// The function retrieves a <see cref="DWORD"/> value that indicates whether a user can obtain exclusive use of the device.
         /// The returned value is one if exclusive use is allowed, or zero otherwise.
-        /// For more information, see <see cref="IoCreateDevice"/>.
+        /// For more information, see IoCreateDevice.
         /// <see cref="SPDRP_FRIENDLYNAME"/>:
         /// The function retrieves a <see cref="REG_SZ"/> string that contains the friendly name of a device.
         /// <see cref="SPDRP_HARDWAREID"/>:
@@ -218,7 +219,7 @@ namespace Lsj.Util.Win32
         /// The function retrieves a <see cref="REG_SZ"/> string that contains the name of the device manufacturer.
         /// <see cref="SPDRP_PHYSICAL_DEVICE_OBJECT_NAME"/>:
         /// The function retrieves a <see cref="REG_SZ"/> string that contains the name that is associated with the device's PDO.
-        /// For more information, see <see cref="IoCreateDevice"/>.
+        /// For more information, see IoCreateDevice.
         /// <see cref="SPDRP_REMOVAL_POLICY"/>:
         /// (Windows XP and later)
         /// The function retrieves the device's current removal policy as a <see cref="DWORD"/> that

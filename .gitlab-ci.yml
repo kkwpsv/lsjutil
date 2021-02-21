@@ -6,14 +6,20 @@ stages:
   - test
   - push
 
+build-debug:
+  stage: build
+  script:
+    - ".\\build-debug.ps1"
+
 build:
   stage: build
   script:
-    - ".\\build.bat"
-  artifacts:
-    paths:
-      - "Src\\*\\bin\\Release\\"
-    expire_in: 1h
+    - ".\\build.ps1"
+
+test-debug:
+  stage: test
+  script:
+    - ".\\test-debug.ps1"
 
 test:
   stage: test
@@ -25,14 +31,22 @@ push-debug:
   only:
     - dev
   script:
-    - ".\\pack-debug.bat"
-    - ".\\push-debug.bat"
+    - ".\\pack-debug.ps1"
+    - ".\\push-debug.ps1"
+  artifacts:
+    paths:
+      - "Src\\*\\bin\\Debug\\"
+    expire_in: 30d
 
 push:
   stage: push
   only:
    - master
   script:
-    - ".\\pack.bat"
-    - ".\\push.bat"
+    - ".\\pack.ps1"
+    - ".\\push.ps1"
+  artifacts:
+    paths:
+      - "Src\\*\\bin\\Release\\"
+    expire_in: 30d
     

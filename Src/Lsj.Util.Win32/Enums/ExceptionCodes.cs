@@ -111,5 +111,15 @@ namespace Lsj.Util.Win32.Enums
         /// DBG_CONTROL_C
         /// </summary>
         DBG_CONTROL_C = 0x40010005,
+
+        /// <summary>
+        /// EXCEPTION_GUARD_PAGE
+        /// </summary>
+        EXCEPTION_GUARD_PAGE = STATUS_GUARD_PAGE_VIOLATION,
+
+        /// <summary>
+        /// EXCEPTION_INVALID_HANDLE
+        /// </summary>
+        EXCEPTION_INVALID_HANDLE = STATUS_INVALID_HANDLE,
     }
 }

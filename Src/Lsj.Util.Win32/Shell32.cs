@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CSIDL;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
@@ -26,6 +25,7 @@ using static Lsj.Util.Win32.Enums.SHGetFileInfoFlags;
 using static Lsj.Util.Win32.Enums.SHGFP_TYPE;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.TokenAccessRights;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
@@ -162,6 +162,103 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out] out int pNumArgs);
+
+        /// <summary>
+        /// <para>
+        /// Gets a handle to an icon from the specified executable file, DLL, or icon file.
+        /// To retrieve an array of handles to large or small icons, use the <see cref="ExtractIconEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-extracticonw
+        /// </para>
+        /// </summary>
+        /// <param name="hInst">
+        /// Handle to the instance of the application that calls the function.
+        /// </param>
+        /// <param name="pszExeFileName">
+        /// Pointer to a null-terminated string that specifies the name of an executable file, DLL, or icon file.
+        /// </param>
+        /// <param name="nIconIndex">
+        /// Specifies the zero-based index of the icon to retrieve.
+        /// For example, if this value is 0, the function returns a handle to the first icon in the specified file.
+        /// If this value is -1, the function returns the total number of icons in the specified file.
+        /// If the file is an executable file or DLL, the return value is the number of RT_GROUP_ICON resources.
+        /// If the file is an .ICO file, the return value is 1.
+        /// If this value is a negative number not equal to –1, the function returns a handle to the icon in the specified file
+        /// whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
+        /// For example, you should use –3 to extract the icon whose resource identifier is 3.
+        /// To extract the icon whose resource identifier is 1, use the <see cref="ExtractIconEx"/> function.
+        /// </param>
+        /// <returns>
+        /// The return value is a handle to an icon.
+        /// If the file specified was not an executable file, DLL, or icon file, the return is 1.
+        /// If no icons were found in the file, the return value is <see cref="NULL"/>.
+        /// </returns>
+        /// <remarks>
+        /// When it is no longer needed, you must destroy the icon handle returned by <see cref="ExtractIcon"/>
+        /// by calling the <see cref="DestroyIcon"/> function.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconW", ExactSpelling = true, SetLastError = true)]
+        public static extern HICON ExtractIcon([In] HINSTANCE hInst, [MarshalAs(UnmanagedType.LPWStr)][In] string pszExeFileName, [In] UINT nIconIndex);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="ExtractIconEx"/> function creates an array of handles to large or small icons
+        /// extracted from the specified executable file, DLL, or icon file.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-extracticonexw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszFile">
+        /// Pointer to a null-terminated string that specifies the name of an executable file, DLL, or icon file from which icons will be extracted.
+        /// </param>
+        /// <param name="nIconIndex">
+        /// Specifies the zero-based index of the first icon to extract.
+        /// For example, if this value is zero, the function extracts the first icon in the specified file.
+        /// If this value is –1 and <paramref name="phiconLarge"/> and <paramref name="phiconSmall"/> are both <see langword="null"/>,
+        /// the function returns the total number of icons in the specified file.
+        /// If the file is an executable file or DLL, the return value is the number of RT_GROUP_ICON resources.
+        /// If the file is an .ico file, the return value is 1.
+        /// If this value is a negative number and either <paramref name="phiconLarge"/>
+        /// or <paramref name="phiconSmall"/> is not <see langword="null"/>, the function begins by extracting the icon
+        /// whose resource identifier is equal to the absolute value of <paramref name="nIconIndex"/>.
+        /// For example, use -3 to extract the icon whose resource identifier is 3.
+        /// </param>
+        /// <param name="phiconLarge">
+        /// Pointer to an array of icon handles that receives handles to the large icons extracted from the file.
+        /// If this parameter is <see langword="null"/>, no large icons are extracted from the file.
+        /// </param>
+        /// <param name="phiconSmall">
+        /// Pointer to an array of icon handles that receives handles to the small icons extracted from the file.
+        /// If this parameter is <see langword="null"/>, no small icons are extracted from the file.
+        /// </param>
+        /// <param name="nIcons">
+        /// The number of icons to extract from the file.
+        /// </param>
+        /// <returns>
+        /// If the <paramref name="nIconIndex"/> parameter is -1 and both the <paramref name="phiconLarge"/>
+        /// and <paramref name="phiconSmall"/> parameters are <see langword="null"/>,
+        /// then the return value is the number of icons contained in the specified file.
+        /// If the <paramref name="nIconIndex"/> parameter is any value other than -1 and
+        /// either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>,
+        /// the return value is the number of icons successfully extracted from the file.
+        /// If the function encounters an error, it returns <see cref="UINT_MAX"/>.
+        /// In this case, you can call <see cref="GetLastError"/> to retrieve the error code.
+        /// For example, this function returns <see cref="UINT_MAX"/> if the file specified by <paramref name="lpszFile"/> cannot be found
+        /// while the <paramref name="nIconIndex"/> parameter is any value other than -1 and
+        /// either <paramref name="phiconLarge"/> or <paramref name="phiconSmall"/> is not <see langword="null"/>.
+        /// In this case, <see cref="GetLastError"/> returns <see cref="ERROR_FILE_NOT_FOUND"/> (2).
+        /// </returns>
+        /// <remarks>
+        /// When they are no longer needed, you must destroy all icons extracted by <see cref="ExtractIconEx"/>
+        /// by calling the <see cref="DestroyIcon"/> function.
+        /// To retrieve the dimensions of the large and small icons, use this function with the <see cref="SM_CXICON"/>,
+        /// <see cref="SM_CYICON"/>, <see cref="SM_CXSMICON"/>, and <see cref="SM_CYSMICON"/> flags.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "ExtractIconExW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT ExtractIconEx([MarshalAs(UnmanagedType.LPWStr)][In] string lpszFile, [In] int nIconIndex,
+            [Out] HICON[] phiconLarge, [Out] HICON[] phiconSmall, [In] UINT nIcons);
 
         /// <summary>
         /// <para>
@@ -1344,6 +1441,66 @@ namespace Lsj.Util.Win32
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFileInfoW", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD_PTR SHGetFileInfo([MarshalAs(UnmanagedType.LPWStr)][In] string pszPath, [In] FileAttributes dwFileAttributes,
             [In][Out] ref SHFILEINFO psfi, [In] UINT cbFileInfo, [In] SHGetFileInfoFlags uFlags);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the path of a known folder as an <see cref="ITEMIDLIST"/> structure.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetknownfolderidlist
+        /// </para>
+        /// </summary>
+        /// <param name="rfid">
+        /// A reference to the <see cref="KNOWNFOLDERID"/> that identifies the folder.
+        /// The folders associated with the known folder IDs might not exist on a particular system.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Flags that specify special retrieval options.
+        /// This value can be 0; otherwise, it is one or more of the <see cref="KNOWN_FOLDER_FLAG"/> values.
+        /// </param>
+        /// <param name="hToken">
+        /// An access token used to represent a particular user.
+        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
+        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
+        /// that can have multiple users but are treated as belonging to a single user.
+        /// The most commonly used folder of this type is Documents.
+        /// The calling application is responsible for correct impersonation when <paramref name="hToken"/> is non-null.
+        /// It must have appropriate security privileges for the particular user,
+        /// including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>, and the user's registry hive must be currently mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// Assigning the hToken parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetKnownFolderIDList"/> to find folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created,
+        /// and includes special folders such as Documents and Desktop.
+        /// Any items added to the Default User folder also appear in any new user account.
+        /// Note that access to the Default User folders requires administrator privileges.
+        /// </param>
+        /// <param name="ppidl">
+        /// When this method returns, contains a pointer to the PIDL of the folder.
+        /// This parameter is passed uninitialized.
+        /// The caller is responsible for freeing the returned PIDL when it is no longer needed by calling ILFree.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
+        /// <see cref="E_INVALIDARG"/>:
+        /// Among other things, this value can indicate that the <paramref name="rfid"/> parameter
+        /// references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all <see cref="KNOWNFOLDERID"/> values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </returns>
+        /// <remarks>
+        /// This function replaces <see cref="SHGetFolderLocation"/>.
+        /// That older function is now simply a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// Callers using this function must have at least User privileges.
+        /// Some known folders, for example, the Documents folder, are per-user.
+        /// Each user has a different path for the Documents folder.
+        /// If hToken is <see cref="NULL"/>, the API tries to access the current user's instance of the folder.
+        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token,
+        /// and attempts to access that user's instance of the folder.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetKnownFolderIDList", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHGetKnownFolderIDList([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
+            [In] HANDLE hToken, [Out] out LPITEMIDLIST ppidl);
 
         /// <summary>
         /// <para>
