@@ -206,5 +206,10 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// IID_IViewObject
         /// </summary>
         public static readonly IID IID_IViewObject = "0000010d-0000-0000-C000-000000000046";
+
+        /// <summary>
+        /// IID_IVirtualDesktopManager
+        /// </summary>
+        public static readonly IID IID_IVirtualDesktopManager = "a5cd92ff-29be-454c-8d04-d82879fb3f1b";
     }
 }

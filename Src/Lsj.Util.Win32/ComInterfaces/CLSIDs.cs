@@ -26,5 +26,10 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// CLSID_StdURLMoniker
         /// </summary>
         public static readonly CLSID CLSID_StdURLMoniker = "79eac9e0-baf9-11ce-8c82-00aa004ba90b";
+
+        /// <summary>
+        /// CLSID_VirtualDesktopManager
+        /// </summary>
+        public static readonly CLSID CLSID_VirtualDesktopManager = "aa509086-5ca9-4c25-8f95-589d3c07b48a";
     }
 }
