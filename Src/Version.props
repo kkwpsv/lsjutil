@@ -1,23 +1,23 @@
 <Project>
   <PropertyGroup>
-    <LsjUtilVersionPrefix>5.0.0</LsjUtilVersionPrefix>
-    <LsjUtilAPIsAlipayVersionPrefix>5.0.0</LsjUtilAPIsAlipayVersionPrefix>
-    <LsjUtilAPIsUmeTripVersionPrefix>5.0.0</LsjUtilAPIsUmeTripVersionPrefix>
-    <LsjUtilAPIsWeChatVersionPrefix>5.0.0</LsjUtilAPIsWeChatVersionPrefix>
-    <LsjUtilAspNetCoreVersionPrefix>5.0.0</LsjUtilAspNetCoreVersionPrefix>
-    <LsjUtilCsBuilderVersionPrefix>5.0.0</LsjUtilCsBuilderVersionPrefix>
-    <LsjUtilDataVersionPrefix>5.0.0</LsjUtilDataVersionPrefix>
-    <LsjUtilDynamicVersionPrefix>5.0.0</LsjUtilDynamicVersionPrefix>
-    <LsjUtilHtmlBuilderVersionPrefix>5.0.0</LsjUtilHtmlBuilderVersionPrefix>
-    <LsjUtilJSONVersionPrefix>5.0.1</LsjUtilJSONVersionPrefix>
-    <LsjUtilNetVersionPrefix>5.0.0</LsjUtilNetVersionPrefix>
-    <LsjUtilNetWebVersionPrefix>5.0.0</LsjUtilNetWebVersionPrefix>
-    <LsjUtilOfficeVersionPrefix>5.0.0</LsjUtilOfficeVersionPrefix>
-    <LsjUtilProtobufVersionPrefix>5.0.0</LsjUtilProtobufVersionPrefix>
-    <LsjUtilSQLBuilderVersionPrefix>5.0.0</LsjUtilSQLBuilderVersionPrefix>
-    <LsjUtilWin32VersionPrefix>5.0.2</LsjUtilWin32VersionPrefix>
-    <LsjUtilWin32NativeUIVersionPrefix>5.0.0</LsjUtilWin32NativeUIVersionPrefix>
-    <LsjUtilWinFormVersionPrefix>5.0.0</LsjUtilWinFormVersionPrefix>
-    <LsjUtilWPFVersionPrefix>5.0.0</LsjUtilWPFVersionPrefix>
+    <LsjUtilVersionPrefix>5.1.0</LsjUtilVersionPrefix>
+    <LsjUtilAPIsAlipayVersionPrefix>5.1.0</LsjUtilAPIsAlipayVersionPrefix>
+    <LsjUtilAPIsUmeTripVersionPrefix>5.1.0</LsjUtilAPIsUmeTripVersionPrefix>
+    <LsjUtilAPIsWeChatVersionPrefix>5.1.0</LsjUtilAPIsWeChatVersionPrefix>
+    <LsjUtilAspNetCoreVersionPrefix>5.1.0</LsjUtilAspNetCoreVersionPrefix>
+    <LsjUtilCsBuilderVersionPrefix>5.1.0</LsjUtilCsBuilderVersionPrefix>
+    <LsjUtilDataVersionPrefix>5.1.0</LsjUtilDataVersionPrefix>
+    <LsjUtilDynamicVersionPrefix>5.1.0</LsjUtilDynamicVersionPrefix>
+    <LsjUtilHtmlBuilderVersionPrefix>5.1.0</LsjUtilHtmlBuilderVersionPrefix>
+    <LsjUtilJSONVersionPrefix>5.1.0</LsjUtilJSONVersionPrefix>
+    <LsjUtilNetVersionPrefix>5.1.0</LsjUtilNetVersionPrefix>
+    <LsjUtilNetWebVersionPrefix>5.1.0</LsjUtilNetWebVersionPrefix>
+    <LsjUtilOfficeVersionPrefix>5.1.0</LsjUtilOfficeVersionPrefix>
+    <LsjUtilProtobufVersionPrefix>5.1.0</LsjUtilProtobufVersionPrefix>
+    <LsjUtilSQLBuilderVersionPrefix>5.1.0</LsjUtilSQLBuilderVersionPrefix>
+    <LsjUtilWin32VersionPrefix>5.1.0</LsjUtilWin32VersionPrefix>
+    <LsjUtilWin32NativeUIVersionPrefix>5.1.0</LsjUtilWin32NativeUIVersionPrefix>
+    <LsjUtilWinFormVersionPrefix>5.1.0</LsjUtilWinFormVersionPrefix>
+    <LsjUtilWPFVersionPrefix>5.1.0</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
 </Project>
