@@ -403,6 +403,21 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves a handle to the Shell's desktop window.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getshellwindow
+        /// </para>
+        /// </summary>
+        /// <returns>
+        /// The return value is the handle of the Shell's desktop window.
+        /// If no Shell process is present, the return value is <see cref="NULL"/>.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetShellWindow", ExactSpelling = true, SetLastError = true)]
+        public static extern HWND GetShellWindow();
+
+        /// <summary>
+        /// <para>
         /// Retrieves the current color of the specified display element.
         /// Display elements are the parts of a window and the display that appear on the system display screen.
         /// </para>
