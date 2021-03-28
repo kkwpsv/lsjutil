@@ -31,6 +31,7 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using static Lsj.Util.Win32.BaseTypes.UINT;
 
 namespace Lsj.Util.Win32
 {

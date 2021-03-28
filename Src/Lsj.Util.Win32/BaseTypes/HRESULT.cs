@@ -61,6 +61,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT CO_E_APPNOTFOUND = new HRESULT { _value = unchecked((int)0x800401F5) };
 
         /// <summary>
+        /// CO_E_CLASSSTRING
+        /// </summary>
+        public static readonly HRESULT CO_E_CLASSSTRING = new HRESULT { _value = unchecked((int)0x800401F3) };
+
+        /// <summary>
         /// CO_E_DLLNOTFOUND
         /// </summary>
         public static readonly HRESULT CO_E_DLLNOTFOUND = new HRESULT { _value = unchecked((int)0x800401F8) };
@@ -119,6 +124,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// DV_E_TYMED
         /// </summary>
         public static readonly HRESULT DV_E_TYMED = new HRESULT { _value = unchecked((int)0x80040069) };
+
+        /// <summary>
+        /// DWM_E_COMPOSITIONDISABLED
+        /// </summary>
+        public static readonly HRESULT DWM_E_COMPOSITIONDISABLED = new HRESULT { _value = unchecked((int)0x80263001) };
 
         /// <summary>
         /// Access denied.
@@ -331,6 +341,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT OLE_E_STATIC = new HRESULT { _value = unchecked((int)0x8004000B) };
 
         /// <summary>
+        /// OLE_E_WRONGCOMPOBJ
+        /// </summary>
+        public static readonly HRESULT OLE_E_WRONGCOMPOBJ = new HRESULT { _value = unchecked((int)0x8004000E) };
+
+        /// <summary>
         /// OLE_S_USEREG
         /// </summary>
         public static readonly HRESULT OLE_S_USEREG = new HRESULT { _value = 0x00040000 };
@@ -344,6 +359,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// REGDB_E_READREGDB
         /// </summary>
         public static readonly HRESULT REGDB_E_READREGDB = new HRESULT { _value = unchecked((int)0x80040150) };
+
+        /// <summary>
+        /// REGDB_E_WRITEREGDB
+        /// </summary>
+        public static readonly HRESULT REGDB_E_WRITEREGDB = new HRESULT { _value = unchecked((int)0x80040151) };
 
         /// <summary>
         /// RPC_E_CHANGED_MODE
@@ -381,6 +401,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT STG_E_FILEALREADYEXISTS = new HRESULT { _value = unchecked((int)0x80030050) };
 
         /// <summary>
+        /// STG_E_FILENOTFOUND
+        /// </summary>
+        public static readonly HRESULT STG_E_FILENOTFOUND = new HRESULT { _value = unchecked((int)0x80030002) };
+
+        /// <summary>
         /// STG_E_INVALIDFLAG
         /// </summary>
         public static readonly HRESULT STG_E_INVALIDFLAG = new HRESULT { _value = unchecked((int)0x800300FF) };
@@ -394,6 +419,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// STG_E_INVALIDPARAMETER
         /// </summary>
         public static readonly HRESULT STG_E_INVALIDPARAMETER = new HRESULT { _value = unchecked((int)0x80030057) };
+
+        /// <summary>
+        /// STG_E_INVALIDPOINTER
+        /// </summary>
+        public static readonly HRESULT STG_E_INVALIDPOINTER = new HRESULT { _value = unchecked((int)0x80030009) };
 
         /// <summary>
         /// STG_E_MEDIUMFULL

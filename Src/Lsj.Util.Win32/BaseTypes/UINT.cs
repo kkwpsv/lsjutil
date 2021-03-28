@@ -14,6 +14,11 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct UINT
     {
+        /// <summary>
+        /// UINT_MAX
+        /// </summary>
+        public static readonly UINT UINT_MAX = 0xffffffff;
+
         [FieldOffset(0)]
         private uint _value;
 

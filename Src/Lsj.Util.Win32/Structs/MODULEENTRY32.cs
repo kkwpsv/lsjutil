@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -20,6 +21,9 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MODULEENTRY32
     {
+        /// <summary>
+        /// MAX_MODULE_NAME32
+        /// </summary>
         public const int MAX_MODULE_NAME32 = 255;
 
         /// <summary>
