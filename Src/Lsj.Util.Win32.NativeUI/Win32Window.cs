@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         /// <param name="windowClassName"></param>
         /// <param name="windowName"></param>
-        public Win32Window(string windowClassName, string windowName) : this(windowClassName, windowName, true)
+        public Win32Window(string windowClassName, string windowName) : this(windowClassName, windowName, true, NULL)
         {
 
         }
@@ -53,7 +53,8 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="windowClassName"></param>
         /// <param name="windowName"></param>
         /// <param name="needRegisterClass"></param>
-        public Win32Window(string windowClassName, string windowName, bool needRegisterClass)
+        /// <param name="parentWindow"></param>
+        public Win32Window(string windowClassName, string windowName, bool needRegisterClass, HWND parentWindow)
         {
             var hInstance = GetModuleHandle(null);
             _wndProc = WindowProc;
@@ -72,7 +73,7 @@ namespace Lsj.Util.Win32.NativeUI
                     hIcon = LoadImage(NULL, (IntPtr)SystemIcons.IDI_APPLICATION, ImageTypes.IMAGE_ICON, 0, 0, LR_SHARED),
                     hCursor = LoadImage(NULL, (IntPtr)SystemCursors.IDC_ARROW, ImageTypes.IMAGE_CURSOR, 0, 0, LR_SHARED),
                     hbrBackground = COLOR_WINDOW,
-                    lpszMenuName = IntPtr.Zero,
+                    lpszMenuName = NULL,
                     lpszClassName = marshal.GetPtr(),
                 };
                 if (RegisterClassEx(wndclass) == 0)
@@ -81,7 +82,7 @@ namespace Lsj.Util.Win32.NativeUI
                 }
             }
             _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-                   CW_USEDEFAULT, CW_USEDEFAULT, IntPtr.Zero, IntPtr.Zero, hInstance, IntPtr.Zero);
+                   CW_USEDEFAULT, CW_USEDEFAULT, parentWindow, NULL, hInstance, NULL);
             if (_window == NULL)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
