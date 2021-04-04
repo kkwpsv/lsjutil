@@ -705,6 +705,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the time-out parameters for all read and write operations on a specified communications device.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setcommtimeouts
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the communications device.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="lpCommTimeouts">
+        /// A pointer to a <see cref="COMMTIMEOUTS"/> structure that contains the new time-out values.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetCommTimeouts", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetCommTimeouts([In] HANDLE hFile, [In] in COMMTIMEOUTS lpCommTimeouts);
+
+        /// <summary>
+        /// <para>
         /// Waits for an event to occur for a specified communications device.
         /// The set of events that are monitored by this function is contained in the event mask associated with the device handle.
         /// </para>

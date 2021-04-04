@@ -3,13 +3,13 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HFILE;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ConsoleModes;
+using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
 using static Lsj.Util.Win32.Enums.DriveTypes;
 using static Lsj.Util.Win32.Enums.ErrorModes;
 using static Lsj.Util.Win32.Enums.FILE_INFO_BY_HANDLE_CLASS;
@@ -33,10 +33,13 @@ using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
+using static Lsj.Util.Win32.Enums.TXFS_MINIVERSION;
 using static Lsj.Util.Win32.Ktmw32;
+using static Lsj.Util.Win32.SetupAPI;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
+using static Lsj.Util.Win32.Enums.LockFileExFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -863,7 +866,7 @@ namespace Lsj.Util.Win32
         public static extern HANDLE CreateFileTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName,
             [In] FileAccessRights dwDesiredAccess, [In] FileShareModes dwShareMode, [In] in SECURITY_ATTRIBUTES lpSecurityAttributes,
             [In] FileCreationDispositions dwCreationDisposition, [In] uint dwFlagsAndAttributes, [In] HANDLE hTemplateFile,
-            [In] HANDLE hTransaction, [Out] out USHORT pusMiniVersion, [In] PVOID lpExtendedParameter);
+            [In] HANDLE hTransaction, [Out] out TXFS_MINIVERSION pusMiniVersion, [In] PVOID lpExtendedParameter);
 
         /// <summary>
         /// <para>
@@ -2126,7 +2129,7 @@ namespace Lsj.Util.Win32
         /// <para>
         /// Determines whether a disk drive is a removable, fixed, CD-ROM, RAM disk, or network drive.
         /// To determine whether a drive is a USB-type drive,
-        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the SPDRP_REMOVAL_POLICY property.
+        /// call <see cref="SetupDiGetDeviceRegistryProperty"/> and specify the <see cref="SPDRP_REMOVAL_POLICY"/> property.
         /// </para>
         /// <para>
         /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getdrivetypew
@@ -3212,6 +3215,135 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Locks the specified file for exclusive access by the calling process.
+        /// To specify additional options, for example creating a shared lock or for block-on-fail operation, use the <see cref="LockFileEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfile
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file. 
+        /// The file handle must have been created with the <see cref="GENERIC_READ"/> or <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="dwFileOffsetLow">
+        /// The low-order 32 bits of the starting byte offset in the file where the lock should begin.
+        /// </param>
+        /// <param name="dwFileOffsetHigh">
+        /// The high-order 32 bits of the starting byte offset in the file where the lock should begin.
+        /// </param>
+        /// <param name="nNumberOfBytesToLockLow">
+        /// The low-order 32 bits of the length of the byte range to be locked.
+        /// </param>
+        /// <param name="nNumberOfBytesToLockHigh">
+        /// The high-order 32 bits of the length of the byte range to be locked.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is nonzero (<see cref="TRUE"/>).
+        /// If the function fails, the return value is zero (<see cref="FALSE"/>).
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If the call to <see cref="LockFile"/> completes synchronously, a completion entry may not be queued
+        /// when a completion port is associated with the file handle.
+        /// The <see cref="UnlockFile"/> function unlocks a file region locked by <see cref="LockFile"/>.
+        /// Locking a region of a file gives the threads of the locking process exclusive access to the specified region using this file handle.
+        /// If the file handle is inherited by a process created by the locking process, the child process is not granted access to the locked region.
+        /// If the locking process opens the file a second time, it cannot access the specified region through this second handle
+        /// until it unlocks the region.
+        /// Locking a region of a file does not prevent reading from a mapped file view.
+        /// You can lock bytes that are beyond the end of the current file.
+        /// This is useful to coordinate adding records to the end of a file.
+        /// Exclusive locks cannot overlap an existing locked region of a file.
+        /// For more information, see <see cref="LockFileEx"/>.
+        /// If <see cref="LockFile"/> cannot lock a region of a file, it returns zero immediately. It does not block.
+        /// To issue a file lock request that will block until the lock is acquired, use <see cref="LockFileEx"/>
+        /// without the <see cref="LOCKFILE_FAIL_IMMEDIATELY"/> flag.
+        /// If a process terminates with a portion of a file locked or closes a file that has outstanding locks,
+        /// the locks are unlocked by the operating system.
+        /// However, the time it takes for the operating system to unlock these locks depends upon available system resources.
+        /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
+        /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockFile([In] HANDLE hFile, [In] DWORD dwFileOffsetLow, [In] DWORD dwFileOffsetHigh,
+            [In] DWORD nNumberOfBytesToLockLow, [In] DWORD nNumberOfBytesToLockHigh);
+
+        /// <summary>
+        /// <para>
+        /// Locks the specified file for exclusive access by the calling process.
+        /// This function can operate either synchronously or asynchronously and can request either an exclusive or a shared lock.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfileex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The handle must have been created with either the <see cref="GENERIC_READ"/> or <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="dwFlags">
+        /// This parameter may be one or more of the following values.
+        /// <see cref="LOCKFILE_EXCLUSIVE_LOCK"/>, <see cref="LOCKFILE_FAIL_IMMEDIATELY"/>
+        /// </param>
+        /// <param name="dwReserved">
+        /// Reserved parameter; must be set to zero.
+        /// </param>
+        /// <param name="nNumberOfBytesToLockLow">
+        /// The low-order 32 bits of the length of the byte range to lock.
+        /// </param>
+        /// <param name="nNumberOfBytesToLockHigh">
+        /// The high-order 32 bits of the length of the byte range to lock.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that the function uses with the locking request.
+        /// This structure, which is required, contains the file offset of the beginning of the lock range.
+        /// You must initialize the <see cref="OVERLAPPED.hEvent"/> member to a valid handle or zero.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Locking a region of a file is used to acquire shared or exclusive access to the specified region using this file handle.
+        /// If the file handle is inherited by a process created by the locking process, the child process is not granted access to the locked region.
+        /// If the locking process opens the file a second time, it cannot access the specified region through this second handle until it unlocks the region.
+        /// Locking a portion of a file for exclusive access denies all other processes both read and write access to the specified region of the file.
+        /// Locking a region that goes beyond the current end-of-file position is not an error.
+        /// Locking a portion of a file for shared access denies all processes write access to the specified region of the file,
+        /// including the process that first locks the region.
+        /// All processes can read the locked region.
+        /// Locking a region of a file does not prevent reading from a mapped file view.
+        /// The <see cref="LockFileEx"/> function operates asynchronously if the file handle was opened for asynchronous I/O,
+        /// unless the <see cref="LOCKFILE_FAIL_IMMEDIATELY"/> flag is specified.
+        /// If an exclusive lock is requested for a range of a file that already has a shared or exclusive lock,
+        /// the function returns the error <see cref="ERROR_IO_PENDING"/>.
+        /// The system will signal the event specified in the <see cref="OVERLAPPED"/> structure after the lock is granted.
+        /// To determine when the lock has been granted, use the <see cref="GetOverlappedResult"/> function or one of the wait functions.
+        /// For more information, see Synchronous and Asynchronous I/O.
+        /// If the file handle was not opened for asynchronous I/O and the lock is not available,
+        /// this call waits until the lock is granted or an error occurs,
+        /// unless the <see cref="LOCKFILE_FAIL_IMMEDIATELY"/> flag is specified.
+        /// Exclusive locks cannot overlap an existing locked region of a file.
+        /// Shared locks can overlap a locked region provided locks held on that region are shared locks.
+        /// A shared lock can overlap an exclusive lock if both locks were created using the same file handle.
+        /// When a shared lock overlaps an exclusive lock, the only possible access is a read by the owner of the locks.
+        /// If the same range is locked with an exclusive and a shared lock, two unlock operations are necessary to unlock the region;
+        /// the first unlock operation unlocks the exclusive lock, the second unlock operation unlocks the shared lock.
+        /// If a process terminates with a portion of a file locked or closes a file that has outstanding locks, the locks are unlocked by the operating system.
+        /// However, the time it takes for the operating system to unlock these locks depends upon available system resources.
+        /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
+        /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "LockFileEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL LockFileEx([In] HANDLE hFile, [In] LockFileExFlags dwFlags, [In] DWORD dwReserved, [In] DWORD nNumberOfBytesToLockLow,
+            [In] DWORD nNumberOfBytesToLockHigh, [In] in OVERLAPPED lpOverlapped);
+
+        /// <summary>
+        /// <para>
         /// Creates, opens, reopens, or deletes a file.
         /// Note This function has limited capabilities and is not recommended. For new application development, use the <see cref="CreateFile"/> function.
         /// </para>
@@ -3694,6 +3826,45 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deletes an existing empty directory as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-removedirectorytransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpPathName">
+        /// The path of the directory to be removed.
+        /// The path must specify an empty directory, and the calling process must have delete access to the directory.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// The directory must reside on the local computer;
+        /// otherwise, the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="RemoveDirectoryTransacted"/> function marks a directory for deletion on close.
+        /// Therefore, the directory is not removed until the last handle to the directory is closed.
+        /// <see cref="RemoveDirectory"/> removes a directory junction, even if the contents of the target are not empty;
+        /// the function removes directory junctions regardless of the state of the target object.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs. " +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL RemoveDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName, [In] HANDLE hTransaction);
+
+        /// <summary>
+        /// <para>
         /// Sets the physical file size for the specified file to the current position of the file pointer.
         /// The physical file size is also referred to as the end of the file.
         /// The <see cref="SetEndOfFile"/> function can be used to truncate or extend a file.
@@ -3791,6 +3962,75 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetFileAttributes([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAttributes dwFileAttributes);
+
+        /// <summary>
+        /// <para>
+        /// Sets the attributes for a file or directory as a transacted operation.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setfileattributestransactedw
+        /// </para>
+        /// </summary>
+        /// <param name="lpFileName">
+        /// The name of the file whose attributes are to be set.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see File Names, Paths, and Namespaces.
+        /// The file must reside on the local computer; otherwise,
+        /// the function fails and the last error code is set to <see cref="ERROR_TRANSACTIONS_UNSUPPORTED_REMOTE"/>.
+        /// </param>
+        /// <param name="dwFileAttributes">
+        /// The file attributes to set for the file.
+        /// For a list of file attribute value and their descriptions, see File Attribute Constants.
+        /// This parameter can be one or more values, combined using the bitwise-OR operator.
+        /// However, all other values override <see cref="FILE_ATTRIBUTE_NORMAL"/>.
+        /// Not all attributes are supported by this function.
+        /// For more information, see the Remarks section.
+        /// The following is a list of supported attribute values.
+        /// <see cref="FILE_ATTRIBUTE_ARCHIVE"/>, <see cref="FILE_ATTRIBUTE_HIDDEN"/>, <see cref="FILE_ATTRIBUTE_NORMAL"/>,
+        /// <see cref="FILE_ATTRIBUTE_NOT_CONTENT_INDEXED"/>, <see cref="FILE_ATTRIBUTE_OFFLINE"/>, <see cref="FILE_ATTRIBUTE_READONLY"/>,
+        /// <see cref="FILE_ATTRIBUTE_SYSTEM"/>, <see cref="FILE_ATTRIBUTE_TEMPORARY"/>
+        /// </param>
+        /// <param name="hTransaction">
+        /// A handle to the transaction.
+        /// This handle is returned by the <see cref="CreateTransaction"/> function.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The following table describes how to set the attributes that cannot be set using <see cref="SetFileAttributesTransacted"/>.
+        /// Note that these are not transacted operations.
+        /// <see cref="FILE_ATTRIBUTE_COMPRESSED"/>:
+        /// To set a file's compression state, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_COMPRESSION"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_DEVICE"/>:
+        /// Reserved; do not use.
+        /// <see cref="FILE_ATTRIBUTE_DIRECTORY"/>:
+        /// Files cannot be converted into directories. To create a directory, use the <see cref="CreateDirectory"/> or <see cref="CreateDirectoryEx"/> function.
+        /// <see cref="FILE_ATTRIBUTE_ENCRYPTED"/>:
+        /// To create an encrypted file, use the <see cref="CreateFile"/> function with the <see cref="FILE_ATTRIBUTE_ENCRYPTED"/> attribute.
+        /// To convert an existing file into an encrypted file, use the <see cref="EncryptFile"/> function.
+        /// <see cref="FILE_ATTRIBUTE_REPARSE_POINT"/>:
+        /// To associate a reparse point with a file or directory,
+        /// use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_REPARSE_POINT"/> operation.
+        /// <see cref="FILE_ATTRIBUTE_SPARSE_FILE"/>:
+        /// To set a file's sparse attribute, use the <see cref="DeviceIoControl"/> function with the <see cref="FSCTL_SET_SPARSE"/> operation.
+        /// If a file is open for modification in a transaction, no other thread can successfully open the file for modification until the transaction is committed.
+        /// If a transacted thread opens the file first, any subsequent threads that attempt to open the file for modification
+        /// before the transaction is committed will receive a sharing violation.
+        /// If a non-transacted thread opens the file for modification before the transacted thread does,
+        /// and it is still open when the transacted thread attempts to open it,
+        /// the transaction will receive the <see cref="ERROR_TRANSACTIONAL_CONFLICT"/> error.
+        /// </remarks>
+        [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs. " +
+            "Many scenarios that TxF was developed for can be achieved through simpler and more readily available techniques. " +
+            "Furthermore, TxF may not be available in future versions of Microsoft Windows. " +
+            "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetFileAttributesTransactedW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetFileAttributesTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName, [In] FileAttributes dwFileAttributes,
+            [In] HANDLE hTransaction);
 
         /// <summary>
         /// <para>
@@ -4087,6 +4327,135 @@ namespace Lsj.Util.Win32
         [Obsolete]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetHandleCount", ExactSpelling = true, SetLastError = true)]
         public static extern UINT SetHandleCount([In] uint uNumber);
+
+        /// <summary>
+        /// <para>
+        /// Associates a volume with a drive letter or a directory on another volume.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setvolumemountpointw
+        /// </para>
+        /// </summary>
+        /// <param name="lpszVolumeMountPoint">
+        /// The user-mode path to be associated with the volume.
+        /// This may be a drive letter (for example, "X:") or a directory on another volume (for example, "Y:\MountX").
+        /// The string must end with a trailing backslash ('').
+        /// </param>
+        /// <param name="lpszVolumeName">
+        /// A volume GUID path for the volume.
+        /// This string must be of the form "\\?\Volume{GUID}\" where GUID is a GUID that identifies the volume.
+        /// The "\\?\" turns off path parsing and is ignored as part of the path, as discussed in Naming a Volume.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// If the <paramref name="lpszVolumeMountPoint"/> parameter contains a path to a mounted folder,
+        /// <see cref="GetLastError"/> returns <see cref="ERROR_DIR_NOT_EMPTY"/>, even if the directory is empty.
+        /// </returns>
+        /// <remark>
+        /// When this function is used to associate a volume with a directory on another volume,
+        /// the associated directory is called a mounted folder.
+        /// It is an error to associate a volume with a directory that has any files or subdirectories in it.
+        /// This error occurs for system and hidden directories as well as other directories,
+        /// and it occurs for system and hidden files.
+        /// When mounted folders are created on a volume on a clustered disk, they may be deleted unexpectedly under certain circumstances.
+        /// For information on how to create and configure mounted folders to ensure that this does not happen,
+        /// see Cluster Disk and Drive Connection Problems.
+        /// </remark>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetVolumeMountPointW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetVolumeMountPoint([MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeMountPoint,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpszVolumeName);
+
+        /// <summary>
+        /// <para>
+        /// Unlocks a region in an open file.
+        /// Unlocking a region enables other processes to access the region.
+        /// For an alternate way to specify the region, use the <see cref="UnlockFileEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-unlockfile
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file that contains a region locked with <see cref="LockFile"/>.
+        /// The file handle must have been created with either the <see cref="GENERIC_READ"/> or <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="dwFileOffsetLow">
+        /// The low-order word of the starting byte offset in the file where the locked region begins.
+        /// </param>
+        /// <param name="dwFileOffsetHigh">
+        /// The high-order word of the starting byte offset in the file where the locked region begins.
+        /// </param>
+        /// <param name="nNumberOfBytesToUnlockLow">
+        /// The low-order word of the length of the byte range to be unlocked.
+        /// </param>
+        /// <param name="nNumberOfBytesToUnlockHigh">
+        /// The high-order word of the length of the byte range to be unlocked.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// This function always operates synchronously, but may not queue a completion entry when a completion port is associated with the file handle.
+        /// Unlocking a region of a file releases a previously acquired lock on the file.
+        /// The region to unlock must correspond exactly to an existing locked region.
+        /// Two adjacent regions of a file cannot be locked separately and then unlocked using a single region that spans both locked regions.
+        /// If a process terminates with a portion of a file locked or closes a file that has outstanding locks, the locks are unlocked by the operating system.
+        /// However, the time it takes for the operating system to unlock these locks depends upon available system resources.
+        /// Therefore, it is recommended that your process explicitly unlock all files it has locked when it terminates.
+        /// If this is not done, access to these files may be denied if the operating system has not yet unlocked them.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnlockFile", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnlockFile([In] HANDLE hFile, [In] DWORD dwFileOffsetLow, [In] DWORD dwFileOffsetHigh,
+            [In] DWORD nNumberOfBytesToUnlockLow, [In] DWORD nNumberOfBytesToUnlockHigh);
+
+        /// <summary>
+        /// <para>
+        /// Unlocks a region in the specified file.
+        /// This function can operate either synchronously or asynchronously.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-unlockfileex
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the file.
+        /// The handle must have been created with either the <see cref="GENERIC_READ"/> or <see cref="GENERIC_WRITE"/> access right.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="dwReserved">
+        /// Reserved parameter; must be zero.
+        /// </param>
+        /// <param name="nNumberOfBytesToUnlockLow">
+        /// The low-order part of the length of the byte range to unlock.
+        /// </param>
+        /// <param name="nNumberOfBytesToUnlockHigh">
+        /// The high-order part of the length of the byte range to unlock.
+        /// </param>
+        /// <param name="lpOverlapped">
+        /// A pointer to an <see cref="OVERLAPPED"/> structure that the function uses with the unlocking request.
+        /// This structure contains the file offset of the beginning of the unlock range.
+        /// You must initialize the <see cref="OVERLAPPED.hEvent"/> member to a valid handle or zero.
+        /// For more information, see Synchronous and Asynchronous I/O.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// Unlocking a region of a file releases a previously acquired lock on the file.
+        /// The region to unlock must correspond exactly to an existing locked region.
+        /// Two adjacent regions of a file cannot be locked separately and then unlocked using a single region that spans both locked regions.
+        /// Locks are released before the <see cref="CloseHandle"/> function is finished processing.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "UnlockFileEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL UnlockFileEx([In] HANDLE hFile, [In] DWORD dwReserved, [In] DWORD nNumberOfBytesToUnlockLow,
+            [In] DWORD nNumberOfBytesToUnlockHigh, [In] in OVERLAPPED lpOverlapped);
 
         /// <summary>
         /// <para>
