@@ -18,6 +18,6 @@
     <LsjUtilWin32VersionPrefix>5.1.1</LsjUtilWin32VersionPrefix>
     <LsjUtilWin32NativeUIVersionPrefix>5.1.1</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>5.1.0</LsjUtilWinFormVersionPrefix>
-    <LsjUtilWPFVersionPrefix>5.1.0</LsjUtilWPFVersionPrefix>
+    <LsjUtilWPFVersionPrefix>5.1.1</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
 </Project>
