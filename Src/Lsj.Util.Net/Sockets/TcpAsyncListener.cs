@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Lsj.Util.Logs;
+using Lsj.Util.Net.Sockets.Event;
+using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using Lsj.Util.Logs;
-using Lsj.Util.Net.Sockets.Event;
 
 
 
@@ -44,7 +40,7 @@ namespace Lsj.Util.Net.Sockets
         /// Log
         /// </summary>
         /// <value>The log.</value>
-        public LogProvider Log
+        public virtual LogProvider Log
         {
             get;
             set;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Net.Sockets;
 
 namespace Lsj.Util.Net.Sockets
 {
@@ -15,12 +11,14 @@ namespace Lsj.Util.Net.Sockets
         /// The buffer.
         /// </summary>
         public byte[] buffer;
+
         /// <summary>
-        /// 
+        /// Buffer offset.
         /// </summary>
         public int offset;
+
         /// <summary>
-        /// The handle.
+        /// The Socket.
         /// </summary>
         public Socket handle;
     }

@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Event;
-using Lsj.Util.Net.Web.Error;
-using Lsj.Util.Net.Web.Protocol;
+﻿using Lsj.Util.Collections;
 using Lsj.Util.Logs;
-using Lsj.Util.Collections;
-using System.Reflection;
+using Lsj.Util.Net.Web.Error;
+using Lsj.Util.Net.Web.Event;
+using Lsj.Util.Net.Web.Interfaces;
+using Lsj.Util.Net.Web.Protocol;
+using System;
+using System.Collections.Generic;
 
 namespace Lsj.Util.Net.Web
 {
@@ -23,14 +22,10 @@ namespace Lsj.Util.Net.Web
         {
             get;
             internal set;
-#if NETSTANDARD
-        } = $"LsjWebServer({typeof(WebServer).GetTypeInfo().Assembly.GetName().Version.ToString()})";
-#else
-        } = $"LsjWebServer({System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()})";
-#endif
+        } = $"LsjWebServer({typeof(WebServer).Assembly.GetName().Version})";
 
+        readonly List<IListener> _listeners = new List<IListener>();
 
-        List<IListener> listeners = new List<IListener>();
         /// <summary>
         /// Log
         /// </summary>
@@ -39,6 +34,7 @@ namespace Lsj.Util.Net.Web
             get;
             set;
         } = LogProvider.Default;
+
         /// <summary>
         /// IsStarted
         /// </summary>
@@ -48,6 +44,7 @@ namespace Lsj.Util.Net.Web
             get;
             private set;
         }
+
         /// <summary>
         /// Websites
         /// </summary>
@@ -71,12 +68,17 @@ namespace Lsj.Util.Net.Web
             {
                 x.Value.Start(this);
             }
-            foreach (var listener in listeners)
+            foreach (var listener in _listeners)
             {
-                StartListener(listener);
+                if (listener.Server != this)
+                {
+                    listener.Server = this;
+                }
+                listener.Start();
             }
             IsStarted = true;
         }
+
         /// <summary>
         /// Stop
         /// </summary>
@@ -84,13 +86,18 @@ namespace Lsj.Util.Net.Web
         {
             if (!IsStarted)
                 return;
-            foreach (var listener in listeners)
+            foreach (var listener in _listeners)
             {
-                StopListener(listener);
+                listener.Stop();
             }
             IsStarted = true;
         }
 
+        /// <summary>
+        /// Add Website
+        /// </summary>
+        /// <param name="website">The website.</param>
+        public void AddWebsite(Website website) => Websites.Add(website.HostName, website);
 
         /// <summary>
         /// Add listener
@@ -100,38 +107,27 @@ namespace Lsj.Util.Net.Web
         {
             if (IsStarted)
             {
-                StartListener(listener);
+                listener.Start();
             }
-            listeners.Add(listener);
+            _listeners.Add(listener);
         }
+
         /// <summary>
         /// Removes listener
         /// </summary>
         /// <param name="listener">Listener</param>
         public void RemoveListener(IListener listener)
         {
-            if (!listeners.Contains(listener))
+            if (!_listeners.Contains(listener))
             {
                 Log.Warn("Try to remove a listener which hasn't been added");
                 return;
             }
             if (IsStarted)
             {
-                StopListener(listener);
+                listener.Stop();
             }
-            listeners.Remove(listener);
-        }
-
-        void StartListener(IListener listener)
-        {
-            listener.Log = this.Log;
-            listener.Start();
-        }
-
-        void StopListener(IListener listener)
-        {
-            listener.Log = LogProvider.Default;
-            listener.Stop();
+            _listeners.Remove(listener);
         }
 
         /// <summary>

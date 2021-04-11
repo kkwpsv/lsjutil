@@ -19,10 +19,12 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// Start
         /// </summary>
         void Start();
+
         /// <summary>
         /// Stop
         /// </summary>
         void Stop();
+
         /// <summary>
         /// Log
         /// </summary>
@@ -31,13 +33,16 @@ namespace Lsj.Util.Net.Web.Interfaces
             get;
             set;
         }
+
         /// <summary>
         /// Server
         /// </summary>
         WebServer Server
         {
             get;
+            set;
         }
+
         /// <summary>
         /// SocketAccepted
         /// </summary>

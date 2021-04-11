@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Lsj.Util.Net.Web.Error;
 using Lsj.Util.Net.Web.Event;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Modules;
-using Lsj.Util.Net.Web.Error;
-using System.IO;
+using System;
+using System.Collections.Generic;
 
 namespace Lsj.Util.Net.Web
 {
@@ -13,16 +12,25 @@ namespace Lsj.Util.Net.Web
     /// </summary>
     public class Website
     {
-        private WebServer server;
-        private string hostname;
+        private WebServer _server;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lsj.Util.Net.Web.Website"/> class.
+        /// HostName
+        /// </summary>
+        public string HostName
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Website"/> class.
         /// </summary>
         /// <param name="hostname"></param>
         public Website(string hostname)
         {
-            this.hostname = hostname;
+            HostName = hostname;
         }
+
         /// <summary>
         /// Path
         /// </summary>
@@ -32,9 +40,6 @@ namespace Lsj.Util.Net.Web
             set;
         } = Environment.CurrentDirectory;
 
-
-
-
         /// <summary>
         /// Modules
         /// </summary>
@@ -43,14 +48,12 @@ namespace Lsj.Util.Net.Web
             get;
         } = new List<IModule>();
 
-
-
         /// <summary>
         /// Start
         /// </summary>
         public void Start(WebServer server)
         {
-            this.server = server;
+            _server = server;
             if (Modules.Count == 0)
             {
                 Modules.Insert(0, new FileModule());
@@ -65,36 +68,31 @@ namespace Lsj.Util.Net.Web
         /// Process
         /// </summary>
         public event EventHandler<ProcessEventArgs> Process;
-
-
-
         internal IHttpResponse OnProcess(HttpContext x)
         {
             try
             {
-                if (this.Process != null)
+                if (Process != null)
                 {
                     var args = new ProcessEventArgs
                     {
                         Request = x.Request,
-                        ServerName = server.Name,
+                        ServerName = _server.Name,
                         Log = x.Log
                     };
-                    this.Process(this, args);
+                    Process(this, args);
                     if (args.IsProcessed)
                     {
                         return args.Response;
                     }
                 }
-                return ErrorHelper.Build(501, 0, server.Name);
+                return ErrorHelper.Build(501, 0, _server.Name);
             }
             catch (Exception e)
             {
-                server.Log.Error(e);
-                return ErrorHelper.Build(500, 0, server.Name);
+                _server.Log.Error(e);
+                return ErrorHelper.Build(500, 0, _server.Name);
             }
         }
-
-
     }
 }
