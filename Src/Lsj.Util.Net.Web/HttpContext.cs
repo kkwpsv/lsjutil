@@ -243,7 +243,6 @@ namespace Lsj.Util.Net.Web
             else
             {
                 Response = _server.OnProcess(this);
-
             }
             await DoResponse();
         }

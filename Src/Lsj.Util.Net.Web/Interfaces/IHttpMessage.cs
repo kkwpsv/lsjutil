@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Lsj.Util.Net.Web.Cookie;
+﻿using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Message;
+using System.IO;
 
 namespace Lsj.Util.Net.Web.Interfaces
 {
@@ -85,7 +81,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         void Write(string str);
 
         /// <summary>
-        /// GetHttpHeader
+        /// Get Http Header String
         /// </summary>
         /// <returns></returns>
         string GetHttpHeader();

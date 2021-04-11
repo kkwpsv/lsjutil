@@ -56,11 +56,6 @@ namespace Lsj.Util.Net.Web
             get;
         } = new SafeDictionary<string, Website>();
 
-
-
-
-
-
         /// <summary>
         /// Start
         /// </summary>
@@ -127,21 +122,17 @@ namespace Lsj.Util.Net.Web
             listeners.Remove(listener);
         }
 
-
-
         void StartListener(IListener listener)
         {
             listener.Log = this.Log;
             listener.Start();
-
         }
+
         void StopListener(IListener listener)
         {
             listener.Log = LogProvider.Default;
             listener.Stop();
         }
-
-
 
         /// <summary>
         /// RequestParsed EventHandler
@@ -159,7 +150,6 @@ namespace Lsj.Util.Net.Web
                 this.RequestParsed(this, args);
             }
         }
-
 
         internal IHttpResponse OnProcess(HttpContext x)
         {
