@@ -227,7 +227,7 @@ namespace Lsj.Util.Net.Web.Message
         public override string GetHttpHeader()
         {
             var sb = new StringBuilder();
-            sb.Append($"{Method} {Uri.LocalPath} HTTP/{this.HttpVersion.ToString(2)}\r\n");
+            sb.Append($"{Method} {Uri} HTTP/{this.HttpVersion.ToString(2)}\r\n");
             foreach (var header in Headers)
             {
                 sb.Append($"{header.Key}: {header.Value}\r\n");
