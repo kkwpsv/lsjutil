@@ -16,9 +16,9 @@ namespace Lsj.Util.JSON.Processer
 
         public override void Set(string name, object value)
         {
-            if (properties.ContainsKey(name))
+            if (_properties.ContainsKey(name))
             {
-                var property = properties[name];
+                var property = _properties[name];
                 if (property.HasAttribute<CustomJsonPropertyNameAttribute>())
                 {
                     if (Activator.CreateInstance(property.GetAttribute<CustomSerializeAttribute>().Serializer) is ISerializer serializer)
@@ -30,11 +30,11 @@ namespace Lsj.Util.JSON.Processer
                         JSONParser.Error("Custom Serializer Must Implement ISerializer");
                     }
                 }
-                var par = Expression.Parameter(result.GetType());
+                var par = Expression.Parameter(_result.GetType());
                 var assign = Expression.Assign(Expression.Property(par, name), Expression.Constant(value));
                 var expression = Expression.Lambda(Expression.Block(assign, par), par);
-                var fuckingResult = expression.Compile().DynamicInvoke(result);
-                result = fuckingResult;
+                var fuckingResult = expression.Compile().DynamicInvoke(_result);
+                _result = fuckingResult;
             }
         }
     }

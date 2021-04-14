@@ -4,13 +4,7 @@ using Lsj.Util.Logs;
 using Lsj.Util.Reflection;
 using Lsj.Util.Text;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 
 namespace Lsj.Util.JSON
@@ -28,22 +22,11 @@ namespace Lsj.Util.JSON
             get;
             set;
         } = LogProvider.Default;
+
         /// <summary>
-        /// Is Strict
+        /// Settings
         /// </summary>
-        public static bool IsStrict
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Max Recursion Layer
-        /// </summary>
-        public static int MaxLayer
-        {
-            get;
-            set;
-        } = 100;
+        public static JsonParserSettings Settings { get; } = new JsonParserSettings();
 
         private enum Status
         {
@@ -115,7 +98,7 @@ namespace Lsj.Util.JSON
 
         private static unsafe object ParseValue(char* ptr, ref int index, int length, Type type, ref int r)
         {
-            if (r > MaxLayer)
+            if (r > Settings.MaxLayer)
             {
                 Warn($@"Error JSON String. Maximum recursion limit.");
                 r--;
@@ -526,13 +509,13 @@ namespace Lsj.Util.JSON
             return null;
         }
 
-        internal static void Warn(string str, Exception exception = null)
+        internal static void Debug(string str)
+        {
+            LogProvider.Debug(str);
+        }
+        internal static void Warn(string str)
         {
             LogProvider.Warn(str);
-            if (IsStrict)
-            {
-                throw new JSONParserException(str, exception);
-            }
         }
         internal static void Error(string str, Exception exception = null)
         {
