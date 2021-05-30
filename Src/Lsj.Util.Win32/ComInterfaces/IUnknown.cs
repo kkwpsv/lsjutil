@@ -69,11 +69,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// because any client who has access to a particular interface can hand it directly to another client without any calls back to the server.
         /// Also, because COM caches interface pointers, it does not call <see cref="QueryInterface"/> on the server every time a client does a query.
         /// </remarks>
-        public HRESULT QueryInterface<T>([In] in IID riid, ref T ppvObject) where T : struct
+        public HRESULT QueryInterface([In] in IID riid, out IntPtr ppvObject)
         {
             fixed (void* thisPtr = &this)
             {
-                return ((delegate* unmanaged[Stdcall]<void*, in IID, void*, HRESULT>)_vTable[0])(thisPtr, riid, Unsafe.AsPointer(ref ppvObject));
+                return ((delegate* unmanaged[Stdcall]<void*, in IID, out IntPtr, HRESULT>)_vTable[0])(thisPtr, riid, out ppvObject);
             }
         }
 
