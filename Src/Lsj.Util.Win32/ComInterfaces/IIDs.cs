@@ -53,6 +53,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IDataObject = "0000010e-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IDispatch
+        /// </summary>
+        public static readonly IID IID_IDispatch = "00020400-0000-0000-C000-000000000046";
+
+        /// <summary>
         /// IID_IEnumIDList
         /// </summary>
         public static readonly IID IID_IEnumIDList = "000214F2-0000-0000-C000-000000000046";
