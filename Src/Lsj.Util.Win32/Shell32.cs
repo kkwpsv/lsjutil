@@ -283,7 +283,7 @@ namespace Lsj.Util.Win32
         /// If the application requires knowledge of its AppUserModelID it should set one explicitly.
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCurrentProcessExplicitAppUserModelID", ExactSpelling = true, SetLastError = true)]
-        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([In] IntPtr AppID);
+        public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out] out IntPtr AppID);
 
         /// <summary>
         /// <para>
