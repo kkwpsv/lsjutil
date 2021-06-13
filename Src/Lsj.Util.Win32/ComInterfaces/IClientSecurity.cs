@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Gives the client control over the security settings for each individual interface proxy of an object.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iclientsecurity
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iclientsecurity"/>
     /// </para>
     /// </summary>
     /// <remarks>

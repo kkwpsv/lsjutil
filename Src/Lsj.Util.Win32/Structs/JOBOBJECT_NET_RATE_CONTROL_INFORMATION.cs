@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// with the <see cref="JobObjectNetRateControlInformation"/> information class.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_net_rate_control_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_net_rate_control_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

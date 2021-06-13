@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a simulated keyboard event.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-keybdinput
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-keybdinput"/>
     /// </para>
     /// </summary>
     /// <remarks>

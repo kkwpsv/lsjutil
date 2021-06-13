@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Represents an interface in a query for multiple interfaces.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-multi_qi
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-multi_qi"/>
     /// </para>
     /// </summary>
     /// <remarks>

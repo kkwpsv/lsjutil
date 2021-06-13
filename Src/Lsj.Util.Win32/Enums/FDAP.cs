@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies list placement.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-fdap
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-fdap"/>
     /// </para>
     /// </summary>
     public enum FDAP

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a file object.k
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shfileinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shfileinfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

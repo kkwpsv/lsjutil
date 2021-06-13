@@ -5,7 +5,7 @@
     /// ICM Modes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode"/>
     /// </para>
     /// </summary>
     public enum ICMModes

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// List Box Notifications
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-list-box-control-reference-notifications
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-list-box-control-reference-notifications"/>
     /// </para>
     /// </summary>
     public enum ListBoxNotifications

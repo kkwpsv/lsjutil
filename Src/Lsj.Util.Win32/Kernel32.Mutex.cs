@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32
         /// To specify an access mask for the object, use the <see cref="CreateMutexEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createmutexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createmutexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMutexAttributes">
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens a named or unnamed mutex object and returns a handle to the object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createmutexexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createmutexexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMutexAttributes">
@@ -210,7 +210,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing named mutex object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openmutexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openmutexw"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -264,7 +264,7 @@ namespace Lsj.Util.Win32
         /// Releases ownership of the specified mutex object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasemutex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasemutex"/>
         /// </para>
         /// </summary>
         /// <param name="hMutex">

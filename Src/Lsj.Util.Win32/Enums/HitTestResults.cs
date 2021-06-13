@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="WindowsMessages.WM_NCHITTEST"/> Results
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/wm-nchittest
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputdev/wm-nchittest"/>
     /// </para>
     /// </summary>
     public enum HitTestResults

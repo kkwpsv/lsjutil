@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// This concurrency model can be either apartment-threaded or multithreaded.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/ne-objbase-coinit
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/ne-objbase-coinit"/>
     /// </para>
     /// </summary>
     /// <remarks>

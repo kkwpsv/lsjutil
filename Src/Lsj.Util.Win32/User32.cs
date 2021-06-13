@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// TimerProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-timerproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-timerproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// WinEventProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-wineventproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-wineventproc"/>
         /// </para>
         /// </summary>
         /// <param name="hWinEventHook">
@@ -120,7 +120,7 @@ namespace Lsj.Util.Win32
         /// Translates a string into the OEM-defined character set.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-chartooemw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-chartooemw"/>
         /// </para>
         /// </summary>
         /// <param name="pSrc">
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// The caret shape can be a line, a block, or a bitmap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcaret
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createcaret"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32
         /// Destroys the caret's current shape, frees the caret from the window, and removes the caret from the screen.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroycaret
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroycaret"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32
         /// Applications should call <see cref="ExitWindowsEx"/> directly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindows"/>
         /// </para>
         /// </summary>
         /// <param name="dwReserved">
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// It sends the <see cref="WM_QUERYENDSESSION"/> message to all applications to determine if they can be terminated.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindowsex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-exitwindowsex"/>
         /// </para>
         /// </summary>
         /// <param name="uFlags">
@@ -319,7 +319,7 @@ namespace Lsj.Util.Win32
         /// then you can determine that from the <see cref="AR_STATE"/> returned.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getautorotationstate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getautorotationstate"/>
         /// </para>
         /// </summary>
         /// <param name="pState">
@@ -336,7 +336,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the time required to invert the caret's pixels. The user can set this value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretblinktime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretblinktime"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -353,7 +353,7 @@ namespace Lsj.Util.Win32
         /// Copies the caret's position to the specified <see cref="POINT"/> structure.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcaretpos"/>
         /// </para>
         /// </summary>
         /// <param name="lpPoint">
@@ -379,7 +379,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetMonitorInfo"/> function retrieves information about a display monitor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmonitorinfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmonitorinfow"/>
         /// </para>
         /// </summary>
         /// <param name="hMonitor">
@@ -406,7 +406,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the Shell's desktop window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getshellwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getshellwindow"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -448,7 +448,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetSysColorBrush"/> function retrieves a handle identifying a logical brush that corresponds to the specified color index.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsyscolorbrush
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsyscolorbrush"/>
         /// </para>
         /// </summary>
         /// <param name="nIndex">
@@ -485,7 +485,7 @@ namespace Lsj.Util.Win32
         /// Note that all dimensions retrieved by <see cref="GetSystemMetrics"/> are in pixels.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsystemmetrics
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetrics"/>
         /// </para>
         /// </summary>
         /// <param name="smIndex">
@@ -503,7 +503,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetUserObjectSecurity"/> function retrieves security information for the specified user object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectsecurity
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="hObj">
@@ -562,7 +562,7 @@ namespace Lsj.Util.Win32
         /// Hiding a caret does not destroy its current shape or invalidate the insertion point.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-hidecaret
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-hidecaret"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -597,7 +597,7 @@ namespace Lsj.Util.Win32
         /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphaw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphaw"/>
         /// </para>
         /// </summary>
         /// <param name="ch">
@@ -617,7 +617,7 @@ namespace Lsj.Util.Win32
         /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphanumericw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischaralphanumericw"/>
         /// </para>
         /// </summary>
         /// <param name="ch">
@@ -637,7 +637,7 @@ namespace Lsj.Util.Win32
         /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarlowerw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarlowerw"/>
         /// </para>
         /// </summary>
         /// <param name="ch">
@@ -657,7 +657,7 @@ namespace Lsj.Util.Win32
         /// This determination is based on the semantics of the language selected by the user during setup or through Control Panel.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarupperw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischarupperw"/>
         /// </para>
         /// </summary>
         /// <param name="ch">
@@ -676,7 +676,7 @@ namespace Lsj.Util.Win32
         /// Destroys the specified timer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-killtimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-killtimer"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -707,7 +707,7 @@ namespace Lsj.Util.Win32
         /// into a buffer with a terminating null character or returns a read-only pointer to the string resource itself.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadstringw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadstringw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -758,7 +758,7 @@ namespace Lsj.Util.Win32
         /// Plays a waveform sound. The waveform sound for each sound type is identified by an entry in the registry.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messagebeep
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messagebeep"/>
         /// </para>
         /// </summary>
         /// <param name="uType">
@@ -799,7 +799,7 @@ namespace Lsj.Util.Win32
         /// The message box returns an integer value that indicates which button the user clicked.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messageboxw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-messageboxw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -868,7 +868,7 @@ namespace Lsj.Util.Win32
         /// that has the largest area of intersection with the bounding rectangle of a specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">A handle to the window of interest.</param>
@@ -889,7 +889,7 @@ namespace Lsj.Util.Win32
         /// Registers the application to receive power setting notifications for the specific power setting event.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerpowersettingnotification
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerpowersettingnotification"/>
         /// </para>
         /// </summary>
         /// <param name="hRecipient">
@@ -923,7 +923,7 @@ namespace Lsj.Util.Win32
         /// The blink time is the elapsed time, in milliseconds, required to invert the caret's pixels.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretblinktime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretblinktime"/>
         /// </para>
         /// </summary>
         /// <param name="uMSeconds">
@@ -954,7 +954,7 @@ namespace Lsj.Util.Win32
         /// then the specified coordinates are subject to the mapping mode of the device context associated with that window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcaretpos"/>
         /// </para>
         /// </summary>
         /// <param name="X">
@@ -988,7 +988,7 @@ namespace Lsj.Util.Win32
         /// Display elements are the various parts of a window and the display that appear on the system display screen.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setsyscolors
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setsyscolors"/>
         /// </para>
         /// </summary>
         /// <param name="cElements">
@@ -1024,7 +1024,7 @@ namespace Lsj.Util.Win32
         /// Creates a timer with the specified time-out value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-settimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-settimer"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1082,7 +1082,7 @@ namespace Lsj.Util.Win32
         /// Sets an event hook function for a range of events.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwineventhook
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwineventhook"/>
         /// </para>
         /// </summary>
         /// <param name="eventMin">
@@ -1167,7 +1167,7 @@ namespace Lsj.Util.Win32
         /// When the caret becomes visible, it begins flashing automatically.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showcaret
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showcaret"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1197,7 +1197,7 @@ namespace Lsj.Util.Win32
         /// This function can also update the user profile while setting a parameter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfow"/>
         /// </para>
         /// </summary>
         /// <param name="uiAction">
@@ -1259,7 +1259,7 @@ namespace Lsj.Util.Win32
         /// Launches Windows Help (Winhelp.exe) and passes additional data that indicates the nature of the help requested by the application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-winhelpw"/>
         /// </para>
         /// </summary>
         /// <param name="hWndMain">

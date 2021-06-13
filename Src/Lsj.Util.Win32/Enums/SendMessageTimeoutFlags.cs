@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="SendMessageTimeout"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw"/>
     /// </para>
     /// </summary>
     public enum SendMessageTimeoutFlags : uint

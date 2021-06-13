@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32
         /// FiberProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-pfiber_start_routine
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nc-winbase-pfiber_start_routine"/>
         /// </para>
         /// </summary>
         /// <param name="lpFiberParameter"></param>
@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// FlsCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-pfls_callback_function
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-pfls_callback_function"/>
         /// </para>
         /// </summary>
         /// <param name="lpFlsData">
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// You must convert a thread into a fiber before you can schedule other fibers.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiber"/>
         /// </para>
         /// </summary>
         /// <param name="lpParameter">
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// You must convert a thread into a fiber before you can schedule other fibers.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiberex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-convertthreadtofiberex"/>
         /// </para>
         /// </summary>
         /// <param name="lpParameter">
@@ -123,7 +123,7 @@ namespace Lsj.Util.Win32
         /// To specify both a commit and reserve stack size, use the <see cref="CreateFiberEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiber"/>
         /// </para>
         /// </summary>
         /// <param name="dwStackSize">
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// This function does not schedule the fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiberex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createfiberex"/>
         /// </para>
         /// </summary>
         /// <param name="dwStackCommitSize">
@@ -219,7 +219,7 @@ namespace Lsj.Util.Win32
         /// Deletes an existing fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-deletefiber"/>
         /// </para>
         /// </summary>
         /// <param name="lpFiber">
@@ -243,7 +243,7 @@ namespace Lsj.Util.Win32
         /// Any fiber in the process can subsequently use this index to store and retrieve values that are local to the fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsalloc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsalloc"/>
         /// </para>
         /// </summary>
         /// <param name="lpCallback">
@@ -274,7 +274,7 @@ namespace Lsj.Util.Win32
         /// Releases a fiber local storage (FLS) index, making it available for reuse.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsfree
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsfree"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlsIndex">
@@ -303,7 +303,7 @@ namespace Lsj.Util.Win32
         /// Each fiber has its own slot for each FLS index.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsgetvalue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flsgetvalue"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlsIndex">
@@ -329,7 +329,7 @@ namespace Lsj.Util.Win32
         /// Each fiber has its own slot for each FLS index.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flssetvalue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-flssetvalue"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlsIndex">
@@ -360,7 +360,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of the current fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getcurrentfiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getcurrentfiber"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -378,7 +378,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the fiber data associated with the current fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getfiberdata
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-getfiberdata"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -398,7 +398,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the current thread is a fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-isthreadafiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fibersapi/nf-fibersapi-isthreadafiber"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -416,7 +416,7 @@ namespace Lsj.Util.Win32
         /// Schedules a fiber. The function must be called on a fiber.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-switchtofiber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-switchtofiber"/>
         /// </para>
         /// </summary>
         /// <param name="lpFiber">

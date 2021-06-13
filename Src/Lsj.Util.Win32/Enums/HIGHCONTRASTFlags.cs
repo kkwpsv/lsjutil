@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="HIGHCONTRAST"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-highcontrastw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-highcontrastw"/>
     /// </para>
     /// </summary>
     public enum HIGHCONTRASTFlags : uint

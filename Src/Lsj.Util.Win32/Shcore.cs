@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// Queries the dots per inch (dpi) of a display.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getdpiformonitor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getdpiformonitor"/>
         /// </para>
         /// </summary>
         /// <param name="hmonitor">
@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the dots per inch (dpi) awareness of the specified process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getprocessdpiawareness
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getprocessdpiawareness"/>
         /// </para>
         /// </summary>
         /// <param name="hprocess">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// Gets the preferred scale factor for a display device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getscalefactorfordevice
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-getscalefactorfordevice"/>
         /// </para>
         /// </summary>
         /// <param name="deviceType">
@@ -122,7 +122,7 @@ namespace Lsj.Util.Win32
         /// This is equivalent to calling <see cref="SetProcessDpiAwarenessContext"/> with the corresponding <see cref="DPI_AWARENESS_CONTEXT"/> value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-setprocessdpiawareness
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/nf-shellscalingapi-setprocessdpiawareness"/>
         /// </para>
         /// </summary>
         /// <param name="value">

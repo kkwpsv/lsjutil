@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information used by <see cref="ShellExecuteEx"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shellexecuteinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shellexecuteinfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

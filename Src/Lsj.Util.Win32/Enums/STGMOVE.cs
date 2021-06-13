@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// They are used in the <see cref="IStorage.MoveElementTo"/> method.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ne-wtypes-stgmove
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ne-wtypes-stgmove"/>
     /// </para>
     /// </summary>
     public enum STGMOVE

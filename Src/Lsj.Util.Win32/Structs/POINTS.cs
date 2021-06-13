@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="POINTS"/> structure defines the x- and y-coordinates of a point.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/windef/ns-windef-points
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/windef/ns-windef-points"/>
     /// </para>
     /// </summary>
     /// <remarks>

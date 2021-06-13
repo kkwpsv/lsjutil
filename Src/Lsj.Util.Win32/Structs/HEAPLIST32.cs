@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes an entry from a list that enumerates the heaps used by a specified process.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/ns-tlhelp32-heaplist32
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/ns-tlhelp32-heaplist32"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

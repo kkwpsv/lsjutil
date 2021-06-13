@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="ENUMLOGFONTEX"/> structure contains information about an enumerated font.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-enumlogfontexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-enumlogfontexw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

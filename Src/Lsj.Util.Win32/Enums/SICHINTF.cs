@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="IShellItem.Compare"/> uses this enumerated type.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-_sichintf
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-_sichintf"/>
     /// </para>
     /// </summary>
     public enum SICHINTF

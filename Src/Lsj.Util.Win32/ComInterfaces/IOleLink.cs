@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// only linked objects implement <see cref="IOleLink"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolelink
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolelink"/>
     /// </para>
     /// </summary>
     public unsafe struct IOleLink

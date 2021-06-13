@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Cached presentation data is available to the container of the object even when the server application is not running or is unavailable.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolecache
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-iolecache"/>
     /// </para>
     /// </summary>
     public unsafe struct IOleCache

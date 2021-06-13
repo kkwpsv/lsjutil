@@ -5,7 +5,7 @@
     /// The <see cref="GpStatus"/> enumeration indicates the result of a Windows GDI+ method call.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplustypes/ne-gdiplustypes-status
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/gdiplustypes/ne-gdiplustypes-status"/>
     /// </para>
     /// </summary>
     public enum GpStatus

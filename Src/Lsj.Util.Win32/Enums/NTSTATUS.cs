@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Enums
     /// a variable that is replaced by text at the time the value is returned.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-erref/596a1078-e883-4972-9bbc-49e60bebca55"/>
     /// </para>
     /// </summary>
     public enum NTSTATUS : uint

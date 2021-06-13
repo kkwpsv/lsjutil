@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Thread Creation Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread"/>
     /// </para>
     /// </summary>
     public enum ThreadCreationFlags : uint

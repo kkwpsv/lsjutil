@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Error Modes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-seterrormode
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/errhandlingapi/nf-errhandlingapi-seterrormode"/>
     /// </para>
     /// </summary>
     [Flags]

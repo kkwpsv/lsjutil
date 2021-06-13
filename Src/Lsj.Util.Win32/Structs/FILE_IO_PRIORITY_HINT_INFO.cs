@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies the priority hint for a file I/O operation.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_io_priority_hint_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_io_priority_hint_info"/>
     /// </para>
     /// </summary>
     /// <remarks>

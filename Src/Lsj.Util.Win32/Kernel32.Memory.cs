@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, AllocateUserPhysicalPages is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpages
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpages"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -88,7 +88,7 @@ namespace Lsj.Util.Win32
         /// and specifies the NUMA node for the physical memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpagesnuma
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-allocateuserphysicalpagesnuma"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -147,7 +147,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, <see cref="FreeUserPhysicalPages"/> is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-freeuserphysicalpages
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-freeuserphysicalpages"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -182,7 +182,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the minimum size of a large page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getlargepageminimum
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getlargepageminimum"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -201,7 +201,7 @@ namespace Lsj.Util.Win32
         /// This handle can then be used in subsequent calls to the heap functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-getprocessheap
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-getprocessheap"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -225,7 +225,7 @@ namespace Lsj.Util.Win32
         /// Returns the number of active heaps and retrieves handles to all of the active heaps for the calling process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-getprocessheaps
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-getprocessheaps"/>
         /// </para>
         /// </summary>
         /// <param name="NumberOfHeaps">
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, <see cref="GetWriteWatch"/> is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getwritewatch
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-getwritewatch"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldiscard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globaldiscard"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -399,7 +399,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalflags
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalflags"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -432,7 +432,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalfree
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalfree"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -469,7 +469,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalhandle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalhandle"/>
         /// </para>
         /// </summary>
         /// <param name="pMem">
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the system's current usage of both physical and virtual memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalmemorystatus
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalmemorystatus"/>
         /// </para>
         /// </summary>
         /// <param name="lpBuffer">
@@ -555,7 +555,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the system's current usage of both physical and virtual memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-globalmemorystatusex"/>
         /// </para>
         /// </summary>
         /// <param name="lpBuffer">
@@ -615,7 +615,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalsize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalsize"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -652,7 +652,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalunlock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-globalunlock"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -706,7 +706,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the first heap that has been allocated by a specified process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listfirst
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listfirst"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -736,7 +736,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the next heap that has been allocated by a process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listnext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-heap32listnext"/>
         /// </para>
         /// </summary>
         /// <param name="hSnapshot">
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// Allocates a block of memory from a heap. The allocated memory is not movable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapalloc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapalloc"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -835,7 +835,7 @@ namespace Lsj.Util.Win32
         /// for a specified initial portion of this block.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapcreate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapcreate"/>
         /// </para>
         /// </summary>
         /// <param name="flOptions">
@@ -930,7 +930,7 @@ namespace Lsj.Util.Win32
         /// It decommits and releases all the pages of a private heap object, and it invalidates the handle to the heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapdestroy
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapdestroy"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -955,7 +955,7 @@ namespace Lsj.Util.Win32
         /// Frees a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapfree
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapfree"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1010,7 +1010,7 @@ namespace Lsj.Util.Win32
         /// Attempts to acquire the critical section object, or lock, that is associated with a specified heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heaplock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heaplock"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1041,7 +1041,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapqueryinformation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapqueryinformation"/>
         /// </para>
         /// </summary>
         /// <param name="HeapHandle">
@@ -1098,7 +1098,7 @@ namespace Lsj.Util.Win32
         /// The allocated memory is not movable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heaprealloc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heaprealloc"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1177,7 +1177,7 @@ namespace Lsj.Util.Win32
         /// Enables features for a specified heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsetinformation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsetinformation"/>
         /// </para>
         /// </summary>
         /// <param name="HeapHandle">
@@ -1242,7 +1242,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the size of a memory block allocated from a heap by the <see cref="HeapAlloc"/> or <see cref="HeapReAlloc"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapsize"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// It reverses the action of the <see cref="HeapLock"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapunlock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapunlock"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1329,7 +1329,7 @@ namespace Lsj.Util.Win32
         /// within a specified heap without checking the validity of the entire heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapvalidate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapvalidate"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1400,7 +1400,7 @@ namespace Lsj.Util.Win32
         /// Enumerates the memory blocks in the specified heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapwalk
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/heapapi/nf-heapapi-heapwalk"/>
         /// </para>
         /// </summary>
         /// <param name="hHeap">
@@ -1447,7 +1447,7 @@ namespace Lsj.Util.Win32
         /// Allocates the specified number of bytes from the heap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localalloc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localalloc"/>
         /// </para>
         /// </summary>
         /// <param name="uFlags">
@@ -1495,7 +1495,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nf-minwinbase-localdiscard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/nf-minwinbase-localdiscard"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -1518,7 +1518,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localflags
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localflags"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -1548,7 +1548,7 @@ namespace Lsj.Util.Win32
         /// Frees the specified local memory object and invalidates its handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localfree
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localfree"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -1572,7 +1572,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localhandle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localhandle"/>
         /// </para>
         /// </summary>
         /// <param name="pMem">
@@ -1664,7 +1664,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localsize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localsize"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -1693,7 +1693,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Global and Local Functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localunlock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-localunlock"/>
         /// </para>
         /// </summary>
         /// <param name="hMem">
@@ -1736,7 +1736,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, <see cref="MapUserPhysicalPages"/> is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapuserphysicalpages
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-mapuserphysicalpages"/>
         /// </para>
         /// </summary>
         /// <param name="VirtualAddress">
@@ -1794,7 +1794,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, <see cref="MapUserPhysicalPagesScatter"/> is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapuserphysicalpagesscatter
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-mapuserphysicalpagesscatter"/>
         /// </para>
         /// </summary>
         /// <param name="VirtualAddresses">
@@ -1838,7 +1838,7 @@ namespace Lsj.Util.Win32
             [In] ULONG_PTR NumberOfPages, [MarshalAs(UnmanagedType.LPArray)][In] ULONG_PTR[] PageArray);
 
         /// <summary>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory"/>
         /// </summary>
         /// <param name="hProcess">
         /// A handle to the process with memory that is being read.
@@ -1883,7 +1883,7 @@ namespace Lsj.Util.Win32
         /// Due to the difference in page sizes, <see cref="ResetWriteWatch"/> is not supported for 32-bit applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-resetwritewatch
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-resetwritewatch"/>
         /// </para>
         /// </summary>
         /// <param name="lpBaseAddress">
@@ -1924,7 +1924,7 @@ namespace Lsj.Util.Win32
         /// To allocate memory in the address space of another process, use the <see cref="VirtualAllocEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -2064,7 +2064,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -2233,7 +2233,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node, see the <paramref name="ExtendedParameters"/> parameter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2fromapp
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc2fromapp"/>
         /// </para>
         /// </summary>
         /// <param name="Process">
@@ -2398,7 +2398,7 @@ namespace Lsj.Util.Win32
         /// To specify the NUMA node for the physical memory, see <see cref="VirtualAllocExNuma"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -2533,7 +2533,7 @@ namespace Lsj.Util.Win32
         /// and specifies the NUMA node for the physical memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualallocexnuma
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualallocexnuma"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -2668,7 +2668,7 @@ namespace Lsj.Util.Win32
         /// To free memory allocated in another process by the <see cref="VirtualAllocEx"/> function, use the <see cref="VirtualFreeEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfree
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfree"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -2753,7 +2753,7 @@ namespace Lsj.Util.Win32
         /// Releases, decommits, or releases and decommits a region of memory within the virtual address space of a specified process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfreeex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualfreeex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -2844,7 +2844,7 @@ namespace Lsj.Util.Win32
         /// ensuring that subsequent access to the region will not incur a page fault.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtuallock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtuallock"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -2888,7 +2888,7 @@ namespace Lsj.Util.Win32
         /// To change the access protection of any process, use the <see cref="VirtualProtectEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -2940,7 +2940,7 @@ namespace Lsj.Util.Win32
         /// Changes the protection on a region of committed pages in the virtual address space of a specified process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualprotectex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -2999,7 +2999,7 @@ namespace Lsj.Util.Win32
         /// To retrieve information about a range of pages in the address space of another process, use the <see cref="VirtualQueryEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualquery
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualquery"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -3057,7 +3057,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about a range of pages within the virtual address space of a specified process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualqueryex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualqueryex"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -3121,7 +3121,7 @@ namespace Lsj.Util.Win32
         /// enabling the system to swap the pages out to the paging file if necessary.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualunlock
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-virtualunlock"/>
         /// </para>
         /// </summary>
         /// <param name="lpAddress">
@@ -3153,7 +3153,7 @@ namespace Lsj.Util.Win32
         /// Writes data to an area of memory in a specified process. The entire area to be written to must be accessible or the operation fails.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/memoryapi/nf-memoryapi-writeprocessmemory"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">

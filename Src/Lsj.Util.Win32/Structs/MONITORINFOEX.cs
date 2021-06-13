@@ -10,8 +10,8 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="MONITORINFOEX"/> structure contains information about a display monitor.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfoexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfoexw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

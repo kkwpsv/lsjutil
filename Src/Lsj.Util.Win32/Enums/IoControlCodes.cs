@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
         /// Instead, boundary checks are performed by the device driver.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_allow_extended_dasd_io
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_allow_extended_dasd_io"/>
         /// </para>
         /// </summary>
         FSCTL_ALLOW_EXTENDED_DASD_IO = 0x90083,
@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_dismount_volume
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_dismount_volume"/>
         /// </para>
         /// </summary>
         FSCTL_DISMOUNT_VOLUME = 0x90020,
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Enums
         /// Retrieves the current compression state of a file or directory on a volume whose file system supports per-stream compression.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_get_compression
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_get_compression"/>
         /// </para>
         /// </summary>
         FSCTL_GET_COMPRESSION = 0x9003c,
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_lock_volume
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_lock_volume"/>
         /// </para>
         /// </summary>
         FSCTL_LOCK_VOLUME = 0x90018,
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32.Enums
         /// For other files, the output buffer will contain only a single entry that contains the starting point and the length requested.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_query_allocated_ranges
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_query_allocated_ranges"/>
         /// </para>
         /// </summary>
         FSCTL_QUERY_ALLOCATED_RANGES = 0x940cf,
@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32.Enums
         /// Space for nonzero data will be allocated as needed as the file is written.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_sparse?redirectedfrom=MSDN
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_sparse?redirectedfrom=MSDN"/>
         /// </para>
         /// </summary>
         FSCTL_SET_SPARSE = 0x900c4,
@@ -93,7 +93,7 @@ namespace Lsj.Util.Win32.Enums
         /// This sets the range of bytes to zeros (0) without extending the file size.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data?redirectedfrom=MSDN
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_set_zero_data?redirectedfrom=MSDN"/>
         /// </para>
         /// </summary>
         FSCTL_SET_ZERO_DATA = 0x980c8,
@@ -104,7 +104,7 @@ namespace Lsj.Util.Win32.Enums
         /// Miniversions are discarded when a transaction is committed or rolled back.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_txfs_create_miniversion
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-fsctl_txfs_create_miniversion"/>
         /// </para>
         /// </summary>
         [Obsolete("Microsoft strongly recommends developers utilize alternative means to achieve your application’s needs." +
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32.Enums
         /// Retrieves the length of the specified disk, volume, or partition.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_length_info
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_disk_get_length_info"/>
         /// </para>
         /// </summary>
         IOCTL_DISK_GET_LENGTH_INFO = 0x7405C,
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32.Enums
         /// Retrieves the physical location of a specified volume on one or more disks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_volume_get_volume_disk_extents
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winioctl/ni-winioctl-ioctl_volume_get_volume_disk_extents"/>
         /// </para>
         /// </summary>
         IOCTL_VOLUME_GET_VOLUME_DISK_EXTENTS = 0x560000,

@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="GetLogicalProcessorInformationEx"/> function uses this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-system_logical_processor_information_ex
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-system_logical_processor_information_ex"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]

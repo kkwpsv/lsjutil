@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="GetModuleHandleEx"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandleexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulehandleexw"/>
     /// </para>
     /// </summary>
     public enum GetModuleHandleExFlags : uint

@@ -13,8 +13,8 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For details on <see cref="HRESULT"/> values, see [MS-ERREF].
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/learnwin32/error-handling-in-com
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/a9046ed2-bfb2-4d56-a719-2824afce59ac"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/learnwin32/error-handling-in-com"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]
@@ -506,7 +506,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Extracts the code portion of the specified <see cref="HRESULT"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-hresult_code
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winerror/nf-winerror-hresult_code"/>
         /// </para>
         /// </summary>
         /// <param name="hr">

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="FINDREPLACE"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-findreplacew
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-findreplacew"/>
     /// </para>
     /// </summary>
     [Flags]

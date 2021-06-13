@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BITMAP"/> structure defines the type, width, height, color format, and bit values of a bitmap.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmap
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmap"/>
     /// </para>
     /// </summary>
     /// <remarks>

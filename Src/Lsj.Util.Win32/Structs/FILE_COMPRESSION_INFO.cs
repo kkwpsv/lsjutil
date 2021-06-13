@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Use only when calling <see cref="GetFileInformationByHandleEx"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-file_compression_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_compression_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -5,7 +5,7 @@
     /// Network Events
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winsock2/nf-winsock2-wsaeventselect
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winsock2/nf-winsock2-wsaeventselect"/>
     /// </para>
     /// </summary>
     public enum NetworkEvents : uint

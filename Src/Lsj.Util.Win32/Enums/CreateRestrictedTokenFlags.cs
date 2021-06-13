@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="CreateRestrictedToken"/> Flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken"/>
     /// </para>
     /// </summary>
     [Flags]

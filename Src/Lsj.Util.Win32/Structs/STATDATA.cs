@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// Each advisory connection is specified by a unique <see cref="STATDATA"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-statdata
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-statdata"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

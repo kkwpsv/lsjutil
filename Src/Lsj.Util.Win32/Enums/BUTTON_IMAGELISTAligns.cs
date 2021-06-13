@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="BUTTON_IMAGELIST"/> Aligns.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-button_imagelist
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-button_imagelist"/>
     /// </para>
     /// </summary>
     public enum BUTTON_IMAGELISTAligns : uint

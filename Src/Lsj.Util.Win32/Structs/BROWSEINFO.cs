@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains parameters for the <see cref="SHBrowseForFolder"/> function and receives information about the folder selected by the user.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-browseinfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

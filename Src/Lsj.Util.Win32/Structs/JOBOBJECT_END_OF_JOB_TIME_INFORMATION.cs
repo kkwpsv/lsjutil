@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies the action the system will perform when an end-of-job time limit is exceeded.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_end_of_job_time_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_end_of_job_time_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

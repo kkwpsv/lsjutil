@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Button Check States
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/bm-getstate
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bm-getstate"/>
     /// </para>
     /// </summary>
     public enum ButtonStates

@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// The access mask format includes a set of bits for the standard access rights. 
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/secauthz/standard-access-rights
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/standard-access-rights"/>
     /// </para>
     /// </summary>
     [Flags]

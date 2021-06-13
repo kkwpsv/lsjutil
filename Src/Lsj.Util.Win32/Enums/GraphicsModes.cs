@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Graphics Modes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setgraphicsmode
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setgraphicsmode"/>
     /// </para>
     /// </summary>
     public enum GraphicsModes

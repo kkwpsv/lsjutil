@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="ENUMTEXTMETRIC"/> structure contains information about a physical font.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-enumtextmetricw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-enumtextmetricw"/>
     /// </para>
     /// </summary>
     /// <remarks>

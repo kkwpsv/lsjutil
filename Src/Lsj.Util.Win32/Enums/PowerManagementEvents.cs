@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Power Management Events
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/power/power-management-events
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/power/power-management-events"/>
     /// </para>
     /// </summary>
     public enum PowerManagementEvents

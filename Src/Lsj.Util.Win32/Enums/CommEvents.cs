@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Comm Events
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitcommevent
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-waitcommevent"/>
     /// </para>
     /// </summary>
     [Flags]

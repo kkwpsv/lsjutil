@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32
         /// Prototype for a callback function that implements a custom transform for image scaling.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nc-magnification-magimagescalingcallback
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nc-magnification-magimagescalingcallback"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// Gets the rectangle of the area that is being magnified.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maggetwindowsource
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maggetwindowsource"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// Creates and initializes the magnifier run-time objects.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maginitialize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maginitialize"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -90,7 +90,7 @@ namespace Lsj.Util.Win32
         /// Sets the callback function for external image filtering and scaling.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-magsetimagescalingcallback
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-magsetimagescalingcallback"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32
         /// Destroys the magnifier run-time objects.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maguninitialize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-maguninitialize"/>
         /// </para>
         /// </summary>
         /// <returns>

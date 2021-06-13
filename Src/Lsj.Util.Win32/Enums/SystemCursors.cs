@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// System Cursors
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadcursorw"/>
     /// </para>
     /// </summary>
     public enum SystemCursors

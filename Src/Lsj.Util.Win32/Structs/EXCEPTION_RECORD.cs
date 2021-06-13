@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes an exception.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-exception_record
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-exception_record"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

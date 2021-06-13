@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A 16-bit Unicode character. For more information, see Character Sets Used By Fonts.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2, CharSet = CharSet.Unicode)]

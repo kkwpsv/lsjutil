@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="DELETE"/>, <see cref="READ_CONTROL"/>, <see cref="SYNCHRONIZE"/>, <see cref="WRITE_DAC"/>, <see cref="WRITE_OWNER"/>
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winstation/window-station-security-and-access-rights
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winstation/window-station-security-and-access-rights"/>
     /// </para>
     /// </summary>
     public enum WindowStationAccessRights : uint

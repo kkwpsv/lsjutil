@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Process Heap Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-process_heap_entry
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-process_heap_entry"/>
     /// </para>
     /// </summary>
     public enum ProcessHeapFlags : ushort

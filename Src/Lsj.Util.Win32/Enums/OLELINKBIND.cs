@@ -5,7 +5,7 @@
     /// Controls binding operations to a link source.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-olelinkbind
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-olelinkbind"/>
     /// </para>
     /// </summary>
     public enum OLELINKBIND

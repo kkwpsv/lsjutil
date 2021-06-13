@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// Attributes that can be retrieved on an item (file or folder) or set of items.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/sfgao
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/sfgao"/>
     /// </para>
     /// </summary>
     [Flags]

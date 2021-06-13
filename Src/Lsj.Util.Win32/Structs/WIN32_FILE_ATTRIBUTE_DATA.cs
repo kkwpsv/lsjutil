@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="GetFileAttributesEx"/> function uses this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/ns-fileapi-win32_file_attribute_data
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/ns-fileapi-win32_file_attribute_data"/>
     /// </para>
     /// </summary>
     /// <remarks>

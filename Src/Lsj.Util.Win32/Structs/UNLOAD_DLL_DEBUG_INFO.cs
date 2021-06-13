@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a dynamic-link library (DLL) that has just been unloaded.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-unload_dll_debug_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-unload_dll_debug_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

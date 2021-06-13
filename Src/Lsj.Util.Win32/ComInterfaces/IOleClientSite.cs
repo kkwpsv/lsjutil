@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// This interface is not supported for use across machine boundaries.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-ioleclientsite
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/nn-oleidl-ioleclientsite"/>
     /// </para>
     /// </summary>
     public unsafe struct IOleClientSite

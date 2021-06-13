@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The time is either in coordinated universal time (UTC) or local time, depending on the function that is being called.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-systemtime
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-systemtime"/>
     /// </para>
     /// </summary>
     /// <remarks>

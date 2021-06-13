@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information for a console read operation.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/console-readconsole-control
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/console-readconsole-control"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

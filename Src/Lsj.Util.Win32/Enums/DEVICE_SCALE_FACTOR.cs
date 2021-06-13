@@ -6,7 +6,7 @@
     /// Used by IApplicationDesignModeSettings::SetApplicationViewState and IApplicationDesignModeSettings::IsApplicationViewStateSupported
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ne-shtypes-device_scale_factor
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ne-shtypes-device_scale_factor"/>
     /// </para>
     /// </summary>
     public enum DEVICE_SCALE_FACTOR

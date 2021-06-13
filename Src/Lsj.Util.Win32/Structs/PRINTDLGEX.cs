@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Structs
     /// After the user closes the property sheet, the system uses this structure to return information about the user's selections.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgexw"/>
     /// </para>
     /// </summary>
     /// <remarks>

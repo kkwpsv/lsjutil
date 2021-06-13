@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// After the user closes the dialog box, the system returns information about the user-defined page parameters in this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-pagesetupdlgw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-pagesetupdlgw"/>
     /// </para>
     /// </summary>
     /// <remarks>

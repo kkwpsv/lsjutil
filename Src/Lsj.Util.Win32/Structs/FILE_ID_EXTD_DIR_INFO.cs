@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// when <see cref="FileIdExtdDirectoryInfo"/> or <see cref="FileIdExtdDirectoryRestartInfo"/> is passed in the FileInformationClass parameter.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_extd_dir_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_extd_dir_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

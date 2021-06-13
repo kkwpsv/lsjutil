@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Enums
     /// For more information about transactioning, see the Remarks section.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/stg/stgm-constants
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/stg/stgm-constants"/>
     /// </para>
     /// </summary>
     public enum STGM : uint

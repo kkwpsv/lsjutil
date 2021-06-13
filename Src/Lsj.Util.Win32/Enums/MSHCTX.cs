@@ -5,7 +5,7 @@
     /// Specifies the destination context, which is the process in which the unmarshaling is to be done.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ne-wtypesbase-mshctx
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ne-wtypesbase-mshctx"/>
     /// </para>
     /// </summary>
     public enum MSHCTX : uint

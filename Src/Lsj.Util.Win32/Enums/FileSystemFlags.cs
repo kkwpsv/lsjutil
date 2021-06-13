@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// File System Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getvolumeinformationw"/>
     /// </para>
     /// </summary>
     [Flags]

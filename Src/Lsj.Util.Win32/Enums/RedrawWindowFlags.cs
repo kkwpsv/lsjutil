@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="RedrawWindow"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-redrawwindow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-redrawwindow"/>
     /// </para>
     /// </summary>
     [Flags]

@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Used with the <see cref="ButtonControlMessages.BCM_GETSPLITINFO"/> and <see cref="ButtonControlMessages.BCM_SETSPLITINFO"/> messages.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-button_splitinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/ns-commctrl-button_splitinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

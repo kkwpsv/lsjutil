@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// COM components implement the <see cref="IDispatch"/> interface to enable access by Automation clients, such as Visual Basic.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oaidl/nn-oaidl-idispatch
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oaidl/nn-oaidl-idispatch"/>
     /// </para>
     /// </summary>
     public unsafe struct IDispatch

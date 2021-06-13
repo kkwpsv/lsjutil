@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Specifies a method that retrieves a class object
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iclassactivator
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iclassactivator"/>
     /// </para>
     /// </summary>
     public unsafe struct IClassActivator

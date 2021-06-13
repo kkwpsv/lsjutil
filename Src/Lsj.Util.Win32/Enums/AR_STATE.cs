@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// This enum is a bitwise OR of one or more of the following values.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-ar_state
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-ar_state"/>
     /// </para>
     /// </summary>
     public enum AR_STATE

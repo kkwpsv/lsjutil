@@ -5,7 +5,7 @@
     /// File Type
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletype
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-getfiletype"/>
     /// </para>
     /// </summary>
     public enum FileTypes : uint

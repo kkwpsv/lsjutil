@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains performance information.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/ns-psapi-performance_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/ns-psapi-performance_information"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -31,7 +31,7 @@ namespace Lsj.Util.Win32
         /// SimpleCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686295(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686295(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Instance">
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// WaitCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687017(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687017(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Instance">
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32
         /// WorkCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687396(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687396(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Instance">
@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32
         /// TimerCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686790(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms686790(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Instance">
@@ -196,7 +196,7 @@ namespace Lsj.Util.Win32
         /// Indicates that the callback may not return quickly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-callbackmayrunlong
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-callbackmayrunlong"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -227,7 +227,7 @@ namespace Lsj.Util.Win32
         /// Cancels the notification from the <see cref="StartThreadpoolIo"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio"/>
         /// </para>
         /// </summary>
         /// <param name="pio">
@@ -251,7 +251,7 @@ namespace Lsj.Util.Win32
         /// Closes the specified thread pool.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpool
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpool"/>
         /// </para>
         /// </summary>
         /// <param name="ptpp">
@@ -271,7 +271,7 @@ namespace Lsj.Util.Win32
         /// Closes the specified cleanup group.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolcleanupgroup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolcleanupgroup"/>
         /// </para>
         /// </summary>
         /// <param name="ptpcg">
@@ -292,7 +292,7 @@ namespace Lsj.Util.Win32
         /// and optionally cancels any outstanding callback functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolcleanupgroupmembers
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolcleanupgroupmembers"/>
         /// </para>
         /// </summary>
         /// <param name="ptpcg">
@@ -350,7 +350,7 @@ namespace Lsj.Util.Win32
         /// Releases the specified I/O completion object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio"/>
         /// </para>
         /// </summary>
         /// <param name="pio">
@@ -374,7 +374,7 @@ namespace Lsj.Util.Win32
         /// Releases the specified timer object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpooltimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpooltimer"/>
         /// </para>
         /// </summary>
         /// <param name="pti">
@@ -403,7 +403,7 @@ namespace Lsj.Util.Win32
         /// Releases the specified wait object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwait
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwait"/>
         /// </para>
         /// </summary>
         /// <param name="pwa">
@@ -426,7 +426,7 @@ namespace Lsj.Util.Win32
         /// Allocates a new pool of threads to execute callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpool
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpool"/>
         /// </para>
         /// </summary>
         /// <param name="reserved">
@@ -455,7 +455,7 @@ namespace Lsj.Util.Win32
         /// Releases the specified work object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwork
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolwork"/>
         /// </para>
         /// </summary>
         /// <param name="pwk">
@@ -478,7 +478,7 @@ namespace Lsj.Util.Win32
         /// Creates a new I/O completion object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolio
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolio"/>
         /// </para>
         /// </summary>
         /// <param name="fl">
@@ -520,7 +520,7 @@ namespace Lsj.Util.Win32
         /// Creates a new timer object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpooltimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpooltimer"/>
         /// </para>
         /// </summary>
         /// <param name="pfnti">
@@ -555,7 +555,7 @@ namespace Lsj.Util.Win32
         /// Creates a cleanup group that applications can use to track one or more thread pool callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolcleanupgroup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolcleanupgroup"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -587,7 +587,7 @@ namespace Lsj.Util.Win32
         /// Creates a new wait object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwait
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwait"/>
         /// </para>
         /// </summary>
         /// <param name="pfnwa">
@@ -628,7 +628,7 @@ namespace Lsj.Util.Win32
         /// Creates a new work object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwork
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-createthreadpoolwork"/>
         /// </para>
         /// </summary>
         /// <param name="pfnwk">
@@ -663,7 +663,7 @@ namespace Lsj.Util.Win32
         /// Timer-queue timers are lightweight objects that enable you to specify a callback function to be called at a specified time.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueue"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -690,7 +690,7 @@ namespace Lsj.Util.Win32
         /// When the timer expires, the callback function is called.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueuetimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-createtimerqueuetimer"/>
         /// </para>
         /// </summary>
         /// <param name="phNewTimer">
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// Deletes a timer queue. Any pending timers in the queue are canceled and deleted.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-deletetimerqueueex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-deletetimerqueueex"/>
         /// </para>
         /// </summary>
         /// <param name="TimerQueue">
@@ -792,7 +792,7 @@ namespace Lsj.Util.Win32
         /// Removes a timer from the timer queue and optionally waits for currently running timer callback functions to complete before deleting the timer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-deletetimerqueuetimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-deletetimerqueuetimer"/>
         /// </para>
         /// </summary>
         /// <param name="TimerQueue">
@@ -849,7 +849,7 @@ namespace Lsj.Util.Win32
         /// Call this function when the callback environment is no longer needed for creating new thread pool objects.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-destroythreadpoolenvironment
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-destroythreadpoolenvironment"/>
         /// </para>
         /// </summary>
         /// <param name="pcbe">
@@ -868,7 +868,7 @@ namespace Lsj.Util.Win32
         /// The current thread will no longer count as executing a callback on behalf of the object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-disassociatecurrentthreadfromcallback
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-disassociatecurrentthreadfromcallback"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -893,7 +893,7 @@ namespace Lsj.Util.Win32
         /// Specifies the DLL that the thread pool will unload when the current callback completes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-freelibrarywhencallbackreturns
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-freelibrarywhencallbackreturns"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -949,7 +949,7 @@ namespace Lsj.Util.Win32
         /// Specifies the critical section that the thread pool will release when the current callback completes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-leavecriticalsectionwhencallbackreturns
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-leavecriticalsectionwhencallbackreturns"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -970,7 +970,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified timer object is currently set.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-isthreadpooltimerset
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-isthreadpooltimerset"/>
         /// </para>
         /// </summary>
         /// <param name="pti">
@@ -991,7 +991,7 @@ namespace Lsj.Util.Win32
         /// Specifies the mutex that the thread pool will release when the current callback completes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-releasemutexwhencallbackreturns
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-releasemutexwhencallbackreturns"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -1012,7 +1012,7 @@ namespace Lsj.Util.Win32
         /// Specifies the semaphore that the thread pool will release when the current callback completes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-releasesemaphorewhencallbackreturns
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-releasesemaphorewhencallbackreturns"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -1036,7 +1036,7 @@ namespace Lsj.Util.Win32
         /// Specifies the event that the thread pool will set when the current callback completes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-seteventwhencallbackreturns
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-seteventwhencallbackreturns"/>
         /// </para>
         /// </summary>
         /// <param name="pci">
@@ -1056,7 +1056,7 @@ namespace Lsj.Util.Win32
         /// Associates the specified cleanup group with the specified callback environment.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackcleanupgroup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackcleanupgroup"/>
         /// </para>
         /// </summary>
         /// <param name="pcbe">
@@ -1084,7 +1084,7 @@ namespace Lsj.Util.Win32
         /// Sets the thread pool to be used when generating callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackpool
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackpool"/>
         /// </para>
         /// </summary>
         /// <param name="pcbe">
@@ -1108,7 +1108,7 @@ namespace Lsj.Util.Win32
         /// Ensures that the specified DLL remains loaded as long as there are outstanding callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbacklibrary
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbacklibrary"/>
         /// </para>
         /// </summary>
         /// <param name="pcbe">
@@ -1139,7 +1139,7 @@ namespace Lsj.Util.Win32
         /// Indicates that callbacks associated with this callback environment may not return quickly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackrunslong
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-setthreadpoolcallbackrunslong"/>
         /// </para>
         /// </summary>
         /// <param name="pcbe">
@@ -1159,7 +1159,7 @@ namespace Lsj.Util.Win32
         /// ets the maximum number of threads that the specified thread pool can allocate to process callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadmaximum
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadmaximum"/>
         /// </para>
         /// </summary>
         /// <param name="ptpp">
@@ -1181,7 +1181,7 @@ namespace Lsj.Util.Win32
         /// Sets the minimum number of threads that the specified thread pool must make available to process callbacks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadminimum
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolthreadminimum"/>
         /// </para>
         /// </summary>
         /// <param name="ptpp">
@@ -1209,7 +1209,7 @@ namespace Lsj.Util.Win32
         /// A worker thread calls the timer object's callback after the specified timeout expires.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpooltimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpooltimer"/>
         /// </para>
         /// </summary>
         /// <param name="pti">
@@ -1260,7 +1260,7 @@ namespace Lsj.Util.Win32
         /// A worker thread calls the wait object's callback function after the handle becomes signaled or after the specified timeout expires.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolwait
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-setthreadpoolwait"/>
         /// </para>
         /// </summary>
         /// <param name="pwa">
@@ -1298,7 +1298,7 @@ namespace Lsj.Util.Win32
         /// A worker thread calls the I/O completion object's callback function after the operation completes on the file handle bound to this object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-startthreadpoolio
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-startthreadpoolio"/>
         /// </para>
         /// </summary>
         /// <param name="pio">
@@ -1324,7 +1324,7 @@ namespace Lsj.Util.Win32
         /// A worker thread calls the work object's callback function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-submitthreadpoolwork
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-submitthreadpoolwork"/>
         /// </para>
         /// </summary>
         /// <param name="pwk">
@@ -1345,7 +1345,7 @@ namespace Lsj.Util.Win32
         /// Requests that a thread pool worker thread call the specified callback function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-trysubmitthreadpoolcallback
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-trysubmitthreadpoolcallback"/>
         /// </para>
         /// </summary>
         /// <param name="pfns">
@@ -1376,7 +1376,7 @@ namespace Lsj.Util.Win32
         /// Cancels a registered wait operation issued by the <see cref="RegisterWaitForSingleObject"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-unregisterwaitex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoollegacyapiset/nf-threadpoollegacyapiset-unregisterwaitex"/>
         /// </para>
         /// </summary>
         /// <param name="WaitHandle">
@@ -1429,7 +1429,7 @@ namespace Lsj.Util.Win32
         /// Waits for outstanding I/O completion callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooliocallbacks
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooliocallbacks"/>
         /// </para>
         /// </summary>
         /// <param name="pio">
@@ -1460,7 +1460,7 @@ namespace Lsj.Util.Win32
         /// Waits for outstanding timer callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooltimercallbacks
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpooltimercallbacks"/>
         /// </para>
         /// </summary>
         /// <param name="pti">
@@ -1481,7 +1481,7 @@ namespace Lsj.Util.Win32
         /// Waits for outstanding wait callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolwaitcallbacks
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolwaitcallbacks"/>
         /// </para>
         /// </summary>
         /// <param name="pwa">
@@ -1502,7 +1502,7 @@ namespace Lsj.Util.Win32
         /// Waits for outstanding work callbacks to complete and optionally cancels pending callbacks that have not yet started to execute.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolworkcallbacks
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-waitforthreadpoolworkcallbacks"/>
         /// </para>
         /// </summary>
         /// <param name="pwk">

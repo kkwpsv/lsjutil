@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// Requests that the specified transaction be committed.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ktmw32/nf-ktmw32-committransaction
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ktmw32/nf-ktmw32-committransaction"/>
         /// </para>
         /// </summary>
         /// <param name="TransactionHandle">
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// Creates a new transaction object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ktmw32/nf-ktmw32-createtransaction
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ktmw32/nf-ktmw32-createtransaction"/>
         /// </para>
         /// </summary>
         /// <param name="lpTransactionAttributes">

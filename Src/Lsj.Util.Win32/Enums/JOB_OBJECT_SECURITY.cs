@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// JOB_OBJECT_SECURITY
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_security_limit_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_security_limit_information"/>
     /// </para>
     /// </summary>
     public enum JOB_OBJECT_SECURITY : uint

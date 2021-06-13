@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The system access control list (SACL) of an object
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/secauthz/security-information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/security-information"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

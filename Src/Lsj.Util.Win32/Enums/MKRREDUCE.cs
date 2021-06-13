@@ -5,7 +5,7 @@
     /// Specifies how far a moniker should be reduced.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-mkrreduce
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-mkrreduce"/>
     /// </para>
     /// </summary>
     public enum MKRREDUCE : uint

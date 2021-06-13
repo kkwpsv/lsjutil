@@ -5,8 +5,8 @@
     /// System Palette States
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse"/>
     /// </para>
     /// </summary>
     public enum SystemPaletteStates : uint

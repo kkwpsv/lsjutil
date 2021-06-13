@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Flags used by the <see cref="DwmSetWindowAttribute"/> function to specify the Flip3D window policy.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/ne-dwmapi-dwmflip3dwindowpolicy
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/ne-dwmapi-dwmflip3dwindowpolicy"/>
     /// </para>
     /// </summary>
     /// <remarks>

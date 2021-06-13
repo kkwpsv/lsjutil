@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// when <see cref="FileIdInfo"/> is passed in the FileInformationClass parameter.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -23,7 +23,7 @@ namespace Lsj.Util.Win32
         /// Assigns a process to an existing job object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-assignprocesstojobobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-assignprocesstojobobject"/>
         /// </para>
         /// </summary>
         /// <param name="hJob">
@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens a job object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-createjobobjectw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-createjobobjectw"/>
         /// </para>
         /// </summary>
         /// <param name="lpJobAttributes">
@@ -154,7 +154,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the process is running in the specified job.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi/nf-jobapi-isprocessinjob
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi/nf-jobapi-isprocessinjob"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessHandle">
@@ -192,7 +192,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing job object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-openjobobjectw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-openjobobjectw"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -233,7 +233,7 @@ namespace Lsj.Util.Win32
         /// Retrieves limit and job state information from the job object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-queryinformationjobobject"/>
         /// </para>
         /// </summary>
         /// <param name="hJob">
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// Sets limits for a job object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject"/>
         /// </para>
         /// </summary>
         /// <param name="hJob">
@@ -432,7 +432,7 @@ namespace Lsj.Util.Win32
         /// If the job is nested, this function terminates all processes currently associated with the job and all of its child jobs in the hierarchy.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-terminatejobobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-terminatejobobject"/>
         /// </para>
         /// </summary>
         /// <param name="hJob">

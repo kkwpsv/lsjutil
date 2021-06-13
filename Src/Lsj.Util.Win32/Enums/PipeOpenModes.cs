@@ -9,8 +9,8 @@ namespace Lsj.Util.Win32.Enums
     /// The pipe clients can specify these open modes for their pipe handles using the <see cref="CreateFile"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipe-open-modes
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/ipc/named-pipe-open-modes"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea"/>
     /// </para>
     /// </summary>
     public enum PipeOpenModes : uint

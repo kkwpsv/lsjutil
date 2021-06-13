@@ -5,7 +5,7 @@
     /// The <see cref="GamutMappingIntent"/> Enumeration specifies the relationship between logical and physical colors.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9fec0834-607d-427d-abd5-ab240fb0db38
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9fec0834-607d-427d-abd5-ab240fb0db38"/>
     /// </para>
     /// </summary>
     public enum GamutMappingIntent : uint

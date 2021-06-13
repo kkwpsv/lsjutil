@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains parameters used during a moniker-binding operation.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-bind_opts3-r1
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-bind_opts3-r1"/>
     /// </para>
     /// </summary>
     /// <remarks>

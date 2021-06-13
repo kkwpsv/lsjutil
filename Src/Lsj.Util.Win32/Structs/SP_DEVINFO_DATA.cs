@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// An <see cref="SP_DEVINFO_DATA"/> structure defines a device instance that is a member of a device information set.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/ns-setupapi-sp_devinfo_data
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/ns-setupapi-sp_devinfo_data"/>
     /// </para>
     /// </summary>
     /// <remarks>

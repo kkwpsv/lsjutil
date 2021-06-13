@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Also, see Managing Memory Allocation for details on COM's rules for managing memory.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-istream
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-istream"/>
     /// </para>
     /// </summary>
     public unsafe struct IStream

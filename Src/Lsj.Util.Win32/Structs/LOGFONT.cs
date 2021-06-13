@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="LOGFONT"/> structure defines the attributes of a font.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw"/>
     /// </para>
     /// </summary>
     /// <remarks>

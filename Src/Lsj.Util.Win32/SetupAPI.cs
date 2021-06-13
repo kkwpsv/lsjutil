@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetupDiDestroyDeviceInfoList"/> function deletes a device information set and frees all associated memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdidestroydeviceinfolist
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdidestroydeviceinfolist"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
@@ -45,7 +45,7 @@ namespace Lsj.Util.Win32
         /// that contains requested device information elements for a local computer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetclassdevsw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetclassdevsw"/>
         /// </para>
         /// </summary>
         /// <param name="ClassGuid">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// that specifies a device information element in a device information set.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdienumdeviceinfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdienumdeviceinfo"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
@@ -134,7 +134,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetupDiGetDeviceInstanceId"/> function retrieves the device instance ID that is associated with a device information element.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinstanceidw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinstanceidw"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
@@ -175,7 +175,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetupDiGetDeviceRegistryProperty"/> function retrieves a specified Plug and Play device property.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceregistrypropertyw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceregistrypropertyw"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
@@ -333,7 +333,7 @@ namespace Lsj.Util.Win32
         /// for a device information set or a particular device information element.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetselecteddriverw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetselecteddriverw"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
@@ -366,7 +366,7 @@ namespace Lsj.Util.Win32
         /// and retrieves information that identifies the device information element for the device instance in the device information set.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdiopendeviceinfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdiopendeviceinfow"/>
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">

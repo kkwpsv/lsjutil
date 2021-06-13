@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The <see cref="COLORREF"/> value is used to specify an RGB color.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/colorref
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/colorref"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BLENDFUNCTION"/> structure controls blending by specifying the blending functions for source and destination bitmaps.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-blendfunction
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-blendfunction"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

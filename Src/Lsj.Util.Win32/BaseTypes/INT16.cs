@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The first bit (Most Significant Bit (MSB)) is the signing bit.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/c19c7f85-a511-4407-a7bf-5da9fa79d026
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/c19c7f85-a511-4407-a7bf-5da9fa79d026"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2)]

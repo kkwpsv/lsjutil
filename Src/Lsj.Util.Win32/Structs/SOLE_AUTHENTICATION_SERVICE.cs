@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Identifies an authentication service that a server is willing to use to communicate to a client.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-sole_authentication_service
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-sole_authentication_service"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

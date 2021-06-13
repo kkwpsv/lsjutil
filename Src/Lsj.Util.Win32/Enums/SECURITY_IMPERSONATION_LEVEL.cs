@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// Security impersonation levels govern the degree to which a server process can act on behalf of a client process.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-security_impersonation_level
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-security_impersonation_level"/>
     /// </para>
     /// </summary>
     /// <remarks>

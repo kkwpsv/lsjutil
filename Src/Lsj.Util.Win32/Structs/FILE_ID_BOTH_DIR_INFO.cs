@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// the enumeration operation after the last file is returned.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_both_dir_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_id_both_dir_info"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Programs can pass these values to the <see cref="CreateWellKnownSid"/> function to create a SID from this list.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-well_known_sid_type
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-well_known_sid_type"/>
     /// </para>
     /// </summary>
     public enum WELL_KNOWN_SID_TYPE

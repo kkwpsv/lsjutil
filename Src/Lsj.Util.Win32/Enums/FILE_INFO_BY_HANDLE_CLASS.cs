@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="GetFileInformationByHandleEx"/> should retrieve or <see cref="SetFileInformationByHandle"/> should set.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ne-minwinbase-file_info_by_handle_class
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ne-minwinbase-file_info_by_handle_class"/>
     /// </para>
     /// </summary>
     /// <remarks>

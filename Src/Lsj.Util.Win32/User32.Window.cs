@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32
         /// This flag has no effect if the window is already a non-topmost window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
         /// </para>
         /// </summary>
         public static readonly HWND HWND_NOTOPMOST = new IntPtr(-2);
@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32
         /// Places the window above all non-topmost windows. The window maintains its topmost position even when it is deactivated.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
         /// </para>
         /// </summary>
         public static readonly HWND HWND_TOPMOST = new IntPtr(-1);
@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// Places the window at the top of the Z order.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
         /// </para>
         /// </summary>
         public static readonly HWND HWND_TOP = new IntPtr(0);
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// If the hWnd parameter identifies a topmost window, the window loses its topmost status and is placed at the bottom of all other windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
         /// </para>
         /// </summary>
         public static readonly HWND HWND_BOTTOM = new IntPtr(1);
@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32
         /// CallWndRetProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-hookproc"/>
         /// </para>
         /// </summary>
         /// <param name="code">
@@ -133,7 +133,7 @@ namespace Lsj.Util.Win32
         /// PropEnumProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -168,7 +168,7 @@ namespace Lsj.Util.Win32
         /// PropEnumProcEx is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-propenumprocexw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -206,7 +206,7 @@ namespace Lsj.Util.Win32
         /// WindowProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
@@ -223,7 +223,7 @@ namespace Lsj.Util.Win32
         /// EnumWindowsProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633498(v%3Dvs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633498(v%3Dvs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to a top-level window.</param>
@@ -239,7 +239,7 @@ namespace Lsj.Util.Win32
         /// To specify an extended window style, use the <see cref="AdjustWindowRectEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrect"/>
         /// </para>
         /// </summary>
         /// <param name="lpRect">
@@ -275,7 +275,7 @@ namespace Lsj.Util.Win32
         /// The window rectangle can then be passed to the <see cref="CreateWindowEx"/> function to create a window whose client area is the desired size.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectex"/>
         /// </para>
         /// </summary>
         /// <param name="lpRect">
@@ -318,7 +318,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks later in this topic.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-allowsetforegroundwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-allowsetforegroundwindow"/>
         /// </para>
         /// </summary>
         /// <param name="dwProcessId">
@@ -357,7 +357,7 @@ namespace Lsj.Util.Win32
         /// There are four types of animation: roll, slide, collapse or expand, and alpha-blended fade.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-animatewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -409,7 +409,7 @@ namespace Lsj.Util.Win32
         /// The function searches the entire screen, not just the calling application's client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-anypopup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-anypopup"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -428,7 +428,7 @@ namespace Lsj.Util.Win32
         /// Arranges all the minimized (iconic) child windows of the specified parent window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-arrangeiconicwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-arrangeiconicwindows"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -455,7 +455,7 @@ namespace Lsj.Util.Win32
         /// Allocates memory for a multiple-window- position structure and returns the handle to the structure.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-begindeferwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-begindeferwindowpos"/>
         /// </para>
         /// </summary>
         /// <param name="nNumWindows">
@@ -491,7 +491,7 @@ namespace Lsj.Util.Win32
         /// If the window is a child window, the top-level parent window associated with the child window is activated.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-bringwindowtotop
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-bringwindowtotop"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -516,7 +516,7 @@ namespace Lsj.Util.Win32
         /// A hook procedure can call this function either before or after processing the hook information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callnexthookex"/>
         /// </para>
         /// </summary>
         /// <param name="hhk">
@@ -555,7 +555,7 @@ namespace Lsj.Util.Win32
         /// Passes message information to the specified window procedure.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-callwindowprocw"/>
         /// </para>
         /// </summary>
         /// <param name="lpPrevWndFunc">
@@ -607,7 +607,7 @@ namespace Lsj.Util.Win32
         /// To skip certain child windows, use the <see cref="ChildWindowFromPointEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompoint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompoint"/>
         /// </para>
         /// </summary>
         /// <param name="hWndParent">
@@ -643,7 +643,7 @@ namespace Lsj.Util.Win32
         /// Grandchildren and deeper descendants are not searched.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompointex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-childwindowfrompointex"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -676,7 +676,7 @@ namespace Lsj.Util.Win32
         /// Minimizes (but does not destroy) the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -701,7 +701,7 @@ namespace Lsj.Util.Win32
         /// To use extended window styles in addition to the styles supported by <see cref="CreateWindow"/>, use the <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindoww
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindoww"/>
         /// </para>
         /// </summary>
         /// <param name="lpClassName">
@@ -871,7 +871,7 @@ namespace Lsj.Util.Win32
         /// otherwise, this function is identical to the <see cref="CreateWindow"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowexw"/>
         /// </para>
         /// </summary>
         /// <param name="dwExStyle">The extended window style of the window being created.</param>
@@ -1063,7 +1063,7 @@ namespace Lsj.Util.Win32
         /// not the <see cref="DefWindowProc"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defframeprocw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defframeprocw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1118,7 +1118,7 @@ namespace Lsj.Util.Win32
         /// not to the <see cref="DefWindowProc"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defmdichildprocw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defmdichildprocw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1172,7 +1172,7 @@ namespace Lsj.Util.Win32
         /// This function ensures that every message is processed. DefWindowProc is called with the same parameters received by the window procedure.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defwindowprocw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-defwindowprocw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1206,7 +1206,7 @@ namespace Lsj.Util.Win32
         /// <see cref="DestroyWindow"/> also destroys modeless dialog boxes created by the <see cref="CreateDialog"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroywindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroywindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">A handle to the window to be destroyed.</param>
@@ -1229,7 +1229,7 @@ namespace Lsj.Util.Win32
         /// When input is enabled, the window receives all input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window to be enabled or disabled.</param>
@@ -1269,7 +1269,7 @@ namespace Lsj.Util.Win32
         /// Simultaneously updates the position and size of one or more windows in a single screen-refreshing cycle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enddeferwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enddeferwindowpos"/>
         /// </para>
         /// </summary>
         /// <param name="hWinPosInfo">
@@ -1296,7 +1296,7 @@ namespace Lsj.Util.Win32
         /// <see cref="EnumChildWindows"/> continues until the last child window is enumerated or the callback function returns <see cref="FALSE"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumchildwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumchildwindows"/>
         /// </para>
         /// </summary>
         /// <param name="hWndParent">
@@ -1328,7 +1328,7 @@ namespace Lsj.Util.Win32
         /// To pass application-defined data to the callback function, use <see cref="EnumPropsEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumpropsw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumpropsw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1355,7 +1355,7 @@ namespace Lsj.Util.Win32
         /// <see cref="EnumPropsEx"/> continues until the last entry is enumerated or the callback function returns <see cref="FALSE"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumpropsexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumpropsexw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1396,7 +1396,7 @@ namespace Lsj.Util.Win32
         /// To enumerate child windows of a particular window, use the <see cref="EnumChildWindows"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumthreadwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumthreadwindows"/>
         /// </para>
         /// </summary>
         /// <param name="dwThreadId">
@@ -1424,7 +1424,7 @@ namespace Lsj.Util.Win32
         /// EnumWindows continues until the last top-level window is enumerated or the callback function returns <see cref="BOOL.FALSE"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumwindows"/>
         /// </para>
         /// </summary>
         /// <param name="lpEnumFunc">
@@ -1452,7 +1452,7 @@ namespace Lsj.Util.Win32
         /// To search child windows, beginning with a specified child window, use the <see cref="FindWindowEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindoww
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindoww"/>
         /// </para>
         /// </summary>
         /// <param name="lpClassName">
@@ -1487,7 +1487,7 @@ namespace Lsj.Util.Win32
         /// This function does not perform a case-sensitive search.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindowexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-findwindowexw"/>
         /// </para>
         /// </summary>
         /// <param name="hWndParent">
@@ -1541,7 +1541,7 @@ namespace Lsj.Util.Win32
         /// To flash the window a specified number of times, use the <see cref="FlashWindowEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-flashwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-flashwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1574,7 +1574,7 @@ namespace Lsj.Util.Win32
         /// It does not change the active state of the window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-flashwindowex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-flashwindowex"/>
         /// </para>
         /// </summary>
         /// <param name="pfwi">
@@ -1598,7 +1598,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the handle to the ancestor of the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getancestor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getancestor"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -1622,7 +1622,7 @@ namespace Lsj.Util.Win32
         /// You can still use <see cref="GetClassInfo"/>, however, if you do not need information about the class small icon.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfow"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -1656,7 +1656,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetClassInfo"/> function does not retrieve a handle to the small icon.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfoexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassinfoexw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -1690,7 +1690,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the specified value from the <see cref="WNDCLASSEX"/> structure associated with the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1729,7 +1729,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the name of the class to which the specified window belongs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassnamew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassnamew"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1756,7 +1756,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the 16-bit (WORD) value at the specified offset into the extra class memory for the window class to which the specified window belongs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassword
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassword"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1791,7 +1791,7 @@ namespace Lsj.Util.Win32
         /// Because client coordinates are relative to the upper-left corner of a window's client area, the coordinates of the upper-left corner are (0,0).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclientrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclientrect"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1820,7 +1820,7 @@ namespace Lsj.Util.Win32
         /// The system assigns a slightly higher priority to the thread that creates the foreground window than it does to other threads.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getforegroundwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getforegroundwindow"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1835,7 +1835,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the active window or a specified GUI thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getguithreadinfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getguithreadinfo"/>
         /// </para>
         /// </summary>
         /// <param name="idThread">
@@ -1887,7 +1887,7 @@ namespace Lsj.Util.Win32
         /// Determines which pop-up window owned by the specified window was most recently active.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getlastactivepopup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getlastactivepopup"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1912,7 +1912,7 @@ namespace Lsj.Util.Win32
         /// If the specified window is a child window, the function searches for a child window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getnextwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getnextwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1941,7 +1941,7 @@ namespace Lsj.Util.Win32
         /// To retrieve a handle to a specified ancestor, use the <see cref="GetAncestor"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getparent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getparent"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1971,7 +1971,7 @@ namespace Lsj.Util.Win32
         /// The string and handle must have been added to the property list by a previous call to the <see cref="SetProp"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpropw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpropw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1995,7 +1995,7 @@ namespace Lsj.Util.Win32
         /// and retrieves a handle to the child window at the top of the Z order.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettopwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettopwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2015,7 +2015,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2091,7 +2091,7 @@ namespace Lsj.Util.Win32
         /// the identifier of the process that created the window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowthreadprocessid"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
@@ -2110,7 +2110,7 @@ namespace Lsj.Util.Win32
         /// The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrect"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">A handle to the window.</param>
@@ -2133,7 +2133,7 @@ namespace Lsj.Util.Win32
         /// The system does not display any portion of a window that lies outside of the window region
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2164,7 +2164,7 @@ namespace Lsj.Util.Win32
         /// However, <see cref="GetWindowText"/> cannot retrieve the text of a control in another application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowtextw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowtextw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window or control containing the text.</param>
@@ -2237,7 +2237,7 @@ namespace Lsj.Util.Win32
         /// the chain of parent windows leads from the original overlapped or pop-up window to the child window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischild
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ischild"/>
         /// </para>
         /// </summary>
         /// <param name="hWndParent">
@@ -2258,7 +2258,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified window is minimized (iconic).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isiconic
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isiconic"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2276,7 +2276,7 @@ namespace Lsj.Util.Win32
         /// Determines whether a window is maximized.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iszoomed
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iszoomed"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2294,7 +2294,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified window handle identifies an existing window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2317,7 +2317,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified window is enabled for mouse and keyboard input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-iswindowenabled
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowenabled"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2338,7 +2338,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified window is a native Unicode window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowunicode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowunicode"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2366,7 +2366,7 @@ namespace Lsj.Util.Win32
         /// Determines the visibility state of the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowvisible
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-iswindowvisible"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2395,7 +2395,7 @@ namespace Lsj.Util.Win32
         /// to disable calls to the <see cref="SetForegroundWindow"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-locksetforegroundwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-locksetforegroundwindow"/>
         /// </para>
         /// </summary>
         /// <param name="uLockCode">
@@ -2424,7 +2424,7 @@ namespace Lsj.Util.Win32
         /// For a child window, they are relative to the upper-left corner of the parent window's client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-movewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-movewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2471,7 +2471,7 @@ namespace Lsj.Util.Win32
         /// Restores a minimized (iconic) window to its previous size and position; it then activates the window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openicon
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openicon"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2494,7 +2494,7 @@ namespace Lsj.Util.Win32
         /// The search is restricted to immediate child windows; grandchildren and deeper descendant windows are not searched.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-realchildwindowfrompoint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-realchildwindowfrompoint"/>
         /// </para>
         /// </summary>
         /// <param name="hwndParent">
@@ -2522,7 +2522,7 @@ namespace Lsj.Util.Win32
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassw"/>
         /// </para>
         /// </summary>
         /// <param name="lpWndClass">
@@ -2558,7 +2558,7 @@ namespace Lsj.Util.Win32
         /// Registers a window class for subsequent use in calls to the <see cref="CreateWindow"/> or <see cref="CreateWindowEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclassexw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -2580,7 +2580,7 @@ namespace Lsj.Util.Win32
         /// The specified character string identifies the entry to be removed.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removepropw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removepropw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2616,7 +2616,7 @@ namespace Lsj.Util.Win32
         /// or the <see cref="WNDCLASSEX"/> structure for the class to which the specified window belongs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclasslongptrw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclasslongptrw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2667,7 +2667,7 @@ namespace Lsj.Util.Win32
         /// Replaces the 16-bit (WORD) value at the specified offset into the extra class memory for the window class to which the specified window belongs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclassword
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclassword"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2701,7 +2701,7 @@ namespace Lsj.Util.Win32
         /// The double-click time is the maximum number of milliseconds that may occur between the first and second clicks of a double-click.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setdoubleclicktime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setdoubleclicktime"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -2727,7 +2727,7 @@ namespace Lsj.Util.Win32
         /// The system assigns a slightly higher priority to the thread that created the foreground window than it does to other threads.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setforegroundwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setforegroundwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2767,7 +2767,7 @@ namespace Lsj.Util.Win32
         /// Changes the parent window of the specified child window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setparent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setparent"/>
         /// </para>
         /// </summary>
         /// <param name="hWndChild">
@@ -2819,7 +2819,7 @@ namespace Lsj.Util.Win32
         /// Otherwise, the function replaces the string's current handle with the specified handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setpropw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setpropw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -2867,7 +2867,7 @@ namespace Lsj.Util.Win32
         /// These events are associated either with a specific thread or with all threads in the same desktop as the calling thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowshookexw"/>
         /// </para>
         /// </summary>
         /// <param name="idHook">
@@ -3063,7 +3063,7 @@ namespace Lsj.Util.Win32
         /// The topmost window receives the highest rank and is the first window in the Z order.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowpos"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
@@ -3089,7 +3089,7 @@ namespace Lsj.Util.Win32
         /// The system does not display any portion of a window that lies outside of the window region.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowrgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -3130,7 +3130,7 @@ namespace Lsj.Util.Win32
         /// However, <see cref="SetWindowText"/> cannot change the text of a control in another application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowtextw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setwindowtextw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window or control whose text is to be changed.</param>
@@ -3159,7 +3159,7 @@ namespace Lsj.Util.Win32
         /// Sets the specified window's show state.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window.</param>
@@ -3182,7 +3182,7 @@ namespace Lsj.Util.Win32
         /// Shows or hides all pop-up windows owned by the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showownedpopups
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showownedpopups"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -3214,7 +3214,7 @@ namespace Lsj.Util.Win32
         /// and sends them to the appropriate MDI child windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translatemdisysaccel"/>
         /// </para>
         /// </summary>
         /// <param name="hWndClient">
@@ -3246,7 +3246,7 @@ namespace Lsj.Util.Win32
         /// Removes a hook procedure installed in a hook chain by the <see cref="SetWindowsHookEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unhookwindowshookex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unhookwindowshookex"/>
         /// </para>
         /// </summary>
         /// <param name="hhk">
@@ -3270,7 +3270,7 @@ namespace Lsj.Util.Win32
         /// Unregisters a window class, freeing the memory required for the class.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregisterclassw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unregisterclassw"/>
         /// </para>
         /// </summary>
         /// <param name="lpClassName">
@@ -3304,7 +3304,7 @@ namespace Lsj.Util.Win32
         /// Updates the position, size, shape, content, and translucency of a layered window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatelayeredwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatelayeredwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -3361,7 +3361,7 @@ namespace Lsj.Util.Win32
         /// Updates the position, size, shape, content, and translucency of a layered window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633557(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633557(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -3401,7 +3401,7 @@ namespace Lsj.Util.Win32
         /// or until the time-out interval has elapsed.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-waitforinputidle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-waitforinputidle"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -3441,7 +3441,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the window that contains the specified point.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-windowfrompoint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-windowfrompoint"/>
         /// </para>
         /// </summary>
         /// <param name="Point">

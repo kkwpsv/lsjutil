@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// When the user closes the property sheet or dialog box, information about the selected printer is returned in this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-devnames
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-devnames"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

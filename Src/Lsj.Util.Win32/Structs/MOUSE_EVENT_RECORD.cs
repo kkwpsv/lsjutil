@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes a mouse input event in a console <see cref="INPUT_RECORD"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// Use when casting a pointer to an integer to perform pointer arithmetic.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]

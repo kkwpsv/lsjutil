@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// These values supersede <see cref="CSIDL"/> values, which have parallel meanings.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ne-shlobj_core-known_folder_flag
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ne-shlobj_core-known_folder_flag"/>
     /// </para>
     /// </summary>
     public enum KNOWN_FOLDER_FLAG : uint

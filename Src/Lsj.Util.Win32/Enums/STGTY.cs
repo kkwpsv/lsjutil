@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// A storage element is a storage object, a stream object, or a byte-array object (LOCKBYTES).
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-stgty
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-stgty"/>
     /// </para>
     /// </summary>
     public enum STGTY

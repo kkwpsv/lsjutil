@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// Closes an open object handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-closehandle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-closehandle"/>
         /// </para>
         /// </summary>
         /// <param name="hObject">
@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32
         /// Duplicates an object handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/handleapi/nf-handleapi-duplicatehandle"/>
         /// </para>
         /// </summary>
         /// <param name="hSourceProcessHandle">

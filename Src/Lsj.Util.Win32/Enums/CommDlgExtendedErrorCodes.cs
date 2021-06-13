@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// Common dialog box error codes.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-commdlgextendederror
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-commdlgextendederror"/>
     /// </para>
     /// </summary>
     public enum CommDlgExtendedErrorCodes : uint

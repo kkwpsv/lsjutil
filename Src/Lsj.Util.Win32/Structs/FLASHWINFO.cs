@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains the flash status for a window and the number of times the system should flash the window.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-flashwinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-flashwinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]

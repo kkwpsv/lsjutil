@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32
         /// You can use this macro or send the <see cref="EM_NOSETFOCUS"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-edit_nosetfocus
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-edit_nosetfocus"/>
         /// </para>
         /// </summary>
         /// <param name="hwndCtl">

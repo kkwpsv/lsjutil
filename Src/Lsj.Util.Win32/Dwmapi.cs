@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// For programming guidance, and code examples, see Controlling non-client region rendering.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmgetwindowattribute
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmgetwindowattribute"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// by handling the <see cref="WM_DWMCOMPOSITIONCHANGED"/> notification.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmiscompositionenabled
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmiscompositionenabled"/>
         /// </para>
         /// </summary>
         /// <param name="pfEnabled">
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// For programming guidance, and code examples, see Controlling non-client region rendering.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// For creating and manipulating a security descriptor, use the functions listed in See Also.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-security_descriptor
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-security_descriptor"/>
     /// </para>
     /// </summary>
     /// <remarks>

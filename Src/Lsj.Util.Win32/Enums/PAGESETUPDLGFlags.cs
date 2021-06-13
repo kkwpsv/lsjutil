@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="PAGESETUPDLG"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-pagesetupdlgw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-pagesetupdlgw"/>
     /// </para>
     /// </summary>
     [Flags]

@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// Controls the type of connections to a class object.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/ne-combaseapi-regcls
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/ne-combaseapi-regcls"/>
     /// </para>
     /// </summary>
     /// <remarks>

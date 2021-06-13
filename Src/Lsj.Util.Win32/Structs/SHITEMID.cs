@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Defines an item identifier.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-shitemid
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-shitemid"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

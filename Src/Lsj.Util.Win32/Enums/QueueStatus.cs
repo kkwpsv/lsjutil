@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// QueueStatus
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getqueuestatus
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getqueuestatus"/>
     /// </para>
     /// </summary>
     [Flags]

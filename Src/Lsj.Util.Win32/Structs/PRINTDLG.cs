@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// After the user closes the dialog box, the system uses this structure to return information about the user's selections.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/ns-commdlg-printdlgw"/>
     /// </para>
     /// </summary>
     /// <remarks>

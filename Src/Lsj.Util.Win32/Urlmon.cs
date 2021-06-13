@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32
         /// Creates a URL moniker from a full URL, or from a base context URL moniker and a partial URL.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775103(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ms775103(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="pMkCtx">

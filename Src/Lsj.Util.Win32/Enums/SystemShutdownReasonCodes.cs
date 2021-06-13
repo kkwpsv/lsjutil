@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The shutdown reason codes are used by the <see cref="ExitWindowsEx"/> and <see cref="InitiateSystemShutdownEx"/> functions in the dwReason parameter.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/shutdown/system-shutdown-reason-codes
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shutdown/system-shutdown-reason-codes"/>
     /// </para>
     /// </summary>
     [Flags]

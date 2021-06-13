@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// The codes are listed in numeric order.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputdev/virtual-key-codes"/>
     /// </para>
     /// </summary>
     public enum VirtualKeyCodes : ushort

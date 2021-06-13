@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="HeapWalk"/> function uses a <see cref="PROCESS_HEAP_ENTRY"/> structure to enumerate the elements of a heap.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-process_heap_entry
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-process_heap_entry"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

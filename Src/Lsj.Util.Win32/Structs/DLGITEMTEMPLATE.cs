@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// One or more of these structures are combined with a <see cref="DLGTEMPLATE"/> structure to form a standard template for a dialog box.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-dlgitemtemplate
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-dlgitemtemplate"/>
     /// </para>
     /// </summary>
     /// <remarks>

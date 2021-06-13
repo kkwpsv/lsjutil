@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="ReadFileEx"/>, and <see cref="WriteFileEx"/> operations on the device.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-commtimeouts
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-commtimeouts"/>
     /// </para>
     /// </summary>
     /// <remarks>

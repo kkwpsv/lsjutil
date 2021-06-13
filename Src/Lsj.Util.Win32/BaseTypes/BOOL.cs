@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A <see cref="BOOL"/> is a 32-bit field that is set to 1 to indicate <see cref="TRUE"/>, or 0 to indicate <see cref="FALSE"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/9d81be47-232e-42cf-8f0d-7a3b29bf2eb2
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/9d81be47-232e-42cf-8f0d-7a3b29bf2eb2"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

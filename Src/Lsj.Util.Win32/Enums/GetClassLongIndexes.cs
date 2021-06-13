@@ -7,9 +7,9 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="GetClassWord"/> and <see cref="GetClassLong"/> Indexes.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassword
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongw
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclassword"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongw"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclasslongptrw"/>
     /// </para>
     /// </summary>
     public enum GetClassLongIndexes

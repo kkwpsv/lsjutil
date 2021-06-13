@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Represents the type of processor cache identified in the corresponding <see cref="CACHE_DESCRIPTOR"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-processor_cache_type
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-processor_cache_type"/>
     /// </para>
     /// </summary>
     public enum PROCESSOR_CACHE_TYPE

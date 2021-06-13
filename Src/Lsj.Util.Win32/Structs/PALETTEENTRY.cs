@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// A logical palette is defined by a <see cref="LOGPALETTE"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162769(v=vs.85)
+    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162769(v=vs.85)"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

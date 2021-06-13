@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// For descriptions of these folders, see <see cref="CSIDL"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/knownfolderid
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/knownfolderid"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 16)]

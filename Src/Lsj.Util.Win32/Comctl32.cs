@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32
         /// Gets the language currently in use by the common controls for a particular process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-getmuilanguage
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-getmuilanguage"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32
         /// Enables an application to specify a language to be used with the common controls that is different from the system language.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-initmuilanguage
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-initmuilanguage"/>
         /// </para>
         /// </summary>
         /// <param name="uiLang">

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Indicates whether an object can support optimized drawing of itself.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ocidl/ne-ocidl-dvaspectinfoflag
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ocidl/ne-ocidl-dvaspectinfoflag"/>
     /// </para>
     /// </summary>
     public enum DVASPECTINFOFLAG

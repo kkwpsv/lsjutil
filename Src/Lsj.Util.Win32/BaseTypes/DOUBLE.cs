@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// The <see cref="DOUBLE"/> type can also represent not a number (NAN); positive and negative infinity; or positive and negative 0.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/40beeef3-303a-40de-895c-11379fc42c15
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-dtyp/40beeef3-303a-40de-895c-11379fc42c15"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 8)]

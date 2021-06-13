@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// APCProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-papcfunc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-papcfunc"/>
         /// </para>
         /// </summary>
         /// <param name="Parameter"></param>
@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32
         /// WaitOrTimerCallback is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687066(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms687066(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpParameter">
@@ -75,7 +75,7 @@ namespace Lsj.Util.Win32
         /// Acquires a slim reader/writer (SRW) lock in exclusive mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// Acquires a slim reader/writer (SRW) lock in shared mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockshared
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockshared"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// Releases all resources used by an unowned critical section object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-deletecriticalsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-deletecriticalsection"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -132,7 +132,7 @@ namespace Lsj.Util.Win32
         /// The function returns when the calling thread is granted ownership.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-entercriticalsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-entercriticalsection"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -182,7 +182,7 @@ namespace Lsj.Util.Win32
         /// Initializes a condition variable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializeconditionvariable
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializeconditionvariable"/>
         /// </para>
         /// </summary>
         /// <param name="ConditionVariable">
@@ -204,7 +204,7 @@ namespace Lsj.Util.Win32
         /// Initializes a critical section object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializecriticalsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializecriticalsection"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -246,7 +246,7 @@ namespace Lsj.Util.Win32
         /// If the lock is not released before the loop finishes, the thread goes to sleep to wait for the lock to be released.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializecriticalsectionandspincount
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializecriticalsectionandspincount"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// Initialize a slim reader/writer (SRW) lock.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializesrwlock?redirectedfrom=MSDN
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-initializesrwlock?redirectedfrom=MSDN"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">
@@ -332,7 +332,7 @@ namespace Lsj.Util.Win32
         /// To operate on 64-bit values, use the <see cref="InterlockedCompareExchange64"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange"/>
         /// </para>
         /// </summary>
         /// <param name="Destination">
@@ -371,7 +371,7 @@ namespace Lsj.Util.Win32
         /// The function compares two specified 64-bit values and exchanges with another 64-bit value based on the outcome of the comparison.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange64
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchange64"/>
         /// </para>
         /// </summary>
         /// <param name="Destination">
@@ -411,7 +411,7 @@ namespace Lsj.Util.Win32
         /// To operate on non-pointer values, use the <see cref="InterlockedCompareExchange"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchangepointer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedcompareexchangepointer"/>
         /// </para>
         /// </summary>
         /// <param name="Destination">
@@ -449,7 +449,7 @@ namespace Lsj.Util.Win32
         /// To operate on 64-bit values, use the <see cref="InterlockedDecrement64"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -478,7 +478,7 @@ namespace Lsj.Util.Win32
         /// To operate on 32-bit values, use the <see cref="InterlockedDecrement"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement64
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockeddecrement64"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -507,7 +507,7 @@ namespace Lsj.Util.Win32
         /// To operate on 64-bit values, use the <see cref="InterlockedExchangeAdd64"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -542,7 +542,7 @@ namespace Lsj.Util.Win32
         /// To operate on 32-bit values, use the <see cref="InterlockedExchangeAdd"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd64
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangeadd64"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -576,7 +576,7 @@ namespace Lsj.Util.Win32
         /// Atomically exchanges a pair of addresses.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangepointer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedexchangepointer"/>
         /// </para>
         /// </summary>
         /// <param name="Target">
@@ -611,7 +611,7 @@ namespace Lsj.Util.Win32
         /// To operate on 64-bit values, use the <see cref="InterlockedIncrement64"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -640,7 +640,7 @@ namespace Lsj.Util.Win32
         /// To operate on 32-bit values, use the <see cref="InterlockedIncrement"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement64
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-interlockedincrement64"/>
         /// </para>
         /// </summary>
         /// <param name="Addend">
@@ -668,7 +668,7 @@ namespace Lsj.Util.Win32
         /// Releases ownership of the specified critical section object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-leavecriticalsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-leavecriticalsection"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -699,7 +699,7 @@ namespace Lsj.Util.Win32
         /// To enter an alertable wait state, use the <see cref="MsgWaitForMultipleObjectsEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjects"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -821,7 +821,7 @@ namespace Lsj.Util.Win32
         /// The array of objects can include input event objects, which you specify using the dwWakeMask parameter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-msgwaitformultipleobjectsex"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -930,7 +930,7 @@ namespace Lsj.Util.Win32
         /// Adds a user-mode asynchronous procedure call (APC) object to the APC queue of the specified thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-queueuserapc"/>
         /// </para>
         /// </summary>
         /// <param name="pfnAPC">
@@ -990,7 +990,7 @@ namespace Lsj.Util.Win32
         /// The time-out interval elapses.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-registerwaitforsingleobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-registerwaitforsingleobject"/>
         /// </para>
         /// </summary>
         /// <param name="phNewWaitObject">
@@ -1076,7 +1076,7 @@ namespace Lsj.Util.Win32
         /// Releases a slim reader/writer (SRW) lock that was acquired in exclusive mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">
@@ -1090,7 +1090,7 @@ namespace Lsj.Util.Win32
         /// Releases a slim reader/writer (SRW) lock that was acquired in shared mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasesrwlockshared
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-releasesrwlockshared"/>
         /// </para>
         /// </summary>
         /// <param name="SRWLock">
@@ -1106,7 +1106,7 @@ namespace Lsj.Util.Win32
         /// checks to see if the lock is released, and if the lock is not released, the thread goes to sleep.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setcriticalsectionspincount
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setcriticalsectionspincount"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -1153,7 +1153,7 @@ namespace Lsj.Util.Win32
         /// Signals one object and waits on another object as a single operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-signalobjectandwait
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-signalobjectandwait"/>
         /// </para>
         /// </summary>
         /// <param name="hObjectToSignal">
@@ -1247,7 +1247,7 @@ namespace Lsj.Util.Win32
         /// Sleeps on the specified condition variable and releases the specified critical section as an atomic operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepconditionvariablecs
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepconditionvariablecs"/>
         /// </para>
         /// </summary>
         /// <param name="ConditionVariable">
@@ -1290,7 +1290,7 @@ namespace Lsj.Util.Win32
         /// Sleeps on the specified condition variable and releases the specified lock as an atomic operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepconditionvariablesrw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-sleepconditionvariablesrw"/>
         /// </para>
         /// </summary>
         /// <param name="ConditionVariable">
@@ -1334,7 +1334,7 @@ namespace Lsj.Util.Win32
         /// If the call is successful, the calling thread takes ownership of the critical section.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-tryentercriticalsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-tryentercriticalsection"/>
         /// </para>
         /// </summary>
         /// <param name="lpCriticalSection">
@@ -1377,7 +1377,7 @@ namespace Lsj.Util.Win32
         /// To use a completion event, call the <see cref="UnregisterWaitEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-unregisterwait
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-unregisterwait"/>
         /// </para>
         /// </summary>
         /// <param name="WaitHandle">
@@ -1406,7 +1406,7 @@ namespace Lsj.Util.Win32
         /// To enter an alertable wait state, use the <see cref="WaitForMultipleObjectsEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitformultipleobjects
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitformultipleobjects"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -1502,7 +1502,7 @@ namespace Lsj.Util.Win32
         /// an I/O completion routine or asynchronous procedure call (APC) is queued to the thread, or the time-out interval elapses.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitformultipleobjectsex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitformultipleobjectsex"/>
         /// </para>
         /// </summary>
         /// <param name="nCount">
@@ -1608,7 +1608,7 @@ namespace Lsj.Util.Win32
         /// To wait for multiple objects, use <see cref="WaitForMultipleObjects"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject"/>
         /// </para>
         /// </summary>
         /// <param name="hHandle">
@@ -1670,7 +1670,7 @@ namespace Lsj.Util.Win32
         /// To wait for multiple objects, use the WaitForMultipleObjectsEx.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobjectex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-waitforsingleobjectex"/>
         /// </para>
         /// </summary>
         /// <param name="hHandle">
@@ -1740,7 +1740,7 @@ namespace Lsj.Util.Win32
         /// Wake all threads waiting on the specified condition variable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakeallconditionvariable
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakeallconditionvariable"/>
         /// </para>
         /// </summary>
         /// <param name="ConditionVariable">
@@ -1759,7 +1759,7 @@ namespace Lsj.Util.Win32
         /// Wake a single thread waiting on the specified condition variable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakeconditionvariable
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-wakeconditionvariable"/>
         /// </para>
         /// </summary>
         /// <param name="ConditionVariable">

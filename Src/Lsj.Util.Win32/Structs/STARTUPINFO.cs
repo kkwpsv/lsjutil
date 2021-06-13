@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Specifies the window station, desktop, standard handles, and appearance of the main window for a process at creation time.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

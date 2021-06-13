@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// It is an extended version of the <see cref="BITMAPINFOHEADER"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapv5header"/>
     /// </para>
     /// </summary>
     /// <remarks>

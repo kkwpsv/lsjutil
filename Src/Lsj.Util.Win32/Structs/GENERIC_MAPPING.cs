@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// When a client application requests generic access to an object, that request is mapped to the access rights defined in this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-generic_mapping
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-generic_mapping"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

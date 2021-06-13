@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// However, new development should use <see cref="KNOWNFOLDERID"/> values rather than <see cref="CSIDL"/> values.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/csidl
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/csidl"/>
     /// </para>
     /// </summary>
     /// <remarks>

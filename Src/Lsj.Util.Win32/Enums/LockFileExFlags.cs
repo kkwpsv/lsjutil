@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="LockFileEx"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfileex
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-lockfileex"/>
     /// </para>
     /// </summary>
     public enum LockFileExFlags : uint

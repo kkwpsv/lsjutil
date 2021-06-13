@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// An unsigned <see cref="INT_PTR"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]

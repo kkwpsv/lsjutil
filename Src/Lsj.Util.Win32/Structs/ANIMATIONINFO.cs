@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// or <see cref="SPI_SETANIMATION"/> action value is specified.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-animationinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-animationinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

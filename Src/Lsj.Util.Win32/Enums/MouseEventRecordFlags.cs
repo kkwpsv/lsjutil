@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="MOUSE_EVENT_RECORD"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str"/>
     /// </para>
     /// </summary>
     public enum MouseEventRecordFlags : uint

@@ -13,7 +13,7 @@
     /// The structure definition is provided here to explain the format of an extended template for a dialog box.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/dlgtemplateex
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/dlgtemplateex"/>
     /// </para>
     /// </summary>
     public struct DLGTEMPLATEEX

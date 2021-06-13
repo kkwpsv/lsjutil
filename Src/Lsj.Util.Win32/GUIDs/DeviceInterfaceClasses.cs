@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.GUIDs
         /// Starting with Microsoft Windows 2000, use the <see cref="GUID_DEVINTERFACE_USB_DEVICE"/> class identifier for new instances of this class.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-class-usb-device
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-class-usb-device"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32.GUIDs
         /// The <see cref="GUID_DEVINTERFACE_USB_DEVICE"/> device interface class is defined for USB devices that are attached to a USB hub.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-devinterface-usb-device
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-devinterface-usb-device"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32.GUIDs
         /// The <see cref="GUID_DEVINTERFACE_MONITOR"/> device interface class is defined for monitor devices.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-devinterface-monitor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/guid-devinterface-monitor"/>
         /// </para>
         /// </summary>
         /// <remarks>

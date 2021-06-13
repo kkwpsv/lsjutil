@@ -5,8 +5,8 @@
     /// Pen Style
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpen
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extcreatepen
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpen"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extcreatepen"/>
     /// </para>
     /// </summary>
     public enum PenStyles : uint

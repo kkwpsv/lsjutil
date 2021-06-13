@@ -5,7 +5,7 @@
     /// Product Types
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getproductinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getproductinfo"/>
     /// </para>
     /// </summary>
     public enum ProductTypes : uint

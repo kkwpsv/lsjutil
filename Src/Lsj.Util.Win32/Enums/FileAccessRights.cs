@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// The following table lists the access rights that are specific to files and directories.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/fileio/file-access-rights-constants
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/fileio/file-access-rights-constants"/>
     /// </para>
     /// </summary>
     public enum FileAccessRights : uint

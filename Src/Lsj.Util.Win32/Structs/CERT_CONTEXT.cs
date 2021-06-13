@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// (which also must be freed by calling <see cref="CertFreeCertificateContext"/>).
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-cert_context
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wincrypt/ns-wincrypt-cert_context"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

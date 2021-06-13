@@ -7,7 +7,7 @@
     /// They are intended for specifying fonts when the exact typeface desired is not available.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9a632766-1f1c-4e2b-b1a4-f5b1a45f99ad
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9a632766-1f1c-4e2b-b1a4-f5b1a45f99ad"/>
     /// </para>
     /// </summary>
     public enum FamilyFont

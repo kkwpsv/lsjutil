@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="FindFirstFileEx"/>, or <see cref="FindNextFile"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-win32_find_dataw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-win32_find_dataw"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

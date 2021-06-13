@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// STRRET_TYPE
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-strret
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-strret"/>
     /// </para>
     /// </summary>
     public enum STRRET_TYPE : uint

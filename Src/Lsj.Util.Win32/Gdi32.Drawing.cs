@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32
         /// LineDDAProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-lineddaproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-lineddaproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="Arc"/> function draws an elliptical arc.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-arc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-arc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -106,7 +106,7 @@ namespace Lsj.Util.Win32
         /// The chord is outlined by using the current pen and filled by using the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-chord
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-chord"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DrawFocusRect"/> function draws a rectangle in the style used to indicate that the rectangle has the focus.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// The ellipse is outlined by using the current pen and is filled by using the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ellipse
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ellipse"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -222,7 +222,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ExtFloodFill"/> function fills an area of the display surface with the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extfloodfill
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extfloodfill"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -278,7 +278,7 @@ namespace Lsj.Util.Win32
         /// This function includes the left and top borders, but excludes the right and bottom borders of the rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-fillrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-fillrect"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -315,7 +315,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FillRgn"/> function fills a region by using the specified brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillrgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-fillrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -341,7 +341,7 @@ namespace Lsj.Util.Win32
         /// The area is assumed to be bounded as specified by the <paramref name="color"/> parameter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-floodfill
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-floodfill"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -378,7 +378,7 @@ namespace Lsj.Util.Win32
         /// The width and height of the border are always one logical unit.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-framerect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-framerect"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -408,7 +408,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="FrameRgn"/> function draws a border around the specified region by using the specified brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-framergn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-framergn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -440,7 +440,7 @@ namespace Lsj.Util.Win32
         /// Arc and rectangle functions use the arc direction.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getarcdirection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getarcdirection"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -459,7 +459,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetCurrentPositionEx"/> function retrieves the current position in logical coordinates.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcurrentpositionex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcurrentpositionex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -480,7 +480,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetPolyFillMode"/> function retrieves the current polygon fill mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpolyfillmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpolyfillmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -501,7 +501,7 @@ namespace Lsj.Util.Win32
         /// for each pixel in the rectangle's interior.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invertrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invertrect"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -527,7 +527,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="InvertRgn"/> function inverts the colors in the specified region.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-invertrgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-invertrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -553,7 +553,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LineDDA"/> function determines which pixels should be highlighted for a line defined by the specified starting and ending points.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-linedda
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-linedda"/>
         /// </para>
         /// </summary>
         /// <param name="xStart">
@@ -593,7 +593,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LineTo"/> function draws a line from the current position up to, but not including, the specified point.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lineto
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lineto"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -621,7 +621,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="MoveToEx"/> function updates the current position to the specified point and optionally returns the previous position.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-movetoex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-movetoex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -652,7 +652,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PaintRgn"/> function paints the specified region by using the brush currently selected into the device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paintrgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paintrgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -675,7 +675,7 @@ namespace Lsj.Util.Win32
         /// The pie is outlined by using the current pen and filled by using the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-pie
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-pie"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -723,7 +723,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PolyBezier"/> function draws one or more Bézier curves.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polybezier
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polybezier"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// The polygon is outlined by using the current pen and filled by using the current brush and polygon fill mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polygon
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polygon"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -793,7 +793,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="Polyline"/> function draws a series of line segments by connecting the points in the specified array.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polyline
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polyline"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -823,7 +823,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PolylineTo"/> function draws one or more straight lines.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polylineto
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polylineto"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -857,7 +857,7 @@ namespace Lsj.Util.Win32
         /// The polygons drawn by this function can overlap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polypolygon
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-polypolygon"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -897,7 +897,7 @@ namespace Lsj.Util.Win32
         /// The rectangle is outlined by using the current pen and filled by using the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectangle
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectangle"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -933,7 +933,7 @@ namespace Lsj.Util.Win32
         /// The rectangle is outlined by using the current pen and filled by using the current brush.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-roundrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-roundrect"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -972,7 +972,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetPolyFillMode"/> function sets the polygon fill mode for functions that fill polygons.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpolyfillmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpolyfillmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

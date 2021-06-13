@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="POINTFX"/> structure contains the coordinates of points that describe the outline of a character in a TrueType font.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-pointfx
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-pointfx"/>
     /// </para>
     /// </summary>
     /// <remarks>

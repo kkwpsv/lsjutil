@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// Windows Messages
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues"/>
     /// </para>
     /// </summary>
     public enum WindowsMessages : uint
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32.Enums
         /// However, only owner-drawn buttons respond to the parent window processing this message.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorbtn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorbtn"/>
         /// </para>
         /// </summary>
         WM_CTLCOLORBTN = 0x0135,
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32.Enums
         /// to realize its logical palette and update its client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-palettechanged
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-palettechanged"/>
         /// </para>
         /// </summary>
         WM_PALETTECHANGED = 0x0311,
@@ -198,7 +198,7 @@ namespace Lsj.Util.Win32.Enums
         /// The <see cref="WM_PALETTEISCHANGING"/> message informs applications that an application is going to realize its logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paletteischanging
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paletteischanging"/>
         /// </para>
         /// </summary>
         WM_PALETTEISCHANGING = 0x0310,
@@ -209,7 +209,7 @@ namespace Lsj.Util.Win32.Enums
         /// giving the window the opportunity to realize its logical palette when it receives the focus.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-querynewpalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-querynewpalette"/>
         /// </para>
         /// </summary>
         WM_QUERYNEWPALETTE = 0x030F,
@@ -219,7 +219,7 @@ namespace Lsj.Util.Win32.Enums
         /// The <see cref="WM_SYSCOLORCHANGE"/> message is sent to all top-level windows when a change is made to a system color setting.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syscolorchange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syscolorchange"/>
         /// </para>
         /// </summary>
         WM_SYSCOLORCHANGE = 0x0015,
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32.Enums
         /// to retrieve information about the user's current font selections.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-getlogfont
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-getlogfont"/>
         /// </para>
         /// </summary>
         WM_CHOOSEFONT_GETLOGFONT = WM_USER + 1,
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32.Enums
         /// An application sends the <see cref="WM_CHOOSEFONT_SETFLAGS"/> message to a Font dialog box to set the display options for the dialog box.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setflags
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setflags"/>
         /// </para>
         /// </summary>
         WM_CHOOSEFONT_SETFLAGS = WM_USER + 102,
@@ -254,7 +254,7 @@ namespace Lsj.Util.Win32.Enums
         /// An application sends the <see cref="WM_CHOOSEFONT_SETLOGFONT"/> message to a Font dialog box to set the current logical font information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setlogfont
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/wm-choosefont-setlogfont"/>
         /// </para>
         /// </summary>
         WM_CHOOSEFONT_SETLOGFONT = WM_USER + 101,
@@ -316,7 +316,7 @@ namespace Lsj.Util.Win32.Enums
         /// created with the <see cref="CBS_SORT"/> or <see cref="LBS_SORT"/> style.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-compareitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-compareitem"/>
         /// </para>
         /// </summary>
         WM_COMPAREITEM = 0x0039,
@@ -327,7 +327,7 @@ namespace Lsj.Util.Win32.Enums
         /// combo box, list box, or menu has changed.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-drawitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-drawitem"/>
         /// </para>
         /// </summary>
         WM_DRAWITEM = 0x002B,
@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sent to the owner window of a combo box, list box, list-view control, or menu item when the control or menu is created.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-measureitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-measureitem"/>
         /// </para>
         /// </summary>
         WM_MEASUREITEM = 0x002C,
@@ -351,7 +351,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sent by a common control to its parent window when an event has occurred or the control requires some information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notify
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notify"/>
         /// </para>
         /// </summary>
         WM_NOTIFY = 0x004E,
@@ -362,7 +362,7 @@ namespace Lsj.Util.Win32.Enums
         /// <see cref="WM_NOTIFYFORMAT"/> messages are sent from a common control to its parent window and from the parent window to the common control.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notifyformat
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-notifyformat"/>
         /// </para>
         /// </summary>
         WM_NOTIFYFORMAT = 0x0055,
@@ -429,7 +429,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-devmodechange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-devmodechange"/>
         /// </para>
         /// </summary>
         WM_DEVMODECHANGE = 0x001B,
@@ -558,7 +558,7 @@ namespace Lsj.Util.Win32.Enums
         /// When this message is sent to an edit control, the previously deleted text is restored or the previously added text is deleted.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-undo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-undo"/>
         /// </para>
         /// </summary>
         WM_UNDO = 0x0304,
@@ -575,7 +575,7 @@ namespace Lsj.Util.Win32.Enums
         /// and background colors of the edit control.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcoloredit
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcoloredit"/>
         /// </para>
         /// </summary>
         WM_CTLCOLOREDIT = 0x0133,
@@ -589,7 +589,7 @@ namespace Lsj.Util.Win32.Enums
         /// An application sends the <see cref="WM_FONTCHANGE"/> message to all top-level windows in the system after changing the pool of font resources.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-fontchange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-fontchange"/>
         /// </para>
         /// </summary>
         WM_FONTCHANGE = 0x001D,
@@ -610,7 +610,7 @@ namespace Lsj.Util.Win32.Enums
         /// This is the scale factor that the window should be scaling to for threads that are aware of DPI changes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged"/>
         /// </para>
         /// </summary>
         WM_DPICHANGED = 0x02E0,
@@ -621,7 +621,7 @@ namespace Lsj.Util.Win32.Enums
         /// This message occurs before the top-level window receives <see cref="WM_DPICHANGED"/>, and traverses the child tree from the bottom up.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged-beforeparent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged-beforeparent"/>
         /// </para>
         /// </summary>
         WM_DPICHANGED_BEFOREPARENT = 0x02E2,
@@ -632,7 +632,7 @@ namespace Lsj.Util.Win32.Enums
         /// This message occurs after the top-level window receives WM_DPICHANGED, and traverses the child tree from the top down.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged-afterparent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-dpichanged-afterparent"/>
         /// </para>
         /// </summary>
         WM_DPICHANGED_AFTERPARENT = 0x02E3,
@@ -647,7 +647,7 @@ namespace Lsj.Util.Win32.Enums
         /// Use this message to alter the size of the rect that is provided with <see cref="WM_DPICHANGED"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-getdpiscaledsize
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/hidpi/wm-getdpiscaledsize"/>
         /// </para>
         /// </summary>
         WM_GETDPISCALEDSIZE = 0x02E4,
@@ -846,7 +846,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sent by a list box with the <see cref="LBS_WANTKEYBOARDINPUT"/> style to its owner in response to a <see cref="WM_CHAR"/> message.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-chartoitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-chartoitem"/>
         /// </para>
         /// </summary>
         WM_CHARTOITEM = 0x002F,
@@ -858,7 +858,7 @@ namespace Lsj.Util.Win32.Enums
         /// by using the specified display device context handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorlistbox
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorlistbox"/>
         /// </para>
         /// </summary>
         WM_CTLCOLORLISTBOX = 0x0134,
@@ -871,7 +871,7 @@ namespace Lsj.Util.Win32.Enums
         /// The system sends the <see cref="WM_DELETEITEM"/> message for any deleted list box or combo box item with nonzero item data.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-deleteitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-deleteitem"/>
         /// </para>
         /// </summary>
         WM_DELETEITEM = 0x002D,
@@ -881,7 +881,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sent by a list box with the <see cref="LBS_WANTKEYBOARDINPUT"/> style to its owner in response to a <see cref="WM_KEYDOWN"/> message.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-vkeytoitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-vkeytoitem"/>
         /// </para>
         /// </summary>
         WM_VKEYTOITEM = 0x002E,
@@ -1265,7 +1265,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-displaychange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-displaychange"/>
         /// </para>
         /// </summary>
         WM_DISPLAYCHANGE = 0x007E,
@@ -1276,7 +1276,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-ncpaint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-ncpaint"/>
         /// </para>
         /// </summary>
         WM_NCPAINT = 0x0085,
@@ -1291,7 +1291,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-paint"/>
         /// </para>
         /// </summary>
         WM_PAINT = 0x000F,
@@ -1303,7 +1303,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-print
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-print"/>
         /// </para>
         /// </summary>
         WM_PRINT = 0x0317,
@@ -1317,7 +1317,7 @@ namespace Lsj.Util.Win32.Enums
         /// for it to be used properly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-printclient
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-printclient"/>
         /// </para>
         /// </summary>
         WM_PRINTCLIENT = 0x0318,
@@ -1329,7 +1329,7 @@ namespace Lsj.Util.Win32.Enums
         /// To send this message, call the <see cref="SendMessage"/> function with the following parameters.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-setredraw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-setredraw"/>
         /// </para>
         /// </summary>
         WM_SETREDRAW = 0x000B,
@@ -1340,7 +1340,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syncpaint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/gdi/wm-syncpaint"/>
         /// </para>
         /// </summary>
         WM_SYNCPAINT = 0x0088,
@@ -1364,7 +1364,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerdown
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerdown"/>
         /// </para>
         /// </summary>
         WM_NCPOINTERDOWN = 0x0242,
@@ -1385,7 +1385,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerup"/>
         /// </para>
         /// </summary>
         WM_NCPOINTERUP = 0x0243,
@@ -1407,7 +1407,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerupdate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-ncpointerupdate"/>
         /// </para>
         /// </summary>
         WM_NCPOINTERUPDATE = 0x0241,
@@ -1428,7 +1428,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-parentnotify
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-parentnotify"/>
         /// </para>
         /// </summary>
         WM_PARENTNOTIFY = 0x0210,
@@ -1441,7 +1441,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointeractivate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointeractivate"/>
         /// </para>
         /// </summary>
         WM_POINTERACTIVATE = 0x024B,
@@ -1452,7 +1452,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointercapturechanged
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointercapturechanged"/>
         /// </para>
         /// </summary>
         WM_POINTERCAPTURECHANGED = 0x024C,
@@ -1469,7 +1469,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdevicechange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdevicechange"/>
         /// </para>
         /// </summary>
         WM_POINTERDEVICECHANGE = 0x238,
@@ -1486,7 +1486,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceinrange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceinrange"/>
         /// </para>
         /// </summary>
         WM_POINTERDEVICEINRANGE = 0x239,
@@ -1503,7 +1503,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceoutofrange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdeviceoutofrange"/>
         /// </para>
         /// </summary>
         WM_POINTERDEVICEOUTOFRANGE = 0x23A,
@@ -1522,7 +1522,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdown
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerdown"/>
         /// </para>
         /// </summary>
         WM_POINTERDOWN = 0x0246,
@@ -1540,7 +1540,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerenter
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerenter"/>
         /// </para>
         /// </summary>
         WM_POINTERENTER = 0x0249,
@@ -1557,7 +1557,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerleave
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerleave"/>
         /// </para>
         /// </summary>
         WM_POINTERLEAVE = 0x024A,
@@ -1570,7 +1570,7 @@ namespace Lsj.Util.Win32.Enums
         /// This message is sent to the process currently receiving pointer input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedaway
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedaway"/>
         /// </para>
         /// </summary>
         WM_POINTERROUTEDAWAY = 0x0252,
@@ -1582,7 +1582,7 @@ namespace Lsj.Util.Win32.Enums
         /// associated with a specific pointer ID, when a <see cref="WM_POINTERUP"/> message is received on the current process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedreleased
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedreleased"/>
         /// </para>
         /// </summary>
         WM_POINTERROUTEDRELEASED = 0x0253,
@@ -1594,7 +1594,7 @@ namespace Lsj.Util.Win32.Enums
         /// This message is sent to the process not currently receiving pointer input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedto
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerroutedto"/>
         /// </para>
         /// </summary>
         WM_POINTERROUTEDTO = 0x0251,
@@ -1614,7 +1614,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerup"/>
         /// </para>
         /// </summary>
         WM_POINTERUP = 0x0247,
@@ -1628,7 +1628,7 @@ namespace Lsj.Util.Win32.Enums
         /// over which the pointer made contact and that window continues to receive input for the pointer until it breaks contact.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerupdate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerupdate"/>
         /// </para>
         /// </summary>
         WM_POINTERUPDATE = 0x0245,
@@ -1645,7 +1645,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerwheel
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerwheel"/>
         /// </para>
         /// </summary>
         WM_POINTERWHEEL = 0x024E,
@@ -1662,7 +1662,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerhwheel
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-pointerhwheel"/>
         /// </para>
         /// </summary>
         WM_POINTERHWHEEL = 0x024F,
@@ -1678,7 +1678,7 @@ namespace Lsj.Util.Win32.Enums
         /// For more information, see Writing High-DPI Win32 Applications.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-touchhittesting
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputmsg/wm-touchhittesting"/>
         /// </para>
         /// </summary>
         WM_TOUCHHITTESTING = 0x024D,
@@ -1692,7 +1692,7 @@ namespace Lsj.Util.Win32.Enums
         /// Notifies applications that the system, typically a battery-powered personal computer, is about to enter a suspended mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/power/wm-power
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/power/wm-power"/>
         /// </para>
         /// </summary>
         WM_POWER = 0x0048,
@@ -1703,7 +1703,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/power/wm-powerbroadcast
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/power/wm-powerbroadcast"/>
         /// </para>
         /// </summary>
         WM_POWERBROADCAST = 0x0218,
@@ -1753,7 +1753,7 @@ namespace Lsj.Util.Win32.Enums
         /// Sent when the user drops a file on the window of an application that has registered itself as a recipient of dropped files.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-dropfiles
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-dropfiles"/>
         /// </para>
         /// </summary>
         WM_DROPFILES = 0x0233,
@@ -1766,7 +1766,7 @@ namespace Lsj.Util.Win32.Enums
         /// If no window has the keyboard focus, <see cref="WM_HELP"/> is sent to the currently active window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-help
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-help"/>
         /// </para>
         /// </summary>
         WM_HELP = 0x0053,
@@ -1778,7 +1778,7 @@ namespace Lsj.Util.Win32.Enums
         /// An application initiates a training card by specifying the <see cref="HELP_TCARD"/> command in a call to the <see cref="WinHelp"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-tcard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/wm-tcard"/>
         /// </para>
         /// </summary>
         WM_TCARD = 0x0052,
@@ -1795,7 +1795,7 @@ namespace Lsj.Util.Win32.Enums
         /// to set the text foreground and background colors of the static control.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorstatic
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/wm-ctlcolorstatic"/>
         /// </para>
         /// </summary>
         WM_CTLCOLORSTATIC = 0x0138,
@@ -1815,7 +1815,7 @@ namespace Lsj.Util.Win32.Enums
         ///A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-settingchange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-settingchange"/>
         /// </para>
         /// </summary>
         WM_SETTINGCHANGE = WM_WININICHANGE,
@@ -1827,7 +1827,7 @@ namespace Lsj.Util.Win32.Enums
         /// A window receives this message through its WindowProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-wininichange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winmsg/wm-wininichange"/>
         /// </para>
         /// </summary>
         /// <remarks>
@@ -1847,7 +1847,7 @@ namespace Lsj.Util.Win32.Enums
         /// The <see cref="WM_ENDSESSION"/> message informs the application whether the session is ending.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/shutdown/wm-endsession
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shutdown/wm-endsession"/>
         /// </para>
         /// </summary>
         WM_ENDSESSION = 0x0016,
@@ -2174,7 +2174,7 @@ namespace Lsj.Util.Win32.Enums
         /// Notifies the window when one or more touch points, such as a finger or pen, touches a touch-sensitive digitizer surface.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/wintouch/wm-touchdown
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/wintouch/wm-touchdown"/>
         /// </para>
         /// </summary>
         WM_TOUCH = 0x0240,

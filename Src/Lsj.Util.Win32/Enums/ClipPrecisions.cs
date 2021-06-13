@@ -7,8 +7,8 @@
     /// These flags can be combined to specify multiple options.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/c85e4c50-f581-4d22-826c-854e7b50e75d
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/c85e4c50-f581-4d22-826c-854e7b50e75d"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw"/>
     /// </para>
     /// </summary>
     public enum ClipPrecisions : int

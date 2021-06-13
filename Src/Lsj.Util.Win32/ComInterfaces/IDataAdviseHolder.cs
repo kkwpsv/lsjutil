@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Advise sinks are also usually associated with OLE compound document containers.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-idataadviseholder
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-idataadviseholder"/>
     /// </para>
     /// </summary>
     public unsafe struct IDataAdviseHolder

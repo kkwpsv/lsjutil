@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// File Share Modes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilew
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-createfilew"/>
     /// </para>
     /// </summary>
     public enum FileShareModes : uint

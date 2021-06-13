@@ -33,7 +33,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// These notifications are asynchronous, occurring after the events that trigger them.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iadvisesink
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-iadvisesink"/>
     /// </para>
     /// </summary>
     public unsafe struct IAdviseSink

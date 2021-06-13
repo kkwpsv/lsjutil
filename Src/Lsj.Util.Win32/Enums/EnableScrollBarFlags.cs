@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="EnableScrollBar"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablescrollbar
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablescrollbar"/>
     /// </para>
     /// </summary>
     public enum EnableScrollBarFlags : uint

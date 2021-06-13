@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes the changes found by the <see cref="ReadDirectoryChangesW"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-file_notify_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-file_notify_information"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

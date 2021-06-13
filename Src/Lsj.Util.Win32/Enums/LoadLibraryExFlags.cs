@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="LoadLibraryEx"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibraryexw"/>
     /// </para>
     /// </summary>
     public enum LoadLibraryExFlags

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Indicates whether an object should be saved before closing.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-oleclose
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-oleclose"/>
     /// </para>
     /// </summary>
     public enum OLECLOSE

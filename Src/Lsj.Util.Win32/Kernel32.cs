@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// EnumCodePagesProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/dd317809(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpCodePageString">
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// The function is synchronous; it performs an alertable wait and does not return control to its caller until the sound finishes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/utilapiset/nf-utilapiset-beep
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/utilapiset/nf-utilapiset-beep"/>
         /// </para>
         /// </summary>
         /// <param name="dwFreq">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// This function can handle strings consisting of either single- or multi-byte characters.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-charprevw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszStart">
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// Enumerates the code pages that are either installed on or supported by an operating system.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-enumsystemcodepagesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpCodePageEnumProc">
@@ -176,7 +176,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about any valid installed or available code page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfoexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getcpinfoexw"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// The application should call this function in preference to <see cref="GetNLSVersion"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-getnlsversionex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-getnlsversionex"/>
         /// </para>
         /// </summary>
         /// <param name="function">
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the address of an exported function or variable from the specified dynamic-link library (DLL).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress"/>
         /// </para>
         /// </summary>
         /// <param name="hModule">
@@ -318,7 +318,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadcodeptr
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadcodeptr"/>
         /// </para>
         /// </summary>
         /// <param name="lpfn">
@@ -351,7 +351,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadreadptr
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadreadptr"/>
         /// </para>
         /// </summary>
         /// <param name="lp">
@@ -398,7 +398,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadstringptrw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadstringptrw"/>
         /// </para>
         /// </summary>
         /// <param name="lpsz">
@@ -447,7 +447,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Remarks on this page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadwriteptr
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-isbadwriteptr"/>
         /// </para>
         /// </summary>
         /// <param name="lp">
@@ -494,7 +494,7 @@ namespace Lsj.Util.Win32
         /// To use a different code page, your application should use the <see cref="IsDBCSLeadByteEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyte"/>
         /// </para>
         /// </summary>
         /// <param name="TestChar">
@@ -528,7 +528,7 @@ namespace Lsj.Util.Win32
         /// A lead byte is the first byte of a two-byte character in a double-byte character set (DBCS) for the code page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isdbcsleadbyteex"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -573,7 +573,7 @@ namespace Lsj.Util.Win32
         /// Determines if a specified code page is valid.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidcodepage
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-isvalidcodepage"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -603,7 +603,7 @@ namespace Lsj.Util.Win32
         /// Multiplies two 32-bit values and then divides the 64-bit result by a third 32-bit value. The final result is rounded to the nearest integer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-muldiv
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-muldiv"/>
         /// </para>
         /// </summary>
         /// <param name="nNumber">
@@ -655,7 +655,7 @@ namespace Lsj.Util.Win32
         /// Therefore, the frequency need only be queried upon application initialization, and the result can be cached.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency"/>
         /// </para>
         /// </summary>
         /// <param name="lpFrequency">
@@ -680,7 +680,7 @@ namespace Lsj.Util.Win32
         /// Fills a block of memory with zeros. It is designed to be a more secure version of <see cref="ZeroMemory"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920%28v%3dvs.85%29
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920%28v%3dvs.85%29"/>
         /// </para>
         /// </summary>
         /// <param name="dest">
@@ -704,7 +704,7 @@ namespace Lsj.Util.Win32
         /// Runs the specified application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-winexec
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-winexec"/>
         /// </para>
         /// </summary>
         /// <param name="lpCmdLine">
@@ -761,7 +761,7 @@ namespace Lsj.Util.Win32
         /// To avoid any undesired effects of optimizing compilers, use the <see cref="SecureZeroMemory"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa366920(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Destination">

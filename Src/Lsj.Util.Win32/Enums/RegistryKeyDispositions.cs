@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Registry Key Dispositions
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcreatekeyexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regcreatekeyexw"/>
     /// </para>
     /// </summary>
     public enum RegistryKeyDispositions : uint

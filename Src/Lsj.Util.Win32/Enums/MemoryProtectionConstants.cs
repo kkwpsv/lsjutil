@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// Protection attributes cannot be assigned to a portion of a page; they can only be assigned to a whole page.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/memory/memory-protection-constants
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/memory/memory-protection-constants"/>
     /// </para>
     /// </summary>
     [Flags]

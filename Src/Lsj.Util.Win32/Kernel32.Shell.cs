@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the command-line string for the current process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getcommandlinew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processenv/nf-processenv-getcommandlinew"/>
         /// </para>
         /// </summary>
         /// <returns>

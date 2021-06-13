@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Common Dialog Box Notifications
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/common-dialog-box-notifications
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlgbox/common-dialog-box-notifications"/>
     /// </para>
     /// </summary>
     public enum CommonDialogBoxNotifications : uint

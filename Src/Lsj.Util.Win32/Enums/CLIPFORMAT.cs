@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Enums
     /// These clipboard formats are described in the following table.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dataxchg/standard-clipboard-formats"/>
     /// </para>
     /// </summary>
     public enum CLIPFORMAT : uint

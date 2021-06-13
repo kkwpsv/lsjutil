@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="LUID_AND_ATTRIBUTES"/> represents a locally unique identifier (LUID) and its attributes.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows-hardware/drivers/ddi/wdm/ns-wdm-_luid_and_attributes
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/ddi/wdm/ns-wdm-_luid_and_attributes"/>
     /// </para>
     /// </summary>
     /// <remarks>

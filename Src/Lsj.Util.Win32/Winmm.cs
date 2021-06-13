@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeBeginPeriod"/> function requests a minimum resolution for periodic timers.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timebeginperiod
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timebeginperiod"/>
         /// </para>
         /// </summary>
         /// <param name="uPeriod">
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeGetDevCaps"/> function queries the timer device to determine its resolution.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timegetdevcaps
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timegetdevcaps"/>
         /// </para>
         /// </summary>
         /// <param name="ptc">
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="timeEndPeriod"/> function clears a previously set minimum timer resolution.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timeendperiod
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/timeapi/nf-timeapi-timeendperiod"/>
         /// </para>
         /// </summary>
         /// <param name="uPeriod">

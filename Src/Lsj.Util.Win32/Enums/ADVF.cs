@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Flags that control caching and notification of changes in data.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-advf
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-advf"/>
     /// </para>
     /// </summary>
     public enum ADVF

@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32
         /// Name of an invariant locale that provides stable locale and calendar data.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
         public static readonly StringHandle LOCALE_NAME_INVARIANT = "";
@@ -36,7 +36,7 @@ namespace Lsj.Util.Win32
         /// Your application must use the constant for the maximum locale name length, instead of hard-coding the value "85". 
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
         public const int LOCALE_NAME_MAX_LENGTH = 85;
@@ -46,7 +46,7 @@ namespace Lsj.Util.Win32
         /// Name of the current operating system locale.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
         public static readonly StringHandle LOCALE_NAME_SYSTEM_DEFAULT = "!x-sys-default-locale";
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// This locale can be different from the locale for the current user interface language.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/intl/locale-name-constants"/>
         /// </para>
         /// </summary>
         public static readonly StringHandle LOCALE_NAME_USER_DEFAULT = NULL;
@@ -79,7 +79,7 @@ namespace Lsj.Util.Win32
         /// Any application that will be run only on Windows Vista and later should use <see cref="CompareStringEx"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringw"/>
         /// </para>
         /// </summary>
         /// <param name="Locale">
@@ -140,7 +140,7 @@ namespace Lsj.Util.Win32
         /// Compares two Unicode strings to test binary equivalence.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringordinal
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringordinal"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// The application should call this function in preference to <see cref="CompareString"/> if designed to run only on Windows Vista and later.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-comparestringex"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocaleName">
@@ -345,7 +345,7 @@ namespace Lsj.Util.Win32
         /// Appends one string to another.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcatw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcatw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -368,7 +368,7 @@ namespace Lsj.Util.Win32
         /// To perform a comparison that is not case-sensitive, use the lstrcmpi function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -409,7 +409,7 @@ namespace Lsj.Util.Win32
         /// To perform a comparison that is case-sensitive, use the <see cref="lstrcmp"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpiw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcmpiw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -453,7 +453,7 @@ namespace Lsj.Util.Win32
         /// Copies a string to a buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpyw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpyw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -494,7 +494,7 @@ namespace Lsj.Util.Win32
         /// Copies a specified number of characters from a source string into a buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpynw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrcpynw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString1">
@@ -547,7 +547,7 @@ namespace Lsj.Util.Win32
         /// Determines the length of the specified string (not including the terminating null character).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrlenw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lstrlenw"/>
         /// </para>
         /// </summary>
         /// <param name="lpString">
@@ -580,7 +580,7 @@ namespace Lsj.Util.Win32
         /// HTML and XML files allow tagging, but text files do not.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-multibytetowidechar
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/stringapiset/nf-stringapiset-multibytetowidechar"/>
         /// </para>
         /// </summary>
         /// <param name="CodePage">
@@ -729,7 +729,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Using Unicode Normalization to Represent Strings.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-normalizestring
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/nf-winnls-normalizestring"/>
         /// </para>
         /// </summary>
         /// <param name="NormForm">

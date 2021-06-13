@@ -19,7 +19,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Exposed by all Shell namespace folder objects, its methods are used to manage folders.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishellfolder
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishellfolder"/>
     /// </para>
     /// </summary>
     /// <remarks>

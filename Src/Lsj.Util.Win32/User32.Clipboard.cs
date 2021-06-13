@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// Removes a specified window from the chain of clipboard viewers.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changeclipboardchain
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-changeclipboardchain"/>
         /// </para>
         /// </summary>
         /// <param name="hWndRemove">
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32
         /// Closes the clipboard.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closeclipboard"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -72,7 +72,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of different data formats currently on the clipboard.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-countclipboardformats
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-countclipboardformats"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// The function then assigns ownership of the clipboard to the window that currently has the clipboard open.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-emptyclipboard"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -114,7 +114,7 @@ namespace Lsj.Util.Win32
         /// For each call, the format parameter specifies an available clipboard format, and the function returns the next available clipboard format.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumclipboardformats
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumclipboardformats"/>
         /// </para>
         /// </summary>
         /// <param name="format">
@@ -154,7 +154,7 @@ namespace Lsj.Util.Win32
         /// The clipboard must have been opened previously.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboarddata
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboarddata"/>
         /// </para>
         /// </summary>
         /// <param name="uFormat">
@@ -188,7 +188,7 @@ namespace Lsj.Util.Win32
         /// The function copies the name to the specified buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardformatnamew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardformatnamew"/>
         /// </para>
         /// </summary>
         /// <param name="format">
@@ -215,7 +215,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the window handle of the current owner of the clipboard.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardowner
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardowner"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -236,7 +236,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the handle to the first window in the clipboard viewer chain.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardviewer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getclipboardviewer"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the handle to the window that currently has the clipboard open.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getopenclipboardwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getopenclipboardwindow"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -273,7 +273,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the first available clipboard format in the specified list.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpriorityclipboardformat
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpriorityclipboardformat"/>
         /// </para>
         /// </summary>
         /// <param name="paFormatPriorityList">
@@ -298,7 +298,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the clipboard contains data in the specified format.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isclipboardformatavailable
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isclipboardformatavailable"/>
         /// </para>
         /// </summary>
         /// <param name="format">
@@ -324,7 +324,7 @@ namespace Lsj.Util.Win32
         /// Opens the clipboard for examination and prevents other applications from modifying the clipboard content.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openclipboard"/>
         /// </para>
         /// </summary>
         /// <param name="hWndNewOwner">
@@ -352,7 +352,7 @@ namespace Lsj.Util.Win32
         /// Registers a new clipboard format. This format can then be used as a valid clipboard format.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclipboardformatw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-registerclipboardformatw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszFormat">
@@ -381,7 +381,7 @@ namespace Lsj.Util.Win32
         /// the clipboard owner must not call <see cref="OpenClipboard"/> before calling <see cref="SetClipboardData"/>.)
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboarddata"/>
         /// </para>
         /// </summary>
         /// <param name="uFormat">
@@ -427,7 +427,7 @@ namespace Lsj.Util.Win32
         /// This function is used for backward compatibility with earlier versions of Windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboardviewer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setclipboardviewer"/>
         /// </para>
         /// </summary>
         /// <param name="hWndNewViewer">

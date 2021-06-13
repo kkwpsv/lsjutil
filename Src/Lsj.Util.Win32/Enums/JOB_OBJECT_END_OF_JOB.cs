@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// JOB_OBJECT_END_OF_JOB
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_end_of_job_time_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_end_of_job_time_information"/>
     /// </para>
     /// </summary>
     public enum JOB_OBJECT_END_OF_JOB : uint

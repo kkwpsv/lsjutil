@@ -5,7 +5,7 @@
     /// Indicates the different variants of the display name associated with a class of objects.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-userclasstype
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/oleidl/ne-oleidl-userclasstype"/>
     /// </para>
     /// </summary>
     public enum USERCLASSTYPE : uint

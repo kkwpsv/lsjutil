@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Data is after DataLength, which cannot be marshal automatically.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-powerbroadcast_setting
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-powerbroadcast_setting"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

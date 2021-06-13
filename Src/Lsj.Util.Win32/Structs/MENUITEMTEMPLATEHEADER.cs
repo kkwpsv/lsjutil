@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// A complete menu template consists of a header and one or more menu item lists.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-menuitemtemplateheader
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-menuitemtemplateheader"/>
     /// </para>
     /// </summary>
     /// <remarks>

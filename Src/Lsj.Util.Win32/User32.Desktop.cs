@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// Closes an open handle to a desktop object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closedesktop
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closedesktop"/>
         /// </para>
         /// </summary>
         /// <param name="hDesktop">
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// Closes an open window station handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-closewindowstation"/>
         /// </para>
         /// </summary>
         /// <param name="hWinSta">
@@ -85,7 +85,7 @@ namespace Lsj.Util.Win32
         /// To specify the size of the heap for the desktop, use the <see cref="CreateDesktopEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdesktopw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdesktopw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszDesktop">
@@ -153,7 +153,7 @@ namespace Lsj.Util.Win32
         /// or set by the <see cref="SetProcessWindowStation"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdesktopexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createdesktopexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszDesktop">
@@ -226,7 +226,7 @@ namespace Lsj.Util.Win32
         /// Creates a window station object, associates it with the calling process, and assigns it to the current session.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowstationw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createwindowstationw"/>
         /// </para>
         /// </summary>
         /// <param name="lpwinsta">
@@ -275,7 +275,7 @@ namespace Lsj.Util.Win32
         /// It passes the handle to each window, in turn, to an application-defined callback function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdesktopwindows
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdesktopwindows"/>
         /// </para>
         /// </summary>
         /// <param name="hDesktop">
@@ -312,7 +312,7 @@ namespace Lsj.Util.Win32
         /// The desktop window is the area on top of which other windows are painted.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdesktopwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdesktopwindow"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -326,7 +326,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the current window station for the calling process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getprocesswindowstation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getprocesswindowstation"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -351,7 +351,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the desktop assigned to the specified thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getthreaddesktop
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getthreaddesktop"/>
         /// </para>
         /// </summary>
         /// <param name="dwThreadId">
@@ -381,7 +381,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the specified window station or desktop object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getuserobjectinformationw"/>
         /// </para>
         /// </summary>
         /// <param name="hObj">
@@ -419,7 +419,7 @@ namespace Lsj.Util.Win32
         /// Opens the specified desktop object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-opendesktopw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-opendesktopw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszDesktop">
@@ -461,7 +461,7 @@ namespace Lsj.Util.Win32
         /// Opens the specified window station.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openwindowstationw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openwindowstationw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszWinSta">
@@ -494,7 +494,7 @@ namespace Lsj.Util.Win32
         /// Opens the desktop that receives user input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openinputdesktop
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-openinputdesktop"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -535,7 +535,7 @@ namespace Lsj.Util.Win32
         /// All subsequent operations on the window station use the access rights granted to <paramref name="hWinSta"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocesswindowstation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocesswindowstation"/>
         /// </para>
         /// </summary>
         /// <param name="hWinSta">
@@ -558,7 +558,7 @@ namespace Lsj.Util.Win32
         /// All subsequent operations on the desktop use the access rights granted to the desktop.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddesktop
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddesktop"/>
         /// </para>
         /// </summary>
         /// <param name="hDesktop">

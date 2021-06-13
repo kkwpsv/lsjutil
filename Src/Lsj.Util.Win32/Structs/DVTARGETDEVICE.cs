@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// so a handle to a device context (HDC) can be created using the <see cref="CreateDC"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-dvtargetdevice
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-dvtargetdevice"/>
     /// </para>
     /// </summary>
     /// <remarks>

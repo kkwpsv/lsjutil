@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CopyRect"/> function copies the coordinates of one rectangle to another.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-copyrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprcDst">
@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32
         /// by comparing the coordinates of their upper-left and lower-right corners.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-equalrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-equalrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprc1">
@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32
         /// If the source rectangles do not intersect, an empty rectangle (in which all coordinates are set to zero) is placed into the destination rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-intersectrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-intersectrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprcDst">
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// and negative values decrease them.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-inflaterect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-inflaterect"/>
         /// </para>
         /// </summary>
         /// <param name="lprc">
@@ -136,7 +136,7 @@ namespace Lsj.Util.Win32
         /// or the coordinate of the bottom side is less than or equal to the coordinate of the top side.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isrectempty
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isrectempty"/>
         /// </para>
         /// </summary>
         /// <param name="lprc">
@@ -159,7 +159,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OffsetRect"/> function moves the specified rectangle by the specified offsets.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-offsetrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-offsetrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprc">
@@ -192,7 +192,7 @@ namespace Lsj.Util.Win32
         /// A point on the right or bottom side is considered outside the rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ptinrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-ptinrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprc">
@@ -254,7 +254,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetRectEmpty"/> function creates an empty rectangle in which all coordinates are set to zero.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setrectempty
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setrectempty"/>
         /// </para>
         /// </summary>
         /// <param name="lprc">
@@ -277,7 +277,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SubtractRect"/> function determines the coordinates of a rectangle formed by subtracting one rectangle from another.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-subtractrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-subtractrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprcDst">
@@ -316,7 +316,7 @@ namespace Lsj.Util.Win32
         /// The union is the smallest rectangle that contains both source rectangles.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unionrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-unionrect"/>
         /// </para>
         /// </summary>
         /// <param name="lprcDst">

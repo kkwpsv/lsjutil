@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used with the <see cref="GetLogicalProcessorInformationEx"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-numa_node_relationship
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-numa_node_relationship"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// Stops a system shutdown that has been initiated.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-abortsystemshutdownw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-abortsystemshutdownw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -86,7 +86,7 @@ namespace Lsj.Util.Win32
         /// Access to <see cref="TOKEN_ADJUST_GROUPS"/> is required to enable or disable groups in an access token.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokengroups"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -154,7 +154,7 @@ namespace Lsj.Util.Win32
         /// Enabling or disabling privileges in an access token requires <see cref="TOKEN_ADJUST_PRIVILEGES"/> access.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-adjusttokenprivileges"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -245,7 +245,7 @@ namespace Lsj.Util.Win32
         /// If you want to determine group membership for app container tokens, you need to use the <see cref="CheckTokenMembershipEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembership"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -289,7 +289,7 @@ namespace Lsj.Util.Win32
         /// and its access control lists (ACLs) to a format that supports automatic propagation of inheritable access control entries (ACEs).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-converttoautoinheritprivateobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="ParentDescriptor">
@@ -365,7 +365,7 @@ namespace Lsj.Util.Win32
         /// except that the caller does not need to call the <see cref="LogonUser"/> function to authenticate the user and get a token.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithlogonw"/>
         /// </para>
         /// </summary>
         /// <param name="lpUsername">
@@ -597,7 +597,7 @@ namespace Lsj.Util.Win32
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createprocesswithtokenw"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -812,7 +812,7 @@ namespace Lsj.Util.Win32
         /// Generally, it is best to use <see cref="CreateProcessWithLogonW"/> to create a process with alternate credentials.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessasuserw"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -1082,7 +1082,7 @@ namespace Lsj.Util.Win32
         /// For background information, see the Security Descriptors for Private Objects topic.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-destroyprivateobjectsecurity"/>
         /// </para>
         /// </summary>
         /// <param name="ObjectDescriptor">
@@ -1102,7 +1102,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DuplicateToken"/> function creates a new access token that duplicates one already in existence.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetoken"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -1138,7 +1138,7 @@ namespace Lsj.Util.Win32
         /// This function can create either a primary token or an impersonation token.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-duplicatetokenex"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -1246,7 +1246,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetSecurityDescriptorControl"/> function retrieves a security descriptor control and revision information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-getsecuritydescriptorcontrol"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1275,7 +1275,7 @@ namespace Lsj.Util.Win32
         /// this function should be called before attempting network access to generate an anonymous token on the remote server.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateanonymoustoken"/>
         /// </para>
         /// </summary>
         /// <param name="ThreadHandle">
@@ -1302,7 +1302,7 @@ namespace Lsj.Util.Win32
         /// This protects secure server data from unauthorized DDE clients.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dde/nf-dde-impersonateddeclientwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWndClient">
@@ -1341,7 +1341,7 @@ namespace Lsj.Util.Win32
         /// The user is represented by a token handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateloggedonuser"/>
         /// </para>
         /// </summary>
         /// <param name="hToken">
@@ -1385,7 +1385,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ImpersonateNamedPipeClient"/> function impersonates a named-pipe client application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/namedpipeapi/nf-namedpipeapi-impersonatenamedpipeclient"/>
         /// </para>
         /// </summary>
         /// <param name="hNamedPipe">
@@ -1425,7 +1425,7 @@ namespace Lsj.Util.Win32
         /// The token is assigned to the calling thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-impersonateself"/>
         /// </para>
         /// </summary>
         /// <param name="ImpersonationLevel">
@@ -1451,7 +1451,7 @@ namespace Lsj.Util.Win32
         /// To record a reason for the shutdown in the event log, call the <see cref="InitiateSystemShutdownEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -1537,7 +1537,7 @@ namespace Lsj.Util.Win32
         /// Initiates a shutdown and optional restart of the specified computer, and optionally records the reason for the shutdown.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-initiatesystemshutdownexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMachineName">
@@ -1629,7 +1629,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="IsTokenRestricted"/> function indicates whether a token contains a list of restricted security identifiers (SIDs).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-istokenrestricted"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -1662,7 +1662,7 @@ namespace Lsj.Util.Win32
         /// to create a process that runs in the context of the specified user.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-logonuserw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-logonuserw"/>
         /// </para>
         /// </summary>
         /// <param name="lpszUsername">
@@ -1766,7 +1766,7 @@ namespace Lsj.Util.Win32
         /// represented on a specific system by a specified locally unique identifier (LUID).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-lookupprivilegenamew"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemName">
@@ -1809,7 +1809,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocesstoken"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessHandle">
@@ -1841,7 +1841,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OpenThreadToken"/> function opens the access token associated with a thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthreadtoken
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-openthreadtoken"/>
         /// </para>
         /// </summary>
         /// <param name="ThreadHandle">
@@ -1884,7 +1884,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RevertToSelf"/> function terminates the impersonation of a client application.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-reverttoself"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -1913,7 +1913,7 @@ namespace Lsj.Util.Win32
         /// such as <see cref="SetSecurityDescriptorDacl"/>, for modifying the components of a security descriptor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorcontrol"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -1944,7 +1944,7 @@ namespace Lsj.Util.Win32
         /// If a DACL is already present in the security descriptor, the DACL is replaced.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptordacl"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -2005,7 +2005,7 @@ namespace Lsj.Util.Win32
         /// replacing any primary group information already present in the security descriptor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorgroup"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -2038,7 +2038,7 @@ namespace Lsj.Util.Win32
         /// It replaces any owner information already present in the security descriptor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorowner"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">
@@ -2071,7 +2071,7 @@ namespace Lsj.Util.Win32
         /// If there is already a SACL present in the security descriptor, it is replaced.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-setsecuritydescriptorsacl"/>
         /// </para>
         /// </summary>
         /// <param name="pSecurityDescriptor">

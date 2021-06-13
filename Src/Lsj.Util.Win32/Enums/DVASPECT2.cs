@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies new drawing aspects used to optimize the drawing process.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/ocidl/ne-ocidl-dvaspect2
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ocidl/ne-ocidl-dvaspect2"/>
     /// </para>
     /// </summary>
     /// <remarks>

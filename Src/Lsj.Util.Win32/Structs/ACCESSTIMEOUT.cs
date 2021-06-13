@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// The accessibility time-out also affects the high contrast mode setting.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-accesstimeout
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-accesstimeout"/>
     /// </para>
     /// </summary>
     /// <remarks>

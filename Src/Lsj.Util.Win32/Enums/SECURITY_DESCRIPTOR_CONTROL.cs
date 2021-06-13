@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Each security descriptor has a Control member that stores the <see cref="SECURITY_DESCRIPTOR_CONTROL"/> bits.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-control
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/security-descriptor-control"/>
     /// </para>
     /// </summary>
     /// <remarks>

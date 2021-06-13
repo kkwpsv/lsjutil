@@ -5,7 +5,7 @@
     /// Resource Types
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/menurc/resource-types
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/menurc/resource-types"/>
     /// </para>
     /// </summary>
     public enum ResourceTypes : uint

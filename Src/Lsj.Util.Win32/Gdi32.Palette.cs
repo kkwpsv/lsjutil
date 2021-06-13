@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="AnimatePalette"/> function replaces entries in the specified logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-animatepalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-animatepalette"/>
         /// </para>
         /// </summary>
         /// <param name="hPal">
@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreatePalette"/> function creates a logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createpalette"/>
         /// </para>
         /// </summary>
         /// <param name="plpal">
@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32
         /// in the specified logical palette most closely matching a specified color value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestpaletteindex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestpaletteindex"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -108,7 +108,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetPaletteEntries"/> function retrieves a specified range of palette entries from the given logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpaletteentries
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpaletteentries"/>
         /// </para>
         /// </summary>
         /// <param name="hpal">
@@ -146,7 +146,7 @@ namespace Lsj.Util.Win32
         /// that is associated with the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteentries
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteentries"/>
         /// </para>
         /// </summary>
         /// <param name="hpal">
@@ -180,7 +180,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetSystemPaletteUse"/> function retrieves the current state of the system (physical) palette for the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getsystempaletteuse"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -208,7 +208,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RealizePalette"/> function maps palette entries from the current logical palette to the system palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-realizepalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-realizepalette"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -238,7 +238,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ResizePalette"/> function increases or decreases the size of a logical palette based on the specified value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resizepalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resizepalette"/>
         /// </para>
         /// </summary>
         /// <param name="hpal">
@@ -267,7 +267,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SelectPalette"/> function selects the specified logical palette into a device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectpalette
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectpalette"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -310,7 +310,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetPaletteEntries"/> function sets RGB (red, green, blue) color values and flags in a range of entries in a logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpaletteentries
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpaletteentries"/>
         /// </para>
         /// </summary>
         /// <param name="hpal">
@@ -346,7 +346,7 @@ namespace Lsj.Util.Win32
         /// (Static colors cannot be changed when an application realizes a logical palette.)
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setsystempaletteuse"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -397,7 +397,7 @@ namespace Lsj.Util.Win32
         /// by remapping the current colors in the client area to the currently realized logical palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-updatecolors
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-updatecolors"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

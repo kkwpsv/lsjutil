@@ -6,7 +6,7 @@
     /// The values are used to indicate whether the characters in a font have a fixed or variable width, or pitch.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/22dbe377-aec4-4669-88e6-b8fdd9351d76
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/22dbe377-aec4-4669-88e6-b8fdd9351d76"/>
     /// </para>
     /// </summary>
     public enum PitchFont

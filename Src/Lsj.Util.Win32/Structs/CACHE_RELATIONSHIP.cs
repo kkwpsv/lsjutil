@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes cache attributes. This structure is used with the <see cref="GetLogicalProcessorInformationEx"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-cache_relationship
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-cache_relationship"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

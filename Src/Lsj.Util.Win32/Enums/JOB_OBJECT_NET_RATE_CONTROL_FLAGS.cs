@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies types of scheduling policies for network rate control.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-job_object_net_rate_control_flags
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-job_object_net_rate_control_flags"/>
     /// </para>
     /// </summary>
     [Flags]

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="InSendMessageEx"/> Results
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessageex?redirectedfrom=MSDN
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insendmessageex?redirectedfrom=MSDN"/>
     /// </para>
     /// </summary>
     public enum InSendMessageExResults : uint

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="MONITORINFOEX"/> flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-monitorinfo"/>
     /// </para>
     /// </summary>
     public enum MONITORINFOFlags

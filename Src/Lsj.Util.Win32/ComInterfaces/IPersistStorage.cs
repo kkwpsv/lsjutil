@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// in which each contained object has its own storage that is nested within the container's storage.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersiststorage
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ipersiststorage"/>
     /// </para>
     /// </summary>
     public unsafe struct IPersistStorage

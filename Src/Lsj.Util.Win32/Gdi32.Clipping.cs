@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32
         /// that consists of the existing clipping region minus the specified rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-excludecliprect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-excludecliprect"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32
         /// The visible area is defined by the current clipping region or clip path, as well as any overlapping windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getclipbox
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getclipbox"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32
         /// and the specified rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-intersectcliprect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-intersectcliprect"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -118,7 +118,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OffsetClipRgn"/> function moves the clipping region of a device context by the specified offsets.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetcliprgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetcliprgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -145,7 +145,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PtVisible"/> function determines whether the specified point is within the clipping region of a device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ptvisible
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-ptvisible"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -170,7 +170,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RectVisible"/> function determines whether any part of the specified rectangle lies within the clipping region of a device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectvisible
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rectvisible"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -197,7 +197,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SelectClipRgn"/> function selects a region as the current clipping region for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectcliprgn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectcliprgn"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

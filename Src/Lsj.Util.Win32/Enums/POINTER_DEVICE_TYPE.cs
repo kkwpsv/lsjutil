@@ -5,7 +5,7 @@
     /// Identifies the pointer device types.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-pointer_device_type
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ne-winuser-pointer_device_type"/>
     /// </para>
     /// </summary>
     public enum POINTER_DEVICE_TYPE

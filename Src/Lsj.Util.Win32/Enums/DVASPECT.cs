@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies the desired data or view aspect of the object when drawing or getting data.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ne-wtypes-dvaspect
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypes/ne-wtypes-dvaspect"/>
     /// </para>
     /// </summary>
     /// <remarks>

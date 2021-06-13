@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// When the user activates the linked object to edit it, the moniker is bound; this loads the link source into memory.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imoniker
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-imoniker"/>
     /// </para>
     /// </summary>
     public unsafe struct IMoniker

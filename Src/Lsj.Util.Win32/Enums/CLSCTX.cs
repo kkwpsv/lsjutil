@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// in which a class object is to be made available for requests to construct instances.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ne-wtypesbase-clsctx
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wtypesbase/ne-wtypesbase-clsctx"/>
     /// </para>
     /// </summary>
     [Flags]

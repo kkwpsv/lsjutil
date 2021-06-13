@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// JOBOBJECTINFOCLASS
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject"/>
     /// </para>
     /// </summary>
     public enum JOBOBJECTINFOCLASS

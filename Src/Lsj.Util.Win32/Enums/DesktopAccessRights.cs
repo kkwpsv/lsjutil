@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Desktop Access Rights
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/winstation/desktop-security-and-access-rights
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winstation/desktop-security-and-access-rights"/>
     /// </para>
     /// </summary>
     public enum DesktopAccessRights : uint

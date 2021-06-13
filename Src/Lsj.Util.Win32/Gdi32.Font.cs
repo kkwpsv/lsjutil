@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32
         /// EnumFontFamExProc is a placeholder for the application defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162618(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162618(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpelfe">
@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32
         /// To mark a font as private or not enumerable, use the <see cref="AddFontResourceEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontresourcew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontresourcew"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -132,7 +132,7 @@ namespace Lsj.Util.Win32
         /// Fonts added with the <see cref="AddFontResourceEx"/> function can be marked as private and not enumerable.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontresourceexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-addfontresourceexw"/>
         /// </para>
         /// </summary>
         /// <param name="name">
@@ -189,7 +189,7 @@ namespace Lsj.Util.Win32
         /// The logical font can subsequently be selected as the font for any device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontw"/>
         /// </para>
         /// </summary>
         /// <param name="cHeight">
@@ -352,7 +352,7 @@ namespace Lsj.Util.Win32
         /// The font can subsequently be selected as the current font for any device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectw"/>
         /// </para>
         /// </summary>
         /// <param name="lplf">
@@ -389,7 +389,7 @@ namespace Lsj.Util.Win32
         /// The font can subsequently be selected as the current font for any device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createfontindirectexw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -418,7 +418,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateScalableFontResource"/> function creates a font resource file for a scalable font.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createscalablefontresourcew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createscalablefontresourcew"/>
         /// </para>
         /// </summary>
         /// <param name="fdwHidden">
@@ -520,7 +520,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnumFontFamilies"/> function enumerates the fonts in a specified font family that are available on a specified device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -567,7 +567,7 @@ namespace Lsj.Util.Win32
         /// <see cref="EnumFontFamiliesEx"/> enumerates fonts based on typeface name, character set, or both.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumfontfamiliesexw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetAspectRatioFilterEx"/> function retrieves the setting for the current aspect-ratio filter.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getaspectratiofilterex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getaspectratiofilterex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -707,7 +707,7 @@ namespace Lsj.Util.Win32
         /// This function succeeds only with TrueType fonts.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharabcwidthsw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharabcwidthsw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -797,7 +797,7 @@ namespace Lsj.Util.Win32
         /// that is selected into the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getglyphoutlinew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getglyphoutlinew"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -875,7 +875,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetKerningPairs"/> function retrieves the character-kerning pairs for the currently selected font for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getkerningpairsw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getkerningpairsw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -902,7 +902,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetOutlineTextMetrics"/> function retrieves text metrics for TrueType fonts.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getoutlinetextmetricsw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getoutlinetextmetricsw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -932,7 +932,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetRasterizerCaps"/> function returns flags indicating whether TrueType fonts are installed in the system.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrasterizercaps
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrasterizercaps"/>
         /// </para>
         /// </summary>
         /// <param name="lpraststat">
@@ -961,7 +961,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextFace"/> function retrieves the typeface name of the font that is selected into the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextfacew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextfacew"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -994,7 +994,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextMetrics"/> function fills the specified buffer with the metrics for the currently selected font.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextmetrics
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextmetrics"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1022,7 +1022,7 @@ namespace Lsj.Util.Win32
         /// If the font was added using the <see cref="AddFontResourceEx"/> function, you must use the <see cref="RemoveFontResourceEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourcew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourcew"/>
         /// </para>
         /// </summary>
         /// <param name="lpFileName">
@@ -1054,7 +1054,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RemoveFontResourceEx"/> function removes the fonts in the specified file from the system font table.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourceexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-removefontresourceexw"/>
         /// </para>
         /// </summary>
         /// <param name="name">
@@ -1097,7 +1097,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetMapperFlags"/> function alters the algorithm the font mapper uses when it maps logical fonts to physical fonts.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmapperflags
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmapperflags"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

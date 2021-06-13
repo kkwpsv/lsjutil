@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// while isolating the root storage from the details of accessing the physical storage.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ilockbytes
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-ilockbytes"/>
     /// </para>
     /// </summary>
     public unsafe struct ILockBytes

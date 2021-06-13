@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="COLORINFO"/> structure defines a device's colors in CIE coordinate space.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-colorinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-colorinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

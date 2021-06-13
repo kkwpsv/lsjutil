@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// or written to the input buffer by using the <see cref="WriteConsoleInput"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/input-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/input-record-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

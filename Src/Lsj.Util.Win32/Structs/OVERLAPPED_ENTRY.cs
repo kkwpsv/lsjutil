@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains the information returned by a call to the <see cref="GetQueuedCompletionStatusEx"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-overlapped_entry
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-overlapped_entry"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

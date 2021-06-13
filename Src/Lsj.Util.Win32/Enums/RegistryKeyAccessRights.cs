@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// and <see cref="WRITE_OWNER"/> standard access rights. Registry keys do not support the <see cref="SYNCHRONIZE"/> standard access right.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/sysinfo/registry-key-security-and-access-rights
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/sysinfo/registry-key-security-and-access-rights"/>
     /// </para>
     /// </summary>
     public enum RegistryKeyAccessRights

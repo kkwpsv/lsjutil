@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="FILE_REMOTE_PROTOCOL_INFO"/> Flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_remote_protocol_info"/>
     /// </para>
     /// </summary>
     public enum RemoteProtocolFlags : uint

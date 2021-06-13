@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Allows you to pass a particular user name and password to the run-time library for the purpose of authentication.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sspi/ns-sspi-sec_winnt_auth_identity_w
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sspi/ns-sspi-sec_winnt_auth_identity_w"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="LOGPALETTE"/> structure defines a logical palette.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logpalette
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logpalette"/>
     /// </para>
     /// </summary>
     /// <remarks>

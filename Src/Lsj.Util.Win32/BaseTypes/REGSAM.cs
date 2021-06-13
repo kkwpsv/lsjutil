@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// A data type used for specifying the security access attributes in the registry.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/shell/regsam
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/shell/regsam"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 4)]

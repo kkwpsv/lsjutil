@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="FindFirstFileEx"/> flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/nf-fileapi-findfirstfileexw"/>
     /// </para>
     /// </summary>
     [Flags]

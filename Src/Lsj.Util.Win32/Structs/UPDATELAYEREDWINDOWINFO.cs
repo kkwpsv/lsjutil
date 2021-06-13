@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// Used by <see cref="UpdateLayeredWindowIndirect"/> to provide position, size, shape, content, and translucency information for a layered window.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-updatelayeredwindowinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-updatelayeredwindowinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

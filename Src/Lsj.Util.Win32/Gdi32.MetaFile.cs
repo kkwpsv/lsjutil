@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32
         /// EnumMetaFileProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162630(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162630(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -56,7 +56,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateMetaFile"/> function creates a device context for a Windows-format metafile.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createmetafilew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createmetafilew"/>
         /// </para>
         /// </summary>
         /// <param name="pszFile">
@@ -97,7 +97,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CloseMetaFile"/> function closes a metafile device context and returns a handle that identifies a Windows-format metafile.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-closemetafile
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-closemetafile"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -123,7 +123,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CopyMetaFile"/> function copies the content of a Windows-format metafile to the specified file.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-copymetafilew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-copymetafilew"/>
         /// </para>
         /// </summary>
         /// <param name="arg1">
@@ -154,7 +154,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DeleteEnhMetaFile"/> function deletes an enhanced-format metafile or an enhanced-format metafile handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteenhmetafile
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteenhmetafile"/>
         /// </para>
         /// </summary>
         /// <param name="hmf">
@@ -177,7 +177,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DeleteMetaFile"/> function deletes a Windows-format metafile or Windows-format metafile handle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletemetafile
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletemetafile"/>
         /// </para>
         /// </summary>
         /// <param name="hmf">
@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// The enumeration continues until the last record is processed or when the callback function returns zero.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enummetafile
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enummetafile"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -241,7 +241,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetMetaFile"/> function creates a handle that identifies the metafile stored in the specified file.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmetafilew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmetafilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -265,7 +265,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetEnhMetaFile"/> function creates a handle that identifies the enhanced-format metafile stored in the specified file.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getenhmetafilew"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -291,7 +291,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PlayMetaFile"/> function displays the picture stored in the given Windows-format metafile on the specified device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafile
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafile"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -325,7 +325,7 @@ namespace Lsj.Util.Win32
         /// by executing the graphics device interface (GDI) function contained within that record.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafilerecord
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-playmetafilerecord"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -366,7 +366,7 @@ namespace Lsj.Util.Win32
         /// to the new enhanced format and stores the new metafile in memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwinmetafilebits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwinmetafilebits"/>
         /// </para>
         /// </summary>
         /// <param name="nSize">

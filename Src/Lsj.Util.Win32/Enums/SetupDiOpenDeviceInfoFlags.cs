@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="SetupDiOpenDeviceInfo"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetclassdevsw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetclassdevsw"/>
     /// </para>
     /// </summary>
     public enum SetupDiOpenDeviceInfoFlags : uint

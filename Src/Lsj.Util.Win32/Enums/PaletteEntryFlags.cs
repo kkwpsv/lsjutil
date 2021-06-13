@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="PALETTEENTRY"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162769(v=vs.85)
+    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162769(v=vs.85)"/>
     /// </para>
     /// </summary>
     public enum PaletteEntryFlags : byte

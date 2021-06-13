@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// to specify the type of file or folder names used by those methods.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-_shgdnf
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/ne-shobjidl_core-_shgdnf"/>
     /// </para>
     /// </summary>
     /// <remarks>

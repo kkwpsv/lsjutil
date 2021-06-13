@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure is used in a call <see cref="SHGetStockIconInfo"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shstockiconinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/ns-shellapi-shstockiconinfo"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

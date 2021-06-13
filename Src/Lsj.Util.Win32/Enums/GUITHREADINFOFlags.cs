@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="GUITHREADINFO"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-guithreadinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-guithreadinfo"/>
     /// </para>
     /// </summary>
     public enum GUITHREADINFOFlags : uint

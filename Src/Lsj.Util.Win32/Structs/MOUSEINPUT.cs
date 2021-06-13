@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a simulated mouse event.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-mouseinput
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-mouseinput"/>
     /// </para>
     /// </summary>
     /// <remarks>

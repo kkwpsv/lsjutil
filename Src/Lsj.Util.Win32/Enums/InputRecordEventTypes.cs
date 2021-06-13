@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="INPUT_RECORD"/> Event Type
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/input-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/input-record-str"/>
     /// </para>
     /// </summary>
     public enum InputRecordEventTypes : ushort

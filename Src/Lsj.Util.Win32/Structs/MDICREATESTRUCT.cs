@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about the class, title, owner, location, and size of a multiple-document interface (MDI) child window.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-mdicreatestructw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-mdicreatestructw"/>
     /// </para>
     /// </summary>
     /// <remarks>

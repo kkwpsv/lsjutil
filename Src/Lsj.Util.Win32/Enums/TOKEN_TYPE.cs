@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The <see cref="TOKEN_TYPE"/> enumeration contains values that differentiate between a primary token and an impersonation token.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-token_type
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ne-winnt-token_type"/>
     /// </para>
     /// </summary>
     public enum TOKEN_TYPE

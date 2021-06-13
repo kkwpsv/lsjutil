@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Therefore, the three methods in <see cref="IUnknown"/> are the first entries in the vtable for every interface.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/unknwn/nn-unknwn-iunknown
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/unknwn/nn-unknwn-iunknown"/>
     /// </para>
     /// </summary>
     public unsafe struct IUnknown

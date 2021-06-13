@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Structs
     /// Used generically to filter elements.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-comdlg_filterspec
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-comdlg_filterspec"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes a change in the size of the console screen buffer.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/window-buffer-size-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/window-buffer-size-record-str"/>
     /// </para>
     /// </summary>
     /// <remarks>

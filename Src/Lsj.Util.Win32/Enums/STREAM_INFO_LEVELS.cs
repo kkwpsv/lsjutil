@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Defines values that are used with the <see cref="FindFirstStreamW"/> function to specify the information level of the returned data.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/ne-fileapi-stream_info_levels
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/fileapi/ne-fileapi-stream_info_levels"/>
     /// </para>
     /// </summary>
     public enum STREAM_INFO_LEVELS

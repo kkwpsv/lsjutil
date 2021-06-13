@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// Attaches or detaches the input processing mechanism of one thread to that of another thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-attachthreadinput
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-attachthreadinput"/>
         /// </para>
         /// </summary>
         /// <param name="idAttach">
@@ -74,7 +74,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the window handle to the active window attached to the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getactivewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getactivewindow"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -94,7 +94,7 @@ namespace Lsj.Util.Win32
         /// and whether the key was pressed after a previous call to <see cref="GetAsyncKeyState"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getasynckeystate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getasynckeystate"/>
         /// </para>
         /// </summary>
         /// <param name="vKey">
@@ -143,7 +143,7 @@ namespace Lsj.Util.Win32
         /// Only one window at a time can capture the mouse; this window receives mouse input whether or not the cursor is within its borders.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcapture
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getcapture"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -166,7 +166,7 @@ namespace Lsj.Util.Win32
         /// The maximum double-click time is 5000 milliseconds.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdoubleclicktime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdoubleclicktime"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the handle to the window that has the keyboard focus, if the window is attached to the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getfocus
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getfocus"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -203,7 +203,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the current code page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkbcodepage
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkbcodepage"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -220,7 +220,7 @@ namespace Lsj.Util.Win32
         /// Copies the status of the 256 virtual keys to the specified buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardstate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardstate"/>
         /// </para>
         /// </summary>
         /// <param name="lpKeyState">
@@ -262,7 +262,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the current keyboard.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardtype
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeyboardtype"/>
         /// </para>
         /// </summary>
         /// <param name="nTypeFlag">
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a string that represents the name of a key.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeynametextw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeynametextw"/>
         /// </para>
         /// </summary>
         /// <param name="lParam">
@@ -349,7 +349,7 @@ namespace Lsj.Util.Win32
         /// The status specifies whether the key is up, down, or toggled (on, off—alternating each time the key is pressed).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeystate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getkeystate"/>
         /// </para>
         /// </summary>
         /// <param name="nVirtKey">
@@ -394,7 +394,7 @@ namespace Lsj.Util.Win32
         /// Gets device properties that aren't included in the <see cref="POINTER_DEVICE_INFO"/> structure.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdeviceproperties
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdeviceproperties"/>
         /// </para>
         /// </summary>
         /// <param name="device">
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// Gets information about the pointer devices attached to the system.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdevices
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdevices"/>
         /// </para>
         /// </summary>
         /// <param name="deviceCount">
@@ -457,7 +457,7 @@ namespace Lsj.Util.Win32
         /// To specify a handle to the keyboard layout to use for translating the specified code, use the <see cref="MapVirtualKeyEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapvirtualkeyw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapvirtualkeyw"/>
         /// </para>
         /// </summary>
         /// <param name="uCode">
@@ -492,7 +492,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="mouse_event"/> function synthesizes mouse motion and button clicks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mouse_event
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mouse_event"/>
         /// </para>
         /// </summary>
         /// <param name="dwFlags">
@@ -609,7 +609,7 @@ namespace Lsj.Util.Win32
         /// The function provides information that allows a program to send OEM text to another program by simulating keyboard input.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-oemkeyscan
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-oemkeyscan"/>
         /// </para>
         /// </summary>
         /// <param name="wOemChar">
@@ -646,7 +646,7 @@ namespace Lsj.Util.Win32
         /// except when a mouse button is clicked while the cursor hot spot is in the window of another thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasecapture
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasecapture"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -665,7 +665,7 @@ namespace Lsj.Util.Win32
         /// Synthesizes keystrokes, mouse motions, and button clicks.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendinput
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-sendinput"/>
         /// </para>
         /// </summary>
         /// <param name="cInputs">
@@ -710,7 +710,7 @@ namespace Lsj.Util.Win32
         /// Activates a window. The window must be attached to the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setactivewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setactivewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -741,7 +741,7 @@ namespace Lsj.Util.Win32
         /// the system will direct mouse input to the specified window only if a mouse button is down.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcapture
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setcapture"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -770,7 +770,7 @@ namespace Lsj.Util.Win32
         /// The window must be attached to the calling thread's message queue.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setfocus
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setfocus"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -804,7 +804,7 @@ namespace Lsj.Util.Win32
         /// Changes made to this table do not affect keyboard input to any other thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setkeyboardstate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setkeyboardstate"/>
         /// </para>
         /// </summary>
         /// <param name="lpKeyState">
@@ -829,7 +829,7 @@ namespace Lsj.Util.Win32
         /// Reverses or restores the meaning of the left and right mouse buttons.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-swapmousebutton
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-swapmousebutton"/>
         /// </para>
         /// </summary>
         /// <param name="fSwap">
@@ -904,7 +904,7 @@ namespace Lsj.Util.Win32
         /// Posts messages when the mouse pointer leaves a window or hovers over a window for a specified amount of time.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackmouseevent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackmouseevent"/>
         /// </para>
         /// </summary>
         /// <param name="lpEventTrack">
@@ -940,7 +940,7 @@ namespace Lsj.Util.Win32
         /// Translates a character to the corresponding virtual-key code and shift state for the current keyboard.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-vkkeyscanw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-vkkeyscanw"/>
         /// </para>
         /// </summary>
         /// <param name="ch">

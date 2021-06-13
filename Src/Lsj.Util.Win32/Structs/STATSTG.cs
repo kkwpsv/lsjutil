@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="IStorage"/>, and <see cref="IStream"/> interfaces.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-statstg
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-statstg"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

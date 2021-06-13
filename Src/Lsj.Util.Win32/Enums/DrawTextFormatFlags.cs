@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="DrawText"/> FormatFlags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext"/>
     /// </para>
     /// </summary>
     [Flags]

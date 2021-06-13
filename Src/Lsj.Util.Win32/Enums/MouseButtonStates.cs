@@ -5,7 +5,7 @@
     /// Mouse Button States
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/mouse-event-record-str"/>
     /// </para>
     /// </summary>
     public enum MouseButtonStates : uint

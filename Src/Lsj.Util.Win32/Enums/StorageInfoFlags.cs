@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="FILE_STORAGE_INFO"/> Flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_storage_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-file_storage_info"/>
     /// </para>
     /// </summary>
     public enum StorageInfoFlags : uint

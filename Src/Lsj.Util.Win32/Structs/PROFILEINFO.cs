@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information used when loading or unloading a user profile.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/profinfo/ns-profinfo-profileinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/profinfo/ns-profinfo-profileinfow"/>
     /// </para>
     /// </summary>
     /// <remarks>

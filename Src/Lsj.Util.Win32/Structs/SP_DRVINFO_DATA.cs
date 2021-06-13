@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// a particular device instance or globally with a device information set.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/ns-setupapi-sp_drvinfo_data_v2_w
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/ns-setupapi-sp_drvinfo_data_v2_w"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Process Priority Classes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass"/>
     /// </para>
     /// </summary>
     public enum ProcessPriorityClasses

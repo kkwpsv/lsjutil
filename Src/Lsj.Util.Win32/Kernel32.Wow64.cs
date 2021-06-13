@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified process is running under WOW64 or an Intel64 of x64 processor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -52,7 +52,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified process is running under WOW64; also returns additional machine process and architecture information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process2
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process2"/>
         /// </para>
         /// </summary>
         /// <param name="hProcess">
@@ -89,7 +89,7 @@ namespace Lsj.Util.Win32
         /// Disables file system redirection for the calling thread. File system redirection is enabled by default.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64disablewow64fsredirection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64disablewow64fsredirection"/>
         /// </para>
         /// </summary>
         /// <param name="OldValue">
@@ -138,7 +138,7 @@ namespace Lsj.Util.Win32
         /// or the <see cref="Wow64RevertWow64FsRedirection"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wow64enablewow64fsredirection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wow64enablewow64fsredirection"/>
         /// </para>
         /// </summary>
         /// <param name="Wow64FsEnableRedirection">
@@ -176,7 +176,7 @@ namespace Lsj.Util.Win32
         /// Any data allocation on behalf of the <see cref="Wow64DisableWow64FsRedirection"/> function is cleaned up by this function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64revertwow64fsredirection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wow64apiset/nf-wow64apiset-wow64revertwow64fsredirection"/>
         /// </para>
         /// </summary>
         /// <param name="OlValue"></param>
@@ -201,7 +201,7 @@ namespace Lsj.Util.Win32
         /// Suspends the specified WOW64 thread.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wow64suspendthread
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-wow64suspendthread"/>
         /// </para>
         /// </summary>
         /// <param name="hThread">

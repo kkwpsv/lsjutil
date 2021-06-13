@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// The new seek position is calculated using this value and the dlibMove parameter.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-stream_seek
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ne-objidl-stream_seek"/>
     /// </para>
     /// </summary>
     public enum STREAM_SEEK : uint

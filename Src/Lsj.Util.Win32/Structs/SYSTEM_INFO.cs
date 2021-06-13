@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// This includes the architecture and type of the processor, the number of processors in the system, the page size, and other such information.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/ns-sysinfoapi-system_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

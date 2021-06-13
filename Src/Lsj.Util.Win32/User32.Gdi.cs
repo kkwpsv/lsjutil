@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32
         /// A value of type <see cref="MONITORENUMPROC"/> is a pointer to a MonitorEnumProc function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-monitorenumproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-monitorenumproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -87,7 +87,7 @@ namespace Lsj.Util.Win32
         /// and fills a <see cref="PAINTSTRUCT"/> structure with information about the painting.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-beginpaint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-beginpaint"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -121,7 +121,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ClientToScreen"/> function converts the client-area coordinates of a specified point to screen coordinates.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-clienttoscreen
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-clienttoscreen"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -150,7 +150,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DrawEdge"/> function draws one or more edges of rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawedge
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawedge"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -214,7 +214,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DrawFocusRect"/> function draws a rectangle in the style used to indicate that the rectangle has the focus.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawfocusrect"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -246,7 +246,7 @@ namespace Lsj.Util.Win32
         /// This function is required for each call to the <see cref="BeginPaint"/> function, but only after painting is complete.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-endpaint
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-endpaint"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -270,7 +270,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnumDisplayDevices"/> function lets you obtain information about the display devices in the current session.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw"/>
         /// </para>
         /// </summary>
         /// <param name="lpDevice">
@@ -334,7 +334,7 @@ namespace Lsj.Util.Win32
         /// Note that <code>GetSystemMetrics(SM_CMONITORS)</code> counts only the display monitors.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -397,7 +397,7 @@ namespace Lsj.Util.Win32
         /// by excluding an updated region in the window from a clipping region.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-excludeupdatergn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-excludeupdatergn"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -425,7 +425,7 @@ namespace Lsj.Util.Win32
         /// which gives an application more control over how and whether clipping occurs in the client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdc"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -448,7 +448,7 @@ namespace Lsj.Util.Win32
         /// which gives an application more control over how and whether clipping occurs in the client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdcex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdcex"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -492,7 +492,7 @@ namespace Lsj.Util.Win32
         /// Previous attributes are lost.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowdc"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -525,7 +525,7 @@ namespace Lsj.Util.Win32
         /// <see cref="GetUpdateRect"/> retrieves an empty rectangle (sets all coordinates to zero).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdaterect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdaterect"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -560,7 +560,7 @@ namespace Lsj.Util.Win32
         /// The coordinates of the update region are relative to the upper-left corner of the window (that is, they are client coordinates).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdatergn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getupdatergn"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -593,7 +593,7 @@ namespace Lsj.Util.Win32
         /// The update region represents the portion of the window's client area that must be redrawn.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidaterect 
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidaterect "/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -634,7 +634,7 @@ namespace Lsj.Util.Win32
         /// is marked for painting when the next <see cref="WM_PAINT"/> message occurs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidatergn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-invalidatergn"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -670,7 +670,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadbitmapw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadbitmapw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">A handle to the instance of the module whose executable file contains the bitmap to be loaded.</param>
@@ -688,7 +688,7 @@ namespace Lsj.Util.Win32
         /// Only one window can be locked at a time.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lockwindowupdate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-lockwindowupdate"/>
         /// </para>
         /// </summary>
         /// <param name="hWndLock">
@@ -725,7 +725,7 @@ namespace Lsj.Util.Win32
         /// to one window to a coordinate space relative to another window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapwindowpoints
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-mapwindowpoints"/>
         /// </para>
         /// </summary>
         /// <param name="hWndFrom">
@@ -790,7 +790,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="PrintWindow"/> function copies a visual window into the specified device context (DC), typically a printer DC.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-printwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-printwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -826,7 +826,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RedrawWindow"/> function updates the specified rectangle or region in a window's client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-redrawwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-redrawwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -877,7 +877,7 @@ namespace Lsj.Util.Win32
         /// It has no effect on class or private DCs.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-releasedc"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -906,7 +906,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ScreenToClient"/> function converts the screen coordinates of a specified point on the screen to client-area coordinates.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-screentoclient
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-screentoclient"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -942,7 +942,7 @@ namespace Lsj.Util.Win32
         /// If the update region is empty, no message is sent.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatewindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatewindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -961,7 +961,7 @@ namespace Lsj.Util.Win32
         /// by removing the rectangle from the update region of the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validaterect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validaterect"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -992,7 +992,7 @@ namespace Lsj.Util.Win32
         /// by removing the region from the current update region of the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validatergn
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-validatergn"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">

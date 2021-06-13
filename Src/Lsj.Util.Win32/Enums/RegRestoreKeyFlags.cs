@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="RegRestoreKey"/> Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regrestorekeyw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winreg/nf-winreg-regrestorekeyw"/>
     /// </para>
     /// </summary>
     public enum RegRestoreKeyFlags : uint

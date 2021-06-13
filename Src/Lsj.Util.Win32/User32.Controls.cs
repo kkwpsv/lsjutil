@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// Changes the check state of a button control.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkdlgbutton
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkdlgbutton"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -68,7 +68,7 @@ namespace Lsj.Util.Win32
         /// Adds a check mark to (checks) a specified radio button in a group and removes a check mark from (clears) all other radio buttons in the group.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkradiobutton
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkradiobutton"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -103,7 +103,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="EnableScrollBar"/> function enables or disables one or both scroll bar arrows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablescrollbar
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablescrollbar"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -145,7 +145,7 @@ namespace Lsj.Util.Win32
         /// the page size, and the position of the scroll box (thumb).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollinfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -235,7 +235,7 @@ namespace Lsj.Util.Win32
         /// For example, if the scrolling range is 0 through 100 and the scroll box is in the middle of the bar, the current position is 50.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollpos"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -280,7 +280,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetScrollRange"/> function retrieves the current minimum and maximum scroll box (thumb) positions for the specified scroll bar.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollrange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getscrollrange"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32
         /// or whether a three-state button control is checked, unchecked, or indeterminate.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-isdlgbuttonchecked"/>
         /// </para>
         /// </summary>
         /// <param name="hDlg">
@@ -362,7 +362,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ScrollDC"/> function scrolls a rectangle of bits horizontally and vertically.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrolldc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrolldc"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -419,7 +419,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ScrollWindow"/> function scrolls the contents of the specified window's client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrollwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrollwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -479,7 +479,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ScrollWindowEx"/> function scrolls the contents of the specified window's client area.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrollwindowex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-scrollwindowex"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -553,7 +553,7 @@ namespace Lsj.Util.Win32
         /// The function also redraws the scroll bar, if requested.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollinfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollinfo"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -616,7 +616,7 @@ namespace Lsj.Util.Win32
         /// if requested, redraws the scroll bar to reflect the new position of the scroll box.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollpos
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollpos"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -672,7 +672,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetScrollRange"/> function sets the minimum and maximum scroll box positions for the specified scroll bar.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollrange
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setscrollrange"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -736,7 +736,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ShowScrollBar"/> function shows or hides the specified scroll bar.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showscrollbar
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-showscrollbar"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">

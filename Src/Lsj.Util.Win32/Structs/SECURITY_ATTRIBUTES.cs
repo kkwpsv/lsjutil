@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Structs
     /// <see cref="RegCreateKeyEx"/>, or <see cref="RegSaveKeyEx"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/aa379560(v%3Dvs.85)
+    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/aa379560(v%3Dvs.85)"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

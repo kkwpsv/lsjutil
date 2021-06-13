@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Pipe Modes for <see cref="CreateNamedPipe"/>
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-createnamedpipea"/>
     /// </para>
     /// </summary>
     [Flags]

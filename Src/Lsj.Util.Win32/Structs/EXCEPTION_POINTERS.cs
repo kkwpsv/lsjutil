@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// with a machine-dependent description of the processor context at the time of the exception.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-exception_pointers
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-exception_pointers"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

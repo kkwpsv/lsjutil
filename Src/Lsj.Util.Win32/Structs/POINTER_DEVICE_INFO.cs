@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// A single structure is returned from a call to the <see cref="GetPointerDevice"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_device_info
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-pointer_device_info"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

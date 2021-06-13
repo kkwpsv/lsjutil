@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Structs
     /// with the <see cref="JobObjectNotificationLimitInformation2"/> information class.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_notification_limit_information_2
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-jobobject_notification_limit_information_2"/>
     /// </para>
     /// </summary>
     /// <remarks>

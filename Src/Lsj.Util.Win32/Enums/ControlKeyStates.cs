@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Control Key States
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/console-readconsole-control
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/console-readconsole-control"/>
     /// </para>
     /// </summary>
     [Flags]

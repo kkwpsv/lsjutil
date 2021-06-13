@@ -5,7 +5,7 @@
     /// System Icons
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadiconw"/>
     /// </para>
     /// </summary>
     public enum SystemIcons

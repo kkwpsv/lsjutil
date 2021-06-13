@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32
         /// A successful connection is persistent, meaning that the system automatically restores the connection during subsequent logon operations.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetaddconnectionw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetaddconnectionw"/>
         /// </para>
         /// </summary>
         /// <param name="lpRemoteName">
@@ -84,7 +84,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WNetCancelConnection"/> function cancels an existing network connection.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetcancelconnectionw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetcancelconnectionw"/>
         /// </para>
         /// </summary>
         /// <param name="lpName">
@@ -136,7 +136,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="WNetGetConnection"/> function retrieves the name of the network resource associated with a local device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetgetconnectionw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnetwk/nf-winnetwk-wnetgetconnectionw"/>
         /// </para>
         /// </summary>
         /// <param name="lpLocalName">

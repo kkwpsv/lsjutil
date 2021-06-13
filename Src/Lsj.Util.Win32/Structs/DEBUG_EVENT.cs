@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// Describes a debugging event.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-debug_event
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/minwinbase/ns-minwinbase-debug_event"/>
     /// </para>
     /// </summary>
     /// <remarks>

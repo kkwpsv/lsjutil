@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="CreateEventEx"/> Flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createeventexw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createeventexw"/>
     /// </para>
     /// </summary>
     public enum CreateEventExFlags : uint

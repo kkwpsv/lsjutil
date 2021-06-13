@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// it creates an enumeration object and passes a pointer to the object's <see cref="IEnumIDList"/> interface back to the calling application.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ienumidlist
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ienumidlist"/>
     /// </para>
     /// </summary>
     /// <remarks>

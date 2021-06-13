@@ -6,7 +6,7 @@
     /// match those of the physical font when rendering text.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9518fece-d2f2-4799-9df6-ba3db1d73371
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/9518fece-d2f2-4799-9df6-ba3db1d73371"/>
     /// </para>
     /// </summary>
     public enum FontQualities

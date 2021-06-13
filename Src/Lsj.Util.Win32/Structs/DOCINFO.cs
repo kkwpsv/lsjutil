@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="DOCINFO"/> structure contains the input and output file names and other information used by the <see cref="StartDoc"/> function.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-docinfow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-docinfow"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

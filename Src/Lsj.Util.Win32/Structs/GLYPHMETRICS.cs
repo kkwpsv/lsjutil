@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="GLYPHMETRICS"/> structure contains information about the placement and orientation of a glyph in a character cell.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-glyphmetrics
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-glyphmetrics"/>
     /// </para>
     /// </summary>
     /// <remarks>

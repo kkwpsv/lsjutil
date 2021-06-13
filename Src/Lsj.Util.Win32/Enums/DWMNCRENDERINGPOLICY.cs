@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Flags used by the <see cref="DwmSetWindowAttribute"/> function to specify the non-client area rendering policy.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/ne-dwmapi-dwmncrenderingpolicy
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/dwmapi/ne-dwmapi-dwmncrenderingpolicy"/>
     /// </para>
     /// </summary>
     /// <remarks>

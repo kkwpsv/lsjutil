@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// the <see cref="CreateWindow"/> function when creating an MDI client window.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-clientcreatestruct
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/ns-winuser-clientcreatestruct"/>
     /// </para>
     /// </summary>
     /// <remarks>

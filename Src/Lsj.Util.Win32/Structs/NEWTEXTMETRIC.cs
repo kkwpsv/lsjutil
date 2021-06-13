@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="NEWTEXTMETRIC"/> structure contains data that describes a physical font.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-newtextmetricw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-newtextmetricw"/>
     /// </para>
     /// </summary>
     /// <remarks>

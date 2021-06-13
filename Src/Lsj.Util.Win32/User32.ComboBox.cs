@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32
         /// Use this macro or send the <see cref="CB_GETCUEBANNER"/> message explicitly.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-combobox_getcuebannertext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-combobox_getcuebannertext"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">

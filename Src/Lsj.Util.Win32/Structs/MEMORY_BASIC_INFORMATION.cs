@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="VirtualQuery"/> and <see cref="VirtualQueryEx"/> functions use this structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-memory_basic_information
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/ns-winnt-memory_basic_information"/>
     /// </para>
     /// </summary>
     /// <remarks>

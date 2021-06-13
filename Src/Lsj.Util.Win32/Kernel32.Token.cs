@@ -22,7 +22,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CheckTokenMembershipEx"/> function determines whether the specified SID is enabled in the specified token.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembershipex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-checktokenmembershipex"/>
         /// </para>
         /// </summary>
         /// <param name="TokenHandle">
@@ -58,7 +58,7 @@ namespace Lsj.Util.Win32
         /// For more information, see Restricted Tokens.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createrestrictedtoken"/>
         /// </para>
         /// </summary>
         /// <param name="ExistingTokenHandle">
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateWellKnownSid"/> function creates a SID for predefined aliases.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-createwellknownsid"/>
         /// </para>
         /// </summary>
         /// <param name="WellKnownSidType">

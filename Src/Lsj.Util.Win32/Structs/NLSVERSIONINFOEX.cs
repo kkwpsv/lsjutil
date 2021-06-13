@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains version information about an NLS capability.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ns-winnls-nlsversioninfoex
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ns-winnls-nlsversioninfoex"/>
     /// </para>
     /// </summary>
     /// <remarks>

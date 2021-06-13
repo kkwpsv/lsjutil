@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// EnumObjectsProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd162686(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162686(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpLogObject">
@@ -100,7 +100,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CancelDC"/> function cancels any pending operation on the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-canceldc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-canceldc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -124,7 +124,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateCompatibleDC"/> function creates a memory device context (DC) compatible with the specified device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatibledc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatibledc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDC"/> function creates a device context (DC) for a device using the specified name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdcw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdcw"/>
         /// </para>
         /// </summary>
         /// <param name="pwszDriver">
@@ -208,7 +208,7 @@ namespace Lsj.Util.Win32
         /// However, GDI drawing functions cannot accept a handle to an information context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createicw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createicw"/>
         /// </para>
         /// </summary>
         /// <param name="pszDriver">
@@ -246,7 +246,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DeleteDC"/> function deletes the specified device context (DC).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletedc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deletedc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
@@ -264,7 +264,7 @@ namespace Lsj.Util.Win32
         /// After the object is deleted, the specified handle is no longer valid.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-deleteobject"/>
         /// </para>
         /// </summary>
         /// <param name="hObject">A handle to a logical pen, brush, font, bitmap, region, or palette.</param>
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32
         /// and the world transformation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-dptolp
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-dptolp"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -314,7 +314,7 @@ namespace Lsj.Util.Win32
         /// or until all of the objects have been enumerated.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumobjects
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-enumobjects"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -346,7 +346,7 @@ namespace Lsj.Util.Win32
         /// Escape calls made by an application are translated and sent to the driver.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-escape
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-escape"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -395,7 +395,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ExtEscape"/> function enables an application to access device capabilities that are not available through GDI.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extescape
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-extescape"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -567,7 +567,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GdiFlush"/> function flushes the calling thread's current batch.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdiflush
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdiflush"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -606,7 +606,7 @@ namespace Lsj.Util.Win32
         /// The system flushes the current batch whenever this limit is exceeded.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdigetbatchlimit
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdigetbatchlimit"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -635,7 +635,7 @@ namespace Lsj.Util.Win32
         /// The system flushes the current batch whenever this limit is exceeded.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdisetbatchlimit
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gdisetbatchlimit"/>
         /// </para>
         /// </summary>
         /// <param name="dw">
@@ -668,7 +668,7 @@ namespace Lsj.Util.Win32
         /// The system maintains an accumulated bounding rectangle for each application. An application can retrieve and set this rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getboundsrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getboundsrect"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -705,7 +705,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetMapMode"/> function retrieves the current mapping mode.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmapmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getmapmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -742,7 +742,7 @@ namespace Lsj.Util.Win32
         /// This function retrieves the x-extent and y-extent of the window for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindowextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindowextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -763,7 +763,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetBValue"/> macro retrieves an intensity value for the blue component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
         /// </para>
         /// </summary>
         /// <param name="rgb">
@@ -780,7 +780,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetDeviceCaps"/> function retrieves device-specific information for the specified device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdevicecaps
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdevicecaps"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">A handle to the DC.</param>
@@ -797,7 +797,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetGValue"/> macro retrieves an intensity value for the green component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
         /// </para>
         /// </summary>
         /// <param name="rgb">
@@ -814,7 +814,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetRValue"/> macro retrieves an intensity value for the red component of a red, green, blue (RGB) value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrvalue"/>
         /// </para>
         /// </summary>
         /// <param name="rgb">
@@ -831,7 +831,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetObject"/> function retrieves information for the specified graphics object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getobjectw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getobjectw"/>
         /// </para>
         /// </summary>
         /// <param name="h">
@@ -895,7 +895,7 @@ namespace Lsj.Util.Win32
         /// that will be displayed when the specified color value is used.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestcolor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getnearestcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -917,7 +917,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetStockObject"/> function retrieves a handle to one of the stock pens, brushes, fonts, or palettes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstockobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstockobject"/>
         /// </para>
         /// </summary>
         /// <param name="i">
@@ -957,7 +957,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextExtentPoint32"/> function computes the width and height of the specified string of text.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpoint32w
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpoint32w"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1016,7 +1016,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetWindowOrgEx"/> function retrieves the x-coordinates and y-coordinates of the window origin for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindoworgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getwindoworgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1037,7 +1037,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetViewportExtEx"/> function retrieves the x-extent and y-extent of the current viewport for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1058,7 +1058,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetViewportOrgEx"/> function retrieves the x-coordinates and y-coordinates of the viewport origin for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportorgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getviewportorgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1081,7 +1081,7 @@ namespace Lsj.Util.Win32
         /// and the world transformation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lptodp
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-lptodp"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1115,7 +1115,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OffsetWindowOrgEx"/> function modifies the window origin for a device context using the specified horizontal and vertical offsets.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetwindoworgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetwindoworgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1148,7 +1148,7 @@ namespace Lsj.Util.Win32
         /// This allows the function to use the color in the specified palette entry.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paletteindex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-paletteindex"/>
         /// </para>
         /// </summary>
         /// <param name="i">
@@ -1164,7 +1164,7 @@ namespace Lsj.Util.Win32
         /// An application using a color palette can pass this specifier, instead of an explicit RGB value, to functions that expect a color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-palettergb
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-palettergb"/>
         /// </para>
         /// </summary>
         /// <param name="r">
@@ -1184,7 +1184,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="OffsetViewportOrgEx"/> function modifies the viewport origin for a device context using the specified horizontal and vertical offsets.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetviewportorgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-offsetviewportorgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1216,7 +1216,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ResetDC"/> function updates the specified printer or plotter device context (DC) using the specified information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resetdcw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-resetdcw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1249,7 +1249,7 @@ namespace Lsj.Util.Win32
         /// The DC is restored by popping state information off a stack created by earlier calls to the <see cref="SaveDC"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-restoredc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-restoredc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1281,7 +1281,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="RGB"/> macro selects a red, green, blue (RGB) color based on the arguments supplied and the color capabilities of the output device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rgb
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-rgb"/>
         /// </para>
         /// </summary>
         /// <param name="r">
@@ -1313,7 +1313,7 @@ namespace Lsj.Util.Win32
         /// and graphic modes (such as the bitmap, brush, palette, font, pen, region, drawing mode, and mapping mode) to a context stack.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-savedc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-savedc"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1336,7 +1336,7 @@ namespace Lsj.Util.Win32
         /// using the ratios formed by the specified multiplicands and divisors.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scalewindowextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scalewindowextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1378,7 +1378,7 @@ namespace Lsj.Util.Win32
         /// using the ratios formed by the specified multiplicands and divisors.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scaleviewportextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-scaleviewportextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1418,7 +1418,7 @@ namespace Lsj.Util.Win32
         /// The new object replaces the previous object of the same type.
         /// </para> 
         /// <para>
-        ///  From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectobject
+        ///  From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-selectobject"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1467,7 +1467,7 @@ namespace Lsj.Util.Win32
         /// The drawing boundaries are useful for invalidating bitmap caches.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setboundsrect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setboundsrect"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1512,7 +1512,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetGraphicsMode"/> function sets the graphics mode for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setgraphicsmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setgraphicsmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1557,7 +1557,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetICMMode"/> function causes Image Color Management to be enabled, disabled, or queried on a given device context (DC).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-seticmmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1618,7 +1618,7 @@ namespace Lsj.Util.Win32
         /// and also defines the orientation of the device's x and y axes.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmapmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setmapmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1666,7 +1666,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetWindowExtEx"/> function sets the horizontal and vertical extents of the window for a device context by using the specified values.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindowextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindowextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1709,7 +1709,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetWindowOrgEx"/> function specifies which window point maps to the viewport origin (0,0).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindoworgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setwindoworgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1751,7 +1751,7 @@ namespace Lsj.Util.Win32
         /// by using the specified values.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportextex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportextex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1794,7 +1794,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetViewportOrgEx"/> function specifies which device point maps to the window origin (0,0).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportorgex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setviewportorgex"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1841,7 +1841,7 @@ namespace Lsj.Util.Win32
         /// the system completely remaps the logical palette to the system palette.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-unrealizeobject
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-unrealizeobject"/>
         /// </para>
         /// </summary>
         /// <param name="h">

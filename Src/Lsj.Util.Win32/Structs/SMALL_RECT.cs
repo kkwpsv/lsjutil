@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// Defines the coordinates of the upper left and lower right corners of a rectangle.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/small-rect-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/small-rect-str"/>
     /// </para>
     /// </summary>
     /// <remarks>

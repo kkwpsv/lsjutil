@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Structs
     /// Identifies a remote computer resource to the activation functions.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-coserverinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-coserverinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

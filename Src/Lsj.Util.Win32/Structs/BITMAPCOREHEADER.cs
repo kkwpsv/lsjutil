@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BITMAPCOREHEADER"/> structure contains information about the dimensions and color format of a DIB.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapcoreheader"/>
     /// </para>
     /// </summary>
     /// <remarks>

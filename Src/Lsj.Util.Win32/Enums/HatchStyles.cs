@@ -5,7 +5,7 @@
     /// Hatch Styles
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createhatchbrush
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createhatchbrush"/>
     /// </para>
     /// </summary>
     public enum HatchStyles

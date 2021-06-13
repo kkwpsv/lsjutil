@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32
         /// To specify additional formatting options, use the <see cref="DrawTextEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtext"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -105,7 +105,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DrawTextEx"/> function draws formatted text in the specified rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtextexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawtextexw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -165,7 +165,7 @@ namespace Lsj.Util.Win32
         /// You can optionally provide dimensions to be used for clipping, opaquing, or both.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-exttextoutw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-exttextoutw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetBkColor"/> function returns the current background color for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkcolor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -263,7 +263,7 @@ namespace Lsj.Util.Win32
         /// The background mix mode of a device context affects text, hatched brushes, and pen styles that are not solid lines.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbkmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -282,7 +282,7 @@ namespace Lsj.Util.Win32
         /// of consecutive characters in a specified range from the current font.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getcharwidthw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -320,7 +320,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTabbedTextExtent"/> function uses the currently selected font to compute the dimensions of the string.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettabbedtextextentw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-gettabbedtextextentw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -367,7 +367,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextAlign"/> function retrieves the text-alignment setting for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextalign
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextalign"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -411,7 +411,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextCharacterExtra"/> function retrieves the current intercharacter spacing for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcharacterextra
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcharacterextra"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -434,7 +434,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextColor"/> function retrieves the current text color for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcolor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -459,7 +459,7 @@ namespace Lsj.Util.Win32
         /// This information is useful for word-wrapping calculations.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentexpointw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentexpointw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -542,7 +542,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetTextExtentPoint"/> function computes the width and height of the specified string of text.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpointw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-gettextextentpointw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -589,7 +589,7 @@ namespace Lsj.Util.Win32
         /// the application must supply its own output function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-graystringw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-graystringw"/>
         /// </para>
         /// </summary>
         /// <param name="hDC">
@@ -653,7 +653,7 @@ namespace Lsj.Util.Win32
         /// Text is written in the currently selected font, background color, and text color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-tabbedtextoutw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-tabbedtextoutw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -714,7 +714,7 @@ namespace Lsj.Util.Win32
         /// or to the nearest physical color if the device cannot represent the specified color value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkcolor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -745,7 +745,7 @@ namespace Lsj.Util.Win32
         /// The background mix mode is used with text, hatched brushes, and pen styles that are not solid lines.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbkmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -772,7 +772,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetTextAlign"/> function sets the text-alignment flags for the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextalign
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextalign"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -821,7 +821,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetTextColor"/> function sets the text color for the specified device context to the specified color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextcolor
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextcolor"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -872,7 +872,7 @@ namespace Lsj.Util.Win32
         /// The space is added when an application calls the <see cref="TextOut"/> or <see cref="ExtTextOut"/> functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextjustification
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-settextjustification"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -916,7 +916,7 @@ namespace Lsj.Util.Win32
         /// background color, and text color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-textoutw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-textoutw"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

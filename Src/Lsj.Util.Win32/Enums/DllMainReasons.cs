@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// DllMain Reasons
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/dlls/dllmain"/>
     /// </para>
     /// </summary>
     public enum DllMainReasons : uint

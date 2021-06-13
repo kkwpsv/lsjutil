@@ -5,7 +5,7 @@
     /// Brush Styles
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logbrush
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logbrush"/>
     /// </para>
     /// </summary>
     public enum BrushStyles : uint

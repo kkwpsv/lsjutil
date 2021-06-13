@@ -17,7 +17,7 @@ namespace Lsj.Util.Win32.Enums
     /// Applications that define private securable objects can also use the generic access rights.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/secauthz/generic-access-rights
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/secauthz/generic-access-rights"/>
     /// </para>
     /// </summary>
     public enum GenericAccessRights : uint

@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.Structs
     /// by the <see cref="IAdviseSink"/>, <see cref="IDataObject"/>, and <see cref="IOleCache"/> interfaces.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-ustgmedium~r1
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/ns-objidl-ustgmedium~r1"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// Specifies NLS function capabilities.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ne-winnls-sysnls_function
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnls/ne-winnls-sysnls_function"/>
     /// </para>
     /// </summary>
     public enum SYSNLS_FUNCTION : uint

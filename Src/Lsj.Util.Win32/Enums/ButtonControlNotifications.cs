@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Enums
     /// Button Control Notifications
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-button-control-reference-notifications
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-button-control-reference-notifications"/>
     /// </para>
     /// </summary>
     public enum ButtonControlNotifications : uint

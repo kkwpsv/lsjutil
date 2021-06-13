@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Enums
     /// Keep in mind that applications scaled by the system may appear blurry and will read virtualized data about the monitor to maintain compatibility.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/ne-shellscalingapi-process_dpi_awareness
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellscalingapi/ne-shellscalingapi-process_dpi_awareness"/>
     /// </para>
     /// </summary>
     /// <remarks>

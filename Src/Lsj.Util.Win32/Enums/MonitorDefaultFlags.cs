@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="MonitorFromWindow"/> flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-monitorfromwindow"/>
     /// </para>
     /// </summary>
     public enum MonitorDefaultFlags

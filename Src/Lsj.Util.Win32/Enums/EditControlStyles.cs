@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Enums
     /// After the control has been created, these styles cannot be modified, except as noted.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/edit-control-styles
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/edit-control-styles"/>
     /// </para>
     /// </summary>
     [Flags]

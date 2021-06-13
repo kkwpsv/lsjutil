@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The origin of the coordinate system (0,0) is at the top, left cell of the buffer.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/coord-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/coord-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

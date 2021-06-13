@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BITMAPINFO"/> structure defines the dimensions and color information for a DIB.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-bitmapinfo"/>
     /// </para>
     /// </summary>
     /// <remarks>

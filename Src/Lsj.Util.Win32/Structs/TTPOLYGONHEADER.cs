@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="TTPOLYGONHEADER"/> structure specifies the starting position and type of a contour in a TrueType character outline.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-ttpolygonheader
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-ttpolygonheader"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Enums
     /// to identify the item whose usage statistics are being tracked.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ne-shlobj_core-shard
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ne-shlobj_core-shard"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -13,7 +13,7 @@ namespace Lsj.Util.Win32.Structs
     /// in this case through an <see cref="IShellLink"/>, and the process that it is associated with.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-shardappidinfolink
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/ns-shlobj_core-shardappidinfolink"/>
     /// </para>
     /// </summary>
     /// <remarks>

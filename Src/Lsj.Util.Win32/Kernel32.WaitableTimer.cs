@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32
         /// TimerAPCProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nc-synchapi-ptimerapcroutine
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nc-synchapi-ptimerapcroutine"/>
         /// </para>
         /// </summary>
         /// <param name="lpArgToCompletionRoutine">
@@ -53,7 +53,7 @@ namespace Lsj.Util.Win32
         /// Sets the specified waitable timer to the inactive state.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-cancelwaitabletimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-cancelwaitabletimer"/>
         /// </para>
         /// </summary>
         /// <param name="hTimer">
@@ -76,7 +76,7 @@ namespace Lsj.Util.Win32
         /// To specify an access mask for the object, use the <see cref="CreateWaitableTimerEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerw"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimerAttributes">
@@ -142,7 +142,7 @@ namespace Lsj.Util.Win32
         /// Creates or opens a waitable timer object and returns a handle to the object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-createwaitabletimerexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimerAttributes">
@@ -205,7 +205,7 @@ namespace Lsj.Util.Win32
         /// Opens an existing named waitable timer object.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openwaitabletimerw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-openwaitabletimerw"/>
         /// </para>
         /// </summary>
         /// <param name="dwDesiredAccess">
@@ -256,7 +256,7 @@ namespace Lsj.Util.Win32
         /// When the due time arrives, the timer is signaled and the thread that set the timer calls the optional completion routine.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setwaitabletimer
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/synchapi/nf-synchapi-setwaitabletimer"/>
         /// </para>
         /// </summary>
         /// <param name="hTimer">

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a console screen buffer.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/console/console-screen-buffer-info-str
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/console/console-screen-buffer-info-str"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]

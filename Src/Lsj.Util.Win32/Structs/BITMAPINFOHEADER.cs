@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="BITMAPINFOHEADER"/> structure contains information about the dimensions and color format of a DIB.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/previous-versions/dd183376(v=vs.85)
+    /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd183376(v=vs.85)"/>
     /// </para>
     /// </summary>
     /// <remarks>

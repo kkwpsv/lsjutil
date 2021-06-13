@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="GlobalMemoryStatus"/> function stores information in a <see cref="MEMORYSTATUS"/> structure.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-memorystatus
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-memorystatus"/>
     /// </para>
     /// </summary>
     /// <remarks>

@@ -9,7 +9,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains a list of item identifiers.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-itemidlist
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shtypes/ns-shtypes-itemidlist"/>
     /// </para>
     /// </summary>
     /// <remarks>

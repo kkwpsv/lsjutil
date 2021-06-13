@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32
         /// CCHookProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcchookproc?redirectedfrom=MSDN
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcchookproc?redirectedfrom=MSDN"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32
         /// CFHookProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcfhookproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpcfhookproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -148,7 +148,7 @@ namespace Lsj.Util.Win32
         /// FRHookProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpfrhookproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpfrhookproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -252,7 +252,7 @@ namespace Lsj.Util.Win32
         /// PagePaintHook is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagepainthook
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagepainthook"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -309,7 +309,7 @@ namespace Lsj.Util.Win32
         /// PageSetupHook is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagesetuphook
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lppagesetuphook"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -354,7 +354,7 @@ namespace Lsj.Util.Win32
         /// PrintHookProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpprinthookproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpprinthookproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -399,7 +399,7 @@ namespace Lsj.Util.Win32
         /// SetupHookProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpsetuphookproc
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nc-commdlg-lpsetuphookproc"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1"></param>
@@ -443,7 +443,7 @@ namespace Lsj.Util.Win32
         /// Creates a Color dialog box that enables the user to select a color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646912(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646912(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpcc">
@@ -478,7 +478,7 @@ namespace Lsj.Util.Win32
         /// and a script (or character set).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/ms646914(v%3Dvs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646914(v%3Dvs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lpcf">
@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32
         /// This code indicates the most recent error to occur during the execution of one of the common dialog box functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-commdlgextendederror
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-commdlgextendederror"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -549,7 +549,7 @@ namespace Lsj.Util.Win32
         /// to search for and options to use when searching for text in a document.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-findtextw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-findtextw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -590,7 +590,7 @@ namespace Lsj.Util.Win32
         /// Creates an Open dialog box that lets the user specify the drive, directory, and the name of a file or set of files to be opened.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-getopenfilenamew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-getopenfilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -629,7 +629,7 @@ namespace Lsj.Util.Win32
         /// Creates a Save dialog box that lets the user specify the drive, directory, and name of a file to save.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-getsavefilenamew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-getsavefilenamew"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">
@@ -666,7 +666,7 @@ namespace Lsj.Util.Win32
         /// These attributes include the paper size and source, the page orientation (portrait or landscape), and the width of the page margins.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646937(v=vs.85)?redirectedfrom=MSDN
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646937(v=vs.85)?redirectedfrom=MSDN"/>
         /// </para>
         /// </summary>
         /// <param name="lppsd">
@@ -695,7 +695,7 @@ namespace Lsj.Util.Win32
         /// The Print dialog box enables the user to specify the properties of a particular print job.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646940(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646940(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lppd">
@@ -743,7 +743,7 @@ namespace Lsj.Util.Win32
         /// The property sheet can also have additional application-specific and driver-specific property pages as well as the General page.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646942(v=vs.85)
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms646942(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="lppd">
@@ -790,7 +790,7 @@ namespace Lsj.Util.Win32
         /// to search for and a replacement string, as well as options to control the find and replace operations.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-replacetextw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commdlg/nf-commdlg-replacetextw"/>
         /// </para>
         /// </summary>
         /// <param name="Arg1">

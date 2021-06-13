@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="UpdateLayeredWindow"/> flags.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-updatelayeredwindow
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-updatelayeredwindow"/>
     /// </para>
     /// </summary>
     public enum UpdateLayeredWindowFlags : uint

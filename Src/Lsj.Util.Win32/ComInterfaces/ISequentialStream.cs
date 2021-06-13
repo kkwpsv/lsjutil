@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// from <see cref="ISequentialStream"/>.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-isequentialstream
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objidl/nn-objidl-isequentialstream"/>
     /// </para>
     /// </summary>
     public unsafe struct ISequentialStream

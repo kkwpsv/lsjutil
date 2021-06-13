@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// <see cref="CombineRgn"/> Modes
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-combinergn
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-combinergn"/>
     /// </para>
     /// </summary>
     public enum CombineRgnModes

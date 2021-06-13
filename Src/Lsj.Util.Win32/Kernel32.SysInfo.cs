@@ -30,7 +30,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the current date and time in Coordinated Universal Time (UTC) format, use the <see cref="GetSystemTime"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlocaltime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlocaltime"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemTime">
@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32
         /// use the <see cref="GetLogicalProcessorInformationEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation"/>
         /// </para>
         /// </summary>
         /// <param name="Buffer">
@@ -101,7 +101,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about the relationships of logical processors and related hardware.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformationex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformationex"/>
         /// </para>
         /// </summary>
         /// <param name="RelationshipType">
@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetNumaAvailableMemoryNodeEx"/> function to specify the node as a <see cref="USHORT"/> value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynode"/>
         /// </para>
         /// </summary>
         /// <param name="Node">
@@ -213,7 +213,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the amount of memory that is available in a node specified as a <see cref="USHORT"/> value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynodeex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaavailablememorynodeex"/>
         /// </para>
         /// </summary>
         /// <param name="Node">
@@ -249,7 +249,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the node that currently has the highest number.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumahighestnodenumber
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumahighestnodenumber"/>
         /// </para>
         /// </summary>
         /// <param name="HighestNodeNumber">
@@ -273,7 +273,7 @@ namespace Lsj.Util.Win32
         /// Use the <see cref="GetNumaNodeProcessorMaskEx"/> function to retrieve the processor mask for a node in any processor group.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumanodeprocessormask
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumanodeprocessormask"/>
         /// </para>
         /// </summary>
         /// <param name="Node">
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the processor mask for a node regardless of the processor group the node belongs to.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumanodeprocessormaskex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/systemtopologyapi/nf-systemtopologyapi-getnumanodeprocessormaskex"/>
         /// </para>
         /// </summary>
         /// <param name="Node">
@@ -369,7 +369,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the node number as a <see cref="USHORT"/> value for the specified logical processor.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaprocessornodeex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-getnumaprocessornodeex"/>
         /// </para>
         /// </summary>
         /// <param name="Processor">
@@ -401,7 +401,7 @@ namespace Lsj.Util.Win32
         /// You can also use the OperatingSystemSKU property of the Win32_OperatingSystem WMI class.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getproductinfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getproductinfo"/>
         /// </para>
         /// </summary>
         /// <param name="dwOSMajorVersion">
@@ -466,7 +466,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemdirectoryw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemdirectoryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpBuffer">
@@ -499,7 +499,7 @@ namespace Lsj.Util.Win32
         /// To retrieve accurate information for an application running on WOW64, call the <see cref="GetNativeSystemInfo"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsysteminfo"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemInfo">
@@ -514,7 +514,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the current system date and time in local time, use the <see cref="GetLocalTime"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtime"/>
         /// </para>
         /// </summary>
         /// <param name="lpSystemTime">
@@ -534,7 +534,7 @@ namespace Lsj.Util.Win32
         /// and obtains the value and period of any such adjustments.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtimeadjustment
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemtimeadjustment"/>
         /// </para>
         /// </summary>
         /// <param name="lpTimeAdjustment">
@@ -591,7 +591,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemwindowsdirectoryw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getsystemwindowsdirectoryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpBuffer">
@@ -626,7 +626,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of milliseconds that have elapsed since the system was started, up to 49.7 days.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -658,7 +658,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the number of milliseconds that have elapsed since the system was started.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -692,7 +692,7 @@ namespace Lsj.Util.Win32
         /// To manifest your applications for Windows 8.1 or Windows 10, refer to Targeting your application for Windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversion"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -725,7 +725,7 @@ namespace Lsj.Util.Win32
         /// To manifest your applications for Windows 8.1 or Windows 10, refer to Targeting your application for Windows.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getversionexw"/>
         /// </para>
         /// </summary>
         /// <param name="lpVersionInformation">
@@ -775,7 +775,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="SHGetFolderPath"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectoryw"/>
         /// </para>
         /// </summary>
         /// <param name="lpBuffer">
@@ -820,7 +820,7 @@ namespace Lsj.Util.Win32
         /// Determines whether the specified processor feature is supported by the current computer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-isprocessorfeaturepresent
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/processthreadsapi/nf-processthreadsapi-isprocessorfeaturepresent"/>
         /// </para>
         /// </summary>
         /// <param name="ProcessorFeature">
@@ -853,7 +853,7 @@ namespace Lsj.Util.Win32
         /// The unbiased interrupt-time count does not include time the system spends in sleep or hibernation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryunbiasedinterrupttime
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/realtimeapiset/nf-realtimeapiset-queryunbiasedinterrupttime"/>
         /// </para>
         /// </summary>
         /// <param name="UnbiasedTime"></param>
@@ -895,7 +895,7 @@ namespace Lsj.Util.Win32
         /// When enabled, such time adjustments can be used to synchronize the time of day with some other source of time information.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-setsystemtimeadjustment
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/sysinfoapi/nf-sysinfoapi-setsystemtimeadjustment"/>
         /// </para>
         /// </summary>
         /// <param name="dwTimeAdjustment">
@@ -966,7 +966,7 @@ namespace Lsj.Util.Win32
         /// For more information, see the Remarks section.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-verifyversioninfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-verifyversioninfow"/>
         /// </para>
         /// </summary>
         /// <param name="lpVersionInformation">

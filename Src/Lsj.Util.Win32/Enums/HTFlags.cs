@@ -7,7 +7,7 @@ namespace Lsj.Util.Win32.Enums
     /// HT Flags
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-gdiinfo
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winddi/ns-winddi-gdiinfo"/>
     /// </para>
     /// </summary>
     [Flags]

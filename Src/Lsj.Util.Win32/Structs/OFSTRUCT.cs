@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// Contains information about a file that the <see cref="OpenFile"/> function opened or attempted to open.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-ofstruct
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/ns-winbase-ofstruct"/>
     /// </para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]

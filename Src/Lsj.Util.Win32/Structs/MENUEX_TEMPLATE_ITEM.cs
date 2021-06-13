@@ -10,7 +10,7 @@ namespace Lsj.Util.Win32.Structs
     /// This structure definition is for explanation only; it is not present in any standard header file.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/menurc/menuex-template-item
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/menurc/menuex-template-item"/>
     /// </para>
     /// </summary>
     /// <remarks>

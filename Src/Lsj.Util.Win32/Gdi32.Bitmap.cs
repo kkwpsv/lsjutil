@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32
         /// from the specified source device context into a destination device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-bitblt
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-bitblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -136,7 +136,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateBitmap"/> function creates a bitmap with the specified width, height, and color format (color planes and bits-per-pixel).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbitmap
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbitmap"/>
         /// </para>
         /// </summary>
         /// <param name="nWidth">
@@ -186,7 +186,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateBitmapIndirect"/> function creates a bitmap with the specified width, height, and color format (color planes and bits-per-pixel).
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbitmapindirect
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createbitmapindirect"/>
         /// </para>
         /// </summary>
         /// <param name="pbm">
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateCompatibleBitmap"/> function creates a bitmap compatible with the device that is associated with the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createcompatiblebitmap"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">A handle to a device context.</param>
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32
         /// An application can select this bitmap as the current bitmap for a memory device that is compatible with the specified device.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-creatediscardablebitmap
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-creatediscardablebitmap"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -273,7 +273,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="CreateDIBitmap"/> function creates a compatible bitmap (DDB) from a DIB and, optionally, sets the bitmap bits.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibitmap
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibitmap"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -341,7 +341,7 @@ namespace Lsj.Util.Win32
         /// or you can let the system allocate the memory for the bitmap.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibsection
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-createdibsection"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -419,7 +419,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetBitmapBits"/> function copies the bitmap bits of a specified device-dependent bitmap into a buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapbits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapbits"/>
         /// </para>
         /// </summary>
         /// <param name="hbit">
@@ -447,7 +447,7 @@ namespace Lsj.Util.Win32
         /// The retrieved dimensions must have been set by the <see cref="SetBitmapDimensionEx"/> function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapdimensionex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getbitmapdimensionex"/>
         /// </para>
         /// </summary>
         /// <param name="hbit">
@@ -474,7 +474,7 @@ namespace Lsj.Util.Win32
         /// using the specified format.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdibits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getdibits"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -549,7 +549,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="GetPixel"/> function retrieves the red, green, blue (RGB) color value of the pixel at the specified coordinates.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpixel
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getpixel"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -580,7 +580,7 @@ namespace Lsj.Util.Win32
         /// The mix mode specifies how the pen or interior color and the color already on the screen are combined to yield a new color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrop2
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getrop2"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -619,7 +619,7 @@ namespace Lsj.Util.Win32
         /// when the <see cref="StretchBlt"/> function is called.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstretchbltmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-getstretchbltmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -656,7 +656,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="LoadBitmap"/> function loads the specified bitmap resource from a module's executable file.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadbitmapw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadbitmapw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -700,7 +700,7 @@ namespace Lsj.Util.Win32
         /// using the specified mask and raster operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-maskblt
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-maskblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdcDest">
@@ -789,7 +789,7 @@ namespace Lsj.Util.Win32
         /// The brush color and the surface color or colors are combined by using the specified raster operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-patblt
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-patblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -843,7 +843,7 @@ namespace Lsj.Util.Win32
         /// the function uses this bitmap to mask the bits of color data from the source rectangle.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-plgblt
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-plgblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdcDest">
@@ -916,7 +916,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetBitmapBits"/> function sets the bits of color data for a bitmap to the specified values.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapbits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapbits"/>
         /// </para>
         /// </summary>
         /// <param name="hbm">
@@ -947,7 +947,7 @@ namespace Lsj.Util.Win32
         /// These dimensions can be used by applications; however, they are not used by the system.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapdimensionex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setbitmapdimensionex"/>
         /// </para>
         /// </summary>
         /// <param name="hbm">
@@ -981,7 +981,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetDIBits"/> function sets the pixels in a compatible bitmap (DDB) using the color data found in the specified DIB.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibits"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1050,7 +1050,7 @@ namespace Lsj.Util.Win32
         /// that is associated with the destination device context using color data from a DIB, JPEG, or PNG image.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibitstodevice
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setdibitstodevice"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1144,7 +1144,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetPixel"/> function sets the pixel at the specified coordinates to the specified color.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpixel
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setpixel"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1182,7 +1182,7 @@ namespace Lsj.Util.Win32
         /// The foreground mix mode defines how colors from the brush or pen and the colors in the existing image are to be combined.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrop2
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setrop2"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1225,7 +1225,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="SetStretchBltMode"/> function sets the bitmap stretching mode in the specified device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setstretchbltmode
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-setstretchbltmode"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">
@@ -1283,7 +1283,7 @@ namespace Lsj.Util.Win32
         /// The system stretches or compresses the bitmap according to the stretching mode currently set in the destination device context.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchblt
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchblt"/>
         /// </para>
         /// </summary>
         /// <param name="hdcDest">
@@ -1368,7 +1368,7 @@ namespace Lsj.Util.Win32
         /// by using the specified raster operation.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchdibits
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nf-wingdi-stretchdibits"/>
         /// </para>
         /// </summary>
         /// <param name="hdc">

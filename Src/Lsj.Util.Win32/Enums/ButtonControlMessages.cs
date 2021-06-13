@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.Enums
     /// Button Control Messages
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-button-control-reference-messages
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-button-control-reference-messages"/>
     /// </para>
     /// </summary>
     public enum ButtonControlMessages

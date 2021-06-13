@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32.ComInterfaces
     /// Exposes methods that create, modify, and resolve Shell links.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinkw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinkw"/>
     /// </para>
     /// </summary>
     /// <remarks>

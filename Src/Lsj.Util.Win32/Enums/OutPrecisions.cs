@@ -11,8 +11,8 @@ namespace Lsj.Util.Win32.Enums
     /// including height, width, character orientation, escapement, pitch, and font type.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/28ebf288-63cf-4b64-9113-410a63cf792d
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw
+    /// From: <see href="https://docs.microsoft.com/zh-cn/openspecs/windows_protocols/ms-wmf/28ebf288-63cf-4b64-9113-410a63cf792d"/>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-logfontw"/>
     /// </para>
     /// </summary>
     public enum OutPrecisions : byte

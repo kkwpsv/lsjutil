@@ -21,7 +21,7 @@ namespace Lsj.Util.Win32
         /// Determines whether two <see cref="DPI_AWARENESS_CONTEXT"/> values are identical.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-aredpiawarenesscontextsequal
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-aredpiawarenesscontextsequal"/>
         /// </para>
         /// </summary>
         /// <param name="dpiContextA">
@@ -48,7 +48,7 @@ namespace Lsj.Util.Win32
         /// This window rectangle can then be passed to the <see cref="CreateWindowEx"/> function to create a window with a client area of the desired size.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectexfordpi
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-adjustwindowrectexfordpi"/>
         /// </para>
         /// </summary>
         /// <param name="lpRect">
@@ -91,7 +91,7 @@ namespace Lsj.Util.Win32
         /// They do not need to call this function.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-enablenonclientdpiscaling
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablenonclientdpiscaling"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -134,7 +134,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the <see cref="DPI_AWARENESS"/> value from a <see cref="DPI_AWARENESS_CONTEXT"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getawarenessfromdpiawarenesscontext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getawarenessfromdpiawarenesscontext"/>
         /// </para>
         /// </summary>
         /// <param name="value">
@@ -156,7 +156,7 @@ namespace Lsj.Util.Win32
         /// Returns the dots per inch (dpi) value for the associated window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getdpiforwindow"/>
         /// </para>
         /// </summary>
         /// <param name="hwnd">
@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the specified system metric or system configuration setting taking into account a provided DPI.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetricsfordpi
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmetricsfordpi"/>
         /// </para>
         /// </summary>
         /// <param name="nIndex">
@@ -234,7 +234,7 @@ namespace Lsj.Util.Win32
         /// The DPI awareness contexts are from the <see cref="DPI_AWARENESS_CONTEXT"/> value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdpiawarenesscontext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setprocessdpiawarenesscontext"/>
         /// </para>
         /// </summary>
         /// <param name="value">
@@ -271,7 +271,7 @@ namespace Lsj.Util.Win32
         /// Set the DPI awareness for the current thread to the provided value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddpiawarenesscontext
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setthreaddpiawarenesscontext"/>
         /// </para>
         /// </summary>
         /// <param name="dpiContext">
@@ -294,7 +294,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the value of one of the system-wide parameters, taking into account the provided DPI value.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfofordpi
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-systemparametersinfofordpi"/>
         /// </para>
         /// </summary>
         /// <param name="uiAction">

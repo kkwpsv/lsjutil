@@ -11,7 +11,7 @@ namespace Lsj.Util.Win32.Structs
     /// The <see cref="TTPOLYCURVE"/> structure contains information about a curve in the outline of a TrueType character.
     /// </para>
     /// <para>
-    /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-ttpolycurve
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/ns-wingdi-ttpolycurve"/>
     /// </para>
     /// </summary>
     /// <remarks>

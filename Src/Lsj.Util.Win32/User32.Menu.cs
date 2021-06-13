@@ -81,7 +81,7 @@ namespace Lsj.Util.Win32
         /// You can use this function to specify the content, appearance, and behavior of the menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-appendmenuw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-appendmenuw"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -185,7 +185,7 @@ namespace Lsj.Util.Win32
         /// Sets the state of the specified menu item's check-mark attribute to either selected or clear.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkmenuitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-checkmenuitem"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -228,7 +228,7 @@ namespace Lsj.Util.Win32
         /// Creates an accelerator table.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createacceleratortablew
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createacceleratortablew"/>
         /// </para>
         /// </summary>
         /// <param name="paccel">
@@ -257,7 +257,7 @@ namespace Lsj.Util.Win32
         /// by using the <see cref="InsertMenuItem"/>, <see cref="AppendMenu"/>, and <see cref="InsertMenu"/> functions.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createmenu"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -281,7 +281,7 @@ namespace Lsj.Util.Win32
         /// You can also use the <see cref="InsertMenu"/> function to insert menu items and the <see cref="AppendMenu"/> function to append menu items.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createpopupmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-createpopupmenu"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -306,7 +306,7 @@ namespace Lsj.Util.Win32
         /// and frees the memory used by the menu or submenu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-deletemenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-deletemenu"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -340,7 +340,7 @@ namespace Lsj.Util.Win32
         /// Destroys an accelerator table.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroyacceleratortable
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroyacceleratortable"/>
         /// </para>
         /// </summary>
         /// <param name="hAccel">
@@ -361,7 +361,7 @@ namespace Lsj.Util.Win32
         /// Destroys the specified menu and frees any memory that the menu occupies.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroymenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-destroymenu"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -386,7 +386,7 @@ namespace Lsj.Util.Win32
         /// If the menu bar changes after the system has created the window, this function must be called to draw the changed menu bar.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawmenubar
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawmenubar"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -405,7 +405,7 @@ namespace Lsj.Util.Win32
         /// Enables, disables, or grays the specified menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablemenuitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enablemenuitem"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -456,7 +456,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the menu assigned to the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenu"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -483,7 +483,7 @@ namespace Lsj.Util.Win32
         /// an application must determine the correct bitmap size by calling <see cref="GetMenuCheckMarkDimensions"/>.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenucheckmarkdimensions
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenucheckmarkdimensions"/>
         /// </para>
         /// </summary>
         /// <returns>
@@ -500,7 +500,7 @@ namespace Lsj.Util.Win32
         /// Retrieves information about a menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuiteminfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuiteminfow"/>
         /// </para>
         /// </summary>
         /// <param name="hmenu">
@@ -543,7 +543,7 @@ namespace Lsj.Util.Win32
         /// Determines the number of items in the specified menu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemcount
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemcount"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -562,7 +562,7 @@ namespace Lsj.Util.Win32
         /// Retrieves the menu item identifier of a menu item located at the specified position in a menu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemid
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenuitemid"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -584,7 +584,7 @@ namespace Lsj.Util.Win32
         /// If the menu item opens a submenu, this function also returns the number of items in the submenu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustate
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustate"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -647,7 +647,7 @@ namespace Lsj.Util.Win32
         /// Copies the text string of the specified menu item into the specified buffer.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustringw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getmenustringw"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -694,7 +694,7 @@ namespace Lsj.Util.Win32
         /// Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsystemmenu"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -730,7 +730,7 @@ namespace Lsj.Util.Win32
         /// Retrieves a handle to the drop-down menu or submenu activated by the specified menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getsubmenu"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -751,7 +751,7 @@ namespace Lsj.Util.Win32
         /// Adds or removes highlighting from an item in a menu bar.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-hilitemenuitem
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-hilitemenuitem"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -789,7 +789,7 @@ namespace Lsj.Util.Win32
         /// Inserts a new menu item into a menu, moving other items down the menu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuw"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -889,7 +889,7 @@ namespace Lsj.Util.Win32
         /// Inserts a new menu item at the specified position in a menu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuitemw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-insertmenuitemw"/>
         /// </para>
         /// </summary>
         /// <param name="hmenu">
@@ -956,7 +956,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified menu resource from the executable (.exe) file associated with an application instance.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadmenuw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadmenuw"/>
         /// </para>
         /// </summary>
         /// <param name="hInstance">
@@ -984,7 +984,7 @@ namespace Lsj.Util.Win32
         /// Loads the specified menu template in memory.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadmenuindirectw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-loadmenuindirectw"/>
         /// </para>
         /// </summary>
         /// <param name="lpMenuTemplate">
@@ -1010,7 +1010,7 @@ namespace Lsj.Util.Win32
         /// Changes an existing menu item. This function is used to specify the content, appearance, and behavior of the menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-modifymenuw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-modifymenuw"/>
         /// </para>
         /// </summary>
         /// <param name="hMnu">
@@ -1120,7 +1120,7 @@ namespace Lsj.Util.Win32
         /// Before this function is called, the <see cref="GetSubMenu"/> function should retrieve a handle to the drop-down menu or submenu.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removemenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-removemenu"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -1155,7 +1155,7 @@ namespace Lsj.Util.Win32
         /// Assigns a new menu to the specified window.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenu"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
@@ -1185,7 +1185,7 @@ namespace Lsj.Util.Win32
         /// Whether the menu item is selected or clear, the system displays the appropriate bitmap next to the menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuitembitmaps
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuitembitmaps"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -1236,7 +1236,7 @@ namespace Lsj.Util.Win32
         /// Changes information about a menu item.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuiteminfow
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-setmenuiteminfow"/>
         /// </para>
         /// </summary>
         /// <param name="hmenu">
@@ -1275,7 +1275,7 @@ namespace Lsj.Util.Win32
         /// The shortcut menu can appear anywhere on the screen.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenu
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenu"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -1364,7 +1364,7 @@ namespace Lsj.Util.Win32
         /// The shortcut menu can appear anywhere on the screen.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenuex
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-trackpopupmenuex"/>
         /// </para>
         /// </summary>
         /// <param name="hMenu">
@@ -1447,7 +1447,7 @@ namespace Lsj.Util.Win32
         /// <see cref="TranslateAccelerator"/> does not return until the window procedure has processed the message.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translateacceleratorw
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-translateacceleratorw"/>
         /// </para>
         /// </summary>
         /// <param name="hWnd">
