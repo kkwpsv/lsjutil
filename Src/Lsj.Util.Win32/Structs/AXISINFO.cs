@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
@@ -36,7 +37,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the axis, specified as an array of characters.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MM_MAX_AXES_NAMELEN)]
-        public string axAxisName;
+        public ByValStringStructForSize16 axAxisName;
     }
 }

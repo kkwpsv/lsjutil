@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -21,11 +21,6 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct MODULEENTRY32
     {
-        /// <summary>
-        /// MAX_MODULE_NAME32
-        /// </summary>
-        public const int MAX_MODULE_NAME32 = 255;
-
         /// <summary>
         /// The size of the structure, in bytes.
         /// Before calling the <see cref="Module32First"/> function, set this member to <code>sizeof(MODULEENTRY32)</code>.
@@ -71,13 +66,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The module name.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_MODULE_NAME32 + 1)]
-        public string szModule;
+        public ByValStringStructForSize256 szModule;
 
         /// <summary>
         /// The module path.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-        public string szExePath;
+        public ByValStringStructForSizeMAX_PATH szExePath;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
@@ -295,7 +296,6 @@ namespace Lsj.Util.Win32.Structs
         /// The <see cref="EnumFontFamiliesEx"/> function can be used to enumerate the typeface names of all currently available fonts.
         /// If <see cref="lfFaceName"/> is an empty string, GDI uses the first font that matches the other specified attributes.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LF_FACESIZE)]
-        public string lfFaceName;
+        public ByValStringStructForSize32 lfFaceName;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -79,15 +79,13 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The name of the file.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-        public string cFileName;
+        public ByValStringStructForSizeMAX_PATH cFileName;
 
         /// <summary>
         /// An alternative name for the file.
         /// This name is in the classic 8.3 file name format.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
-        public string cAlternateFileName;
+        public ByValStringStructForSize14 cAlternateFileName;
 
         /// <summary>
         /// 

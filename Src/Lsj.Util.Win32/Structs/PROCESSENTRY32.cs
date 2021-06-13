@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -70,7 +70,6 @@ namespace Lsj.Util.Win32.Structs
         /// However, if the calling process is a 32-bit process, you must call the <see cref="QueryFullProcessImageName"/> function
         /// to retrieve the full path of the executable file for a 64-bit process.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-        public string szExeFile;
+        public ByValStringStructForSizeMAX_PATH szExeFile;
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
-using System;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.SHGetStockIconInfoFlags;
 using static Lsj.Util.Win32.Shell32;
 
@@ -46,7 +45,6 @@ namespace Lsj.Util.Win32.Structs
         /// this member receives the path of the resource that contains the icon.
         /// The index of the icon within the resource is received in iIcon.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-        public string szPath;
+        public ByValStringStructForSizeMAX_PATH szPath;
     }
 }

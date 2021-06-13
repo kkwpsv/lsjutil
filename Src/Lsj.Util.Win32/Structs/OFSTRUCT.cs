@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -44,7 +45,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The path and file name of the file.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = OFS_MAXPATHNAME)]
-        public string szPathName;
+        public ByValStringStructForSize128 szPathName;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.DEVMODEBinConstants;
 using static Lsj.Util.Win32.Enums.DEVMODECollations;
@@ -63,8 +64,7 @@ namespace Lsj.Util.Win32.Structs
         /// If the name is greater than <see cref="CCHDEVICENAME"/> characters in length, the spooler truncates it to fit in the array.
         /// </summary>
         [FieldOffset(0)]
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
-        public string dmDeviceName;
+        public ByValStringStructForSize32 dmDeviceName;
 
         /// <summary>
         /// Specifies the version number of this <see cref="DEVMODE"/> structure.
@@ -259,8 +259,7 @@ namespace Lsj.Util.Win32.Structs
         /// This member is not used for displays.
         /// </summary>
         [FieldOffset(102)]
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHFORMNAME)]
-        public string dmFormName;
+        public ByValStringStructForSize32 dmFormName;
 
         /// <summary>
         /// For displays, specifies the number of logical pixels per inch of a display device and should be equal to

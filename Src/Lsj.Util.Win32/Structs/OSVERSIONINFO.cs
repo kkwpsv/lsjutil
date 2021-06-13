@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.PlatformIds;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -77,7 +78,6 @@ namespace Lsj.Util.Win32.Structs
         /// A null-terminated string, such as "Service Pack 3", that indicates the latest Service Pack installed on the system.
         /// If no Service Pack has been installed, the string is empty.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string szCSDVersion;
+        public ByValStringStructForSize128 szCSDVersion;
     }
 }

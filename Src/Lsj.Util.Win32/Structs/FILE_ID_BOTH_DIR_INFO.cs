@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Kernel32;
 
@@ -106,8 +107,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The short 8.3 file naming convention (for example, "FILENAME.TXT") name of the file.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 12)]
-        public string ShortName;
+        public ByValStringStructForSize12 ShortName;
 
         /// <summary>
         /// The file ID.

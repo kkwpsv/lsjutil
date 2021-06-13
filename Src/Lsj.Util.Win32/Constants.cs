@@ -29,6 +29,11 @@ namespace Lsj.Util.Win32
         public const int INFOTIPSIZE = 1024;
 
         /// <summary>
+        /// LINE_LEN
+        /// </summary>
+        public const int LINE_LEN = 256;
+
+        /// <summary>
         /// MAX_DEFAULTCHAR
         /// </summary>
         public const int MAX_DEFAULTCHAR = 2;
@@ -37,6 +42,11 @@ namespace Lsj.Util.Win32
         /// MAX_LEADBYTES
         /// </summary>
         public const int MAX_LEADBYTES = 12;
+
+        /// <summary>
+        /// MAX_MODULE_NAME32
+        /// </summary>
+        public const int MAX_MODULE_NAME32 = 255;
 
         /// <summary>
         /// MAX_PATH

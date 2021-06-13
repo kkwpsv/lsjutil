@@ -54,12 +54,11 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WORD wFlags;
 
-        /// <summary>
-        /// The menu item text.
-        /// This member is a null-terminated Unicode string, aligned on a word boundary.
-        /// The size of the menu item definition varies depending on the length of this string.
-        /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1)]
-        public string szText;
+        ///// <summary>
+        ///// The menu item text.
+        ///// This member is a null-terminated Unicode string, aligned on a word boundary.
+        ///// The size of the menu item definition varies depending on the length of this string.
+        ///// </summary>
+        //public WCHAR[1] szText;
     }
 }

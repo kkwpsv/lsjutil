@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs
@@ -25,7 +25,6 @@ namespace Lsj.Util.Win32.Structs
         /// The name of the stream.
         /// The string name format is ":streamname:$streamtype".
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH + 36)]
-        public string cStreamName;
+        public ByValStringStructForSize296 cStreamName;
     }
 }

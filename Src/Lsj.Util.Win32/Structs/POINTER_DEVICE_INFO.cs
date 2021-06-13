@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
@@ -58,7 +59,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The string that identifies the product.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = POINTER_DEVICE_PRODUCT_STRING_MAX)]
-        public string productString;
+        public ByValStringStructForSize520 productString;
     }
 }

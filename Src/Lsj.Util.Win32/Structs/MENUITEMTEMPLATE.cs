@@ -43,10 +43,9 @@ namespace Lsj.Util.Win32.Structs
         /// </summary>
         public WORD mtID;
 
-        /// <summary>
-        /// The menu item.
-        /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 1)]
-        public string mtString;
+        ///// <summary>
+        ///// The menu item.
+        ///// </summary>
+        //public WCHAR[1] mtString;
     }
 }

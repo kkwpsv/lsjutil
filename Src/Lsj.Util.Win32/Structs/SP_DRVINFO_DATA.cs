@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 
@@ -34,8 +35,6 @@ namespace Lsj.Util.Win32.Structs
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SP_DRVINFO_DATA
     {
-        private const int LINE_LEN = 256;
-
         /// <summary>
         /// The size, in bytes, of the SP_DRVINFO_DATA structure. For more information, see the Remarks section in this topic.
         /// </summary>
@@ -56,21 +55,18 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A NULL-terminated string that describes the device supported by this driver.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LINE_LEN)]
-        public string Description;
+        public ByValStringStructForSizeLINE_LEN Description;
 
         /// <summary>
         /// A NULL-terminated string that contains the name of the manufacturer of the device supported by this driver.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LINE_LEN)]
-        public string MfgName;
+        public ByValStringStructForSizeLINE_LEN MfgName;
 
         /// <summary>
         /// A NULL-terminated string giving the provider of this driver.
         /// This is typically the name of the organization that creates the driver or INF file. ProviderName can be an empty string.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LINE_LEN)]
-        public string ProviderName;
+        public ByValStringStructForSizeLINE_LEN ProviderName;
 
         /// <summary>
         /// Date of the driver.

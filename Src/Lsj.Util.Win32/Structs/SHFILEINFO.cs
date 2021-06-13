@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
-using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
 
@@ -47,13 +47,11 @@ namespace Lsj.Util.Win32.Structs
         /// A string that contains the name of the file as it appears in the Windows Shell,
         /// or the path and file name of the file that contains the icon representing the file.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-        public string szDisplayName;
+        public ByValStringStructForSizeMAX_PATH szDisplayName;
 
         /// <summary>
         /// A string that describes the type of file.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
-        public string szTypeName;
+        public ByValStringStructForSize80 szTypeName;
     }
 }

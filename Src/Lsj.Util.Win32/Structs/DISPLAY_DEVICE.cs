@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -30,15 +31,13 @@ namespace Lsj.Util.Win32.Structs
         /// An array of characters identifying the device name.
         /// This is either the adapter device or the monitor device.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string DeviceName;
+        public ByValStringStructForSize32 DeviceName;
 
         /// <summary>
         /// An array of characters containing the device context string.
         /// This is either a description of the display adapter or of the display monitor.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceString;
+        public ByValStringStructForSize128 DeviceString;
 
         /// <summary>
         /// Device state flags.
@@ -51,13 +50,11 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Not used.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceID;
+        public ByValStringStructForSize128 DeviceID;
 
         /// <summary>
         /// Reserved.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-        public string DeviceKey;
+        public ByValStringStructForSize128 DeviceKey;
     }
 }

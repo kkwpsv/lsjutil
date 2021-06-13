@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using Lsj.Util.Win32.Marshals.ByValStringStructs;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Structs
@@ -22,19 +23,16 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The unique name of the font. For example, ABC Font Company TrueType Bold Italic Sans Serif.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LF_FULLFACESIZE)]
-        public string elfFullName;
+        public ByValStringStructForSize64 elfFullName;
 
         /// <summary>
         /// The style of the font. For example, Bold Italic.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LF_FACESIZE)]
-        public string elfStyle;
+        public ByValStringStructForSize32 elfStyle;
 
         /// <summary>
         /// The script, that is, the character set, of the font. For example, Cyrillic.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = LF_FACESIZE)]
-        public string elfScript;
+        public ByValStringStructForSize32 elfScript;
     }
 }

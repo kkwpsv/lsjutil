@@ -1,5 +1,6 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.User32;
 
@@ -48,7 +49,6 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// A string that specifies the device name of the monitor being used.
         /// </summary>
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string szDevice;
+        public ByValStringStructForSize32 szDevice;
     }
 }
