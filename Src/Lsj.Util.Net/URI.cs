@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Collections;
+﻿using Lsj.Util.Collections;
 using Lsj.Util.Net.Web;
 using Lsj.Util.Text;
 
@@ -218,6 +214,10 @@ namespace Lsj.Util.Net
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uri"></param>
+        public static implicit operator string(URI uri) => uri.ToString();
     }
 }
