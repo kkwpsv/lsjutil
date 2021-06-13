@@ -27,8 +27,10 @@ using static Lsj.Util.Win32.Enums.FindFirstFileExFlags;
 using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.GET_FILEEX_INFO_LEVELS;
 using static Lsj.Util.Win32.Enums.IoControlCodes;
+using static Lsj.Util.Win32.Enums.LockFileExFlags;
 using static Lsj.Util.Win32.Enums.MoveMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
+using static Lsj.Util.Win32.Enums.ReplaceFileFlags;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
@@ -39,7 +41,6 @@ using static Lsj.Util.Win32.SetupAPI;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
-using static Lsj.Util.Win32.Enums.LockFileExFlags;
 
 namespace Lsj.Util.Win32
 {
@@ -3862,6 +3863,114 @@ namespace Lsj.Util.Win32
             "For more information, and alternatives to TxF, please see Alternatives to using Transactional NTFS.")]
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveDirectoryTransactedW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL RemoveDirectoryTransacted([MarshalAs(UnmanagedType.LPWStr)][In] string lpPathName, [In] HANDLE hTransaction);
+
+        /// <summary>
+        /// <para>
+        /// Replaces one file with another file, with the option of creating a backup copy of the original file. 
+        /// The replacement file assumes the name of the replaced file and its identity.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-replacefilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpReplacedFileName">
+        /// The name of the file to be replaced.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="ReplaceFile"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// This file is opened with the <see cref="GENERIC_READ"/>, <see cref="DELETE"/>, and <see cref="SYNCHRONIZE"/> access rights.
+        /// The sharing mode is <code>FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE</code>.
+        /// The caller must have write access to the file to be replaced.
+        /// For more information, see File Security and Access Rights.
+        /// </param>
+        /// <param name="lpReplacementFileName">
+        /// The name of the file that will replace the <paramref name="lpReplacedFileName"/> file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="ReplaceFile"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// The function attempts to open this file with the <see cref="SYNCHRONIZE"/>, <see cref="GENERIC_READ"/>, <see cref="GENERIC_WRITE"/>,
+        /// <see cref="DELETE"/>, and <see cref="WRITE_DAC"/> access rights so that it can preserve all attributes and ACLs.
+        /// If this fails, the function attempts to open the file with the <see cref="SYNCHRONIZE"/>, <see cref="GENERIC_READ"/>,
+        /// <see cref="DELETE"/>, and <see cref="WRITE_DAC"/> access rights.
+        /// No sharing mode is specified.
+        /// </param>
+        /// <param name="lpBackupFileName">
+        /// The name of the file that will serve as a backup copy of the <paramref name="lpReplacedFileName"/> file.
+        /// If this parameter is <see langword="null"/>, no backup file is created.
+        /// See the Remarks section for implementation details on the backup file.
+        /// In the ANSI version of this function, the name is limited to <see cref="MAX_PATH"/> characters.
+        /// To extend this limit to 32,767 wide characters, call the Unicode version of the function and prepend "\?" to the path.
+        /// For more information, see Naming a File.
+        /// Tip  Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="ReplaceFile"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation without prepending "\\?\".
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// </param>
+        /// <param name="dwReplaceFlags">
+        /// The replacement options.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="REPLACEFILE_WRITE_THROUGH"/>, <see cref="REPLACEFILE_IGNORE_MERGE_ERRORS"/>, <see cref="REPLACEFILE_IGNORE_ACL_ERRORS"/>
+        /// </param>
+        /// <param name="lpExclude">
+        /// Reserved for future use.
+        /// </param>
+        /// <param name="lpReserved">
+        /// Reserved for future use.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// The following are possible error codes for this function.
+        /// <see cref="ERROR_UNABLE_TO_MOVE_REPLACEMENT"/>:
+        /// The replacement file could not be renamed.
+        /// If <paramref name="lpBackupFileName"/> was specified, the replaced and replacement files retain their original file names.
+        /// Otherwise, the replaced file no longer exists and the replacement file exists under its original name.
+        /// <see cref="ERROR_UNABLE_TO_MOVE_REPLACEMENT_2"/>:
+        /// The replacement file could not be moved.
+        /// The replacement file still exists under its original name; however, it has inherited the file streams and attributes from the file it is replacing.
+        /// The file to be replaced still exists with a different name.
+        /// If <paramref name="lpBackupFileName"/> is specified, it will be the name of the replaced file.
+        /// <see cref="ERROR_UNABLE_TO_REMOVE_REPLACED"/>:
+        /// The replaced file could not be deleted.
+        /// The replaced and replacement files retain their original file names.
+        /// If any other error is returned, such as <see cref="ERROR_INVALID_PARAMETER"/>,
+        /// the replaced and replacement files will retain their original file names.
+        /// In this scenario, a backup file does not exist and it is not guaranteed that the replacement file
+        /// will have inherited all of the attributes and streams of the replaced file.
+        /// </returns>
+        /// <remarks>
+        /// Tip Starting with Windows 10, version 1607, for the unicode version of this function (<see cref="ReplaceFile"/>),
+        /// you can opt-in to remove the <see cref="MAX_PATH"/> limitation.
+        /// See the "Maximum Path Length Limitation" section of Naming Files, Paths, and Namespaces for details.
+        /// The <see cref="ReplaceFile"/> function combines several steps within a single function.
+        /// An application can call <see cref="ReplaceFile"/> instead of calling separate functions to save the data to a new file,
+        /// rename the original file using a temporary name, rename the new file to have the same name as the original file, and delete the original file.
+        /// Another advantage is that <see cref="ReplaceFile"/> not only copies the new file data, but also preserves the following attributes of the original file:
+        /// Creation time, Short file name, Object identifier, DACLs, Security resource attributes, Encryption, Compression,
+        /// Named streams not already in the replacement file
+        /// For example, if the replacement file is encrypted, but the replaced file is not encrypted, the resulting file is not encrypted.
+        /// Windows 7, Windows Server 2008 R2, Windows Server 2008, Windows Vista, Windows Server 2003 and Windows XP:
+        /// Security resource attributes (<see cref="ATTRIBUTE_SECURITY_INFORMATION"/>) for the original file are not preserved until Windows 8 and Windows Server 2012.
+        /// Note
+        /// If the replacement file is protected using Selective Wipe, then the replaced file will be protected by the enterprise id of the replacement file.
+        /// The resulting file has the same file ID as the replacement file.
+        /// The backup file, replaced file, and replacement file must all reside on the same volume.
+        /// To delete or rename a file, you must have either delete permission on the file or delete child permission in the parent directory.
+        /// If you set up a directory with all access except delete and delete child and the DACLs of new files are inherited,
+        /// then you should be able to create a file without being able to delete it.
+        /// However, you can then create a file, and you will get all the access you request on the handle returned to you at the time you create the file.
+        /// If you requested delete permission at the time you created the file, you could delete or rename the file with that handle but not with any other.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReplaceFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ReplaceFile([MarshalAs(UnmanagedType.LPWStr)][In] string lpReplacedFileName,
+            [MarshalAs(UnmanagedType.LPWStr)][In] string lpReplacementFileName, [MarshalAs(UnmanagedType.LPWStr)][In] string lpBackupFileName,
+            [In] ReplaceFileFlags dwReplaceFlags, [In] LPVOID lpExclude, [In] LPVOID lpReserved);
 
         /// <summary>
         /// <para>
