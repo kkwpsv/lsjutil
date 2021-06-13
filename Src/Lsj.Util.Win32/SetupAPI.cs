@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.Enums.CM_DEVCAP;
 using static Lsj.Util.Win32.Enums.DeviceRegistryPropertyCodes;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SetupDiGetClassDevsFlags;
+using static Lsj.Util.Win32.Enums.SetupDiOpenDeviceInfoFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
@@ -126,6 +127,48 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiEnumDeviceInfo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetupDiEnumDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] DWORD MemberIndex, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
+
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetupDiGetDeviceInstanceId"/> function retrieves the device instance ID that is associated with a device information element.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinstanceidw
+        /// </para>
+        /// </summary>
+        /// <param name="DeviceInfoSet">
+        /// A handle to the device information set that contains the device information element
+        /// that represents the device for which to retrieve a device instance ID.
+        /// </param>
+        /// <param name="DeviceInfoData">
+        /// A pointer to an <see cref="SP_DEVINFO_DATA"/> structure
+        /// that specifies the device information element in <paramref name="DeviceInfoSet"/>.
+        /// </param>
+        /// <param name="DeviceInstanceId">
+        /// A pointer to the character buffer that will receive the NULL-terminated device instance ID for the specified device information element.
+        /// For information about device instance IDs, see Device Identification Strings.
+        /// </param>
+        /// <param name="DeviceInstanceIdSize">
+        /// The size, in characters, of the <paramref name="DeviceInstanceId"/> buffer.
+        /// </param>
+        /// <param name="RequiredSize">
+        /// A pointer to the variable that receives the number of characters required to store the device instance ID.
+        /// </param>
+        /// <returns>
+        /// The function returns <see cref="TRUE"/> if it is successful.
+        /// Otherwise, it returns <see cref="FALSE"/> and the logged error can be retrieved by making a call to <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The setupapi.h header defines <see cref="SetupDiGetDeviceInstanceId"/> as an alias which automatically
+        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
+        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
+        /// mismatches that result in compilation or runtime errors.
+        /// For more information, see Conventions for Function Prototypes.
+        /// </remarks>
+        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] IntPtr DeviceInstanceId,
+            [In] DWORD DeviceInstanceIdSize, [Out] out DWORD RequiredSize);
 
         /// <summary>
         /// <para>
@@ -286,43 +329,84 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
-        /// The <see cref="SetupDiGetDeviceInstanceId"/> function retrieves the device instance ID that is associated with a device information element.
+        /// The <see cref="SetupDiGetSelectedDriver"/> function retrieves the selected driver
+        /// for a device information set or a particular device information element.
         /// </para>
         /// <para>
-        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetdeviceinstanceidw
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdigetselecteddriverw
         /// </para>
         /// </summary>
         /// <param name="DeviceInfoSet">
-        /// A handle to the device information set that contains the device information element
-        /// that represents the device for which to retrieve a device instance ID.
+        /// A handle to the device information set for which to retrieve a selected driver.
         /// </param>
         /// <param name="DeviceInfoData">
-        /// A pointer to an <see cref="SP_DEVINFO_DATA"/> structure
-        /// that specifies the device information element in <paramref name="DeviceInfoSet"/>.
+        /// A pointer to an <see cref="SP_DEVINFO_DATA"/> structure that specifies a device information element
+        /// that represents the device in <paramref name="DeviceInfoSet"/> for which to retrieve the selected driver.
+        /// This parameter is optional and can be NULL.
+        /// If this parameter is specified, <see cref="SetupDiGetSelectedDriver"/> retrieves the selected driver for the specified device.
+        /// If this parameter is <see cref="NullRef{SP_DEVINFO_DATA}"/>, <see cref="SetupDiGetSelectedDriver"/> retrieves
+        /// the selected class driver in the global class driver list that is associated with <paramref name="DeviceInfoSet"/>.
         /// </param>
-        /// <param name="DeviceInstanceId">
-        /// A pointer to the character buffer that will receive the NULL-terminated device instance ID for the specified device information element.
-        /// For information about device instance IDs, see Device Identification Strings.
-        /// </param>
-        /// <param name="DeviceInstanceIdSize">
-        /// The size, in characters, of the <paramref name="DeviceInstanceId"/> buffer.
-        /// </param>
-        /// <param name="RequiredSize">
-        /// A pointer to the variable that receives the number of characters required to store the device instance ID.
+        /// <param name="DriverInfoData">
+        /// A pointer to an <see cref="SP_DRVINFO_DATA"/> structure that receives information about the selected driver.
         /// </param>
         /// <returns>
         /// The function returns <see cref="TRUE"/> if it is successful.
-        /// Otherwise, it returns <see cref="FALSE"/> and the logged error can be retrieved by making a call to <see cref="GetLastError"/>.
+        /// Otherwise, it returns <see cref="FALSE"/> and the logged error can be retrieved with a call to <see cref="GetLastError"/>.
+        /// If a driver has not been selected for the specified device instance, the logged error is <see cref="ERROR_NO_DRIVER_SELECTED"/>.
+        /// </returns>
+        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetSelectedDriverW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetupDiGetSelectedDriver([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData,
+            [In][Out] ref SP_DRVINFO_DATA DriverInfoData);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="SetupDiOpenDeviceInfo"/> function adds a device information element for a device instance to a device information set,
+        /// if one does not already exist in the device information set,
+        /// and retrieves information that identifies the device information element for the device instance in the device information set.
+        /// </para>
+        /// <para>
+        /// From: https://docs.microsoft.com/zh-cn/windows/win32/api/setupapi/nf-setupapi-setupdiopendeviceinfow
+        /// </para>
+        /// </summary>
+        /// <param name="DeviceInfoSet">
+        /// A handle to the device information set to which <see cref="SetupDiOpenDeviceInfo"/> adds a device information element,
+        /// if one does not already exist, for the device instance that is specified by <paramref name="DeviceInstanceId"/>.
+        /// </param>
+        /// <param name="DeviceInstanceId">
+        /// A pointer to a NULL-terminated string that supplies the device instance identifier of a device (for example, "Root*PNP0500\0000").
+        /// If <paramref name="DeviceInstanceId"/> is <see langword="null"/> or references a zero-length string,
+        /// <see cref="SetupDiOpenDeviceInfo"/> adds a device information element to the supplied device information set,
+        /// if one does not already exist, for the root device in the device tree.
+        /// </param>
+        /// <param name="hwndParent">
+        /// The handle to the top-level window to use for any user interface related to installing the device.
+        /// </param>
+        /// <param name="OpenFlags">
+        /// A variable of <see cref="DWORD"/> type that controls how the device information element is opened.
+        /// The value of this parameter can be one or more of the following:
+        /// <see cref="DIOD_CANCEL_REMOVE"/> <see cref="DIOD_INHERIT_CLASSDRVS"/>
+        /// </param>
+        /// <param name="DeviceInfoData">
+        /// A pointer to a caller-supplied <see cref="SP_DEVINFO_DATA"/> structure that receives information
+        /// about the device information element for the device instance that is specified by <paramref name="DeviceInstanceId"/>.
+        /// The caller must set <see cref="SP_DEVINFO_DATA.cbSize"/> to <code>sizeof(SP_DEVINFO_DATA)</code>.
+        /// This parameter is optional and can be <see cref="NullRef{SP_DEVINFO_DATA}"/>.
+        /// </param>
+        /// <returns>
+        /// <see cref="SetupDiOpenDeviceInfo"/> returns <see cref="TRUE"/> if it is successful.
+        /// Otherwise, the function returns <see cref="FALSE"/> and the logged error can be retrieved with a call to <see cref="GetLastError"/>.
         /// </returns>
         /// <remarks>
-        /// The setupapi.h header defines <see cref="SetupDiGetDeviceInstanceId"/> as an alias which automatically
-        /// selects the ANSI or Unicode version of this function based on the definition of the UNICODE preprocessor constant.
-        /// Mixing usage of the encoding-neutral alias with code that not encoding-neutral can lead to
-        /// mismatches that result in compilation or runtime errors.
-        /// For more information, see Conventions for Function Prototypes.
+        /// If this device instance is being added to a set that has an associated class, the device class must be the same or the call will fail.
+        /// In this case, a call to <see cref="GetLastError"/> returns <see cref="ERROR_CLASS_MISMATCH"/>.
+        /// If the new device information element is successfully opened but the caller-supplied <paramref name="DeviceInfoData"/> buffer is invalid,
+        /// this function returns <see cref="FALSE"/>.
+        /// In this case, a call to <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_USER_BUFFER"/>.
+        /// However, the device information element is added as a new member of the set anyway.
         /// </remarks>
-        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiGetDeviceInstanceIdW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SetupDiGetDeviceInstanceId([In] HDEVINFO DeviceInfoSet, [In] in SP_DEVINFO_DATA DeviceInfoData, [In] IntPtr DeviceInstanceId,
-            [In] DWORD DeviceInstanceIdSize, [Out] out DWORD RequiredSize);
+        [DllImport("SetupAPI.dll", CharSet = CharSet.Unicode, EntryPoint = "SetupDiOpenDeviceInfoW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL SetupDiOpenDeviceInfo([In] HDEVINFO DeviceInfoSet, [In] string DeviceInstanceId, [In] HWND hwndParent,
+            [In] SetupDiOpenDeviceInfoFlags OpenFlags, [In][Out] ref SP_DEVINFO_DATA DeviceInfoData);
     }
 }
