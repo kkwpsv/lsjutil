@@ -3866,6 +3866,61 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Reopens the specified file system object with different access rights, sharing mode, and flags.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-reopenfile"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hOriginalFile">
+        /// A handle to the object to be reopened.
+        /// The object must have been created by the <see cref="CreateFile"/> function.
+        /// </param>
+        /// <param name="dwDesiredAccess">
+        /// The required access to the object. For a list of values, see File Security and Access Rights.
+        /// You cannot request an access mode that conflicts with the sharing mode specified in a previous open request whose handle is still open.
+        /// If this parameter is zero (0), the application can query device attributes without accessing the device. 
+        /// This is useful if an application wants to determine the size of a floppy disk drive and the formats it supports without requiring a floppy in the drive.
+        /// </param>
+        /// <param name="dwShareMode">
+        /// The sharing mode of the object.
+        /// You cannot request a sharing mode that conflicts with the access mode specified in a previous open request whose handle is still open.
+        /// If this parameter is zero (0) and <see cref="CreateFile"/> succeeds, the object cannot be shared and cannot be opened again until the handle is closed.
+        /// To enable other processes to share the object while your process has it open,
+        /// use a combination of one or more of the following values to specify the type of access they can request when they open the object.
+        /// These sharing options remain in effect until you close the handle to the object.
+        /// <see cref="FILE_SHARE_DELETE"/>, <see cref="FILE_SHARE_READ"/>, <see cref="FILE_SHARE_WRITE"/>
+        /// </param>
+        /// <param name="dwFlagsAndAttributes">
+        /// The file flags.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="FILE_FLAG_BACKUP_SEMANTICS"/>, <see cref="FILE_FLAG_DELETE_ON_CLOSE"/>, <see cref="FILE_FLAG_NO_BUFFERING"/>,
+        /// <see cref="FILE_FLAG_OPEN_NO_RECALL"/>, <see cref="FILE_FLAG_OPEN_REPARSE_POINT"/>, <see cref="FILE_FLAG_OVERLAPPED"/>,
+        /// <see cref="FILE_FLAG_POSIX_SEMANTICS"/>, <see cref="FILE_FLAG_RANDOM_ACCESS"/>, <see cref="FILE_FLAG_SEQUENTIAL_SCAN"/>,
+        /// <see cref="FILE_FLAG_WRITE_THROUGH"/>
+        /// If the handle represents the client side of a named pipe, the <paramref name="dwFlagsAndAttributes"/> parameter
+        /// can also contain Security Quality of Service information.
+        /// For more information, see Impersonation Levels.
+        /// When the calling application specifies the <see cref="SECURITY_SQOS_PRESENT"/> flag,
+        /// the <paramref name="dwFlagsAndAttributes"/> parameter can contain one or more of the following values.
+        /// <see cref="SECURITY_ANONYMOUS"/>/ <see cref="SECURITY_CONTEXT_TRACKING"/>, <see cref="SECURITY_DELEGATION"/>,
+        /// <see cref="SECURITY_EFFECTIVE_ONLY"/>, <see cref="SECURITY_IDENTIFICATION"/>, <see cref="SECURITY_IMPERSONATION"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is an open handle to the specified file.
+        /// If the function fails, the return value is <see cref="INVALID_HANDLE_VALUE"/>.
+        /// To get extended error information, call >Se GetLastError.
+        /// </returns>
+        /// <remarks>
+        /// The <paramref name="dwFlagsAndAttributes"/> parameter cannot contain any of the file attribute flags (FILE_ATTRIBUTE_*).
+        /// These can only be specified when the file is created.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReOpenFile", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE ReOpenFile([In] HANDLE hOriginalFile, [In] ACCESS_MASK dwDesiredAccess,
+            [In] FileShareModes dwShareMode, [In] DWORD dwFlagsAndAttributes);
+
+        /// <summary>
+        /// <para>
         /// Replaces one file with another file, with the option of creating a backup copy of the original file. 
         /// The replacement file assumes the name of the replaced file and its identity.
         /// </para>
