@@ -1200,7 +1200,7 @@ namespace Lsj.Util.Win32
         /// To retrieve information about other processes recorded in the same snapshot, use the <see cref="Process32Next"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE Process32First([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
+        public static extern BOOL Process32First([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
         /// <summary>
         /// <para>
@@ -1225,7 +1225,7 @@ namespace Lsj.Util.Win32
         /// To retrieve information about the first process recorded in a snapshot, use the <see cref="Process32First"/> function.
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
-        public static extern HANDLE Process32Next([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
+        public static extern BOOL Process32Next([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
         /// <summary>
         /// <para>
