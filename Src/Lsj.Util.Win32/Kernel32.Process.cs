@@ -1177,6 +1177,58 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves information about the first process encountered in a system snapshot.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-process32first"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lppe">
+        /// A pointer to a <see cref="PROCESSENTRY32"/> structure.
+        /// It contains process information such as the name of the executable file, the process identifier, and the process identifier of the parent process.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the first entry of the process list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// if no processes exist or the snapshot does not contain process information.
+        /// </returns>
+        /// <remarks>
+        /// The calling application must set the <see cref="PROCESSENTRY32.dwSize"/> member of <see cref="PROCESSENTRY32"/> to the size, in bytes, of the structure.
+        /// To retrieve information about other processes recorded in the same snapshot, use the <see cref="Process32Next"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE Process32First([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about the next process recorded in a system snapshot.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/tlhelp32/nf-tlhelp32-process32next"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hSnapshot">
+        /// A handle to the snapshot returned from a previous call to the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// </param>
+        /// <param name="lppe">
+        /// A pointer to a <see cref="PROCESSENTRY32"/> structure.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if the next entry of the process list has been copied to the buffer or <see cref="FALSE"/> otherwise.
+        /// The <see cref="ERROR_NO_MORE_FILES"/> error value is returned by the <see cref="GetLastError"/> function
+        /// if no processes exist or the snapshot does not contain process information.
+        /// </returns>
+        /// <remarks>
+        /// To retrieve information about the first process recorded in a snapshot, use the <see cref="Process32First"/> function.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "OpenProcess", ExactSpelling = true, SetLastError = true)]
+        public static extern HANDLE Process32Next([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
+
+        /// <summary>
+        /// <para>
         /// Retrieves the full name of the executable image for the specified process.
         /// </para>
         /// <para>
