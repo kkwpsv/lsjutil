@@ -16,8 +16,15 @@ namespace Lsj.Util.Win32.Marshals
         /// <param name="str"></param>
         public LPCWSTR(string str) : base(IntPtr.Zero)
         {
-            _gcHandle = GCHandle.Alloc(str, GCHandleType.Pinned);
-            SetHandle(_gcHandle.AddrOfPinnedObject());
+            if (str != null)
+            {
+                _gcHandle = GCHandle.Alloc(str, GCHandleType.Pinned);
+                SetHandle(_gcHandle.AddrOfPinnedObject());
+            }
+            else
+            {
+                GC.SuppressFinalize(this);
+            }
         }
 
         public LPCWSTR(IntPtr handle) : base(IntPtr.Zero)
