@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals.ByValStringStructs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.STRRET_TYPE;
 using static Lsj.Util.Win32.Ole32;
@@ -44,7 +45,6 @@ namespace Lsj.Util.Win32.Structs
         /// The buffer to receive the display name.
         /// </summary>
         [FieldOffset(4)]
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-        public string cStr;
+        public ByValStringStructForSizeMAX_PATH cStr;
     }
 }

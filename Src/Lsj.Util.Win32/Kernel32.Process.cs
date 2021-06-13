@@ -1199,7 +1199,7 @@ namespace Lsj.Util.Win32
         /// The calling application must set the <see cref="PROCESSENTRY32.dwSize"/> member of <see cref="PROCESSENTRY32"/> to the size, in bytes, of the structure.
         /// To retrieve information about other processes recorded in the same snapshot, use the <see cref="Process32Next"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32First", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32FirstW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Process32First([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
         /// <summary>
@@ -1224,7 +1224,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// To retrieve information about the first process recorded in a snapshot, use the <see cref="Process32First"/> function.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32Next", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "Process32NextW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL Process32Next([In] HANDLE hSnapshot, [In][Out] ref PROCESSENTRY32 lppe);
 
         /// <summary>
