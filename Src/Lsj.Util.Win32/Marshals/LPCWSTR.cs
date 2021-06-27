@@ -27,6 +27,10 @@ namespace Lsj.Util.Win32.Marshals
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="handle"></param>
         public LPCWSTR(IntPtr handle) : base(IntPtr.Zero)
         {
             SetHandle(handle);

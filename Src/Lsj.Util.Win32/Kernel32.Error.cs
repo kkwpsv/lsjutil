@@ -483,7 +483,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         /// <param name="dwErrCode">The last-error code for the thread.</param>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetLastError", ExactSpelling = true, SetLastError = true)]
-        public static extern void SetLastError([In] uint dwErrCode);
+        public static extern void SetLastError([In] SystemErrorCodes dwErrCode);
 
         /// <summary>
         /// <para>

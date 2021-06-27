@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
@@ -33,6 +32,7 @@ using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
@@ -2097,10 +2097,12 @@ namespace Lsj.Util.Win32
         /// <param name="hWnd">A handle to the window.</param>
         /// <param name="lpdwProcessId">
         /// A pointer to a variable that receives the process identifier. 
-        /// If this parameter is not NULL, GetWindowThreadProcessId copies the identifier of the process to the variable; 
+        /// If this parameter is not <see cref="NullRef{DWORD}"/>, <see cref="DWORD"/> copies the identifier of the process to the variable; 
         /// otherwise, it does not.
         /// </param>
-        /// <returns>The return value is the identifier of the thread that created the window.</returns>
+        /// <returns>
+        /// The return value is the identifier of the thread that created the window.
+        /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowThreadProcessId", ExactSpelling = true, SetLastError = true)]
         public static extern DWORD GetWindowThreadProcessId([In] HWND hWnd, [Out] out DWORD lpdwProcessId);
 
@@ -2759,8 +2761,7 @@ namespace Lsj.Util.Win32
         /// The foreground process can disable calls to <see cref="SetForegroundWindow"/> by calling the <see cref="LockSetForegroundWindow"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetForegroundWindow", ExactSpelling = true, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow([In] IntPtr hWnd);
+        public static extern BOOL SetForegroundWindow([In] IntPtr hWnd);
 
         /// <summary>
         /// <para>
