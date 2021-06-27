@@ -1,14 +1,9 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Marshals;
-using Lsj.Util.Win32.Structs;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
-using static Lsj.Util.Win32.Enums.ClassStyles;
-using static Lsj.Util.Win32.Enums.LoadImageFlags;
-using static Lsj.Util.Win32.Enums.SystemColors;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
@@ -19,18 +14,13 @@ namespace Lsj.Util.Win32.NativeUI
     /// <summary>
     /// Native Win32 Window
     /// </summary>
-    public class Win32Window : DisposableClass
+    public partial class Win32Window : DisposableClass
     {
-        private HWND _window;
-        private readonly WNDPROC _wndProc;
+        private HWND _handle;
+        private readonly WNDPROC? _wndProc;
 
         /// <summary>
-        /// Window Handle
-        /// </summary>
-        public HWND Handle => _window;
-
-        /// <summary>
-        /// 
+        /// Create 
         /// </summary>
         public Win32Window() : this(Guid.NewGuid().ToString(), "")
         {
@@ -56,98 +46,36 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="parentWindow"></param>
         public Win32Window(string windowClassName, string windowName, bool needRegisterClass, HWND parentWindow)
         {
+            _flags |= Win32WindowFlags.OwnWindow;
             var hInstance = GetModuleHandle(null);
             _wndProc = WindowProc;
 
             if (needRegisterClass)
             {
-                using var marshal = new StringToIntPtrMarshaler(windowClassName);
-                var wndclass = new WNDCLASSEX
-                {
-                    cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEX)),
-                    style = CS_DBLCLKS,
-                    lpfnWndProc = _wndProc,
-                    cbClsExtra = 0,
-                    cbWndExtra = 0,
-                    hInstance = hInstance,
-                    hIcon = LoadImage(NULL, (IntPtr)SystemIcons.IDI_APPLICATION, ImageTypes.IMAGE_ICON, 0, 0, LR_SHARED),
-                    hCursor = LoadImage(NULL, (IntPtr)SystemCursors.IDC_ARROW, ImageTypes.IMAGE_CURSOR, 0, 0, LR_SHARED),
-                    hbrBackground = COLOR_WINDOW,
-                    lpszMenuName = NULL,
-                    lpszClassName = marshal.GetPtr(),
-                };
-                if (RegisterClassEx(wndclass) == 0)
-                {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
-                }
+                RegisterWindowClass(hInstance, windowClassName);
             }
-            _window = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
+            _handle = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
                    CW_USEDEFAULT, CW_USEDEFAULT, parentWindow, NULL, hInstance, NULL);
-            if (_window == NULL)
+            if (_handle == NULL)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
         }
 
         /// <summary>
-        /// WindowStyles
+        /// 
         /// </summary>
-        public WindowStyles WindowStyles
+        /// <param name="windowHandle"></param>
+        public Win32Window(HWND windowHandle)
         {
-            get => (WindowStyles)GetWindowLong(_window, GetWindowLongIndexes.GWL_STYLE).SafeToUInt32();
-            set => SetWindowLong(_window, GetWindowLongIndexes.GWL_STYLE, (IntPtr)value);
-        }
-
-        /// <summary>
-        /// WindowStylesEx
-        /// </summary>
-        public WindowStylesEx WindowStylesEx
-        {
-            get => (WindowStylesEx)GetWindowLong(_window, GetWindowLongIndexes.GWL_EXSTYLE).SafeToUInt32();
-            set => SetWindowLong(_window, GetWindowLongIndexes.GWL_EXSTYLE, (IntPtr)value);
-        }
-
-        /// <summary>
-        /// Show
-        /// </summary>
-        public void Show()
-        {
-            ShowWindow(_window, ShowWindowCommands.SW_SHOWNORMAL);
-        }
-
-        /// <summary>
-        /// Hide
-        /// </summary>
-        public void Hide()
-        {
-            ShowWindow(_window, ShowWindowCommands.SW_HIDE);
-        }
-
-        /// <summary>
-        /// Set Window Size
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetWindowSize(int width, int height)
-        {
-            SetWindowPos(_window, IntPtr.Zero, 0, 0, width, height, SetWindowPosFlags.SWP_NOMOVE | SetWindowPosFlags.SWP_NOZORDER);
-        }
-
-        /// <summary>
-        /// Start Message Loop
-        /// </summary>
-        public void StartMessageLoop()
-        {
-            while (GetMessage(out var msg, NULL, 0, 0))
+            if (!IsWindow(windowHandle))
             {
-                try
-                {
-                    TranslateMessage(msg);
-                    DispatchMessage(msg);
-                }
-                catch (Exception)
-                {
-                }
+                throw new ArgumentException("Invalid Window Handle");
+            }
+            _handle = windowHandle;
+            if (ProcessID != GetProcessId(GetCurrentProcess()))
+            {
+                _flags |= Win32WindowFlags.OtherProcess;
             }
         }
 
@@ -177,20 +105,8 @@ namespace Lsj.Util.Win32.NativeUI
                 //The finally in Main won't run if exception is thrown in this method.
                 //This may be because this method was called by system code.
                 //So we must handle exception here.
-                DestroyWindow(_window);
+                DestroyWindow(_handle);
                 return 0;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected override void CleanUpUnmanagedResources()
-        {
-            if (_window != NULL)
-            {
-                DestroyWindow(_window);
-                _window = NULL;
             }
         }
     }

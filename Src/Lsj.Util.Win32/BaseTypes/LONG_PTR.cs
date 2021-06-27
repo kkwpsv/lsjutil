@@ -36,6 +36,18 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator LONG_PTR(int val) => new LONG_PTR { _value = (IntPtr)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator LONG_PTR(uint val) => new LONG_PTR { _value = (IntPtr)val };
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <returns></returns>
         public int SafeToInt32() => _value.SafeToInt32();
 

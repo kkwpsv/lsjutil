@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lsj.Util.Win32.Extensions;
+using System;
 using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Win32.BaseTypes
@@ -31,5 +32,41 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator ULONG_PTR(UIntPtr val) => new ULONG_PTR { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IntPtr(ULONG_PTR val) => val._value.SafeToIntPtr();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator ULONG_PTR(IntPtr val) => new ULONG_PTR { _value = val.SafeToUIntPtr() };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int SafeToInt32() => _value.SafeToInt32();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public uint SafeToUInt32() => _value.SafeToUInt32();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public long SafeToInt64() => _value.SafeToInt64();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ulong SafeToUInt64() => _value.SafeToUInt64();
     }
 }
