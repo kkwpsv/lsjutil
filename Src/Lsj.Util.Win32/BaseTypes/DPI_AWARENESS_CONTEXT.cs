@@ -84,7 +84,6 @@ namespace Lsj.Util.Win32.BaseTypes
             }
             else if (this == DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED)
             {
-                var x = (HANDLE)0 == this;
                 return nameof(DPI_AWARENESS_CONTEXT_UNAWARE_GDISCALED);
             }
             else
@@ -108,7 +107,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(DPI_AWARENESS_CONTEXT a, DPI_AWARENESS_CONTEXT b) => a._value == b._value;
+        public static bool operator ==(DPI_AWARENESS_CONTEXT a, IntPtr b) => a._value == b;
 
         /// <summary>
         /// 
@@ -116,7 +115,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(DPI_AWARENESS_CONTEXT a, DPI_AWARENESS_CONTEXT b) => a._value != b._value;
+        public static bool operator !=(DPI_AWARENESS_CONTEXT a, IntPtr b) => a._value != b;
 
         /// <summary>
         /// 
@@ -129,5 +128,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator DPI_AWARENESS_CONTEXT(HANDLE val) => new DPI_AWARENESS_CONTEXT { _value = val };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        public static implicit operator IntPtr(DPI_AWARENESS_CONTEXT val) => val._value;
     }
 }

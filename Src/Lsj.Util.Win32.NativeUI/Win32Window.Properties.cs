@@ -18,6 +18,11 @@ namespace Lsj.Util.Win32.NativeUI
         public int ProcessID => GetWindowProcessIDAndThreadID().ProcessID;
 
         /// <summary>
+        /// Process Name
+        /// </summary>
+        public string ProcessName => GetProcessName();
+
+        /// <summary>
         /// Thread ID
         /// </summary>
         public int ThreadID => GetWindowProcessIDAndThreadID().ThreadID;
@@ -77,6 +82,11 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
+        /// Class Name
+        /// </summary>
+        public string ClassName => GetClassName();
+
+        /// <summary>
         /// Window Rect (Screen coordinates)
         /// </summary>
         public RECT Rect
@@ -93,5 +103,32 @@ namespace Lsj.Util.Win32.NativeUI
             get => GetShowStates();
             set => SetShowStates(value);
         }
+
+        /// <summary>
+        /// Dpi Awareness
+        /// </summary>
+        public DPI_AWARENESS DpiAwareness
+        {
+            get => GetDpiAwareness();
+        }
+
+        /// <summary>
+        /// Is Touch Window
+        /// </summary>
+        public bool IsTouchWindow => GetIsTouchWindow();
+
+        /// <summary>
+        /// Desktop ID
+        /// </summary>
+        public GUID DesktopID
+        {
+            get => GetDesktopID();
+            set => SetDesktopID(value);
+        }
+
+        /// <summary>
+        /// Is NonClient Rendering Enabled
+        /// </summary>
+        public bool IsNonClientRenderingEnabled => GetIsNonClientRenderingEnabled();
     }
 }

@@ -33,7 +33,7 @@ namespace Lsj.Util.Win32.NativeUI
             if (Environment.OSVersion.Version.Major >= 10)
             {
                 CoCreateInstance(CLSID_VirtualDesktopManager, NullRef<IUnknown>(), CLSCTX_INPROC_SERVER, in IID_IVirtualDesktopManager, out _virtualDesktopManager);
-            }      
+            }
         }
 
         private Win32WindowFlags _flags;
@@ -100,5 +100,10 @@ namespace Lsj.Util.Win32.NativeUI
                 throw new Win32Exception((int)errorCode);
             }
         }
+
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void ThrowComException(HRESULT hresult) => Marshal.ThrowExceptionForHR(hresult);
     }
 }
