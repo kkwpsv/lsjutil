@@ -125,10 +125,5 @@ namespace Lsj.Util.Win32.NativeUI
             get => GetDesktopID();
             set => SetDesktopID(value);
         }
-
-        /// <summary>
-        /// Is NonClient Rendering Enabled
-        /// </summary>
-        public bool IsNonClientRenderingEnabled => GetIsNonClientRenderingEnabled();
     }
 }

@@ -5,7 +5,6 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.GetAncestorFlags;
 using static Lsj.Util.Win32.Enums.GetClassLongIndexes;
@@ -19,8 +18,6 @@ using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Dwmapi;
-using static Lsj.Util.Win32.Enums.DWMWINDOWATTRIBUTE;
 
 namespace Lsj.Util.Win32.NativeUI
 {
@@ -343,17 +340,6 @@ namespace Lsj.Util.Win32.NativeUI
                     ThrowComException(hresult);
                 }
             }
-        }
-
-        private bool GetIsNonClientRenderingEnabled()
-        {
-            BOOL result = false;
-            var hresult = DwmGetWindowAttribute(_handle, DWMWA_NCRENDERING_ENABLED, AsPointer(ref result), SizeOf<BOOL>());
-            if (!hresult)
-            {
-                ThrowComException(hresult);
-            }
-            return result;
         }
     }
 }

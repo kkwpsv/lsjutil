@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.NativeUI
         private Win32WindowFlags _flags;
 
         [Flags]
-        enum Win32WindowFlags
+        internal enum Win32WindowFlags
         {
             OwnWindow = 0x1,
             OtherProcess = 0x10,
@@ -83,17 +83,17 @@ namespace Lsj.Util.Win32.NativeUI
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private bool CheckFlag(Win32WindowFlags flags) => (_flags & flags) != 0;
+        internal bool CheckFlag(Win32WindowFlags flags) => (_flags & flags) != 0;
 
 #if! NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private void ThrowExceptionIfError() => ThrowExceptionIfError(GetLastError());
+        internal void ThrowExceptionIfError() => ThrowExceptionIfError(GetLastError());
 
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private void ThrowExceptionIfError(SystemErrorCodes errorCode)
+        internal void ThrowExceptionIfError(SystemErrorCodes errorCode)
         {
             if (errorCode != SystemErrorCodes.ERROR_SUCCESS)
             {
@@ -104,6 +104,6 @@ namespace Lsj.Util.Win32.NativeUI
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        private void ThrowComException(HRESULT hresult) => Marshal.ThrowExceptionForHR(hresult);
+        internal void ThrowComException(HRESULT hresult) => Marshal.ThrowExceptionForHR(hresult);
     }
 }
