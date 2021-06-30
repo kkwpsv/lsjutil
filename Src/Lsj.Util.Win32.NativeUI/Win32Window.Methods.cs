@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions;
-using static Lsj.Util.Win32.Constants;
+using System.Threading;
 using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.SetWindowPosFlags;
 using static Lsj.Util.Win32.Enums.ShowWindowCommands;
@@ -13,13 +13,11 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Start Message Loop
         /// </summary>
-        public void StartMessageLoop()
+        public UIThreadManager StartMessageLoop()
         {
-            while (GetMessage(out var msg, NULL, 0, 0))
-            {
-                TranslateMessage(msg);
-                DispatchMessage(msg);
-            }
+            var manager = new UIThreadManager(Thread.CurrentThread);
+            manager.StartMessageLoop();
+            return manager;
         }
 
         /// <summary>
