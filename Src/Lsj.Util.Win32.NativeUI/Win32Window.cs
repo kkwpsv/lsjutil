@@ -16,7 +16,10 @@ namespace Lsj.Util.Win32.NativeUI
     /// </summary>
     public partial class Win32Window : DisposableClass
     {
-        private HWND _handle;
+        /// <summary>
+        /// Window Handle
+        /// </summary>
+        protected HWND _handle;
         private readonly WNDPROC? _wndProc;
 
         /// <summary>
@@ -31,8 +34,8 @@ namespace Lsj.Util.Win32.NativeUI
         /// 
         /// </summary>
         /// <param name="windowClassName"></param>
-        /// <param name="windowName"></param>
-        public Win32Window(string windowClassName, string windowName) : this(windowClassName, windowName, true, NULL)
+        /// <param name="windowText"></param>
+        public Win32Window(string windowClassName, string windowText) : this(windowClassName, windowText, true, NULL)
         {
 
         }
@@ -41,10 +44,29 @@ namespace Lsj.Util.Win32.NativeUI
         /// 
         /// </summary>
         /// <param name="windowClassName"></param>
-        /// <param name="windowName"></param>
+        /// <param name="windowText"></param>
         /// <param name="needRegisterClass"></param>
         /// <param name="parentWindow"></param>
-        public Win32Window(string windowClassName, string windowName, bool needRegisterClass, HWND parentWindow)
+        public Win32Window(string windowClassName, string windowText, bool needRegisterClass, HWND parentWindow)
+            : this(windowClassName, windowText, needRegisterClass, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, WS_TILEDWINDOW, WS_EX_OVERLAPPEDWINDOW, parentWindow)
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windowClassName"></param>
+        /// <param name="windowText"></param>
+        /// <param name="needRegisterClass"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="style"></param>
+        /// <param name="stylesEx"></param>
+        /// <param name="parentWindow"></param>
+        public Win32Window(string windowClassName, string windowText, bool needRegisterClass, int x, int y, int width, int height, WindowStyles style, WindowStylesEx stylesEx, HWND parentWindow)
         {
             _flags |= Win32WindowFlags.OwnWindow;
             var hInstance = GetModuleHandle(null);
@@ -54,8 +76,9 @@ namespace Lsj.Util.Win32.NativeUI
             {
                 RegisterWindowClass(hInstance, windowClassName);
             }
-            _handle = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, windowClassName, windowName, WS_TILEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT,
-                   CW_USEDEFAULT, CW_USEDEFAULT, parentWindow, NULL, hInstance, NULL);
+
+            _handle = CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)style, (uint)stylesEx, parentWindow, hInstance);
+
             if (_handle == NULL)
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -108,6 +131,24 @@ namespace Lsj.Util.Win32.NativeUI
                 DestroyWindow(_handle);
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="windowClassName"></param>
+        /// <param name="windowText"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="style"></param>
+        /// <param name="styleEx"></param>
+        /// <param name="parentWindow"></param>
+        /// <param name="hInstance"></param>
+        protected virtual HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HINSTANCE hInstance)
+        {
+            return CreateWindowEx((WindowStylesEx)styleEx, windowClassName, windowText, (WindowStyles)style, x, y, width, height, parentWindow, NULL, hInstance, NULL);
         }
     }
 }
