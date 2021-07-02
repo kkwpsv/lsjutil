@@ -4,9 +4,9 @@ using Lsj.Util.Win32.Enums;
 namespace Lsj.Util.Win32.NativeUI.Controls
 {
     /// <summary>
-    /// ComboBoxEx
+    /// Pager
     /// </summary>
-    public class ComboBoxEx : BaseControl
+    public class Pager : BaseControl
     {
         /// <summary>
         /// 
@@ -17,9 +17,8 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="style"></param>
-        /// <param name="exStyles"></param>
         /// <param name="parentWindow"></param>
-        public ComboBoxEx(string text, int x, int y, int width, int height, ComboBoxStyles style, ComboBoxExStyles exStyles, HWND parentWindow) : base("ComboBoxEx32", text, x, y, width, height, (uint)style, (uint)exStyles, parentWindow)
+        public Pager(string text, int x, int y, int width, int height, PagerStyles style, HWND parentWindow) : base("SysPager", text, x, y, width, height, (uint)style, parentWindow)
         {
 
         }
