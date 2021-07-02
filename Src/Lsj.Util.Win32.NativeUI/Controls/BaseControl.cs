@@ -21,7 +21,24 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="height"></param>
         /// <param name="style"></param>
         /// <param name="parentWindow"></param>
-        protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, HWND parentWindow) : base(className, text, false, x, y, width, height, (WindowStyles)style, 0, parentWindow)
+        protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, HWND parentWindow) : this(className, text, x, y, width, height, style, 0, parentWindow)
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="className"></param>
+        /// <param name="text"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="style"></param>
+        /// <param name="styleEx"></param>
+        /// <param name="parentWindow"></param>
+        protected BaseControl(string className, string text, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow) : base(className, text, false, x, y, width, height, (WindowStyles)style, (WindowStylesEx)styleEx, parentWindow)
         {
 
         }

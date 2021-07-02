@@ -12,7 +12,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/combo-box-styles"/>
     /// </para>
     /// </summary>
-    public enum ComboBoxStyles
+    public enum ComboBoxStyles : uint
     {
         /// <summary>
         /// Automatically scrolls the text in an edit control to the right when the user types a character at the end of the line.
