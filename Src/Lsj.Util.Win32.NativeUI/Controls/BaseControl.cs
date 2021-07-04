@@ -59,6 +59,27 @@ namespace Lsj.Util.Win32.NativeUI.Controls
 
         /// <inheritdoc/>
         protected override HWND CreateWindowImpl(string windowClassName, string windowText, int x, int y, int width, int height, uint style, uint styleEx, HWND parentWindow, HINSTANCE hInstance)
-            => base.CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)WS_CHILD | style, styleEx, parentWindow, hInstance);
+        {
+            if (!_hasInit)
+            {
+                _hasInit = Init();
+            }
+            if (_hasInit)
+            {
+                return base.CreateWindowImpl(windowClassName, windowText, x, y, width, height, (uint)WS_CHILD | style, styleEx, parentWindow, hInstance);
+            }
+            else
+            {
+                return NULL;
+            }
+        }
+
+        private bool _hasInit = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected virtual bool Init() => true;
     }
 }
