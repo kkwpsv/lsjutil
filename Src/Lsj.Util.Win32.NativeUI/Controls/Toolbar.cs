@@ -32,7 +32,7 @@ namespace Lsj.Util.Win32.NativeUI.Controls
             InitCommonControlsEx(new INITCOMMONCONTROLSEX
             {
                 dwSize = SizeOf<INITCOMMONCONTROLSEX>(),
-                dwICC = ICC_LINK_CLASS,
+                dwICC = ICC_BAR_CLASSES,
             });
 
     }
