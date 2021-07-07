@@ -25,6 +25,7 @@ namespace Lsj.Util.Win32.NativeUI.Controls
 
         }
 
+        /// <inheritdoc/>
         protected override bool Init() => LoadLibrary("Msftedit.dll") != NULL;
     }
 }
