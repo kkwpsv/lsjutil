@@ -83,6 +83,8 @@ namespace Lsj.Util.Win32.NativeUI
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
+
+            DWMInfo = new DWMInfo(this);
         }
 
         /// <summary>
@@ -100,6 +102,8 @@ namespace Lsj.Util.Win32.NativeUI
             {
                 _flags |= Win32WindowFlags.OtherProcess;
             }
+
+            DWMInfo = new DWMInfo(this);
         }
 
         /// <summary>

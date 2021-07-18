@@ -125,5 +125,10 @@ namespace Lsj.Util.Win32.NativeUI
             get => GetDesktopID();
             set => SetDesktopID(value);
         }
+
+        /// <summary>
+        /// DWM Info
+        /// </summary>
+        public DWMInfo DWMInfo { get; }
     }
 }
