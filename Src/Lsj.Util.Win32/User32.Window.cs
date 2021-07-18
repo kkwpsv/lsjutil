@@ -2193,6 +2193,9 @@ namespace Lsj.Util.Win32
         /// If the specified window is a control, the function retrieves the length of the text within the control.
         /// However, <see cref="GetWindowTextLength"/> cannot retrieve the length of the text of an edit control in another application.
         /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getwindowtextlengthw"/>
+        /// </para>
         /// </summary>
         /// <param name="hWnd">A handle to the window or control.</param>
         /// <returns>
@@ -2219,7 +2222,7 @@ namespace Lsj.Util.Win32
         /// To obtain the exact length of the text, use the <see cref="WM_GETTEXT"/>, <see cref="LB_GETTEXT"/>,
         /// or <see cref="CB_GETLBTEXT"/> messages, or the <see cref="GetWindowText"/> function.
         /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLength", ExactSpelling = true, SetLastError = true)]
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetWindowTextLengthW", ExactSpelling = true, SetLastError = true)]
         public static extern int GetWindowTextLength([In] HWND hWnd);
 
         /// <summary>
