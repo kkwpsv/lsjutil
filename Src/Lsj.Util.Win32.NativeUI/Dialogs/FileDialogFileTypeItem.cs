@@ -12,12 +12,12 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <summary>
         /// Name
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Pattern
         /// Like *.bmp;*.jpg
         /// </summary>
-        public string Pattern { get; set; }
+        public string? Pattern { get; set; }
     }
 }

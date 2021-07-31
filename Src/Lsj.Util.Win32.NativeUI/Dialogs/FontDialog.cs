@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         public override ShowDialogResult ShowDialog(IntPtr owner)
         {
             EnsureCHOOSEFONT(owner);
-            var chooseFont = CHOOSEFONT.Value;
+            var chooseFont = CHOOSEFONT!.Value;
             try
             {
                 if (!ChooseFont(ref chooseFont))

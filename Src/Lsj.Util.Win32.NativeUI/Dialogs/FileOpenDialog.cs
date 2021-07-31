@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
             }
             else
             {
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
         }
     }

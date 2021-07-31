@@ -1,5 +1,4 @@
-﻿using Lsj.Util.Win32.BaseTypes;
-using Lsj.Util.Win32.ComInterfaces;
+﻿using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Collections.Generic;
@@ -30,12 +29,12 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
         /// <summary>
         /// FileTypes
         /// </summary>
-        public IList<FileDialogFileTypeItem> FileTypes { get; set; }
+        public IList<FileDialogFileTypeItem>? FileTypes { get; set; }
 
         /// <summary>
         /// Title
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <inheritdoc/>
         public override ShowDialogResult ShowDialog(IntPtr owner)
@@ -86,7 +85,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                         return;
                     }
                 }
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
         }
 
@@ -105,7 +104,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 {
                     return;
                 }
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
         }
 
@@ -118,7 +117,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                 {
                     return;
                 }
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
         }
 
@@ -135,7 +134,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                     {
                         if (result = shellItem->GetDisplayName(SIGDN_FILESYSPATH, out var path))
                         {
-                            Result = Marshal.PtrToStringUni(path);
+                            Result = Marshal.PtrToStringUni(path)!;
                             CoTaskMemFree(path);
                             return;
                         }
@@ -145,7 +144,7 @@ namespace Lsj.Util.Win32.NativeUI.Dialogs
                         ((IUnknown*)shellItem)->Release();
                     }
                 }
-                throw Marshal.GetExceptionForHR(result);
+                throw Marshal.GetExceptionForHR(result)!;
             }
         }
     }
