@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.Enums.ToolbarControlStyles;
 using static Lsj.Util.Win32.Macros.ButtonControlMacros;
 
 namespace Lsj.Util.Win32.Enums

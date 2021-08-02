@@ -421,6 +421,28 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Gets information about the pointer device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-getpointerdevice"/>
+        /// </para>
+        /// </summary>
+        /// <param name="device">
+        /// The handle to the device.
+        /// </param>
+        /// <param name="pointerDevice">
+        /// A <see cref="POINTER_DEVICE_INFO"/> structure that contains information about the pointer device.
+        /// </param>
+        /// <returns>
+        /// If this function succeeds, it returns <see cref="TRUE"/>.
+        /// Otherwise, it returns <see cref="FALSE"/>.
+        /// To retrieve extended error information, call the <see cref="GetLastError"/> function.
+        /// </returns>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetPointerDevice", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL GetPointerDevice([In] HANDLE device, [Out] out POINTER_DEVICE_INFO pointerDevice);
+
+        /// <summary>
+        /// <para>
         /// Gets information about the pointer devices attached to the system.
         /// </para>
         /// <para>

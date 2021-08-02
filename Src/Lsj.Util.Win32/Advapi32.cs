@@ -3,8 +3,10 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using static Lsj.Util.Win32.BaseTypes.ACCESS_MASK;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
@@ -43,6 +45,276 @@ namespace Lsj.Util.Win32
         /// MAX_SHUTDOWN_TIMEOUT
         /// </summary>
         public const int MAX_SHUTDOWN_TIMEOUT = 10 * 365 * 24 * 60 * 60;
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AccessCheck"/> function determines whether a security descriptor
+        /// grants a specified set of access rights to the client identified by an access token.
+        /// Typically, server applications use this function to check access to a private object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheck"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pSecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure against which access is checked.
+        /// </param>
+        /// <param name="ClientToken">
+        /// A handle to an impersonation token that represents the client that is attempting to gain access.
+        /// The handle must have <see cref="TOKEN_QUERY"/> access to the token; otherwise, the function fails with <see cref="ERROR_ACCESS_DENIED"/>.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Access mask that specifies the access rights to check.
+        /// This mask must have been mapped by the <see cref="MapGenericMask"/> function to contain no generic access rights.
+        /// If this parameter is <see cref="MAXIMUM_ALLOWED"/>, the function sets the <paramref name="GrantedAccess"/> access mask
+        /// to indicate the maximum access rights the security descriptor allows the client.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to the <see cref="GENERIC_MAPPING"/> structure associated with the object for which access is being checked.
+        /// </param>
+        /// <param name="PrivilegeSet">
+        /// A pointer to a <see cref="PRIVILEGE_SET"/> structure that receives the privileges used to perform the access validation.
+        /// If no privileges were used, the function sets the <see cref="PrivilegeCount"/> member to zero.
+        /// </param>
+        /// <param name="PrivilegeSetLength">
+        /// Specifies the size, in bytes, of the buffer pointed to by the <paramref name="PrivilegeSet"/> parameter.
+        /// </param>
+        /// <param name="GrantedAccess">
+        /// A pointer to an access mask that receives the granted access rights.
+        /// If <paramref name="AccessStatus"/> is set to FALSE, the function sets the access mask to zero.
+        /// If the function fails, it does not set the access mask.
+        /// </param>
+        /// <param name="AccessStatus">
+        /// A pointer to a variable that receives the results of the access check.
+        /// If the security descriptor allows the requested access rights to the client identified by the access token,
+        /// <paramref name="AccessStatus"/> is set to <see cref="TRUE"/>.
+        /// Otherwise, <paramref name="AccessStatus"/> is set to <see cref="FALSE"/>,
+        /// and you can call <see cref="GetLastError"/> to get extended error information.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information, see the How AccessCheck Works overview.
+        /// The <see cref="AccessCheck"/> function compares the specified security descriptor with the specified access token and indicates,
+        /// in the <paramref name="AccessStatus"/> parameter, whether access is granted or denied.
+        /// If access is granted, the requested access mask becomes the object's granted access mask.
+        /// If the security descriptor's DACL is <see cref="NULL"/>, the <paramref name="AccessStatus"/> parameter returns <see cref="TRUE"/>,
+        /// which indicates that the client has the requested access.
+        /// The <see cref="AccessCheck"/> function fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>
+        /// if the security descriptor does not contain owner and group SIDs.
+        /// The <see cref="AccessCheck"/> function does not generate an audit.
+        /// If your application requires audits for access checks, use functions such as <see cref="AccessCheckAndAuditAlarm"/>,
+        /// <see cref="AccessCheckByTypeAndAuditAlarm"/>, <see cref="AccessCheckByTypeResultListAndAuditAlarm"/>,
+        /// or <see cref="AccessCheckByTypeResultListAndAuditAlarmByHandle"/>, instead of <see cref="AccessCheck"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheck", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AccessCheck([In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] HANDLE ClientToken, [In] ACCESS_MASK DesiredAccess,
+            [In] in GENERIC_MAPPING GenericMapping, [In] in PPRIVILEGE_SET PrivilegeSet, [In][Out] ref DWORD PrivilegeSetLength,
+            [Out] out ACCESS_MASK GrantedAccess, [Out] out BOOL AccessStatus);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AccessCheckAndAuditAlarm"/> function determines whether a security descriptor
+        /// grants a specified set of access rights to the client being impersonated by the calling thread.
+        /// If the security descriptor has a SACL with ACEs that apply to the client,
+        /// the function generates any necessary audit messages in the security event log.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/securitybaseapi/nf-securitybaseapi-accesscheckandauditalarmw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SubsystemName">
+        /// A pointer to a null-terminated string specifying the name of the subsystem calling the function.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="HandleId">
+        /// A pointer to a unique value representing the client's handle to the object.
+        /// If the access is denied, the system ignores this value.
+        /// </param>
+        /// <param name="ObjectTypeName">
+        /// A pointer to a null-terminated string specifying the type of object being created or accessed.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="ObjectName">
+        /// A pointer to a null-terminated string specifying the name of the object being created or accessed.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="SecurityDescriptor">
+        /// A pointer to the <see cref="SECURITY_DESCRIPTOR"/> structure against which access is checked.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// Access mask that specifies the access rights to check.
+        /// This mask must have been mapped by the <see cref="MapGenericMask"/> function to contain no generic access rights.
+        /// If this parameter is <see cref="MAXIMUM_ALLOWED"/>, the function sets the <paramref name="GrantedAccess"/> access mask
+        /// to indicate the maximum access rights the security descriptor allows the client.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to the <see cref="GENERIC_MAPPING"/> structure associated with the object for which access is being checked.
+        /// </param>
+        /// <param name="ObjectCreation">
+        /// Specifies a flag that determines whether the calling application will create a new object when access is granted.
+        /// A value of <see cref="TRUE"/> indicates the application will create a new object.
+        /// A value of <see cref="FALSE"/> indicates the application will open an existing object.
+        /// </param>
+        /// <param name="GrantedAccess">
+        /// A pointer to an access mask that receives the granted access rights.
+        /// If <paramref name="AccessStatus"/> is set to <see cref="FALSE"/>, the function sets the access mask to zero.
+        /// If the function fails, it does not set the access mask.
+        /// </param>
+        /// <param name="AccessStatus">
+        /// A pointer to a variable that receives the results of the access check.
+        /// If the security descriptor allows the requested access rights to the client, 
+        /// <paramref name="AccessStatus"/> is set to <see cref="TRUE"/>.
+        /// Otherwise, <paramref name="AccessStatus"/> is set to <see cref="FALSE"/>.
+        /// </param>
+        /// <param name="pfGenerateOnClose">
+        /// A pointer to a flag set by the audit-generation routine when the function returns.
+        /// Pass this flag to the <see cref="ObjectCloseAuditAlarm"/> function when the object handle is closed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information, see the How AccessCheck Works overview.
+        /// The <see cref="AccessCheckAndAuditAlarm"/> function requires the calling process to have the <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// The test for this privilege is performed against the primary token of the calling process, not the impersonation token of the thread.
+        /// The <see cref="AccessCheckAndAuditAlarm"/> function fails if the calling thread is not impersonating a client.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckAndAuditAlarmW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AccessCheckAndAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
+            [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] ACCESS_MASK DesiredAccess,
+            [In] in GENERIC_MAPPING GenericMapping, [In] BOOL ObjectCreation, [Out] out ACCESS_MASK GrantedAccess,
+            [Out] out BOOL AccessStatus, [Out] out BOOL pfGenerateOnClose);
+
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="AccessCheckByTypeAndAuditAlarm"/> function determines whether a security descriptor
+        /// grants a specified set of access rights to the client being impersonated by the calling thread.
+        /// The function can check the client's access to a hierarchy of objects, such as an object, its property sets, and properties.
+        /// The function grants or denies access to the hierarchy as a whole.
+        /// If the security descriptor has a system access control list (SACL) with access control entries (ACEs) that apply to the client,
+        /// the function generates any necessary audit messages in the security event log.
+        /// Alarms are not currently supported.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-accesscheckbytypeandauditalarmw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="SubsystemName">
+        /// A pointer to a null-terminated string that specifies the name of the subsystem calling the function.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="HandleId">
+        /// A pointer to a unique value that represents the client's handle to the object.
+        /// If the access is denied, the system ignores this value.
+        /// </param>
+        /// <param name="ObjectTypeName">
+        /// A pointer to a null-terminated string that specifies the type of object being created or accessed.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="ObjectName">
+        /// A pointer to a null-terminated string that specifies the name of the object being created or accessed.
+        /// This string appears in any audit message that the function generates.
+        /// </param>
+        /// <param name="SecurityDescriptor">
+        /// A pointer to a <see cref="SECURITY_DESCRIPTOR"/> structure against which access is checked.
+        /// </param>
+        /// <param name="PrincipalSelfSid">
+        /// A pointer to a security identifier (SID).
+        /// If the security descriptor is associated with an object that represents a principal (for example, a user object),
+        /// the <<paramref name="PrincipalSelfSid"/> parameter should be the SID of the object.
+        /// When evaluating access, this SID logically replaces the SID in any ACE containing the well-known <see cref="PRINCIPAL_SELF"/> SID (S-1-5-10).
+        /// For information about well-known SIDs, see Well-known SIDs.
+        /// If the protected object does not represent a principal, set this parameter to <see cref="NULL"/>.
+        /// </param>
+        /// <param name="DesiredAccess">
+        /// An access mask that specifies the access rights to check.
+        /// This mask must have been mapped by the <see cref="MapGenericMask"/> function to contain no generic access rights.
+        /// If this parameter is <see cref="MAXIMUM_ALLOWED"/>, the function sets the <paramref name="GrantedAccess"/> access mask
+        /// to indicate the maximum access rights the security descriptor allows the client.
+        /// </param>
+        /// <param name="AuditType">
+        /// The type of audit to be generated.
+        /// This can be one of the values from the <see cref="AUDIT_EVENT_TYPE"/> enumeration type.
+        /// </param>
+        /// <param name="Flags">
+        /// A flag that controls the function's behavior if the calling process does not have the <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// If the <see cref="AUDIT_ALLOW_NO_PRIVILEGE"/> flag is set, the function performs the access check without generating audit messages when the privilege is not enabled.
+        /// If this parameter is zero, the function fails if the privilege is not enabled.
+        /// </param>
+        /// <param name="ObjectTypeList">
+        /// A pointer to an array of <see cref="OBJECT_TYPE_LIST"/> structures that identify the hierarchy of object types for which to check access.
+        /// Each element in the array specifies a GUID that identifies the object type and a value that indicates the level of the object type in the hierarchy of object types.
+        /// The array should not have two elements with the same GUID.
+        /// The array must have at least one element. The first element in the array must be at level zero and identify the object itself.
+        /// The array can have only one level zero element.
+        /// The second element is a subobject, such as a property set, at level 1. Following each level 1 entry are subordinate entries for the level 2 through 4 subobjects.
+        /// Thus, the levels for the elements in the array might be {0, 1, 2, 2, 1, 2, 3}.
+        /// If the object type list is out of order, <see cref="AccessCheckByTypeAndAuditAlarm"/> fails and <see cref="GetLastError"/> returns <see cref="ERROR_INVALID_PARAMETER"/>.
+        /// </param>
+        /// <param name="ObjectTypeListLength">
+        /// The number of elements in the <paramref name="ObjectTypeList"/> array.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to the <see cref="GENERIC_MAPPING"/> structure associated with the object for which access is being checked.
+        /// </param>
+        /// <param name="ObjectCreation">
+        /// A flag that determines whether the calling application will create a new object when access is granted.
+        /// A value of <see cref="TRUE"/> indicates the application will create a new object.
+        /// A value of <see cref="FALSE"/> indicates the application will open an existing object.
+        /// </param>
+        /// <param name="GrantedAccess">
+        /// A pointer to an access mask that receives the granted access rights.
+        /// If <paramref name="AccessStatus"/> is set to <see cref="FALSE"/>, the function sets the access mask to zero.
+        /// If the function fails, it does not set the access mask.
+        /// </param>
+        /// <param name="AccessStatus">
+        /// A pointer to a variable that receives the results of the access check.
+        /// If the security descriptor allows the requested access rights to the client, <paramref name="AccessStatus"/> is set to <see cref="TRUE"/>.
+        /// Otherwise, <paramref name="AccessStatus"/> is set to <see cref="FALSE"/> and you can call <see cref="GetLastError"/> to get extended error information.
+        /// </param>
+        /// <param name="pfGenerateOnClose">
+        /// A pointer to a flag set by the audit-generation routine when the function returns.
+        /// Pass this flag to the <see cref="ObjectCloseAuditAlarm"/> function when the object handle is closed.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the function returns <see cref="TRUE"/>.
+        /// If the function fails, it returns <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// For more information, see the How AccessCheck Works overview.
+        /// If the <paramref name="PrincipalSelfSid"/> and <paramref name="ObjectTypeList"/> parameters are <see cref="NULL"/>,
+        /// the <paramref name="AuditType"/> parameter is <see cref="AuditEventObjectAccess"/>, and the <paramref name="Flags"/> parameter is zero,
+        /// <see cref="AccessCheckByTypeAndAuditAlarm"/> performs in the same way as the <see cref="AccessCheckAndAuditAlarm"/> function.
+        /// The <paramref name="ObjectTypeList"/> array does not necessarily represent the entire defined object. Rather,
+        /// it represents that subset of the object for which to check access.
+        /// For instance, to check access to two properties in a property set, specify an object type list with four elements:
+        /// the object itself at level zero, the property set at level 1, and the two properties at level 2.
+        /// The <see cref="AccessCheckByTypeAndAuditAlarm"/> function evaluates ACEs that apply to the object itself
+        /// and object-specific ACEs for the object types listed in the <paramref name="ObjectTypeList"/> array.
+        /// The function ignores object-specific ACEs for object types not listed in the <paramref name="ObjectTypeList"/> array.
+        /// Thus, the results returned in the <paramref name="AccessStatus"/> parameter
+        /// indicate the access allowed to the subset of the object defined by the <paramref name="ObjectTypeList"/> parameter, not to the entire object.
+        /// For more information about how a hierarchy of ACEs controls access to an object and its subobjects, see ACEs to Control Access to an Object's Properties.
+        /// To generate audit messages in the security event log, the calling process must have the <see cref="SE_AUDIT_NAME"/> privilege enabled.
+        /// The system checks for this privilege in the primary token of the calling process, not the impersonation token of the thread.
+        /// If the Flags parameter includes the <see cref="AUDIT_ALLOW_NO_PRIVILEGE"/> flag, the function performs the access check without generating audit messages when the privilege is not enabled.
+        /// The <see cref="AccessCheckByTypeAndAuditAlarm"/> function fails if the calling thread is not impersonating a client.
+        /// If the security descriptor does not contain owner and group SIDs, <see cref="AccessCheckByTypeAndAuditAlarm"/> fails with <see cref="ERROR_INVALID_SECURITY_DESCR"/>.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AccessCheckByTypeAndAuditAlarmW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL AccessCheckByTypeAndAuditAlarm([In] LPCWSTR SubsystemName, [In] LPVOID HandleId, [In] LPCWSTR ObjectTypeName,
+            [In] LPCWSTR ObjectName, [In] PSECURITY_DESCRIPTOR SecurityDescriptor, [In] PSID PrincipalSelfSid, [In] ACCESS_MASK DesiredAccess,
+            [In] AUDIT_EVENT_TYPE AuditType, [In] DWORD Flags, [In][Out] OBJECT_TYPE_LIST[] ObjectTypeList, [In] DWORD ObjectTypeListLength,
+            [In] in GENERIC_MAPPING GenericMapping, [In] BOOL ObjectCreation, [Out] out ACCESS_MASK GrantedAccess,
+            [Out] out BOOL AccessStatus, [Out] out BOOL pfGenerateOnClose);
 
         /// <summary>
         /// <para>

@@ -5,6 +5,7 @@ using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Advapi32;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.CLSID;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
@@ -15,6 +16,7 @@ using static Lsj.Util.Win32.Enums.CLSCTX;
 using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.EOLE_AUTHENTICATION_CAPABILITIES;
 using static Lsj.Util.Win32.Enums.FileFlags;
+using static Lsj.Util.Win32.Enums.MSHCTX;
 using static Lsj.Util.Win32.Enums.OLERENDER;
 using static Lsj.Util.Win32.Enums.REGCLS;
 using static Lsj.Util.Win32.Enums.RPC_C_AUTHN;
@@ -28,7 +30,6 @@ using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.Enums.MSHCTX;
 
 namespace Lsj.Util.Win32
 {

@@ -125,6 +125,29 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Sets the transformation matrix for a magnifier control.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/magnification/nf-magnification-magsetwindowtransform"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// The magnification window.
+        /// </param>
+        /// <param name="pTransform">
+        /// A transformation matrix.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// The transformation matrix specifies the magnification factor that the magnifier control applies to the contents of the source rectangle.
+        /// </remarks>
+        [DllImport("Magnification.dll", CharSet = CharSet.Unicode, EntryPoint = "MagSetWindowTransform", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL MagSetWindowTransform([In] HWND hwnd, [In] in MAGTRANSFORM pTransform);
+
+        /// <summary>
+        /// <para>
         /// Destroys the magnifier run-time objects.
         /// </para>
         /// <para>
