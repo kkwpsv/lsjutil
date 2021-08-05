@@ -3,6 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.OBJECT_TYPE_LISTLevels;
+using static Lsj.Util.Win32.Advapi32;
 
 namespace Lsj.Util.Win32.Structs
 {
