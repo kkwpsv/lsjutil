@@ -8,7 +8,7 @@ namespace Lsj.Util.Win32.NativeUI
 {
     partial class Win32Window
     {
-        List<Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?>> _hookLists;
+        List<Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?>> _hookLists = new List<Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?>>();
 
         /// <summary>
         /// Add MessageHook
