@@ -107,37 +107,6 @@ namespace Lsj.Util.Win32.NativeUI
         }
 
         /// <summary>
-        /// Window Proc
-        /// </summary>
-        /// <param name="hWnd"></param>
-        /// <param name="msg"></param>
-        /// <param name="wParam"></param>
-        /// <param name="lParam"></param>
-        /// <returns></returns>
-        protected virtual LRESULT WindowProc(HWND hWnd, WindowsMessages msg, WPARAM wParam, LPARAM lParam)
-        {
-            try
-            {
-                switch (msg)
-                {
-                    case WindowsMessages.WM_DESTROY:
-                        PostQuitMessage(0);
-                        return 0;
-                    default:
-                        return DefWindowProc(hWnd, msg, wParam, lParam);
-                }
-            }
-            catch
-            {
-                //The finally in Main won't run if exception is thrown in this method.
-                //This may be because this method was called by system code.
-                //So we must handle exception here.
-                DestroyWindow(_handle);
-                return 0;
-            }
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="windowClassName"></param>

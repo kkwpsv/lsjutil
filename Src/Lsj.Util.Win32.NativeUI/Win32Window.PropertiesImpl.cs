@@ -320,7 +320,7 @@ namespace Lsj.Util.Win32.NativeUI
                 var hresult = ((IVirtualDesktopManager*)_virtualDesktopManager)->GetWindowDesktopId(_handle, out var result);
                 if (!hresult)
                 {
-                    ThrowComException(hresult);
+                    OnComException(hresult);
                 }
                 return result;
             }
@@ -337,7 +337,7 @@ namespace Lsj.Util.Win32.NativeUI
                 var hresult = ((IVirtualDesktopManager*)_virtualDesktopManager)->MoveWindowToDesktop(_handle, value);
                 if (!hresult)
                 {
-                    ThrowComException(hresult);
+                    OnComException(hresult);
                 }
             }
         }

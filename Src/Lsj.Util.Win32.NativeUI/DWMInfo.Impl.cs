@@ -15,7 +15,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_NCRENDERING_ENABLED, AsPointer(ref result), SizeOf<BOOL>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
             return result;
         }
@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_NCRENDERING_POLICY, AsPointer(ref value), SizeOf<DWMNCRENDERINGPOLICY>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_TRANSITIONS_FORCEDISABLED, AsPointer(ref tempVal), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_ALLOW_NCPAINT, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_CAPTION_BUTTON_BOUNDS, AsPointer(ref result), SizeOf<RECT>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
             return result;
         }
@@ -64,7 +64,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_NONCLIENT_RTL_LAYOUT, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FORCE_ICONIC_REPRESENTATION, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FLIP3D_POLICY, AsPointer(ref value), SizeOf<DWMFLIP3DWINDOWPOLICY>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_EXTENDED_FRAME_BOUNDS, AsPointer(ref result), SizeOf<RECT>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
             return result;
         }
@@ -102,7 +102,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_HAS_ICONIC_BITMAP, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_DISALLOW_PEEK, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_EXCLUDED_FROM_PEEK, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -129,7 +129,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_CLOAK, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmGetWindowAttribute(_window.Handle, DWMWA_CLOAKED, AsPointer(ref result), SizeOf<DWM_CLOAKED>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
             return result;
         }
@@ -149,7 +149,7 @@ namespace Lsj.Util.Win32.NativeUI
             var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FREEZE_REPRESENTATION, AsPointer(ref value), SizeOf<bool>());
             if (!hresult)
             {
-                _window.ThrowComException(hresult);
+                _window.OnComException(hresult);
             }
         }
     }
