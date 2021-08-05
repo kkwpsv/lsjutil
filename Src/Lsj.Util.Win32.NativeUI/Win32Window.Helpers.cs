@@ -36,6 +36,11 @@ namespace Lsj.Util.Win32.NativeUI
             }
         }
 
+        /// <summary>
+        /// Custom Error Handler
+        /// </summary>
+        public Action<SystemErrorCodes?, HRESULT?>? CustomErrorHandler { get; set; }
+
         private Win32WindowFlags _flags;
 
         [Flags]
@@ -97,6 +102,21 @@ namespace Lsj.Util.Win32.NativeUI
         {
             if (errorCode != SystemErrorCodes.ERROR_SUCCESS)
             {
+                OnWin32Exception(errorCode);
+            }
+        }
+
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        internal void OnWin32Exception(SystemErrorCodes errorCode)
+        {
+            if (CustomErrorHandler != null)
+            {
+                CustomErrorHandler.Invoke(errorCode, null);
+            }
+            else
+            {
                 throw new Win32Exception((int)errorCode);
             }
         }
@@ -104,6 +124,16 @@ namespace Lsj.Util.Win32.NativeUI
 #if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        internal void ThrowComException(HRESULT hresult) => Marshal.ThrowExceptionForHR(hresult);
+        internal void OnComException(HRESULT hresult)
+        {
+            if (CustomErrorHandler != null)
+            {
+                CustomErrorHandler.Invoke(null, hresult);
+            }
+            else
+            {
+                Marshal.ThrowExceptionForHR(hresult);
+            }
+        }
     }
 }
