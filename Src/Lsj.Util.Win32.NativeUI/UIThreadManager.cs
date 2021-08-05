@@ -14,6 +14,14 @@ namespace Lsj.Util.Win32.NativeUI
     /// </summary>
     public class UIThreadManager
     {
+        /// <summary>
+        /// UIThreadManager of Current Thread 
+        /// </summary>
+        public static UIThreadManager? Current => _current;
+
+        [ThreadStatic]
+        static UIThreadManager? _current;
+
         struct ActionItem
         {
             public TaskCompletionSource<object?> taskCompletionSource;
@@ -28,6 +36,11 @@ namespace Lsj.Util.Win32.NativeUI
         /// </summary>
         public UIThreadManager()
         {
+            if (_current != null)
+            {
+                throw new InvalidOperationException("Current thread has already a UIThreadManager");
+            }
+            _current = this;
             _thread = new Thread(() =>
             {
                 MessageLoopImpl();
