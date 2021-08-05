@@ -4,6 +4,7 @@ namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// VARTYPE
+    /// </summary>
     [StructLayout(LayoutKind.Explicit, Size = 2)]
     public struct VARTYPE
     {

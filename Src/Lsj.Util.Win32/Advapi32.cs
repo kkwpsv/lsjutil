@@ -219,7 +219,7 @@ namespace Lsj.Util.Win32
         /// <param name="DesiredAccess">
         /// An access mask that specifies the access rights to check.
         /// This mask must have been mapped by the <see cref="MapGenericMask"/> function so that it contains no generic access rights.
-        /// If this parameter is <see cref="MAXIMUM_ALLOWED"/>, the function sets the access mask in <paramref name="GrantedAccessList"/>
+        /// If this parameter is <see cref="MAXIMUM_ALLOWED"/>, the function sets the access mask in <paramref name="GrantedAccess"/>
         /// to indicate the maximum access rights the security descriptor allows the client.
         /// </param>
         /// <param name="ObjectTypeList">
@@ -331,7 +331,7 @@ namespace Lsj.Util.Win32
         /// <param name="PrincipalSelfSid">
         /// A pointer to a security identifier (SID).
         /// If the security descriptor is associated with an object that represents a principal (for example, a user object),
-        /// the <<paramref name="PrincipalSelfSid"/> parameter should be the SID of the object.
+        /// the <paramref name="PrincipalSelfSid"/> parameter should be the SID of the object.
         /// When evaluating access, this SID logically replaces the SID in any ACE containing the well-known <see cref="PRINCIPAL_SELF"/> SID (S-1-5-10).
         /// For information about well-known SIDs, see Well-known SIDs.
         /// If the protected object does not represent a principal, set this parameter to <see cref="NULL"/>.
