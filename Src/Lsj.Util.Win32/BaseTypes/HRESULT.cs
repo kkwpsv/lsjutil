@@ -513,7 +513,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(HRESULT a, uint b) => a._value == b;
+        public static bool operator ==(HRESULT a, int b) => a._value == b;
 
         /// <summary>
         /// 
@@ -521,7 +521,7 @@ namespace Lsj.Util.Win32.BaseTypes
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(HRESULT a, uint b) => a._value != b;
+        public static bool operator !=(HRESULT a, int b) => a._value != b;
 
         /// <summary>
         /// <para>
