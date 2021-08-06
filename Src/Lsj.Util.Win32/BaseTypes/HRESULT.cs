@@ -451,6 +451,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT S_FALSE = new HRESULT { _value = 0x1 };
 
         /// <summary>
+        /// TYPE_E_ELEMENTNOTFOUND
+        /// </summary>
+        public static readonly HRESULT TYPE_E_ELEMENTNOTFOUND = new HRESULT { _value = unchecked((int)0x8002802B) };
+
+        /// <summary>
         /// VIEW_E_DRAW
         /// </summary>
         public static readonly HRESULT VIEW_E_DRAW = new HRESULT { _value = unchecked((int)0x80040140) };
