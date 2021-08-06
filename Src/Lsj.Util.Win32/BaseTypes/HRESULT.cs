@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
 
 namespace Lsj.Util.Win32.BaseTypes
@@ -505,6 +506,22 @@ namespace Lsj.Util.Win32.BaseTypes
         /// </summary>
         /// <param name="val"></param>
         public static implicit operator HRESULT(uint val) => new HRESULT { _value = unchecked((int)val) };
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator ==(HRESULT a, uint b) => a._value == b;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static bool operator !=(HRESULT a, uint b) => a._value != b;
 
         /// <summary>
         /// <para>
