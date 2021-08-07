@@ -31,8 +31,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsDWMTransitionsEnabled(bool value)
         {
-            var tempVal = !value;
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_TRANSITIONS_FORCEDISABLED, AsPointer(ref tempVal), SizeOf<bool>());
+            BOOL tempVal = !value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_TRANSITIONS_FORCEDISABLED, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -41,7 +41,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsNonClientAreaContentVisibleOnDWMFrame(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_ALLOW_NCPAINT, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_ALLOW_NCPAINT, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -61,7 +62,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsNonClientContentRightToLeftLayout(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_NONCLIENT_RTL_LAYOUT, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_NONCLIENT_RTL_LAYOUT, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -70,7 +72,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsForceIconicRepresentation(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FORCE_ICONIC_REPRESENTATION, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FORCE_ICONIC_REPRESENTATION, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -99,7 +102,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetHasIconicBitmap(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_HAS_ICONIC_BITMAP, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_HAS_ICONIC_BITMAP, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -108,7 +112,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsDisallowPeek(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_DISALLOW_PEEK, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_DISALLOW_PEEK, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -117,7 +122,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsExcludedFromPeek(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_EXCLUDED_FROM_PEEK, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_EXCLUDED_FROM_PEEK, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -126,7 +132,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsCloak(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_CLOAK, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_CLOAK, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
@@ -146,7 +153,8 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetIsFreezeRepresentation(bool value)
         {
-            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FREEZE_REPRESENTATION, AsPointer(ref value), SizeOf<bool>());
+            BOOL tempVal = value;
+            var hresult = DwmSetWindowAttribute(_window.Handle, DWMWA_FREEZE_REPRESENTATION, AsPointer(ref tempVal), SizeOf<BOOL>());
             if (!hresult)
             {
                 _window.OnComException(hresult);
