@@ -3,7 +3,7 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
-using static Lsj.Util.Win32.ComInterfaces.IIDs;
+using static Lsj.Util.Win32.Enums.BSCF;
 using static Lsj.Util.Win32.Enums.STREAM_SEEK;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using STATSTG = Lsj.Util.Win32.Structs.STATSTG;

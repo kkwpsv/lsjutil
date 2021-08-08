@@ -2,6 +2,7 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.Crypt32;
 using static Lsj.Util.Win32.Enums.CertEncodingTypes;
 
 namespace Lsj.Util.Win32.Structs

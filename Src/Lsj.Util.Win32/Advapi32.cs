@@ -9,6 +9,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.AclRevisions;
+using static Lsj.Util.Win32.Enums.AUDIT_EVENT_TYPE;
 using static Lsj.Util.Win32.Enums.GroupAttributes;
 using static Lsj.Util.Win32.Enums.LoginProviders;
 using static Lsj.Util.Win32.Enums.LogonFlags;
@@ -38,6 +39,11 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static partial class Advapi32
     {
+        /// <summary>
+        /// AUDIT_ALLOW_NO_PRIVILEGE
+        /// </summary>
+        public const uint AUDIT_ALLOW_NO_PRIVILEGE = 0x1;
+
         /// <summary>
         /// MAX_SHUTDOWN_TIMEOUT
         /// </summary>

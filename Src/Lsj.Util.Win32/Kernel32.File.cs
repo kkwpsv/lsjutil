@@ -31,6 +31,7 @@ using static Lsj.Util.Win32.Enums.LockFileExFlags;
 using static Lsj.Util.Win32.Enums.MoveMethods;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.ReplaceFileFlags;
+using static Lsj.Util.Win32.Enums.SECURITY_INFORMATION;
 using static Lsj.Util.Win32.Enums.SecurityQualityOfServiceFlags;
 using static Lsj.Util.Win32.Enums.StandardAccessRights;
 using static Lsj.Util.Win32.Enums.STREAM_INFO_LEVELS;
