@@ -2549,6 +2549,30 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="MapGenericMask"/> function maps the generic access rights in an access mask to specific and standard access rights.
+        /// The function applies a mapping supplied in a <see cref="GENERIC_MAPPING"/> structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/securitybaseapi/nf-securitybaseapi-mapgenericmask"/>
+        /// </para>
+        /// </summary>
+        /// <param name="AccessMask">
+        /// A pointer to an access mask.
+        /// </param>
+        /// <param name="GenericMapping">
+        /// A pointer to a <see cref="GENERIC_MAPPING"/> structure specifying a mapping of generic access types to specific and standard access types.
+        /// </param>
+        /// <remarks>
+        /// After calling the <see cref="MapGenericMask"/> function, the access mask pointed to by the <paramref name="AccessMask"/> parameter
+        /// has none of its generic bits (GenericRead, GenericWrite, GenericExecute, or GenericAll) or undefined bits set,
+        /// although it can have other bits set.
+        /// If bits other than the generic bits are provided on input, this function does not clear them.
+        /// </remarks>
+        [DllImport("Advapi32.dll", CharSet = CharSet.Unicode, EntryPoint = "MapGenericMask", ExactSpelling = true, SetLastError = true)]
+        public static extern void MapGenericMask([In][Out] ref ACCESS_MASK AccessMask, [In] in GENERIC_MAPPING GenericMapping);
+
+        /// <summary>
+        /// <para>
         /// The <see cref="OpenProcessToken"/> function opens the access token associated with a process.
         /// </para>
         /// <para>

@@ -5,6 +5,7 @@ using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Enums.SELFLAG;
+using static Lsj.Util.Win32.Enums.VARENUM;
 using static Lsj.Util.Win32.Oleacc;
 
 namespace Lsj.Util.Win32.ComInterfaces

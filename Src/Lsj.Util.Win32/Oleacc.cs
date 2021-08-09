@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.ComInterfaces.IIDs;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.VARENUM;
 
 namespace Lsj.Util.Win32
 {
@@ -14,6 +15,11 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Oleacc
     {
+        /// <summary>
+        /// CHILDID_SELF
+        /// </summary>
+        public const uint CHILDID_SELF = 0;
+
         /// <summary>
         /// <para>
         /// Retrieves the address of the <see cref="IAccessible"/> interface for the object
