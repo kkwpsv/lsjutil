@@ -31,7 +31,7 @@
         /// </summary>
         /// <remarks>
         /// This message does not return the DLL version.
-        /// See Shell Versions for a discussion of how to use <see cref="DllGetVersion"/> to retrieve the current DLL version.
+        /// See Shell Versions for a discussion of how to use DllGetVersion to retrieve the current DLL version.
         /// The version number is set on a control by control basis, and may not be the same for all controls.
         /// </remarks>
         CCM_GETVERSION = (CCM_FIRST + 0x8),

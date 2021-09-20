@@ -2,10 +2,12 @@
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ROTFLAGS;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
+using FILETIME = Lsj.Util.Win32.Structs.FILETIME;
 
 namespace Lsj.Util.Win32.ComInterfaces
 {
@@ -72,10 +74,10 @@ namespace Lsj.Util.Win32.ComInterfaces
         /// For details on installing services, see Installing as a Service Application.
         /// Registering a second object with the same moniker, or re-registering the same object with the same moniker,
         /// creates a second entry in the ROT. In this case, Register returns <see cref="MK_S_MONIKERALREADYREGISTERED"/>.
-        /// Each call to Register must be matched by a call to <see cref="IRunningObjectTable.Revoke"/>
+        /// Each call to Register must be matched by a call to <see cref="Revoke"/>
         /// because even duplicate entries have different <paramref name="pdwRegister"/> identifiers.
         /// A problem with duplicate registrations is that there is no way to determine which object will be returned
-        /// if the moniker is specified in a subsequent call to <see cref="IRunningObjectTable.IsRunning"/>.
+        /// if the moniker is specified in a subsequent call to <see cref="IsRunning"/>.
         /// Notes to Callers
         /// If you are a moniker provider (that is, you hand out monikers identifying your objects to make them accessible to others),
         /// you must call the Register method to register your objects when they begin running.
@@ -111,6 +113,69 @@ namespace Lsj.Util.Win32.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, ROTFLAGS, in IUnknown, in IMoniker, out DWORD, HRESULT>)_vTable[3])(thisPtr, grfFlags, punkObject, pmkObjectName, out pdwRegister);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Removes an entry from the running object table (ROT) that was previously registered by a call to <see cref="Register"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="dwRegister">
+        /// The identifier of the ROT entry to be revoked.
+        /// </param>
+        /// <returns>
+        /// This method can return the standard return values <see cref="E_INVALIDARG"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method undoes the effect of a call to <see cref="Register"/>, removing both the moniker and the pointer to the object identified by that moniker.
+        /// Notes to Caller
+        /// A moniker provider (hands out monikers identifying its objects to make them accessible to others) must call the <see cref="Revoke"/> method
+        /// to revoke the registration of its objects when it stops running.
+        /// It must have previously called <see cref="Register"/> and stored the identifier returned by that method; it uses that identifier when calling Revoke
+        /// The most common type of moniker provider is a compound-document link source.
+        /// This includes server applications that support linking to their documents (or portions of a document) and container applications
+        /// that support linking to embeddings within their documents.
+        /// Server applications that do not support linking can also use the ROT to cooperate with container applications that support linking to embeddings.
+        /// If you are writing a container application, you must revoke a document's registration when the document is closed.
+        /// You must also revoke a document's registration before re-registering it when it is renamed.
+        /// If you are writing a server application, you must revoke an object's registration when the object is closed.
+        /// You must also revoke an object's registration before re-registering it when its container document is renamed (see <see cref="IOleObject.SetMoniker"/>).
+        /// </remarks>
+        public HRESULT Revoke([In] DWORD dwRegister)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, HRESULT>)_vTable[4])(thisPtr, dwRegister);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Determines whether the object identified by the specified moniker is currently running.
+        /// </para>
+        /// </summary>
+        /// <param name="pmkObjectName">
+        /// A pointer to the <see cref="IMoniker"/> interface on the moniker.
+        /// </param>
+        /// <returns>
+        /// If the object is in the running state, the return value is <see cref="TRUE"/>.
+        /// Otherwise, it is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// This method simply indicates whether a object is running. To retrieve a pointer to a running object, use the <see cref="GetObject"/> method.
+        /// Notes to Callers
+        /// Generally, you call the <see cref="IsRunning"/> method only if you are writing your own moniker class
+        /// (that is, implementing the <see cref="IMoniker"/> interface).
+        /// You typically call this method from your implementation of <see cref="IMoniker.IsRunning"/>.
+        /// However, you should do so only if the pmkToLeft parameter of <see cref="IMoniker.IsRunning"/> is <see cref="NULL"/>.
+        /// Otherwise, you should call <see cref="IMoniker.IsRunning"/> on your pmkToLeft parameter instead.
+        /// </remarks>
+        public HRESULT IsRunning([In] in IMoniker pmkObjectName)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, HRESULT>)_vTable[5])(thisPtr, pmkObjectName);
             }
         }
 
@@ -154,6 +219,45 @@ namespace Lsj.Util.Win32.ComInterfaces
             fixed (void* thisPtr = &this)
             {
                 return ((delegate* unmanaged[Stdcall]<void*, in IMoniker, out IntPtr, HRESULT>)_vTable[6])(thisPtr, pmkObjectName, out ppunkObject);
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// Records the time that a running object was last modified.
+        /// The object must have previously been registered with the running object table (ROT).
+        /// This method stores the time of last change in the ROT.
+        /// </para>
+        /// </summary>
+        /// <param name="dwRegister">
+        /// The identifier of the ROT entry of the changed object.
+        /// This value was previously returned by <see cref="Register"/>.
+        /// </param>
+        /// <param name="pfiletime">
+        /// A pointer to a <see cref="FILETIME"/> structure containing the object's last change time.
+        /// </param>
+        /// <returns>
+        /// This method can return the standard return values <see cref="E_INVALIDARG"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// The time recorded by this method can be retrieved by calling <see cref="GetTimeOfLastChange"/>.
+        /// Notes to Caller
+        /// A moniker provider (hands out monikers identifying its objects to make them accessible to others)
+        /// must call the <see cref="NoteChangeTime"/> method whenever its objects are modified.
+        /// It must have previously called <see cref="Register"/> and stored the identifier returned by that method;
+        /// it uses that identifier when calling <see cref="NoteChangeTime"/>.
+        /// The most common type of moniker provider is a compound-document link source.
+        /// This includes server applications that support linking to their documents (or portions of a document)
+        /// and container applications that support linking to embeddings within their documents.
+        /// Server applications that do not support linking can also use the ROT to cooperate with container applications that support linking to embeddings.
+        /// When an object is first registered in the ROT, the ROT records its last change time as the value returned
+        /// by calling <see cref="IMoniker.GetTimeOfLastChange"/> on the moniker being registered.
+        /// </remarks>
+        public HRESULT NoteChangeTime([In] DWORD dwRegister, [In] in FILETIME pfiletime)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, DWORD, in FILETIME, HRESULT>)_vTable[7])(thisPtr, dwRegister, pfiletime);
             }
         }
     }

@@ -5,7 +5,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Structs
 {

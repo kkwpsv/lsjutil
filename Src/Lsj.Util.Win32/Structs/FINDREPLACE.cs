@@ -6,7 +6,7 @@ using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FINDREPLACEFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 

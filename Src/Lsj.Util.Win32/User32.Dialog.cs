@@ -14,7 +14,7 @@ using static Lsj.Util.Win32.Enums.DialogBoxStyles;
 using static Lsj.Util.Win32.Enums.DlgDirListFlags;
 using static Lsj.Util.Win32.Enums.GetWindowLongIndexes;
 using static Lsj.Util.Win32.Enums.ListBoxMessages;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Gdi32;
@@ -107,7 +107,7 @@ namespace Lsj.Util.Win32
         /// it must not call the <see cref="DefWindowProc"/> function to process unwanted messages.
         /// Unwanted messages are processed internally by the dialog box window procedure.
         /// </remarks>
-        public delegate IntPtr DLGPROC([In] IntPtr Arg1, [In] WindowsMessages Arg2, [In] UIntPtr Arg3, [In] IntPtr Arg4);
+        public delegate IntPtr DLGPROC([In] IntPtr Arg1, [In] WindowMessages Arg2, [In] UIntPtr Arg3, [In] IntPtr Arg4);
 
         /// <summary>
         /// <para>
@@ -368,7 +368,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="DefDlgProc"/> function must not be called by a dialog box procedure; doing so results in recursive execution.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefDlgProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT DefDlgProc([In] HWND hDlg, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern LRESULT DefDlgProc([In] HWND hDlg, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -1251,7 +1251,7 @@ namespace Lsj.Util.Win32
         /// and calling the <see cref="SendMessage"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendDlgItemMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendDlgItemMessage([In] HWND hDlg, [In] int nIDDlgItem, [In] WindowsMessages Msg, [In] WPARAM wParam,
+        public static extern LRESULT SendDlgItemMessage([In] HWND hDlg, [In] int nIDDlgItem, [In] WindowMessages Msg, [In] WPARAM wParam,
             [In] LPARAM lParam);
 
         /// <summary>

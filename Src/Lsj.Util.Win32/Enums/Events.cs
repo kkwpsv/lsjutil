@@ -18,7 +18,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winauto/event-constants"/>
     /// </para>
     /// </summary>
-    public enum Events : uint
+    public enum EventConstants : uint
     {
         /// <summary>
         /// The range of WinEvent constant values specified by the Accessibility Interoperability Alliance (AIA) for use across the industry.

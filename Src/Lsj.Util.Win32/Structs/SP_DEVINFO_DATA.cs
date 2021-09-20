@@ -14,7 +14,7 @@ namespace Lsj.Util.Win32.Structs
     /// </summary>
     /// <remarks>
     /// An <see cref="SP_DEVINFO_DATA"/> structure identifies a device in a device information set.
-    /// For example, when Windows sends a <see cref="DIF_INSTALLDEVICE"/> request to a class installer and co-installers,
+    /// For example, when Windows sends a DIF_INSTALLDEVICE request to a class installer and co-installers,
     /// it includes a handle to a device information set and a pointer to an <see cref="SP_DEVINFO_DATA"/> that specifies the particular device.
     /// In addition to DIF requests, this structure is also used in some SetupDiXxx functions.
     /// SetupDiXxx functions that take an <see cref="SP_DEVINFO_DATA"/> structure as a parameter verify
@@ -42,7 +42,7 @@ namespace Lsj.Util.Win32.Structs
         /// An opaque handle to the device instance (also known as a handle to the devnode).
         /// Some functions, such as SetupDiXxx functions, take the whole <see cref="SP_DEVINFO_DATA"/> structure
         /// as input to identify a device in a device information set.
-        /// Other functions, such as CM_Xxx functions like <see cref="CM_Get_DevNode_Status"/>, take this <see cref="DevInst"/> handle as input.
+        /// Other functions, such as CM_Xxx functions like CM_Get_DevNode_Status, take this <see cref="DevInst"/> handle as input.
         /// </summary>
         public DWORD DevInst;
 

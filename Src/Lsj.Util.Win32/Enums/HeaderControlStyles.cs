@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
 using static Lsj.Util.Win32.Enums.HeaderControlMessages;
+using static Lsj.Util.Win32.Enums.HeaderControlNotifications;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums

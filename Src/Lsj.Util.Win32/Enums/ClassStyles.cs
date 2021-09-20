@@ -77,7 +77,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// Saves, as a bitmap, the portion of the screen image obscured by a window of this class.
         /// When the window is removed, the system uses the saved bitmap to restore the screen image, including other windows that were obscured.
-        /// Therefore, the system does not send <see cref="WindowsMessages.WM_PAINT"/> messages to windows that were obscured
+        /// Therefore, the system does not send <see cref="WindowMessages.WM_PAINT"/> messages to windows that were obscured
         /// if the memory used by the bitmap has not been discarded and if other screen actions have not invalidated the stored image.
         /// This style is useful for small windows (for example, menus or dialog boxes) that are displayed briefly and
         /// then removed before other screen activity takes place.

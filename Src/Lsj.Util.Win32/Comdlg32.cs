@@ -17,7 +17,7 @@ using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
 using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
 using static Lsj.Util.Win32.Enums.PrintDlgExResults;
 using static Lsj.Util.Win32.Enums.PRINTDLGFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Shell32;
 using static Lsj.Util.Win32.User32;
 

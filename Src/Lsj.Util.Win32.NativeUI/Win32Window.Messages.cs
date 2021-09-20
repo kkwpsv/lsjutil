@@ -8,14 +8,14 @@ namespace Lsj.Util.Win32.NativeUI
 {
     partial class Win32Window
     {
-        List<Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?>> _hookLists = new List<Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?>>();
+        List<Func<HWND, WindowMessages, WPARAM, LPARAM, LRESULT?>> _hookLists = new List<Func<HWND, WindowMessages, WPARAM, LPARAM, LRESULT?>>();
 
         /// <summary>
         /// Add MessageHook
         /// Only work without override WindowProc
         /// </summary>
         /// <param name="hook"></param>
-        public void AddMessageHook(Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?> hook)
+        public void AddMessageHook(Func<HWND, WindowMessages, WPARAM, LPARAM, LRESULT?> hook)
         {
             _hookLists.Add(hook);
         }
@@ -24,7 +24,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// Add MessageHook
         /// Only work without override WindowProc
         /// </summary>
-        public void RemoveMessageHook(Func<HWND, WindowsMessages, WPARAM, LPARAM, LRESULT?> hook)
+        public void RemoveMessageHook(Func<HWND, WindowMessages, WPARAM, LPARAM, LRESULT?> hook)
         {
             _hookLists.Remove(hook);
         }
@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        protected virtual LRESULT WindowProc(HWND hWnd, WindowsMessages msg, WPARAM wParam, LPARAM lParam)
+        protected virtual LRESULT WindowProc(HWND hWnd, WindowMessages msg, WPARAM wParam, LPARAM lParam)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Lsj.Util.Win32.NativeUI
                 }
                 switch (msg)
                 {
-                    case WindowsMessages.WM_DESTROY:
+                    case WindowMessages.WM_DESTROY:
                         PostQuitMessage(0);
                         return 0;
                     default:

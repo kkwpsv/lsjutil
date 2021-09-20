@@ -696,21 +696,21 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Retrieves the height, in pixels, of the rectangle within which the mouse pointer has to stay
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// The pvParam parameter must point to a <see cref="uint"/> variable that receives the height.
         /// </summary>
         SPI_GETMOUSEHOVERHEIGHT = 0x0064,
 
         /// <summary>
         /// Retrieves the time, in milliseconds, that the mouse pointer has to stay in the hover rectangle
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// The pvParam parameter must point to a <see cref="uint"/> variable that receives the time.
         /// </summary>
         SPI_GETMOUSEHOVERTIME = 0x0066,
 
         /// <summary>
         /// Retrieves the width, in pixels, of the rectangle within which the mouse pointer has to stay
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// The pvParam parameter must point to a <see cref="uint"/> variable that receives the width.
         /// </summary>
         SPI_GETMOUSEHOVERWIDTH = 0x0062,
@@ -916,14 +916,14 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Sets the height, in pixels, of the rectangle within which the mouse pointer has to stay
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// Set the uiParam parameter to the new height.
         /// </summary>
         SPI_SETMOUSEHOVERHEIGHT = 0x0065,
 
         /// <summary>
         /// Sets the time, in milliseconds, that the mouse pointer has to stay in the hover rectangle
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// This is used only if you pass <see cref="HOVER_DEFAULT"/> in the dwHoverTime parameter in the call to <see cref="TrackMouseEvent"/>.
         /// Set the uiParamparameter to the new time.
         /// The time specified should be between <see cref="USER_TIMER_MAXIMUM"/> and <see cref="USER_TIMER_MINIMUM"/>.
@@ -936,7 +936,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Sets the width, in pixels, of the rectangle within which the mouse pointer has to stay
-        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowsMessages.WM_MOUSEHOVER"/> message.
+        /// for <see cref="TrackMouseEvent"/> to generate a <see cref="WindowMessages.WM_MOUSEHOVER"/> message.
         /// Set the uiParam parameter to the new width.
         /// </summary>
         SPI_SETMOUSEHOVERWIDTH = 0x0063,

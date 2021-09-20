@@ -35,7 +35,7 @@ namespace Lsj.Util.Win32.Macros
         /// <returns></returns>
         /// <remarks>If the button has a style other than those listed, the return value is zero.</remarks>
         public static ButtonStates Button_GetCheck(IntPtr hwndCtl) =>
-            (ButtonStates)(IntPtr)SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+            (ButtonStates)(IntPtr)SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETCHECK, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
 
         /// <summary>
         /// Gets the size of the button that best fits the text and image, if an image list is present.
@@ -57,7 +57,7 @@ namespace Lsj.Util.Win32.Macros
         {
             psize = new SIZE();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<SIZE>());
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETIDEALSIZE, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETIDEALSIZE, UIntPtr.Zero, lparam);
             Marshal.PtrToStructure(lparam, psize);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
@@ -78,7 +78,7 @@ namespace Lsj.Util.Win32.Macros
         {
             pbuttonImagelist = new BUTTON_IMAGELIST();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<BUTTON_IMAGELIST>());
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETIMAGELIST, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETIMAGELIST, UIntPtr.Zero, lparam);
             Marshal.PtrToStructure(lparam, pbuttonImagelist);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
@@ -98,7 +98,7 @@ namespace Lsj.Util.Win32.Macros
         public static bool Button_GetNote(IntPtr hwnd, out string psz, int pcc)
         {
             var lparam = Marshal.AllocHGlobal(pcc * 2);
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETNOTE, (UIntPtr)pcc, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETNOTE, (UIntPtr)pcc, lparam);
             psz = Marshal.PtrToStringUni(lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
@@ -117,7 +117,7 @@ namespace Lsj.Util.Win32.Macros
         /// and <see cref="ButtonStyles.BS_DEFCOMMANDLINK"/> button styles.
         /// </remarks>
         public static IntPtr Button_GetNoteLength(IntPtr hwnd) =>
-            SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETNOTELENGTH, UIntPtr.Zero, IntPtr.Zero);
+            SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETNOTELENGTH, UIntPtr.Zero, IntPtr.Zero);
 
         /// <summary>
         /// Gets information for a specified split button control.
@@ -136,7 +136,7 @@ namespace Lsj.Util.Win32.Macros
         {
             pInfo = new BUTTON_SPLITINFO();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<BUTTON_SPLITINFO>());
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETSPLITINFO, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETSPLITINFO, UIntPtr.Zero, lparam);
             Marshal.PtrToStructure(lparam, pInfo);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
@@ -149,7 +149,7 @@ namespace Lsj.Util.Win32.Macros
         /// <param name="hwndCtl">A handle to the button control.</param>
         /// <returns></returns>
         public static int Button_GetState(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_GETSTATE, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
+            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_GETSTATE, UIntPtr.Zero, IntPtr.Zero).SafeToInt32();
 
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Lsj.Util.Win32.Macros
         {
             pInfo = new SIZE();
             var lparam = Marshal.AllocHGlobal(MarshalExtensions.SizeOf<SIZE>());
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_GETTEXTMARGIN, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_GETTEXTMARGIN, UIntPtr.Zero, lparam);
             Marshal.PtrToStructure(lparam, pInfo);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
@@ -197,7 +197,7 @@ namespace Lsj.Util.Win32.Macros
         /// <see cref="ButtonStates.BST_CHECKED"/>, <see cref="ButtonStates.BST_INDETERMINATE"/> and <see cref="ButtonStates.BST_UNCHECKED"/>.
         /// </param>
         public static void Button_SetCheck(IntPtr hwndCtl, ButtonStates check) =>
-            SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_SETCHECK, (UIntPtr)check, IntPtr.Zero);
+            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETCHECK, (UIntPtr)check, IntPtr.Zero);
 
         /// <summary>
         /// Sets the drop down state for a specified button with style of <see cref="ButtonStyles.BS_SPLITBUTTON"/>.
@@ -209,7 +209,7 @@ namespace Lsj.Util.Win32.Macros
         /// </param>
         /// <returns></returns>
         public static bool Button_SetDropDownState(IntPtr hwnd, bool fDropDown) =>
-            SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_SETDROPDOWNSTATE, (UIntPtr)(fDropDown ? 1 : 0), IntPtr.Zero) != IntPtr.Zero;
+            SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETDROPDOWNSTATE, (UIntPtr)(fDropDown ? 1 : 0), IntPtr.Zero) != IntPtr.Zero;
 
         /// <summary>
         /// Sets the elevation required state for a specified button or command link to display an elevated icon.
@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32.Macros
         /// An application must use comctl32.dll version 6 to gain this functionality.
         /// </remarks>
         public static IntPtr Button_SetElevationRequiredState(IntPtr hwnd, bool fRequired) =>
-            SendMessage((hwnd), (WindowsMessages)ButtonControlMessages.BCM_SETSHIELD, UIntPtr.Zero, (IntPtr)(fRequired ? 1 : 0));
+            SendMessage((hwnd), (WindowMessages)ButtonControlMessages.BCM_SETSHIELD, UIntPtr.Zero, (IntPtr)(fRequired ? 1 : 0));
 
         /// <summary>
         /// Assigns an image list to a button control.
@@ -244,7 +244,7 @@ namespace Lsj.Util.Win32.Macros
         public static bool Button_SetImageList(IntPtr hwnd, BUTTON_IMAGELIST pbuttonImagelist)
         {
             var lparam = MarshalExtensions.StructureToPtr(pbuttonImagelist);
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_SETIMAGELIST, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETIMAGELIST, UIntPtr.Zero, lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
         }
@@ -267,7 +267,7 @@ namespace Lsj.Util.Win32.Macros
         public static bool Button_SetNote(IntPtr hwnd, string psz)
         {
             var lparam = Marshal.StringToHGlobalUni(psz);
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_SETNOTE, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETNOTE, UIntPtr.Zero, lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
         }
@@ -291,7 +291,7 @@ namespace Lsj.Util.Win32.Macros
         public static bool Button_SetSplitInfo(IntPtr hwnd, BUTTON_SPLITINFO pInfo)
         {
             var lparam = MarshalExtensions.StructureToPtr(pInfo);
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_SETSPLITINFO, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETSPLITINFO, UIntPtr.Zero, lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
         }
@@ -309,7 +309,7 @@ namespace Lsj.Util.Win32.Macros
         /// </param>
         /// <returns></returns>
         public static uint Button_SetState(IntPtr hwndCtl, bool state) =>
-             SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_SETSTATE, (UIntPtr)(state ? 1 : 0), IntPtr.Zero).SafeToUInt32();
+             SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETSTATE, (UIntPtr)(state ? 1 : 0), IntPtr.Zero).SafeToUInt32();
 
         /// <summary>
         /// Sets the style of a button.
@@ -325,7 +325,7 @@ namespace Lsj.Util.Win32.Macros
         /// <see langword="true"/> to redraw the button; otherwise <see langword="false"/>.
         /// </param>
         public static void Button_SetStyle(IntPtr hwndCtl, ButtonStyles style, bool fRedraw) =>
-            SendMessage(hwndCtl, (WindowsMessages)ButtonControlMessages.BM_SETSTYLE, (UIntPtr)(uint)style, (IntPtr)(fRedraw ? 1 : 0));
+            SendMessage(hwndCtl, (WindowMessages)ButtonControlMessages.BM_SETSTYLE, (UIntPtr)(uint)style, (IntPtr)(fRedraw ? 1 : 0));
 
         /// <summary>
         /// Sets the text of a button.
@@ -359,7 +359,7 @@ namespace Lsj.Util.Win32.Macros
         public static bool Button_SetTextMargin(IntPtr hwnd, SIZE pmargin)
         {
             var lparam = MarshalExtensions.StructureToPtr(pmargin);
-            var result = SendMessage(hwnd, (WindowsMessages)ButtonControlMessages.BCM_SETTEXTMARGIN, UIntPtr.Zero, lparam);
+            var result = SendMessage(hwnd, (WindowMessages)ButtonControlMessages.BCM_SETTEXTMARGIN, UIntPtr.Zero, lparam);
             Marshal.FreeHGlobal(lparam);
             return result != IntPtr.Zero;
         }

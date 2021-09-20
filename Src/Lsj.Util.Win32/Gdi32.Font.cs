@@ -19,7 +19,7 @@ using static Lsj.Util.Win32.Enums.PitchFont;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.FontResourceFlags;
 using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
 using static Lsj.Util.Win32.Kernel32;

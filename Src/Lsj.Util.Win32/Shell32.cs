@@ -10,6 +10,7 @@ using static Lsj.Util.Win32.BaseTypes.CSIDL;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
 using static Lsj.Util.Win32.BaseTypes.HRESULT;
 using static Lsj.Util.Win32.BaseTypes.KNOWNFOLDERID;
+using static Lsj.Util.Win32.BaseTypes.UINT;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BrowseForFolderMessages;
 using static Lsj.Util.Win32.Enums.BROWSEINFOFlags;
@@ -17,6 +18,8 @@ using static Lsj.Util.Win32.Enums.COINIT;
 using static Lsj.Util.Win32.Enums.FileAttributes;
 using static Lsj.Util.Win32.Enums.FILEOP_FLAGS;
 using static Lsj.Util.Win32.Enums.FILEOPENDIALOGOPTIONS;
+using static Lsj.Util.Win32.Enums.KF_CATEGORY;
+using static Lsj.Util.Win32.Enums.KNOWN_FOLDER_FLAG;
 using static Lsj.Util.Win32.Enums.RegistryValueTypes;
 using static Lsj.Util.Win32.Enums.SHCNE;
 using static Lsj.Util.Win32.Enums.SHCNF;
@@ -31,7 +34,6 @@ using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
-using static Lsj.Util.Win32.BaseTypes.UINT;
 
 namespace Lsj.Util.Win32
 {
@@ -163,6 +165,42 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "CommandLineToArgvW", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CommandLineToArgvW(StringHandle lpCmdLine, [Out] out int pNumArgs);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves the names of dropped files that result from a successful drag-and-drop operation.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shellapi/nf-shellapi-dragqueryfilew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hDrop">
+        /// Identifier of the structure that contains the file names of the dropped files.
+        /// </param>
+        /// <param name="iFile">
+        /// Index of the file to query.
+        /// If the value of this parameter is 0xFFFFFFFF, <see cref="DragQueryFile"/> returns a count of the files dropped.
+        /// If the value of this parameter is between zero and the total number of files dropped,
+        /// <see cref="DragQueryFile"/> copies the file name with the corresponding value to the buffer pointed to by the <paramref name="lpszFile"/> parameter.
+        /// </param>
+        /// <param name="lpszFile">
+        /// The address of a buffer that receives the file name of a dropped file when the function returns.
+        /// This file name is a null-terminated string.
+        /// If this parameter is <see cref="NULL"/>, <see cref="DragQueryFile"/> returns the required size, in characters, of this buffer.
+        /// </param>
+        /// <param name="cch">
+        /// The size, in characters, of the <paramref name="lpszFile"/> buffer.
+        /// </param>
+        /// <returns>
+        /// A nonzero value indicates a successful call.
+        /// When the function copies a file name to the buffer, the return value is a count of the characters copied, not including the terminating null character.
+        /// If the index value is 0xFFFFFFFF, the return value is a count of the dropped files.
+        /// Note that the index variable itself returns unchanged, and therefore remains 0xFFFFFFFF.
+        /// If the index value is between zero and the total number of dropped files, and the <paramref name="lpszFile"/> buffer address is <see cref="NULL"/>,
+        /// the return value is the required size, in characters, of the buffer, not including the terminating null character.
+        /// </returns>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "DragQueryFileW", ExactSpelling = true, SetLastError = true)]
+        public static extern UINT DragQueryFile([In] HDROP hDrop, [In] UINT iFile, [In] StringBuffer lpszFile, [In] UINT cch);
 
         /// <summary>
         /// <para>
@@ -1505,6 +1543,60 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Deprecated. Retrieves the path of a folder as an ITEMIDLIST structure.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shgetfolderlocation"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwnd">
+        /// Reserved.
+        /// </param>
+        /// <param name="csidl">
+        /// A <see cref="CSIDL"/> value that identifies the folder to be located.
+        /// The folders associated with the CSIDLs might not exist on a particular system.
+        /// </param>
+        /// <param name="hToken">
+        /// An access token that can be used to represent a particular user.
+        /// It is usually set to <see cref="NULL"/>, but it may be needed when there are multiple users
+        /// for those folders that are treated as belonging to a single user.
+        /// The most commonly used folder of this type is My Documents.
+        /// The calling application is responsible for correct impersonation when hToken is non-NULL.
+        /// It must have appropriate security privileges for the particular user, and the user's registry hive must be currently mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHGetFolderLocation"/> to find folder locations (such as the Desktop folder) for the Default User. 
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as My Documents and Desktop.
+        /// Any items added to the Default User folder also appear in any new user account.
+        /// </param>
+        /// <param name="dwFlags">
+        /// </param>
+        /// <param name="ppidl">
+        /// The address of a pointer to an item identifier list structure that specifies the folder's location relative to the root of the namespace (the desktop).
+        /// The <paramref name="ppidl"/> parameter is set to <see cref="NULL"/> on failure.
+        /// The calling application is responsible for freeing this resource by calling <see cref="ILFree"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
+        /// <code>HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)</code>: The <see cref="CSIDL"/> in <paramref name="csidl"/> is valid but the folder does not exist.
+        /// <see cref="E_INVALIDARG"/>: The <see cref="CSIDL"/> in <paramref name="csidl"/> is not valid.
+        /// </returns>
+        /// <remarks>
+        /// As of Windows Vista, this function is merely a wrapper for <see cref="SHGetKnownFolderIDList"/>.
+        /// The <see cref="CSIDL"/> value is translated to its associated <see cref="KNOWNFOLDERID"/> and <see cref="SHGetKnownFolderIDList"/> is called.
+        /// New applications should use the known folder system rather than the older <see cref="CSIDL"/> system, which is supported only for backward compatibility.
+        /// The <see cref="SHGetFolderLocation"/>, <see cref="SHGetFolderPath"/>, <see cref="SHGetSpecialFolderLocation"/>,
+        /// and <see cref="SHGetSpecialFolderPath"/> functions are the preferred ways to obtain handles to folders on systems earlier than Windows Vista.
+        /// Functions such as <see cref="ExpandEnvironmentStrings"/> that use the environment variable names directly, in the form %VariableName%, may not be reliable.
+        /// This function is a superset of <see cref="SHGetSpecialFolderLocation"/>, included with earlier versions of the Shell.
+        /// </remarks>
+        [Obsolete]
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetFolderLocation", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHGetFolderLocation([In] HWND hwnd, [In] CSIDL csidl, [In] HANDLE hToken, [In] DWORD dwFlags,
+            [Out] out LPITEMIDLIST ppidl);
+
+        /// <summary>
+        /// <para>
         /// Deprecated. Gets the path of a folder identified by a CSIDL value.
         /// </para>
         /// <para>
@@ -1792,5 +1884,67 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHGetStockIconInfo", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT SHGetStockIconInfo([In] SHSTOCKICONID siid, [In] SHGetStockIconInfoFlags uFlags, [Out] out SHSTOCKICONINFO psii);
+
+        /// <summary>
+        /// <para>
+        /// Redirects a known folder to a new location.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlobj_core/nf-shlobj_core-shsetknownfolderpath"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rfid">
+        /// A GUID that identifies the known folder.
+        /// </param>
+        /// <param name="dwFlags">
+        /// Either 0 or the following value.
+        /// <see cref="KF_FLAG_DONT_UNEXPAND"/>:
+        /// If this flag is set, portions of the path referenced by <paramref name="pszPath"/> may be represented by environment strings such as %USERPROFILE%.
+        /// </param>
+        /// <param name="hToken">
+        /// An access token used to represent a particular user.
+        /// This parameter is usually set to <see cref="NULL"/>, in which case the function tries to access the current user's instance of the folder.
+        /// However, you may need to assign a value to <paramref name="hToken"/> for those folders
+        /// that can have multiple users but are treated as belonging to a single user.
+        /// The most commonly used folder of this type is Documents.
+        /// The calling application is responsible for correct impersonation when hToken is non-null.
+        /// It must have appropriate security privileges for the particular user, including <see cref="TOKEN_QUERY"/> and <see cref="TOKEN_IMPERSONATE"/>,
+        /// and the user's registry hive must be currently mounted.
+        /// See Access Control for further discussion of access control issues.
+        /// Assigning the <paramref name="hToken"/> parameter a value of -1 indicates the Default User.
+        /// This allows clients of <see cref="SHSetKnownFolderPath"/> to set folder locations (such as the Desktop folder) for the Default User.
+        /// The Default User user profile is duplicated when any new user account is created, and includes special folders such as Documents and Desktop.
+        /// Any items added to the Default User folder also appear in any new user account.
+        /// Note that access to the Default User folders requires administrator privileges.
+        /// </param>
+        /// <param name="pszPath">
+        /// A pointer to the folder's new path.
+        /// This is a null-terminated Unicode string of length <see cref="MAX_PATH"/>.
+        /// This path cannot be of zero length.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="S_OK"/> if successful, or an error value otherwise, including the following:
+        /// <see cref="E_INVALIDARG"/>:
+        /// Among other things, this value can indicate that the rfid parameter references a <see cref="KNOWNFOLDERID"/> that is not present on the system.
+        /// Not all KNOWNFOLDERID values are present on all systems.
+        /// Use <see cref="IKnownFolderManager.GetFolderIds"/> to retrieve the set of <see cref="KNOWNFOLDERID"/> values for the current system.
+        /// </returns>
+        /// <remarks>
+        /// This function replaces <see cref="SHSetFolderPath"/>.
+        /// That older function is now simply a wrapper for <see cref="SHSetKnownFolderPath"/>.
+        /// The caller of this function must have Administrator privileges.
+        /// To call this function on public known folders, the caller must have Administrator privileges.
+        /// For per-user known folders the caller only requires User privileges.
+        /// Some of the known folders, for example, the Documents folder, are per-user.
+        /// Every user has a different path for their Documents folder.
+        /// If <paramref name="hToken"/> is <see cref="NULL"/>, the API tries to access the calling application's instance of the folder,
+        /// which is that of the current user.
+        /// If <paramref name="hToken"/> is a valid user token, the API tries to impersonate the user using this token and tries to access that user's instance.
+        /// This function cannot be called on folders of type <see cref="KF_CATEGORY_FIXED"/> and <see cref="KF_CATEGORY_VIRTUAL"/>.
+        /// To call this function on a folder of type <see cref="KF_CATEGORY_COMMON"/>, the calling application must be running with elevated privileges.
+        /// </remarks>
+        [DllImport("Shell32.dll", CharSet = CharSet.Unicode, EntryPoint = "SHSetKnownFolderPath", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT SHSetKnownFolderPath([In] in KNOWNFOLDERID rfid, [In] KNOWN_FOLDER_FLAG dwFlags,
+            [In] HANDLE hToken, [In] LPCWSTR pszPath);
     }
 }

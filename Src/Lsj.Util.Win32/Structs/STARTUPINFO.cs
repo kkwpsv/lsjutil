@@ -172,7 +172,7 @@ namespace Lsj.Util.Win32.Structs
         /// this member is the standard input handle for the process.
         /// If <see cref="STARTUPINFOFlags.STARTF_USESTDHANDLES"/> is not specified, the default for standard input is the keyboard buffer.
         /// If dwFlags specifies <see cref="STARTUPINFOFlags.STARTF_USEHOTKEY"/>,
-        /// this member specifies a hotkey value that is sent as the wParam parameter of a <see cref="WindowsMessages.WM_SETHOTKEY"/> message
+        /// this member specifies a hotkey value that is sent as the wParam parameter of a <see cref="WindowMessages.WM_SETHOTKEY"/> message
         /// to the first eligible top-level window created by the application that owns the process.
         /// If the window is created with the <see cref="WindowStyles.WS_POPUP"/> window style,
         /// it is not eligible unless the <see cref="WindowStylesEx.WS_EX_APPWINDOW"/> extended window style is also set.

@@ -1,5 +1,5 @@
 ﻿using static Lsj.Util.Win32.Enums.WindowStyles;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
 
 namespace Lsj.Util.Win32.Enums

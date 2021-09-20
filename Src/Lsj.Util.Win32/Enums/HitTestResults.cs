@@ -4,7 +4,7 @@ namespace Lsj.Util.Win32.Enums
 {
     /// <summary>
     /// <para>
-    /// <see cref="WindowsMessages.WM_NCHITTEST"/> Results
+    /// <see cref="WindowMessages.WM_NCHITTEST"/> Results
     /// </para>
     /// <para>
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/inputdev/wm-nchittest"/>

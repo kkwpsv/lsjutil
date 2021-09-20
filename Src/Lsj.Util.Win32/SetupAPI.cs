@@ -224,7 +224,7 @@ namespace Lsj.Util.Win32
         /// The configuration flags are represented by the CONFIGFLAG_Xxx bitmasks that are defined in Regstr.h.
         /// <see cref="SPDRP_DEVICE_POWER_DATA"/>:
         /// (Windows XP and later)
-        /// The function retrieves a <see cref="CM_POWER_DATA"/> structure that contains the device's power management information.
+        /// The function retrieves a CM_POWER_DATA structure that contains the device's power management information.
         /// <see cref="SPDRP_DEVICEDESC"/>:
         /// The function retrieves a <see cref="REG_SZ"/> string that contains the description of a device.
         /// <see cref="SPDRP_DEVTYPE"/>:
@@ -248,7 +248,7 @@ namespace Lsj.Util.Win32
         /// (Windows XP and later)
         /// The function retrieves a <see cref="DWORD"/> value that indicates the installation state of a device.
         /// The installation state is represented by one of the CM_INSTALL_STATE_Xxx values that are defined in Cfgmgr32.h.
-        /// The CM_INSTALL_STATE_Xxx values correspond to the <see cref="DEVICE_INSTALL_STATE"/> enumeration values.
+        /// The CM_INSTALL_STATE_Xxx values correspond to the DEVICE_INSTALL_STATE enumeration values.
         /// <see cref="SPDRP_LEGACYBUSTYPE"/>:
         /// The function retrieves the device's legacy bus type as an <see cref="INTERFACE_TYPE"/> value (defined in Wdm.h and Ntddk.h).
         /// <see cref="SPDRP_LOCATION_INFORMATION"/>:

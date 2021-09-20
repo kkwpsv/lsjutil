@@ -1,7 +1,7 @@
 ﻿using System;
 using static Lsj.Util.Win32.User32;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums
 {

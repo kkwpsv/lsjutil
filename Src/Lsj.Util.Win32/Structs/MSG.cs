@@ -25,7 +25,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The message identifier. Applications can only use the low word; the high word is reserved by the system.
         /// </summary>
-        public WindowsMessages message;
+        public WindowMessages message;
 
         /// <summary>
         /// Additional information about the message. The exact meaning depends on the value of the message member.

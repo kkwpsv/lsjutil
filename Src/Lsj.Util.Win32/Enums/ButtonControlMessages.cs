@@ -92,8 +92,8 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Simulates the user clicking a button.
-        /// This message causes the button to receive the <see cref="WindowsMessages.WM_LBUTTONDOWN"/>
-        /// and <see cref="WindowsMessages.WM_LBUTTONUP"/> messages,
+        /// This message causes the button to receive the <see cref="WindowMessages.WM_LBUTTONDOWN"/>
+        /// and <see cref="WindowMessages.WM_LBUTTONUP"/> messages,
         /// and the button's parent window to receive a <see cref="ButtonControlNotifications.BN_CLICKED"/> notification code.
         /// </summary>
         BM_CLICK = 0x00F5,

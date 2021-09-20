@@ -168,5 +168,20 @@ namespace Lsj.Util.Win32.Enums
         /// define it manually in your program: #define SEE_MASK_FLAG_HINST_IS_SITE 0x08000000.
         /// </summary>
         SEE_MASK_FLAG_HINST_IS_SITE = 0x08000000,
+
+        /// <summary>
+        /// SEE_MASK_FLAG_SEPVDM
+        /// </summary>
+        SEE_MASK_FLAG_SEPVDM = 0x00040000,
+
+        /// <summary>
+        /// SEE_MASK_HASLINKNAME
+        /// </summary>
+        SEE_MASK_HASLINKNAME = 0x00000800,
+
+        /// <summary>
+        /// SEE_MASK_HASLINKNAME
+        /// </summary>
+        SEE_MASK_HASTITLE = 0x00002000,
     }
 }

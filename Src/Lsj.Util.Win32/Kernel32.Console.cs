@@ -12,7 +12,7 @@ using static Lsj.Util.Win32.Enums.GenericAccessRights;
 using static Lsj.Util.Win32.Enums.ProcessCreationFlags;
 using static Lsj.Util.Win32.Enums.STARTUPINFOFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
@@ -25,6 +25,11 @@ namespace Lsj.Util.Win32
         /// ATTACH_PARENT_PROCESS
         /// </summary>
         public const uint ATTACH_PARENT_PROCESS = unchecked((uint)-1);
+
+        /// <summary>
+        /// CONSOLE_TEXTMODE_BUFFER
+        /// </summary>
+        public const uint CONSOLE_TEXTMODE_BUFFER = 1;
 
         /// <summary>
         /// STD_INPUT_HANDLE

@@ -1,10 +1,12 @@
 ﻿using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.LANGID;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
     /// <para>
-    /// A locale identifier. For more information, see Locale Identifiers.
+    /// A locale identifier.
+    /// For more information, see Locale Identifiers.
     /// </para>
     /// <para>
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winprog/windows-data-types"/>
@@ -13,6 +15,25 @@ namespace Lsj.Util.Win32.BaseTypes
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct LCID
     {
+        /// <summary>
+        /// <para>
+        /// Creates a locale identifier from a language identifier and a sort order identifier.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nf-winnt-makelcid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lgid">
+        /// Language identifier.
+        /// This identifier is a combination of a primary language identifier and a sublanguage identifier
+        /// and is usually created by using the <see cref="MAKELANGID"/> macro.
+        /// </param>
+        /// <param name="srtid">
+        /// Sort order identifier.
+        /// </param>
+        /// <returns></returns>
+        public static LCID MAKELCID(WORD lgid, WORD srtid) => (uint)((srtid) << 16) | (lgid);
+
         /// <summary>
         /// LOCALE_CUSTOM_DEFAULT
         /// </summary>
@@ -29,9 +50,24 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly LCID LOCALE_CUSTOM_UNSPECIFIED = new LCID { _value = 0x1000 };
 
         /// <summary>
+        /// LOCALE_IMEASURE
+        /// </summary>
+        public static readonly LCID LOCALE_IMEASURE = new LCID { _value = 0x0000000D };
+
+        /// <summary>
         /// LOCALE_INVARIANT
         /// </summary>
         public static readonly LCID LOCALE_INVARIANT = new LCID { _value = 0x007f };
+
+        /// <summary>
+        /// LOCALE_SSHORTDATE
+        /// </summary>
+        public static readonly LCID LOCALE_SSHORTDATE = new LCID { _value = 0x0000001F };
+
+        /// <summary>
+        /// LOCALE_STIMEFORMAT
+        /// </summary>
+        public static readonly LCID LOCALE_STIMEFORMAT = new LCID { _value = 0x00001003 };
 
         /// <summary>
         /// LOCALE_SYSTEM_DEFAULT

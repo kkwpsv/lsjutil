@@ -97,6 +97,26 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT DATA_S_SAMEFORMATETC = new HRESULT { _value = 0x00040130 };
 
         /// <summary>
+        /// DISP_E_ARRAYISLOCKED
+        /// </summary>
+        public static readonly HRESULT DISP_E_ARRAYISLOCKED = new HRESULT { _value = unchecked((int)0x8002000D) };
+
+        /// <summary>
+        /// DISP_E_BADINDEX
+        /// </summary>
+        public static readonly HRESULT DISP_E_BADINDEX = new HRESULT { _value = unchecked((int)0x8002000B) };
+
+        /// <summary>
+        /// DISP_E_BADVARTYPE
+        /// </summary>
+        public static readonly HRESULT DISP_E_BADVARTYPE = new HRESULT { _value = unchecked((int)0x80020008) };
+
+        /// <summary>
+        /// DISP_E_MEMBERNOTFOUND
+        /// </summary>
+        public static readonly HRESULT DISP_E_MEMBERNOTFOUND = new HRESULT { _value = unchecked((int)0x80020003) };
+
+        /// <summary>
         /// DV_E_CLIPFORMAT
         /// </summary>
         public static readonly HRESULT DV_E_CLIPFORMAT = new HRESULT { _value = unchecked((int)0x8004006A) };
@@ -262,6 +282,11 @@ namespace Lsj.Util.Win32.BaseTypes
         public static readonly HRESULT MK_S_ME = new HRESULT { _value = 0x000401E4 };
 
         /// <summary>
+        /// MK_S_MONIKERALREADYREGISTERED
+        /// </summary>
+        public static readonly HRESULT MK_S_MONIKERALREADYREGISTERED = new HRESULT { _value = 0x000401E7 };
+
+        /// <summary>
         /// MK_S_REDUCED_TO_SELF
         /// </summary>
         public static readonly HRESULT MK_S_REDUCED_TO_SELF = new HRESULT { _value = 0x000401E2 };
@@ -270,6 +295,11 @@ namespace Lsj.Util.Win32.BaseTypes
         /// MK_S_US
         /// </summary>
         public static readonly HRESULT MK_S_US = new HRESULT { _value = 0x000401E6 };
+
+        /// <summary>
+        /// NOERROR
+        /// </summary>
+        public static readonly HRESULT NOERROR = new HRESULT { _value = 0 };
 
         /// <summary>
         /// OLEOBJ_E_NOVERBS
@@ -476,6 +506,12 @@ namespace Lsj.Util.Win32.BaseTypes
         /// Is Succeed
         /// </summary>
         public bool Succeed => _value >= 0;
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => obj is HRESULT hr && this == hr;
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => _value.GetHashCode();
 
         /// <summary>
         /// 

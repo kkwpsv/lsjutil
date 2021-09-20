@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.RegistryKeyAccessRights;
 using static Lsj.Util.Win32.Enums.ShellExecuteErrorCodes;
 using static Lsj.Util.Win32.Enums.SHELLEXECUTEINFOMasks;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Structs
@@ -194,11 +194,13 @@ namespace Lsj.Util.Win32.Structs
 
         private UnionStruct _union;
 
+#pragma warning disable IDE1006
         /// <summary>
         /// A handle to the icon for the file type.
         /// This member is ignored if fMask does not include <see cref="SEE_MASK_ICON"/>.
         /// This value is used only in Windows XP and earlier. It is ignored as of Windows Vista.
         /// </summary>
+
         public HANDLE hIcon
         {
             get => _union.hIcon;
@@ -214,6 +216,7 @@ namespace Lsj.Util.Win32.Structs
             get => _union.hMonitor;
             set => _union.hMonitor = value;
         }
+#pragma warning restore IDE1006
 
         /// <summary>
         /// A handle to the newly started application.

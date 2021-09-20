@@ -30,6 +30,7 @@ using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using IUnknown = Lsj.Util.Win32.ComInterfaces.IUnknown;
 
 namespace Lsj.Util.Win32
 {
@@ -167,6 +168,49 @@ namespace Lsj.Util.Win32
         /// </returns>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CLSIDFromProgID", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CLSIDFromString([In] string lpsz, [Out] out CLSID lpclsid);
+
+        /// <summary>
+        /// <para>
+        /// Makes a private copy of the specified proxy.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-cocopyproxy"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pProxy">
+        /// A pointer to the <see cref="IUnknown"/> interface on the proxy to be copied.
+        /// This parameter cannot be <see cref="NullRef{IUnknown}"/>.
+        /// </param>
+        /// <param name="ppCopy">
+        /// Address of the pointer variable that receives the interface pointer to the copy of the proxy.
+        /// This parameter cannot be <see cref="NULL"/>.
+        /// </param>
+        /// <returns>
+        /// This function can return the following values.
+        /// <see cref="S_OK"/>: Indicates success.
+        /// <see cref="E_INVALIDARG"/>: One or more arguments are invalid.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="CoCopyProxy"/> makes a private copy of the specified proxy.
+        /// Typically, this function is called when a client needs to change the authentication information of its proxy
+        /// through a call to either <see cref="CoSetProxyBlanket"/> or <see cref="IClientSecurity.SetBlanket"/> without changing this information for other clients.
+        /// <see cref="CoSetProxyBlanket"/> affects all the users of an instance of a proxy, so creating a private copy of the proxy
+        /// through a call to <see cref="CoCopyProxy"/> and then calling <see cref="CoSetProxyBlanket"/>
+        /// (or <see cref="IClientSecurity.SetBlanket"/>) using the copy eliminates the problem.
+        /// This helper function encapsulates the following sequence of common calls (error handling excluded):
+        /// <code>
+        /// pProxy->QueryInterface(IID_IClientSecurity, (void**)&amp;pcs);
+        /// pcs->CopyProxy(punkProxy, ppunkCopy);
+        /// pcs->Release();
+        /// </code>
+        /// Local interfaces may not be copied. <see cref="IUnknown"/> and <see cref="IClientSecurity"/> are examples of existing local interfaces.
+        /// Copies of the same proxy have a special relationship with respect to <see cref="IUnknown.QueryInterface"/>.
+        /// Given a proxy, a, of the IA interface of a remote object, suppose a copy of a is created, called b.
+        /// In this case, calling <see cref="IUnknown.QueryInterface"/> from the b proxy for IID_IA will not retrieve the IA interface on b,
+        /// but the one on a, the original proxy with the "default" security settings for the IA interface.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoCopyProxy", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoCopyProxy([In] in IUnknown pProxy, [Out] P<IUnknown> ppCopy);
 
         /// <summary>
         /// <para>
@@ -672,7 +716,7 @@ namespace Lsj.Util.Win32
         /// Queries the object for an <see cref="IMarshal"/> pointer or,
         /// if the object does not implement <see cref="IMarshal"/>, gets a pointer to COM's standard marshaler.
         /// Using the pointer obtained in the preceding item, calls <see cref="IMarshal.GetMarshalSizeMax"/>.
-        /// Adds to the value returned by the call to <see cref="GetMarshalSizeMax"/> the size of the marshaling data header and, possibly,
+        /// Adds to the value returned by the call to <see cref="IMarshal.GetMarshalSizeMax"/> the size of the marshaling data header and, possibly,
         /// that of the proxy CLSID to obtain the maximum size in bytes of the amount of data to be written to the marshaling stream.
         /// You do not explicitly call this function unless you are implementing <see cref="IMarshal"/>,
         /// in which case your marshaling stub should call this function to get the correct size of the data packet to be marshaled.
@@ -685,6 +729,57 @@ namespace Lsj.Util.Win32
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoGetMarshalSizeMax", ExactSpelling = true, SetLastError = true)]
         public static extern HRESULT CoGetMarshalSizeMax([Out] out ULONG pulSize, [In] in IID riid, [In] in object pUnk,
             [In] MSHCTX dwDestContext, [In] LPVOID pvDestContext, [In] in MSHLFLAGS mshlflags);
+
+        /// <summary>
+        /// <para>
+        /// Creates an item moniker that identifies an object within a containing object (typically a compound document).
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-createitemmoniker"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpszDelim">
+        /// A pointer to a wide character string (two bytes per character) zero-terminated string
+        /// containing the delimiter (typically "!") used to separate this item's display name from the display name of its containing object.
+        /// </param>
+        /// <param name="lpszItem">
+        /// A pointer to a zero-terminated string indicating the containing object's name for the object being identified.
+        /// This name can later be used to retrieve a pointer to the object in a call to <see cref="IOleItemContainer.GetObject"/>.
+        /// </param>
+        /// <param name="ppmk">
+        /// The address of an <see cref="IMoniker"/>* pointer variable that receives the interface pointer to the item moniker.
+        /// When successful, the function has called <see cref="ComInterfaces.IUnknown.AddRef"/> on the item moniker
+        /// and the caller is responsible for calling <see cref="ComInterfaces.IUnknown.Release"/>.
+        /// If an error occurs, the supplied interface pointer has a <see cref="NULL"/> value.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// A moniker provider, which hands out monikers to identify its objects so they are accessible to other parties,
+        /// would call <see cref="CreateItemMoniker"/> to identify its objects with item monikers.
+        /// Item monikers are based on a string, and identify objects that are contained within another object and can be individually identified using a string.
+        /// The containing object must also implement the <see cref="IOleContainer"/> interface.
+        /// Most moniker providers are OLE applications that support linking.
+        /// Applications that support linking to objects smaller than file-based documents,
+        /// such as a server application that allows linking to a selection within a document, should use item monikers to identify the objects.
+        /// Container applications that allow linking to embedded objects use item monikers to identify the embedded objects.
+        /// The <paramref name="lpszItem"/> parameter is the name used by the document to uniquely identify the object.
+        /// For example, if the object being identified is a cell range in a spreadsheet, an appropriate name might be something like "A1:E7."
+        /// An appropriate name when the object being identified is an embedded object might be something like "embedobj1."
+        /// The containing object must provide an implementation of the <see cref="IOleItemContainer"/> interface
+        /// that can interpret this name and locate the corresponding object.
+        /// This allows the item moniker to be bound to the object it identifies.
+        /// Item monikers are not used in isolation. They must be composed with a moniker that identifies the containing object as well.
+        /// For example, if the object being identified is a cell range contained in a file-based document,
+        /// the item moniker identifying that object must be composed with the file moniker identifying that document,
+        /// resulting in a composite moniker that is the equivalent of "C:\work\sales.xls!A1:E7."
+        /// Nested containers are allowed also, as in the case where an object is contained within an embedded object inside another document.
+        /// The complete moniker of such an object would be the equivalent of "C:\work\report.doc!embedobj1!A1:E7."
+        /// In this case, each containing object must call <see cref="CreateItemMoniker"/> and provide its own implementation of the <see cref="IOleItemContainer"/> interface.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateItemMoniker", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CreateItemMoniker([In] LPCOLESTR lpszDelim, [In] LPCOLESTR lpszItem, [Out] out LP<IMoniker> ppmk);
 
         /// <summary>
         /// <para>
@@ -984,6 +1079,78 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Called either to lock an object to ensure that it stays in memory, or to release such a lock.
+        /// </para>
+        /// <para>
+        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-colockobjectexternal"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pUnk">
+        /// A pointer to the <see cref="IUnknown"/> interface on the object to be locked or unlocked.
+        /// </param>
+        /// <param name="fLock">
+        /// Indicates whether the object is to be locked or released.
+        /// If this parameter is <see cref="TRUE"/>, the object is kept in memory,
+        /// independent of <see cref="ComInterfaces.IUnknown.AddRef"/>/<see cref="ComInterfaces.IUnknown.Release"/> operations, registrations, or revocations.
+        /// If this parameter is <see cref="FALSE"/>, the lock previously set with a call to this function is released.
+        /// </param>
+        /// <param name="fLastUnlockReleases">
+        /// If the lock is the last reference that is supposed to keep an object alive,
+        /// specify <see cref="TRUE"/> to release all pointers to the object (there may be other references that are not supposed to keep it alive).
+        /// Otherwise, specify <see cref="FALSE"/>.
+        /// If <paramref name="fLock"/> is <see cref="TRUE"/>, this parameter is ignored.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>,
+        /// <see cref="E_OUTOFMEMORY"/>, <see cref="E_UNEXPECTED"/>, and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="CoLockObjectExternal"/> function must be called in the process
+        /// in which the object actually resides (the EXE process, not the process in which handlers may be loaded).
+        /// The <see cref="CoLockObjectExternal"/> function prevents the reference count of an object from going to zero,
+        /// thereby "locking" it into existence until the lock is released.
+        /// The same function (with different parameters) releases the lock.
+        /// The lock is implemented by having the system call <see cref="ComInterfaces.IUnknown.AddRef"/>:: on the object.
+        /// The system then waits to call <see cref="ComInterfaces.IUnknown.Release"/> on the object until a later call
+        /// to <see cref="CoLockObjectExternal"/> with <paramref name="fLock"/> set to <see cref="FALSE"/>.
+        /// This function can be used to maintain a reference count on the object on behalf of the end user, because it acts outside of the object, as does the user.
+        /// The end user has explicit control over the lifetime of an application, even if there are external locks on it.
+        /// That is, if a user decides to close the application, it must shut down.
+        /// In the presence of external locks (such as the lock set by <see cref="CoLockObjectExternal"/>),
+        /// the application can call the <see cref="CoDisconnectObject"/> function to force these connections to close prior to shutdown.
+        /// Calling <see cref="CoLockObjectExternal"/> sets a strong lock on an object.
+        /// A strong lock keeps an object in memory, while a weak lock does not.
+        /// Strong locks are required, for example, during a silent update to an OLE embedding.
+        /// The embedded object's container must remain in memory until the update process is complete.
+        /// There must also be a strong lock on an application object to ensure that the application stays alive until it has finished providing services to its clients.
+        /// All external references place a strong reference lock on an object.
+        /// The <see cref="CoLockObjectExternal"/> function is typically called in the following situations:
+        /// Object servers should call <see cref="CoLockObjectExternal"/> with
+        /// both <paramref name="fLock"/> and <paramref name="fLastUnlockReleases"/> set to <see cref="TRUE"/> when they become visible.
+        /// This call creates a strong lock on behalf of the user.
+        /// When the application is closing, free the lock with a call to <see cref="CoLockObjectExternal"/>,
+        /// setting <paramref name="fLock"/> to <see cref="FALSE"/> and <paramref name="fLastUnlockReleases"/> to <see cref="TRUE"/>
+        /// A call to <see cref="CoLockObjectExternal"/> on the server can also be used in the implementation of <see cref="IOleContainer.LockContainer"/>.
+        /// There are several things to be aware of when you use <see cref="CoLockObjectExternal"/> in the implementation of <see cref="IOleContainer.LockContainer"/>.
+        /// An embedded object would call see cref="IOleContainer.LockContainer"/> on its container to
+        /// keep it running (to lock it) in the absence of other reasons to keep it running.
+        /// When the embedded object becomes visible, the container must weaken its connection to the embedded object
+        /// with a call to the <see cref="OleSetContainedObject"/> function, so other connections can affect the object.
+        /// Unless an application manages all aspects of its application and document shutdown completely with calls to <see cref="CoLockObjectExternal"/>,
+        /// the container must keep a private lock count in <see cref="IOleContainer.LockContainer"/>
+        /// so that it exits when the lock count reaches zero and the container is invisible.
+        /// Maintaining all aspects of shutdown, and thereby avoiding keeping a private lock count,
+        /// means that <see cref="CoLockObjectExternal"/> should be called whenever one of the following conditions occur:
+        /// A document is created and destroyed or made visible or invisible.
+        /// An application is started and shut down by the user.
+        /// A pseudo-object is created and destroyed.
+        /// For debugging purposes, it may be useful to keep a count of the number of external locks (and unlocks) set on the application.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoLockObjectExternal", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoLockObjectExternal([In] in LP<IUnknown> pUnk, [In] BOOL fLock, [In] BOOL fLastUnlockReleases);
+
+        /// <summary>
+        /// <para>
         /// Writes into a stream the data required to initialize a proxy object in some client process.
         /// </para>
         /// <para>
@@ -1170,7 +1337,7 @@ namespace Lsj.Util.Win32
         /// It can also be used to register internal objects for use by the same EXE or other code (such as DLLs) that the EXE uses.
         /// Only EXE object applications call <see cref="CoRegisterClassObject"/>.
         /// Object handlers or DLL object applications do not call this function — instead,
-        /// they must implement and export the <see cref="DllGetClassObject"/> function.
+        /// they must implement and export the DllGetClassObject function.
         /// At startup, a multiple-use EXE object application must create a class object (with the <see cref="IClassFactory"/> interface on it),
         /// and call <see cref="CoRegisterClassObject"/> to register the class object.
         /// Object applications that support several different classes (such as multiple types of embeddable objects)
@@ -1510,6 +1677,59 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTaskMemRealloc", ExactSpelling = true, SetLastError = true)]
         public static extern LPVOID CoTaskMemRealloc([In] LPVOID pv, [In] SIZE_T cb);
+
+        /// <summary>
+        /// <para>
+        /// Establishes or removes an emulation, in which objects of one class are treated as objects of a different class.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/objbase/nf-objbase-cotreatasclass"/>
+        /// </para>
+        /// </summary>
+        /// <param name="clsidOld">
+        /// The CLSID of the object to be emulated.
+        /// </param>
+        /// <param name="clsidNew">
+        /// The CLSID of the object that should emulate the original object.
+        /// This replaces any existing emulation for <paramref name="clsidOld"/>.
+        /// This parameter can be <see cref="CLSID_NULL"/>, in which case any existing emulation for <paramref name="clsidOld"/> is removed.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_INVALIDARG"/>, as well as the following values.
+        /// <see cref="S_OK"/>: The emulation was successfully established or removed.
+        /// <see cref="REGDB_E_CLASSNOTREG"/>: The clsidOld parameter is not properly registered in the registration database.
+        /// <see cref="REGDB_E_READREGDB"/>: Error reading from registration database.
+        /// <see cref="REGDB_E_WRITEREGDB"/>: Error writing to registration database.
+        /// </returns>
+        /// <remarks>
+        /// This function sets the TreatAs entry in the registry for the specified object, allowing the object to be emulated by another application.
+        /// Emulation allows an application to open and edit an object of a different format, while retaining the original format of the object.
+        /// After this entry is set, whenever any function such as <see cref="CoGetClassObject"/> specifies the object's original CLSID (<paramref name="clsidOld"/>),
+        /// it is transparently forwarded to the new CLSID (<paramref name="clsidNew"/>), thus launching the application associated with the TreatAs CLSID.
+        /// When the object is saved, it can be saved in its native format, which may result in loss of edits not supported by the original format.
+        /// If your application supports emulation, call <see cref="CoTreatAsClass"/> in the following situations:
+        /// In response to an end-user request (through a conversion dialog box) that a specified object be treated as an object of a different class
+        /// (an object created under one application be run under another application, while retaining the original format information)
+        /// In a setup program, to register that one class of objects be treated as objects of a different class
+        /// An example of the first case is that an end user might wish to edit a spreadsheet created by one application
+        /// using a different application that can read and write the spreadsheet format of the original application.
+        /// For an application that supports emulation, <see cref="CoTreatAsClass"/> can be called to implement a Treat As option in a conversion dialog box.
+        /// An example of the use of <see cref="CoTreatAsClass"/> in a setup program would be in an updated version of an application.
+        /// When the application is updated, the objects created with the earlier version can be activated and treated as objects of the new version,
+        /// while retaining the previous format information.
+        /// This would allow you to give the user the option to convert when they save, or to save it in the previous format,
+        /// possibly losing format information not available in the older version.
+        /// One result of setting an emulation is that when you enumerate verbs, as in the <see cref="IOleObject.EnumVerbs"/> method implementation in the default handler,
+        /// this would enumerate the verbs from <paramref name="clsidNew"/> instead of <paramref name="clsidOld"/>.
+        /// To ensure that existing emulation information is removed when you install an application, your setup programs should call <see cref="CoTreatAsClass"/>,
+        /// setting the <paramref name="clsidNew"/> parameter to <see cref="CLSID_NULL"/> to remove any existing emulation for the classes they install.
+        /// If there is no CLSID assigned to the AutoTreatAs key in the registry,
+        /// setting <paramref name="clsidNew"/> and <paramref name="clsidOld"/> to the same value removes the TreatAs entry, so there is no emulation.
+        /// If there is a CLSID assigned to the AutoTreatAs key, that CLSID is assigned to the TreatAs key.
+        /// <see cref="CoTreatAsClass"/> does not validate whether an appropriate registry entry for <paramref name="clsidNew"/> currently exists.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "CoTreatAsClass", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT CoTreatAsClass([In] in CLSID clsidOld, [In] in CLSID clsidNew);
 
         /// <summary>
         /// <para>
@@ -1968,6 +2188,44 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Creates a new instance of the default embedding handler.
+        /// This instance is initialized so it creates a local server when the embedded object enters the running state.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-olecreatedefaulthandler"/>
+        /// </para>
+        /// </summary>
+        /// <param name="clsid">
+        /// CLSID identifying the OLE server to be loaded when the embedded object enters the running state.
+        /// </param>
+        /// <param name="pUnkOuter">
+        /// Pointer to the controlling <see cref="IUnknown"/> interface if the handler is to be aggregated;
+        /// <see cref="NullRef{IUnknown}"/> if it is not to be aggregated.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface, usually <see cref="IID_IOleObject"/>,
+        /// through which the caller will communicate with the handler.
+        /// </param>
+        /// <param name="lplpObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, <paramref name="lplpObj"/> contains the requested interface pointer on the newly created handler.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="NOERROR"/> on success and supports the standard return value <see cref="E_OUTOFMEMORY"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="OleCreateDefaultHandler"/> creates a new instance of the default embedding handler,
+        /// initialized so it creates a local server identified by the <paramref name="clsid"/> parameter when the embedded object enters the running state.
+        /// If you are writing a handler and want to use the services of the default handler, call <see cref="OleCreateDefaultHandler"/>.
+        /// OLE also calls it internally when the CLSID specified in an object creation call is not registered.
+        /// If the given class does not have a special handler, a call to <see cref="OleCreateDefaultHandler"/> produces the same results
+        /// as a call to the <see cref="CoCreateInstance"/> function with the class context parameter assigned the value <see cref="CLSCTX_INPROC_HANDLER"/>.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateDefaultHandler", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleCreateDefaultHandler([In] in CLSID clsid, [In] in IUnknown pUnkOuter, [In] in IID riid, [Out] out LPVOID lplpObj);
+
+        /// <summary>
+        /// <para>
         /// Creates an embedded object from a data transfer object retrieved either from the clipboard or as part of an OLE drag-and-drop operation.
         /// It is intended to be used to implement a paste from an OLE drag-and-drop operation.
         /// </para>
@@ -2104,6 +2362,54 @@ namespace Lsj.Util.Win32
         public static extern HRESULT OleCreateFromFile([In] in CLSID rclsid, [MarshalAs(UnmanagedType.LPWStr)][In] in string lpszFileName,
             [In] in IID riid, [In] in DWORD renderopt, [In] in FORMATETC lpFormatEtc, [In] in IOleClientSite pClientSite,
             [In] in IStorage pStg, [Out] out LPVOID ppvObj);
+
+        /// <summary>
+        /// <para>
+        /// Creates an OLE compound-document linked object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/ole2/nf-ole2-olecreatelink"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pmkLinkSrc">
+        /// Pointer to the <see cref="IMoniker"/> interface on the moniker that can be used to locate the source of the linked object.
+        /// </param>
+        /// <param name="riid">
+        /// Reference to the identifier of the interface the caller later uses to communicate with the new object
+        /// (usually <see cref="IID_IOleObject"/>, defined in the OLE headers as the interface identifier for <see cref="IOleObject"/>).
+        /// </param>
+        /// <param name="renderopt">
+        /// Specifies a value from the enumeration <see cref="OLERENDER"/> that indicates the locally cached
+        /// drawing or data-retrieval capabilities the newly created object is to have.
+        /// Additional considerations are described in the Remarks section below.
+        /// </param>
+        /// <param name="lpFormatEtc">
+        /// Pointer to a value from the enumeration <see cref="OLERENDER"/> that indicates the locally cached
+        /// drawing or data-retrieval capabilities the newly created object is to have.
+        /// The <see cref="OLERENDER"/> value chosen affects the possible values for the <paramref name="lpFormatEtc"/> parameter.
+        /// </param>
+        /// <param name="pClientSite">
+        /// Pointer to an instance of <see cref="IOleClientSite"/>, the primary interface through which the object will request services from its container.
+        /// This parameter can be <see cref="NullRef{IOleClientSite}"/>.
+        /// </param>
+        /// <param name="pStg">
+        /// Pointer to the <see cref="IStorage"/> interface on the storage object.
+        /// This parameter cannot be <see cref="NullRef{IStorage}"/>.
+        /// </param>
+        /// <param name="ppvObj">
+        /// Address of pointer variable that receives the interface pointer requested in <paramref name="riid"/>.
+        /// Upon successful return, <paramref name="ppvObj"/> contains the requested interface pointer on the newly created object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="S_OK"/> on success. Other possible values include the following.
+        /// <see cref="OLE_E_CANT_BINDTOSOURCE"/>: Not able to bind to source.
+        /// </returns>
+        /// <remarks>
+        /// Call <see cref="OleCreateLink"/> to allow a container to create a link to an object.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "OleCreateLink", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT OleCreateLink([In] in IMoniker pmkLinkSrc, [In] in IID riid, [In] OLERENDER renderopt, [In] in FORMATETC lpFormatEtc,
+            [In] in IOleClientSite pClientSite, [In] in IStorage pStg, [Out] out LPVOID ppvObj);
 
         /// <summary>
         /// <para>
@@ -2684,5 +2990,57 @@ namespace Lsj.Util.Win32
         public static extern HRESULT StgOpenStorageEx([MarshalAs(UnmanagedType.LPWStr)][In] string pwcsName,
             [In] STGM grfMode, [In] STGFMT stgfmt, [In] DWORD grfAttrs, [In] in STGOPTIONS pStgOptions,
             [In] PSECURITY_DESCRIPTOR pSecurityDescriptor, [In] in IID riid, [Out] out IntPtr ppObjectOpen);
+
+        /// <summary>
+        /// <para>
+        /// Converts a <see cref="CLSID"/> into a string of printable characters.
+        /// Different CLSIDs always convert to different strings.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/combaseapi/nf-combaseapi-stringfromclsid"/>
+        /// </para>
+        /// </summary>
+        /// <param name="rclsid">
+        /// The <see cref="CLSID"/> to be converted.
+        /// </param>
+        /// <param name="lplpsz">
+        /// The address of a pointer variable that receives a pointer to the resulting string.
+        /// The string that represents <paramref name="rclsid"/> includes enclosing braces.
+        /// </param>
+        /// <returns>
+        /// This function can return the standard return values <see cref="E_OUTOFMEMORY"/> and <see cref="S_OK"/>.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="StringFromCLSID"/> calls the <see cref="StringFromGUID2"/> function
+        /// to convert a globally unique identifier (GUID) into a string of printable characters.
+        /// The caller is responsible for freeing the memory allocated for the string by calling the <see cref="CoTaskMemFree"/> function.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "StringFromCLSID", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT StringFromCLSID([In] in CLSID rclsid, [Out] out IntPtr lplpsz);
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="WriteClassStg"/> function stores the specified class identifier (CLSID) in a storage object.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/coml2api/nf-coml2api-writeclassstg"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pStg">
+        /// <see cref="IStorage"/> pointer to the storage object that gets a new CLSID.
+        /// </param>
+        /// <param name="rclsid">
+        /// Pointer to the <see cref="CLSID"/> to be stored with the object.
+        /// </param>
+        /// <returns>
+        /// This function returns <see cref="HRESULT"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="WriteClassStg"/> function writes a <see cref="CLSID"/> to the specified storage object
+        /// so that it can be read by the <see cref="ReadClassStg"/> function.
+        /// Container applications typically call this function before calling the <see cref="IPersistStorage.Save"/> method.
+        /// </remarks>
+        [DllImport("Ole32.dll", CharSet = CharSet.Unicode, EntryPoint = "WriteClassStg", ExactSpelling = true, SetLastError = true)]
+        public static extern HRESULT WriteClassStg([In] in IStorage pStg, [In] in CLSID rclsid);
     }
 }

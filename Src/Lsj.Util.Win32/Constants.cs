@@ -24,6 +24,16 @@ namespace Lsj.Util.Win32
         public const uint HOVER_DEFAULT = 0xFFFFFFFF;
 
         /// <summary>
+        /// I_IMAGECALLBACK
+        /// </summary>
+        public const int I_IMAGECALLBACK = -1;
+
+        /// <summary>
+        /// I_IMAGENONE
+        /// </summary>
+        public const int I_IMAGENONE = -2;
+
+        /// <summary>
         /// INFOTIPSIZE
         /// </summary>
         public const int INFOTIPSIZE = 1024;
@@ -32,6 +42,11 @@ namespace Lsj.Util.Win32
         /// LINE_LEN
         /// </summary>
         public const int LINE_LEN = 256;
+
+        /// <summary>
+        /// LPSTR_TEXTCALLBACK
+        /// </summary>
+        public static readonly IntPtr LPSTR_TEXTCALLBACK = (IntPtr)(-1);
 
         /// <summary>
         /// MAX_DEFAULTCHAR

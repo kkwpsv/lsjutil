@@ -9,7 +9,7 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.MapVirtualKeyTypes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.Enums.MouseEventFlags;
 

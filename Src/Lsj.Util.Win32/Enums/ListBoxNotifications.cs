@@ -1,4 +1,4 @@
-﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
+﻿using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums
 {

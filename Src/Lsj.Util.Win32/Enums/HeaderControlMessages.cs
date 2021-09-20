@@ -1,5 +1,8 @@
 ﻿using System;
+using static Lsj.Util.Win32.Enums.HDITEMFormats;
+using static Lsj.Util.Win32.Enums.HeaderControlNotifications;
 using static Lsj.Util.Win32.Enums.HeaderControlStyles;
+using static Lsj.Util.Win32.Macros.HeaderControlMacros;
 
 namespace Lsj.Util.Win32.Enums
 {

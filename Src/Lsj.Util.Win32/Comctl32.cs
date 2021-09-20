@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.INITCOMMONCONTROLSFlags;
 
 namespace Lsj.Util.Win32
@@ -10,6 +12,48 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Comctl32
     {
+        /// <summary>
+        /// <para>
+        /// Creates a new page for a property sheet.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/prsht/nf-prsht-createpropertysheetpagew"/>
+        /// </para>
+        /// </summary>
+        /// <param name="constPropSheetPagePointer">
+        /// Pointer to a <see cref="PROPSHEETPAGE"/> structure that defines a page to be included in a property sheet.
+        /// </param>
+        /// <returns>
+        /// Returns the handle to the new property page if successful, or <see cref="NULL"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// Note  Before common controls version 7.0, this function did not support visual styles.
+        /// An application uses the PropertySheet function to create a property sheet that includes the new page.
+        /// If you are not using the Aero wizard style (<see cref="PSH_AEROWIZARD"/>),
+        /// the application can use the <see cref="PSM_ADDPAGE"/> message to add the new page to an existing property sheet.
+        /// Windows 95: The system can support a maximum of 16,364 window handles.
+        /// </remarks>
+        [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreatePropertySheetPageW", ExactSpelling = true, SetLastError = true)]
+        public static extern HPROPSHEETPAGE CreatePropertySheetPage([In] in PROPSHEETPAGE constPropSheetPagePointer);
+
+        /// <summary>
+        /// <para>
+        /// Destroys a property sheet page.
+        /// An application must call this function for pages that have not been passed to the <see cref="PropertySheet"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/prsht/nf-prsht-destroypropertysheetpage"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// Handle to the property sheet page to delete.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        [DllImport("Comctl32.dll", CharSet = CharSet.Unicode, EntryPoint = "DestroyPropertySheetPage", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DestroyPropertySheetPage([In] HPROPSHEETPAGE unnamedParam1);
+
         /// <summary>
         /// <para>
         /// Gets the language currently in use by the common controls for a particular process.

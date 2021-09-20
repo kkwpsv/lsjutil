@@ -1,5 +1,4 @@
-﻿using static Lsj.Util.Win32.Enums.WindowsMessages;
-using static Lsj.Util.Win32.User32;
+﻿using static Lsj.Util.Win32.BaseTypes.LCID;
 
 namespace Lsj.Util.Win32.Enums
 {

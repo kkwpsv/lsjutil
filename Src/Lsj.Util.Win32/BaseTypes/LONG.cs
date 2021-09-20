@@ -15,6 +15,25 @@ namespace Lsj.Util.Win32.BaseTypes
     public struct LONG
     {
         /// <summary>
+        /// <para>
+        /// Creates a <see cref="LONG"/> value by concatenating the specified values.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms632660(v=vs.85)"/>
+        /// </para>
+        /// </summary>
+        /// <param name="a">
+        /// The low-order word of the new value.
+        /// </param>
+        /// <param name="b">
+        /// The high-order word of the new value.
+        /// </param>
+        /// <returns>
+        /// The return value is a <see cref="LONG"/> value.
+        /// </returns>
+        public static LONG MAKELONG(WORD a, WORD b) => a | ((DWORD)(b << 16));
+
+        /// <summary>
         /// MAXLONG
         /// </summary>
         public static LONG MAXLONG = 0x7fffffff;

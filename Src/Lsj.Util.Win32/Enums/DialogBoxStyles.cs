@@ -1,7 +1,7 @@
 ﻿using Lsj.Util.Win32.Structs;
 using System;
 using static Lsj.Util.Win32.Enums.StockObjectIndexes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WinHelpCommands;
 using static Lsj.Util.Win32.User32;

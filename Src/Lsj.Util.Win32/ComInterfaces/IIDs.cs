@@ -13,6 +13,11 @@ namespace Lsj.Util.Win32.ComInterfaces
         public static readonly IID IID_IUnknown = "00000000-0000-0000-C000-000000000046";
 
         /// <summary>
+        /// IID_IAccessible
+        /// </summary>
+        public static readonly IID IID_IAccessible = " 618736e0-3c3d-11cf-810c-00aa00389b71";
+
+        /// <summary>
         /// IID_IAdviseSink
         /// </summary>
         public static readonly IID IID_IAdviseSink = "0000010f-0000-0000-C000-000000000046";

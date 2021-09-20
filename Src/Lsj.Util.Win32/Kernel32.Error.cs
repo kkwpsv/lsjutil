@@ -3,7 +3,6 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ErrorModes;
@@ -11,10 +10,11 @@ using static Lsj.Util.Win32.Enums.ExceptionCodes;
 using static Lsj.Util.Win32.Enums.ExceptionFlags;
 using static Lsj.Util.Win32.Enums.FacilityCodes;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
+using static Lsj.Util.Win32.Enums.MemoryProtectionConstants;
+using static Lsj.Util.Win32.Enums.NTSTATUS;
 using static Lsj.Util.Win32.Enums.OpenFileFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
-using static Lsj.Util.Win32.Enums.NTSTATUS;
 
 namespace Lsj.Util.Win32
 {

@@ -17,8 +17,8 @@ namespace Lsj.Util.Win32.Structs
     /// </summary>
     /// <remarks>
     /// When the MDI client window is created by calling <see cref="CreateWindow"/>, the system sends
-    /// a <see cref="WindowsMessages.WM_CREATE"/> message to the window.
-    /// The lParam parameter of <see cref="WindowsMessages.WM_CREATE"/> contains a pointer to a <see cref="CREATESTRUCT"/> structure.
+    /// a <see cref="WindowMessages.WM_CREATE"/> message to the window.
+    /// The lParam parameter of <see cref="WindowMessages.WM_CREATE"/> contains a pointer to a <see cref="CREATESTRUCT"/> structure.
     /// The lpCreateParams member of this structure contains a pointer to a <see cref="CLIENTCREATESTRUCT"/> structure.
     /// </remarks>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -34,7 +34,7 @@ namespace Lsj.Util.Win32.Structs
         /// The child window identifier of the first MDI child window created.
         /// The system increments the identifier for each additional MDI child window the application creates,
         /// and reassigns identifiers when the application destroys a window to keep the range of identifiers contiguous.
-        /// These identifiers are used in <see cref="WindowsMessages.WM_COMMAND"/> messages sent to the application's MDI frame window
+        /// These identifiers are used in <see cref="WindowMessages.WM_COMMAND"/> messages sent to the application's MDI frame window
         /// when a child window is chosen from the window menu; they should not conflict with any other command identifiers.
         /// </summary>
         public UINT idFirstChild;

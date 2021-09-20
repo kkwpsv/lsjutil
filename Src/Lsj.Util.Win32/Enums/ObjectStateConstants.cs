@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.ComInterfaces;
-using static Lsj.Util.Win32.Enums.Events;
+using static Lsj.Util.Win32.Enums.EventConstants;
 using static Lsj.Util.Win32.Enums.SELFLAG;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Enums
 {

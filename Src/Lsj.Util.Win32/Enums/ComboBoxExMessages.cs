@@ -1,11 +1,12 @@
 ﻿using Lsj.Util.Win32.Structs;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
 using static Lsj.Util.Win32.Enums.COMBOBOXEXITEMFlags;
 using static Lsj.Util.Win32.Enums.ComboBoxExNotifications;
 using static Lsj.Util.Win32.Enums.ComboBoxExStyles;
 using static Lsj.Util.Win32.Enums.ComboBoxStyles;
 using static Lsj.Util.Win32.Enums.ControlMessages;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums
 {

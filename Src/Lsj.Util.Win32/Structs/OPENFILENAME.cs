@@ -7,7 +7,7 @@ using static Lsj.Util.Win32.Comdlg32;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.CommDlgExtendedErrorCodes;
 using static Lsj.Util.Win32.Enums.OPENFILENAMEFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32.Structs

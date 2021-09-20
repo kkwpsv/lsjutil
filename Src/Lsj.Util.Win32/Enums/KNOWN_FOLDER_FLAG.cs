@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.ComInterfaces;
 using static Lsj.Util.Win32.BaseTypes.KNOWNFOLDERID;
 using static Lsj.Util.Win32.Shell32;
 

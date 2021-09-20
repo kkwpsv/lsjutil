@@ -20,7 +20,7 @@ namespace Lsj.Util.Win32.Enums
         SWP_ASYNCWINDOWPOS = 0x4000,
 
         /// <summary>
-        /// Prevents generation of the <see cref="WindowsMessages.WM_SYNCPAINT"/> message.
+        /// Prevents generation of the <see cref="WindowMessages.WM_SYNCPAINT"/> message.
         /// </summary>
         SWP_DEFERERASE = 0x200,
 
@@ -31,8 +31,8 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Applies new frame styles set using the SetWindowLong function.
-        /// Sends a <see cref="WindowsMessages.WM_NCCALCSIZE"/> message to the window, even if the window's size is not being changed.
-        /// If this flag is not specified, <see cref="WindowsMessages.WM_NCCALCSIZE"/> is sent only when the window's size is being changed.
+        /// Sends a <see cref="WindowMessages.WM_NCCALCSIZE"/> message to the window, even if the window's size is not being changed.
+        /// If this flag is not specified, <see cref="WindowMessages.WM_NCCALCSIZE"/> is sent only when the window's size is being changed.
         /// </summary>
         SWP_FRAMECHANGED = 0x0020,
 
@@ -80,7 +80,7 @@ namespace Lsj.Util.Win32.Enums
         SWP_NOREPOSITION = 0x0200,
 
         /// <summary>
-        /// Prevents the window from receiving the <see cref="WindowsMessages.WM_WINDOWPOSCHANGING"/> message.
+        /// Prevents the window from receiving the <see cref="WindowMessages.WM_WINDOWPOSCHANGING"/> message.
         /// </summary>
         SWP_NOSENDCHANGING = 0x0400,
 

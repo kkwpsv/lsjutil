@@ -9,7 +9,7 @@ using static Lsj.Util.Win32.Enums.DVASPECT;
 using static Lsj.Util.Win32.Enums.OLEGETMONIKER;
 using static Lsj.Util.Win32.Enums.OLEMISC;
 using static Lsj.Util.Win32.Enums.OLEVERB;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
 

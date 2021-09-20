@@ -47,7 +47,7 @@ namespace Lsj.Util.Win32.Structs
     /// If the first word of the creation data array is nonzero, it indicates the size, in bytes, of the creation data (including the size word).
     /// The control's window procedure must be able to interpret the data.
     /// When the system creates the control, it passes a pointer to this data in the lParam parameter
-    /// of the <see cref="WindowsMessages.WM_CREATE"/> message that it sends to the control.
+    /// of the <see cref="WindowMessages.WM_CREATE"/> message that it sends to the control.
     /// If you specify character strings in the class and title arrays, you must use Unicode strings.
     /// Use the <see cref="MultiByteToWideChar"/> function to generate Unicode strings from ANSI strings.
     /// The <see cref="x"/>, <see cref="y"/>, <see cref="cx"/>, and <see cref="cy"/> members specify values in dialog box units.

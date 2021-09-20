@@ -11,7 +11,7 @@ using static Lsj.Util.Win32.Enums.QueueStatus;
 using static Lsj.Util.Win32.Enums.SendMessageTimeoutFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 
 namespace Lsj.Util.Win32
@@ -62,7 +62,7 @@ namespace Lsj.Util.Win32
         /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/>
         /// calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
         /// </remarks>
-        public delegate void SENDASYNCPROC([In] HWND Arg1, [In] WindowsMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
+        public delegate void SENDASYNCPROC([In] HWND Arg1, [In] WindowMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
 
         /// <summary>
         /// <para>
@@ -424,7 +424,7 @@ namespace Lsj.Util.Win32
         /// <param name="lParam"></param>
         /// <returns></returns>
         [Obsolete]
-        public static BOOL PostAppMessage([In] DWORD idThread, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam) =>
+        public static BOOL PostAppMessage([In] DWORD idThread, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam) =>
              PostThreadMessage(idThread, Msg, wParam, lParam);
 
         /// <summary>
@@ -483,7 +483,7 @@ namespace Lsj.Util.Win32
         /// The minimum acceptable value is 4000.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PostMessage([In] HWND hWnd, [In] WindowsMessages msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern BOOL PostMessage([In] HWND hWnd, [In] WindowMessages msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -573,7 +573,7 @@ namespace Lsj.Util.Win32
         /// The minimum acceptable value is 4000.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "PostThreadMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL PostThreadMessage([In] DWORD idThread, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern BOOL PostThreadMessage([In] DWORD idThread, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -678,7 +678,7 @@ namespace Lsj.Util.Win32
         /// This functionality is not guaranteed to work for other types of applications.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendMessage([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern LRESULT SendMessage([In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -736,7 +736,7 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageCallbackW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SendMessageCallback([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
+        public static extern BOOL SendMessageCallback([In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
             [In] SENDASYNCPROC lpResultCallBack, [In] ULONG_PTR dwData);
 
         /// <summary>
@@ -815,7 +815,7 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendMessageTimeoutW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT SendMessageTimeout([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
+        public static extern LRESULT SendMessageTimeout([In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam,
             [In] SendMessageTimeoutFlags fuFlags, [In] UINT uTimeout, [Out] out DWORD_PTR lpdwResult);
 
         /// <summary>
@@ -871,7 +871,7 @@ namespace Lsj.Util.Win32
         /// To send other messages (those >= <see cref="WM_USER"/>) to another process, you must do custom marshalling.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "SendNotifyMessageW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL SendNotifyMessage([In] HWND hWnd, [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern BOOL SendNotifyMessage([In] HWND hWnd, [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>

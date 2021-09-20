@@ -18,7 +18,7 @@ using static Lsj.Util.Win32.Enums.ScrollBarConstants;
 using static Lsj.Util.Win32.Enums.ScrollBarMessages;
 using static Lsj.Util.Win32.Enums.SCROLLINFOFlags;
 using static Lsj.Util.Win32.Enums.ScrollWindowExFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;

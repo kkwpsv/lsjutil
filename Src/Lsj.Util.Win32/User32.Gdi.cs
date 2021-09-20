@@ -9,78 +9,25 @@ using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.BorderFlags;
 using static Lsj.Util.Win32.Enums.BorderStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
-using static Lsj.Util.Win32.Enums.DisplayDeviceStateFlags;
-using static Lsj.Util.Win32.Enums.EnumDisplayDevicesFlags;
+using static Lsj.Util.Win32.Enums.DrawFrameControlStates;
+using static Lsj.Util.Win32.Enums.DrawFrameControlTypes;
 using static Lsj.Util.Win32.Enums.GetDCExFlags;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.PrintWindowFlags;
+using static Lsj.Util.Win32.Enums.RasterCodes;
 using static Lsj.Util.Win32.Enums.RedrawWindowFlags;
 using static Lsj.Util.Win32.Enums.RegionFlags;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Gdi32;
-using static Lsj.Util.Win32.GUIDs.DeviceInterfaceClasses;
 using static Lsj.Util.Win32.Kernel32;
-using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 
 namespace Lsj.Util.Win32
 {
     public static partial class User32
     {
-        /// <summary>
-        /// <para>
-        /// A MonitorEnumProc function is an application-defined callback function that is called by the <see cref="EnumDisplayMonitors"/> function.
-        /// A value of type <see cref="MONITORENUMPROC"/> is a pointer to a MonitorEnumProc function.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-monitorenumproc"/>
-        /// </para>
-        /// </summary>
-        /// <param name="Arg1">
-        /// A handle to the display monitor.
-        /// This value will always be non-NULL.
-        /// </param>
-        /// <param name="Arg2">
-        /// A handle to a device context.
-        /// The device context has color attributes that are appropriate for the display monitor identified by hMonitor.
-        /// The clipping area of the device context is set to the intersection of the visible region of the device context
-        /// identified by the hdc parameter of <see cref="EnumDisplayMonitors"/>,
-        /// the rectangle pointed to by the lprcClip parameter of <see cref="EnumDisplayMonitors"/>, and the display monitor rectangle.
-        /// This value is <see cref="NULL"/> if the hdc parameter of <see cref="EnumDisplayMonitors"/> was <see cref="NULL"/>.
-        /// </param>
-        /// <param name="Arg3">
-        /// A pointer to a <see cref="RECT"/> structure.
-        /// If hdcMonitor is non-NULL, this rectangle is the intersection of the clipping area of the device context
-        /// identified by hdcMonitor and the display monitor rectangle.
-        /// The rectangle coordinates are device-context coordinates.
-        /// If hdcMonitor is <see cref="NULL"/>, this rectangle is the display monitor rectangle.
-        /// The rectangle coordinates are virtual-screen coordinates.
-        /// </param>
-        /// <param name="Arg4">
-        /// Application-defined data that <see cref="EnumDisplayMonitors"/> passes directly to the enumeration function.
-        /// </param>
-        /// <returns>
-        /// To continue the enumeration, return <see cref="TRUE"/>.
-        /// To stop the enumeration, return <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// You can use the <see cref="EnumDisplayMonitors"/> function to enumerate the set of display monitors
-        /// that intersect the visible region of a specified device context and, optionally, a clipping rectangle.
-        /// To do this, set the hdc parameter to a non-NULL value, and set the lprcClip parameter as needed.
-        /// You can also use the <see cref="EnumDisplayMonitors"/> function to enumerate one or more of the display monitors on the desktop,
-        /// without supplying a device context.
-        /// To do this, set the hdc parameter of <see cref="EnumDisplayMonitors"/> to <see cref="NULL"/> and set the lprcClip parameter as needed.
-        /// In all cases, <see cref="EnumDisplayMonitors"/> calls a specified MonitorEnumProc function once
-        /// for each display monitor in the calculated enumeration set.
-        /// The MonitorEnumProc function always receives a handle to the display monitor.
-        /// If the hdc parameter of <see cref="EnumDisplayMonitors"/> is non-NULL, the MonitorEnumProc function also receives a handle
-        /// to a device context whose color format is appropriate for the display monitor.
-        /// You can then paint into the device context in a manner that is optimal for the display monitor.
-        /// </remarks>
-        public delegate BOOL MONITORENUMPROC([In] HMONITOR Arg1, [In] HDC Arg2, [In] in RECT Arg3, [In] LPARAM Arg4);
-
         /// <summary>
         /// <para>
         /// The <see cref="BeginPaint"/> function prepares the specified window for painting
@@ -242,6 +189,60 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// The <see cref="DrawFrameControl"/> function draws a frame control of the specified type and style.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-drawframecontrol"/>
+        /// </para>
+        /// </summary>
+        /// <param name="unnamedParam1">
+        /// A handle to the device context of the window in which to draw the control.
+        /// </param>
+        /// <param name="unnamedParam2">
+        /// A pointer to a <see cref="RECT"/> structure that contains the logical coordinates of the bounding rectangle for frame control.
+        /// </param>
+        /// <param name="unnamedParam3">
+        /// The type of frame control to draw.
+        /// This parameter can be one of the following values.
+        /// <see cref="DFC_BUTTON"/>, <see cref="DFC_CAPTION"/>, <see cref="DFC_MENU"/>, <see cref="DFC_POPUPMENU"/>, <see cref="DFC_SCROLL"/>
+        /// </param>
+        /// <param name="unnamedParam4">
+        /// The initial state of the frame control.
+        /// If <paramref name="unnamedParam3"/> is <see cref="DFC_BUTTON"/>, <paramref name="unnamedParam4"/> can be one of the following values.
+        /// <see cref="DFCS_BUTTON3STATE"/>, <see cref="DFCS_BUTTONCHECK"/>, <see cref="DFCS_BUTTONPUSH"/>, <see cref="DFCS_BUTTONRADIO"/>,
+        /// <see cref="DFCS_BUTTONRADIOIMAGE"/>, <see cref="DFCS_BUTTONRADIOMASK"/>
+        /// If paramref name="unnamedParam3"/> is <see cref="DFC_CAPTION"/>, <paramref name="unnamedParam4"/> can be one of the following values.
+        /// <see cref="DFCS_CAPTIONCLOSE"/>, <see cref="DFCS_CAPTIONHELP"/>, <see cref="DFCS_CAPTIONMAX"/>, <see cref="DFCS_CAPTIONMIN"/>,
+        /// <see cref="DFCS_CAPTIONRESTORE"/>,
+        /// If paramref name="unnamedParam3"/> is <see cref="DFC_MENU"/>, <paramref name="unnamedParam4"/> can be one of the following values.
+        /// <see cref="DFCS_MENUARROW"/>, <see cref="DFCS_MENUARROWRIGHT"/>, <see cref="DFCS_MENUBULLET"/>, <see cref="DFCS_MENUCHECK"/>
+        /// If paramref name="unnamedParam3"/> is <see cref="DFC_SCROLL"/>, <paramref name="unnamedParam4"/> can be one of the following values.
+        /// <see cref="DFCS_SCROLLCOMBOBOX"/>, <see cref="DFCS_SCROLLDOWN"/>, <see cref="DFCS_SCROLLLEFT"/>, <see cref="DFCS_SCROLLRIGHT"/>,
+        /// <see cref="DFCS_SCROLLSIZEGRIP"/>, <see cref="DFCS_SCROLLSIZEGRIPRIGHT"/>, <see cref="DFCS_SCROLLUP"/>
+        /// The following style can be used to adjust the bounding rectangle of the push button.
+        /// <see cref="DFCS_ADJUSTRECT"/>
+        /// One or more of the following values can be used to set the state of the control to be drawn.
+        /// <see cref="DFCS_CHECKED"/>, <see cref="DFCS_FLAT"/>, <see cref="DFCS_HOT"/>, <see cref="DFCS_INACTIVE"/>, <see cref="DFCS_MONO"/>,
+        /// <see cref="DFCS_PUSHED"/>, <see cref="DFCS_TRANSPARENT"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// </returns>
+        /// <remarks>
+        /// If <paramref name="unnamedParam3"/> is either <see cref="DFC_MENU"/> or <see cref="DFC_BUTTON"/>
+        /// and <paramref name="unnamedParam4"/> is not <see cref="DFCS_BUTTONPUSH"/>,
+        /// the frame control is a black-on-white mask (that is, a black frame control on a white background).
+        /// In such cases, the application must pass a handle to a bitmap memory device control.
+        /// The application can then use the associated bitmap as the hbmMask parameter to the MaskBlt function,
+        /// or it can use the device context as a parameter to the <see cref="BitBlt"/> function using ROPs such as <see cref="SRCAND"/> and <see cref="SRCINVERT"/>.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DrawFrameControl", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL DrawFrameControl([In] HDC unnamedParam1, [In] in RECT unnamedParam2,
+            [In] DrawFrameControlTypes unnamedParam3, [In] DrawFrameControlStates unnamedParam4);
+
+        /// <summary>
+        /// <para>
         /// The EndPaint function marks the end of painting in the specified window.
         /// This function is required for each call to the <see cref="BeginPaint"/> function, but only after painting is complete.
         /// </para>
@@ -264,132 +265,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EndPaint", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL EndPaint([In] HWND hWnd, [In] in PAINTSTRUCT lpPaint);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="EnumDisplayDevices"/> function lets you obtain information about the display devices in the current session.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaydevicesw"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpDevice">
-        /// A pointer to the device name.
-        /// If <see langword="null"/>, function returns information for the display adapter(s) on the machine, based on <paramref name="iDevNum"/>.
-        /// For more information, see Remarks.
-        /// </param>
-        /// <param name="iDevNum">
-        /// An index value that specifies the display device of interest.
-        /// The operating system identifies each display device in the current session with an index value.
-        /// The index values are consecutive integers, starting at 0. If the current session has three display devices,
-        /// for example, they are specified by the index values 0, 1, and 2.
-        /// </param>
-        /// <param name="lpDisplayDevice">
-        /// A pointer to a <see cref="DISPLAY_DEVICE"/> structure that receives information about the display device specified by <paramref name="iDevNum"/>.
-        /// Before calling <see cref="EnumDisplayDevices"/>, you must initialize the <see cref="DISPLAY_DEVICE.cb"/> member
-        /// of <see cref="DISPLAY_DEVICE"/> to the size, in bytes, of <see cref="DISPLAY_DEVICE"/>.
-        /// </param>
-        /// <param name="dwFlags">
-        /// Set this flag to <see cref="EDD_GET_DEVICE_INTERFACE_NAME"/> (0x00000001) to retrieve the device interface name
-        /// for <see cref="GUID_DEVINTERFACE_MONITOR"/>, which is registered by the operating system on a per monitor basis.
-        /// The value is placed in the <see cref="DISPLAY_DEVICE.DeviceID"/> member of the <see cref="DISPLAY_DEVICE"/> structure
-        /// returned in <paramref name="lpDisplayDevice"/>.
-        /// The resulting device interface name can be used with SetupAPI functions and serves as a link
-        /// between GDI monitor devices and SetupAPI monitor devices.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// The function fails if <paramref name="iDevNum"/> is greater than the largest device index.
-        /// </returns>
-        /// <remarks>
-        /// To query all display devices in the current session, call this function in a loop, starting with iDevNum set to 0,
-        /// and incrementing <paramref name="iDevNum"/> until the function fails.
-        /// To select all display devices in the desktop, use only the display devices
-        /// that have the <see cref="DISPLAY_DEVICE_ATTACHED_TO_DESKTOP"/> flag in the <see cref="DISPLAY_DEVICE"/> structure.
-        /// To get information on the display adapter, call <see cref="EnumDisplayDevices"/>
-        /// with <paramref name="lpDevice"/> set to <see langword="null"/>.
-        /// For example, <see cref="DISPLAY_DEVICE.DeviceString"/> contains the adapter name.
-        /// To obtain information on a display monitor, first call <see cref="EnumDisplayDevices"/>
-        /// with <paramref name="lpDevice"/> set to <see langword="null"/>.
-        /// Then call <see cref="EnumDisplayDevices"/> with <paramref name="lpDevice"/> set to <see cref="DISPLAY_DEVICE.DeviceName"/>
-        /// from the first call to <see cref="EnumDisplayDevices"/> and with <paramref name="iDevNum"/> set to zero.
-        /// Then <see cref="DISPLAY_DEVICE.DeviceString"/> is the monitor name.
-        /// To query all monitor devices associated with an adapter, call <see cref="EnumDisplayDevices"/> in a loop
-        /// with <paramref name="lpDevice"/> set to the adapter name, <paramref name="iDevNum"/> set to start at 0,
-        /// and <paramref name="iDevNum"/> set to increment until the function fails.
-        /// Note that <see cref="DISPLAY_DEVICE.DeviceName"/> changes with each call for monitor information, so you must save the adapter name.
-        /// The function fails when there are no more monitors for the adapter.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPWStr)][In] string lpDevice, [In] DWORD iDevNum,
-            [In] ref DISPLAY_DEVICE lpDisplayDevice, [In] EnumDisplayDevicesFlags dwFlags);
-
-        /// <summary>
-        /// <para>
-        /// The <see cref="EnumDisplayMonitors"/> function enumerates display monitors
-        /// (including invisible pseudo-monitors associated with the mirroring drivers)
-        /// that intersect a region formed by the intersection of a specified clipping rectangle and the visible region of a device context.
-        /// <see cref="EnumDisplayMonitors"/> calls an application-defined MonitorEnumProc callback function once for each monitor that is enumerated.
-        /// Note that <code>GetSystemMetrics(SM_CMONITORS)</code> counts only the display monitors.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-enumdisplaymonitors"/>
-        /// </para>
-        /// </summary>
-        /// <param name="hdc">
-        /// A handle to a display device context that defines the visible region of interest.
-        /// If this parameter is <see cref="NULL"/>, the hdcMonitor parameter passed to the callback function will be <see cref="NULL"/>,
-        /// and the visible region of interest is the virtual screen that encompasses all the displays on the desktop.
-        /// </param>
-        /// <param name="lprcClip">
-        /// A pointer to a <see cref="RECT"/> structure that specifies a clipping rectangle.
-        /// The region of interest is the intersection of the clipping rectangle with the visible region specified by <paramref name="hdc"/>.
-        /// If <paramref name="hdc"/> is non-NULL, the coordinates of the clipping rectangle are relative to the origin of the <paramref name="hdc"/>.
-        /// If <paramref name="hdc"/> is <see cref="NullRef{RECT}"/>, the coordinates are virtual-screen coordinates.
-        /// This parameter can be <see cref="NullRef{RECT}"/> if you don't want to clip the region specified by hdc.
-        /// </param>
-        /// <param name="lpfnEnum">
-        /// A pointer to a MonitorEnumProc application-defined callback function.
-        /// </param>
-        /// <param name="dwData">
-        /// Application-defined data that <see cref="EnumDisplayMonitors"/> passes directly to the MonitorEnumProc function.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see cref="TRUE"/>.
-        /// If the function fails, the return value is <see cref="FALSE"/>.
-        /// </returns>
-        /// <remarks>
-        /// There are two reasons to call the <see cref="EnumDisplayMonitors"/> function:
-        /// You want to draw optimally into a device context that spans several display monitors, and the monitors have different color formats.
-        /// You want to obtain a handle and position rectangle for one or more display monitors.
-        /// To determine whether all the display monitors in a system share the same color format,
-        /// call <code>GetSystemMetrics (SM_SAMEDISPLAYFORMAT)</code>.
-        /// You do not need to use the <see cref="EnumDisplayMonitors"/> function
-        /// when a window spans display monitors that have different color formats.
-        /// You can continue to paint under the assumption that the entire screen has the color properties of the primary monitor.
-        /// Your windows will look fine. <see cref="EnumDisplayMonitors"/> just lets you make them look better.
-        /// Setting the hdc parameter to <see cref="NULL"/> lets you use the <see cref="EnumDisplayMonitors"/> function
-        /// to obtain a handle and position rectangle for one or more display monitors.
-        /// The following table shows how the four combinations of <see cref="NULL"/> and non-NULL
-        /// <paramref name="hdc"/> and <paramref name="lprcClip"/> values affect the behavior of the <see cref="EnumDisplayMonitors"/> function.
-        /// <paramref name="hdc"/>  <paramref name="lprcClip"/>     <see cref="EnumDisplayMonitors"/> behavior
-        /// <see cref="NULL"/>      <see cref="NULL"/>              
-        /// Enumerates all display monitors. The callback function receives a <see cref="NULL"/> HDC.
-        /// <see cref="NULL"/>      non-NULL
-        /// Enumerates all display monitors that intersect the clipping rectangle.
-        /// Use virtual screen coordinates for the clipping rectangle.
-        /// The callback function receives a <see cref="NULL"/> HDC.
-        /// non-NULL                <see cref="NULL"/>
-        /// Enumerates all display monitors that intersect the visible region of the device context.
-        /// The callback function receives a handle to a DC for the specific display monitor.
-        /// non-NULL                non-NULL
-        /// Enumerates all display monitors that intersect the visible region of the device context and the clipping rectangle.
-        /// Use device context coordinates for the clipping rectangle.
-        /// The callback function receives a handle to a DC for the specific display monitor.
-        /// </remarks>
-        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayMonitors", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumDisplayMonitors([In] HDC hdc, [In] in RECT lprcClip, [In] MONITORENUMPROC lpfnEnum, [In] LPARAM dwData);
 
         /// <summary>
         /// <para>

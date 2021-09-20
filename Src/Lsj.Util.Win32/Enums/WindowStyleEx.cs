@@ -3,7 +3,7 @@ using static Lsj.Util.Win32.Enums.ButtonStyles;
 using static Lsj.Util.Win32.Enums.ClassStyles;
 using static Lsj.Util.Win32.Enums.EditControlStyles;
 using static Lsj.Util.Win32.Enums.StaticControlStyles;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WinHelpCommands;
 using static Lsj.Util.Win32.User32;

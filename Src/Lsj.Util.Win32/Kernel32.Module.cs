@@ -3,10 +3,10 @@ using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.DllMainReasons;
+using static Lsj.Util.Win32.Enums.EnumProcessModulesExFlags;
 using static Lsj.Util.Win32.Enums.GetModuleHandleExFlags;
 using static Lsj.Util.Win32.Enums.LoadLibraryExFlags;
 using static Lsj.Util.Win32.Enums.ProcessAccessRights;
@@ -93,6 +93,171 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Retrieves the process identifier for each process object in the system.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocesses"/>
+        /// </para>
+        /// </summary>
+        /// <param name="lpidProcess">
+        /// A pointer to an array that receives the list of process identifiers.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lpidProcess"/> array, in bytes.
+        /// </param>
+        /// <param name="lpcbNeeded">
+        /// The number of bytes returned in the <paramref name="lpidProcess"/> array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see langword="true"/>.
+        /// If the function fails, the return value is <see langword="false"/>.
+        /// To get extended error information, see <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// It is a good idea to use a large array, because it is hard to predict how many processes there will be
+        /// at the time you call <see cref="EnumProcesses"/>.
+        /// To determine how many processes were enumerated, divide the <paramref name="lpcbNeeded"/> value by sizeof(DWORD).
+        /// There is no indication given when the buffer is too small to store all process identifiers.
+        /// Therefore, if <paramref name="lpcbNeeded"/> equals cb, consider retrying the call with a larger array.
+        /// To obtain process handles for the processes whose identifiers you have just obtained, call the <see cref="OpenProcess"/> function.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcesses in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="EnumProcesses"/> in Psapi.h and exported in Psapi.lib and Psapi.dll
+        /// as a wrapper that calls K32EnumProcesses.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
+        /// should always call this function as <see cref="EnumProcesses"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] DWORD[] lpidProcess,
+            [In] DWORD cb, [Out] out DWORD lpcbNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle for each module in the specified process.
+        /// To control whether a 64-bit application enumerates 32-bit modules, 64-bit modules,
+        /// or both types of modules, use the <see cref="EnumProcessModulesEx"/> function.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocessmodules"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// </param>
+        /// <param name="lphModule">
+        /// An array that receives the list of module handles.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lphModule"/> array, in bytes.
+        /// </param>
+        /// <param name="lpcbNeeded">
+        /// The number of bytes required to store all module handles in the <paramref name="lphModule"/> array.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EnumProcessModules"/> function is primarily designed for use by debuggers
+        /// and similar applications that must extract module information from another process.
+        /// If the module list in the target process is corrupted or not yet initialized,
+        /// or if the module list changes during the function call as a result of DLLs being loaded or unloaded,
+        /// <see cref="EnumProcessModules"/> may fail or return incorrect information.
+        /// It is a good idea to specify a large array of <see cref="HMODULE"/> values,
+        /// because it is hard to predict how many modules there will be in the process at the time you call <see cref="EnumProcessModules"/>.
+        /// To determine if the <paramref name="lphModule"/> array is too small to hold all module handles for the process,
+        /// compare the value returned in <paramref name="lpcbNeeded"/> with the value specified in <paramref name="cb"/>.
+        /// If <paramref name="lpcbNeeded"/> is greater than <paramref name="cb"/>, increase the size of the array and call <see cref="EnumProcessModules"/> again.
+        /// To determine how many modules were enumerated by the call to <see cref="EnumProcessModules"/>,
+        /// divide the resulting value in the <paramref name="lpcbNeeded"/> parameter by <code>sizeof(HMODULE)</code>.
+        /// The <see cref="EnumProcessModules"/> function does not retrieve handles for modules
+        /// that were loaded with the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> or similar flags.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// Do not call <see cref="CloseHandle"/> on any of the handles returned by this function.
+        /// The information comes from a snapshot, so there are no resources to be freed.
+        /// If this function is called from a 32-bit application running on WOW64, it can only enumerate the modules of a 32-bit process.
+        /// If the process is a 64-bit process, this function fails and the last error code is <see cref="ERROR_PARTIAL_COPY"/> (299).
+        /// To take a snapshot of specified processes and the heaps, modules, and threads used by these processes, use the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcessModules in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as <see cref="EnumProcessModules"/> in Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper that calls K32EnumProcessModules.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions should always call this function as <see cref="EnumProcessModules"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with -DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcessModules", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumProcessModules([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb, [Out] out DWORD lpcbNeeded);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves a handle for each module in the specified process that meets the specified filter criteria.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocessmodulesex"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hProcess">
+        /// A handle to the process.
+        /// </param>
+        /// <param name="lphModule">
+        /// An array that receives the list of module handles.
+        /// </param>
+        /// <param name="cb">
+        /// The size of the <paramref name="lphModule"/> array, in bytes.
+        /// </param>
+        /// <param name="lpcbNeeded">
+        /// The number of bytes required to store all module handles in the <paramref name="lphModule"/> array.
+        /// </param>
+        /// <param name="dwFilterFlag">
+        /// The filter criteria. This parameter can be one of the following values.
+        /// <see cref="LIST_MODULES_32BIT"/>, <see cref="LIST_MODULES_64BIT"/>, <see cref="LIST_MODULES_ALL"/>, <see cref="LIST_MODULES_DEFAULT"/>
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// The <see cref="EnumProcessModulesEx"/> function is primarily designed for use by debuggers
+        /// and similar applications that must extract module information from another process.
+        /// If the module list in the target process is corrupted or not yet initialized, 
+        /// or if the module list changes during the function call as a result of DLLs being loaded or unloaded,
+        /// <see cref="EnumProcessModulesEx"/> may fail or return incorrect information.
+        /// This function is intended primarily for 64-bit applications.
+        /// If the function is called by a 32-bit application running under WOW64, the <paramref name="dwFilterFlag"/> option is ignored
+        /// and the function provides the same results as the <see cref="EnumProcessModules"/> function.
+        /// It is a good idea to specify a large array of <see cref="HMODULE"/> values,
+        /// because it is hard to predict how many modules there will be in the process at the time you call <see cref="EnumProcessModulesEx"/>.
+        /// To determine if the <paramref name="lphModule"/> array is too small to hold all module handles for the process,
+        /// compare the value returned in <paramref name="lpcbNeeded"/> with the value specified in <paramref name="cb"/>.
+        /// If <paramref name="lpcbNeeded"/> is greater than <paramref name="cb"/>, increase the size of the array and call <see cref="EnumProcessModulesEx"/> again.
+        /// To determine how many modules were enumerated by the call to <see cref="EnumProcessModulesEx"/>,
+        /// divide the resulting value in the <paramref name="lpcbNeeded"/> parameter by <code>sizeof(HMODULE)</code>.
+        /// The <see cref="EnumProcessModulesEx"/> function does not retrieve handles for modules that were loaded with the <see cref="LOAD_LIBRARY_AS_DATAFILE"/> flag.
+        /// For more information, see <see cref="LoadLibraryEx"/>.
+        /// Do not call <see cref="CloseHandle"/> on any of the handles returned by this function.
+        /// The information comes from a snapshot, so there are no resources to be freed.
+        /// To take a snapshot of specified processes and the heaps, modules, and threads used by these processes,
+        /// use the <see cref="CreateToolhelp32Snapshot"/> function.
+        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
+        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
+        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcessModulesEx in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
+        /// If PSAPI_VERSION is 1, this function is defined as EnumProcessModulesEx in Psapi.h and exported in Psapi.lib and Psapi.dll as a wrapper that calls K32EnumProcessModulesEx.
+        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions should always call this function as <see cref="EnumProcessModulesEx"/>.
+        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
+        /// To use run-time dynamic linking, load Psapi.dll.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcessModulesEx", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL EnumProcessModulesEx([In] HANDLE hProcess, [In][Out] HMODULE[] lphModule, [In] DWORD cb,
+            [Out] out DWORD lpcbNeeded, [In] EnumProcessModulesExFlags dwFilterFlag);
+
+        /// <summary>
+        /// <para>
         /// Frees the loaded dynamic-link library (DLL) module and, if necessary, decrements its reference count.
         /// When the reference count reaches zero, the module is unloaded from the address space of the calling process and the handle is no longer valid.
         /// </para>
@@ -135,49 +300,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "FreeLibrary", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL FreeLibrary([In] HMODULE hLibModule);
-
-        /// <summary>
-        /// <para>
-        /// Retrieves the process identifier for each process object in the system.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/psapi/nf-psapi-enumprocesses"/>
-        /// </para>
-        /// </summary>
-        /// <param name="lpidProcess">
-        /// A pointer to an array that receives the list of process identifiers.
-        /// </param>
-        /// <param name="cb">
-        /// The size of the <paramref name="lpidProcess"/> array, in bytes.
-        /// </param>
-        /// <param name="lpcbNeeded">
-        /// The number of bytes returned in the <paramref name="lpidProcess"/> array.
-        /// </param>
-        /// <returns>
-        /// If the function succeeds, the return value is <see langword="true"/>.
-        /// If the function fails, the return value is <see langword="false"/>.
-        /// To get extended error information, see <see cref="GetLastError"/>.
-        /// </returns>
-        /// <remarks>
-        /// It is a good idea to use a large array, because it is hard to predict how many processes there will be
-        /// at the time you call <see cref="EnumProcesses"/>.
-        /// To determine how many processes were enumerated, divide the <paramref name="lpcbNeeded"/> value by sizeof(DWORD).
-        /// There is no indication given when the buffer is too small to store all process identifiers.
-        /// Therefore, if <paramref name="lpcbNeeded"/> equals cb, consider retrying the call with a larger array.
-        /// To obtain process handles for the processes whose identifiers you have just obtained, call the <see cref="OpenProcess"/> function.
-        /// Starting with Windows 7 and Windows Server 2008 R2, Psapi.h establishes version numbers for the PSAPI functions.
-        /// The PSAPI version number affects the name used to call the function and the library that a program must load.
-        /// If PSAPI_VERSION is 2 or greater, this function is defined as K32EnumProcesses in Psapi.h and exported in Kernel32.lib and Kernel32.dll.
-        /// If PSAPI_VERSION is 1, this function is defined as <see cref="EnumProcesses"/> in Psapi.h and exported in Psapi.lib and Psapi.dll
-        /// as a wrapper that calls K32EnumProcesses.
-        /// Programs that must run on earlier versions of Windows as well as Windows 7 and later versions
-        /// should always call this function as <see cref="EnumProcesses"/>.
-        /// To ensure correct resolution of symbols, add Psapi.lib to the TARGETLIBS macro and compile the program with –DPSAPI_VERSION=1.
-        /// To use run-time dynamic linking, load Psapi.dll.
-        /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumProcesses", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL EnumProcesses([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)][In][Out] DWORD[] lpidProcess,
-            [In] DWORD cb, [Out] out DWORD lpcbNeeded);
 
         /// <summary>
         /// <para>

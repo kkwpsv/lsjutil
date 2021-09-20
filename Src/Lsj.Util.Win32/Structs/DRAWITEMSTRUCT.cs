@@ -7,7 +7,7 @@ using static Lsj.Util.Win32.Enums.ListBoxStyles;
 using static Lsj.Util.Win32.Enums.OwnerDrawActions;
 using static Lsj.Util.Win32.Enums.OwnerDrawControlTypes;
 using static Lsj.Util.Win32.Enums.OwnerDrawStates;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Structs
 {

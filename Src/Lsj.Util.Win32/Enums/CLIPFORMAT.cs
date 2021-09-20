@@ -1,9 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.GlobalMemoryFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.Kernel32;
+using static Lsj.Util.Win32.Shell32;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -18,6 +19,11 @@ namespace Lsj.Util.Win32.Enums
     /// </summary>
     public enum CLIPFORMAT : uint
     {
+        /// <summary>
+        /// CF_NULL
+        /// </summary>
+        CF_NULL = 0,
+
         /// <summary>
         /// Text format.
         /// Each line ends with a carriage return/linefeed (CR-LF) combination.

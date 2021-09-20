@@ -27,7 +27,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemMetric;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.WindowHookTypes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.WindowStyles;
 using static Lsj.Util.Win32.Enums.WindowStylesEx;
 using static Lsj.Util.Win32.Gdi32;
@@ -214,7 +214,7 @@ namespace Lsj.Util.Win32
         /// <param name="wParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <param name="lParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
         /// <returns>The return value is the result of the message processing and depends on the message sent.</returns>
-        public delegate LRESULT WNDPROC([In] HWND hWnd, [In] WindowsMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public delegate LRESULT WNDPROC([In] HWND hWnd, [In] WindowMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -597,7 +597,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CallWindowProcW", ExactSpelling = true, SetLastError = true)]
         public static extern LRESULT CallWindowProc([MarshalAs(UnmanagedType.FunctionPtr)][In] WNDPROC lpPrevWndFunc, [In] HWND hWnd,
-            [In] WindowsMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
+            [In] WindowMessages Msg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -1108,7 +1108,7 @@ namespace Lsj.Util.Win32
         /// it should not pass the message to the <see cref="DefWindowProc"/> function.
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefFrameProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT DefFrameProc([In] HWND hWnd, [In] HWND hWndMDIClient, [In] WindowsMessages uMsg,
+        public static extern LRESULT DefFrameProc([In] HWND hWnd, [In] HWND hWndMDIClient, [In] WindowMessages uMsg,
             [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
@@ -1191,7 +1191,7 @@ namespace Lsj.Util.Win32
         /// The return value is the result of the message processing and depends on the message.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DefWindowProcW", ExactSpelling = true, SetLastError = true)]
-        public static extern LRESULT DefWindowProc([In] HWND hWnd, [In] WindowsMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
+        public static extern LRESULT DefWindowProc([In] HWND hWnd, [In] WindowMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>

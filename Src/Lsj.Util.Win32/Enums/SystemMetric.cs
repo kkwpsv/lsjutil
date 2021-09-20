@@ -39,7 +39,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// Reflects the state of the laptop or slate mode, 0 for Slate Mode and non-zero otherwise.
-        /// When this system metric changes, the system sends a broadcast message via <see cref="WindowsMessages.WM_SETTINGCHANGE"/>
+        /// When this system metric changes, the system sends a broadcast message via <see cref="WindowMessages.WM_SETTINGCHANGE"/>
         /// with "ConvertibleSlateMode" in the LPARAM.
         /// Note that this system metric doesn't apply to desktop PCs. In that case, use <see cref="GetAutoRotationState"/>.
         /// </summary>
@@ -139,7 +139,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The default maximum width of a window that has a caption and sizing borders, in pixels. 
         /// This metric refers to the entire desktop. The user cannot drag the window frame to a size larger than these dimensions. 
-        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
+        /// A window can override this value by processing the <see cref="WindowMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CXMAXTRACK = 59,
 
@@ -171,7 +171,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The minimum tracking width of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
-        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
+        /// A window can override this value by processing the <see cref="WindowMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CXMINTRACK = 34,
 
@@ -319,7 +319,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         /// The default maximum height of a window that has a caption and sizing borders, in pixels. This metric refers to the entire desktop. 
         /// The user cannot drag the window frame to a size larger than these dimensions. A window can override this value by processing 
-        /// the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
+        /// the <see cref="WindowMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CYMAXTRACK = 60,
 
@@ -356,7 +356,7 @@ namespace Lsj.Util.Win32.Enums
 
         /// <summary>
         /// The minimum tracking height of a window, in pixels. The user cannot drag the window frame to a size smaller than these dimensions. 
-        /// A window can override this value by processing the <see cref="WindowsMessages.WM_GETMINMAXINFO"/> message.
+        /// A window can override this value by processing the <see cref="WindowMessages.WM_GETMINMAXINFO"/> message.
         /// </summary>
         SM_CYMINTRACK = 35,
 
@@ -550,7 +550,7 @@ namespace Lsj.Util.Win32.Enums
         /// <summary>
         ///Reflects the state of the docking mode, 0 for Undocked Mode and non-zero otherwise.
         ///When this system metric changes, the system sends a broadcast message
-        ///via <see cref="WindowsMessages.WM_SETTINGCHANGE"/> with "SystemDockMode" in the LPARAM.
+        ///via <see cref="WindowMessages.WM_SETTINGCHANGE"/> with "SystemDockMode" in the LPARAM.
         /// </summary>
         SM_SYSTEMDOCKED = 0x2004,
 

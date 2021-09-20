@@ -37,7 +37,7 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// The message.
         /// </summary>
-        public WindowsMessages message;
+        public WindowMessages message;
 
         /// <summary>
         /// A handle to the window that processed the message specified by the <see cref="message"/> value.

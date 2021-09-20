@@ -54,7 +54,7 @@ namespace Lsj.Util.Win32.NativeUI.Controls
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        protected override sealed LRESULT WindowProc(HWND hWnd, WindowsMessages msg, WPARAM wParam, LPARAM lParam)
+        protected override sealed LRESULT WindowProc(HWND hWnd, WindowMessages msg, WPARAM wParam, LPARAM lParam)
         {
             //No used
             return NULL;

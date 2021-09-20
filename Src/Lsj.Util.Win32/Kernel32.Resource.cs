@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using System;
 using System.Runtime.InteropServices;
+using static Lsj.Util.Win32.BaseTypes.LANGID;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Gdi32;
 using static Lsj.Util.Win32.User32;

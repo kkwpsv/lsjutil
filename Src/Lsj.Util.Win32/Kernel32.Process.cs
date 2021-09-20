@@ -379,7 +379,7 @@ namespace Lsj.Util.Win32
         /// To enumerate the heap or module states for all processes,
         /// specify <see cref="TH32CS_SNAPALL"/> and set <paramref name="th32ProcessID"/> to zero.
         /// Then, for each additional process in the snapshot, call <see cref="CreateToolhelp32Snapshot"/> again,
-        /// specifying its process identifier and the <see cref="TH32CS_SNAPHEAPLIST"/> or <see cref="TH32_SNAPMODULE"/> value.
+        /// specifying its process identifier and the <see cref="TH32CS_SNAPHEAPLIST"/> or <see cref="TH32CS_SNAPMODULE"/> value.
         /// When taking snapshots that include heaps and modules for a process other than the current process,
         /// the <see cref="CreateToolhelp32Snapshot"/> function can fail or return incorrect information for a variety of reasons.
         /// For example, if the loader data table in the target process is corrupted or not initialized,

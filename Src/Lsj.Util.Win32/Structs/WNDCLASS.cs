@@ -69,7 +69,7 @@ namespace Lsj.Util.Win32.Structs
         /// When this member is <see cref="IntPtr.Zero"/>, an application must paint its own background whenever
         /// it is requested to paint in its client area.
         /// To determine whether the background must be painted, an application can either process
-        /// the <see cref="WindowsMessages.WM_ERASEBKGND"/> message or test the fErase member of the <see cref="PAINTSTRUCT"/> structure
+        /// the <see cref="WindowMessages.WM_ERASEBKGND"/> message or test the fErase member of the <see cref="PAINTSTRUCT"/> structure
         /// filled by the <see cref="BeginPaint"/> function.
         /// </summary>
         public HBRUSH hbrBackground;

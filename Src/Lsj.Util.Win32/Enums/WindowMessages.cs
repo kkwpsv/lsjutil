@@ -16,7 +16,7 @@ namespace Lsj.Util.Win32.Enums
     /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/winmsg/about-messages-and-message-queues"/>
     /// </para>
     /// </summary>
-    public enum WindowsMessages : uint
+    public enum WindowMessages : uint
     {
         /// <summary>
         /// Used to define private messages, usually of the form <see cref="WM_APP"/>+x, where x is an integer value.

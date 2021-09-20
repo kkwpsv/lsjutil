@@ -64,6 +64,36 @@ namespace Lsj.Util.Win32.ComInterfaces
         IntPtr* _vTable;
 
         /// <summary>
+        /// Inherit from <see cref="ISequentialStream"/>
+        /// </summary>
+        /// <param name="pv"></param>
+        /// <param name="cb"></param>
+        /// <param name="pcbRead"></param>
+        /// <returns></returns>
+        public HRESULT Read([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbRead)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbRead);
+            }
+        }
+
+        /// <summary>
+        /// Inherit from <see cref="ISequentialStream"/>
+        /// </summary>
+        /// <param name="pv"></param>
+        /// <param name="cb"></param>
+        /// <param name="pcbWritten"></param>
+        /// <returns></returns>
+        public HRESULT Write([In] IntPtr pv, [In] ULONG cb, [Out] out ULONG pcbWritten)
+        {
+            fixed (void* thisPtr = &this)
+            {
+                return ((delegate* unmanaged[Stdcall]<void*, IntPtr, ULONG, out ULONG, HRESULT>)_vTable[3])(thisPtr, pv, cb, out pcbWritten);
+            }
+        }
+
+        /// <summary>
         /// The Seek method changes the seek pointer to a new location.
         /// The new location is relative to either the beginning of the stream, the end of the stream, or the current seek pointer.
         /// </summary>

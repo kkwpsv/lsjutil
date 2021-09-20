@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.WaitResult;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Enums.CommErrors;
 using static Lsj.Util.Win32.Enums.CommEvents;
 using static Lsj.Util.Win32.Enums.FileCreationDispositions;
 using static Lsj.Util.Win32.Enums.FileFlags;
@@ -146,6 +147,45 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "CancelSynchronousIo", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CancelSynchronousIo([In] HANDLE hThread);
+
+        /// <summary>
+        /// <para>
+        /// Retrieves information about a communications error and reports the current status of a communications device.
+        /// The function is called when a communications error occurs, and it clears the device's error flag to enable additional input and output (I/O) operations.
+        /// </para>
+        /// <para>
+        /// <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winbase/nf-winbase-clearcommerror"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hFile">
+        /// A handle to the communications device.
+        /// The <see cref="CreateFile"/> function returns this handle.
+        /// </param>
+        /// <param name="lpErrors">
+        /// A pointer to a variable that receives a mask indicating the type of error.
+        /// This parameter can be one or more of the following values.
+        /// <see cref="CE_BREAK"/>, <see cref="CE_FRAME"/>, <see cref="CE_OVERRUN"/>, <see cref="CE_RXOVER"/>, <see cref="CE_RXPARITY"/>
+        /// </param>
+        /// <param name="lpStat">
+        /// A pointer to a <see cref="COMSTAT"/> structure in which the device's status information is returned.
+        /// If this parameter is <see cref="NullRef{COMSTAT}"/>, no status information is returned.
+        /// </param>
+        /// <returns>
+        /// If the function succeeds, the return value is <see cref="TRUE"/>.
+        /// If the function fails, the return value is <see cref="FALSE"/>.
+        /// To get extended error information, call <see cref="GetLastError"/>.
+        /// </returns>
+        /// <remarks>
+        /// If a communications port has been set up with a <see cref="TRUE"/> value
+        /// for the <see cref="DCB.fAbortOnError"/> member of the setup <see cref="DCB"/> structure,
+        /// the communications software will terminate all read and write operations on the communications port when a communications error occurs.
+        /// No new read or write operations will be accepted until the application acknowledges
+        /// the communications error by calling the <see cref="ClearCommError"/> function.
+        /// The <see cref="ClearCommError"/> function fills the status buffer pointed to by the <paramref name="lpStat"/> parameter
+        /// with the current status of the communications device specified by the <paramref name="hFile"/> parameter.
+        /// </remarks>
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ClearCommError", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL ClearCommError([In] HANDLE hFile, [Out] CommErrors lpErrors, [Out] out COMSTAT lpStat);
 
         /// <summary>
         /// <para>

@@ -1,6 +1,6 @@
 ﻿using Lsj.Util.Win32.Structs;
 using static Lsj.Util.Win32.Enums.COMBOBOXEXITEMFlags;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 
 namespace Lsj.Util.Win32.Enums
 {
@@ -49,7 +49,7 @@ namespace Lsj.Util.Win32.Enums
         /// </summary>
         /// <remarks>
         /// The <see cref="NMCOMBOBOXEX"/> structure contains a <see cref="COMBOBOXEXITEM"/> structure.
-        /// The <see cref="mask"/> member specifies the information being requested by the control.
+        /// The <see cref="COMBOBOXEXITEM.mask"/> member specifies the information being requested by the control.
         /// Fill the appropriate members of the structure to return the requested information to the control.
         /// If your message handler sets the <see cref="COMBOBOXEXITEM.mask"/> member of the <see cref="COMBOBOXEXITEM"/> structure to <see cref="CBEIF_DI_SETITEM"/>,
         /// the control stores the information and will not request it again.

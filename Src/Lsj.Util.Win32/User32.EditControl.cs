@@ -27,7 +27,7 @@ namespace Lsj.Util.Win32
         [Obsolete("Intended for internal use; not recommended for use in applications." +
             "This macro may not be supported in future versions of Windows.")]
         public static uint Edit_NoSetFocus(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowsMessages)EM_NOSETFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
+            SendMessage(hwndCtl, (WindowMessages)EM_NOSETFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
 
         /// <summary>
         /// Forces a single-line edit control to receive keyboard focus.
@@ -45,6 +45,6 @@ namespace Lsj.Util.Win32
         [Obsolete("Intended for internal use; not recommended for use in applications." +
             "This macro may not be supported in future versions of Windows.")]
         public static uint Edit_TakeFocus(IntPtr hwndCtl) =>
-            SendMessage(hwndCtl, (WindowsMessages)EM_TAKEFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
+            SendMessage(hwndCtl, (WindowMessages)EM_TAKEFOCUS, UIntPtr.Zero, IntPtr.Zero).SafeToUInt32();
     }
 }

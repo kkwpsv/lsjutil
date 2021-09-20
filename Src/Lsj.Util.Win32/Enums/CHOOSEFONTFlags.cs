@@ -1,6 +1,6 @@
 ﻿using System;
 using Lsj.Util.Win32.Structs;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Comdlg32;
 

@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.InputTypes;
 using static Lsj.Util.Win32.Enums.KeyEventFlags;
 using static Lsj.Util.Win32.Enums.VirtualKeyCodes;
-using static Lsj.Util.Win32.Enums.WindowsMessages;
+using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs

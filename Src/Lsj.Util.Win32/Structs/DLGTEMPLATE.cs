@@ -26,7 +26,7 @@ namespace Lsj.Util.Win32.Structs
         /// The font data begins on the WORD boundary that follows the title array.
         /// The font data specifies a 16-bit point size value and a Unicode font name string.
         /// If possible, the system creates a font according to the specified values.
-        /// Then the system sends a <see cref="WindowsMessages.WM_SETFONT"/> message to the dialog box and to each control to provide a handle to the font.
+        /// Then the system sends a <see cref="WindowMessages.WM_SETFONT"/> message to the dialog box and to each control to provide a handle to the font.
         /// If <see cref="DialogBoxStyles.DS_SETFONT"/> is not specified, the dialog box template does not include the font data.
         /// The <see cref="DialogBoxStyles.DS_SHELLFONT"/> style is not supported in the <see cref="DLGTEMPLATE"/> header.
         /// </summary>
@@ -55,7 +55,7 @@ namespace Lsj.Util.Win32.Structs
         /// The point size value specifies the point size of the font to use for the text in the dialog box and its controls.
         /// The typeface array is a null-terminated Unicode string specifying the name of the typeface for the font.
         /// When these values are specified, the system creates a font having the specified size and typeface (if possible) and
-        /// sends a <see cref="WindowsMessages.WM_SETFONT"/> message to the dialog box procedure and the control window procedures
+        /// sends a <see cref="WindowMessages.WM_SETFONT"/> message to the dialog box procedure and the control window procedures
         /// as it creates the dialog box and controls.
         /// Following the <see cref="DLGTEMPLATE"/> header in a standard dialog box template are
         /// one or more <see cref="DLGITEMTEMPLATE"/> structures that define the dimensions and style of the controls in the dialog box.
