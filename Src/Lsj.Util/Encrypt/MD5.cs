@@ -19,7 +19,7 @@ namespace Lsj.Util.Encrypt
         /// </summary>
         public static string GetMD5String(byte[] data)
         {
-            var md5 = new MD5CryptoServiceProvider();
+            var md5 = System.Security.Cryptography.MD5.Create();
             return BitConverter.ToString(md5.ComputeHash(data)).Replace("-", "");
         }
 
@@ -33,7 +33,7 @@ namespace Lsj.Util.Encrypt
         /// </summary>
         public static string GetDualMD5String(byte[] data)
         {
-            var md5 = new MD5CryptoServiceProvider();
+            var md5 = System.Security.Cryptography.MD5.Create();
             return BitConverter.ToString((md5.ComputeHash(md5.ComputeHash(data)))).Replace("-", "");
         }
     }

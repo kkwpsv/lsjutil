@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;netstandard2.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;netstandard2.0;net40</TargetFrameworks>
     <VersionPrefix>$(LsjUtilOfficeVersionPrefix)</VersionPrefix>
     <Description>My Utility For Office</Description>
   </PropertyGroup>
@@ -8,9 +8,6 @@
     <ProjectReference Include="..\Lsj.Util\Lsj.Util.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

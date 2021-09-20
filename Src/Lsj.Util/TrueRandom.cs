@@ -8,14 +8,15 @@ namespace Lsj.Util
     /// </summary>
     public class TrueRandom : DisposableClass
     {
-        private readonly RNGCryptoServiceProvider csp;
+        private readonly RandomNumberGenerator _rng;
 
         /// <summary>
         /// Initialize
         /// </summary>
         public TrueRandom()
         {
-            this.csp = new RNGCryptoServiceProvider();
+
+            _rng = RandomNumberGenerator.Create();
         }
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace Lsj.Util
         /// </summary>
         protected override void CleanUpManagedResources()
         {
-            this.csp.Dispose();
+            _rng.Dispose();
             base.CleanUpManagedResources();
         }
 
@@ -34,7 +35,7 @@ namespace Lsj.Util
         public int NextInt()
         {
             var result = new byte[4];
-            this.csp.GetBytes(result);
+            _rng.GetBytes(result);
             return QuickBitConverter.ConvertToInt(result);
         }
     }

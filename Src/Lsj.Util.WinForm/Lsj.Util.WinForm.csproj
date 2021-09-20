@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>net5.0-windows;netcoreapp3.1;netcoreapp3.0;net40;net45</TargetFrameworks>
+    <TargetFrameworks>net6.0-windows;net5.0-windows;netcoreapp3.1;netcoreapp3.0;net40</TargetFrameworks>
     <VersionPrefix>$(LsjUtilWinFormVersionPrefix)</VersionPrefix>
     <Description>My Utility For WinForm</Description>
     <UseWindowsForms>true</UseWindowsForms>
