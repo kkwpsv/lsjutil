@@ -68,7 +68,6 @@ namespace Lsj.Util.Net.Web.Message
                     content.Seek(0, SeekOrigin.Begin);
                     Headers[HttpHeaders.ContentEncoding] = "gzip";
                     Headers[HttpHeaders.ContentLength] = content.Length.ToString();
-                    File.WriteAllBytes("test.gz", (content as MemoryStream).ToArray());
                 }
                 else
                 {
