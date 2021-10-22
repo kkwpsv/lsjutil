@@ -75,6 +75,11 @@ namespace Lsj.Util.Win32.Marshals
         /// </summary>
         public string StringVal => handle != IntPtr.Zero ? Marshal.PtrToStringUni(handle) : null;
 
+        /// <summary>
+        /// The handle
+        /// </summary>
+        public IntPtr Handle => handle;
+
         internal IntPtr InternalGetHandle() => handle;
 
         /// <inheritdoc/>
@@ -83,6 +88,7 @@ namespace Lsj.Util.Win32.Marshals
             if (handle != IntPtr.Zero && _needRelease)
             {
                 Marshal.FreeHGlobal(handle);
+                handle = IntPtr.Zero;
                 return true;
             }
             else
