@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -62,7 +63,8 @@ namespace Lsj.Util.Win32
         /// The callback function is only called when the thread that called <see cref="SendMessageCallback"/>
         /// calls <see cref="GetMessage"/>, <see cref="PeekMessage"/>, or <see cref="WaitMessage"/>.
         /// </remarks>
-        public delegate void SENDASYNCPROC([In] HWND Arg1, [In] WindowMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
+        public delegate void Sendasyncproc([In] HWND Arg1, [In] WindowMessages Arg2, [In] ULONG_PTR Arg3, [In] LRESULT Arg4);
+
 
         /// <summary>
         /// <para>

@@ -52,6 +52,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint PIPE_UNLIMITED_INSTANCES = 255;
 
+
         /// <summary>
         /// <para>
         /// Connects to a message-type pipe (and waits if an instance of the pipe is not available),

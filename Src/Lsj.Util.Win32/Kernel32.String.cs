@@ -62,6 +62,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly StringHandle LOCALE_NAME_USER_DEFAULT = NULL;
 
+
         /// <summary>
         /// <para>
         /// Compares two character strings, for a locale specified by identifier.

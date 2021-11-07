@@ -4,19 +4,23 @@ using Lsj.Util.Win32.Extensions;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
+using static Lsj.Util.Win32.User32;
 
-namespace Lsj.Util.Win32
+namespace Lsj.Util.Win32.Macros
 {
-    public static partial class User32
+    /// <summary>
+    /// <para>
+    /// ComboBox Control Macros
+    /// </para>
+    /// <para>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-combobox-control-reference-macros"/>
+    /// </para>
+    /// </summary>
+    public static class ComboBoxControlMacros
     {
         /// <summary>
-        /// <para>
         /// Gets the cue banner text displayed in the edit control of a combo box.
         /// Use this macro or send the <see cref="CB_GETCUEBANNER"/> message explicitly.
-        /// </para>
-        /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/commctrl/nf-commctrl-combobox_getcuebannertext"/>
-        /// </para>
         /// </summary>
         /// <param name="hwnd">
         /// A handle to the combo box.

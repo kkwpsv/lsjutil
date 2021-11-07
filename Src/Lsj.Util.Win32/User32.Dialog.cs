@@ -1,10 +1,10 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
-using System.Text;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.ComboBoxControlMessages;
@@ -61,6 +61,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly GetWindowLongIndexes DWLP_USER = DWLP_DLGPROC + IntPtr.Size;
 
+
         /// <summary>
         /// <para>
         /// Application-defined callback function used with the <see cref="CreateDialog"/> and <see cref="DialogBox"/> families of functions.
@@ -107,7 +108,8 @@ namespace Lsj.Util.Win32
         /// it must not call the <see cref="DefWindowProc"/> function to process unwanted messages.
         /// Unwanted messages are processed internally by the dialog box window procedure.
         /// </remarks>
-        public delegate IntPtr DLGPROC([In] IntPtr Arg1, [In] WindowMessages Arg2, [In] UIntPtr Arg3, [In] IntPtr Arg4);
+        public delegate IntPtr Dlgproc([In] IntPtr Arg1, [In] WindowMessages Arg2, [In] UIntPtr Arg3, [In] IntPtr Arg4);
+
 
         /// <summary>
         /// <para>

@@ -115,7 +115,8 @@ namespace Lsj.Util.Win32
         /// Not used.
         /// A pointer to a null-terminated string that contains the desired text.
         /// </remarks>
-        public delegate int BFFCALLBACK([In] HWND hwnd, [In] BrowseForFolderMessages uMsg, [In] LPARAM lParam, [In] LPARAM lpData);
+        public delegate int Bffcallback([In] HWND hwnd, [In] BrowseForFolderMessages uMsg, [In] LPARAM lParam, [In] LPARAM lpData);
+
 
         /// <summary>
         /// <para>

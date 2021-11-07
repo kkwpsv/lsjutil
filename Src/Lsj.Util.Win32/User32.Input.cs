@@ -27,6 +27,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const ushort XBUTTON2 = 0x0002;
 
+
         /// <summary>
         /// <para>
         /// Attaches or detaches the input processing mechanism of one thread to that of another thread.

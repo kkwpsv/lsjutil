@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -71,19 +72,16 @@ namespace Lsj.Util.Win32
         /// <summary>
         /// <para>
         /// The EnumObjectsProc function is an application-defined callback function used with the <see cref="EnumObjects"/> function.
-        /// It is used to process the object data.
-        /// The <see cref="GOBJENUMPROC"/> type defines a pointer to this callback function. 
+        /// It is used to process the object data. The <see cref="GOBJENUMPROC"/> type defines a pointer to this callback function.
         /// EnumObjectsProc is a placeholder for the application-defined function name.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/dd162686(v=vs.85)"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/wingdi/nc-wingdi-gobjenumproc"/>
         /// </para>
         /// </summary>
-        /// <param name="lpLogObject">
-        /// A pointer to a <see cref="LOGPEN"/> or <see cref="LOGBRUSH"/> structure describing the attributes of the object.
+        /// <param name="unnamedParam1">
         /// </param>
-        /// <param name="lpData">
-        /// A pointer to the application-defined data passed by the <see cref="EnumObjects"/> function.
+        /// <param name="unnamedParam2">
         /// </param>
         /// <returns>
         /// To continue enumeration, the callback function must return a nonzero value. This value is user-defined.
@@ -92,7 +90,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application must register this function by passing its address to the <see cref="EnumObjects"/> function.
         /// </remarks>
-        public delegate int GOBJENUMPROC([In] LPVOID lpLogObject, [In] LPARAM lpData);
+        public delegate int Gobjenumproc([In] LPVOID unnamedParam1, [In] LPARAM unnamedParam2);
 
 
         /// <summary>

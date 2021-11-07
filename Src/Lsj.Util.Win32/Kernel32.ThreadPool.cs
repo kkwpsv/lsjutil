@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -18,11 +19,23 @@ namespace Lsj.Util.Win32
     public static partial class Kernel32
     {
         /// <summary>
-        /// PTP_CLEANUP_GROUP_CANCEL_CALLBACK
+        /// <para>
+        /// Applications implement this callback if they call the <see cref="SetThreadpoolCallbackCleanupGroup"/> function
+        /// to specify the callback to use when CloseThreadpoolCleanupGroup is called.
+        /// The <see cref="PTP_CLEANUP_GROUP_CANCEL_CALLBACK"/> type defines a pointer to this callback function.
+        /// CleanupGroupCancelCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winnt/nc-winnt-ptp_cleanup_group_cancel_callback"/>
+        /// </para>
         /// </summary>
-        /// <param name="ObjectContext"></param>
-        /// <param name="CleanupContext"></param>
-        public delegate void PTP_CLEANUP_GROUP_CANCEL_CALLBACK([In] PVOID ObjectContext, [In] PVOID CleanupContext);
+        /// <param name="ObjectContext">
+        /// Optional application-defined data specified during creation of the object.
+        /// </param>
+        /// <param name="CleanupContext">
+        /// Optional application-defined data specified using <see cref="CloseThreadpoolCleanupGroupMembers"/>.
+        /// </param>
+        public delegate void PtpCleanupGroupCancelCallback([In] PVOID ObjectContext, [In] PVOID CleanupContext);
 
         /// <summary>
         /// <para>
@@ -48,7 +61,7 @@ namespace Lsj.Util.Win32
         /// <param name="Context">
         /// The application-defined data.
         /// </param>
-        public delegate void PTP_SIMPLE_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context);
+        public delegate void Ptpsimplecallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context);
 
         /// <summary>
         /// <para>
@@ -84,7 +97,7 @@ namespace Lsj.Util.Win32
         /// <see cref="WAIT_OBJECT_0"/>
         /// <see cref="WAIT_TIMEOUT"/>
         /// </param>
-        public delegate void PTP_WAIT_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WAIT Wait, [In] WaitResult WaitResult);
+        public delegate void Ptpwaitcallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WAIT Wait, [In] WaitResult WaitResult);
 
         /// <summary>
         /// <para>
@@ -92,6 +105,9 @@ namespace Lsj.Util.Win32
         /// to start a worker thread for the I/O completion object.
         /// The <see cref="PTP_WIN32_IO_CALLBACK"/> type defines a pointer to this callback function.
         /// IoCompletionCallback is a placeholder for the application-defined function name.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms684124(v=vs.85)"/>
         /// </para>
         /// </summary>
         /// <param name="Instance">
@@ -131,7 +147,7 @@ namespace Lsj.Util.Win32
         /// For more information, see <see cref="CancelThreadpoolIo"/>.
         /// To compile an application that uses this function, define _WIN32_WINNT as 0x0600 or higher.
         /// </remarks>
-        public delegate void PTP_WIN32_IO_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PVOID Overlapped,
+        public delegate void Ptpwin32iocallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PVOID Overlapped,
             [In] SystemErrorCodes IoResult, [In] ULONG_PTR NumberOfBytesTransferred, [In] PTP_IO Io);
 
         /// <summary>
@@ -163,7 +179,7 @@ namespace Lsj.Util.Win32
         /// <param name="Work">
         /// A TP_WORK structure that defines the work object that generated the callback.
         /// </param>
-        public delegate void PTP_WORK_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WORK Work);
+        public delegate void Ptpworkcallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_WORK Work);
 
         /// <summary>
         /// <para>
@@ -189,7 +205,8 @@ namespace Lsj.Util.Win32
         /// <param name="Timer">
         /// A TP_TIMER structure that defines the timer object that generated the callback.
         /// </param>
-        public delegate void PTP_TIMER_CALLBACK([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_TIMER Timer);
+        public delegate void Ptptimercallback([In] PTP_CALLBACK_INSTANCE Instance, [In] PVOID Context, [In] PTP_TIMER Timer);
+
 
         /// <summary>
         /// <para>

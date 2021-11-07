@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.ComInterfaces;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
@@ -44,6 +45,7 @@ namespace Lsj.Util.Win32
         /// HWND_MESSAGE
         /// </summary>
         public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
 
         /// <summary>
         /// <para>
@@ -114,7 +116,7 @@ namespace Lsj.Util.Win32
         /// Create multiple callback functions to handle different events.
         /// For more information, see Registering a Hook Function.
         /// </remarks>
-        public delegate void WINEVENTPROC([In] HWINEVENTHOOK hWinEventHook, [In] EventConstants @event, [In] HWND hwnd, [In] LONG idObject,
+        public delegate void Wineventproc([In] HWINEVENTHOOK hWinEventHook, [In] EventConstants @event, [In] HWND hwnd, [In] LONG idObject,
             [In] LONG idChild, [In] DWORD idEventThread, [In] DWORD dwmsEventTime);
 
 

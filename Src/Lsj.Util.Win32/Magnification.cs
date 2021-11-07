@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -48,8 +49,9 @@ namespace Lsj.Util.Win32
         /// </returns>
         [Obsolete(" The MagImageScalingCallback function is deprecated in Windows 7 and later, and should not be used in new applications." +
             " There is no alternate functionality.")]
-        public delegate BOOL MagImageScalingCallback([In] HWND hwnd, [In] IntPtr srcdata, [In] MAGIMAGEHEADER srcheader, [In] IntPtr destdata,
+        public delegate BOOL Magimagescalingcallback([In] HWND hwnd, [In] IntPtr srcdata, [In] MAGIMAGEHEADER srcheader, [In] IntPtr destdata,
             [In] MAGIMAGEHEADER destheader, [In] RECT unclipped, [In] RECT clipped, [In] HRGN dirty);
+
 
         /// <summary>
         /// <para>

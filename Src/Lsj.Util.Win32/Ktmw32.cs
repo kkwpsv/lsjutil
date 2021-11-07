@@ -17,6 +17,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint TRANSACTION_DO_NOT_PROMOTE = 0x00000001;
 
+
         /// <summary>
         /// <para>
         /// Requests that the specified transaction be committed.

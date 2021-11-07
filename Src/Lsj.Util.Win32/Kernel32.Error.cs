@@ -20,7 +20,6 @@ namespace Lsj.Util.Win32
 {
     public static partial class Kernel32
     {
-
         /// <summary>
         /// EXCEPTION_EXECUTE_HANDLER
         /// </summary>

@@ -23,6 +23,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint CHILDID_SELF = 0;
 
+
         /// <summary>
         /// <para>
         /// Retrieves the address of the <see cref="IAccessible"/> interface for the object

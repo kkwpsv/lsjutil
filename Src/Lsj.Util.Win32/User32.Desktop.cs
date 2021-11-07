@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -27,6 +28,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint DF_ALLOWOTHERACCOUNTHOOK = 0x0001;
 
+
         /// <summary>
         /// <para>
         /// Closes an open handle to a desktop object.
@@ -50,7 +52,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "CloseDesktop", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL CloseDesktop([In] HDESK hDesktop);
-
 
         /// <summary>
         /// <para>

@@ -8,6 +8,7 @@ using static Lsj.Util.Win32.Enums.PAGESETUPDLGFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.BaseTypes.LCID;
+using Lsj.Util.Win32.Callbacks;
 
 namespace Lsj.Util.Win32.Structs
 {

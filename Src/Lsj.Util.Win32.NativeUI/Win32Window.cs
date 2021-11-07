@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.ComponentModel;
@@ -20,7 +21,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// Window Handle
         /// </summary>
         protected HWND _handle;
-        private readonly WNDPROC? _wndProc;
+        private readonly WNDPROC _wndProc;
 
         /// <summary>
         /// Create 
@@ -70,7 +71,7 @@ namespace Lsj.Util.Win32.NativeUI
         {
             _flags |= Win32WindowFlags.OwnWindow;
             var hInstance = GetModuleHandle(null);
-            _wndProc = WindowProc;
+            _wndProc = (Wndproc)WindowProc;
 
             if (needRegisterClass)
             {

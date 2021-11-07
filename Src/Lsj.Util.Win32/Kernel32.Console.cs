@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.Enums.WindowMessages;
 using static Lsj.Util.Win32.Enums.FileShareModes;
 using static Lsj.Util.Win32.UnsafePInvokeExtensions;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Callbacks;
 
 namespace Lsj.Util.Win32
 {
@@ -115,7 +116,7 @@ namespace Lsj.Util.Win32
         /// Note that a third-party library or DLL can install a console control handler for your application.
         /// If it does, this handler overrides the default handler, and can cause the application to exit when the user logs off.
         /// </remarks>
-        public delegate BOOL PHANDLER_ROUTINE([In] CtrlEvents dwCtrlType);
+        public delegate BOOL Phandlerroutine([In] CtrlEvents dwCtrlType);
 
 
         /// <summary>

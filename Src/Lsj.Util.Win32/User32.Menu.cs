@@ -75,6 +75,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly HBITMAP HBMMENU_POPUP_MINIMIZE = (IntPtr)11;
 
+
         /// <summary>
         /// <para>
         /// Appends a new item to the end of the specified menu bar, drop-down menu, submenu, or shortcut menu.

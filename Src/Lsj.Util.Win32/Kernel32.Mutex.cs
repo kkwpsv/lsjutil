@@ -18,6 +18,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint CREATE_MUTEX_INITIAL_OWNER = 1;
 
+
         /// <summary>
         /// <para>
         /// Creates or opens a named or unnamed mutex object.

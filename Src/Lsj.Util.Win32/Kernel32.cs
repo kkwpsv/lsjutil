@@ -1,6 +1,8 @@
 ﻿using Lsj.Util.IL;
 using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
 using System.Runtime.InteropServices;
@@ -48,7 +50,8 @@ namespace Lsj.Util.Win32
         /// Other code pages are not as portable as Unicode between vendors or operating systems,
         /// due to different implementations of the associated standards.
         /// </remarks>
-        public delegate BOOL CODEPAGE_ENUMPROC([MarshalAs(UnmanagedType.LPWStr)][In] string lpCodePageString);
+        public delegate BOOL Codepageenumproc([In] LPWSTR lpCodePageString);
+
 
         /// <summary>
         /// <para>

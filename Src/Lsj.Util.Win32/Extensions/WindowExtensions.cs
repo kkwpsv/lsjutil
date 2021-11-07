@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using System;
@@ -25,31 +26,32 @@ namespace Lsj.Util.Win32.Extensions
         public static HWND[] GetAllTopLevelWindowHandle()
         {
             var result = new List<HWND>();
-            EnumWindows((handle, _) =>
+
+            EnumWindows((Wndenumproc)((handle, _) =>
             {
                 result.Add(handle);
                 return true;
-            }, IntPtr.Zero);
+            }), IntPtr.Zero);
             return result.ToArray();
         }
 
         /// <summary>
-        /// Get All Window Handle (Use <see cref="EnumWindows"/> with <see cref="EnumChildWindows(HWND, WNDENUMPROC, LPARAM)"/>)
+        /// Get All Window Handle (Use <see cref="EnumWindows"/> with <see cref="EnumChildWindows"/>)
         /// </summary>
         /// <returns></returns>
         public static HWND[] GetAllWindowHandle()
         {
             var result = new List<HWND>();
-            EnumWindows((handle, _) =>
+            EnumWindows((Wndenumproc)((handle, _) =>
             {
                 result.Add(handle);
-                EnumChildWindows(handle, (childHandle, _) =>
+                EnumChildWindows(handle, (Wndenumproc)((childHandle, _) =>
                 {
                     result.Add(childHandle);
                     return true;
-                }, NULL);
+                }), NULL);
                 return true;
-            }, IntPtr.Zero);
+            }), IntPtr.Zero);
             return result.ToArray();
         }
 
@@ -61,7 +63,7 @@ namespace Lsj.Util.Win32.Extensions
         public static (HWND WindowHandle, string Text)[] GetAllTopLevelWindowHandleWithText()
         {
             var result = new List<(HWND, string)>();
-            EnumWindows((handle, _) =>
+            EnumWindows((Wndenumproc)((handle, _) =>
             {
                 SetLastError(0);
                 var length = GetWindowTextLength(handle);
@@ -79,7 +81,7 @@ namespace Lsj.Util.Win32.Extensions
                 }
                 result.Add((handle, null));
                 return true;
-            }, IntPtr.Zero);
+            }), IntPtr.Zero);
             return result.ToArray();
         }
 #endif

@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -62,6 +63,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint STORAGE_INFO_OFFSET_UNKNOWN = 0xFFFFFFFF;
 
+
         /// <summary>
         /// <para>
         /// An application-defined callback function used with the <see cref="ReadFileEx"/> and <see cref="WriteFileEx"/> functions.
@@ -101,7 +103,8 @@ namespace Lsj.Util.Win32
         /// If the completion routine does additional asynchronous I/O and alertable waits, the stack may grow.
         /// For more information, see Asynchronous Procedure Calls.
         /// </remarks>
-        public delegate void LPOVERLAPPED_COMPLETION_ROUTINE([In] SystemErrorCodes dwErrorCode, [In] DWORD dwNumberOfBytesTransfered, [In] in OVERLAPPED lpOverlapped);
+        public delegate void LpoverlappedCompletionRoutine([In] SystemErrorCodes dwErrorCode, [In] DWORD dwNumberOfBytesTransfered, [In] in OVERLAPPED lpOverlapped);
+
 
         /// <summary>
         /// <para>

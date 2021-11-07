@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -9,6 +10,7 @@ using static Lsj.Util.Win32.Enums.CharacterSets;
 using static Lsj.Util.Win32.Enums.ClipPrecisions;
 using static Lsj.Util.Win32.Enums.FamilyFont;
 using static Lsj.Util.Win32.Enums.FontQualities;
+using static Lsj.Util.Win32.Enums.FontResourceFlags;
 using static Lsj.Util.Win32.Enums.FontTypes;
 using static Lsj.Util.Win32.Enums.FontWeights;
 using static Lsj.Util.Win32.Enums.GetGlyphOutlineFormats;
@@ -16,12 +18,11 @@ using static Lsj.Util.Win32.Enums.GraphicsModes;
 using static Lsj.Util.Win32.Enums.MappingModes;
 using static Lsj.Util.Win32.Enums.OutPrecisions;
 using static Lsj.Util.Win32.Enums.PitchFont;
+using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.SystemParametersInfoParameters;
 using static Lsj.Util.Win32.Enums.TEXTMETRICPitchAndFamilyFlags;
 using static Lsj.Util.Win32.Enums.WindowMessages;
-using static Lsj.Util.Win32.Enums.FontResourceFlags;
-using static Lsj.Util.Win32.Enums.RASTERIZER_STATUSFlags;
 using static Lsj.Util.Win32.Kernel32;
 using static Lsj.Util.Win32.User32;
 
@@ -74,7 +75,7 @@ namespace Lsj.Util.Win32
         /// The <see cref="ENUMLOGFONTEX"/> structure includes the localized name of the script (character set) and
         /// the <see cref="NEWTEXTMETRICEX"/> structure includes a font-coverage signature.
         /// </remarks>
-        public delegate int FONTENUMPROC([In]IntPtr lpelfe, [In]IntPtr lpntme, [In]FontTypes FontType, [In]IntPtr lParam);
+        public delegate int Fontenumproc([In] IntPtr lpelfe, [In] IntPtr lpntme, [In] FontTypes FontType, [In] IntPtr lParam);
 
 
         /// <summary>
@@ -124,7 +125,7 @@ namespace Lsj.Util.Win32
         /// After restarting the system, the font will no longer be loaded and can be changed.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResource([MarshalAs(UnmanagedType.LPWStr)][In]string Arg1);
+        public static extern int AddFontResource([MarshalAs(UnmanagedType.LPWStr)][In] string Arg1);
 
         /// <summary>
         /// <para>
@@ -181,7 +182,7 @@ namespace Lsj.Util.Win32
         /// After restarting the system, the font will no longer be loaded and can be changed.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "AddFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int AddFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In]string name, [In]FontResourceFlags fl, [In]PVOID res);
+        public static extern int AddFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] FontResourceFlags fl, [In] PVOID res);
 
         /// <summary>
         /// <para>
@@ -342,9 +343,9 @@ namespace Lsj.Util.Win32
         /// For example, this occurs commonly in East Asian fonts.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontW", ExactSpelling = true, SetLastError = true)]
-        public static extern HFONT CreateFont([In]int cHeight, [In]int cWidth, [In]int cEscapement, [In]int cOrientation, [In]int cWeight,
-            [In]DWORD bItalic, [In]DWORD bUnderline, [In]DWORD bStrikeOut, [In]DWORD iCharSet, [In]DWORD iOutPrecision, [In]DWORD iClipPrecision,
-            [In]DWORD iQuality, [In]DWORD iPitchAndFamily, [MarshalAs(UnmanagedType.LPWStr)][In]string pszFaceName);
+        public static extern HFONT CreateFont([In] int cHeight, [In] int cWidth, [In] int cEscapement, [In] int cOrientation, [In] int cWeight,
+            [In] DWORD bItalic, [In] DWORD bUnderline, [In] DWORD bStrikeOut, [In] DWORD iCharSet, [In] DWORD iOutPrecision, [In] DWORD iClipPrecision,
+            [In] DWORD iQuality, [In] DWORD iPitchAndFamily, [MarshalAs(UnmanagedType.LPWStr)][In] string pszFaceName);
 
         /// <summary>
         /// <para>
@@ -381,7 +382,7 @@ namespace Lsj.Util.Win32
         /// both the English and the localized typeface name, regardless of locale.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectW", ExactSpelling = true, SetLastError = true)]
-        public static extern HFONT CreateFontIndirect([In]in LOGFONT lplf);
+        public static extern HFONT CreateFontIndirect([In] in LOGFONT lplf);
 
         /// <summary>
         /// <para>
@@ -411,7 +412,7 @@ namespace Lsj.Util.Win32
         /// both the English and the localized typeface name, regardless of locale.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateFontIndirectExW", ExactSpelling = true, SetLastError = true)]
-        public static extern HFONT CreateFontIndirectEx([In]in ENUMLOGFONTEXDV Arg1);
+        public static extern HFONT CreateFontIndirectEx([In] in ENUMLOGFONTEXDV Arg1);
 
         /// <summary>
         /// <para>
@@ -471,8 +472,8 @@ namespace Lsj.Util.Win32
         [Obsolete("The CreateScalableFontResource function is available for use in the operating systems specified in the Requirements section." +
             "It may be altered or unavailable in subsequent versions.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "CreateScalableFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL CreateScalableFontResource([In]DWORD fdwHidden, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszFont,
-             [MarshalAs(UnmanagedType.LPWStr)][In]string lpszFile, [MarshalAs(UnmanagedType.LPWStr)][In]string lpszPath);
+        public static extern BOOL CreateScalableFontResource([In] DWORD fdwHidden, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszFont,
+             [MarshalAs(UnmanagedType.LPWStr)][In] string lpszFile, [MarshalAs(UnmanagedType.LPWStr)][In] string lpszPath);
 
         /// <summary>
         /// <para>
@@ -512,8 +513,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontsW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFonts([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpLogfont,
-            [In]FONTENUMPROC lpProc, [In]IntPtr lParam);
+        public static extern int EnumFonts([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLogfont,
+            [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
 
         /// <summary>
         /// <para>
@@ -557,8 +558,8 @@ namespace Lsj.Util.Win32
         [Obsolete("This function is provided only for compatibility with 16-bit versions of Windows." +
             " Applications should use the EnumFontFamiliesEx function.")]
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFontFamilies([In]IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In]string lpLogfont,
-            [In]FONTENUMPROC lpProc, [In]IntPtr lParam);
+        public static extern int EnumFontFamilies([In] IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)][In] string lpLogfont,
+            [In] FONTENUMPROC lpProc, [In] IntPtr lParam);
 
         /// <summary>
         /// <para>
@@ -670,8 +671,8 @@ namespace Lsj.Util.Win32
         /// this function returns a list of type 1, OpenType, and TrueType fonts on the system.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "EnumFontFamiliesExW", ExactSpelling = true, SetLastError = true)]
-        public static extern int EnumFontFamiliesEx([In]IntPtr hdc, [In]ref LOGFONT lpLogfont, [In]FONTENUMPROC lpProc,
-            [In]IntPtr lParam, [In]uint dwFlags);
+        public static extern int EnumFontFamiliesEx([In] IntPtr hdc, [In] ref LOGFONT lpLogfont, [In] FONTENUMPROC lpProc,
+            [In] IntPtr lParam, [In] uint dwFlags);
 
         /// <summary>
         /// <para>
@@ -698,7 +699,7 @@ namespace Lsj.Util.Win32
         /// by calling the <see cref="SetMapperFlags"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetAspectRatioFilterEx", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetAspectRatioFilterEx([In]HDC hdc, [Out]out SIZE lpsize);
+        public static extern BOOL GetAspectRatioFilterEx([In] HDC hdc, [Out] out SIZE lpsize);
 
         /// <summary>
         /// <para>
@@ -742,7 +743,7 @@ namespace Lsj.Util.Win32
         /// To retrieve the widths of characters in non-TrueType fonts, applications should use the <see cref="GetCharWidth"/> function.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetCharABCWidthsW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetCharABCWidths([In]HDC hdc, [In]UINT wFirst, [In]UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
+        public static extern BOOL GetCharABCWidths([In] HDC hdc, [In] UINT wFirst, [In] UINT wLast, [MarshalAs(UnmanagedType.LPArray)][In][Out] ABC[] lpABC);
 
         /// <summary>
         /// <para>
@@ -789,7 +790,7 @@ namespace Lsj.Util.Win32
         /// If an application attempts to use this function to retrieve information for a non-TrueType font, an error occurs.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetFontData", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetFontData([In]HDC hdc, [In]DWORD dwTable, [In]DWORD dwOffset, [In]PVOID pvBuffer, [In]DWORD cjBuffer);
+        public static extern DWORD GetFontData([In] HDC hdc, [In] DWORD dwTable, [In] DWORD dwOffset, [In] PVOID pvBuffer, [In] DWORD cjBuffer);
 
         /// <summary>
         /// <para>
@@ -867,8 +868,8 @@ namespace Lsj.Util.Win32
         /// Additional information on a glyph outlines is located in the TrueType and the OpenType technical specifications.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetGlyphOutlineW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetGlyphOutline([In]HDC hdc, [In]UINT uChar, [In]GetGlyphOutlineFormats fuFormat,
-            [Out]out GLYPHMETRICS lpgm, [In]DWORD cjBuffer, [In] LPVOID pvBuffer, [In]in MAT2 lpmat2);
+        public static extern DWORD GetGlyphOutline([In] HDC hdc, [In] UINT uChar, [In] GetGlyphOutlineFormats fuFormat,
+            [Out] out GLYPHMETRICS lpgm, [In] DWORD cjBuffer, [In] LPVOID pvBuffer, [In] in MAT2 lpmat2);
 
         /// <summary>
         /// <para>
@@ -895,7 +896,7 @@ namespace Lsj.Util.Win32
         /// If the function fails, the return value is zero.
         /// </returns>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetKerningPairsW", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD GetKerningPairs([In]HDC hdc, [In]DWORD nPairs, [MarshalAs(UnmanagedType.LPArray)][In][Out]KERNINGPAIR[] lpKernPair);
+        public static extern DWORD GetKerningPairs([In] HDC hdc, [In] DWORD nPairs, [MarshalAs(UnmanagedType.LPArray)][In][Out] KERNINGPAIR[] lpKernPair);
 
         /// <summary>
         /// <para>
@@ -925,7 +926,7 @@ namespace Lsj.Util.Win32
         /// The sizes returned in <see cref="OUTLINETEXTMETRIC"/> are in logical units; they depend on the current mapping mode.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetOutlineTextMetricsW", ExactSpelling = true, SetLastError = true)]
-        public static extern UINT GetOutlineTextMetrics([In]HDC hdc, [In]UINT cjCopy, [Out]out OUTLINETEXTMETRIC potm);
+        public static extern UINT GetOutlineTextMetrics([In] HDC hdc, [In] UINT cjCopy, [Out] out OUTLINETEXTMETRIC potm);
 
         /// <summary>
         /// <para>
@@ -954,7 +955,7 @@ namespace Lsj.Util.Win32
         /// or the length of the <see cref="RASTERIZER_STATUS"/> structure, whichever is less.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetRasterizerCaps", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetRasterizerCaps([Out]out RASTERIZER_STATUS lpraststat, [In]UINT cjBytes);
+        public static extern BOOL GetRasterizerCaps([Out] out RASTERIZER_STATUS lpraststat, [In] UINT cjBytes);
 
         /// <summary>
         /// <para>
@@ -987,7 +988,7 @@ namespace Lsj.Util.Win32
         /// If the name is longer than the number of characters specified by the <paramref name="c"/> parameter, the name is truncated.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextFaceW", ExactSpelling = true, SetLastError = true)]
-        public static extern int GetTextFace([In]HDC hdc, [In]int c, [MarshalAs(UnmanagedType.LPWStr)][In]string lpName);
+        public static extern int GetTextFace([In] HDC hdc, [In] int c, [MarshalAs(UnmanagedType.LPWStr)][In] string lpName);
 
         /// <summary>
         /// <para>
@@ -1014,7 +1015,7 @@ namespace Lsj.Util.Win32
         /// thus the need to select a font into the DC.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "GetTextMetricsW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL GetTextMetrics([In]HDC hdc, [Out]out TEXTMETRIC lptm);
+        public static extern BOOL GetTextMetrics([In] HDC hdc, [Out] out TEXTMETRIC lptm);
 
         /// <summary>
         /// <para>
@@ -1047,7 +1048,7 @@ namespace Lsj.Util.Win32
         /// Make sure the font isn't listed in the font registry and restart the system to ensure the font is unloaded from all sessions.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveFontResource([MarshalAs(UnmanagedType.LPWStr)][In]string lpFileName);
+        public static extern BOOL RemoveFontResource([MarshalAs(UnmanagedType.LPWStr)][In] string lpFileName);
 
         /// <summary>
         /// <para>
@@ -1090,7 +1091,7 @@ namespace Lsj.Util.Win32
         /// as the call to <see cref="RemoveFontResourceEx"/> succeeded as shown in this example code.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "RemoveFontResourceExW", ExactSpelling = true, SetLastError = true)]
-        public static extern BOOL RemoveFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In]string name, [In]DWORD fl, [In]PVOID pdv);
+        public static extern BOOL RemoveFontResourceEx([MarshalAs(UnmanagedType.LPWStr)][In] string name, [In] DWORD fl, [In] PVOID pdv);
 
         /// <summary>
         /// <para>
@@ -1117,6 +1118,6 @@ namespace Lsj.Util.Win32
         /// The remaining bits of the <paramref name="flags"/> parameter must be zero.
         /// </remarks>
         [DllImport("gdi32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetMapperFlags", ExactSpelling = true, SetLastError = true)]
-        public static extern DWORD SetMapperFlags([In]HDC hdc, [In]DWORD flags);
+        public static extern DWORD SetMapperFlags([In] HDC hdc, [In] DWORD flags);
     }
 }

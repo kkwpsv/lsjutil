@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -17,6 +18,7 @@ namespace Lsj.Util.Win32
         /// CREATE_WAITABLE_TIMER_MANUAL_RESET
         /// </summary>
         public const uint CREATE_WAITABLE_TIMER_MANUAL_RESET = 1;
+
 
         /// <summary>
         /// <para>
@@ -46,7 +48,8 @@ namespace Lsj.Util.Win32
         /// However, the thread must be in an alertable state.
         /// For more information, see Asynchronous Procedure Calls.
         /// </remarks>
-        public delegate void PTIMERAPCROUTINE([In] LPVOID lpArgToCompletionRoutine, [In] DWORD dwTimerLowValue, [In] DWORD dwTimerHighValue);
+        public delegate void Ptimerapcroutine([In] LPVOID lpArgToCompletionRoutine, [In] DWORD dwTimerLowValue, [In] DWORD dwTimerHighValue);
+
 
         /// <summary>
         /// <para>
@@ -342,6 +345,6 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "SetWaitableTimer", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL SetWaitableTimer([In] HANDLE hTimer, [In] in LARGE_INTEGER lpDueTime, [In] LONG lPeriod,
-            [MarshalAs(UnmanagedType.FunctionPtr)][In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] BOOL fResume);
+            [In] PTIMERAPCROUTINE pfnCompletionRoutine, [In] LPVOID lpArgToCompletionRoutine, [In] BOOL fResume);
     }
 }

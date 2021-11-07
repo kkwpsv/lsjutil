@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Marshals;
 using Lsj.Util.Win32.Structs;
@@ -68,7 +69,7 @@ namespace Lsj.Util.Win32
         /// to a device context whose color format is appropriate for the display monitor.
         /// You can then paint into the device context in a manner that is optimal for the display monitor.
         /// </remarks>
-        public delegate BOOL MONITORENUMPROC([In] HMONITOR Arg1, [In] HDC Arg2, [In] in RECT Arg3, [In] LPARAM Arg4);
+        public delegate BOOL Monitorenumproc([In] HMONITOR Arg1, [In] HDC Arg2, [In] in RECT Arg3, [In] LPARAM Arg4);
 
 
         /// <summary>

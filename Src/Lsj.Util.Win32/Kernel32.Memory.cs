@@ -29,6 +29,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint WRITE_WATCH_FLAG_RESET = 0x01;
 
+
         /// <summary>
         /// <para>
         /// Allocates physical memory pages to be mapped and unmapped within any Address Windowing Extensions (AWE) region of a specified process.

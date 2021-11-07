@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -39,6 +40,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly DWORD TLS_OUT_OF_INDEXES = 0xFFFFFFFF;
 
+
         /// <summary>
         /// <para>
         /// An application-defined function that serves as the starting address for a thread.
@@ -68,7 +70,8 @@ namespace Lsj.Util.Win32
         /// Any static or global variables are shared by all threads in the process.
         /// To provide unique data to each thread using a global index, use thread local storage.
         /// </remarks>
-        public delegate uint LPTHREAD_START_ROUTINE([In] IntPtr lpParameter);
+        public delegate uint Lpthreadstartroutine([In] LPVOID lpParameter);
+
 
         /// <summary>
         /// <para>

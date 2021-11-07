@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.Constants;
@@ -27,8 +28,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="lpFiberParameter"></param>
-        public delegate void LPFIBER_START_ROUTINE([In] LPVOID lpFiberParameter);
-
+        public delegate void LpfiberStartRoutine([In] LPVOID lpFiberParameter);
 
         /// <summary>
         /// <para>
@@ -49,7 +49,8 @@ namespace Lsj.Util.Win32
         /// Each FLS index has an associated FlsCallback function.
         /// The callback function can be used for any purpose, but it is intended to be used primarily to free memory.
         /// </remarks>
-        public delegate void PFLS_CALLBACK_FUNCTION([In] PVOID lpFlsData);
+        public delegate void PflsCallbackFunction([In] PVOID lpFlsData);
+
 
         /// <summary>
         /// <para>

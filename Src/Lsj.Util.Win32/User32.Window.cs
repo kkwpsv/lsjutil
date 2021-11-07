@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Extensions;
 using Lsj.Util.Win32.Marshals;
@@ -123,7 +124,7 @@ namespace Lsj.Util.Win32
         /// An application installs the hook procedure by specifying the <see cref="WH_CALLWNDPROCRET"/> hook type
         /// and a pointer to the hook procedure in a call to the <see cref="SetWindowsHookEx"/> function.
         /// </remarks>
-        public delegate LRESULT HOOKPROC([In] int code, [In] WPARAM wParam, [In] LPARAM lParam);
+        public delegate LRESULT Hookproc([In] int code, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -158,7 +159,7 @@ namespace Lsj.Util.Win32
         /// However, <see cref="RemoveProp"/> can remove only the property passed to the callback function through the callback function's parameters.
         /// The callback function should not attempt to add properties.
         /// </remarks>
-        public delegate BOOL PROPENUMPROC([In] HWND Arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string Arg2, [In] HANDLE Arg3);
+        public delegate BOOL Propenumproc([In] HWND Arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string Arg2, [In] HANDLE Arg3);
 
         /// <summary>
         /// <para>
@@ -197,24 +198,36 @@ namespace Lsj.Util.Win32
         /// However, <see cref="RemoveProp"/> can remove only the property passed to the callback function through the callback function's parameters.
         /// The callback function should not attempt to add properties.
         /// </remarks>
-        public delegate BOOL PROPENUMPROCEX([In] HWND Arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string Arg2, [In] HANDLE Arg3, [In] ULONG_PTR Arg4);
+        public delegate BOOL Propenumprocex([In] HWND Arg1, [MarshalAs(UnmanagedType.LPWStr)][In] string Arg2, [In] HANDLE Arg3, [In] ULONG_PTR Arg4);
 
         /// <summary>
         /// <para>
-        /// An application-defined function that processes messages sent to a window.
+        /// A callback function, which you define in your application, that processes messages sent to a window.
         /// The <see cref="WNDPROC"/> type defines a pointer to this callback function.
-        /// WindowProc is a placeholder for the application-defined function name.
+        /// The WndProc name is a placeholder for the name of the function that you define in your application.
         /// </para>
         /// <para>
-        /// From: <see href="https://docs.microsoft.com/zh-cn/previous-versions/windows/desktop/legacy/ms633573(v=vs.85)"/>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-wndproc"/>
         /// </para>
         /// </summary>
-        /// <param name="hWnd">A handle to the window.</param>
-        /// <param name="uMsg">The message.</param>
-        /// <param name="wParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
-        /// <param name="lParam">Additional message information. The contents of this parameter depend on the value of the uMsg parameter.</param>
-        /// <returns>The return value is the result of the message processing and depends on the message sent.</returns>
-        public delegate LRESULT WNDPROC([In] HWND hWnd, [In] WindowMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
+        /// <param name="hWnd">
+        /// A handle to the window. This parameter is typically named hWnd.
+        /// </param>
+        /// <param name="uMsg">
+        /// The message. This parameter is typically named uMsg.
+        /// </param>
+        /// <param name="wParam">
+        /// Additional message information. This parameter is typically named wParam.
+        /// The contents of this parameter depend on the value of the uMsg parameter.
+        /// </param>
+        /// <param name="lParam">
+        /// Additional message information. This parameter is typically named lParam.
+        /// The contents of this parameter depend on the value of the uMsg parameter.
+        /// </param>
+        /// <returns>
+        /// The return value is the result of the message processing and depends on the message sent.
+        /// </returns>
+        public delegate LRESULT Wndproc([In] HWND hWnd, [In] WindowMessages uMsg, [In] WPARAM wParam, [In] LPARAM lParam);
 
         /// <summary>
         /// <para>
@@ -229,7 +242,7 @@ namespace Lsj.Util.Win32
         /// <param name="hWnd">A handle to a top-level window.</param>
         /// <param name="lParam">The application-defined value given in <see cref="EnumWindows"/> or <see cref="EnumDesktopWindows"/>.</param>
         /// <returns></returns>
-        public delegate BOOL WNDENUMPROC([In] HWND hWnd, [In] LPARAM lParam);
+        public delegate BOOL Wndenumproc([In] HWND hWnd, [In] LPARAM lParam);
 
 
         /// <summary>

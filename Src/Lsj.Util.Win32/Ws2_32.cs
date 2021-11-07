@@ -15,6 +15,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const int SOCKET_ERROR = -1;
 
+
         /// <summary>
         /// <para>
         /// The <see cref="closesocket"/> function closes an existing socket.

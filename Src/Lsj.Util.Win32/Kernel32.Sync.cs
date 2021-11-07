@@ -16,6 +16,7 @@ using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Enums.ThreadAccessRights;
 using static Lsj.Util.Win32.Ole32;
 using static Lsj.Util.Win32.User32;
+using Lsj.Util.Win32.Callbacks;
 
 namespace Lsj.Util.Win32
 {
@@ -31,6 +32,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public readonly static SRWLOCK SRWLOCK_INIT = new SRWLOCK();
 
+
         /// <summary>
         /// <para>
         /// An application-defined completion routine.
@@ -43,7 +45,7 @@ namespace Lsj.Util.Win32
         /// </para>
         /// </summary>
         /// <param name="Parameter"></param>
-        public delegate void PAPCFUNC(ULONG_PTR Parameter);
+        public delegate void Papcfunc(ULONG_PTR Parameter);
 
         /// <summary>
         /// <para>
@@ -68,7 +70,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// This callback function must not call the <see cref="TerminateThread"/> function.
         /// </remarks>
-        public delegate void WAITORTIMERCALLBACK([In] PVOID lpParameter, [In] BOOLEAN TimerOrWaitFired);
+        public delegate void Waitortimercallback([In] PVOID lpParameter, [In] BOOLEAN TimerOrWaitFired);
+
 
         /// <summary>
         /// <para>

@@ -1,11 +1,19 @@
 ﻿using Lsj.Util.Win32.Enums;
-using Lsj.Util.Win32.Extensions;
 using System;
 using static Lsj.Util.Win32.Enums.EditControlMessages;
+using static Lsj.Util.Win32.User32;
 
-namespace Lsj.Util.Win32
+namespace Lsj.Util.Win32.Macros
 {
-    public static partial class User32
+    /// <summary>
+    /// <para>
+    /// Edit Control Macros
+    /// </para>
+    /// <para>
+    /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/controls/bumper-edit-control-reference-macros"/>
+    /// </para>
+    /// </summary>
+    public static class EditControlMacros
     {
         /// <summary>
         /// <para>

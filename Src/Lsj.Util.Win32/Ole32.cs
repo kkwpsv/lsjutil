@@ -64,6 +64,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public static readonly StringHandle COLE_DEFAULT_PRINCIPAL = (IntPtr)(-1);
 
+
         /// <summary>
         /// <para>
         /// Locates an object by means of its moniker, activates the object if it is inactive,

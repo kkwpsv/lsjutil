@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -27,6 +28,9 @@ namespace Lsj.Util.Win32
         /// The <see cref="GRAYSTRINGPROC"/> type defines a pointer to this callback function.
         /// OutputProc is a placeholder for the application-defined or library-defined function name.
         /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nc-winuser-graystringproc"/>
+        /// </para>
         /// </summary>
         /// <param name="Arg1">
         /// A handle to a device context with a bitmap of at least the width and height
@@ -45,7 +49,8 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// The callback function must draw an image relative to the coordinates (0,0).
         /// </remarks>
-        public delegate BOOL GRAYSTRINGPROC([In] HDC Arg1, [In] LPARAM Arg2, [In] int Arg3);
+        public delegate BOOL Graystringproc([In] HDC Arg1, [In] LPARAM Arg2, [In] int Arg3);
+
 
         /// <summary>
         /// <para>

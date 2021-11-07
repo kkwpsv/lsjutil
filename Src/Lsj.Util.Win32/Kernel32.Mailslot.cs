@@ -16,6 +16,7 @@ namespace Lsj.Util.Win32
         /// </summary>
         public const uint MAILSLOT_WAIT_FOREVER = unchecked((uint)-1);
 
+
         /// <summary>
         /// <para>
         /// Creates a mailslot with the specified name and returns a handle that a mailslot server can use to perform operations on the mailslot.

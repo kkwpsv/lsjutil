@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
@@ -35,7 +36,6 @@ namespace Lsj.Util.Win32.Structs
         /// A pointer to the window procedure. You must use the <see cref="CallWindowProc"/> function to call the window procedure.
         /// For more information, see <see cref="WNDPROC"/>.
         /// </summary>
-        [MarshalAs(UnmanagedType.FunctionPtr)]
         public WNDPROC lpfnWndProc;
 
         /// <summary>

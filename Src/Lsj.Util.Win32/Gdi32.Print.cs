@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Structs;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.BaseTypes.BOOL;
@@ -44,7 +45,7 @@ namespace Lsj.Util.Win32
         /// If the iError parameter is <see cref="SP_OUTOFDISK"/>, the application need not cancel the print job.
         /// If it does not cancel the job, it must yield to Print Manager by calling the <see cref="PeekMessage"/> or <see cref="GetMessage"/> function.
         /// </remarks>
-        public delegate BOOL ABORTPROC([In]HDC Arg1, [In]int Arg2);
+        public delegate BOOL Abortproc([In]HDC Arg1, [In]int Arg2);
 
 
         /// <summary>

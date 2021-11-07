@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -92,7 +93,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPCCHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpcchookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -137,7 +138,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPCFHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpcfhookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -183,7 +184,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPFRHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpfrhookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -241,7 +242,7 @@ namespace Lsj.Util.Win32
         /// </remarks>
         [Obsolete("Starting with Windows Vista, the Open and Save As common dialog boxes have been superseded by the Common Item Dialog." +
             "We recommended that you use the Common Item Dialog API instead of these dialog boxes from the Common Dialog Box Library.")]
-        public delegate UINT_PTR LPOFNHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpofnhookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -299,7 +300,7 @@ namespace Lsj.Util.Win32
         /// The dialog box is about to draw the return address portion of an envelope sample page.
         /// This message is sent for envelopes and other paper sizes.
         /// </remarks>
-        public delegate UINT_PTR LPPAGEPAINTHOOK([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lppagepainthook([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -344,7 +345,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPPAGESETUPHOOK([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lppagesetuphook([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -389,7 +390,7 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPPRINTHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpprinthookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
 
         /// <summary>
         /// <para>
@@ -436,7 +437,8 @@ namespace Lsj.Util.Win32
         /// Because of this, you should subclass controls when your hook procedure processes the <see cref="WM_INITDIALOG"/> message.
         /// This ensures that your subclass procedure receives the control-specific messages before the subclass procedure set by the dialog box procedure.
         /// </remarks>
-        public delegate UINT_PTR LPSETUPHOOKPROC([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+        public delegate UINT_PTR Lpsetuphookproc([In] HWND Arg1, [In] UINT Arg2, [In] WPARAM Arg3, [In] LPARAM Arg4);
+
 
         /// <summary>
         /// <para>

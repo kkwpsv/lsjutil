@@ -1,4 +1,5 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
+using Lsj.Util.Win32.Callbacks;
 using Lsj.Util.Win32.Enums;
 using Lsj.Util.Win32.Structs;
 using System;
@@ -43,7 +44,7 @@ namespace Lsj.Util.Win32
         /// <remarks>
         /// An application registers a LineDDAProc function by passing its address to the <see cref="LineDDA"/> function.
         /// </remarks>
-        public delegate void LINEDDAPROC([In] int Arg1, [In] int Arg2, [In] LPARAM Arg3);
+        public delegate void Lineddaproc([In] int Arg1, [In] int Arg2, [In] LPARAM Arg3);
 
 
         /// <summary>
