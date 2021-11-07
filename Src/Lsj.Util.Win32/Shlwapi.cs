@@ -1,8 +1,11 @@
 ﻿using Lsj.Util.Win32.BaseTypes;
 using Lsj.Util.Win32.Enums;
+using Lsj.Util.Win32.Marshals;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Advapi32;
+using static Lsj.Util.Win32.BaseTypes.BOOL;
 using static Lsj.Util.Win32.BaseTypes.HKEY;
+using static Lsj.Util.Win32.Constants;
 using static Lsj.Util.Win32.Enums.FormatMessageFlags;
 using static Lsj.Util.Win32.Enums.SystemErrorCodes;
 using static Lsj.Util.Win32.Kernel32;
@@ -26,6 +29,36 @@ namespace Lsj.Util.Win32
         /// <returns></returns>
         [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "IsOS", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL IsOS([In] OSFeatures dwOS);
+
+        /// <summary>
+        /// <para>
+        /// Searches for a file.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/shlwapi/nf-shlwapi-pathfindonpathw"/>
+        /// </para>
+        /// </summary>
+        /// <param name="pszPath">
+        /// A pointer to a null-terminated string of length <see cref="MAX_PATH"/> that contains the file name for which to search.
+        /// If the search is successful, this parameter is used to return the fully qualified path name.
+        /// </param>
+        /// <param name="ppszOtherDirs">
+        /// An optional, null-terminated array of directories to be searched first.
+        /// This value can be <see langword="null"/>.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="TRUE"/> if successful, or <see cref="FALSE"/> otherwise.
+        /// </returns>
+        /// <remarks>
+        /// <see cref="PathFindOnPath"/> searches for the file specified by <paramref name="pszPath"/>.
+        /// If no directories are specified in <paramref name="ppszOtherDirs"/>,
+        /// it attempts to find the file by searching standard directories such as System32 and the directories specified in the PATH environment variable.
+        /// To expedite the process or enable <see cref="PathFindOnPath"/> to search a wider range of directories,
+        /// use the <paramref name="ppszOtherDirs"/> parameter to specify one or more directories to be searched first.
+        /// If more than one file has the name specified by <paramref name="pszPath"/>, <see cref="PathFindOnPath"/> returns the first instance it finds.
+        /// </remarks>
+        [DllImport("Shlwapi.dll", CharSet = CharSet.Unicode, EntryPoint = "PathFindOnPathW", ExactSpelling = true, SetLastError = true)]
+        public static extern BOOL PathFindOnPath([In] LPWSTR pszPath, [In] string[] ppszOtherDirs);
 
         /// <summary>
         /// <para>
