@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Net.Web.Interfaces;
-using Lsj.Util.Net.Web.Protocol;
+﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
+using System.IO;
+using System.Text;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -18,12 +14,12 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// Content
         /// </summary>
-        protected Stream content;
+        protected Stream _content;
 
         /// <summary>
         /// ContentLength
         /// </summary>
-        public virtual long ContentLength => content.Length;
+        public virtual long ContentLength => _content.Length;
 
         /// <summary>
         /// Content
@@ -32,8 +28,8 @@ namespace Lsj.Util.Net.Web.Message
         {
             get
             {
-                content.Seek(0, SeekOrigin.Begin);
-                return content;
+                _content.Seek(0, SeekOrigin.Begin);
+                return _content;
             }
         }
 
@@ -42,11 +38,10 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         public HttpResponse()
         {
-            this.content = new MemoryStream();
-            this.HttpVersion = new Version(1, 1);
+            _content = new MemoryStream();
+            HttpVersion = new Version(1, 1);
         }
 
-        //Fucking Pointer.....
         /// <summary>
         /// 
         /// </summary>
@@ -77,7 +72,7 @@ namespace Lsj.Util.Net.Web.Message
                         IsEnd = true;
                     }
 
-                    if (!parsefirst)
+                    if (!_parsefirst)
                     {
                         if (!ParseFirstLine(start, length - 2))
                         {
@@ -112,7 +107,7 @@ namespace Lsj.Util.Net.Web.Message
             return false;
         }
 
-        bool parsefirst = false;
+        bool _parsefirst = false;
 
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {
@@ -147,7 +142,7 @@ namespace Lsj.Util.Net.Web.Message
                                                 left--;
                                                 if (left >= 1)
                                                 {
-                                                    parsefirst = true;
+                                                    _parsefirst = true;
                                                     return true;
                                                 }
                                             }
@@ -170,7 +165,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="buffer">.</param>
         public override void Write(byte[] buffer)
         {
-            this.content.Write(buffer);
+            _content.Write(buffer);
         }
 
         /// <summary>
@@ -180,11 +175,11 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="str"></param>
         public override void Write(string str)
         {
-            if (this.Headers[Protocol.HttpHeaders.ContentType] == "")
+            if (Headers[Protocol.HttpHeaders.ContentType] == "")
             {
-                this.Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf-8";
+                Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf-8";
             }
-            this.Write(str.ConvertToBytes(Encoding.UTF8));
+            Write(str.ConvertToBytes(Encoding.UTF8));
         }
 
         /// <summary>
@@ -192,7 +187,7 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         public void Write304()
         {
-            this.ErrorCode = 304;
+            ErrorCode = 304;
         }
 
         /// <summary>
@@ -235,8 +230,8 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="uri"></param>
         public void Redirect(string uri)
         {
-            this.ErrorCode = 301;
-            this.Headers[Protocol.HttpHeaders.Location] = uri;
+            ErrorCode = 301;
+            Headers[Protocol.HttpHeaders.Location] = uri;
         }
     }
 }

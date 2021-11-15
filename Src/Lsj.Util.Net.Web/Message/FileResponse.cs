@@ -12,7 +12,7 @@ namespace Lsj.Util.Net.Web.Message
     {
         public override long ContentLength => Headers[HttpHeaders.ContentLength].ConvertToLong();
 
-        public override Stream Content => content;
+        public override Stream Content => _content;
 
         public FileResponse(string path, IHttpRequest request) : base()
         {
@@ -23,7 +23,7 @@ namespace Lsj.Util.Net.Web.Message
             Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("r"));
             if (time == request.Headers[HttpHeaders.IfModifiedSince])
             {
-                this.Write304();
+                Write304();
             }
             else
             {
@@ -57,31 +57,30 @@ namespace Lsj.Util.Net.Web.Message
 
                 fileStream.Seek(fileRange.start, SeekOrigin.Begin);
 
-                this.ErrorCode = is206 ? 206 : 200;
+                ErrorCode = is206 ? 206 : 200;
 
                 if (request.Headers[HttpHeaders.AcceptEncoding].Contains("gzip") && fileRange.length < 10 * 1024 * 1024)
                 {
-                    using (var compress = new GZipStream(content, CompressionMode.Compress, true))
+                    using (var compress = new GZipStream(_content, CompressionMode.Compress, true))
                     {
                         fileStream.CopyToWithCount(compress, fileRange.length);
                     }
-                    content.Seek(0, SeekOrigin.Begin);
+                    _content.Seek(0, SeekOrigin.Begin);
                     Headers[HttpHeaders.ContentEncoding] = "gzip";
-                    Headers[HttpHeaders.ContentLength] = content.Length.ToString();
+                    Headers[HttpHeaders.ContentLength] = _content.Length.ToString();
                 }
                 else
                 {
                     Headers[HttpHeaders.ContentRange] = $"bytes {fileRange.start}-{fileRange.start + fileRange.length - 1}/{fileStream.Length}";
                     Headers[HttpHeaders.ContentLength] = fileRange.length.ToString();
-                    this.content = fileStream;
+                    _content = fileStream;
                 }
             }
         }
 
         protected override void CleanUpUnmanagedResources()
         {
-            content.Dispose();
+            _content.Dispose();
         }
     }
-
 }
