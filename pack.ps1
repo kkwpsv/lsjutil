@@ -52,7 +52,7 @@ dotnet pack -c Release --include-source
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Office
-&${env:ProgramFiles(x86)}'\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe' -restore /p:Configuration=Release /t:pack /p:IncludeSymbols=true
+&${env:ProgramFiles}'\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe' -restore /p:Configuration=Release /t:pack /p:IncludeSymbols=true
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf
