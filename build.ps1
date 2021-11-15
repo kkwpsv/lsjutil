@@ -49,7 +49,7 @@ dotnet build -c Release
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Office
-&${env:ProgramFiles(x86)}'\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe' /p:Configuration=Release -restore
+&${env:ProgramFiles}'\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe' /p:Configuration=Release -restore
 if(!$?) { Exit $LASTEXITCODE }
 
 Set-Location ..\Lsj.Util.Protobuf
