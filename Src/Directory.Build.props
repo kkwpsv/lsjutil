@@ -10,10 +10,12 @@
     <DebugType>portable</DebugType>
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <InternalsVisibleTo Include="Lsj.Util.Tests" />
   </PropertyGroup>
   <PropertyGroup Condition="$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="Lsj.Util.Tests" />
+  </ItemGroup>
 </Project>
