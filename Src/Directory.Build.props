@@ -15,7 +15,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\LSJ.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition="!$([System.IO.File]::Exists($(MSBuildThisFileDirectory)LSJ.snk))">
     <InternalsVisibleTo Include="Lsj.Util.Tests" />
   </ItemGroup>
 </Project>
