@@ -11,12 +11,12 @@
     <LsjUtilHtmlBuilderVersionPrefix>6.0.0</LsjUtilHtmlBuilderVersionPrefix>
     <LsjUtilJSONVersionPrefix>6.0.0</LsjUtilJSONVersionPrefix>
     <LsjUtilNetVersionPrefix>6.0.0</LsjUtilNetVersionPrefix>
-    <LsjUtilNetWebVersionPrefix>6.0.0</LsjUtilNetWebVersionPrefix>
+    <LsjUtilNetWebVersionPrefix>6.0.1</LsjUtilNetWebVersionPrefix>
     <LsjUtilOfficeVersionPrefix>6.0.0</LsjUtilOfficeVersionPrefix>
     <LsjUtilProtobufVersionPrefix>6.0.0</LsjUtilProtobufVersionPrefix>
     <LsjUtilSQLBuilderVersionPrefix>6.0.0</LsjUtilSQLBuilderVersionPrefix>
     <LsjUtilWin32VersionPrefix>6.0.1</LsjUtilWin32VersionPrefix>
-    <LsjUtilWin32NativeUIVersionPrefix>6.0.0</LsjUtilWin32NativeUIVersionPrefix>
+    <LsjUtilWin32NativeUIVersionPrefix>6.0.1</LsjUtilWin32NativeUIVersionPrefix>
     <LsjUtilWinFormVersionPrefix>6.0.0</LsjUtilWinFormVersionPrefix>
     <LsjUtilWPFVersionPrefix>6.0.0</LsjUtilWPFVersionPrefix>
   </PropertyGroup>
