@@ -96,7 +96,7 @@ namespace Lsj.Util.Win32.NativeUI
 
         private void SetOwnerWindowHandle(HWND value)
         {
-            if (GetParentWindowHandle() != NULL)
+            if (GetParentWindowHandle() != GetDesktopWindow())
             {
                 throw new InvalidOperationException("Cannot set owner window when has parent window");
             }
