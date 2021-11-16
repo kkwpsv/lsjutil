@@ -128,7 +128,7 @@ namespace Lsj.Util.Win32
         /// and the <see cref="WlanFreeMemory"/> function on a Windows XP Service Pack 2-based computer",
         /// in the Help and Support Knowledge Base at https://go.microsoft.com/fwlink/p/?linkid=102216.
         /// </remarks>
-        [DllImport("Wlanapi.dll", CharSet = CharSet.Unicode, EntryPoint = "WlanEnumInterfaces", ExactSpelling = true, SetLastError = true)]
+        [DllImport("Wlanapi.dll", CharSet = CharSet.Unicode, EntryPoint = "WlanFreeMemory", ExactSpelling = true, SetLastError = true)]
         public static extern void WlanFreeMemory([In] PVOID pMemory);
 
         /// <summary>
