@@ -1,6 +1,5 @@
 ﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
 using System;
 using System.IO;
@@ -87,6 +86,12 @@ namespace Lsj.Util.Net.Web.Message
                             ErrorCode = 400;
                             return true;
                         }
+                        if (HttpVersion == new Version(0, 9))
+                        {
+                            // No headers with http 0.9
+                            read += length;
+                            return true;
+                        }
                         read += length;//读取字节数增加
                     }
                     else
@@ -116,59 +121,57 @@ namespace Lsj.Util.Net.Web.Message
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {
             var left = length;
-            #region ParseMethod
-            if (left >= 7)
-            {
-                if (*ptr == ASCIIChar.G && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T)
-                {
-                    this.Method = HttpMethods.GET;
-                    left -= 3;
-                }
-                else if (*ptr == ASCIIChar.H && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.D)
-                {
-                    this.Method = HttpMethods.HEAD;
-                    left -= 4;
-                }
-                else if (*ptr == ASCIIChar.P)
-                {
-                    if (*(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.S && *(++ptr) == ASCIIChar.T)
-                    {
-                        this.Method = HttpMethods.POST;
-                        left -= 4;
-                    }
-                    else if (*(++ptr) == ASCIIChar.U && *(++ptr) == ASCIIChar.T)
-                    {
-                        this.Method = HttpMethods.PUT;
-                        left -= 3;
-                    }
-                }
-                else if (*ptr == ASCIIChar.T && *(++ptr) == ASCIIChar.R && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.C && *(++ptr) == ASCIIChar.E)
-                {
-                    this.Method = HttpMethods.TRACE;
-                    left -= 5;
-                }
-                else if (*ptr == ASCIIChar.O && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.I && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.N && *(++ptr) == ASCIIChar.S)
-                {
 
-                    this.Method = HttpMethods.OPTIONS;
-                    left -= 7;
-                }
-                else if (*ptr == ASCIIChar.D && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.L && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.E)
-                {
-                    this.Method = HttpMethods.DELETE;
-                    left -= 6;
-                }
+            #region ParseMethod
+            if (left >= 3 && *ptr == ASCIIChar.G && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T)
+            {
+                Method = HttpMethods.GET;
+                left -= 3;
+            }
+            else if (left >= 3 && *ptr == ASCIIChar.P && *(++ptr) == ASCIIChar.U && *(++ptr) == ASCIIChar.T)
+            {
+                Method = HttpMethods.PUT;
+                left -= 3;
+            }
+            else if (left >= 4 && *ptr == ASCIIChar.H && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.D)
+            {
+                Method = HttpMethods.HEAD;
+                left -= 4;
+            }
+            else if (left >= 4 && *ptr == ASCIIChar.P && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.S && *(++ptr) == ASCIIChar.T)
+            {
+                Method = HttpMethods.POST;
+                left -= 4;
+            }
+            else if (left >= 5 && *ptr == ASCIIChar.T && *(++ptr) == ASCIIChar.R && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.C && *(++ptr) == ASCIIChar.E)
+            {
+                Method = HttpMethods.TRACE;
+                left -= 5;
+            }
+            else if (left >= 6 && *ptr == ASCIIChar.D && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.L && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.E)
+            {
+                Method = HttpMethods.DELETE;
+                left -= 6;
+            }
+            else if (left >= 7 && *ptr == ASCIIChar.O && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.I && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.N && *(++ptr) == ASCIIChar.S)
+            {
+                Method = HttpMethods.OPTIONS;
+                left -= 7;
             }
             #endregion
-            if (this.Method != HttpMethods.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
+
+            if (Method != HttpMethods.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
             {
                 left--;
-                var uriptr = ++ptr;
-                for (int i = 0; left > 0; i++, ptr++, left--)
+                var uriPtr = ++ptr;
+
+                var uriLength = 0;
+
+                for (; left > 0; uriLength++, ptr++, left--)
                 {
                     if (*ptr == ASCIIChar.SPACE)
                     {
-                        this.Uri = new URI(StringHelper.ReadStringFromBytePoint(uriptr, i));
+                        Uri = new URI(StringHelper.ReadStringFromBytePoint(uriPtr, uriLength));
                         if (left == 9)
                         {
                             #region ParseVersion
@@ -185,7 +188,7 @@ namespace Lsj.Util.Net.Web.Message
                                         {
                                             minor -= 48;
                                             {
-                                                this.HttpVersion = new Version(major, minor);
+                                                HttpVersion = new Version(major, minor);
                                                 return true;
                                             }
                                         }
@@ -196,7 +199,13 @@ namespace Lsj.Util.Net.Web.Message
                         }
                     }
                 }
-                return false;
+
+
+                // HTTP 0.9 formats: GET /PATH
+                Uri = new URI(StringHelper.ReadStringFromBytePoint(uriPtr, uriLength));
+                HttpVersion = new Version(0, 9);
+
+                return true;
             }
             else
             {

@@ -13,6 +13,14 @@ namespace Lsj.Util.Net.Web.Interfaces
     public interface IHttpRequest : IHttpMessage
     {
         /// <summary>
+        /// HttpVersion
+        /// </summary>
+        public Version HttpVersion
+        {
+            get;
+        }
+
+        /// <summary>
         /// Method
         /// </summary>
         HttpMethods Method

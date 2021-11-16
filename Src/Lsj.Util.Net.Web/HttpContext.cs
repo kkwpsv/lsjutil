@@ -257,7 +257,10 @@ namespace Lsj.Util.Net.Web
                     Status = ContextStatus.Sending;
                     Response.Headers.Add(HttpHeaders.Server, _server.Name);
 
-                    await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
+                    if (Request.HttpVersion != new Version(0, 9))
+                    {
+                        await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
+                    }
 
                     var length = Response.ContentLength;
                     var content = Response.Content;
