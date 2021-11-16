@@ -5,7 +5,8 @@
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <LangVersion>9.0</LangVersion>
+    <EmbedAllSources>true</EmbedAllSources>
+    <LangVersion>10.0</LangVersion>
     <DebugType>portable</DebugType>
     <DocumentationFile>bin\Release\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
