@@ -22,6 +22,8 @@
     <ProjectReference Include="..\..\Src\Lsj.Util.AspNetCore\Lsj.Util.AspNetCore.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.Dynamic\Lsj.Util.Dynamic.csproj" />
     <ProjectReference Include="..\..\Src\Lsj.Util.JSON\Lsj.Util.JSON.csproj" />
+    <ProjectReference Include="..\..\Src\Lsj.Util.Net.Web\Lsj.Util.Net.Web.csproj" />
+    <ProjectReference Include="..\..\Src\Lsj.Util.Win32\Lsj.Util.Win32.csproj" />
   </ItemGroup>
 
 </Project>
