@@ -107,6 +107,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Dpi Awareness
         /// </summary>
+        /// <exception cref="PlatformNotSupportedException"/>
         public DPI_AWARENESS DpiAwareness
         {
             get => GetDpiAwareness();
@@ -120,6 +121,7 @@ namespace Lsj.Util.Win32.NativeUI
         /// <summary>
         /// Desktop ID
         /// </summary>
+        /// <exception cref="PlatformNotSupportedException"/>
         public GUID DesktopID
         {
             get => GetDesktopID();
