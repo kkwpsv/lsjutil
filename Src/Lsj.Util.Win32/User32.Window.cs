@@ -1237,6 +1237,22 @@ namespace Lsj.Util.Win32
 
         /// <summary>
         /// <para>
+        /// Disables the window ghosting feature for the calling GUI process.
+        /// Window ghosting is a Windows Manager feature that lets the user minimize, move,
+        /// or close the main window of an application that is not responding.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/zh-cn/windows/win32/api/winuser/nf-winuser-disableprocesswindowsghosting"/>
+        /// </para>
+        /// </summary>
+        /// <remarks>
+        /// After calling <see cref="DisableProcessWindowsGhosting"/>, the ghosting feature is disabled for the duration of the process.
+        /// </remarks>
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, EntryPoint = "DisableProcessWindowsGhosting", ExactSpelling = true, SetLastError = true)]
+        public static extern void DisableProcessWindowsGhosting();
+
+        /// <summary>
+        /// <para>
         /// Enables or disables mouse and keyboard input to the specified window or control.
         /// When input is disabled, the window does not receive input such as mouse clicks and key presses.
         /// When input is enabled, the window receives all input.
