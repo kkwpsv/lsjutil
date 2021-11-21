@@ -47,7 +47,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="buffer"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        bool Read(byte[] buffer, ref int read);
+        bool Read(byte[] buffer, out int read);
 
         /// <summary>
         /// 
@@ -56,7 +56,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="offset"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        bool Read(byte[] buffer, int offset, ref int read);
+        bool Read(byte[] buffer, int offset, out int read);
 
         /// <summary>
         /// 
@@ -66,7 +66,7 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// <param name="length"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        bool Read(byte[] buffer, int offset, int length, ref int read);
+        bool Read(byte[] buffer, int offset, int length, out int read);
 
         /// <summary>
         /// Write

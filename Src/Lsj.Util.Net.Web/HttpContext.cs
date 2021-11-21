@@ -175,7 +175,7 @@ namespace Lsj.Util.Net.Web
                 {
                     byteLeft += read;
 
-                    bool IsEndHeader = Parse(byteLeft, ref read);//尝试Parse
+                    bool IsEndHeader = Parse(byteLeft, out read);//尝试Parse
                     byteLeft -= read;//减掉处理过的
                     if (IsEndHeader)
                     {
@@ -306,9 +306,9 @@ namespace Lsj.Util.Net.Web
             UnsafeHelper.Copy(_buffer, offset, _buffer, 0, length);
         }
 
-        bool Parse(int length, ref int read)
+        bool Parse(int length, out int read)
         {
-            return Request.Read(_buffer, 0, length, ref read);
+            return Request.Read(_buffer, 0, length, out read);
         }
 
         protected override void CleanUpManagedResources()

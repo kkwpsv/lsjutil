@@ -42,6 +42,8 @@ namespace Lsj.Util.Net.Web.Message
             HttpVersion = new Version(1, 1);
         }
 
+        bool _parsefirst = false;
+        bool _parseHeader = false;
         /// <summary>
         /// 
         /// </summary>
@@ -50,9 +52,13 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="count"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        unsafe protected override bool InternalRead(byte* pts, int offset, int count, ref int read)
+        unsafe protected override bool InternalRead(byte* pts, int offset, int count, out int read)
         {
             read = 0;
+            if (_parseHeader)
+            {
+                return true;
+            }
             byte* start = pts;
             byte* ptr = pts;
             for (int i = offset; i < count; i++, ptr++)
@@ -65,11 +71,11 @@ namespace Lsj.Util.Net.Web.Message
                         return true;
                     }
                     int length = (int)(ptr - start) + 1;
-                    bool IsEnd = false;
+                    _parseHeader = false;
 
                     if (i + 1 < count && *(ptr + 1) == ASCIIChar.CR && i + 2 < count && *(ptr + 2) == ASCIIChar.LF)
                     {
-                        IsEnd = true;
+                        _parseHeader = true;
                     }
 
                     if (!_parsefirst)
@@ -91,7 +97,7 @@ namespace Lsj.Util.Net.Web.Message
                     }
 
 
-                    if (!IsEnd)
+                    if (!_parseHeader)
                     {
                         start = ptr + 1;
                     }
@@ -106,8 +112,6 @@ namespace Lsj.Util.Net.Web.Message
             }
             return false;
         }
-
-        bool _parsefirst = false;
 
         private unsafe bool ParseFirstLine(byte* ptr, int length)
         {

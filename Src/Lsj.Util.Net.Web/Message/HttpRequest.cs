@@ -47,11 +47,11 @@ namespace Lsj.Util.Net.Web.Message
 
         private bool _isReadHeader;
 
-        protected override unsafe bool InternalRead(byte* pts, int offset, int count, ref int read)
+        protected override unsafe bool InternalRead(byte* pts, int offset, int count, out int read)
         {
             if (!_isReadHeader)
             {
-                _isReadHeader = InternalReadImp(pts, offset, count, ref read);
+                _isReadHeader = InternalReadImp(pts, offset, count, out read);
                 return _isReadHeader;
             }
             else
@@ -61,7 +61,7 @@ namespace Lsj.Util.Net.Web.Message
         }
 
         //Fucking Pointer.....
-        private unsafe bool InternalReadImp(byte* pts, int offset, int count, ref int read)
+        private unsafe bool InternalReadImp(byte* pts, int offset, int count, out int read)
         {
             byte* start = pts;                      //开始位置
             byte* end = pts + offset + count - 1;   //结束位置

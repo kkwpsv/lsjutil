@@ -8,28 +8,32 @@ namespace Lsj.Util.Net.Web.Message
     {
         public HttpRequestForClient()
         {
-            this.HttpVersion = new Version(1, 1);
-            this._content = new MemoryStream();
+            HttpVersion = new Version(1, 1);
+            _content = new MemoryStream();
         }
+
         public void SetMethod(HttpMethods method)
         {
-            this.Method = method;
+            Method = method;
         }
+
         public void SetURI(URI uri)
         {
-            this.Uri = uri;
+            Uri = uri;
         }
+
         public override void Write(byte[] buffer)
         {
-            this._content.Write(buffer);
+            _content.Write(buffer);
         }
+
         public override string GetHttpHeader()
         {
-            this.Headers[Protocol.HttpHeaders.Connection] = "close";
-            this.Headers[Protocol.HttpHeaders.ContentLength] = this.Content.Length.ToString();
-            this.Headers[Protocol.HttpHeaders.AcceptEncoding] = "identity";
-            this.Headers[Protocol.HttpHeaders.Host] = this.Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
-            this.Headers[Protocol.HttpHeaders.UserAgent] = "LsjWebClient/1.0 (compatible)";
+            Headers[HttpHeaders.Connection] = "close";
+            Headers[HttpHeaders.ContentLength] = Content.Length.ToString();
+            Headers[HttpHeaders.Host] = Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
+            Headers[HttpHeaders.UserAgent] = $"LsjWebClient/{typeof(HttpRequestForClient).Assembly.GetName().Version} (compatible)";
+            Headers[HttpHeaders.AcceptEncoding] = "gzip";
             return base.GetHttpHeader();
         }
     }

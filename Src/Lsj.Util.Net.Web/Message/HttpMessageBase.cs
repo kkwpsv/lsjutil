@@ -64,7 +64,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="buffer"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        public bool Read(byte[] buffer, ref int read) => Read(buffer, 0, ref read);
+        public bool Read(byte[] buffer, out int read) => Read(buffer, 0, out read);
 
         /// <summary>
         /// Read
@@ -73,7 +73,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="offset"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        public bool Read(byte[] buffer, int offset, ref int read) => InternalRead(buffer, offset, buffer.Length - offset, ref read);
+        public bool Read(byte[] buffer, int offset, out int read) => InternalRead(buffer, offset, buffer.Length - offset, out read);
 
         /// <summary>
         /// Read
@@ -83,7 +83,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="length"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        public bool Read(byte[] buffer, int offset, int length, ref int read) => InternalRead(buffer, offset, length, ref read);
+        public bool Read(byte[] buffer, int offset, int length, out int read) => InternalRead(buffer, offset, length, out read);
 
         /// <summary>
         /// InternalRead
@@ -93,11 +93,11 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="length"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        unsafe protected bool InternalRead(byte[] buffer, int offset, int length, ref int read)
+        unsafe protected bool InternalRead(byte[] buffer, int offset, int length, out int read)
         {
             fixed (byte* pts = buffer)
             {
-                return InternalRead(pts, offset, length, ref read);
+                return InternalRead(pts, offset, length, out read);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="count"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        unsafe protected virtual bool InternalRead(byte* pts, int offset, int count, ref int read)
+        unsafe protected virtual bool InternalRead(byte* pts, int offset, int count, out int read)
         {
             throw new NotImplementedException();
         }
