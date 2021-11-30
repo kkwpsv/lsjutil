@@ -72,19 +72,19 @@ namespace Lsj.Util.Net.Web.Interfaces
         /// Write
         /// </summary>
         /// <param name="buffer"></param>
-        void Write(byte[] buffer);
+        void WriteContent(byte[] buffer);
 
         /// <summary>
         /// Write
         /// </summary>
         /// <param name="str"></param>
-        void Write(string str);
+        void WriteContent(string str);
 
         /// <summary>
-        /// Get Http Header String
+        /// Get Http1.x Header String
         /// </summary>
         /// <returns></returns>
-        string GetHttpHeader();
+        string GetHttp1HeaderString();
 
         /// <summary>
         /// IsError

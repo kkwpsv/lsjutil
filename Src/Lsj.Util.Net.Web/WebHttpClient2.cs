@@ -124,7 +124,7 @@ namespace Lsj.Util.Net.Web
             }
             if (content != null)
             {
-                _request.Write(content);
+                _request.WriteContent(content);
             }
 
         }
@@ -135,7 +135,7 @@ namespace Lsj.Util.Net.Web
         public IHttpResponse Do()
         {
             //发送请求头
-            _stream.Write(_request.GetHttpHeader().ConvertToBytes(Encoding.UTF8));
+            _stream.Write(_request.GetHttp1HeaderString().ConvertToBytes(Encoding.UTF8));
 
             //如果存在请求实体，发送请求实体
             if (_request.Content.Length != 0)

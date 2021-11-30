@@ -1,7 +1,6 @@
 ﻿using Lsj.Util.Net.Web.Cookie;
 using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Protocol;
-using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
 using System;
 using System.IO;
@@ -109,10 +108,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="count"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        unsafe protected virtual bool InternalRead(byte* pts, int offset, int count, out int read)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract unsafe bool InternalRead(byte* pts, int offset, int count, out int read);
 
         /// <summary>
         /// Parse Line
@@ -134,7 +130,7 @@ namespace Lsj.Util.Net.Web.Message
                         var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
                         if (ValidateHeader(name, content, out errorcode))
                         {
-                            if (name != HttpHeadersHelper.GetNameByHeader(Protocol.HttpHeaders.Cookie))
+                            if (name != HttpHeadersHelper.GetNameByHeader(HttpHeaders.Cookie))
                             {
                                 Headers.Add(name, content);
                             }
@@ -172,28 +168,24 @@ namespace Lsj.Util.Net.Web.Message
         /// Write
         /// </summary>
         /// <param name="str"></param>
-        public virtual void Write(string str)
+        public virtual void WriteContent(string str)
         {
-            Write(str.ConvertToBytes(Encoding.UTF8));
+            WriteContent(str.ConvertToBytes(Encoding.UTF8));
         }
 
         /// <summary>
         /// Write
         /// </summary>
         /// <param name="buffer"></param>
-        public virtual void Write(byte[] buffer)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void WriteContent(byte[] buffer);
 
         /// <summary>
         /// GetHttpHeader
         /// </summary>
         /// <returns></returns>
-        public virtual string GetHttpHeader()
+        public virtual string GetHttp1HeaderString()
         {
             throw new NotImplementedException();
         }
-
     }
 }

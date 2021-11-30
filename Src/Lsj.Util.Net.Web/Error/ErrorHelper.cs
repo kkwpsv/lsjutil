@@ -27,7 +27,7 @@ namespace Lsj.Util.Net.Web.Error
             {
                 ErrorCode = code
             };
-            response.Write(BuildPage(code, extraCode, server));
+            response.WriteContent(BuildPage(code, extraCode, server));
             response.Headers[HttpHeaders.ContentType] = "text/html;charset=utf8";
             response.Headers[HttpHeaders.Connection] = "close";
             response.Headers[HttpHeaders.ContentLength] = response.Content.Length.ToString();
@@ -47,7 +47,7 @@ namespace Lsj.Util.Net.Web.Error
             {
                 ErrorCode = code
             };
-            response.Write(BuildPage(code, extraCode, server, errorString));
+            response.WriteContent(BuildPage(code, extraCode, server, errorString));
             response.Headers[HttpHeaders.ContentType] = "text/html;charset=utf8";
             response.Headers[HttpHeaders.Connection] = "close";
             response.Headers[HttpHeaders.ContentLength] = response.Content.Length.ToString();

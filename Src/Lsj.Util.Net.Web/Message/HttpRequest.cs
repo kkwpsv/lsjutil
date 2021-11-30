@@ -233,7 +233,7 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
-        public override string GetHttpHeader()
+        public override string GetHttp1HeaderString()
         {
             var sb = new StringBuilder();
             sb.Append($"{Method} {Uri} HTTP/{this.HttpVersion.ToString(2)}\r\n");
@@ -244,6 +244,8 @@ namespace Lsj.Util.Net.Web.Message
             sb.Append("\r\n");
             return sb.ToString();
         }
+
+        public override void WriteContent(byte[] buffer) => throw new NotSupportedException();
 
         public bool IsReadFinish => _isReadHeader && Content.Length >= ContentLength;
 

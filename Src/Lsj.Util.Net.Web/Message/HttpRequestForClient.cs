@@ -22,19 +22,19 @@ namespace Lsj.Util.Net.Web.Message
             Uri = uri;
         }
 
-        public override void Write(byte[] buffer)
+        public override void WriteContent(byte[] buffer)
         {
             _content.Write(buffer);
         }
 
-        public override string GetHttpHeader()
+        public override string GetHttp1HeaderString()
         {
-            Headers[HttpHeaders.Connection] = "close";
-            Headers[HttpHeaders.ContentLength] = Content.Length.ToString();
-            Headers[HttpHeaders.Host] = Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
-            Headers[HttpHeaders.UserAgent] = $"LsjWebClient/{typeof(HttpRequestForClient).Assembly.GetName().Version} (compatible)";
-            Headers[HttpHeaders.AcceptEncoding] = "gzip";
-            return base.GetHttpHeader();
+            this.Headers[Protocol.HttpHeaders.Connection] = "close";
+            this.Headers[Protocol.HttpHeaders.ContentLength] = this.Content.Length.ToString();
+            this.Headers[Protocol.HttpHeaders.AcceptEncoding] = "identity";
+            this.Headers[Protocol.HttpHeaders.Host] = this.Uri.Host + (Uri.Port == 80 ? "" : ":" + Uri.Port.ToString());
+            this.Headers[Protocol.HttpHeaders.UserAgent] = "LsjWebClient/1.0 (compatible)";
+            return base.GetHttp1HeaderString();
         }
     }
 }

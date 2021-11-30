@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Lsj.Util.Net.Web.Protocol;
+﻿using Lsj.Util.Net.Web.Protocol;
 
 
 namespace Lsj.Util.Net.Web.Interfaces

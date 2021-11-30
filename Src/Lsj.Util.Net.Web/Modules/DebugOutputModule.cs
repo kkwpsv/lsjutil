@@ -25,7 +25,7 @@ namespace Lsj.Util.Net.Web.Modules
         public void Process(object website, ProcessEventArgs args)
         {
             var request = args.Request;
-            _logProvider.Debug(request.GetHttpHeader());
+            _logProvider.Debug(request.GetHttp1HeaderString());
             if (request.ContentLength > 0)
             {
                 _logProvider.Debug(request.Content.ReadAll().ConvertFromBytes());

@@ -167,7 +167,7 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         /// <returns></returns>
         /// <param name="buffer">.</param>
-        public override void Write(byte[] buffer)
+        public override void WriteContent(byte[] buffer)
         {
             _content.Write(buffer);
         }
@@ -177,13 +177,13 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         /// <returns></returns>
         /// <param name="str"></param>
-        public override void Write(string str)
+        public override void WriteContent(string str)
         {
             if (Headers[Protocol.HttpHeaders.ContentType] == "")
             {
                 Headers[Protocol.HttpHeaders.ContentType] = "text/html;charset=utf-8";
             }
-            Write(str.ConvertToBytes(Encoding.UTF8));
+            WriteContent(str.ConvertToBytes(Encoding.UTF8));
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Lsj.Util.Net.Web.Message
         /// Get HttpHeader
         /// </summary>
         /// <returns></returns>
-        public override string GetHttpHeader()
+        public override string GetHttp1HeaderString()
         {
             var sb = new StringBuilder();
             sb.Append($"HTTP/{this.HttpVersion.ToString(2)} {ErrorCode} {StatusCodesHelper.GetStringByCode(ErrorCode)}\r\n");
@@ -224,7 +224,7 @@ namespace Lsj.Util.Net.Web.Message
         /// <param name="url"></param>
         public void ReturnAndRedirect(string str, string url)
         {
-            Write(@"<script language=""javascript"" charset=""utf-8""> alert(""" + str + @""");document.location.href=""" + url + @""";</script>");
+            WriteContent(@"<script language=""javascript"" charset=""utf-8""> alert(""" + str + @""");document.location.href=""" + url + @""";</script>");
         }
 
         /// <summary>

@@ -259,7 +259,7 @@ namespace Lsj.Util.Net.Web
 
                     if (Request.HttpVersion != new Version(0, 9))
                     {
-                        await Stream.WriteAsync(Response.GetHttpHeader().ConvertToBytes(Encoding.ASCII));
+                        await Stream.WriteAsync(Response.GetHttp1HeaderString().ConvertToBytes(Encoding.ASCII));
                     }
 
                     var length = Response.ContentLength;
