@@ -94,40 +94,34 @@ namespace Lsj.Util.Net.Web.Message
         /// <returns></returns>
         unsafe protected bool InternalRead(byte[] buffer, int offset, int length, out int read)
         {
-            fixed (byte* pts = buffer)
-            {
-                return InternalRead(pts, offset, length, out read);
-            }
+            return InternalRead(buffer.AsSpan(offset, length), out read);
         }
 
         /// <summary>
         /// InternalRead
         /// </summary>
-        /// <param name="pts"></param>
-        /// <param name="offset"></param>
-        /// <param name="count"></param>
+        /// <param name="buffer"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        protected abstract unsafe bool InternalRead(byte* pts, int offset, int count, out int read);
+        protected abstract bool InternalRead(Span<byte> buffer, out int read);
 
         /// <summary>
         /// Parse Line
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
+        /// <param name="buffer"></param>
         /// <param name="errorcode"></param>
         /// <returns></returns>
-        protected unsafe bool ParseLine(byte* start, int length, out int errorcode)
+        protected unsafe bool ParseLine(Span<byte> buffer, out int errorcode)
         {
-            byte* ptr = start;
-            for (int i = 0; i < length; i++, ptr++)
+            var current = 0;
+            for (int i = 0; i < buffer.Length; i++, current++)
             {
-                if (*ptr == ASCIIChar.Colon)
+                if (buffer[current] == ASCIIChar.Colon)
                 {
-                    var name = StringHelper.ReadStringFromBytePoint(start, i);
-                    if (*(++ptr) == ASCIIChar.SPACE)
+                    var name = StringHelper.ReadStringFromByteSpan(buffer.Slice(0, i));
+                    if (buffer[++current] == ASCIIChar.SPACE)
                     {
-                        var content = StringHelper.ReadStringFromBytePoint((++ptr), length - i - 2);
+                        var content = StringHelper.ReadStringFromByteSpan(buffer.Slice(++current, buffer.Length - i - 2));
                         if (ValidateHeader(name, content, out errorcode))
                         {
                             if (name != HttpHeadersHelper.GetNameByHeader(HttpHeaders.Cookie))

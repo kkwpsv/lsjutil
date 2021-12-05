@@ -560,6 +560,19 @@ namespace Lsj.Util.Text
         public static unsafe string ReadStringFromBytePoint(byte* buffer, long count) => ReadStringFromBytePoint(buffer, count, Encoding.ASCII);
 
         /// <summary>
+        /// Read String From Byte Span
+        /// </summary>
+        /// <param name="buffer"></param>
+        public static unsafe string ReadStringFromByteSpan(Span<byte> buffer)
+        {
+#if NET6_0
+            return Encoding.ASCII.GetString(buffer);
+#else
+            return Encoding.ASCII.GetString(buffer.ToArray());
+#endif
+        }
+
+        /// <summary>
         /// Read String From Byte Point
         /// </summary>
         /// <param name="buffer"></param>

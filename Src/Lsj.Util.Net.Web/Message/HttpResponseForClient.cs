@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -23,24 +24,24 @@ namespace Lsj.Util.Net.Web.Message
         private long? _contentLength = null;
 
 
-        protected override unsafe bool InternalRead(byte* pts, int offset, int count, out int read)
+        protected override unsafe bool InternalRead(Span<byte> buffer, out int read)
         {
             if (_contentType == ContentType.Unknown)
             {
-                var result = base.InternalRead(pts, offset, count, out read);
+                var result = base.InternalRead(buffer, out read);
                 if (result)
                 {
-                    if (count - read > 2)
+                    if (buffer.Length - read > 2)
                     {
-                        if (*(pts + offset + read) == (byte)'\r' && *(pts + offset + read + 1) == (byte)'\n')
+                        if (buffer[read] == ASCIIChar.CR && buffer[read + 1] == ASCIIChar.LF)
                         {
                             read += 2;
                         }
                         if (AnalyseContentType())
                         {
-                            if (count - read > 0)
+                            if (buffer.Length - read > 0)
                             {
-                                read += ReadContent(pts, offset + read, count - read);
+                                read += ReadContent(buffer.Slice(read));
                             }
                             return true;
                         }
@@ -61,7 +62,7 @@ namespace Lsj.Util.Net.Web.Message
             }
             else
             {
-                read = ReadContent(pts, offset, count);
+                read = ReadContent(buffer);
                 return true;
             }
         }
@@ -83,14 +84,15 @@ namespace Lsj.Util.Net.Web.Message
         MemoryStream _gzipRawStream;
         GZipStream _gzipStream;
 
-        private unsafe int ReadContent(byte* pts, int offset, int count)
+        private unsafe int ReadContent(Span<byte> content)
         {
-            var read = count;
+            var read = content.Length;
+            var count = content.Length;
             if ((_contentType & ContentType.Identity) != 0)
             {
                 if ((_contentType & ContentType.Chunked) != 0)
                 {
-                    var buffer = GetChunkBuffer(pts, offset, count, out read);
+                    var buffer = GetChunkBuffer(content, out read);
                     if (buffer != null)
                     {
                         _content.Write(buffer);
@@ -106,13 +108,11 @@ namespace Lsj.Util.Net.Web.Message
                             count = (int)rest;
                         }
                     }
-
-                    var buffer = new byte[count];
-                    fixed (byte* dst = buffer)
-                    {
-                        UnsafeHelper.Copy(pts, offset, dst, 0, count);
-                    }
-                    _content.Write(buffer);
+#if NETCOREAPP3_0_OR_GREATER
+                    _content.Write(content.Slice(0, count));
+#else
+                    _content.Write(content.Slice(0, count).ToArray());
+#endif
                 }
 
                 if (_contentLength != null && _content.Length == _contentLength)
@@ -130,7 +130,7 @@ namespace Lsj.Util.Net.Web.Message
                 }
                 if ((_contentType & ContentType.Chunked) != 0)
                 {
-                    var buffer = GetChunkBuffer(pts, offset, count, out read);
+                    var buffer = GetChunkBuffer(content, out read);
                     if (buffer != null)
                     {
                         var pos = _gzipRawStream.Position;
@@ -148,13 +148,12 @@ namespace Lsj.Util.Net.Web.Message
                             count = (int)rest;
                         }
                     }
-                    var buffer = new byte[count];
-                    fixed (byte* dst = buffer)
-                    {
-                        UnsafeHelper.Copy(pts, offset, dst, 0, count);
-                    }
                     var pos = _gzipRawStream.Position;
-                    _gzipRawStream.Write(buffer);
+#if NETCOREAPP3_0_OR_GREATER
+                    _gzipRawStream.Write(content.Slice(0, count));
+#else
+                    _gzipRawStream.Write(content.Slice(0, count).ToArray());
+#endif
                     _gzipRawStream.Position = pos;
                 }
 
@@ -178,12 +177,12 @@ namespace Lsj.Util.Net.Web.Message
         int _currentChunkOffset;
         byte[] _currentChunk;
         bool _exceptEndChunk;
-        private unsafe byte[] GetChunkBuffer(byte* pts, int offset, int count, out int read)
+        private unsafe byte[] GetChunkBuffer(Span<byte> buffer, out int read)
         {
             read = 0;
             if (_exceptEndChunk)
             {
-                if (*(pts + offset) == '\r' && *(pts + offset + 1) == '\n')
+                if (buffer[0] == ASCIIChar.CR && buffer[1] == ASCIIChar.LF)
                 {
                     read += 2;
                     _exceptEndChunk = false;
@@ -195,11 +194,11 @@ namespace Lsj.Util.Net.Web.Message
             }
             if (_currentChunk == null)
             {
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < buffer.Length; i++)
                 {
-                    if (*(pts + offset + read + i) == '\r' && *(pts + offset + read + i + 1) == '\n')
+                    if (buffer[read + i] == ASCIIChar.CR && buffer[read + i + 1] == ASCIIChar.LF)
                     {
-                        var str = StringHelper.ReadStringFromBytePoint(pts + offset + read, i);
+                        var str = StringHelper.ReadStringFromByteSpan(buffer.Slice(read, i));
                         if (int.TryParse(str, NumberStyles.HexNumber, null, out var length))
                         {
                             if (length == 0)
@@ -224,7 +223,7 @@ namespace Lsj.Util.Net.Web.Message
                 }
             }
 
-            var rest = count - read;
+            var rest = buffer.Length - read;
             if (rest > 0)
             {
                 var toCopy = rest;
@@ -235,9 +234,12 @@ namespace Lsj.Util.Net.Web.Message
 
                 fixed (byte* ptr = _currentChunk)
                 {
-                    UnsafeHelper.Copy(pts, offset + read, ptr, _currentChunkOffset, toCopy);
-                    _currentChunkOffset += toCopy;
-                    read += toCopy;
+                    fixed (byte* pts = buffer)
+                    {
+                        UnsafeHelper.Copy(pts, read, ptr, _currentChunkOffset, toCopy);
+                        _currentChunkOffset += toCopy;
+                        read += toCopy;
+                    }
                 }
 
                 if (_currentChunkOffset == _currentChunk.Length)

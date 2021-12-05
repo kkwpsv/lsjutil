@@ -47,11 +47,11 @@ namespace Lsj.Util.Net.Web.Message
 
         private bool _isReadHeader;
 
-        protected override unsafe bool InternalRead(byte* pts, int offset, int count, out int read)
+        protected override unsafe bool InternalRead(Span<byte> buffer, out int read)
         {
             if (!_isReadHeader)
             {
-                _isReadHeader = InternalReadImp(pts, offset, count, out read);
+                _isReadHeader = InternalReadImp(buffer, out read);
                 return _isReadHeader;
             }
             else
@@ -60,28 +60,26 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
-        //Fucking Pointer.....
-        private unsafe bool InternalReadImp(byte* pts, int offset, int count, out int read)
+        private unsafe bool InternalReadImp(Span<byte> buffer, out int read)
         {
-            byte* start = pts;                      //开始位置
-            byte* end = pts + offset + count - 1;   //结束位置
-            byte* ptr = pts + offset;               //当前位置
-            read = 0;                               //读取字节数
+            var start = 0;
+            var current = 0;
+            read = 0;
 
-            for (; ptr <= end; ptr++)//循环
+            for (; current <= buffer.Length; current++)//循环
             {
-                if (*ptr == ASCIIChar.CR && (long)(++ptr) <= (long)end && *ptr == ASCIIChar.LF)//判断是否为行尾
+                if (buffer[current] == ASCIIChar.CR && ++current <= buffer.Length && buffer[current] == ASCIIChar.LF)//判断是否为行尾
                 {
-                    var length = (int)(ptr - start) + 1;//读取长度
+                    var length = (current - start) + 1;//读取长度
                     bool isEnd = false;
-                    if ((long)(ptr + 2) <= (long)end && *(ptr + 1) == ASCIIChar.CR && *(ptr + 2) == ASCIIChar.LF)//判断是否结束请求头
+                    if ((current + 2) <= buffer.Length && buffer[current + 1] == ASCIIChar.CR && buffer[current + 2] == ASCIIChar.LF)//判断是否结束请求头
                     {
                         isEnd = true;
                     }
 
                     if (Method == HttpMethods.UnParsed)//判断是否Parse首行
                     {
-                        if (!ParseFirstLine(start, length - 2/*实际内容长度，减掉CR LF*/))//Parse首行
+                        if (!ParseFirstLine(buffer.Slice(start, length - 2)))//Parse首行
                         {
                             ErrorCode = 400;
                             return true;
@@ -96,7 +94,7 @@ namespace Lsj.Util.Net.Web.Message
                     }
                     else
                     {
-                        if (!ParseLine(start, length - 2, out var errorcode))
+                        if (!ParseLine(buffer.Slice(start, length - 2), out var errorcode))
                         {
                             ErrorCode = errorcode;
                             return true;
@@ -106,7 +104,7 @@ namespace Lsj.Util.Net.Web.Message
 
                     if (!isEnd)
                     {
-                        start = ++ptr;//开始位置和当前位置后移
+                        start = ++current;//开始位置和当前位置后移
                     }
                     else
                     {
@@ -118,72 +116,73 @@ namespace Lsj.Util.Net.Web.Message
             return false;
         }
 
-        private unsafe bool ParseFirstLine(byte* ptr, int length)
+        private unsafe bool ParseFirstLine(Span<byte> buffer)
         {
-            var left = length;
+            var current = 0;
+            var left = buffer.Length;
 
             #region ParseMethod
-            if (left >= 3 && *ptr == ASCIIChar.G && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T)
+            if (left >= 3 && buffer[current] == ASCIIChar.G && buffer[++current] == ASCIIChar.E && buffer[++current] == ASCIIChar.T)
             {
                 Method = HttpMethods.GET;
                 left -= 3;
             }
-            else if (left >= 3 && *ptr == ASCIIChar.P && *(++ptr) == ASCIIChar.U && *(++ptr) == ASCIIChar.T)
+            else if (left >= 3 && buffer[current] == ASCIIChar.P && buffer[++current] == ASCIIChar.U && buffer[++current] == ASCIIChar.T)
             {
                 Method = HttpMethods.PUT;
                 left -= 3;
             }
-            else if (left >= 4 && *ptr == ASCIIChar.H && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.D)
+            else if (left >= 4 && buffer[current] == ASCIIChar.H && buffer[++current] == ASCIIChar.E && buffer[++current] == ASCIIChar.A && buffer[++current] == ASCIIChar.D)
             {
                 Method = HttpMethods.HEAD;
                 left -= 4;
             }
-            else if (left >= 4 && *ptr == ASCIIChar.P && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.S && *(++ptr) == ASCIIChar.T)
+            else if (left >= 4 && buffer[current] == ASCIIChar.P && buffer[++current] == ASCIIChar.O && buffer[++current] == ASCIIChar.S && buffer[++current] == ASCIIChar.T)
             {
                 Method = HttpMethods.POST;
                 left -= 4;
             }
-            else if (left >= 5 && *ptr == ASCIIChar.T && *(++ptr) == ASCIIChar.R && *(++ptr) == ASCIIChar.A && *(++ptr) == ASCIIChar.C && *(++ptr) == ASCIIChar.E)
+            else if (left >= 5 && buffer[current] == ASCIIChar.T && buffer[++current] == ASCIIChar.R && buffer[++current] == ASCIIChar.A && buffer[++current] == ASCIIChar.C && buffer[++current] == ASCIIChar.E)
             {
                 Method = HttpMethods.TRACE;
                 left -= 5;
             }
-            else if (left >= 6 && *ptr == ASCIIChar.D && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.L && *(++ptr) == ASCIIChar.E && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.E)
+            else if (left >= 6 && buffer[current] == ASCIIChar.D && buffer[++current] == ASCIIChar.E && buffer[++current] == ASCIIChar.L && buffer[++current] == ASCIIChar.E && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.E)
             {
                 Method = HttpMethods.DELETE;
                 left -= 6;
             }
-            else if (left >= 7 && *ptr == ASCIIChar.O && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.I && *(++ptr) == ASCIIChar.O && *(++ptr) == ASCIIChar.N && *(++ptr) == ASCIIChar.S)
+            else if (left >= 7 && buffer[current] == ASCIIChar.O && buffer[++current] == ASCIIChar.P && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.I && buffer[++current] == ASCIIChar.O && buffer[++current] == ASCIIChar.N && buffer[++current] == ASCIIChar.S)
             {
                 Method = HttpMethods.OPTIONS;
                 left -= 7;
             }
             #endregion
 
-            if (Method != HttpMethods.UnParsed && left > 1 && *(++ptr) == ASCIIChar.SPACE)
+            if (Method != HttpMethods.UnParsed && left > 1 && buffer[++current] == ASCIIChar.SPACE)
             {
                 left--;
-                var uriPtr = ++ptr;
+                var uriOffset = ++current;
 
                 var uriLength = 0;
 
-                for (; left > 0; uriLength++, ptr++, left--)
+                for (; left > 0; uriLength++, current++, left--)
                 {
-                    if (*ptr == ASCIIChar.SPACE)
+                    if (buffer[current] == ASCIIChar.SPACE)
                     {
-                        Uri = new URI(StringHelper.ReadStringFromBytePoint(uriPtr, uriLength));
+                        Uri = new URI(StringHelper.ReadStringFromByteSpan(buffer.Slice(uriOffset, uriLength)));
                         if (left == 9)
                         {
                             #region ParseVersion
-                            if (*(++ptr) == ASCIIChar.H && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.BackSlash)
+                            if (buffer[++current] == ASCIIChar.H && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.P && buffer[++current] == ASCIIChar.BackSlash)
                             {
-                                var major = *(++ptr);
+                                var major = buffer[++current];
                                 if (ASCIIChar.IsNumber(major))
                                 {
                                     major -= 48;
-                                    if (*(++ptr) == ASCIIChar.Point)
+                                    if (buffer[++current] == ASCIIChar.Point)
                                     {
-                                        var minor = *(++ptr);
+                                        var minor = buffer[++current];
                                         if (ASCIIChar.IsNumber(minor))
                                         {
                                             minor -= 48;
@@ -202,7 +201,7 @@ namespace Lsj.Util.Net.Web.Message
 
 
                 // HTTP 0.9 formats: GET /PATH
-                Uri = new URI(StringHelper.ReadStringFromBytePoint(uriPtr, uriLength));
+                Uri = new URI(StringHelper.ReadStringFromByteSpan(buffer.Slice(uriOffset, uriLength)));
                 HttpVersion = new Version(0, 9);
 
                 return true;

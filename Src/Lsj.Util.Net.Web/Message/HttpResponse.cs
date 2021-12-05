@@ -1,6 +1,7 @@
 ﻿using Lsj.Util.Net.Web.Interfaces;
 using Lsj.Util.Net.Web.Static;
 using Lsj.Util.Text;
+using System;
 using System.IO;
 using System.Text;
 
@@ -47,40 +48,38 @@ namespace Lsj.Util.Net.Web.Message
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pts"></param>
-        /// <param name="offset"></param>
-        /// <param name="count"></param>
+        /// <param name="buffer"></param>
         /// <param name="read"></param>
         /// <returns></returns>
-        unsafe protected override bool InternalRead(byte* pts, int offset, int count, out int read)
+        unsafe protected override bool InternalRead(Span<byte> buffer, out int read)
         {
             read = 0;
             if (_parseHeader)
             {
                 return true;
             }
-            byte* start = pts;
-            byte* ptr = pts;
-            for (int i = offset; i < count; i++, ptr++)
+            var start = 0;
+            var current = 0;
+            for (int i = 0; i < buffer.Length; i++, current++)
             {
-                if (*ptr == ASCIIChar.CR && (++i) < count && *(++ptr) == ASCIIChar.LF)
+                if (buffer[current] == ASCIIChar.CR && (++i) < buffer.Length && buffer[++current] == ASCIIChar.LF)
                 {
-                    if (ptr - start == 2)
+                    if (current - start == 2)
                     {
                         read += 2;
                         return true;
                     }
-                    int length = (int)(ptr - start) + 1;
+                    int length = (int)(current - start) + 1;
                     _parseHeader = false;
 
-                    if (i + 1 < count && *(ptr + 1) == ASCIIChar.CR && i + 2 < count && *(ptr + 2) == ASCIIChar.LF)
+                    if (i + 1 < buffer.Length && buffer[current + 1] == ASCIIChar.CR && i + 2 < buffer.Length && buffer[current + 2] == ASCIIChar.LF)
                     {
                         _parseHeader = true;
                     }
 
                     if (!_parsefirst)
                     {
-                        if (!ParseFirstLine(start, length - 2))
+                        if (!ParseFirstLine(buffer.Slice(start, length - 2)))
                         {
                             return true;
                         }
@@ -88,7 +87,7 @@ namespace Lsj.Util.Net.Web.Message
                     }
                     else
                     {
-                        if (!ParseLine(start, length - 2, out var errorCode))
+                        if (!ParseLine(buffer.Slice(start, length - 2), out var errorCode))
                         {
                             ErrorCode = errorCode;
                             return true;
@@ -99,11 +98,11 @@ namespace Lsj.Util.Net.Web.Message
 
                     if (!_parseHeader)
                     {
-                        start = ptr + 1;
+                        start = current + 1;
                     }
                     else
                     {
-                        ptr = ptr + 2;
+                        current = current + 2;
                         i = i + 2;
 
                         return true;
@@ -113,35 +112,35 @@ namespace Lsj.Util.Net.Web.Message
             return false;
         }
 
-        private unsafe bool ParseFirstLine(byte* ptr, int length)
+        private unsafe bool ParseFirstLine(Span<byte> buffer)
         {
-            //var debug = StringHelper.ReadStringFromBytePoint(ptr, length);
-            var left = length;
+            var current = 0;
+            var left = buffer.Length;
             if (left >= 9)
             {
                 #region ParseVersion
-                if (*(ptr) == ASCIIChar.H && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.T && *(++ptr) == ASCIIChar.P && *(++ptr) == ASCIIChar.BackSlash)
+                if (buffer[current] == ASCIIChar.H && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.T && buffer[++current] == ASCIIChar.P && buffer[++current] == ASCIIChar.BackSlash)
                 {
-                    var major = *(++ptr);
+                    var major = buffer[++current];
                     if (ASCIIChar.IsNumber(major))
                     {
                         major -= 48;
-                        if (*(++ptr) == ASCIIChar.Point)
+                        if (buffer[++current] == ASCIIChar.Point)
                         {
-                            var minor = *(++ptr);
+                            var minor = buffer[++current];
                             if (ASCIIChar.IsNumber(minor))
                             {
                                 minor -= 48;
                                 {
                                     this.HttpVersion = new Version(major, minor);
-                                    if (left > 1 && *(++ptr) == ASCIIChar.SPACE)
+                                    if (left > 1 && buffer[++current] == ASCIIChar.SPACE)
                                     {
                                         left--;
                                         if (left >= 3)
                                         {
                                             left -= 3;
-                                            this.ErrorCode = (*(++ptr) - 48) * 100 + (*(++ptr) - 48) * 10 + (*(++ptr) - 48);
-                                            if (left > 1 && *(++ptr) == ASCIIChar.SPACE)
+                                            this.ErrorCode = (buffer[++current] - 48) * 100 + (buffer[++current] - 48) * 10 + (buffer[++current] - 48);
+                                            if (left > 1 && buffer[++current] == ASCIIChar.SPACE)
                                             {
                                                 left--;
                                                 if (left >= 1)
