@@ -3,7 +3,7 @@
 namespace Lsj.Util.Win32.BaseTypes
 {
     /// <summary>
-    /// Pointer to <typeparamref name="T"/>.s
+    /// Pointer to <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public struct LP<T> where T : struct
