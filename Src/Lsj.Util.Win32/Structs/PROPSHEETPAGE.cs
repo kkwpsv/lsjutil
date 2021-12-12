@@ -3,7 +3,10 @@ using Lsj.Util.Win32.Enums;
 using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Comctl32;
+using static Lsj.Util.Win32.Enums.PROPSHEETHEADERFlags;
 using static Lsj.Util.Win32.Enums.PROPSHEETPAGEFlags;
+using static Lsj.Util.Win32.Enums.WindowMessages;
+using static Lsj.Util.Win32.User32;
 
 namespace Lsj.Util.Win32.Structs
 {
@@ -32,10 +35,63 @@ namespace Lsj.Util.Win32.Structs
         /// <summary>
         /// Flags that indicate which options to use when creating the property sheet page.
         /// This member can be a combination of the following values.
-        /// <see cref="PSP_DEFAULT"/>, <see cref="PSP_DLGINDIRECT"/>, <see cref="PSP_HASHELP"/>, <see cref="PSP_HIDEHEADER"/>,
-        /// <see cref="PSP_PREMATURE"/>, <see cref="PSP_RTLREADING"/>, <see cref="PSP_USECALLBACK"/>, <see cref="PSP_USEFUSIONCONTEXT"/>,
-        /// <see cref="PSP_USEHEADERSUBTITLE"/>, <see cref="PSP_USEHEADERTITLE"/>, <see cref="PSP_USEHICON"/>, <see cref="PSP_USEICONID"/>,
-        /// <see cref="PSP_USEREFPARENT"/>, <see cref="PSP_USETITLE"/>
+        /// <see cref="PSP_DEFAULT"/>:
+        /// Uses the default meaning for all structure members.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_DLGINDIRECT"/>:
+        /// Creates the page from the dialog box template in memory pointed to by the <see cref="pResource"/> member.
+        /// The <see cref="PropertySheet"/> function assumes that the template that is in memory is not write-protected.
+        /// A read-only template will cause an exception in some versions of Windows.
+        /// <see cref="PSP_HASHELP"/>:
+        /// Enables the property sheet Help button when the page is active.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_HIDEHEADER"/>:
+        /// Version 5.80 and later.
+        /// Causes the wizard property sheet to hide the header area when the page is selected.
+        /// If a watermark has been provided, it will be painted on the left side of the page.
+        /// This flag should be set for welcome and completion pages, and omitted for interior pages.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_PREMATURE"/>:
+        /// Version 4.71 or later.
+        /// Causes the page to be created when the property sheet is created. 
+        /// If this flag is not specified, the page will not be created until it is selected the first time.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_RTLREADING"/>:
+        /// Reverses the direction in which <see cref="pszTitle"/> is displayed
+        /// Normal windows display all text, including <see cref="pszTitle"/>, left-to-right (LTR).
+        /// For languages such as Hebrew or Arabic that read right-to-left (RTL), a window can be mirrored and all text will be displayed RTL.
+        /// If <see cref="PSP_RTLREADING"/> is set, pszTitle will instead read RTL in a normal parent window, and LTR in a mirrored parent window.
+        /// <see cref="PSP_USECALLBACK"/>:
+        /// Calls the function specified by the <see cref="pfnCallback"/> member when creating or destroying the property sheet page defined by this structure.
+        /// <see cref="PSP_USEFUSIONCONTEXT"/>:
+        /// Version 6.0 and later.
+        /// Use an activation context.
+        /// To use an activation context, you must set this flag and assign the activation context handle to <see cref="hActCtx"/>.
+        /// See the Remarks.
+        /// <see cref="PSP_USEHEADERSUBTITLE"/>:
+        /// Version 5.80 or later.
+        /// Displays the string pointed to by the <see cref="pszHeaderSubTitle"/> member as the subtitle of the header area of a Wizard97 page.
+        /// To use this flag, you must also set the <see cref="PSH_WIZARD97"/> flag
+        /// in the <see cref="PROPSHEETHEADER.dwFlags"/> member of the associated <see cref="PROPSHEETHEADER"/> structure.
+        /// The <see cref="PSP_USEHEADERSUBTITLE"/> flag is ignored if <see cref="PSP_HIDEHEADER"/> is set.
+        /// In Aero-style wizards, the title appears near the top of the client area.
+        /// <see cref="PSP_USEHEADERTITLE"/>:
+        /// Version 5.80 or later.
+        /// Displays the string pointed to by the <see cref="pszHeaderTitle"/> member as the title in the header of a Wizard97 interior page.
+        /// You must also set the <see cref="PSH_WIZARD97"/> flag in the <see cref="PROPSHEETHEADER.dwFlags"/> member of the associated <see cref="PROPSHEETHEADER"/> structure.
+        /// The <see cref="PSP_USEHEADERTITLE"/> flag is ignored if <see cref="PSP_HIDEHEADER"/> is set.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_USEHICON"/>:
+        /// Uses <see cref="hIcon"/> as the small icon on the tab for the page.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_USEICONID"/>:
+        /// Uses <see cref="pszIcon"/> as the name of the icon resource to load and use as the small icon on the tab for the page.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
+        /// <see cref="PSP_USEREFPARENT"/>:
+        /// Maintains the reference count specified by the <see cref="pcRefParent"/> member for the lifetime of the property sheet page created from this structure.
+        /// <see cref="PSP_USETITLE"/>:
+        /// Uses the <see cref="pszTitle"/> member as the title of the property sheet dialog box instead of the title stored in the dialog box template.
+        /// This flag is not supported when using the Aero-style wizard (<see cref="PSH_AEROWIZARD"/>).
         /// </summary>
         public PROPSHEETPAGEFlags dwFlags;
 

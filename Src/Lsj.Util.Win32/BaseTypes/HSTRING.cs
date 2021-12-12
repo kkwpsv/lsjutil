@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using static Lsj.Util.Win32.Constants;
+using static Lsj.Util.Win32.Combase;
+using Lsj.Util.Win32.Marshals;
 
 namespace Lsj.Util.Win32.BaseTypes
 {
@@ -25,7 +27,7 @@ namespace Lsj.Util.Win32.BaseTypes
     /// which consists of zero content characters and a terminating <see cref="NULL"/> character.
     /// Creating a string via <see cref="WindowsCreateString"/> with zero characters will produce the handle value <see cref="NULL"/>.
     /// When calling <see cref="WindowsGetStringRawBuffer"/> with the value <see cref="NULL"/>,
-    /// a pointer to an empty string followed only by the <see cref="NUL"/> terminating character will be returned.
+    /// a pointer to an empty string followed only by the NULL terminating character will be returned.
     /// No distinct value exists to represent an <see cref="HSTRING"/> that is uninitialized.
     /// Call the <see cref="WindowsCreateString"/> function to create a new <see cref="HSTRING"/>,
     /// and call the <see cref="WindowsDeleteString"/> function to release the reference to the backing string memory.

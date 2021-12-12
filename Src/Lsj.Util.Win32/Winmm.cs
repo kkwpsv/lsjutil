@@ -13,6 +13,41 @@ namespace Lsj.Util.Win32
     /// </summary>
     public static class Winmm
     {
+        /// <summary>
+        /// WAVE_MAPPER
+        /// </summary>
+        public const uint WAVE_MAPPER = unchecked((uint)-1);
+
+        /// <summary>
+        /// CALLBACK_NULL
+        /// </summary>
+        public const uint CALLBACK_NULL = 0x00000000;
+
+        /// <summary>
+        /// CALLBACK_WINDOW
+        /// </summary>
+        public const uint CALLBACK_WINDOW = 0x00010000;
+
+        /// <summary>
+        /// CALLBACK_TASK
+        /// </summary>
+        public const uint CALLBACK_TASK = 0x00020000;
+
+        /// <summary>
+        /// CALLBACK_FUNCTION
+        /// </summary>
+        public const uint CALLBACK_FUNCTION = 0x00030000;
+
+        /// <summary>
+        /// CALLBACK_THREAD
+        /// </summary>
+        public const uint CALLBACK_THREAD = CALLBACK_TASK;
+
+        /// <summary>
+        /// CALLBACK_EVENT
+        /// </summary>
+        public const uint CALLBACK_EVENT = 0x00050000;
+
 #pragma warning disable IDE1006
         /// <summary>
         /// <para>
