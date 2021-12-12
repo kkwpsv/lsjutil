@@ -4,7 +4,6 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using System.Runtime.InteropServices;
 
 namespace Lsj.Util.Net.Web.Message
 {
@@ -18,12 +17,16 @@ namespace Lsj.Util.Net.Web.Message
         /// </summary>
         public override long ContentLength => _contentLength ?? 0;
 
+        /// <summary>
+        /// IsFinished
+        /// </summary>
         public bool IsFinished { get; private set; } = false;
 
         private ContentType _contentType = ContentType.Unknown;
         private long? _contentLength = null;
 
 
+        /// <inheritdoc/>
         protected override unsafe bool InternalRead(Span<byte> buffer, out int read)
         {
             if (_contentType == ContentType.Unknown)
@@ -67,6 +70,9 @@ namespace Lsj.Util.Net.Web.Message
             }
         }
 
+        /// <summary>
+        /// End Read
+        /// </summary>
         public void EndRead()
         {
             if ((_contentType & ContentType.Identity) != 0 && _contentLength == null)
