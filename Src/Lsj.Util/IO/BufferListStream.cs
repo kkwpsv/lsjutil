@@ -11,7 +11,7 @@ namespace Lsj.Util.IO
     {
         private int _currentBufferPos = 0;
 
-        public ConcurrentQueue<byte[]> _buffers = new ConcurrentQueue<byte[]>();
+        private ConcurrentQueue<byte[]> _buffers = new ConcurrentQueue<byte[]>();
 
         /// <summary>
         /// 
