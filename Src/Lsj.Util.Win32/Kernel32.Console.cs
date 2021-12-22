@@ -635,7 +635,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekConsoleInput", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "PeekConsoleInputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL PeekConsoleInput([In] HANDLE hConsoleInput, [MarshalAs(UnmanagedType.LPArray)][In][Out] INPUT_RECORD[] lpBuffer,
             [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
 
@@ -695,7 +695,7 @@ namespace Lsj.Util.Win32
         /// This feature requires command extensions to be enabled, the standard output handle to be a console output handle, and input to be Unicode.
         /// Windows Server 2003 and Windows XP/2000: The intermediate read feature is not supported.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsole", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsole([In] HANDLE hConsoleInput, [Out] LPVOID lpBuffer, [In] DWORD nNumberOfCharsToRead,
             [Out] out DWORD lpNumberOfCharsRead, [In] in CONSOLE_READCONSOLE_CONTROL pInputControl);
 
@@ -741,7 +741,7 @@ namespace Lsj.Util.Win32
         /// To change the console's code page, use the <see cref="SetConsoleCP"/> or <see cref="SetConsoleOutputCP"/> functions,
         /// or use the chcp or mode con cp select= commands.
         /// </remarks>
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInput", ExactSpelling = true, SetLastError = true)]
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, EntryPoint = "ReadConsoleInputW", ExactSpelling = true, SetLastError = true)]
         public static extern BOOL ReadConsoleInput([In] HANDLE hConsoleInput, [Out] out INPUT_RECORD[] lpBuffer,
             [In] DWORD nLength, [Out] out DWORD lpNumberOfEventsRead);
 
