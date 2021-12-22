@@ -129,6 +129,54 @@ namespace Lsj.Util.Win32
         [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "timeEndPeriod", ExactSpelling = true, SetLastError = true)]
         public static extern MMRESULT timeEndPeriod([In] UINT uPeriod);
 
+
+        /// <summary>
+        /// <para>
+        /// The <see cref="waveOutGetVolume"/> function retrieves the current volume level of the specified waveform-audio output device.
+        /// </para>
+        /// <para>
+        /// From: <see href="https://docs.microsoft.com/en-us/windows/win32/api/mmeapi/nf-mmeapi-waveoutgetvolume"/>
+        /// </para>
+        /// </summary>
+        /// <param name="hwo">
+        /// Handle to an open waveform-audio output device. This parameter can also be a device identifier.
+        /// </param>
+        /// <param name="pdwVolume">
+        /// Pointer to a variable to be filled with the current volume setting.
+        /// The low-order word of this location contains the left-channel volume setting,
+        /// and the high-order word contains the right-channel setting.
+        /// A value of 0xFFFF represents full volume, and a value of 0x0000 is silence.
+        /// If a device does not support both left and right volume control,
+        /// the low-order word of the specified location contains the mono volume level.
+        /// The full 16-bit setting(s) set with the <see cref="waveOutSetVolume"/> function is returned,
+        /// regardless of whether the device supports the full 16 bits of volume-level control.
+        /// </param>
+        /// <returns>
+        /// Returns <see cref="MMSYSERR_NOERROR"/> if successful or an error otherwise. Possible error values include the following.
+        /// <see cref="MMSYSERR_INVALHANDLE"/>: Specified device handle is invalid.
+        /// <see cref="MMSYSERR_NODRIVER"/>: No device driver is present.
+        /// <see cref="MMSYSERR_NOMEM"/>: Unable to allocate or lock memory.
+        /// <see cref="MMSYSERR_NOTSUPPORTED"/>: Function isn't supported.
+        /// </returns>
+        /// <remarks>
+        /// If a device identifier is used, then the result of the <see cref="waveOutGetVolume"/> call
+        /// and the information returned in <paramref name="pdwVolume"/> applies to all instances of the device.
+        /// If a device handle is used, then the result and information returned
+        /// applies only to the instance of the device referenced by the device handle.
+        /// Not all devices support volume changes.
+        /// To determine whether the device supports volume control, use the <see cref="WAVECAPS_VOLUME"/> flag
+        /// to test the <see cref="WAVEOUTCAPS.dwSupport"/> member of the <see cref="WAVEOUTCAPS"/> structure
+        /// (filled by the <see cref="waveOutGetDevCaps"/> function).
+        /// To determine whether the device supports left- and right-channel volume control,
+        /// use the <see cref="WAVECAPS_LRVOLUME"/> flag to test the <see cref="WAVEOUTCAPS.dwSupport"/> member
+        /// of the <see cref="WAVEOUTCAPS"/> structure (filled by <see cref="waveOutGetDevCaps"/>).
+        /// Volume settings are interpreted logarithmically.
+        /// This means the perceived increase in volume is the same
+        /// when increasing the volume level from 0x5000 to 0x6000 as it is from 0x4000 to 0x5000.
+        /// </remarks>
+        [DllImport("Winmm.dll", CharSet = CharSet.Unicode, EntryPoint = "waveOutGetVolume", ExactSpelling = true, SetLastError = true)]
+        public static extern MMRESULT waveOutGetVolume([In] HWAVEOUT hwo, [Out] out DWORD pdwVolume);
+
         /// <summary>
         /// <para>
         /// The <see cref="waveOutOpen"/> function opens the given waveform-audio output device for playback.
